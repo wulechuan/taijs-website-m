@@ -1,3 +1,14 @@
+node_modules/*
+/_temp/*
+/app-dist/*
+/app-dist-cache/*
+readme.html
+docs/*.html
+/utilities/*
+*.sublime-workspace
+*.sublime\-workspace
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

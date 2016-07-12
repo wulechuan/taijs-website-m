@@ -1,0 +1,32 @@
+.row {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.width-wrap {
+}
+
+.app-bg-layer {
+	position: absolute;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+}
+
+.app-fg-layer {
+	position: relative;
+	z-index: 5;
+}
+
+.app-popup-layers {
+	position: relative;
+	z-index: 50;
+}
+
+.app-bg {
+	width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-image: url(../../images/pages/index/splash-bg.jpg);
+}
