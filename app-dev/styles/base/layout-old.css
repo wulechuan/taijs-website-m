@@ -91,26 +91,6 @@
 
 
 #app-header {
-	position: relative;
-	z-index: 9;
-}
-
-#app-footer {
-	position: relative;
-	z-index: 8;
-}
-
-#app-body {
-	position: relative;
-	z-index: 1;
-}
-
-#app-body {
-	display: block;
-}
-
-
-#app-header {
 	}
 
 	#app-header-info-and-links {

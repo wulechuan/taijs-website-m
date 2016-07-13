@@ -12,10 +12,10 @@ window.webLogicControls = {};
 
 	this.DOM = {};
 	(function () { // DOM
-		this.ANestedInB = function (A, B) {
+		this.ANestedInB = function (A, B, considerAisBAsTrue) {
 			if (!(A instanceof Node && B instanceof Node)) return false;
 
-			A = A.parentNode;
+			if (!considerAisBAsTrue) A = A.parentNode;
 			while (A.tagName && A!==document.body && A!==B) {
 				A = A.parentNode;
 			}
@@ -29,6 +29,10 @@ window.webLogicControls = {};
 	(function () { // UI
 		this.bodyClickListener = new BodyClickListener();
 		function BodyClickListener() {
+			/*
+				require:
+					ANestedInB()
+			*/
 			this.registeredElements = [];
 
 			this.register = function (elements, callback) {
@@ -57,13 +61,15 @@ window.webLogicControls = {};
 			};
 
 			this.testClickOutsideElement = function (testEl, clickedEl) {
-				if (!testEl || !clickedEl) return true;
+				return !wlc.DOM.ANestedInB(clickedEl, testEl, true);
 
-				while (clickedEl && clickedEl!==document.body && clickedEl!==testEl) {
-					clickedEl = clickedEl.parentNode;
-				}
+				// if (!testEl || !clickedEl) return true;
 
-				return testEl !== clickedEl;
+				// while (clickedEl && clickedEl!==document.body && clickedEl!==testEl) {
+				// 	clickedEl = clickedEl.parentNode;
+				// }
+
+				// return testEl !== clickedEl;
 			};
 
 			function _init() {
@@ -148,6 +154,10 @@ window.webLogicControls = {};
 
 
 		this.DraggingController = function(rootElement, initOptions) {
+			/*
+				require:
+					ANestedInB()
+			*/
 			if (!(rootElement instanceof Node)) {
 				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
 			}
@@ -158,6 +168,8 @@ window.webLogicControls = {};
 				maxOffsetY: 180,
 				triggerX: 60,
 				triggerY: 90,
+				// triggerResetX: 60 * 0.75,
+				// triggerResetY: 90 * 0.75,
 				triggerDirection: 'downwards'
 			};
 
@@ -168,15 +180,29 @@ window.webLogicControls = {};
 				config.call(this, options);
 			};
 
+			this.enable = function () {
+				status.enabled = true;
+			};
+
+			this.disable = function () {
+				status.enabled = false;
+				this.cancelDragging();
+			};
+
+			this.cancelDragging = function () {
+				if (status.mouseDownEvent) status.shouldCancelDragging = true;
+			};
+
 			var status = {
+				enabled: true,
 				triggerCount: 0,
-				hasTriggeredAtLeastOnce: false,
 				justTriggered: false,
 				mouseDownEvent: null,
 				draggingDirectionIsHorizontal: undefined,
 				draggingDirectionIsNegative: undefined,
 				isDraggingAlongTriggerDirection: false,
-				draggingDirectionHasBeenDecided: false
+				draggingDirectionHasBeenDecided: false,
+				transitionIsPlaying: false
 			};
 
 			var data = {
@@ -185,17 +211,19 @@ window.webLogicControls = {};
 
 			var triggerCallBackOptions = {
 				rootElement: rootElement,
-				movingElement: rootElement,
+				movingElement: null,
 				status: status
 			};
 
 			function onMouseDown(event) {
-				prepareDraggingOnMouseDown.call(this, event);
+				if (status.enabled && !status.transitionIsPlaying) {
+					prepareDragging.call(this, event);
+				}
 			}
 
 			function onMouseUp() {
 				if (status.isDraggingAlongTriggerDirection) {
-					resetPositionOnMouseUp.call(this);
+					resetMovingElementPosition.call(this);
 				}
 				clearStatus();
 			}
@@ -204,7 +232,7 @@ window.webLogicControls = {};
 				if (status.shouldCancelDragging) {
 					clearStatus();
 				} else {
-					tryToTriggerOnMouseMove.call(this, event);
+					detectValidDragging.call(this, event);
 				}
 			}
 
@@ -215,14 +243,13 @@ window.webLogicControls = {};
 				options = options || {};
 
 				if (options.hasOwnProperty('movingElement')) {
-					var _r = rootElement;
 					var me = options.movingElement;
 					if (me instanceof Node) {
-						if (wlc.DOM.ANestedInB(_r, me)) {
+						if (wlc.DOM.ANestedInB(rootElement, me)) {
 							console.warn('DraggingController: The rootElement is a descendant of the movingElement.');
 						}
 					} else if (me === null) {
-						me = _r;
+						me = rootElement;
 					} else {
 						me = undefined;
 					}
@@ -232,26 +259,47 @@ window.webLogicControls = {};
 
 						if (cbo.movingElement instanceof Node) {
 							restoreMovingElement();
+							restoreMovingElementTransition();
 						}
 
 						cbo.movingElement = me;
 						data.movingElementOriginalInlineTransform = me.style.transform;
 						data.movingElementOriginalInlineTransition = me.style.transition;
 
-						me.style.transition = 'none';
-
-						if (status.mouseDownEvent) status.shouldCancelDragging = true;
+						this.cancelDragging();
 					}
 				}
 
 				switch (options.triggerDirection) {
+					case 'l':
+						this.options.triggerDirection = 'leftwards';
+						break;
+					case 'r':
+						this.options.triggerDirection = 'rightwards';
+						break;
+					case 'u':
+						this.options.triggerDirection = 'upwards';
+						break;
+					case 'd':
+						this.options.triggerDirection = 'downwards';
+						break;
+
+					case 'left':
+					case 'right':
+					case 'up':
+					case 'down':
+						this.options.triggerDirection = options.triggerDirection+'wards';
+						break;
+
 					case 'leftwards':
 					case 'rightwards':
 					case 'upwards':
 					case 'downwards':
 						this.options.triggerDirection = options.triggerDirection;
 						break;
+
 					default:
+						// do nothing
 				}
 
 				var _O = this.options;
@@ -275,24 +323,37 @@ window.webLogicControls = {};
 			}
 
 			function restoreMovingElement() {
-				triggerCallBackOptions.movingElement.style.transform = data.movingElementOriginalInlineTransform;
+				var style = triggerCallBackOptions.movingElement.style;
+				style.webkitTouchCallout = '';
+				style.webkitUserSelect = '';
+				style.khtmlUserSelect = '';
+				style.mozUserSelect = '';
+				style.msUserSelect = '';
+				style.userSelect = '';
+				style.transform = data.movingElementOriginalInlineTransform;
+			}
+			function restoreMovingElementTransition() {
 				triggerCallBackOptions.movingElement.style.transition = data.movingElementOriginalInlineTransition;
+				status.transitionIsPlaying = false;
 			}
 
 			function clearStatus() {
 				status.shouldCancelDragging = false;
-				status.triggerCount = 0;
-				status.hasTriggeredAtLeastOnce = false;
-				status.justTriggered = false;
 				status.mouseDownEvent = null;
+				status.triggerCount = 0;
+				status.justTriggered = false;
 				status.draggingDirectionIsHorizontal = undefined;
 				status.draggingDirectionIsNegative = undefined;
 				status.isDraggingAlongTriggerDirection = false;
 				status.draggingDirectionHasBeenDecided = false;
 			}
 
-			function prepareDraggingOnMouseDown(event) {
+			function prepareDragging(event) {
+				clearStatus(); // just for sure
+				restoreMovingElement(); // just for sure
+
 				status.mouseDownEvent = event;
+
 				switch (this.options.triggerDirection) {
 					case 'leftwards':
 					case 'rightwards':
@@ -307,20 +368,23 @@ window.webLogicControls = {};
 				}
 			}
 
-			function resetPositionOnMouseUp() {
+			function resetMovingElementPosition() {
+				if (status.transitionIsPlaying) return true;
+				status.transitionIsPlaying = true;
 				var me = triggerCallBackOptions.movingElement;
 				me.style.transition = 'transform '+this.options.durationForResettingPosition+'s ease-out';
-				me.addEventListener('transitionend', _removeTransitionEndHandler);
+				me.addEventListener('transitionend', removeTransitionEndHandler);
 
-				me.style.transform = data.movingElementOriginalInlineTransform;
-
-				function _removeTransitionEndHandler() {
-					me.removeEventListener('transitionend', _removeTransitionEndHandler);
-					me.style.transition = data.movingElementOriginalInlineTransition;
-				}
+				restoreMovingElement();
 			}
 
-			function tryToTriggerOnMouseMove (event) {
+			function removeTransitionEndHandler() {
+				var me = triggerCallBackOptions.movingElement;
+				me.removeEventListener('transitionend', removeTransitionEndHandler);
+				restoreMovingElementTransition();
+			}
+
+			function detectValidDragging(event) {
 				var _E = status.mouseDownEvent;
 				if (!_E) return false;
 
@@ -344,82 +408,111 @@ window.webLogicControls = {};
 						switch (this.options.triggerDirection) {
 							case 'leftwards':
 								status.isDraggingAlongTriggerDirection = dx < -5 && dxA > dyA*3;
-								status.draggingDirectionIsNegative = status.isDraggingAlongTriggerDirection && dx < 0;
+								status.draggingDirectionIsNegative = dx < 0;
 								break;
 
 							case 'rightwards':
 								status.isDraggingAlongTriggerDirection = dx >  5 && dxA > dyA*3;
-								status.draggingDirectionIsNegative = status.isDraggingAlongTriggerDirection && dx < 0;
+								status.draggingDirectionIsNegative = dx < 0;
 								break;
 
 							case 'upwards':
 								status.isDraggingAlongTriggerDirection = dy < -5 && dyA > dxA*3;
-								status.draggingDirectionIsNegative = status.isDraggingAlongTriggerDirection && dy < 0;
+								status.draggingDirectionIsNegative = dy < 0;
 								break;
 
 							default:
 							case 'downwards':
 								status.isDraggingAlongTriggerDirection = dy >  5 && dyA > dxA*3;
-								status.draggingDirectionIsNegative = status.isDraggingAlongTriggerDirection && dy < 0;
+								status.draggingDirectionIsNegative = dy < 0;
 								break;
 						}
 					}
 				} else if (status.isDraggingAlongTriggerDirection) {
-					var max, delta, deltaAbs, triggerLength, triggerResetLength, transformFunctionName;
-					if (status.draggingDirectionIsHorizontal) {
-						max = this.options.maxOffsetX;
-						triggerLength = this.options.triggerX;
-						triggerResetLength = this.options.triggerResetX;
-						delta = dx;
-						deltaAbs = dxA;
-						transformFunctionName = 'translateX';
-					} else {
-						max = this.options.maxOffsetY;
-						triggerLength = this.options.triggerY;
-						triggerResetLength = this.options.triggerResetY;
-						delta = dy;
-						deltaAbs = dyA;
-						transformFunctionName = 'translateY';
+					updateMovingElementPositionAndDealWithTrigger.call(this, dx, dy, dxA, dyA);
+				}
+			}
+
+			function updateMovingElementPositionAndDealWithTrigger(dx, dy, dxA, dyA) {
+				var me = triggerCallBackOptions.movingElement;
+				var style = me. style;
+
+				style.transitionProperty = 'none';
+				style.webkitTouchCallout = 'none';
+				style.webkitUserSelect = 'none';
+				style.khtmlUserSelect = 'none';
+				style.mozUserSelect = 'none';
+				style.msUserSelect = 'none';
+				style.userSelect = 'none';
+
+				var maxOffset, maxDraggingLength, delta, deltaAbs, triggerLength, triggerResetLength, tranlateAxis, screenSize, clickCoord;
+				if (status.draggingDirectionIsHorizontal) {
+					maxOffset = this.options.maxOffsetX;
+					triggerLength = this.options.triggerX;
+					triggerResetLength = this.options.triggerResetX;
+					delta = dx;
+					deltaAbs = dxA;
+					tranlateAxis = 'X';
+					screenSize = window.innerWidth;
+					clickCoord = status.mouseDownEvent.pageX;
+				} else {
+					maxOffset = this.options.maxOffsetY;
+					triggerLength = this.options.triggerY;
+					triggerResetLength = this.options.triggerResetY;
+					delta = dy;
+					deltaAbs = dyA;
+					tranlateAxis = 'Y';
+					screenSize = window.innerHeight;
+					clickCoord = status.mouseDownEvent.pageY;
+				}
+
+
+				var targetOffset = 0;
+				var isNeg = status.draggingDirectionIsNegative;
+				if ((isNeg && delta > 0) || (!isNeg && delta < 0)) {
+					// targetOffset = 0;
+				} else {
+					targetOffset = delta;
+
+					var draggingFalloffStartPoint = 5;
+					if (deltaAbs > draggingFalloffStartPoint) {
+						maxDraggingLength = Math.max(draggingFalloffStartPoint, (isNeg ? clickCoord : (screenSize - clickCoord)) * 0.6);
+						var rawRatio = Math.min(1, (deltaAbs - draggingFalloffStartPoint) / maxDraggingLength);
+						targetOffset = rawRatio * (maxOffset - draggingFalloffStartPoint) + draggingFalloffStartPoint;
+						if (isNeg) targetOffset = -targetOffset;
 					}
+				}
 
+				if (Math.abs(targetOffset) >= maxOffset) { // in case accuracy were not promised
+					targetOffset = isNeg ? -maxOffset : maxOffset;
+				}
 
-					var targetOffset = delta;
-					if (deltaAbs >= max) {
-						targetOffset = status.draggingDirectionIsNegative ? -max : max;
-					}
-					if (status.draggingDirectionIsNegative) {
-						if (delta > 0) targetOffset = 0;
-					} else {
-						if (delta < 0) targetOffset = 0;
-					}
-					triggerCallBackOptions.movingElement.style.transform = transformFunctionName+'('+targetOffset+'px)';
+				me.style.transform = 'translate'+tranlateAxis+'('+targetOffset+'px)';
 
 
 
-					var mayTrigger      = deltaAbs >= triggerLength;
-					var mayResetTrigger = deltaAbs <= triggerResetLength;
+				var mayTrigger      = deltaAbs >= triggerLength;
+				var mayResetTrigger = deltaAbs <= triggerResetLength;
 
 
 
-					if (mayTrigger) {
-						var _shouldSkipCountInc = false;
-						if (!status.hasTriggeredAtLeastOnce) {
-							status.hasTriggeredAtLeastOnce = true;
-							status.triggerCount = 1;
-							_shouldSkipCountInc = true;
-							if (typeof this.onFirstTrigger === 'function') this.onFirstTrigger(event, triggerCallBackOptions);
+				if (mayTrigger) {
+					if (!status.justTriggered) {
+						status.triggerCount++;
+						status.justTriggered = true;
+
+						if (status.triggerCount === 1 && typeof this.onFirstTrigger === 'function') {
+							this.onFirstTrigger(event, triggerCallBackOptions);
 						}
 
-						if (!status.justTriggered) {
-							if (!_shouldSkipCountInc) status.triggerCount++;
-							status.justTriggered = true;
-							if (typeof this.onEachTrigger === 'function') this.onEachTrigger(event, triggerCallBackOptions);
+						if (typeof this.onEachTrigger === 'function') {
+							this.onEachTrigger(event, triggerCallBackOptions);
 						}
 					}
+				}
 
-					if (status.justTriggered && mayResetTrigger) {
-						status.justTriggered = false;
-					}
+				if (status.justTriggered && mayResetTrigger) {
+					status.justTriggered = false;
 				}
 			}
 

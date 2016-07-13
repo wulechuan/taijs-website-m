@@ -553,7 +553,7 @@
 		{
 			movingElement: $('.app-fg-layer')[0],
 			durationForResettingPosition: 0.2,
-			triggerDirection: 'downwards',
+			triggerDirection: 'd',
 			onFirstTrigger: function (event, options) {
 				console.log('first:', options.status.triggerCount);
 			},

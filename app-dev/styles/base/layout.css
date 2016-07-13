@@ -1,14 +1,13 @@
-.row {
-	padding-left: 20px;
-	padding-right: 20px;
+html, body, .app {
+	height: 100%;
 }
 
-.width-wrap {
-}
 
 .app-bg-layer {
 	position: absolute;
 	z-index: 1;
+	left: 0;
+	top: 0;
 	width: 100%;
 	height: 100%;
 }
@@ -16,14 +15,148 @@
 .app-fg-layer {
 	position: relative;
 	z-index: 5;
-}
+	left: 0;
+	top: 0;
+	width: 100%;
+	}
+
+.page {
+	}
+
+	.page::before { /* for prevent first f-block margin-top from effecting app-fg-layer layout */
+		content: '';
+		display: block;
+		border-width: 1px 0 0 0;
+		border-style: solid;
+		margin-top: -1px;
+	}
 
 .app-popup-layers {
 	position: relative;
 	z-index: 50;
 }
 
-.app-bg {
+.row, .f-block, .f-block-body {
+	padding-left: 0.8rem;
+	padding-right: 0.8rem;
+	}
+
+	.row .right {
+		margin-right: 0.8rem;
+	}
+
+	.f-block-body > .row,
+	.f-block-body {
+		margin-left: -0.8rem;
+		margin-right: -0.8rem;
+	}
+
+.f-block { /* function-block */
+	}
+
+	.f-block > .width-wrap > h2,
+	.f-block > h2 {
+		margin-top: 1.5rem;
+		padding: 0.2rem 0.5rem;
+		margin-left: -0.5rem;
+		margin-right: -0.5rem;
+	}
+
+	.f-block-body {
+		margin-top: 0.25rem;
+		margin-bottom: 0.25rem;
+		border-style: solid;
+		border-width: 1px 0;
+	}
+
+
+	.f-block-body > .row {
+		border-style: inherit;
+		border-color: inherit;
+		border-width: 1px 0;
+		margin-top: -1px;
+		margin-bottom: -1px;
+
+		margin-left: 0;
+		padding-left: 0;
+
+		box-sizing: content-box;
+
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+
+		min-height: 1.4rem;
+
+		white-space: nowrap;
+		font-size: 14px;
+	}
+
+	.f-block-body > .row.tall {
+		min-height: 2.2rem;
+		font-size: 16px;
+	}
+
+	.f-block-body > .row.has-lead-icon {
+		margin-left: 2rem;
+		}
+
+		.f-block-body > .row.has-lead-icon .lead-icon {
+			position: absolute;
+			top: 1rem;
+			left: -2rem;
+			width: 1.2rem;
+			height: 1.2rem;
+			margin: 0;
+		}
+
+		.f-block-body > .row.has-lead-icon .lead-icon.iconfont {
+			font-size: 1.2rem;
+			line-height: 1.2rem;
+		}
+
+	.f-block-body > .row * {
+		white-space: normal;
+	}
+
+	.f-block-body > .row::before {
+		content: '';
+		display: inline-block;
+		vertical-align: middle;
+		width: 0px;
+		height: 100%;
+		overflow: hidden;
+		opacity: 0;
+	}
+
+	.f-block-body > .row p {
+		padding: 0.2rem 0.5rem;
+		margin-left: -0.5rem;
+		margin-right: -0.5rem;
+	}
+
+	.f-block-body > .row .left,
+	.f-block-body > .row .right {
+		display: inline-block;
+		vertical-align: middle;
+		width: 50%;
+		margin-top: 0.3rem;
+		margin-bottom: 0.3rem;
+		line-height: 1.2rem;
+	}
+
+	.f-block-body > .row .left {
+	}
+
+	.f-block-body > .row .right {
+		text-align: right;
+	}
+
+
+
+
+
+
+.app-bottom-stamp {
 	width: 100%;
 	height: 100%;
 	background-repeat: no-repeat;
