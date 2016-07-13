@@ -6,6 +6,25 @@ html, body, .app {
 	font-size: 1.66rem;
 }
 
+button.nav-home::before,
+button.nav-back::before {
+	font-family: 'iconfont'!important;
+	font-size: 20px;
+	font-style: normal!important;
+	font-weight: normal!important;
+	-webkit-font-smoothing: antialiased;
+	/* -webkit-text-stroke-width: 0.2px; */
+	-moz-osx-font-smoothing: grayscale;
+	}
+
+	button.nav-home::before {
+		content: '\e604';
+	}
+	button.nav-back::before {
+		content: '\e603';
+	}
+
+
 .app-bg-layer {
 	position: absolute;
 	z-index: 1;
@@ -23,39 +42,48 @@ html, body, .app {
 	width: 100%;
 	}
 
-.page {
-	max-width: 768px;
-	margin: auto;
-	}
-
-	.page::before { /* for prevent first f-block margin-top from effecting app-fg-layer layout */
-		content: '';
-		display: block;
-		border-width: 1px 0 0 0;
-		border-style: solid;
-		border-color: transparent;
-		margin-top: -1px;
-	}
-
 .app-popup-layers {
 	position: relative;
 	z-index: 50;
 }
 
 .row, .f-block, .f-block-body {
+	box-sizing: content-box;
 	padding-left: 0.8rem;
 	padding-right: 0.8rem;
 	}
-
 	.row .right {
 		margin-right: 0.8rem;
 	}
-
 	.f-block-body .row,
 	.f-block-body {
 		margin-left: -0.8rem;
 		margin-right: -0.8rem;
 	}
+
+
+.row {
+	white-space: nowrap;
+	}
+
+	.row * {
+		white-space: normal;
+	}
+
+	.row.buttons-in-single-line {
+		position: relative;
+		padding: 0.5rem 0;
+		margin-left: 0.8rem;
+		margin-right: 0.8rem;
+	}
+
+	.row.buttons-in-single-line .size-std-wide {
+		width: 100%;
+		height: 2.3rem;
+		max-width: 512px;
+		box-sizing: border-box;
+	}
+
 
 .f-block { /* function-block */
 	}
@@ -91,7 +119,6 @@ html, body, .app {
 		padding-top: 0.5rem;
 		padding-bottom: 0.5rem;
 
-		white-space: nowrap;
 		font-size: 14px;
 	}
 
@@ -124,12 +151,14 @@ html, body, .app {
 		}
 
 	.f-block-body a .row,
+	.f-block-body   .row.select-field,
 	.f-block-body   .row.call-to-action {
 		cursor: pointer;
 		padding-right: 1.6rem;
 		}
 
 		.f-block-body a .row:after,
+		.f-block-body   .row.select-field::after,
 		.f-block-body   .row.call-to-action::after {
 			font-family: 'iconfont'!important;
 			display: block;
@@ -143,11 +172,8 @@ html, body, .app {
 			text-indent: 0;
 		}
 
-	.f-block-body .row * {
-		white-space: normal;
-	}
 
-	.f-block-body .row p {
+	.f-block-body .row div {
 		padding: 0.2rem 0.5rem;
 		margin-left: -0.5rem;
 		margin-right: -0.5rem;
@@ -159,16 +185,35 @@ html, body, .app {
 		vertical-align: top;
 		width: calc(50% - 0.5rem + 2rem);
 	}
-
 	.f-block-body .row .left {
 		margin-right: -2rem;
 	}
-
 	.f-block-body .row .right {
 		text-align: right;
 		margin-left: -2rem;
 	}
-
+	.f-block-body .row.input-field .left {
+		width: 75%;
+		margin-left: 0;
+		margin-right: 0;
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.f-block-body .row.input-field  .right {
+		width: 25%;
+		margin-left: -0.5rem;
+	}
+	.f-block-body .row.select-field .left {
+		width: 85%;
+		margin-left: 0;
+		margin-right: 0;
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.f-block-body .row.select-field .right {
+		width: 15%;
+		margin-left: -0.5rem;
+	}
 
 
 	.f-block-body .row {
@@ -181,16 +226,42 @@ html, body, .app {
 			line-height: 1.0rem;
 		}
 		.f-block-body a .row::after,
+		.f-block-body   .row.select-field::after,
 		.f-block-body   .row.call-to-action::after {
 			height: 1.2rem;
 			line-height: 1.2rem;
 			margin-top: 0.62rem;
 		}
 
+	.f-block-body .row.select-field,
+	.f-block-body .row.input-field,
 	.f-block-body .row.tall {
 		font-size: 16px;
 		min-height: 2.2rem;
 		}
+		.f-block-body .row.select-field .left,
+		.f-block-body .row.input-field  .left {
+			margin-top: -0.5rem;
+			margin-bottom: -0.5rem;
+			padding-top: 0;
+			padding-bottom: 0;
+			height: 3.2rem;
+		}
+		.f-block-body .row.select-field .left select,
+		.f-block-body .row.input-field  .left input {
+			margin: 0.5rem 0;
+			padding: 0;
+			height: 2.2rem;
+			line-height: 2.2rem;
+			border-width: 0;
+			width: 100%;
+		}
+		.f-block-body .row.select-field .left select {
+			margin-right: -2rem;
+		}
+
+		.f-block-body .row.select-field .right,
+		.f-block-body .row.input-field  .right,
 		.f-block-body .row.tall .left,
 		.f-block-body .row.tall .right {
 			margin-top: 0.3rem;
@@ -198,10 +269,34 @@ html, body, .app {
 			line-height: 1.2rem;
 		}
 		.f-block-body a .row.tall::after,
+		.f-block-body   .row.select-field::after,
 		.f-block-body   .row.tall.call-to-action::after {
 			height: 1.2rem;
 			line-height: 1.2rem;
 			margin-top: 1.04rem;
+		}
+
+	.f-block-body .row.input-field {
+		}
+
+		.f-block-body .row.input-field .input-tip {
+			position: absolute;
+			left: 0;
+			top: 0.5rem;
+			visibility: hidden;
+		}
+
+		.f-block-body .row.input-field input:focus,
+		.f-block-body .row.input-field input.non-empty-field {
+			margin-top: 1.6rem;
+			margin-bottom: 0;
+			height: 1.6rem;
+			line-height: 1.6rem;
+		}
+
+		.f-block-body .row.input-field input:focus ~ .input-tip,
+		.f-block-body .row.input-field input.non-empty-field ~ .input-tip {
+			visibility: visible;
 		}
 
 
@@ -213,3 +308,110 @@ html, body, .app {
 	background-size: cover;
 	background-image: url(../../images/pages/index/splash-bg.jpg);
 }
+
+
+.page {
+	max-width: 768px;
+	margin: auto;
+	}
+
+	/*
+	  .page::before is for preventing first f-block margin-top
+	  from effecting app-fg-layer layout, while .page-body is omitted.
+	*/
+	.page::before {
+		content: '';
+		display: block;
+		border-width: 1px 0 0 0;
+		border-style: solid;
+		border-color: transparent;
+		margin-top: -1px;
+	}
+
+	.page-footer {
+		border-style: solid;
+		border-width: 1px 0 0 0;
+	}
+
+	.page-body {
+		position: relative;
+		padding-bottom: 6rem;
+	}
+
+	.page.fixed-page-header .page-header {
+		left: 0;
+		top: 0;
+		position: fixed;
+		width: 100%;
+		z-index: 45;
+	}
+
+	.page.fixed-page-footer .page-footer {
+		left: 0;
+		bottom: 0;
+		position: fixed;
+		width: 100%;
+		z-index: 46;
+	}
+
+	.page.fixed-page-header .page-header ~ .page-body,
+	.page.fixed-page-header.has-page-header .page-body {
+		padding-top: 2.4rem;
+	}
+
+	.page.fixed-page-footer.has-page-footer .page-body {
+		padding-bottom: 10rem;
+	}
+
+
+	.page-header {
+		font-size: 20px;
+		}
+
+		.page-header .row {
+			margin: 0;
+			padding-left: 0;
+			padding-right: 0;
+			padding-top: 0.5rem;
+			padding-bottom: 0.5rem;
+		}
+
+		.page-header .row.header-bar {
+			min-height: 1.4rem;
+		}
+
+		.page-header .row.header-bar .center {
+			display: block;
+			margin: 0 4rem;
+			height: 1.4rem;
+			line-height: 1.4rem;
+			text-align: center;
+		}
+
+		.page-header .row.header-bar .left,
+		.page-header .row.header-bar .right {
+			display: block;
+			position: absolute;
+			top: 0;
+			padding: 0;
+			margin: 0;
+		}
+		.page-header .row.header-bar .left {
+			left: 0;
+		}
+		.page-header .row.header-bar .right {
+			right: 0;
+		}
+		.page-header .row.header-bar .left *,
+		.page-header .row.header-bar .right * {
+			margin: 0;
+		}
+		.page-header .row.header-bar button {
+			border-width: 0;
+			width: 2.4rem;
+			height: 2.4rem;
+			line-height: 2.4rem;
+			padding: 0;
+			background-color: transparent;
+		}
+

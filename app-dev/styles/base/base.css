@@ -87,7 +87,7 @@ a, a:link {
 	}
 
 	a:hover {
-		text-decoration: underline;
+		/* text-decoration: underline; */
 	}
 
 	a[role="button"], a[role="button"]:hover {
@@ -119,7 +119,19 @@ button {
 	input[type="reset"].size-std-wide,
 	[role="button"].size-std-wide,
 	button.size-std-wide {
-		width: 170px;
+		margin: 0 auto;
+		display: block;
+		clear: both;
+	}
+
+	select.size-std-half,
+	input[type="button"].size-std-half,
+	input[type="submit"].size-std-half,
+	input[type="reset"].size-std-half,
+	[role="button"].size-std-half,
+	button.size-std-half {
+		margin: 5%;
+		width: 40%;
 	}
 
 	select.size-std-regular,
@@ -884,13 +896,12 @@ label.deco-input {
 		input[type="checkbox"]:disabled  + label.deco-input[for]:before {
 			border-style: dashed;
 		}
-		.selectable.disabled input[type="checkbox"] + label.deco-input[for]:before { /* ie8 ignores :disabled; */
-			content: ' '\0;
+		.selectable.disabled input[type="checkbox"] + label.deco-input[for]:before {
 			border-style: dashed;
 		}
 		input[type="checkbox"] + label.deco-input[for]:after {
 			font-family: 'iconfont'!important;
-			content: '\e630';
+			content: '\e605';
 			box-sizing: border-box;
 			display: block;
 			visibility: hidden;
@@ -926,23 +937,6 @@ label.deco-input {
 		input[type="radio"][disabled] + label.deco-input[for]:before,
 		input[type="radio"]:disabled  + label.deco-input[for]:before {
 			border-style: dashed;
-		}
-		input[type="checkbox"] + label.deco-input[for]:after {
-			font-family: 'iconfont'!important;
-			content: '\e630';
-			box-sizing: border-box;
-			display: block;
-			visibility: hidden;
-			position: absolute;
-			text-indent: 0;
-			line-height: 1;
-
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			border-width: 0;
-			border-style: none;
 		}
 		input[type="radio"] + label.deco-input[for]::after {
 			content: '';

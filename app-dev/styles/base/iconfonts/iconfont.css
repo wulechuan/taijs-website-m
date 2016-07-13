@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1468411547'); /* IE9*/
-  src: url('iconfont.eot?t=1468411547#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1468411547') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1468411547') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1468411547#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1468428439'); /* IE9*/
+  src: url('iconfont.eot?t=1468428439#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1468428439') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1468428439') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1468428439#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -17,7 +17,10 @@
 }
 .icon-chevron-large-thin-up:before { content: "\e600"; }
 .icon-check-mark-circled:before { content: "\e621"; }
+.icon-checked-mark:before { content: "\e605"; }
 .icon-info-tip-circled:before { content: "\e622"; }
 .icon-chevron-large-thin-right:before { content: "\e601"; }
 .icon-chevron-large-thin-down:before { content: "\e602"; }
 .icon-chevron-large-thin-left:before { content: "\e603"; }
+.icon-magnifier:before { content: "\e606"; }
+.icon-house:before { content: "\e604"; }

@@ -4,7 +4,6 @@ html {
 
 
 .app {
-	background-color: #f1f1f1;
 	}
 
 
@@ -56,7 +55,7 @@ a, a:visited {
 	}
 
 input {
-	background-color: white;
+	color: black;
 	}
 
 	select:hover,
@@ -223,69 +222,54 @@ button.button-x {
 
 label.deco-input {
 	}
-	label.deco-input .iconfont {
-		color: #999;
-	}
-	label.deco-input .ie-borders {
-		border-color: #e6e6e6;
-	}
-	label.deco-input input:active ~ .ie-borders,
-	label.deco-input input:focus ~ .ie-borders {
-		border-color: #4285f4;
-	}
 
 	input[type="radio"]    + label.deco-input[for],
 	input[type="checkbox"] + label.deco-input[for] {
 		background-color: transparent;
 		}
-		input[type="radio"] + label.deco-input[for]:before {
-			color: #c5c5c5;
+		input[type="radio"] + label.deco-input[for]::before {
+			/* color: #c5c5c5; */
 			}
-			input[type="radio"]:hover + label.deco-input[for]:before,
-			input[type="radio"] + label.deco-input[for]:hover:before {
+			input[type="radio"]:hover + label.deco-input[for]::before,
+			input[type="radio"] + label.deco-input[for]:hover::before {
 				color: #333;
 			}
-			/* input[type="radio"][checked]    + label.deco-input[for]:before, */
-			input[type="radio"]:checked     + label.deco-input[for]:before {
-				border-color: black;
+			input[type="radio"]:checked     + label.deco-input[for]::before {
+				border-color: #4285f4;
 			}
-			/* input[type="radio"][checked] + label.deco-input[for]:after, */
 			input[type="radio"]:checked  + label.deco-input[for]::after {
-				background-color: black;
+				background-color: #4285f4;
 			}
 
 
-		input[type="checkbox"] + label.deco-input[for]:before {
-			border-color: #c5c5c5;
+		input[type="checkbox"] + label.deco-input[for]::before {
+			/* border-color: #c5c5c5; */
 			}
-			input[type="checkbox"]:hover + label.deco-input[for]:before,
-			input[type="checkbox"] + label.deco-input[for]:hover:before {
+			input[type="checkbox"]:hover + label.deco-input[for]::before,
+			input[type="checkbox"] + label.deco-input[for]:hover::before {
 				border-color: #333;
 			}
-			/* input[type="checkbox"][checked] + label.deco-input[for]:before, */
-			input[type="checkbox"]:checked  + label.deco-input[for]:before {
-				border-color: black;
-				background-color: black;
+			input[type="checkbox"]:checked  + label.deco-input[for]::before {
+				border-color: #4285f4;
 			}
-			/* input[type="checkbox"][checked] + label.deco-input[for]:after, */
-			input[type="checkbox"]:checked  + label.deco-input[for]:after {
-				color: white;
+			input[type="checkbox"]:checked  + label.deco-input[for]::after {
+				color: #4285f4;
 			}
 
 
-		.selected input[type="radio"] + label.deco-input[for]:before {
+		.selected input[type="radio"] + label.deco-input[for]::before {
 			border-color: white;
 		}
-		.selected input[type="radio"] + label.deco-input[for]:after {
+		.selected input[type="radio"] + label.deco-input[for]::after {
 			background-color: white;
 		}
-		.selected input[type="checkbox"] + label.deco-input[for]:before {
+		.selected input[type="checkbox"] + label.deco-input[for]::before {
 			border-color: rgba(255, 255, 255, 0.75);
 			background-color: transparent;
 		}
-		.selected:hover input[type="checkbox"]       + label.deco-input[for]:before,
-		.selected       input[type="checkbox"]:hover + label.deco-input[for]:before,
-		.selected       input[type="checkbox"]       + label.deco-input[for]:hover:before {
+		.selected:hover input[type="checkbox"]       + label.deco-input[for]::before,
+		.selected       input[type="checkbox"]:hover + label.deco-input[for]::before,
+		.selected       input[type="checkbox"]       + label.deco-input[for]:hover::before {
 			border-color: white;
 		}
 		.selected input[type="checkbox"] + label.deco-input[for]:after {
@@ -336,4 +320,27 @@ label.deco-input {
 	.f-block-body a .row::after,
 	.f-block-body   .row.call-to-action::after {
 		color: #999;
+	}
+
+	.f-block-body .row.select-field .right,
+	.f-block-body .row.input-field  .right,
+	.f-block-body .row .left {
+		color: #999;
+	}
+	.f-block-body .row .right {
+		color: #333;
+	}
+
+
+
+.page {
+	background-color: #f1f1f1;
+	}
+	.page-header {
+		color: white;
+		background-color: #4285f4;
+	}
+	.page-footer {
+		border-color: #e5e5e5;
+		background-color: white;
 	}

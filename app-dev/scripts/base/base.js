@@ -46,29 +46,31 @@
 
 
 
-	$('input[placeholder]').each(function () {
-		function _updateInputStyleForGroomingPlaceholder(field) {
+	$('input, textarea, select').each(function () {
+		function _updateInputValueStatus(field) {
 			if (!field) {
 				return false;
 			}
 
 			var tagNameLC = field.tagName.toLowerCase();
-			if (tagNameLC !== 'input' && tagNameLC !== 'textarea') {
+			if (tagNameLC !== 'input' && tagNameLC !== 'textarea' && tagNameLC !== 'select') {
 				return false;
 			}
 
-			var classNameToDealWith = 'empty-field';
-			if (field.value) {
-				$(field).removeClass(classNameToDealWith);
+			var isEmpty = (tagNameLC==='select') ? (field.selectedIndex === -1) : (!field.value);
+			if (isEmpty) {
+				$(field).removeClass('non-empty-field');
+				$(field).addClass('empty-field');
 			} else {
-				$(field).addClass(classNameToDealWith);
+				$(field).removeClass('empty-field');
+				$(field).addClass('non-empty-field');
 			}
 		}
 
-		_updateInputStyleForGroomingPlaceholder(this);
+		_updateInputValueStatus(this);
 
 		$(this).on('input', function () {
-			_updateInputStyleForGroomingPlaceholder(this);
+			_updateInputValueStatus(this);
 		});
 	});
 
