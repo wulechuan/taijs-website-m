@@ -313,6 +313,7 @@ label.deco-input {
 	.f-block-body .row {
 		border-color: #f1f1f1;
 	}
+	.f-block-body,
 	.f-block-body a .row,
 	.f-block-body   .row {
 		color: #333;
@@ -321,19 +322,17 @@ label.deco-input {
 	.f-block-body   .row.call-to-action::after {
 		color: #999;
 	}
-
 	.f-block-body .row.select-field .right,
 	.f-block-body .row.input-field  .right,
 	.f-block-body .row .left {
 		color: #999;
 	}
-	.f-block-body .row .right {
-		color: #333;
-	}
+
 
 
 
 .page {
+	color: #666;
 	background-color: #f1f1f1;
 	}
 	.page-header {

@@ -851,8 +851,6 @@ label.deco-input {
 		position: relative;
 		display: inline-block;
 
-		font-size: 21px; /* this value is optimized for tabular f-lists */
-
 		z-index: 5;
 		opacity: 0;
 		background-color: transparent!important;
@@ -862,6 +860,7 @@ label.deco-input {
 		width: 1em!important;
 		height: 1em!important;
 		margin: 0;
+		margin-right: 0.5em;
 
 		border-style: none;
 	}
@@ -875,9 +874,8 @@ label.deco-input {
 		padding: 0;
 	}
 	input[type="checkbox"] + label.deco-input[for] {
-		font-size: 14px;
-		margin-left: -17px;
-		margin-top: 3px;
+		margin-left: -1.5em;
+		margin-top: 0;
 		}
 		input[type="checkbox"] + label.deco-input[for]:before {
 			content: '';
