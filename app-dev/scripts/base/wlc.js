@@ -308,7 +308,6 @@ window.webLogicControls = {};
 			}
 
 			function resetPositionOnMouseUp() {
-				console.log('reset');
 				var me = triggerCallBackOptions.movingElement;
 				me.style.transition = 'transform '+this.options.durationForResettingPosition+'s ease-out';
 				me.addEventListener('transitionend', _removeTransitionEndHandler);
@@ -366,46 +365,41 @@ window.webLogicControls = {};
 						}
 					}
 				} else if (status.isDraggingAlongTriggerDirection) {
-					var mayTrigger = false;
-					var mayResetTrigger = false;
-
+					var max, delta, deltaAbs, triggerLength, triggerResetLength, transformFunctionName;
 					if (status.draggingDirectionIsHorizontal) {
-						var maxX = this.options.maxOffsetX;
-						var targetOffsetX = dx;
-
-						mayTrigger      = dxA >= this.options.triggerX;
-						mayResetTrigger = dxA <= this.options.triggerResetX;
-
-
-						if (dxA >= maxX) {
-							targetOffsetX = status.draggingDirectionIsNegative ? -maxX : maxX;
-						}
-						if (status.draggingDirectionIsNegative) {
-							if (dx > 0) targetOffsetX = 0;
-						} else {
-							if (dx < 0) targetOffsetX = 0;
-						}
-
-						triggerCallBackOptions.movingElement.style.transform = 'translateX('+targetOffsetX+'px)';
+						max = this.options.maxOffsetX;
+						triggerLength = this.options.triggerX;
+						triggerResetLength = this.options.triggerResetX;
+						delta = dx;
+						deltaAbs = dxA;
+						transformFunctionName = 'translateX';
 					} else {
-						var maxY = this.options.maxOffsetY;
-						var targetOffsetY = dy;
-
-						mayTrigger      = dyA >= this.options.triggerY;
-						mayResetTrigger = dyA <= this.options.triggerResetY;
-
-
-						if (dyA >= maxY) {
-							targetOffsetY = status.draggingDirectionIsNegative ? -maxY : maxY;
-						}
-						if (status.draggingDirectionIsNegative) {
-							if (dy > 0) targetOffsetY = 0;
-						} else {
-							if (dy < 0) targetOffsetY = 0;
-						}
-
-						triggerCallBackOptions.movingElement.style.transform = 'translateY('+targetOffsetY+'px)';
+						max = this.options.maxOffsetY;
+						triggerLength = this.options.triggerY;
+						triggerResetLength = this.options.triggerResetY;
+						delta = dy;
+						deltaAbs = dyA;
+						transformFunctionName = 'translateY';
 					}
+
+
+					var targetOffset = delta;
+					if (deltaAbs >= max) {
+						targetOffset = status.draggingDirectionIsNegative ? -max : max;
+					}
+					if (status.draggingDirectionIsNegative) {
+						if (delta > 0) targetOffset = 0;
+					} else {
+						if (delta < 0) targetOffset = 0;
+					}
+					triggerCallBackOptions.movingElement.style.transform = transformFunctionName+'('+targetOffset+'px)';
+
+
+
+					var mayTrigger      = deltaAbs >= triggerLength;
+					var mayResetTrigger = deltaAbs <= triggerResetLength;
+
+
 
 					if (mayTrigger) {
 						var _shouldSkipCountInc = false;
