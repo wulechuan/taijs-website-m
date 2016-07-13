@@ -153,6 +153,7 @@ window.webLogicControls = {};
 			}
 
 			this.options = {
+				durationForResettingPosition: 0.4,
 				maxOffsetX: 120,
 				maxOffsetY: 180,
 				triggerX: 60,
@@ -193,11 +194,13 @@ window.webLogicControls = {};
 			}
 
 			function onMouseUp() {
+				if (status.isDraggingAlongTriggerDirection) {
+					resetPositionOnMouseUp.call(this);
+				}
 				clearStatus();
-				triggerCallBackOptions.movingElement.style.transform = data.movingElementOriginalInlineTransform;
 			}
 
-			function onMouseMove (event) {
+			function onMouseMove(event) {
 				if (status.shouldCancelDragging) {
 					clearStatus();
 				} else {
@@ -228,11 +231,14 @@ window.webLogicControls = {};
 						var cbo = triggerCallBackOptions;
 
 						if (cbo.movingElement instanceof Node) {
-							cbo.movingElement.style.transform = data.movingElementOriginalInlineTransform;
+							restoreMovingElement();
 						}
 
 						cbo.movingElement = me;
 						data.movingElementOriginalInlineTransform = me.style.transform;
+						data.movingElementOriginalInlineTransition = me.style.transition;
+
+						me.style.transition = 'none';
 
 						if (status.mouseDownEvent) status.shouldCancelDragging = true;
 					}
@@ -250,6 +256,8 @@ window.webLogicControls = {};
 
 				var _O = this.options;
 
+				if (options.durationForResettingPosition > 0) _O.durationForResettingPosition = options.durationForResettingPosition;
+
 				if (options.maxOffsetX > 0) _O.maxOffsetX = options.maxOffsetX;
 				if (options.maxOffsetY > 0) _O.maxOffsetY = options.maxOffsetY;
 
@@ -264,6 +272,23 @@ window.webLogicControls = {};
 
 				if (typeof options.onFirstTrigger === 'function') this.onFirstTrigger = options.onFirstTrigger;
 				if (typeof options.onEachTrigger === 'function') this.onEachTrigger = options.onEachTrigger;
+			}
+
+			function restoreMovingElement() {
+				triggerCallBackOptions.movingElement.style.transform = data.movingElementOriginalInlineTransform;
+				triggerCallBackOptions.movingElement.style.transition = data.movingElementOriginalInlineTransition;
+			}
+
+			function clearStatus() {
+				status.shouldCancelDragging = false;
+				status.triggerCount = 0;
+				status.hasTriggeredAtLeastOnce = false;
+				status.justTriggered = false;
+				status.mouseDownEvent = null;
+				status.draggingDirectionIsHorizontal = undefined;
+				status.draggingDirectionIsNegative = undefined;
+				status.isDraggingAlongTriggerDirection = false;
+				status.draggingDirectionHasBeenDecided = false;
 			}
 
 			function prepareDraggingOnMouseDown(event) {
@@ -282,16 +307,18 @@ window.webLogicControls = {};
 				}
 			}
 
-			function clearStatus() {
-				status.shouldCancelDragging = false;
-				status.triggerCount = 0;
-				status.hasTriggeredAtLeastOnce = false;
-				status.justTriggered = false;
-				status.mouseDownEvent = null;
-				status.draggingDirectionIsHorizontal = undefined;
-				status.draggingDirectionIsNegative = undefined;
-				status.isDraggingAlongTriggerDirection = false;
-				status.draggingDirectionHasBeenDecided = false;
+			function resetPositionOnMouseUp() {
+				console.log('reset');
+				var me = triggerCallBackOptions.movingElement;
+				me.style.transition = 'transform '+this.options.durationForResettingPosition+'s ease-out';
+				me.addEventListener('transitionend', _removeTransitionEndHandler);
+
+				me.style.transform = data.movingElementOriginalInlineTransform;
+
+				function _removeTransitionEndHandler() {
+					me.removeEventListener('transitionend', _removeTransitionEndHandler);
+					me.style.transition = data.movingElementOriginalInlineTransition;
+				}
 			}
 
 			function tryToTriggerOnMouseMove (event) {

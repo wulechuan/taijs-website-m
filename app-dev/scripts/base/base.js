@@ -552,7 +552,8 @@
 		document.body,
 		{
 			movingElement: $('.app-fg-layer')[0],
-			triggerDirection: 'upwards',
+			durationForResettingPosition: 0.2,
+			triggerDirection: 'downwards',
 			onFirstTrigger: function (event, options) {
 				console.log('first:', options.status.triggerCount);
 			},
@@ -561,11 +562,4 @@
 			}
 		}
 	);
-
-	setTimeout(function () {
-		DC.config({
-			triggerDirection: 'downwards',
-			movingElement: $('.row')[0]
-		});
-	}, 5000);
 })();
