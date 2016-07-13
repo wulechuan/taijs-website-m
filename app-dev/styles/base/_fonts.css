@@ -13,7 +13,6 @@ html, body, button, textarea, input, select, option, .font-default {
 }
 
 .em-digits {
-	font-size: 1.66rem;
 	font-family: 'Helvetica Neue LT Pro', Helvetica, Arial, 'Microsoft Yahei UI', 'Microsoft Yahei', Sans-Serif;
 	font-weight: lighter;
 }

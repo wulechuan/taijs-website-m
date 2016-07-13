@@ -2,6 +2,9 @@ html, body, .app {
 	height: 100%;
 }
 
+.em-digits {
+	font-size: 1.66rem;
+}
 
 .app-bg-layer {
 	position: absolute;
@@ -21,6 +24,8 @@ html, body, .app {
 	}
 
 .page {
+	max-width: 768px;
+	margin: auto;
 	}
 
 	.page::before { /* for prevent first f-block margin-top from effecting app-fg-layer layout */
@@ -28,6 +33,7 @@ html, body, .app {
 		display: block;
 		border-width: 1px 0 0 0;
 		border-style: solid;
+		border-color: transparent;
 		margin-top: -1px;
 	}
 
@@ -45,7 +51,7 @@ html, body, .app {
 		margin-right: 0.8rem;
 	}
 
-	.f-block-body > .row,
+	.f-block-body .row,
 	.f-block-body {
 		margin-left: -0.8rem;
 		margin-right: -0.8rem;
@@ -70,7 +76,7 @@ html, body, .app {
 	}
 
 
-	.f-block-body > .row {
+	.f-block-body .row {
 		border-style: inherit;
 		border-color: inherit;
 		border-width: 1px 0;
@@ -85,22 +91,25 @@ html, body, .app {
 		padding-top: 0.5rem;
 		padding-bottom: 0.5rem;
 
-		min-height: 1.4rem;
-
 		white-space: nowrap;
 		font-size: 14px;
 	}
 
-	.f-block-body > .row.tall {
-		min-height: 2.2rem;
-		font-size: 16px;
+	.f-block-body .row:first-child {
+		margin-top: 0;
+		border-top-width: 0;
 	}
 
-	.f-block-body > .row.has-lead-icon {
+	.f-block-body .row:last-child {
+		margin-bottom: 0;
+		border-bottom-width: 0;
+	}
+
+	.f-block-body .row.has-lead-icon {
 		margin-left: 2rem;
 		}
 
-		.f-block-body > .row.has-lead-icon .lead-icon {
+		.f-block-body .row.has-lead-icon .lead-icon {
 			position: absolute;
 			top: 1rem;
 			left: -2rem;
@@ -109,50 +118,91 @@ html, body, .app {
 			margin: 0;
 		}
 
-		.f-block-body > .row.has-lead-icon .lead-icon.iconfont {
+		.f-block-body .row.has-lead-icon .lead-icon.iconfont {
 			font-size: 1.2rem;
 			line-height: 1.2rem;
 		}
 
-	.f-block-body > .row * {
+	.f-block-body a .row,
+	.f-block-body   .row.call-to-action {
+		cursor: pointer;
+		padding-right: 1.6rem;
+		}
+
+		.f-block-body a .row:after,
+		.f-block-body   .row.call-to-action::after {
+			font-family: 'iconfont'!important;
+			display: block;
+			position: absolute;
+			top: 0;
+			right: 0.6rem;
+			content: '\e601';
+			text-align: right;
+			font-size: 0.8rem;
+			direction: rtl;
+			text-indent: 0;
+		}
+
+	.f-block-body .row * {
 		white-space: normal;
 	}
 
-	.f-block-body > .row::before {
-		content: '';
-		display: inline-block;
-		vertical-align: middle;
-		width: 0px;
-		height: 100%;
-		overflow: hidden;
-		opacity: 0;
-	}
-
-	.f-block-body > .row p {
+	.f-block-body .row p {
 		padding: 0.2rem 0.5rem;
 		margin-left: -0.5rem;
 		margin-right: -0.5rem;
 	}
 
-	.f-block-body > .row .left,
-	.f-block-body > .row .right {
+	.f-block-body .row .left,
+	.f-block-body .row .right {
 		display: inline-block;
-		vertical-align: middle;
-		width: 50%;
-		margin-top: 0.3rem;
-		margin-bottom: 0.3rem;
-		line-height: 1.2rem;
+		vertical-align: top;
+		width: calc(50% - 0.5rem + 2rem);
 	}
 
-	.f-block-body > .row .left {
+	.f-block-body .row .left {
+		margin-right: -2rem;
 	}
 
-	.f-block-body > .row .right {
+	.f-block-body .row .right {
 		text-align: right;
+		margin-left: -2rem;
 	}
 
 
 
+	.f-block-body .row {
+		min-height: 1.4rem;
+		}
+		.f-block-body .row .left,
+		.f-block-body .row .right {
+			margin-top: 0rem;
+			margin-bottom: 0rem;
+			line-height: 1.0rem;
+		}
+		.f-block-body a .row::after,
+		.f-block-body   .row.call-to-action::after {
+			height: 1.2rem;
+			line-height: 1.2rem;
+			margin-top: 0.62rem;
+		}
+
+	.f-block-body .row.tall {
+		font-size: 16px;
+		min-height: 2.2rem;
+		}
+		.f-block-body .row.tall .left,
+		.f-block-body .row.tall .right {
+			margin-top: 0.3rem;
+			margin-bottom: 0.3rem;
+			line-height: 1.2rem;
+		}
+		.f-block-body a .row.tall::after,
+		.f-block-body   .row.tall.call-to-action::after {
+			height: 1.2rem;
+			line-height: 1.2rem;
+			margin-top: 1.04rem;
+		}
 
 
 
