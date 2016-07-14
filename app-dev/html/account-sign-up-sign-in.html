@@ -25,143 +25,144 @@
 	</header>
 
 	<div class="page-body">
-    <div class="tab-panel-set">
-        <ul role="tablist" class="tab-list tabs-count-2"
-            ><li role="tab"
-                          aria-controls="panel-sign-in"
-                        aria-labelledby="panel-tab-sign-in"
-                ><span class="label" id="panel-tab-sign-in">登录</span
-            ></li
-            ><li role="tab"
-                          aria-controls="panel-sign-up"
-                        aria-labelledby="panel-tab-sign-up"
-                ><span class="label" id="panel-tab-sign-up">注册</span
-            ></li
-        ></ul>
-        <div class="panel-group">
-            <div role="tabpanel" class="panel" aria-hidden="false" id="panel-sign-in">
-            	<form>
-				<div class="f-block">
-					<div class="row input-field style-traditional first-of-set">
-						<input placeholder="请输入手机号" type="tel"
-							name="mobile" required
-												  id="sign-in-mobile">
-						<label class="input-tip" for="sign-in-mobile">手机号</label>
-					</div>
+		<div class="tab-panel-set">
+			<ul role="tablist" class="tab-list tabs-count-2"
+				><li role="tab"
+							  aria-controls="panel-sign-in"
+							aria-labelledby="panel-tab-sign-in"
+					><span class="label" id="panel-tab-sign-in">登录</span
+				></li
+				><li role="tab"
+							  aria-controls="panel-sign-up"
+							aria-labelledby="panel-tab-sign-up"
+					><span class="label" id="panel-tab-sign-up">注册</span
+				></li
+			></ul>
+			<div class="panel-group">
+				<div role="tabpanel" class="panel" aria-hidden="false" id="panel-sign-in">
+					<form>
+					<div class="f-block">
+						<div class="row input-field style-traditional first-of-set">
+							<input placeholder="请输入手机号" type="tel"
+								name="mobile" required
+													  id="sign-in-mobile">
+							<label class="input-tip" for="sign-in-mobile">手机号</label>
+						</div>
 
-					<div class="row input-field style-traditional last-of-set">
-						<input placeholder="请输入登录密码" type="password"
-							name="password" required
-												  id="sign-in-passward">
-						<label class="input-tip" for="sign-in-passward">登录密码</label>
-					</div>
+						<div class="row input-field style-traditional last-of-set">
+							<input placeholder="请输入登录密码" type="password"
+								name="password" required
+													  id="sign-in-passward">
+							<label class="input-tip" for="sign-in-passward">登录密码</label>
+						</div>
 
-					<div class="row article content-align-right">
-						<a href="#">忘记密码？</a>
-					</div>
+						<div class="row article content-align-right">
+							<a href="#">忘记密码？</a>
+						</div>
 
-					<div class="row buttons-in-single-line">
-						<button class="rounded-corners size-std-wide" disabled="disabled"
-							button-action="submit">登录</button>
+						<div class="row buttons-in-single-line">
+							<button class="rounded-corners size-std-wide" disabled="disabled"
+								button-action="submit">登录</button>
+						</div>
 					</div>
+					</form>
 				</div>
-            	</form>
-            </div>
 
-            <div role="tabpanel" class="panel" aria-hidden="true" id="panel-sign-up">
-            	<form>
-				<div class="f-block">
-					<div class="row input-field style-traditional first-of-set">
-						<input placeholder="请输入手机号" type="tel"
-							name="mobile" required
-												  id="sign-up-mobile">
-						<label class="input-tip" for="sign-up-mobile">手机号</label>
-					</div>
-
-					<div class="row input-field style-traditional">
-						<input placeholder="请输入登录密码" type="password"
-							name="password" required
-												  id="sign-up-passward">
-						<label class="input-tip" for="sign-up-passward">登录密码</label>
-					</div>
-
-					<div class="row input-field style-traditional last-of-set input-verification-code">
-						<div class="left">
-							<input placeholder="请输入验证码" type="number"
-								name="smsvcode" required
-													  id="sign-up-sms-verification-code">
-							<label class="input-tip" for="sign-up-sms-verification-code">验证码</label>
+				<div role="tabpanel" class="panel" aria-hidden="true" id="panel-sign-up">
+					<form>
+					<div class="f-block">
+						<div class="row input-field style-traditional first-of-set">
+							<input placeholder="请输入手机号" type="tel"
+								name="mobile" required
+													  id="sign-up-mobile">
+							<label class="input-tip" for="sign-up-mobile">手机号</label>
 						</div>
-						<div class="right">
-							<div class="step current fetch"
-								><button class="simple-look" type="button" 
-									button-action="fetch-sms-vcode">获取验证码</button
+
+						<div class="row input-field style-traditional">
+							<input placeholder="请输入登录密码" type="password"
+								name="password" required
+													  id="sign-up-passward">
+							<label class="input-tip" for="sign-up-passward">登录密码</label>
+						</div>
+
+						<div class="row input-field style-traditional last-of-set input-verification-code">
+							<div class="left">
+								<input placeholder="请输入验证码" type="number"
+									name="smsvcode" required
+														  id="sign-up-sms-verification-code">
+								<label class="input-tip" for="sign-up-sms-verification-code">验证码</label>
+							</div>
+							<div class="right">
+								<div class="step current fetch"
+									><button class="simple-look" type="button" 
+										button-action="fetch-sms-vcode">获取验证码</button
 								></div>
-							<div class="step countdown"
-								><span class="value">60</span
-								><span class="unit-time-second">s</span
-							></div>
+								<div class="step countdown"
+									><span class="value">60</span
+									><span class="unit-time-second">s</span
+								></div>
+							</div>
 						</div>
-					</div>
 
-					<div class="row article">
-						<input type="checkbox"
-							name="eula" required
+						<div class="row article">
+							<input type="checkbox"
+								name="eula" required
 														id="eula-checkbox"
 							><label class="deco-input" for="eula-checkbox"></label
 							><label for="eula-checkbox">我已阅读并同意<a href="#">《泰金所用户服务协议》</a></label>
-					</div>
+						</div>
 
-					<div class="row buttons-in-single-line">
-						<button class="rounded-corners size-std-wide" disabled="disabled" 
-							button-action="submit">注册</button>
+						<div class="row buttons-in-single-line">
+							<button class="rounded-corners size-std-wide" disabled="disabled" 
+								button-action="submit">注册</button>
+						</div>
 					</div>
+					</form>
 				</div>
-            	</form>
 			</div>
-        </div>
-    </div>
+		</div>
+	</div>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 
 <!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
 <div role="dialog" class="popup-layer" id="pl-info-too-many-vcodes-today">
-    <div class="popup-window has-dialog">
-        <div class="dialog">
-            <header class="dialog-header"><h3>提示</h3></header>
-            <div class="dialog-body">
-                <div class="content">
-                    <article>
-                    	<p class="content-align-center">该手机号码今天发送的验证码过多</p>
-                    </article>
-                </div>
-            </div>
-            <footer class="dialog-footer">
-            	<button class="rounded-corners" button-action="confirm">确定</button>
-            </footer>
-        </div>
-    </div>
+	<div class="popup-window has-dialog">
+		<div class="dialog">
+			<header class="dialog-header"><h3>提示</h3></header>
+			<div class="dialog-body">
+				<div class="content">
+					<article>
+						<p class="content-align-center">该手机号码今天发送的验证码过多</p>
+					</article>
+				</div>
+			</div>
+			<footer class="dialog-footer">
+				<button class="rounded-corners" button-action="confirm">确定</button>
+			</footer>
+		</div>
+	</div>
 </div>
 <div role="dialog" class="popup-layer" id="pl-input-image-vcode">
 	<div class="popup-window has-dialog">
-        <div class="dialog">
-            <header class="dialog-header"><h3>请输入图片验证码</h3></header>
-            <div class="dialog-body">
-                <div class="content">
-                	<div class="row input-field input-image-vcode">
-                		<div class="left"
-	                		><input placeholder="请输入图片验证码" type="text"
-	                			name="imagevcode" required
-	                	></div>
-                		<div class="right"><span class="image-vcode" style="background-image: url(something);"></span></div>
-                	</div>
-                </div>
-            </div>
-            <footer class="dialog-footer">
-            	<span class="col"><button class="rounded-corners" button-action="cancel">取消</button></span>
-            	<span class="col"><button class="rounded-corners" button-action="confirm">确定</button></span>
-            </footer>
-        </div>
+		<div class="dialog">
+			<header class="dialog-header"><h3>请输入图片验证码</h3></header>
+			<div class="dialog-body">
+				<div class="content">
+					<div class="row input-field input-image-vcode">
+						<div class="left"
+							><input placeholder="请输入图片验证码" type="text"
+								name="imagevcode" required
+						></div>
+						<div class="right"><span class="image-vcode" style="background-image: url(something);"></span></div>
+					</div>
+				</div>
+			</div>
+			<footer class="dialog-footer">
+				<span class="col"><button class="rounded-corners" button-action="cancel">取消</button></span>
+				<span class="col"><button class="rounded-corners" button-action="confirm">确定</button></span>
+			</footer>
+		</div>
 	</div>
 </div>
 <!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
