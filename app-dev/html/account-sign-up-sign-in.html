@@ -40,16 +40,19 @@
         ></ul>
         <div class="panel-group">
             <div role="tabpanel" class="panel" aria-hidden="false" id="panel-sign-in">
+            	<form>
 				<div class="f-block">
 					<div class="row input-field style-traditional first-of-set">
 						<input placeholder="请输入手机号" type="tel"
-							name="mobile"         id="sign-in-mobile">
+							name="mobile" required
+												  id="sign-in-mobile">
 						<label class="input-tip" for="sign-in-mobile">手机号</label>
 					</div>
 
 					<div class="row input-field style-traditional last-of-set">
 						<input placeholder="请输入登录密码" type="password"
-							name="password"       id="sign-in-passward">
+							name="password" required
+												  id="sign-in-passward">
 						<label class="input-tip" for="sign-in-passward">登录密码</label>
 					</div>
 
@@ -59,51 +62,62 @@
 
 					<div class="row buttons-in-single-line">
 						<button class="rounded-corners size-std-wide" disabled="disabled"
-							button-action="sign-in">登录</button>
+							button-action="submit">登录</button>
 					</div>
 				</div>
+            	</form>
             </div>
 
             <div role="tabpanel" class="panel" aria-hidden="true" id="panel-sign-up">
+            	<form>
 				<div class="f-block">
 					<div class="row input-field style-traditional first-of-set">
 						<input placeholder="请输入手机号" type="tel"
-							name="mobile"         id="sign-up-mobile">
+							name="mobile" required
+												  id="sign-up-mobile">
 						<label class="input-tip" for="sign-up-mobile">手机号</label>
 					</div>
 
 					<div class="row input-field style-traditional">
 						<input placeholder="请输入登录密码" type="password"
-							name="password"       id="sign-up-passward">
+							name="password" required
+												  id="sign-up-passward">
 						<label class="input-tip" for="sign-up-passward">登录密码</label>
 					</div>
 
 					<div class="row input-field style-traditional last-of-set input-verification-code">
 						<div class="left">
 							<input placeholder="请输入验证码" type="number"
-								name="smsvcode"       id="sign-up-sms-verification-code">
+								name="smsvcode" required
+													  id="sign-up-sms-verification-code">
 							<label class="input-tip" for="sign-up-sms-verification-code">验证码</label>
 						</div>
 						<div class="right">
-							<div class="step current fetch"><button class="simple-look"
-								button-action="fetch-sms-vcode"
-								>获取验证码</button></div>
-							<div class="step countdown"><span class="value">60</span><span class="unit-time-second">s</span></div>
-							
+							<div class="step current fetch"
+								><button class="simple-look" type="button" 
+									button-action="fetch-sms-vcode">获取验证码</button
+								></div>
+							<div class="step countdown"
+								><span class="value">60</span
+								><span class="unit-time-second">s</span
+							></div>
 						</div>
 					</div>
 
 					<div class="row article">
-						<input type="checkbox" name="eula" id="eula-checkbox"
-							><label class="deco-input"    for="eula-checkbox"></label
+						<input type="checkbox"
+							name="eula" required
+														id="eula-checkbox"
+							><label class="deco-input" for="eula-checkbox"></label
 							><label for="eula-checkbox">我已阅读并同意<a href="#">《泰金所用户服务协议》</a></label>
 					</div>
 
 					<div class="row buttons-in-single-line">
 						<button class="rounded-corners size-std-wide" disabled="disabled" 
-							button-action="sign-up">注册</button>
+							button-action="submit">注册</button>
 					</div>
 				</div>
+            	</form>
 			</div>
         </div>
     </div>
