@@ -93,6 +93,21 @@ input {
 		background-color: #3f93ff;
 	}
 
+	input[type="button"]:disabled:hover,
+	input[type="submit"]:disabled:hover,
+	input[type="reset"]:disabled:hover,
+	[role="button"]:disabled:hover,
+	button:disabled:hover,
+	input[type="button"]:disabled,
+	input[type="submit"]:disabled,
+	input[type="reset"]:disabled,
+	[role="button"]:disabled,
+	button:disabled {
+		color: #bdbdbd;
+		border-color: #ddd;
+		background-color: #ddd;
+	}
+
 	input[type="reset"].bg-transparent,
 	input[type="button"].bg-transparent,
 	input[type="submit"].bg-transparent,

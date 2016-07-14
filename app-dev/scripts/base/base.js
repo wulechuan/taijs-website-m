@@ -1,6 +1,6 @@
 (function () {
 	function processParametersPassedIn() {
-		var qString = location.href.match(/\?.*/);
+		var qString = location.href.match(/\?[^#]*/);
 		if (qString) qString = qString[0].slice(1);
 
 		var qKVPairs = [];
@@ -106,7 +106,6 @@
 		}
 
 		var tabToShowAtBegining = $('#panel-tab-'+urlParameters.tabLabel).parent()[0] || $allTabs[0];
-		console.log(urlParameters.tabLabel);
 		_showPanelAccordingToTab(tabToShowAtBegining);
 
 		function _slideHintToTab(theTab) {
