@@ -1,4 +1,16 @@
 (function () {
+	var $bP = $('.popup-layers-back-plate');
+	window.$bP = $bP;
+
+	$('.popup-layer').each(function () {
+		var $pL = $(this);
+		$pL.find('[button-action="confirm"], [button-action="cancel"]').on('click', function(event) {
+			$bP.hide();
+			$pL.hide();
+		});
+	});
+
+
 	function processParametersPassedIn() {
 		var qString = location.href.match(/\?[^#]*/);
 		if (qString) qString = qString[0].slice(1);

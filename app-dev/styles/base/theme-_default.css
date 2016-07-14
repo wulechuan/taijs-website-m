@@ -150,6 +150,24 @@ input {
 		background-color: transparent;
 	}
 
+	.dialog-footer input[type="reset"],
+	.dialog-footer input[type="button"],
+	.dialog-footer input[type="submit"],
+	.dialog-footer button {
+		color: #333;
+	}
+
+	.dialog-footer input[type="reset"].promoted,
+	.dialog-footer input[type="button"].promoted,
+	.dialog-footer input[type="submit"].promoted,
+	.dialog-footer button.promoted,
+	.dialog-footer input[type="reset"][button-action="confirm"],
+	.dialog-footer input[type="button"][button-action="confirm"],
+	.dialog-footer input[type="submit"][button-action="confirm"],
+	.dialog-footer button[button-action="confirm"] {
+		color: #4285f4;
+	}
+
 	input[type="reset"].simple-look *,
 	input[type="reset"].simple-look,
 	input[type="button"].simple-look *,
@@ -302,22 +320,15 @@ label.deco-input {
 .dialog {
 	}
 
-	.dialog > .deco {
-		background-color: rgba(0, 0, 0, 0.2);
-	}
-
-	.dialog .dialog-header,
-	.dialog .dialog-footer,
-	.dialog .dialog-body {
+	.dialog-header,
+	.dialog-footer,
+	.dialog-body {
 		background-color: white;
 		}
 
-		.dialog .dialog-body > .content .article h4 {
-		}
-
-		.dialog .dialog-body > .content .article p {
-		}
-
+	.dialog-footer {
+		border-color: #dadada;
+	}
 
 
 .f-block { /* function-block */

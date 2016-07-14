@@ -254,6 +254,53 @@ button.nav-back::before,
 			height: 100%
 		}
 
+	.row.input-field.input-image-vcode {
+		height: 2.4rem;
+		background-color: #e5e5e5;
+		}
+		.row.input-field.input-image-vcode .left {
+			height: 100%;
+			padding: 0;
+			width: calc(100% - 6rem);
+		}
+		.row.input-field.input-image-vcode .left input {
+			margin: 0;
+			box-sizing: border-box;
+			padding: 0.25rem 0.5rem;
+			height: 100%;
+		}
+		.row.input-field.input-image-vcode .right {
+			margin: 0;
+			padding: 0.25rem;
+			width: 6rem;
+			height: 100%;
+			box-sizing: border-box;
+		}
+		.row.input-field.input-image-vcode .right .image-vcode {
+			display: inline-block;
+			
+			width: 100%;
+			height: 100%;
+
+			margin: 0;
+			padding: 0;
+
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: 100%;
+
+			background-color: #ccc;
+		}
+		.dialog .row.input-field.input-image-vcode {
+			margin-left: 1rem;
+			margin-right: 1rem;
+			padding-left: 0;
+			padding-right: 0;
+		}
+		.dialog .row.input-field.input-image-vcode .left {
+			width: 8rem;
+		}
+
 
 
 	.row.article {

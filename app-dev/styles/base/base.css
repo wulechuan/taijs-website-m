@@ -1517,123 +1517,120 @@ ol.f-list, ul.f-list { /* function list */
 	overflow: visible; /* for deco borders */
 	}
 
-	.dialog .dialog-header {
+	.dialog-header {
 		box-sizing: border-box;
 		clear: both;
-		height: 40px;
-		height: 2.5rem;
+		min-height: 2.4rem;
+		padding: 0.8rem 1rem 0.4rem 1rem;
+		font-size: 0.8rem;
+		line-height: 1.2rem;
+		text-align: center;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 		}
 
-		.dialog .dialog-header h1,
-		.dialog .dialog-header h2,
-		.dialog .dialog-header h3,
-		.dialog .dialog-header h4,
-		.dialog .dialog-header h5 {
-			margin-top: 0;
-			margin-bottom: 0;
+		.dialog-header h1,
+		.dialog-header h2,
+		.dialog-header h3,
+		.dialog-header h4,
+		.dialog-header h5 {
+			display: inline-block;
+			padding: 0.25rem 0.5rem;
+			margin: -0.25rem -0.5rem;
 			line-height: inherit;
-			text-align: center;
-			white-space: nowrap;
-			text-overflow: ellipsis;
 		}
 
-	.dialog .dialog-footer {
+	.dialog-footer {
 		box-sizing: border-box;
 		clear: both;
-		padding: 0.5rem;
+		padding: 0;
+		text-align: center;
+		border-width: 1px 0 0 0;
+		border-style: solid;
+		white-space: nowrap;
+		overflow: hidden;
+		font-size: 0;
 		}
 
-		.dialog .dialog-footer .width-wrap {
+		.dialog-footer .col {
+			display: inline-block;
+			vertical-align: top;
+			width: 50%;
+			box-sizing: border-box;
+			text-align: center;
+			border-width: 0;
+			border-color: inherit;
+		}
+
+		.dialog-footer .col ~ .col {
+			border-left-width: 1px;
+			border-left-style: solid;
+		}
+
+		.dialog-footer input[type="reset"]:hover,
+		.dialog-footer input[type="reset"],
+		.dialog-footer input[type="button"]:hover,
+		.dialog-footer input[type="button"],
+		.dialog-footer input[type="submit"]:hover,
+		.dialog-footer input[type="submit"],
+		.dialog-footer button:hover,
+		.dialog-footer button {
+			background-color: transparent;
+			border-color: transparent;
+			display: inline-block;
+			vertical-align: top;
+			box-sizing: border-box;
+			font-size: 18px;
+			height: 2.4rem;
+			width: 100%;
 			margin: 0;
-			padding-left: 0;
-			padding-right: 0;
+			padding: 0;
 		}
 
-	.dialog .dialog-body {
+	.dialog-body {
 		box-sizing: border-box;
 		position: relative;
-		min-height: 144px;
-		min-height: 9em;
 		overflow-x: auto;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
 		}
 
-		.dialog .dialog-body > .content,
-		.dialog .dialog-body .icon-column {
+		.dialog-body > .content {
 			box-sizing: border-box;
 			padding: 0;
 		}
 
-		.dialog .dialog-body {
-			padding: 40px 40px;
-			padding: 2.25em 2.25em;
-		}
-		.dialog .dialog-body.has-icon-column {
-			padding-left: 102px;
-			min-height: 60px;
-		}
-		.dialog .dialog-body.has-icon-column .icon-column {
-			left: 40px;
-			left: 2.25em;
-			top: 40px;
-			top: 2.25em;
-			width: 60px;
+		.dialog-body {
+			padding: 0.75rem 0;
 		}
 
-
-		.dialog .dialog-body > .content {
+		.dialog-body > .content {
 			}
 
-			.dialog .dialog-body > .content .article .title {
-				margin: 0;
-				margin-bottom: 12px;
-			}
-
-			.dialog .dialog-body > .content .article h1 {
-				font-size: 16px;
+			.dialog-body > .content article p {
 				line-height: 1.5;
 			}
-
-			.dialog .dialog-body > .content .article h3 {
-				font-size: 14px;
-				line-height: 1.5;
-			}
-
-			.dialog .dialog-body > .content .article p {
-				line-height: 2;
-			}
-
-			.dialog .dialog-body > .content .article hr {
-				margin-top: 8px;
-				margin-bottom: 8px;
-			}
-
-
-		.dialog .dialog-body.has-icon-column .icon-column {
-			position: absolute;
-			margin: 0;
-			padding-right: 0;
-		}
-
-		.dialog .icon-column .iconfont,
-		.dialog .icon-column .icon {
-			width: 44px;
-			height: 44px;
-			padding-bottom: 0.5em; /* make some room for ie8 rendered text */
-			font-size: 43px;
-			line-height: 1;
-			text-indent: 0.25px;
-		}
 
 
 	.popup-window .dialog {
+		border-radius: 0.7rem;
+		overflow: hidden;
 		border-width: 0;
 		width: 100%;
 		height: 100%;
 		max-width: 100%;
 		max-height: 100%;
-		box-shadow: 0em 0.2em 0.5em rgba(0, 0, 0, 0.35);
+		box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+		transition-property: none;
+
+		animation-timing-function: cubic-bezier(.51,1.23,.87,1);
+		animation-duration: 0.35s;
+		animation-name: dialog-shows-up;
+		}
+
+		@keyframes dialog-shows-up {
+			0% { opacity: 0; transform: translateY(9rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translateY(0) scale(1, 1); }
 		}
 
 
@@ -1773,9 +1770,8 @@ ol.f-list, ul.f-list { /* function list */
 		white-space: normal;
 	}
 
-	.popup-window,
 	.popup-window.cast-shadow {
-		box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 1);
+		box-shadow: 0px 0px 1rem 0px rgba(0, 0, 0, 1);
 	}
 
 	.popup-window > .content {
@@ -1783,7 +1779,7 @@ ol.f-list, ul.f-list { /* function list */
 	}
 
 	.popup-window.has-dialog {
-		min-width: 588px; /* global default value */
+		min-width: 300px; /* global default value */
 	}
 
 	:root .popup-window.has-dialog {
