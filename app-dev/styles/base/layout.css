@@ -648,6 +648,22 @@ button.nav-back::before,
 }
 
 
+#pl-taijs-service-contact .dialog-header {
+	display: none;
+	}
+
+	#pl-taijs-service-contact .main {
+		text-align: center;
+		/* font-weight: bold; */
+		font-size: 0.8rem;
+		line-height: 1.2;
+	}
+
+	#pl-taijs-service-contact .main .phone {
+		font-weight: bold;
+		/* font-size: 1rem; */
+	}
+
 
 #page-sign-up-sign-in .page-header .taijs-logo {
 	margin: 0.5rem auto 0.25rem auto;
