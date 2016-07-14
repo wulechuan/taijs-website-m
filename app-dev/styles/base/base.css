@@ -1517,43 +1517,12 @@ ol.f-list, ul.f-list { /* function list */
 	overflow: visible; /* for deco borders */
 	}
 
-	.dialog > .deco {
-		display: none;
-	}
-
-	.popup-window .dialog > .deco {
-		display: block;
-		position: absolute;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		margin: -4px;
-		z-index: 0;
-	}
-
-	.popup-window .dialog > .deco ~ .dialog-header {
-		position: relative;
-		z-index: 3;
-	}
-
-	.popup-window .dialog > .deco ~ .dialog-footer {
-		position: relative;
-		z-index: 4;
-	}
-
-	.popup-window .dialog > .deco ~ .dialog-body {
-		position: relative;
-		z-index: 2;
-	}
-
 	.dialog .dialog-header {
 		box-sizing: border-box;
 		clear: both;
 		height: 40px;
 		height: 2.5rem;
 		}
-
 
 		.dialog .dialog-header h1,
 		.dialog .dialog-header h2,
@@ -1571,8 +1540,7 @@ ol.f-list, ul.f-list { /* function list */
 	.dialog .dialog-footer {
 		box-sizing: border-box;
 		clear: both;
-		padding: 16px;
-		padding: 1em;
+		padding: 0.5rem;
 		}
 
 		.dialog .dialog-footer .width-wrap {
@@ -1854,14 +1822,29 @@ ol.f-list, ul.f-list { /* function list */
 
 
 	.panel-group {
+		overflow: hidden; /* for .panel transform transitions */
 	}
 
 	.panel {
-		display: none;
+		display: block;
+
+		opacity: 0;
+		visibility: hidden;
+		height: 0;
+		overflow: hidden;
+		/* transition-property: visibility, opacity, transform; */
+		transition-duration: 0.38s;
+		transition-timing-function: cubic-bezier(.51,1.23,.87,1);
+
+		transform: translateX(100%);
 	}
 
 	.panel.current {
-		display: block;
+		opacity: 1;
+		height: auto;
+		overflow: initial;
+		visibility: visible;
+		transform: translateX(0);
 	}
 
 

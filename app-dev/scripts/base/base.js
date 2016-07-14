@@ -159,12 +159,10 @@
 				panel.setAttribute('aria-hidden', false);
 				$(tab).addClass('current');
 				$(panel).addClass('current');
-				panel.style.display = 'block';
 			} else {
 				panel.setAttribute('aria-hidden', true);
 				$(tab).removeClass('current');
 				$(panel).removeClass('current');
-				panel.style.display = 'none';
 			}
 
 			return true;

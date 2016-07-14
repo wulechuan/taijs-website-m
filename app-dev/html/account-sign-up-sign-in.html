@@ -15,7 +15,8 @@
 <div class="page" id="page-sign-up-sign-in">
 	<header class="page-header">
 		<div class="row header-bar">
-			<div class="left"><button class="nav-home"></button></div>
+			<div class="left"><a role="button" class="nav-home"
+				href="../index.html"></a></div>
 			<div class="center"
 				><div class="taijs-logo   image"></div
 				><div class="taijs-slogan image"></div
@@ -79,11 +80,13 @@
 					<div class="row input-field style-traditional last-of-set input-verification-code">
 						<div class="left">
 							<input placeholder="请输入验证码" type="number"
-								name="vcode"          id="sign-up-verification-code">
-							<label class="input-tip" for="sign-up-verification-code">验证码</label>
+								name="smsvcode"       id="sign-up-sms-verification-code">
+							<label class="input-tip" for="sign-up-sms-verification-code">验证码</label>
 						</div>
 						<div class="right">
-							<div class="step current fetch"><button class="simple-look">获取验证码</button></div>
+							<div class="step current fetch"><button class="simple-look"
+								button-action="fetch-sms-vcode"
+								>获取验证码</button></div>
 							<div class="step countdown"><span class="value">60</span><span class="unit-time-second">s</span></div>
 							
 						</div>
@@ -91,7 +94,7 @@
 
 					<div class="row article">
 						<input type="checkbox" name="eula" id="eula-checkbox"
-							><label class="deco-input" for="eula-checkbox"></label
+							><label class="deco-input"    for="eula-checkbox"></label
 							><label for="eula-checkbox">我已阅读并同意<a href="#">《泰金所用户服务协议》</a></label>
 					</div>
 
@@ -106,7 +109,14 @@
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 
 <!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
-<div role="dialog" class="popup-layer" id="pl-taijs-app-promotion">
+<div role="dialog" class="popup-layer" id="pl-info-too-many-vcodes-today">
+	<div class="popup-window">
+		<button class="button-x"></button>
+		<div class="content">
+		</div>
+	</div>
+</div>
+<div role="dialog" class="popup-layer" id="pl-input-image-vcode">
 	<div class="popup-window">
 		<button class="button-x"></button>
 		<div class="content">
@@ -118,5 +128,5 @@
 <!-- inject:appRootWrapEnd:html --><!-- endinject -->
 
 <!-- inject:bodyEnd:html --><!-- endinject -->
-<script src="scripts/pages/index.min.js"></script>
+<script src="scripts/pages/account-sign-up-sign-in.min.js"></script>
 </body></html>

@@ -7,7 +7,9 @@ html, body, .app {
 }
 
 button.nav-home::before,
-button.nav-back::before {
+button.nav-back::before,
+[role="button"].nav-home::before,
+[role="button"].nav-back::before {
 	font-family: 'iconfont'!important;
 	font-size: 20px;
 	font-style: normal!important;
@@ -17,10 +19,12 @@ button.nav-back::before {
 	-moz-osx-font-smoothing: grayscale;
 	}
 
-	button.nav-home::before {
+	button.nav-home::before,
+	[role="button"].nav-home::before {
 		content: '\e604';
 	}
-	button.nav-back::before {
+	button.nav-back::before,
+	[role="button"].nav-back::before {
 		content: '\e603';
 	}
 
@@ -424,7 +428,7 @@ button.nav-back::before {
 	.panel-group {
 	}
 
-	.panel {
+	.panel.current {
 		padding: 1rem 0;
 	}
 
@@ -535,6 +539,7 @@ button.nav-back::before {
 
 		.page-header .row.header-bar .center {
 			display: block;
+			padding: 0;
 			margin: 0 4rem;
 			min-height: 1.4rem;
 			line-height: 1.4rem;
@@ -559,12 +564,14 @@ button.nav-back::before {
 		.page-header .row.header-bar .right * {
 			margin: 0;
 		}
-		.page-header .row.header-bar button {
+		.page-header .row.header-bar button,
+		.page-header .row.header-bar [role="button"] {
 			border-width: 0;
 			width: 2.4rem;
 			height: 2.4rem;
 			line-height: 2.4rem;
 			padding: 0;
+			text-align: center;
 			background-color: transparent;
 		}
 
