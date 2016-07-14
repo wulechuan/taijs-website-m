@@ -1607,6 +1607,10 @@ ol.f-list, ul.f-list { /* function list */
 		.dialog-body > .content {
 			}
 
+			.dialog-body > .content article {
+				padding: 0 1rem;
+			}
+
 			.dialog-body > .content article p {
 				line-height: 1.5;
 			}
