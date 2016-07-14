@@ -1,12 +1,18 @@
 (function () {
-	var $bP = $('.popup-layers-back-plate');
-	window.$bP = $bP;
+	$('.page').each(function () {
+		var $page = $(this);
+		var $bP = $page.find('.popup-layers-back-plate');
 
-	$('.popup-layer').each(function () {
-		var $pL = $(this);
-		$pL.find('[button-action="confirm"], [button-action="cancel"]').on('click', function(event) {
-			$bP.hide();
-			$pL.hide();
+		$('.popup-layer').each(function () {
+			this.elements = {
+				$popupLayersBackPlate: $bP
+			};
+
+			var $pL = $(this);
+			$pL.find('[button-action="confirm"], [button-action="cancel"]').on('click', function(event) {
+				$bP.hide();
+				$pL.hide();
+			});
 		});
 	});
 

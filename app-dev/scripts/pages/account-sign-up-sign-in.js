@@ -68,10 +68,10 @@
 	});
 
 
-
+	var $thePL = $pL2;
 	$('[button-action="fetch-sms-vcode"]').on('click', function(event) {
 		console.error('fake logic triggered.');
-		$bP.show();
-		$pL2.show();
+		$thePL[0].elements.$popupLayersBackPlate.show();
+		$thePL.show();
 	});
 })();
