@@ -106,6 +106,7 @@
 		}
 
 		var tabToShowAtBegining = $('#panel-tab-'+urlParameters.tabLabel).parent()[0] || $allTabs[0];
+		console.log(urlParameters.tabLabel);
 		_showPanelAccordingToTab(tabToShowAtBegining);
 
 		function _slideHintToTab(theTab) {

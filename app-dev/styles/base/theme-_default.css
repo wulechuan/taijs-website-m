@@ -304,29 +304,55 @@ label.deco-input {
 		}
 
 
+
 .f-block { /* function-block */
 	}
 	.f-block-body {
 		background-color: white;
+	}
+
+	.row.input-field.style-traditional,
+	.f-block-body {
 		border-color: #e5e5e5;
 	}
 	.f-block-body .row {
 		border-color: #f1f1f1;
 	}
 	.f-block-body,
-	.f-block-body a .row,
-	.f-block-body   .row {
+	a .row,
+	  .row {
 		color: #333;
 	}
-	.f-block-body a .row::after,
-	.f-block-body   .row.call-to-action::after {
+	a .row::after,
+	  .row.call-to-action::after {
 		color: #999;
 	}
-	.f-block-body .row.select-field .right,
-	.f-block-body .row.input-field  .right,
-	.f-block-body .row .left {
+	.row.select-field .right,
+	.row.input-field  .right,
+	.row .left {
 		color: #999;
 	}
+
+
+.tab-panel-set {
+	}
+
+	.tab-list > li {
+		background-color: #f2f2f2;
+	}
+
+	.tab-list > li.current {
+		color: #4285f4;
+		background-color: white;
+	}
+	.panel {
+		background-color: white;
+	}
+
+	.tab-panel-set.tab-style-buttons .tab-list > li {
+		border-color: #4285f4;
+	}
+
 
 
 
@@ -343,3 +369,7 @@ label.deco-input {
 		border-color: #e5e5e5;
 		background-color: white;
 	}
+
+.page#page-sign-up-sign-in {
+	background-color: white;
+}

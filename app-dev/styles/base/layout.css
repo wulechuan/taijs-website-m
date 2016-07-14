@@ -25,26 +25,29 @@ button.nav-back::before {
 	}
 
 
-.app-bg-layer {
-	position: absolute;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
+.taijs-logo.image {
+	display: block;
+	width: 100px;
+	height: 100px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	background-image: url(../../images/taijs-brand/taijs-logo-white-bg-transparent-large-cropped.png);
+
+	border: 1px solid transparent;
 }
 
-.app-fg-layer {
-	position: relative;
-	z-index: 5;
-	left: 0;
-	top: 0;
-	width: 100%;
-	}
+.taijs-slogan.image {
+	display: block;
+	width: 100px;
+	height: 100px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	background-image: url(../../images/taijs-brand/taijs-slogan-white-bg-transparent-large-cropped.png);
+	opacity: 0.6;
 
-.app-popup-layers {
-	position: relative;
-	z-index: 50;
+	border: 1px solid transparent;
 }
 
 .row, .f-block, .f-block-body {
@@ -55,15 +58,18 @@ button.nav-back::before {
 	.row .right {
 		margin-right: 0.8rem;
 	}
-	.f-block-body .row,
+	.f-block .row,
 	.f-block-body {
 		margin-left: -0.8rem;
 		margin-right: -0.8rem;
 	}
 
 
+
+
 .row {
 	white-space: nowrap;
+	overflow: hidden;
 	}
 
 	.row * {
@@ -72,9 +78,8 @@ button.nav-back::before {
 
 	.row.buttons-in-single-line {
 		position: relative;
-		padding: 0.5rem 0;
-		margin-left: 0.8rem;
-		margin-right: 0.8rem;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
 	}
 
 	.row.buttons-in-single-line .size-std-wide {
@@ -82,6 +87,175 @@ button.nav-back::before {
 		height: 2.3rem;
 		max-width: 512px;
 		box-sizing: border-box;
+	}
+
+	.row.select-field,
+	.row.input-field {
+		}
+		.row.select-field select,
+		.row.input-field  input {
+			margin: 0.5rem 0;
+			padding: 0;
+			height: 2.2rem;
+			line-height: 2.2rem;
+			border-width: 0;
+			width: 100%;
+		}
+		.row.select-field select {
+			margin-right: -2rem;
+		}
+		.row.input-field input {
+			transition-property: margin, height;
+		}
+
+
+		.row.input-field input:focus,
+		.row.input-field input.non-empty-field {
+			margin-top: 1.6rem;
+			margin-bottom: 0;
+			height: 1.6rem;
+			line-height: 1.6rem;
+			}
+			.row.input-field input:focus::-webkit-input-placeholder { /* WebKit browsers */
+				opacity: 0.1;
+			}
+			.row.input-field input:focus::-moz-placeholder { /* Mozilla Firefox 19+ */
+				opacity: 0.1;
+			}
+			.row.input-field input:focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+				opacity: 0.1;
+			}
+			.row.input-field input:focus:-ms-input-placeholder { /* Internet Explorer 10+ */
+				opacity: 0.1;
+			}
+
+
+		.row.input-field .input-tip {
+			font-size: 12px;
+			position: absolute;
+			left: 0;
+			top: 0.6rem;
+			visibility: hidden;
+			opacity: 0;
+			transition-property: visibility, opacity;
+			transition-duration: 0.30s;
+			}
+
+			.row.input-field input:focus ~ .input-tip,
+			.row.input-field input.non-empty-field ~ .input-tip {
+				visibility: visible;
+				opacity: 1;
+			}
+
+	.row > div {
+		padding: 0.2rem 0.5rem;
+		margin-left: -0.5rem;
+		margin-right: -0.5rem;
+	}
+
+	.row .left,
+	.row .right {
+		display: inline-block;
+		vertical-align: top;
+		width: calc(50% - 0.5rem + 2rem);
+		}
+		.row .left {
+			margin-right: -2rem;
+		}
+		.row .right {
+			text-align: right;
+			margin-left: -2rem;
+		}
+		.row.input-field .left {
+			width: 75%;
+			margin-left: 0;
+			margin-right: 0;
+			padding-left: 0;
+			padding-right: 0;
+		}
+		.row.input-field  .right {
+			width: 25%;
+			margin-left: -0.5rem;
+		}
+		.row.select-field .left {
+			width: 85%;
+			margin-left: 0;
+			margin-right: 0;
+			padding-left: 0;
+			padding-right: 0;
+		}
+		.row.select-field .right {
+			width: 15%;
+			margin-left: -0.5rem;
+		}
+
+
+
+	.row.input-field.style-traditional {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+		margin: 0;
+		border-style: solid;
+		border-width: 1px;
+
+		margin-top: -1px;
+		border-radius: 0;
+
+		height: 3.2rem;
+		}
+		.row.input-field.style-traditional.last-of-set {
+			border-bottom-left-radius: 4px;
+			border-bottom-right-radius: 4px;
+		}
+		.row.input-field.style-traditional.first-of-set {
+			margin-top: 0;
+			border-top-left-radius: 4px;
+			border-top-right-radius: 4px;
+		}
+		.row.input-field.style-traditional .input-tip {
+			left: 0.5rem;
+		}
+		.row.input-field.style-traditional .left {
+			padding-top: 0;
+			padding-bottom: 0;
+			padding-right: 0.5rem;
+			width: calc(100% - 6rem);
+		}
+		.row.input-field.style-traditional .right {
+			padding: 0;
+			margin: 0.725rem 0;
+			width: 6rem;
+			height: 1.75rem;
+			line-height: 1.75rem;
+			border-width: 0 0 0 1px;
+			border-style: solid;
+			border-color: inherit;
+			box-sizing: border-box;
+			position: relative;
+		}
+		.row.input-field.style-traditional.input-verification-code .right .step {
+			margin: 0 0.5rem;
+			height: 100%;
+			display: none;
+			text-align: center;
+		}
+		.row.input-field.style-traditional.input-verification-code .right .step.current {
+			display: block;
+		}
+		.row.input-field.style-traditional.input-verification-code .right .step button {
+			padding: 0;
+			margin: 0;
+			display: block;
+			width: 100%;
+			height: 100%
+		}
+
+
+
+	.row.article {
+		margin-top: 0.5rem;
+		margin-bottom: 0.5rem;
+		font-size: 14px;
 	}
 
 
@@ -103,9 +277,8 @@ button.nav-back::before {
 		border-width: 1px 0;
 	}
 
-
 	.f-block-body .row {
-		border-style: inherit;
+		border-style: solid;
 		border-color: inherit;
 		border-width: 1px 0;
 		margin-top: -1px;
@@ -172,48 +345,10 @@ button.nav-back::before {
 			text-indent: 0;
 		}
 
-
-	.f-block-body .row div {
-		padding: 0.2rem 0.5rem;
-		margin-left: -0.5rem;
-		margin-right: -0.5rem;
+	.f-block-body .row.input-field .input-tip {
+		left: 0;
 	}
 
-	.f-block-body .row .left,
-	.f-block-body .row .right {
-		display: inline-block;
-		vertical-align: top;
-		width: calc(50% - 0.5rem + 2rem);
-	}
-	.f-block-body .row .left {
-		margin-right: -2rem;
-	}
-	.f-block-body .row .right {
-		text-align: right;
-		margin-left: -2rem;
-	}
-	.f-block-body .row.input-field .left {
-		width: 75%;
-		margin-left: 0;
-		margin-right: 0;
-		padding-left: 0;
-		padding-right: 0;
-	}
-	.f-block-body .row.input-field  .right {
-		width: 25%;
-		margin-left: -0.5rem;
-	}
-	.f-block-body .row.select-field .left {
-		width: 85%;
-		margin-left: 0;
-		margin-right: 0;
-		padding-left: 0;
-		padding-right: 0;
-	}
-	.f-block-body .row.select-field .right {
-		width: 15%;
-		margin-left: -0.5rem;
-	}
 
 
 	.f-block-body .row {
@@ -247,19 +382,6 @@ button.nav-back::before {
 			padding-bottom: 0;
 			height: 3.2rem;
 		}
-		.f-block-body .row.select-field .left select,
-		.f-block-body .row.input-field  .left input {
-			margin: 0.5rem 0;
-			padding: 0;
-			height: 2.2rem;
-			line-height: 2.2rem;
-			border-width: 0;
-			width: 100%;
-		}
-		.f-block-body .row.select-field .left select {
-			margin-right: -2rem;
-		}
-
 		.f-block-body .row.select-field .right,
 		.f-block-body .row.input-field  .right,
 		.f-block-body .row.tall .left,
@@ -276,29 +398,60 @@ button.nav-back::before {
 			margin-top: 1rem;
 		}
 
-	.f-block-body .row.input-field {
+
+
+.tab-panel-set {
+	}
+
+	.tab-list {
+		width: 100%;
 		}
 
-		.f-block-body .row.input-field .input-tip {
-			position: absolute;
-			left: 0;
-			top: 0.5rem;
-			visibility: hidden;
+		.tab-list.tabs-count-2 > li {
+			width: 50%;
+			text-align: center;
+			padding: 0.5rem;
+			box-sizing: border-box;
 		}
 
-		.f-block-body .row.input-field input:focus,
-		.f-block-body .row.input-field input.non-empty-field {
-			margin-top: 1.6rem;
-			margin-bottom: 0;
-			height: 1.6rem;
-			line-height: 1.6rem;
+		.tab-list > li > .label {
+			display: inline-block;
+			margin: 0.15rem 0;
+			line-height: 1.2rem;
 		}
 
-		.f-block-body .row.input-field input:focus ~ .input-tip,
-		.f-block-body .row.input-field input.non-empty-field ~ .input-tip {
-			visibility: visible;
-		}
 
+	.panel-group {
+	}
+
+	.panel {
+		padding: 1rem 0;
+	}
+
+
+
+
+.app-bg-layer {
+	position: absolute;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.app-fg-layer {
+	position: relative;
+	z-index: 5;
+	left: 0;
+	top: 0;
+	width: 100%;
+	}
+
+.app-popup-layers {
+	position: relative;
+	z-index: 50;
+}
 
 
 .app-bottom-stamp {
@@ -383,7 +536,7 @@ button.nav-back::before {
 		.page-header .row.header-bar .center {
 			display: block;
 			margin: 0 4rem;
-			height: 1.4rem;
+			min-height: 1.4rem;
 			line-height: 1.4rem;
 			text-align: center;
 		}
@@ -415,3 +568,18 @@ button.nav-back::before {
 			background-color: transparent;
 		}
 
+
+
+
+#page-sign-up-sign-in .page-header .taijs-logo {
+	margin: 0.5rem auto 0.25rem auto;
+	width: 130px;
+	height: 24px;
+	background-position: left;
+	background-size: auto 100%;
+}
+#page-sign-up-sign-in .page-header .taijs-slogan {
+	margin: 0.25rem auto 0.5rem auto;
+	width: 130px;
+	height: 26px;
+}
