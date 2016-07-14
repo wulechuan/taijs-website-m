@@ -505,15 +505,6 @@ button.nav-back::before,
 }
 
 
-.app-bottom-stamp {
-	width: 100%;
-	height: 100%;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-image: url(../../images/pages/index/splash-bg.jpg);
-}
-
-
 .page {
 	max-width: 768px;
 	margin: auto;
@@ -622,6 +613,39 @@ button.nav-back::before,
 			background-color: transparent;
 		}
 
+
+	.page-body-stamp {
+		width: 100%;
+		position: absolute;
+		bottom: 0.5rem;
+		text-align: center;
+		}
+
+		.page-body-stamp .row {
+			width: 100%;
+			margin: 0;
+			padding: 0 0.8rem;
+			text-align: center;
+		}
+
+		.page-body-stamp [role="button"],
+		.page-body-stamp button {
+			font-size: 0.8rem;
+			line-height: 1.2rem;
+			padding: 0.2rem 0.8rem;
+			background-color: transparent;
+			border-radius: 1000px;
+		}
+
+		.page-body-stamp [role="button"] .iconfont,
+		.page-body-stamp button .iconfont {
+			/* display: inline; */
+			margin: 0;
+		}
+
+.copyright {
+	font-size: 0.6rem;
+}
 
 
 

@@ -1,19 +1,27 @@
 (function () {
-	$('.page').each(function () {
-		var $page = $(this);
-		var $bP = $page.find('.popup-layers-back-plate');
+	$('.app > .popup-layers, .page .popup-layers').each(function () {
+		var $pLContainer = $(this);
+		var $bp = $pLContainer.find('.popup-layers-back-plate');
 
-		$('.popup-layer').each(function () {
+		$pLContainer.find('.popup-layer').each(function () {
 			this.elements = {
-				$popupLayersBackPlate: $bP
+				$popupLayersBackPlate: $bp
 			};
 
 			var $pL = $(this);
 			$pL.find('[button-action="confirm"], [button-action="cancel"]').on('click', function(event) {
-				$bP.hide();
+				$bp.hide();
 				$pL.hide();
 			});
 		});
+	});
+
+	var $globalbp = $('.app > .popup-layers .popup-layers-back-plate');
+	var $pLTaijsServiceContact = $('.app > .popup-layers #pl-taijs-service-contact');
+
+	$('.page-body-stamp .taijs-service-contact').on('click', function () {
+		$globalbp.show();
+		$pLTaijsServiceContact.show();
 	});
 
 

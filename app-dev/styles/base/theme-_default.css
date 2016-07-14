@@ -3,8 +3,9 @@ html {
 	}
 
 
-.app {
-	}
+.copyright {
+	color: #999；
+}
 
 
 ::-moz-selection {
@@ -166,6 +167,21 @@ input {
 	.dialog-footer input[type="submit"][button-action="confirm"],
 	.dialog-footer button[button-action="confirm"] {
 		color: #4285f4;
+	}
+
+	.page-body-stamp input[type="button"]:hover,
+	.page-body-stamp input[type="submit"]:hover,
+	.page-body-stamp input[type="reset"]:hover,
+	.page-body-stamp [role="button"]:hover,
+	.page-body-stamp button:hover,
+	.page-body-stamp input[type="button"],
+	.page-body-stamp input[type="submit"],
+	.page-body-stamp input[type="reset"],
+	.page-body-stamp [role="button"],
+	.page-body-stamp button {
+		color: #666;
+		border-color: #dfdfdf;
+		background-color: transparent;
 	}
 
 	input[type="reset"].simple-look *,

@@ -248,8 +248,10 @@ gulp.task('html-inject-snippets', ['pre-process-html-snippets'], () => {
     { file: 'module-app-bg-layer-0.html', name: 'appBGLayer0:html' },
     { file: 'module-app-fg-layer-wrap-begin.html', name: 'appFGLayerWrapBegin:html' },
     { file: 'module-app-fg-layer-wrap-end.html', name: 'appFGLayerWrapEnd:html' },
+    { file: 'module-global-popup-layers.html', name: 'globalPopupLayers:html' },
     { file: 'module-popup-layers-wrap-begin.html', name: 'popupLayersWrapBegin:html' },
-    { file: 'module-popup-layers-wrap-end.html', name: 'popupLayersWrapEnd:html' }
+    { file: 'module-popup-layers-wrap-end.html', name: 'popupLayersWrapEnd:html' },
+    { file: 'module-page-body-stamp-0.html', name: 'pageBodyStamp0:html' }
   ];
 
   var targetFilesToProcess = gulp.src([
