@@ -352,6 +352,13 @@ label.deco-input {
 		border-color: #dadada;
 	}
 
+.popup-layer {
+	}
+	.popup-layer.polite-message .popup-window {
+		color: white;
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+
 
 .f-block { /* function-block */
 	color: #666;
