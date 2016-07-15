@@ -1663,14 +1663,44 @@ ol.f-list, ul.f-list { /* function list */
 		max-height: 100%;
 		box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
 		transition-property: none;
+	}
 
+	.popup-window {
 		animation-timing-function: cubic-bezier(.51,1.23,.87,1);
 		animation-duration: 0.35s;
-		animation-name: dialog-shows-up;
+		animation-name: shows-up-from-bottom;
 		}
 
-		@keyframes dialog-shows-up {
-			0% { opacity: 0; transform: translateY(9rem) scale(0.75, 0.75); }
+		.popup-window.shows-up-from-top {
+			animation-name: shows-up-from-top;
+		}
+		.popup-window.shows-up-from-bottom {
+			animation-name: shows-up-from-bottom;
+		}
+		.popup-window.shows-up-from-leftside {
+			animation-name: shows-up-from-leftside;
+		}
+		.popup-window.shows-up-from-rightside {
+			animation-name: shows-up-from-rightside;
+		}
+
+		@keyframes shows-up-from-bottom {
+			0% { opacity: 0; transform: translateY(10rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translateY(0) scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-rightside {
+			0% { opacity: 0; transform: translateX(7rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translateX(0) scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-leftside {
+			0% { opacity: 0; transform: translateX(-7rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translateX(0) scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-top {
+			0% { opacity: 0; transform: translateY(-10rem) scale(0.75, 0.75); }
 			to { opacity: 1; transform: translateY(0) scale(1, 1); }
 		}
 

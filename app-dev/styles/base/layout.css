@@ -93,7 +93,6 @@ article.message p {
 	}
 
 
-
 .row {
 	white-space: nowrap;
 	overflow: hidden;
@@ -104,6 +103,8 @@ article.message p {
 	}
 
 	.row.buttons-in-single-line {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
 		position: relative;
 		padding-top: 0.5rem;
 		padding-bottom: 0.5rem;
@@ -353,6 +354,10 @@ article.message p {
 		border-width: 1px 0;
 	}
 
+	.f-block.snap-top .f-block-body {
+		margin-top: -1px;
+	}
+
 	.f-block-body .row {
 		border-style: solid;
 		border-color: inherit;
@@ -482,7 +487,6 @@ article.message p {
 		}
 
 
-
 .tab-panel-set {
 	}
 
@@ -512,8 +516,6 @@ article.message p {
 	}
 
 
-
-
 .app-bg-layer {
 	position: absolute;
 	z-index: 1;
@@ -523,6 +525,7 @@ article.message p {
 	height: 100%;
 }
 
+
 .app-fg-layer {
 	position: relative;
 	z-index: 5;
@@ -531,6 +534,7 @@ article.message p {
 	width: 100%;
 	height: 100%;
 	}
+
 
 .app-popup-layers {
 	position: relative;
@@ -593,15 +597,12 @@ article.message p {
 	.page.fixed-page-header,
 	.page.fixed-page-header.has-page-header {
 		padding-top: 2.4rem;
-		/* min-height: calc(100% - 6rem - 2.4rem); */
 	}
 
 	.page.fixed-page-footer,
 	.page.fixed-page-footer.has-page-footer {
 		padding-bottom: 3.3rem;
-		/* min-height: calc(100% - 10rem); */
 	}
-
 
 
 	.page-header {
@@ -697,34 +698,31 @@ article.message p {
 #pl-taijs-service-contact .dialog-header {
 	display: none;
 	}
-
 	#pl-taijs-service-contact .main {
 		text-align: center;
 		font-weight: normal;
 		font-size: 0.8rem;
 		line-height: 1.2;
 	}
-
 	#pl-taijs-service-contact .main .phone {
 		font-weight: bold;
 		/* font-size: 1rem; */
 	}
 
 
-#page-sign-up-sign-in {
+#page-account-sign-up-sign-in {
 	}
-	#page-sign-up-sign-in .page-body {
-		min-height: calc(100% - 99px - 6rem);
+	#page-account-sign-up-sign-in .page-body {
+		min-height: calc(100% - 5rem);
 	}
-
-	#page-sign-up-sign-in .page-header .taijs-logo {
+	#page-account-sign-up-sign-in .page-header .taijs-logo {
 		margin: 0.5rem auto 0.25rem auto;
 		width: 130px;
 		height: 24px;
 		background-position: left;
 		background-size: auto 100%;
 	}
-	#page-sign-up-sign-in .page-header .taijs-slogan {
+	#page-account-sign-up-sign-in .page-header .taijs-slogan {
 		margin: 0.25rem auto 0.5rem auto;
 		width: 130px;
 		height: 26px;
