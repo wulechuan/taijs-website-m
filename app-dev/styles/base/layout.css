@@ -194,6 +194,17 @@ article.message {
 		margin-right: -0.5rem;
 	}
 
+	.row > h6,
+	.row > h5,
+	.row > h4,
+	.row > h3,
+	.row > h2,
+	.row > h1,
+	.row > p {
+		padding: 0.2rem 0.5rem;
+		margin: -0.2rem -0.5rem;
+	}
+
 	.row .left,
 	.row .right {
 		display: inline-block;
@@ -360,13 +371,15 @@ article.message {
 	font-weight: normal;
 	}
 
-	.f-block > .row > h2,
-	.f-block > h2 {
-		margin-top: 1.5rem;
-		padding: 0.2rem 0.5rem;
-		margin-left: -0.5rem;
-		margin-right: -0.5rem;
-	}
+	.f-block > .row {
+		margin-top: 0.5rem;
+		margin-bottom: 0.5rem;
+		}
+
+		.f-block > .row:first-child {
+			margin-top: 1.5rem;
+		}
+
 
 	.f-block-body {
 		margin-top: 0.25rem;
@@ -491,8 +504,8 @@ article.message {
 		.f-block-body .row.input-field  .right,
 		.f-block-body .row.tall .left,
 		.f-block-body .row.tall .right {
-			margin-top: 0.3rem;
-			margin-bottom: 0.3rem;
+			margin-top: 0.8rem;
+			margin-bottom: 0.8rem;
 			line-height: 1.2rem;
 		}
 		.f-block-body a .row.tall::after,
