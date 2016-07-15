@@ -218,6 +218,14 @@ article.message {
 			text-align: right;
 			margin-left: -2rem;
 		}
+		.f-block-body .row.select-field .right,
+		.f-block-body .row.input-field  .right,
+		.row.select-field .right,
+		.row.input-field  .right {
+			margin-top: 0.8rem;
+			margin-bottom: 0.8rem;
+			line-height: 1.2rem;
+		}
 		.row.input-field .left {
 			position: relative; /* for positioning of clear input button */
 			width: 75%;
@@ -500,12 +508,10 @@ article.message {
 			padding-bottom: 0;
 			height: 3.2rem;
 		}
-		.f-block-body .row.select-field .right,
-		.f-block-body .row.input-field  .right,
 		.f-block-body .row.tall .left,
 		.f-block-body .row.tall .right {
-			margin-top: 0.8rem;
-			margin-bottom: 0.8rem;
+			margin-top: 0.3rem;
+			margin-bottom: 0.3rem;
 			line-height: 1.2rem;
 		}
 		.f-block-body a .row.tall::after,
