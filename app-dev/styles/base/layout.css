@@ -508,6 +508,7 @@ button.nav-back::before,
 .page {
 	max-width: 768px;
 	margin: auto;
+	overflow: hidden;
 	}
 
 	/*
@@ -622,6 +623,7 @@ button.nav-back::before,
 		}
 
 		.page-body-stamp .row {
+			box-sizing: border-box;
 			width: 100%;
 			margin: 0;
 			padding: 0 0.8rem;
@@ -639,8 +641,7 @@ button.nav-back::before,
 
 		.page-body-stamp [role="button"] .iconfont,
 		.page-body-stamp button .iconfont {
-			/* display: inline; */
-			margin: 0;
+			margin: -0.2rem 0 0 -0.3rem;
 		}
 
 .copyright {
