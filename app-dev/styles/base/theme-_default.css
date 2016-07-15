@@ -409,9 +409,6 @@ label.deco-input {
 	}
 
 
-
-
-
 .page {
 	color: #666;
 	background-color: #f1f1f1;
@@ -425,6 +422,32 @@ label.deco-input {
 		border-color: #e5e5e5;
 		background-color: white;
 	}
+
+
+.slot {
+	}
+
+	.slot.slot-bank-card {
+		background-color: #ddd; /* simply a default value */
+		}
+		.slot.slot-bank-card .icon.icon-of-bank {
+			background-color: white;
+		}
+		.slot.slot-bank-card {
+			color: white;
+		}
+		.slot.slot-bank-card.slot-pseudo {
+			color: #999;
+			background-color: white;
+		}
+		.slot.slot-bank-card.bank-cn-icbc {
+			background-color: #ff5060;
+		}
+		.slot.slot-bank-card.bank-cn-ccb {
+			background-color: #4d8ce9;
+		}
+
+
 
 .page#page-account-sign-up-succeeded,
 .page#page-account-sign-up-sign-in {

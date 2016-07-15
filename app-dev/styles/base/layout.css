@@ -729,12 +729,64 @@ article.message {
 			margin: 0 0 0 -0.3rem;
 		}
 
+
 .copyright {
 	font-size: 0.6rem;
 	letter-spacing: 0.03em;
 	transform: scale(0.81, 0.81);
 }
 
+
+.slot {
+	}
+	.slot.slot-bank-card {
+		position: relative;
+		margin: 0.8rem;
+		display: block;
+		height: 5.5rem;
+		border-radius: 0.2rem;
+	}
+	.slot.slot-bank-card .icon.icon-of-bank {
+		position: absolute;
+		left: 0.9rem;
+		top: 0.9rem;
+
+		display: block;
+		border-radius: 1000px;
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+	.slot.slot-bank-card .icon.icon-of-bank::before {
+		position: absolute;
+		left: 0rem;
+		top: 0rem;
+
+		margin: 0.1rem;
+
+		display: block;
+		width: 1.3rem;
+		height: 1.3rem;
+
+		/* transform: scale(1.33, 1.33); */
+	}
+	.slot.slot-bank-card .caption-of-bank {
+		position: absolute;
+		left: 3rem;
+		top: 0.9rem;
+		font-weight: normal;
+		font-size: 0.9rem;
+		line-height: 1.5rem;
+		letter-spacing: 0.1em;
+	}
+	.slot.slot-bank-card .bank-card-number {
+		position: absolute;
+		left: 3rem;
+		top: 3rem;
+		font-weight: normal;
+		font-size: 1rem;
+		line-height: 1;
+		letter-spacing: 0.15em;
+	}
 
 #pl-taijs-service-contact .dialog-header {
 	display: none;
