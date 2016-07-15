@@ -374,6 +374,13 @@ label.deco-input {
 	.row .left {
 		color: #999;
 	}
+	.emphasise-both-sides .left,
+	.emphasise-both-sides .right,
+	.emphasise-leftside   .left,
+	.emphasise-rightside  .right {
+		color: inherit;
+		font-weight: normal;
+	}
 
 
 .tab-panel-set {

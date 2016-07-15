@@ -24,67 +24,40 @@
 	</header>
 
 	<div class="page-body">
-		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
-
-		<form name="resetpassword1" action="account-sign-up-succeeded.html">
 		<div class="f-block snap-top">
-			<div class="f-block-body">
-				<div class="row input-field">
-					<div class="left">
-						<input placeholder="请输入手机号" type="tel"
-							name="mobile" required
-												  id="reset-password-mobile">
-						<label class="input-tip" for="reset-password-mobile">手机号</label>
-					</div>
+			<div class="f-block-body emphasise-both-sides">
+				<div class="row tall call-to-action">
+					<div class="left">实名</div>
+					<div class="right"
+						><span class="value user-real-name"></span
+						><span class="value user-bound-bank-card"></span
+					></div>
 				</div>
-				<div class="row input-field input-verification-code">
-					<div class="left">
-						<input placeholder="请输入验证码" type="number"
-							name="smsvcode" required
-												  id="reset-password-sms-verification-code">
-						<label class="input-tip" for="reset-password-sms-verification-code">验证码</label>
-					</div>
-					<div class="right">
-						<div class="step current fetch"
-							><button class="simple-look" type="button" 
-								button-action="fetch-sms-vcode">获取验证码</button
-						></div>
-						<div class="step countdown"
-							><span class="value">60</span
-							><span class="unit-time-second">s</span
-						></div>
-					</div>
+				<div class="row tall">
+					<div class="left">账号</div>
+					<div class="right"
+						><span class="value user-id"></span
+					></div>
 				</div>
+				<a href="account-change-account-password.html">
+				<div class="row tall call-to-action last-shown-in-set">
+					<div class="left">修改登录密码</div>
+				</div>
+				</a>
+				<a href="account-change-trading-password.html">
+				<div class="row tall call-to-action">
+					<div class="left">修改交易密码</div>
+				</div>
+				</a>
+				<a href="account-reset-trading-password.html">
+				<div class="row tall call-to-action">
+					<div class="left">忘记交易密码</div>
+				</div>
+				</a>
 			</div>
 		</div>
 
-		<div class="f-block">
-			<div class="row"><h2>密码区分大小写，建议使用6位以上数字、字母组合</h2></div>
-			<div class="f-block-body">
-				<div class="row input-field">
-					<div class="left">
-						<input placeholder="请输入新的密码" type="password"
-							name="password" required
-												  id="reset-password-new-passward-1">
-						<label class="input-tip" for="reset-password-new-passward-1">输入新的密码</label>
-					</div>
-				</div>
-				<div class="row input-field">
-					<div class="left">
-						<input placeholder="请确认新的密码" type="password"
-							name="password" required
-												  id="reset-password-new-passward-2">
-						<label class="input-tip" for="reset-password-new-passward-2">确认新的密码</label>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row buttons-in-single-line">
-			<button class="rounded-corners size-std-wide" disabled="disabled" 
-				button-action="submit">确定</button>
-		</div>
-		</form>
+		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
 
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->

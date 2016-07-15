@@ -374,15 +374,14 @@ article.message p {
 		padding-bottom: 0.5rem;
 	}
 
-	.f-block-body .row:first-child {
-		/* margin-top: 0;
-		border-top-width: 0; */
+	.f-block-body .row.first-shown-in-set,
+	.f-block-body > .row:first-child {
 		border-top-color: transparent;
 	}
 
-	.f-block-body .row:last-child {
-		/* margin-bottom: 0;
-		border-bottom-width: 0; */
+	.f-block-body .row.last-shown-in-set,
+	.f-block-body > :last-child .row,
+	.f-block-body > .row:last-child {
 		border-bottom-color: transparent;
 	}
 
@@ -692,6 +691,8 @@ article.message p {
 
 .copyright {
 	font-size: 0.6rem;
+	letter-spacing: 0.03em;
+	transform: scale(0.81, 0.81);
 }
 
 
