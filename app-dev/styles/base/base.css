@@ -143,6 +143,11 @@ button {
 	letter-spacing: 0.05em;
 	}
 
+	*[role="button"],
+	button {
+		text-align: center;
+	}
+
 	*[role="button"] > .label,
 	button > .label {
 		display: block;
