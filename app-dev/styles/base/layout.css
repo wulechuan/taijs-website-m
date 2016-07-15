@@ -110,6 +110,11 @@ article.message p {
 		padding-bottom: 0.5rem;
 	}
 
+	.page-footer .row.buttons-in-single-line {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
 	.row.buttons-in-single-line .size-std-wide {
 		width: 100%;
 		height: 2.3rem;
