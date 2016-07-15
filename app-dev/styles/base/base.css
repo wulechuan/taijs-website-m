@@ -802,6 +802,46 @@ button.button-x {
 	}
 
 
+button[button-action="clear-input-field"] {
+	visibility: hidden;
+	display: none;
+	}
+	button[button-action="clear-input-field"][for-input] {
+		visibility: visible;
+		position: absolute;
+		font-size: 0.6rem;
+		width: 1rem;
+		height: 1rem;
+		line-height: normal;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		padding: 0;
+		min-height: 0;
+		min-width: 0;
+		margin: auto 0.5rem;
+		border-width: 0;
+		border-color: transparent;
+		border-radius: 1000px;
+
+		/* transform: scale(0.85); */
+
+		animation-timing-function: cubic-bezier(.51,1.23,.87,1);
+		animation-duration: 0.40s;
+		animation-name: scales-up;
+	}
+
+	button[button-action="clear-input-field"][for-input]::before {
+		font-family: 'iconfont'!important;
+		content: '\e606';
+	}
+
+	@keyframes scales-up {
+		0% { opacity: 0; transform: scale(0.1, 0.1); }
+		to { opacity: 1; transform: scale(1, 1); }
+	}
+
+
 label.deco-input {
 	display: inline-block;
 	position: relative;
@@ -1684,24 +1724,57 @@ ol.f-list, ul.f-list { /* function list */
 			animation-name: shows-up-from-rightside;
 		}
 
+		.popup-window.shows-up-from-top-left {
+			animation-name: shows-up-from-top-left;
+		}
+		.popup-window.shows-up-from-top-right {
+			animation-name: shows-up-from-top-right;
+		}
+		.popup-window.shows-up-from-bottom-left {
+			animation-name: shows-up-from-bottom-left;
+		}
+		.popup-window.shows-up-from-bottom-right {
+			animation-name: shows-up-from-bottom-right;
+		}
+
 		@keyframes shows-up-from-bottom {
 			0% { opacity: 0; transform: translateY(10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateY(0) scale(1, 1); }
+			to { opacity: 1; transform: translateY(0)     scale(1, 1); }
 		}
 
 		@keyframes shows-up-from-rightside {
 			0% { opacity: 0; transform: translateX(7rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateX(0) scale(1, 1); }
+			to { opacity: 1; transform: translateX(0)    scale(1, 1); }
 		}
 
 		@keyframes shows-up-from-leftside {
 			0% { opacity: 0; transform: translateX(-7rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateX(0) scale(1, 1); }
+			to { opacity: 1; transform: translateX(0)     scale(1, 1); }
 		}
 
 		@keyframes shows-up-from-top {
 			0% { opacity: 0; transform: translateY(-10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateY(0) scale(1, 1); }
+			to { opacity: 1; transform: translateY(0)      scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-top-left {
+			0% { opacity: 0; transform: translate(-7rem, -10rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translate(0, 0)          scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-top-right {
+			0% { opacity: 0; transform: translate(7rem, -10rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translate(0, 0)         scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-bottom-left {
+			0% { opacity: 0; transform: translate(-7rem, 10rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translate(0, 0)         scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-bottom-right {
+			0% { opacity: 0; transform: translate(7rem, 10rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translate(0, 0)        scale(1, 1); }
 		}
 
 

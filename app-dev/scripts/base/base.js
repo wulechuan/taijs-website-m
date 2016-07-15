@@ -9,7 +9,7 @@
 			};
 
 			var $pL = $(this);
-			$pL.find('[button-action="confirm"], [button-action="cancel"]').on('click', function(event) {
+			$pL.find('[button-action="confirm"], [button-action="cancel"]').on('click', function() {
 				$bp.hide();
 				$pL.hide();
 			});
@@ -91,15 +91,73 @@
 				$(field).removeClass('empty-field');
 				$(field).addClass('non-empty-field');
 			}
+
+			if (Array.isArray(field.onValueChange)) {
+				var valueStatus = {
+					isEmpty: isEmpty,
+					isValid: true // not implemented yet
+				};
+
+				for (var i = 0; i < field.onValueChange.length; i++) {
+					var callback = field.onValueChange[i];
+					if (typeof callback === 'function') callback.call(field, valueStatus);
+				}
+			}
 		}
 
 		_updateInputValueStatus(this);
+
+		this.onValueChange = [];
 
 		$(this).on('input', function () {
 			_updateInputValueStatus(this);
 		});
 	});
 
+
+	$('button[button-action="clear-input-field"][for-input]').each(function () {
+		var $clearButton = $(this);
+		this.setAttribute('type', 'button'); // prevent this from submitting <form>
+
+		var controlledInputId = this.getAttribute('for-input');
+		if (controlledInputId) controlledInputId = '#'+controlledInputId;
+
+		var controlledInput = $(controlledInputId)[0];
+
+		var inputIsValid = false;
+		if (controlledInput) {
+			var tnlc = controlledInput.tagName.toLowerCase();
+			if (tnlc === 'input') {
+				var inputType = controlledInput.type.toLowerCase();
+				inputIsValid = (inputType !== 'checkbox') && (inputType !== 'radio');
+			} else if (tnlc === 'textarea') {
+				inputIsValid = true;
+			} else {
+				inputIsValid = true;
+			}
+		}
+
+		if (inputIsValid) {
+			controlledInput.onValueChange.push(function (valueStatus) {
+				valueStatus = valueStatus || { isValid: true };
+				if (valueStatus.isEmpty) {
+					$clearButton.hide();
+				} else {
+					$clearButton.show();
+				}
+			});
+
+			$clearButton.on('click', function (event) {
+				if (event) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+
+				controlledInput.value = '';
+				this.style.display = 'none';
+			});
+		}
+	});
 
 
 	$('form').each(function () {

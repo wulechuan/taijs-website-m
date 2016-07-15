@@ -268,6 +268,12 @@ button.button-x {
 		background-color: white;
 	}
 
+button[button-action="clear-input-field"]:hover,
+button[button-action="clear-input-field"] {
+	color: white;
+	background-color: #adadad;
+}
+
 
 label.deco-input {
 	}

@@ -197,6 +197,7 @@ article.message p {
 			margin-left: -2rem;
 		}
 		.row.input-field .left {
+			position: relative; /* for positioning of clear input button */
 			width: 75%;
 			margin: 0;
 			padding-left: 0;
@@ -218,6 +219,15 @@ article.message p {
 			margin-left: -0.5rem;
 		}
 
+		.row.input-field button[button-action="clear-input-field"][for-input] {
+			/* top: 1.5rem; */
+		}
+		.row.single-side-content .right,
+		.row.single-side-content .left {
+			width: 100%;
+			margin-left: 0;
+			margin-right: 0;
+		}
 
 
 	.row.input-field.style-traditional {
