@@ -1,5 +1,6 @@
 html, body, button, select, option, .font-default {
 	font-family: 'Noto Sans', 'Noto Sans CJK SC', 'Noto Sans CJK', 'Microsoft Yahei UI', 'Microsoft Yahei', 'Helvetica', Arial, 'Lucida Grande', 'SimHei', Sans-Serif;
+	font-weight: lighter; /* for noto sans and yahei */
 }
 
 textarea, input {

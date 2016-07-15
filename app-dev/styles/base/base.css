@@ -3,24 +3,22 @@
     -webkit-text-stroke-width: 0; /* reset iconfont default settings */
 }
 
-/* transitions: start */
-	div, span, button, input, ol, ul, li, p, a, em,
-	[role="button"], [role="button"]:before, [role="button"]:after,
-	div:before, span:before, button:before, input:before, ol:before, ul:before, li:before, p:before,
-	div:after, span:after, button:after, input:after, ol:after, ul:after, li:after, p:after {
+/* ----- transitions: begin ----- */
+	input:before, button:before, [role="button"]:before,
+	input:after,  button:after,  [role="button"]:after,
+	input,        button,        [role="button"],
+	ol:before,    ul:before,     li:before,   dl:before, dt:before, dd:before,
+	ol:after,     ul:after,      li:after,    dl:after,  dt:after,  dd:after,
+	ol,           ul,            li,          dl,        dt,        dd,
+	div:before,   p:before,      span:before,
+	div:after,    p:after,       span:after,
+	div,          p,             span,
+	a, em {
 		transition-property: visibility, opacity, color, background-color, border-color, transform;
 		transition-duration: 0.33s,      0.33s,   0.20s, 0.30s,            0.30s,        0.30s;
 		transition-timing-function: ease-out;
-		/* ie9 doesn't support css transition but does support css -ms-transform */
 	}
-
-
-	/* input[type="submit"],        input[type="button"],        *[role="button"],        button,
-	input[type="submit"]:before, input[type="button"]:before, *[role="button"]:before, button:before,
-	input[type="submit"]:after,  input[type="button"]:after,  *[role="button"]:after,  button:after {
-		transition-property: visibility, opacity, color, background-color, border-color, opacity;
-	} */
-/* transitions: end */
+/* ----- transitions: end ------- */
 
 
 
@@ -29,10 +27,13 @@ html {
 	line-height: 1.5;
 	}
 
-	body, button, input, select, option, [role="button"], [role="button"] label {
+	body, input, select, option {
 		font-size: 16px;
 	}
 
+	button, [role="button"] {
+		font-size: 20px;
+	}
 
 .title,
 dt,
@@ -104,6 +105,7 @@ button {
 	line-height: 1.25;
 	min-height: 22px;
 	cursor: pointer;
+	letter-spacing: 0.05em;
 	}
 
 	*[role="button"] > .label,

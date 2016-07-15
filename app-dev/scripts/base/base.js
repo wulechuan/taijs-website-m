@@ -102,11 +102,15 @@
 
 
 	$('.tab-panel-set').each(function () {
-		var $tabList = $(this).find('.tab-list');
+		var $allPanels = $(this).find('.panel');
+		if ($allPanels.length < 1) return false;
 
+		var $tabList = $(this).find('.tab-list');
 		var $allTabs = $tabList.find('> li');
-		var currentTab = null;
-		var currentItemHint = $tabList.find('> .current-item-hint')[0];
+
+		$allPanels.each(function () {
+			this.elements = { tab: null };
+		});
 
 		$allTabs.each(function (index, tab) {
 			var panelId = tab.getAttribute('aria-controls');
@@ -114,10 +118,15 @@
 
 			if (!panel) throw('Can not find controlled panel for tab [expected panel id="'+panelId+'"].');
 
-			panel.elements = { tab: tab };
+			panel.elements.tab = tab;
 			tab.elements = { panel: panel };
-
 		});
+
+
+
+		var currentTab = null;
+		var currentItemHint = $tabList.find('> .current-item-hint')[0];
+
 
 		if ($allTabs.length > 1) {
 			$allTabs.on('click', function () {
@@ -131,8 +140,13 @@
 			});
 		}
 
-		var tabToShowAtBegining = $('#panel-tab-'+urlParameters.tabLabel).parent()[0] || $allTabs[0];
-		_showPanelAccordingToTab(tabToShowAtBegining);
+		if ($allTabs.length < 1 || $allPanels.length === 1) {
+			_showPanel($allPanels[0]);
+		} else {
+			var tabToShowAtBegining = $('#panel-tab-'+urlParameters.tabLabel).parent()[0] || $allTabs[0];
+			_showPanelAccordingToTab(tabToShowAtBegining);
+		}
+
 
 		function _slideHintToTab(theTab) {
 			if (!currentItemHint) return false;
@@ -168,19 +182,28 @@
 			currentTab = theTab;
 			_slideHintToTab(theTab);
 
-			for (var i = 0; i < $allTabs.length; i++) {
-				var tab = $allTabs[i];
-				_processOnePairOfTabPanel(tab, (theTab && tab === theTab));
+			var thePanel = null;
+			if (theTab && theTab.elements) thePanel = theTab.elements.panel;
+			_showPanel(thePanel);
+		}
+
+		function _showPanel(thePanel) {
+			var currentTab = null;
+			if (thePanel && thePanel.elements) currentTab = thePanel.elements.tab;
+			_slideHintToTab(currentTab);
+
+			for (var i = 0; i < $allPanels.length; i++) {
+				var panel = $allPanels[i];
+				_showHideOnePanel(panel, (thePanel && panel === thePanel));
 			}
 		}
 
-		function _processOnePairOfTabPanel(tab, isToShownMyPanel) {
-			if (!tab) return false;
-
-			var panel = tab.elements.panel;
+		function _showHideOnePanel(panel, isToShow) {
 			if (!panel) return false;
 
-			if (isToShownMyPanel) {
+			var tab = panel.elements.tab;
+
+			if (isToShow) {
 				panel.setAttribute('aria-hidden', false);
 				$(tab).addClass('current');
 				$(panel).addClass('current');

@@ -54,17 +54,17 @@
 				allInputsAreValid = allInputsAreValid && allInputValidations[i];
 			}
 
-			buttonSubmit.disabled = !allInputsAreValid;
+			if (buttonSubmit) buttonSubmit.disabled = !allInputsAreValid;
 		}
 	});
 
 
 	$('[button-action="sign-in"]').on('click', function(event) {
-		console.error('sign-in');
+		console.log('sign-in');
 	});
 
 	$('[button-action="sign-up"]').on('click', function(event) {
-		console.error('sign-up');
+		console.log('sign-up');
 	});
 
 
