@@ -2,9 +2,11 @@ html, body, .app {
 	height: 100%;
 }
 
+
 .em-digits {
 	font-size: 1.66rem;
 }
+
 
 button.nav-home::before,
 button.nav-back::before,
@@ -39,20 +41,42 @@ button.nav-back::before,
 	background-image: url(../../images/taijs-brand/taijs-logo-white-bg-transparent-large-cropped.png);
 
 	border: 1px solid transparent;
+	}
+
+	.taijs-slogan.image {
+		display: block;
+		width: 100px;
+		height: 100px;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+		background-image: url(../../images/taijs-brand/taijs-slogan-white-bg-transparent-large-cropped.png);
+		opacity: 0.6;
+
+		border: 1px solid transparent;
+	}
+
+
+article.message {
+	text-align: center;
+	padding-top: 0.25rem;
+	padding-bottom: 1rem;
 }
 
-.taijs-slogan.image {
-	display: block;
-	width: 100px;
-	height: 100px;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: cover;
-	background-image: url(../../images/taijs-brand/taijs-slogan-white-bg-transparent-large-cropped.png);
-	opacity: 0.6;
-
-	border: 1px solid transparent;
+article.message p {
+	letter-spacing: 0.075em;
 }
+
+
+.info-subject-symbol {
+	margin: 0.25rem auto 1rem auto;
+	}
+
+	.info-subject-symbol .iconfont,
+	.info-subject-symbol {
+		font-size: 3rem;
+	}
+
 
 .row, .f-block, .f-block-body {
 	box-sizing: content-box;
@@ -67,7 +91,6 @@ button.nav-back::before,
 		margin-left: -0.8rem;
 		margin-right: -0.8rem;
 	}
-
 
 
 
@@ -641,7 +664,7 @@ button.nav-back::before,
 
 		.page-body-stamp [role="button"] .iconfont,
 		.page-body-stamp button .iconfont {
-			margin: -0.2rem 0 0 -0.3rem;
+			margin: 0 0 0 -0.3rem;
 		}
 
 .copyright {
@@ -655,7 +678,7 @@ button.nav-back::before,
 
 	#pl-taijs-service-contact .main {
 		text-align: center;
-		/* font-weight: bold; */
+		font-weight: normal;
 		font-size: 0.8rem;
 		line-height: 1.2;
 	}

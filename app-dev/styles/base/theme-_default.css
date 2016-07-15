@@ -3,11 +3,6 @@ html {
 	}
 
 
-.copyright p {
-	color: #999;
-}
-
-
 ::-moz-selection {
 	color: white!important;
 	background-color: black!important;
@@ -43,12 +38,17 @@ html {
 	color: #8ac45f;
 	}
 
+
 .tip {
 	color: #999;
 }
 
+.copyright p {
+	color: #999;
+}
+
 em, .em-digits {
-	color: #f60;
+	color: #ff7200;
 	}
 
 a, a:visited {

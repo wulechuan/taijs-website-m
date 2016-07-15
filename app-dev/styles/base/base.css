@@ -46,6 +46,41 @@ h1 {
 	text-indent: 0;
 }
 
+article {
+	padding: 0.5rem;
+	}
+	article h6,
+	article h5,
+	article h4,
+	article h3,
+	article h2,
+	article h1 {
+		padding: 0.25rem;
+		letter-spacing: 0.05em;
+	}
+	article h1 {
+		font-size: 1.5rem;
+	}
+	article h2 {
+		font-size: 1.2rem;
+	}
+	article h3 {
+		font-size: 1rem;
+	}
+	article h4 {
+		font-size: 0.8rem;
+	}
+	article h5 {
+		font-size: 0.8rem;
+	}
+	article h6 {
+		font-size: 0.8rem;
+	}
+
+.compensate-punctuation {
+	text-indent: 0.6em;
+}
+
 
 hr {
 	font-size: 0;
@@ -213,7 +248,7 @@ dd {
 	min-height: 1em;
 	margin-left: 0.5em;
 	margin-right: 0.5em;
-	vertical-align: middle;
+	vertical-align: top;
 	}
 
 

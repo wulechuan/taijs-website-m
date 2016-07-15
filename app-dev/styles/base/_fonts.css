@@ -23,7 +23,8 @@ textarea, input {
 
 .phone,
 .digits,
-.em-digits {
+.em-digits,
+.currency {
 	font-family: 'Helvetica Neue LT Pro', Helvetica, Arial, 'Microsoft Yahei UI', 'Microsoft Yahei', Sans-Serif;
 	font-weight: lighter;
 }
