@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1468553164'); /* IE9*/
-  src: url('iconfont.eot?t=1468553164#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1468553164') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1468553164') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1468553164#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1468574034'); /* IE9*/
+  src: url('iconfont.eot?t=1468574034#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1468574034') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1468574034') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1468574034#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -16,12 +16,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 .icon-chevron-large-thin-up:before { content: "\e600"; }
+.icon-cross-45deg:before { content: "\e606"; }
 .icon-checked-mark:before { content: "\e605"; }
 .icon-info-tip-circled:before { content: "\e622"; }
 .icon-chevron-large-thin-right:before { content: "\e601"; }
 .icon-chevron-large-thin-down:before { content: "\e602"; }
 .icon-chevron-large-thin-left:before { content: "\e603"; }
-.icon-magnifier:before { content: "\e606"; }
+.icon-magnifier:before { content: "\e609"; }
 .icon-house:before { content: "\e604"; }
 .icon-classic-phone-30deg-or-so:before { content: "\e607"; }
 .icon-check-mark-circled-s60-stroke4:before { content: "\e621"; }
