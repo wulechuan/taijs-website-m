@@ -336,7 +336,7 @@ article.message p {
 .f-block { /* function-block */
 	}
 
-	.f-block > .width-wrap > h2,
+	.f-block > .row > h2,
 	.f-block > h2 {
 		margin-top: 1.5rem;
 		padding: 0.2rem 0.5rem;
@@ -520,6 +520,7 @@ article.message p {
 	left: 0;
 	top: 0;
 	width: 100%;
+	height: 100%;
 	}
 
 .app-popup-layers {
@@ -530,8 +531,9 @@ article.message p {
 
 .page {
 	max-width: 768px;
+	height: 100%;
 	margin: auto;
-	overflow: hidden;
+	overflow: auto;
 	}
 
 	/*
@@ -553,6 +555,7 @@ article.message p {
 	}
 
 	.page-body {
+		min-height: calc(100% - 6rem);
 		position: relative;
 		padding-bottom: 6rem;
 	}
@@ -576,11 +579,19 @@ article.message p {
 	.page.fixed-page-header .page-header ~ .page-body,
 	.page.fixed-page-header.has-page-header .page-body {
 		padding-top: 2.4rem;
+		min-height: calc(100% - 6rem - 2.4rem);
 	}
 
 	.page.fixed-page-footer.has-page-footer .page-body {
+		min-height: calc(100% - 10rem);
 		padding-bottom: 10rem;
 	}
+
+	.page.fixed-page-footer.has-page-footer.fixed-page-header .page-header ~ .page-body,
+	.page.fixed-page-footer.has-page-footer.fixed-page-header.has-page-header .page-body {
+		min-height: calc(100% - 12.4rem);
+	}
+
 
 
 	.page-header {
@@ -689,15 +700,21 @@ article.message p {
 	}
 
 
-#page-sign-up-sign-in .page-header .taijs-logo {
-	margin: 0.5rem auto 0.25rem auto;
-	width: 130px;
-	height: 24px;
-	background-position: left;
-	background-size: auto 100%;
-}
-#page-sign-up-sign-in .page-header .taijs-slogan {
-	margin: 0.25rem auto 0.5rem auto;
-	width: 130px;
-	height: 26px;
-}
+#page-sign-up-sign-in {
+	}
+	#page-sign-up-sign-in .page-body {
+		min-height: calc(100% - 99px - 6rem);
+	}
+
+	#page-sign-up-sign-in .page-header .taijs-logo {
+		margin: 0.5rem auto 0.25rem auto;
+		width: 130px;
+		height: 24px;
+		background-position: left;
+		background-size: auto 100%;
+	}
+	#page-sign-up-sign-in .page-header .taijs-slogan {
+		margin: 0.25rem auto 0.5rem auto;
+		width: 130px;
+		height: 26px;
+	}

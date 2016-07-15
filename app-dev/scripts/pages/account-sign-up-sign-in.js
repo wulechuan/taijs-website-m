@@ -1,4 +1,4 @@
-(function () {
+$(function () {
 	var $pL1 = $('#pl-info-too-many-vcodes-today');
 	var $pL2 = $('#pl-input-image-vcode');
 
@@ -74,4 +74,4 @@
 		$thePL[0].elements.$popupLayersBackPlate.show();
 		$thePL.show();
 	});
-})();
+});

@@ -413,6 +413,7 @@ label.deco-input {
 		background-color: white;
 	}
 
+.page#page-sign-up-succeeded,
 .page#page-sign-up-sign-in {
 	background-color: white;
 }
