@@ -118,6 +118,8 @@ article.message p {
 
 	.row.select-field,
 	.row.input-field {
+		padding-top: 0;
+		padding-bottom: 0;
 		}
 		.row.select-field select,
 		.row.input-field  input {
@@ -195,8 +197,7 @@ article.message p {
 		}
 		.row.input-field .left {
 			width: 75%;
-			margin-left: 0;
-			margin-right: 0;
+			margin: 0;
 			padding-left: 0;
 			padding-right: 0;
 		}
@@ -242,13 +243,13 @@ article.message p {
 		.row.input-field.style-traditional .input-tip {
 			left: 0.5rem;
 		}
-		.row.input-field.style-traditional .left {
-			padding-top: 0;
-			padding-bottom: 0;
+	.row.input-field.input-verification-code {
+		}
+		.row.input-field.input-verification-code .left {
 			padding-right: 0.5rem;
 			width: calc(100% - 6rem);
 		}
-		.row.input-field.style-traditional .right {
+		.row.input-field.input-verification-code .right {
 			padding: 0;
 			margin: 0.725rem 0;
 			width: 6rem;
@@ -260,16 +261,16 @@ article.message p {
 			box-sizing: border-box;
 			position: relative;
 		}
-		.row.input-field.style-traditional.input-verification-code .right .step {
+		.row.input-field.input-verification-code .right .step {
 			margin: 0 0.5rem;
 			height: 100%;
 			display: none;
 			text-align: center;
 		}
-		.row.input-field.style-traditional.input-verification-code .right .step.current {
+		.row.input-field.input-verification-code .right .step.current {
 			display: block;
 		}
-		.row.input-field.style-traditional.input-verification-code .right .step button {
+		.row.input-field.input-verification-code .right .step button {
 			padding: 0;
 			margin: 0;
 			display: block;
@@ -329,11 +330,12 @@ article.message p {
 	.row.article {
 		margin-top: 0.5rem;
 		margin-bottom: 0.5rem;
-		font-size: 14px;
 	}
 
 
 .f-block { /* function-block */
+	font-size: 0.7rem;
+	font-weight: normal;
 	}
 
 	.f-block > .row > h2,
@@ -365,18 +367,18 @@ article.message p {
 
 		padding-top: 0.5rem;
 		padding-bottom: 0.5rem;
-
-		font-size: 14px;
 	}
 
 	.f-block-body .row:first-child {
-		margin-top: 0;
-		border-top-width: 0;
+		/* margin-top: 0;
+		border-top-width: 0; */
+		border-top-color: transparent;
 	}
 
 	.f-block-body .row:last-child {
-		margin-bottom: 0;
-		border-bottom-width: 0;
+		/* margin-bottom: 0;
+		border-bottom-width: 0; */
+		border-bottom-color: transparent;
 	}
 
 	.f-block-body .row.has-lead-icon {
@@ -448,10 +450,14 @@ article.message p {
 		font-size: 16px;
 		min-height: 2.2rem;
 		}
+		.f-block-body .row.select-field,
+		.f-block-body .row.input-field {
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+
 		.f-block-body .row.select-field .left,
 		.f-block-body .row.input-field  .left {
-			margin-top: -0.5rem;
-			margin-bottom: -0.5rem;
 			padding-top: 0;
 			padding-bottom: 0;
 			height: 3.2rem;
@@ -470,6 +476,9 @@ article.message p {
 			height: 1.2rem;
 			line-height: 1.2rem;
 			margin-top: 1rem;
+		}
+		.f-block-body .row.input-field.input-verification-code .right {
+			margin: 0.725rem 0;
 		}
 
 
@@ -530,6 +539,7 @@ article.message p {
 
 
 .page {
+	box-sizing: border-box;
 	max-width: 768px;
 	height: 100%;
 	margin: auto;
@@ -538,8 +548,11 @@ article.message p {
 
 	/*
 	  .page::before is for preventing first f-block margin-top
-	  from effecting app-fg-layer layout, while .page-body is omitted.
+	  from effecting .page layout, while .page-body is omitted.
+	  .page-body::before is for preventing first f-block margin-top
+	  from effecting .page-body layout.
 	*/
+	.page-body::before,
 	.page::before {
 		content: '';
 		display: block;
@@ -555,7 +568,8 @@ article.message p {
 	}
 
 	.page-body {
-		min-height: calc(100% - 6rem);
+		box-sizing: border-box;
+		min-height: 100%;
 		position: relative;
 		padding-bottom: 6rem;
 	}
@@ -576,20 +590,16 @@ article.message p {
 		z-index: 46;
 	}
 
-	.page.fixed-page-header .page-header ~ .page-body,
-	.page.fixed-page-header.has-page-header .page-body {
+	.page.fixed-page-header,
+	.page.fixed-page-header.has-page-header {
 		padding-top: 2.4rem;
-		min-height: calc(100% - 6rem - 2.4rem);
+		/* min-height: calc(100% - 6rem - 2.4rem); */
 	}
 
-	.page.fixed-page-footer.has-page-footer .page-body {
-		min-height: calc(100% - 10rem);
-		padding-bottom: 10rem;
-	}
-
-	.page.fixed-page-footer.has-page-footer.fixed-page-header .page-header ~ .page-body,
-	.page.fixed-page-footer.has-page-footer.fixed-page-header.has-page-header .page-body {
-		min-height: calc(100% - 12.4rem);
+	.page.fixed-page-footer,
+	.page.fixed-page-footer.has-page-footer {
+		padding-bottom: 3.3rem;
+		/* min-height: calc(100% - 10rem); */
 	}
 
 
@@ -652,7 +662,7 @@ article.message p {
 	.page-body-stamp {
 		width: 100%;
 		position: absolute;
-		bottom: 0.5rem;
+		bottom: 0.6rem;
 		text-align: center;
 		}
 
@@ -669,6 +679,7 @@ article.message p {
 			font-size: 0.8rem;
 			line-height: 1.2rem;
 			padding: 0.2rem 0.8rem;
+			margin: 0.5rem auto;
 			background-color: transparent;
 			border-radius: 1000px;
 		}

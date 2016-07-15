@@ -1,5 +1,8 @@
-html, body, button, select, option, .font-default {
+.font-default, html, body, button, select, option {
 	font-family: 'Noto Sans', 'Noto Sans CJK SC', 'Noto Sans CJK', 'Microsoft Yahei UI', 'Microsoft Yahei', 'Helvetica', Arial, 'Lucida Grande', 'SimHei', Sans-Serif;
+}
+
+.f-block-body, html, body, button, select, option {
 	font-weight: lighter; /* for noto sans and yahei */
 }
 

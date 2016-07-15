@@ -348,6 +348,7 @@ label.deco-input {
 
 
 .f-block { /* function-block */
+	color: #666;
 	}
 	.f-block-body {
 		background-color: white;
@@ -361,8 +362,7 @@ label.deco-input {
 		border-color: #f1f1f1;
 	}
 	.f-block-body,
-	a .row,
-	  .row {
+	.f-block-body a .row {
 		color: #333;
 	}
 	a .row::after,

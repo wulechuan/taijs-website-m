@@ -101,6 +101,62 @@
 	});
 
 
+
+	$('form').each(function () {
+		var $form = $(this);
+		var $allRequiredInputs = $form.find('input[required], textarea[required], [contentEditable="true"][required]');
+		var buttonSubmit = $form.find('[button-action="submit"]')[0];
+
+		var allInputsAreValid = false;
+
+		var allInputValidations = [];
+		for (var i = 0; i < $allRequiredInputs.length; i++) {
+			allInputValidations[i] = false;
+		}
+
+
+		_validateAllRequiredInputs();
+
+
+		$allRequiredInputs.each(function (index) {
+			var tnlc = this.tagName.toLowerCase();
+
+			if (tnlc === 'input') {
+				var type = this.type.toLowerCase();
+				if (type === 'checkbox') {
+					$(this).on('change', function () {
+						allInputValidations[index] = this.checked;
+						_validateAllRequiredInputs();
+					});
+				} else {
+					$(this).on('input', function () {
+						allInputValidations[index] = !!this.value.replace(/(^\s+|\s+$)/, '');
+						_validateAllRequiredInputs();
+					});
+				}
+			} else if (tnlc === 'textarea') {
+				$(this).on('input', function () {
+					allInputValidations[index] = !!this.value.replace(/(^\s+|\s+$)/, '');
+					_validateAllRequiredInputs();
+				});
+			} else {
+				// not implemented yet
+			}
+		});
+
+
+		function _validateAllRequiredInputs() {
+			allInputsAreValid = true;
+			for (var i = 0; i < allInputValidations.length; i++) {
+				allInputsAreValid = allInputsAreValid && allInputValidations[i];
+			}
+
+			if (buttonSubmit) buttonSubmit.disabled = !allInputsAreValid;
+		}
+	});
+
+
+
 	$('.tab-panel-set').each(function () {
 		var $allPanels = $(this).find('.panel');
 		if ($allPanels.length < 1) return false;
