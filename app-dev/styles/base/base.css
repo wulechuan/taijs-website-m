@@ -2010,7 +2010,6 @@ ol.f-list, ul.f-list { /* function list */
 		}
 
 	.popup-layer.polite-message {
-		display: block;
 		max-width: none;
 		width: 100%;
 		height: 0!important;
