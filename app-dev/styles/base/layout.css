@@ -218,6 +218,22 @@ article.message {
 			text-align: right;
 			margin-left: -2rem;
 		}
+		.row.leftside-wider .left {
+			width: 80%;
+			margin-right: -0.5rem;
+		}
+		.row.leftside-wider .right {
+			width: 20%;
+			margin-left: -0.5rem;
+		}
+		.row.rightside-wider .left {
+			width: 20%;
+			margin-right: -0.5rem;
+		}
+		.row.rightside-wider .right {
+			width: 80%;
+			margin-left: -0.5rem;
+		}
 		.f-block-body .row.select-field .right,
 		.f-block-body .row.input-field  .right,
 		.row.select-field .right,
@@ -316,7 +332,7 @@ article.message {
 			margin: 0;
 			display: block;
 			width: 100%;
-			height: 100%
+			height: 100%;
 		}
 
 	.row.input-field.input-image-vcode {
@@ -452,13 +468,12 @@ article.message {
 		padding-right: 1.6rem;
 		}
 
-		.f-block-body a .row:after,
+		.f-block-body a .row::after,
 		.f-block-body   .row.select-field::after,
 		.f-block-body   .row.call-to-action::after {
 			font-family: 'iconfont'!important;
 			display: block;
 			position: absolute;
-			top: 0;
 			right: 0.6rem;
 			content: '\e601';
 			text-align: right;
@@ -487,7 +502,8 @@ article.message {
 		.f-block-body   .row.call-to-action::after {
 			height: 1.2rem;
 			line-height: 1.2rem;
-			margin-top: 0.62rem;
+			/* margin-top: 0.62rem; */
+			top: 0.62rem;
 		}
 
 	.f-block-body .row.select-field,
@@ -519,7 +535,8 @@ article.message {
 		.f-block-body   .row.tall.call-to-action::after {
 			height: 1.2rem;
 			line-height: 1.2rem;
-			margin-top: 1rem;
+			/* margin-top: 1rem; */
+			top: 1rem;
 		}
 		.f-block-body .row.input-field.input-verification-code .right {
 			margin: 0.725rem 0;
@@ -764,10 +781,7 @@ article.message {
 		margin: 0.1rem;
 
 		display: block;
-		width: 1.3rem;
-		height: 1.3rem;
-
-		/* transform: scale(1.33, 1.33); */
+		transform: translate(-0.6rem, -0.6rem) scale(0.6333, 0.6333);
 	}
 	.slot.slot-bank-card .caption-of-bank {
 		position: absolute;

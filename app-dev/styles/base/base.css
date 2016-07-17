@@ -23,12 +23,12 @@
 
 
 
-html {
+html, body {
 	font-size: 20px;
 	line-height: 1.5;
 	}
 
-	body, input, select, option {
+	input, select, option {
 		font-size: 16px;
 	}
 
@@ -493,71 +493,108 @@ dd {
 
 		*[class*="icon-bank-cn"] {
 			position: relative;
-		}
-		*[class*="bank-cn-"] .icon.icon-of-bank:before,
-		*[class*="icon-bank-cn"]:before {
-			content: '';
-			position: absolute;
-			left: -2.5px;
-			top: -2.5px;
-			display: block;
-			width: 25px;
-			height: 25px;
-			background-repeat: no-repeat;
-			background-image: url(../../images/_common/sprite-logos-china-banks-20x20.png);
-		}
-		.tabular .cell [class*="icon-bank-cn"] {
-			margin-top: 0;
-			margin-right: 0.5em;
-		}
+			}
+			*[class*="bank-cn-"] .icon.icon-of-bank::before,
+			*[class*="icon-bank-cn"]::before {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 0;
+				display: block;
+				background-repeat: no-repeat;
+				}
+				*[class*="bank-cn-"] .icon.icon-of-bank::before,
+				*[class*="icon-bank-cn"]::before {
+					width: 25px;
+					height: 25px;
+					background-image: url(../../images/_common/sprite-logos-china-banks-20x20.png);
+				}
+				*[class*="bank-cn-"] .icon.icon-of-bank.icon-size-medium::before,
+				*[class*="icon-bank-cn"].icon-size-medium::before {
+					width: 50px;
+					height: 50px;
+					background-image: url(../../images/_common/sprite-logos-china-banks-40x40.png);
+				}
 
-		.bank-cn-icbc           .icon.icon-of-bank::before, .icon-bank-cn-icbc::before           { background-position: 0px   -25px; } /* 中国工商银行 */
-		.bank-cn-cmb            .icon.icon-of-bank::before, .icon-bank-cn-cmb::before            { background-position: 0px   -50px; } /* 招商银行 */
-		.bank-cn-ccb            .icon.icon-of-bank::before, .icon-bank-cn-ccb::before            { background-position: 0px   -75px; } /* 中国建设银行 */
-		.bank-cn-abc            .icon.icon-of-bank::before, .icon-bank-cn-abc::before            { background-position: 0px  -100px; } /* 中国农业银行 */
-		.bank-cn-boc            .icon.icon-of-bank::before, .icon-bank-cn-boc::before            { background-position: 0px  -125px; } /* 中国银行 */
-		.bank-cn-bankcomm       .icon.icon-of-bank::before, .icon-bank-cn-bankcomm::before       { background-position: 0px  -150px; } /* 中国交通银行 */
-		.bank-cn-psbc           .icon.icon-of-bank::before, .icon-bank-cn-psbc::before           { background-position: 0px  -175px; } /* 中国邮政储蓄银行 */
-		.bank-cn-citic          .icon.icon-of-bank::before, .icon-bank-cn-citic::before          { background-position: 0px  -200px; } /* 中信银行 */
-		.bank-cn-cmbc           .icon.icon-of-bank::before, .icon-bank-cn-cmbc::before           { background-position: 0px  -225px; } /* 中国民生银行 */
-		.bank-cn-cib            .icon.icon-of-bank::before, .icon-bank-cn-cib::before            { background-position: 0px  -250px; } /* 兴业银行 */
-		.bank-cn-hxb            .icon.icon-of-bank::before, .icon-bank-cn-hxb::before            { background-position: 0px  -275px; } /* 华夏银行 */
-		.bank-cn-ceb            .icon.icon-of-bank::before, .icon-bank-cn-ceb::before            { background-position: 0px  -300px; } /* 中国光大银行 */
-		.bank-cn-spdb           .icon.icon-of-bank::before, .icon-bank-cn-spdb::before           { background-position: 0px  -325px; } /* 上海浦东发展银行 */
-		.bank-cn-bankofbeijing  .icon.icon-of-bank::before, .icon-bank-cn-bankofbeijing::before  { background-position: 0px  -350px; } /* 北京银行 */
-		.bank-cn-bankofshanghai .icon.icon-of-bank::before, .icon-bank-cn-bankofshanghai::before { background-position: 0px  -375px; } /* 上海银行 */
+			.bank-cn-icbc           .caption-of-bank::before, .caption-bank-cn-icbc::before           { content: "中国工商银行"; }
+			.bank-cn-cmb            .caption-of-bank::before, .caption-bank-cn-cmb::before            { content: "招商银行"; }
+			.bank-cn-ccb            .caption-of-bank::before, .caption-bank-cn-ccb::before            { content: "中国建设银行"; }
+			.bank-cn-abc            .caption-of-bank::before, .caption-bank-cn-abc::before            { content: "中国农业银行"; }
+			.bank-cn-boc            .caption-of-bank::before, .caption-bank-cn-boc::before            { content: "中国银行"; }
+			.bank-cn-bankcomm       .caption-of-bank::before, .caption-bank-cn-bankcomm::before       { content: "中国交通银行"; }
+			.bank-cn-psbc           .caption-of-bank::before, .caption-bank-cn-psbc::before           { content: "中国邮政储蓄银行"; }
+			.bank-cn-citic          .caption-of-bank::before, .caption-bank-cn-citic::before          { content: "中信银行"; }
+			.bank-cn-cmbc           .caption-of-bank::before, .caption-bank-cn-cmbc::before           { content: "中国民生银行"; }
+			.bank-cn-cib            .caption-of-bank::before, .caption-bank-cn-cib::before            { content: "兴业银行"; }
+			.bank-cn-hxb            .caption-of-bank::before, .caption-bank-cn-hxb::before            { content: "华夏银行"; }
+			.bank-cn-ceb            .caption-of-bank::before, .caption-bank-cn-ceb::before            { content: "中国光大银行"; }
+			.bank-cn-spdb           .caption-of-bank::before, .caption-bank-cn-spdb::before           { content: "上海浦东发展银行"; }
+			.bank-cn-bankofbeijing  .caption-of-bank::before, .caption-bank-cn-bankofbeijing::before  { content: "北京银行"; }
+			.bank-cn-bankofshanghai .caption-of-bank::before, .caption-bank-cn-bankofshanghai::before { content: "上海银行"; }
 
-		.icon-hover-trigger:hover .icon-bank-cn-icbc::before           { background-position: -25px   -25px; } /* 中国工商银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-cmb::before            { background-position: -25px   -50px; } /* 招商银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-ccb::before            { background-position: -25px   -75px; } /* 中国建设银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-abc::before            { background-position: -25px  -100px; } /* 中国农业银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-boc::before            { background-position: -25px  -125px; } /* 中国银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-bankcomm::before       { background-position: -25px  -150px; } /* 中国交通银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-psbc::before           { background-position: -25px  -175px; } /* 中国邮政储蓄银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-citic::before          { background-position: -25px  -200px; } /* 中信银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-cmbc::before           { background-position: -25px  -225px; } /* 中国民生银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-cib::before            { background-position: -25px  -250px; } /* 兴业银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-hxb::before            { background-position: -25px  -275px; } /* 华夏银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-ceb::before            { background-position: -25px  -300px; } /* 中国光大银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-spdb::before           { background-position: -25px  -325px; } /* 上海浦东发展银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-bankofbeijing::before  { background-position: -25px  -350px; } /* 北京银行 */
-		.icon-hover-trigger:hover .icon-bank-cn-bankofshanghai::before { background-position: -25px  -375px; } /* 上海银行 */
+			.bank-cn-icbc           .icon.icon-of-bank::before, .icon-bank-cn-icbc::before           { background-position: 0px   -25px; } /* 中国工商银行 */
+			.bank-cn-cmb            .icon.icon-of-bank::before, .icon-bank-cn-cmb::before            { background-position: 0px   -50px; } /* 招商银行 */
+			.bank-cn-ccb            .icon.icon-of-bank::before, .icon-bank-cn-ccb::before            { background-position: 0px   -75px; } /* 中国建设银行 */
+			.bank-cn-abc            .icon.icon-of-bank::before, .icon-bank-cn-abc::before            { background-position: 0px  -100px; } /* 中国农业银行 */
+			.bank-cn-boc            .icon.icon-of-bank::before, .icon-bank-cn-boc::before            { background-position: 0px  -125px; } /* 中国银行 */
+			.bank-cn-bankcomm       .icon.icon-of-bank::before, .icon-bank-cn-bankcomm::before       { background-position: 0px  -150px; } /* 中国交通银行 */
+			.bank-cn-psbc           .icon.icon-of-bank::before, .icon-bank-cn-psbc::before           { background-position: 0px  -175px; } /* 中国邮政储蓄银行 */
+			.bank-cn-citic          .icon.icon-of-bank::before, .icon-bank-cn-citic::before          { background-position: 0px  -200px; } /* 中信银行 */
+			.bank-cn-cmbc           .icon.icon-of-bank::before, .icon-bank-cn-cmbc::before           { background-position: 0px  -225px; } /* 中国民生银行 */
+			.bank-cn-cib            .icon.icon-of-bank::before, .icon-bank-cn-cib::before            { background-position: 0px  -250px; } /* 兴业银行 */
+			.bank-cn-hxb            .icon.icon-of-bank::before, .icon-bank-cn-hxb::before            { background-position: 0px  -275px; } /* 华夏银行 */
+			.bank-cn-ceb            .icon.icon-of-bank::before, .icon-bank-cn-ceb::before            { background-position: 0px  -300px; } /* 中国光大银行 */
+			.bank-cn-spdb           .icon.icon-of-bank::before, .icon-bank-cn-spdb::before           { background-position: 0px  -325px; } /* 上海浦东发展银行 */
+			.bank-cn-bankofbeijing  .icon.icon-of-bank::before, .icon-bank-cn-bankofbeijing::before  { background-position: 0px  -350px; } /* 北京银行 */
+			.bank-cn-bankofshanghai .icon.icon-of-bank::before, .icon-bank-cn-bankofshanghai::before { background-position: 0px  -375px; } /* 上海银行 */
 
-		.bank-cn-icbc           .caption-of-bank::before, .caption-bank-cn-icbc::before           { content: "中国工商银行"; }
-		.bank-cn-cmb            .caption-of-bank::before, .caption-bank-cn-cmb::before            { content: "招商银行"; }
-		.bank-cn-ccb            .caption-of-bank::before, .caption-bank-cn-ccb::before            { content: "中国建设银行"; }
-		.bank-cn-abc            .caption-of-bank::before, .caption-bank-cn-abc::before            { content: "中国农业银行"; }
-		.bank-cn-boc            .caption-of-bank::before, .caption-bank-cn-boc::before            { content: "中国银行"; }
-		.bank-cn-bankcomm       .caption-of-bank::before, .caption-bank-cn-bankcomm::before       { content: "中国交通银行"; }
-		.bank-cn-psbc           .caption-of-bank::before, .caption-bank-cn-psbc::before           { content: "中国邮政储蓄银行"; }
-		.bank-cn-citic          .caption-of-bank::before, .caption-bank-cn-citic::before          { content: "中信银行"; }
-		.bank-cn-cmbc           .caption-of-bank::before, .caption-bank-cn-cmbc::before           { content: "中国民生银行"; }
-		.bank-cn-cib            .caption-of-bank::before, .caption-bank-cn-cib::before            { content: "兴业银行"; }
-		.bank-cn-hxb            .caption-of-bank::before, .caption-bank-cn-hxb::before            { content: "华夏银行"; }
-		.bank-cn-ceb            .caption-of-bank::before, .caption-bank-cn-ceb::before            { content: "中国光大银行"; }
-		.bank-cn-spdb           .caption-of-bank::before, .caption-bank-cn-spdb::before           { content: "上海浦东发展银行"; }
-		.bank-cn-bankofbeijing  .caption-of-bank::before, .caption-bank-cn-bankofbeijing::before  { content: "北京银行"; }
-		.bank-cn-bankofshanghai .caption-of-bank::before, .caption-bank-cn-bankofshanghai::before { content: "上海银行"; }
+			.icon-hover-trigger:hover .icon-bank-cn-icbc::before           { background-position: -25px   -25px; } /* 中国工商银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-cmb::before            { background-position: -25px   -50px; } /* 招商银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-ccb::before            { background-position: -25px   -75px; } /* 中国建设银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-abc::before            { background-position: -25px  -100px; } /* 中国农业银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-boc::before            { background-position: -25px  -125px; } /* 中国银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-bankcomm::before       { background-position: -25px  -150px; } /* 中国交通银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-psbc::before           { background-position: -25px  -175px; } /* 中国邮政储蓄银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-citic::before          { background-position: -25px  -200px; } /* 中信银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-cmbc::before           { background-position: -25px  -225px; } /* 中国民生银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-cib::before            { background-position: -25px  -250px; } /* 兴业银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-hxb::before            { background-position: -25px  -275px; } /* 华夏银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-ceb::before            { background-position: -25px  -300px; } /* 中国光大银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-spdb::before           { background-position: -25px  -325px; } /* 上海浦东发展银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-bankofbeijing::before  { background-position: -25px  -350px; } /* 北京银行 */
+			.icon-hover-trigger:hover .icon-bank-cn-bankofshanghai::before { background-position: -25px  -375px; } /* 上海银行 */
+
+			.bank-cn-icbc           .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-icbc::before           { background-position: 0px   -50px; } /* 中国工商银行 */
+			.bank-cn-cmb            .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-cmb::before            { background-position: 0px  -100px; } /* 招商银行 */
+			.bank-cn-ccb            .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-ccb::before            { background-position: 0px  -150px; } /* 中国建设银行 */
+			.bank-cn-abc            .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-abc::before            { background-position: 0px  -200px; } /* 中国农业银行 */
+			.bank-cn-boc            .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-boc::before            { background-position: 0px  -250px; } /* 中国银行 */
+			.bank-cn-bankcomm       .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-bankcomm::before       { background-position: 0px  -300px; } /* 中国交通银行 */
+			.bank-cn-psbc           .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-psbc::before           { background-position: 0px  -350px; } /* 中国邮政储蓄银行 */
+			.bank-cn-citic          .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-citic::before          { background-position: 0px  -400px; } /* 中信银行 */
+			.bank-cn-cmbc           .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-cmbc::before           { background-position: 0px  -450px; } /* 中国民生银行 */
+			.bank-cn-cib            .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-cib::before            { background-position: 0px  -500px; } /* 兴业银行 */
+			.bank-cn-hxb            .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-hxb::before            { background-position: 0px  -550px; } /* 华夏银行 */
+			.bank-cn-ceb            .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-ceb::before            { background-position: 0px  -600px; } /* 中国光大银行 */
+			.bank-cn-spdb           .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-spdb::before           { background-position: 0px  -650px; } /* 上海浦东发展银行 */
+			.bank-cn-bankofbeijing  .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-bankofbeijing::before  { background-position: 0px  -700px; } /* 北京银行 */
+			.bank-cn-bankofshanghai .icon.icon-size-medium.icon-of-bank::before, .icon-size-medium.icon-bank-cn-bankofshanghai::before { background-position: 0px  -750px; } /* 上海银行 */
+
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-icbc::before           { background-position: 50px   -50px; } /* 中国工商银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-cmb::before            { background-position: 50px  -100px; } /* 招商银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-ccb::before            { background-position: 50px  -150px; } /* 中国建设银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-abc::before            { background-position: 50px  -200px; } /* 中国农业银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-boc::before            { background-position: 50px  -250px; } /* 中国银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-bankcomm::before       { background-position: 50px  -300px; } /* 中国交通银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-psbc::before           { background-position: 50px  -350px; } /* 中国邮政储蓄银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-citic::before          { background-position: 50px  -400px; } /* 中信银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-cmbc::before           { background-position: 50px  -450px; } /* 中国民生银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-cib::before            { background-position: 50px  -500px; } /* 兴业银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-hxb::before            { background-position: 50px  -550px; } /* 华夏银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-ceb::before            { background-position: 50px  -600px; } /* 中国光大银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-spdb::before           { background-position: 50px  -650px; } /* 上海浦东发展银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-bankofbeijing::before  { background-position: 50px  -700px; } /* 北京银行 */
+			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-bankofshanghai::before { background-position: 50px  -750px; } /* 上海银行 */
 
 
 .empty-content-hint {
@@ -1779,77 +1816,6 @@ ol.f-list, ul.f-list { /* function list */
 		transition-property: none;
 	}
 
-	.popup-window {
-		animation-duration: 0.35s;
-		animation-name: shows-up-from-bottom;
-		}
-
-		.popup-window.shows-up-from-top {
-			animation-name: shows-up-from-top;
-		}
-		.popup-window.shows-up-from-bottom {
-			animation-name: shows-up-from-bottom;
-		}
-		.popup-window.shows-up-from-leftside {
-			animation-name: shows-up-from-leftside;
-		}
-		.popup-window.shows-up-from-rightside {
-			animation-name: shows-up-from-rightside;
-		}
-
-		.popup-window.shows-up-from-top-left {
-			animation-name: shows-up-from-top-left;
-		}
-		.popup-window.shows-up-from-top-right {
-			animation-name: shows-up-from-top-right;
-		}
-		.popup-window.shows-up-from-bottom-left {
-			animation-name: shows-up-from-bottom-left;
-		}
-		.popup-window.shows-up-from-bottom-right {
-			animation-name: shows-up-from-bottom-right;
-		}
-
-		@keyframes shows-up-from-bottom {
-			0% { opacity: 0; transform: translateY(10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateY(0)     scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-rightside {
-			0% { opacity: 0; transform: translateX(7rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateX(0)    scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-leftside {
-			0% { opacity: 0; transform: translateX(-7rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateX(0)     scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-top {
-			0% { opacity: 0; transform: translateY(-10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateY(0)      scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-top-left {
-			0% { opacity: 0; transform: translate(-7rem, -10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translate(0, 0)          scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-top-right {
-			0% { opacity: 0; transform: translate(7rem, -10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translate(0, 0)         scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-bottom-left {
-			0% { opacity: 0; transform: translate(-7rem, 10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translate(0, 0)         scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-bottom-right {
-			0% { opacity: 0; transform: translate(7rem, 10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translate(0, 0)        scale(1, 1); }
-		}
-
 
 .pagination {
 	text-align: center;
@@ -1980,7 +1946,7 @@ ol.f-list, ul.f-list { /* function list */
 		display: inline-block;
 		vertical-align: middle;
 		position: relative;
-		margin: 20px;
+		margin: 0;
 		padding: 0;
 		border: 0;
 		left: 0;
@@ -1991,6 +1957,8 @@ ol.f-list, ul.f-list { /* function list */
 		min-height: 100px;
 		text-align: left;
 		white-space: normal;
+		animation-duration: 0.35s;
+		animation-name: shows-up-from-bottom;
 		}
 
 		.popup-window.cast-shadow {
@@ -2008,6 +1976,74 @@ ol.f-list, ul.f-list { /* function list */
 		:root .popup-window.has-dialog {
 			max-width: none \0; /* ie9 randomly redraw "inline-block" popup-window, using the max-width as the actual width of the popup-window */
 		}
+
+
+		.popup-window.shows-up-from-top {
+			animation-name: shows-up-from-top;
+		}
+		.popup-window.shows-up-from-bottom {
+			animation-name: shows-up-from-bottom;
+		}
+		.popup-window.shows-up-from-leftside {
+			animation-name: shows-up-from-leftside;
+		}
+		.popup-window.shows-up-from-rightside {
+			animation-name: shows-up-from-rightside;
+		}
+
+		.popup-window.shows-up-from-top-left {
+			animation-name: shows-up-from-top-left;
+		}
+		.popup-window.shows-up-from-top-right {
+			animation-name: shows-up-from-top-right;
+		}
+		.popup-window.shows-up-from-bottom-left {
+			animation-name: shows-up-from-bottom-left;
+		}
+		.popup-window.shows-up-from-bottom-right {
+			animation-name: shows-up-from-bottom-right;
+		}
+
+		@keyframes shows-up-from-bottom {
+			0% { opacity: 0; transform: translateY(10rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translateY(0)     scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-rightside {
+			0% { opacity: 0; transform: translateX(7rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translateX(0)    scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-leftside {
+			0% { opacity: 0; transform: translateX(-7rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translateX(0)     scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-top {
+			0% { opacity: 0; transform: translateY(-10rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translateY(0)      scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-top-left {
+			0% { opacity: 0; transform: translate(-7rem, -10rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translate(0, 0)          scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-top-right {
+			0% { opacity: 0; transform: translate(7rem, -10rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translate(0, 0)         scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-bottom-left {
+			0% { opacity: 0; transform: translate(-7rem, 10rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translate(0, 0)         scale(1, 1); }
+		}
+
+		@keyframes shows-up-from-bottom-right {
+			0% { opacity: 0; transform: translate(7rem, 10rem) scale(0.75, 0.75); }
+			to { opacity: 1; transform: translate(0, 0)        scale(1, 1); }
+		}
+
 
 	.popup-layer.polite-message {
 		max-width: none;
