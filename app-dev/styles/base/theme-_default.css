@@ -109,6 +109,16 @@ input {
 		background-color: #ddd;
 	}
 
+	input[type="reset"].color-white,
+	input[type="button"].color-white,
+	input[type="submit"].color-white,
+	[role="button"].color-white,
+	button.color-white {
+	    color: #4285f4;
+	    border-color: white;
+	    background-color: white;
+	}
+
 	input[type="reset"].bg-transparent,
 	input[type="button"].bg-transparent,
 	input[type="submit"].bg-transparent,
@@ -131,7 +141,9 @@ input {
 	[role="button"].bg-transparent.color-white,
 	button.bg-transparent.color-white {
 	    color: white;
-	    border-color: white;
+	    /* border-color: white; */
+	    border-color: rgba(255, 255, 255, 0.6);
+	    background-color: transparent;
 	}
 
 	input[type="reset"].bg-transparent.color-white:hover,
@@ -336,6 +348,20 @@ label.deco-input {
 	color: white;
 	border-color: #ff291d;
 	background-color: #ff291d;
+	}
+
+.carousel-nav button::before {
+	opacity: 0.2;
+	background-color: black;
+	}
+	.carousel-nav button:hover::before {
+		opacity: 1;
+		background-color: #4285f4;
+	}
+	.carousel-nav button.current:hover::before,
+	.carousel-nav button.current::before {
+		opacity: 1;
+		background-color: #4285f4;
 	}
 
 

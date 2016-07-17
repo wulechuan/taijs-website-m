@@ -40,7 +40,8 @@ button.nav-back::before,
 	background-size: cover;
 	background-image: url(../../images/taijs-brand/taijs-logo-white-bg-transparent-large-cropped.png);
 
-	border: 1px solid transparent;
+	box-sizing: border-box;
+	padding: 1px; /* prevent block from merging margins with neighbours */
 	}
 
 	.taijs-slogan.image {
@@ -53,7 +54,8 @@ button.nav-back::before,
 		background-image: url(../../images/taijs-brand/taijs-slogan-white-bg-transparent-large-cropped.png);
 		opacity: 0.6;
 
-		border: 1px solid transparent;
+		box-sizing: border-box;
+		padding: 1px; /* prevent block from merging margins with neighbours */
 	}
 
 
@@ -212,6 +214,7 @@ article.message {
 		width: calc(50% - 0.5rem + 2rem);
 		}
 		.row .left {
+			text-align: left;
 			margin-right: -2rem;
 		}
 		.row .right {
@@ -404,12 +407,15 @@ article.message {
 			margin-top: 1.5rem;
 		}
 
-
 	.f-block-body {
 		margin-top: 0.25rem;
 		margin-bottom: 0.25rem;
 		border-style: solid;
 		border-width: 1px 0;
+	}
+
+	.f-block.banner .f-block-body {
+		border-width: 0;
 	}
 
 	.f-block.snap-top .f-block-body {
@@ -609,10 +615,15 @@ article.message {
 	/*
 	  .page::before is for preventing first f-block margin-top
 	  from effecting .page layout, while .page-body is omitted.
+
 	  .page-body::before is for preventing first f-block margin-top
 	  from effecting .page-body layout.
+
+	  .page-header::before is for preventing first row margin-top
+	  from effecting .page-header layout
 	*/
 	.page-body::before,
+	.page-header::before,
 	.page::before {
 		content: '';
 		display: block;
@@ -620,6 +631,14 @@ article.message {
 		border-style: solid;
 		border-color: transparent;
 		margin-top: -1px;
+	}
+	.page-header::after {
+		content: '';
+		display: block;
+		border-width: 0 0 1px 0;
+		border-style: solid;
+		border-color: transparent;
+		margin-bottom: -1px;
 	}
 
 	.page-footer {
@@ -663,6 +682,7 @@ article.message {
 
 	.page-header {
 		font-size: 20px;
+		text-align: center;
 		}
 
 		.page-header .row {
@@ -802,6 +822,7 @@ article.message {
 		letter-spacing: 0.15em;
 	}
 
+
 #pl-taijs-service-contact .dialog-header {
 	display: none;
 	}
@@ -817,6 +838,52 @@ article.message {
 	}
 
 
+#page-home {
+	}
+	#page-home .page-body {
+		min-height: calc(100% - 5rem);
+	}
+	#page-home .page-header .row.taijs-brand {
+		padding-top: 0;
+		padding-bottom: 0;
+		margin-top: 1rem;
+		margin-bottom: 0.25rem;
+	}
+	#page-home .page-header .row.sign-up-sign-in-buttons {
+		padding-top: 0;
+		padding-bottom: 0;
+		margin: 0.25rem 1.25rem 0.75rem 1.25rem;
+	}
+	#page-home .page-header .row.sign-up-sign-in-buttons [role="button"],
+	#page-home .page-header .row.sign-up-sign-in-buttons button {
+		padding-top: 0;
+		padding-bottom: 0;
+		margin: 0.25rem 0.25rem;
+		height: 2rem;
+		line-height: calc(2rem - 2px);
+		box-sizing: border-box;
+		width: calc(50% - 0.5rem);
+		font-size: 0.9rem;
+	}
+	#page-home .page-header .taijs-logo,
+	#page-home .page-header .taijs-slogan {
+		display: inline-block;
+		vertical-align: top;
+		width: 5rem;
+		height: 1.4rem;
+		background-position: center;
+	}
+	#page-home .page-header .taijs-logo {
+		margin: 0 0.25rem 0 0.7rem;
+		background-size: auto 100%;
+	}
+	#page-home .page-header .taijs-slogan {
+		margin: 0;
+		background-position: left;
+		background-size: 100% auto;
+	}
+
+
 #page-account-sign-up-sign-in {
 	}
 	#page-account-sign-up-sign-in .page-body {
@@ -824,13 +891,14 @@ article.message {
 	}
 	#page-account-sign-up-sign-in .page-header .taijs-logo {
 		margin: 0.5rem auto 0.25rem auto;
-		width: 130px;
-		height: 24px;
+		width: 6.5rem;
+		height: 1.3rem;
 		background-position: left;
 		background-size: auto 100%;
 	}
 	#page-account-sign-up-sign-in .page-header .taijs-slogan {
 		margin: 0.25rem auto 0.5rem auto;
-		width: 130px;
-		height: 26px;
+		width: 6.5rem;
+		height: 1.35rem;
+		background-size: 100% auto;
 	}
