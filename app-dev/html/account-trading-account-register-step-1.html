@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html><head>
+	<!-- inject:headBeforeTitle:html --><!-- endinject -->
+	<title>开户</title>
+	<!-- inject:headAfterTitle:html --><!-- endinject -->
+</head>
+<body>
+<!-- inject:bodyBegin:html --><!-- endinject -->
+
+<!-- inject:appRootWrapBegin:html --><!-- endinject -->
+
+<!-- inject:appBGLayer0:html --><!-- endinject -->
+
+<!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
+<div data-app-header-title="开户" id="page-account-trading-account-register-step-1"
+	 class="page fixed-page-header has-page-header"
+	><header class="page-header">
+		<div class="row header-bar">
+			<div class="center"><h1>开户</h1></div>
+			<div class="left"  ><a role="button" class="nav-back" href="account-info.html"></a></div>
+			<div class="right" ><a role="button" class="nav-home" href="../index.html"></a></div>
+		</div>		
+	</header>
+
+	<div class="page-body">
+		<form name="resetaccountpassword" action="account-info.html">
+		<div class="f-block snap-top">
+			<ul class="progress-stops layout-hori progress-stops-distribution-compact progress-stops-style-decimal"
+				data-progress-stops-count="3" data-progress-current-stop="1"
+				><li></li
+				><li></li
+				><li></li
+			></ul>
+			<div class="f-block-body">
+				<div class="row input-field single-side-content">
+					<div class="left">
+						<input placeholder="请输入手机号" type="tel" data-text-format="mobile"
+							name="mobile" required
+												  id="account-password-reset-mobile">
+						<label class="input-tip" for="account-password-reset-mobile">手机号</label>
+						<button 		   for-input="account-password-reset-mobile"
+							button-action="clear-input-field" type="button"></button>
+					</div>
+				</div>
+				<div class="row input-field input-verification-code">
+					<div class="left">
+						<input placeholder="请输入验证码" type="number"
+							name="smsvcode" required
+												  id="account-password-reset-sms-verification-code">
+						<label class="input-tip" for="account-password-reset-sms-verification-code">验证码</label>
+						<button 		   for-input="account-password-reset-sms-verification-code"
+							button-action="clear-input-field" type="button"></button>
+					</div>
+					<div class="right">
+						<div class="step current fetch"
+							><button class="simple-look" type="button" 
+								button-action="fetch-sms-vcode">获取验证码</button
+						></div>
+						<div class="step countdown"
+							><span class="value">60</span
+							><span class="unit-time-second">s</span
+						></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="f-block">
+			<div class="row"><h2>密码区分大小写，建议使用6位以上数字、字母组合</h2></div>
+			<div class="f-block-body">
+				<div class="row input-field single-side-content">
+					<div class="left">
+						<input placeholder="请输入新的密码" type="password"
+							name="password" required
+												  id="account-password-reset-new-passward-1">
+						<label class="input-tip" for="account-password-reset-new-passward-1">输入新的密码</label>
+						<button 		   for-input="account-password-reset-new-passward-1"
+							button-action="clear-input-field" type="button"></button>
+					</div>
+				</div>
+				<div class="row input-field single-side-content">
+					<div class="left">
+						<input placeholder="请确认新的密码" type="password"
+							name="password" required
+												  id="account-password-reset-new-passward-2">
+						<label class="input-tip" for="account-password-reset-new-passward-2">确认新的密码</label>
+						<button 		   for-input="account-password-reset-new-passward-2"
+							button-action="clear-input-field" type="button"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row buttons-in-single-line">
+			<button class="rounded-corners size-std-wide" disabled="disabled" 
+				button-action="submit">确定</button>
+		</div>
+		</form>
+
+		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
+	</div>
+
+	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
+	<div role="dialog" class="popup-layer" id="pl-info-too-many-vcodes-today">
+		<div class="popup-window has-dialog shows-up-from-top-right">
+			<div class="dialog">
+				<header class="dialog-header"><h3>提示</h3></header>
+				<div class="dialog-body">
+					<div class="content">
+						<article class="message">
+							<p>该手机号码今天发送的验证码过多</p>
+						</article>
+					</div>
+				</div>
+				<footer class="dialog-footer">
+					<button class="promoted" button-action="confirm">确定</button>
+				</footer>
+			</div>
+		</div>
+	</div>
+	<div role="dialog" class="popup-layer" id="pl-input-image-vcode">
+		<div class="popup-window has-dialog">
+			<div class="dialog">
+				<header class="dialog-header"><h3>请输入图片验证码</h3></header>
+				<div class="dialog-body">
+					<div class="content">
+						<div class="row input-field input-image-vcode">
+							<div class="left"
+								><input placeholder="请输入图片验证码" type="text"
+									name="imagevcode" required
+							></div>
+							<div class="right"><span class="image-vcode" style="background-image: url(something);"></span></div>
+						</div>
+					</div>
+				</div>
+				<footer class="dialog-footer">
+					<span class="col"><button button-action="cancel">取消</button></span>
+					<span class="col"><button class="promoted" button-action="confirm">确定</button></span>
+				</footer>
+			</div>
+		</div>
+	</div>
+	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
+
+	<script src="../scripts/pages/account-account-password-reset.min.js"></script>
+</div>
+<!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
+
+<!-- inject:globalPopupLayers:html --><!-- endinject -->
+
+<!-- inject:appRootWrapEnd:html --><!-- endinject -->
+
+<!-- inject:bodyEnd:html --><!-- endinject -->
+</body></html>

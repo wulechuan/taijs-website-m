@@ -1276,6 +1276,215 @@ label.deco-input {
 	}
 
 
+.progress-stops {
+	position: relative;
+	}
+
+	ul.progress-stops {
+		margin: 1rem 0;
+		line-height: 0;
+	}
+
+	.progress-stops .progress-stop,
+	.progress-stops > li {
+		position: relative;
+		box-sizing: border-box;
+		list-style: none;
+		float: none;
+		vertical-align: top;
+		margin: 0;
+		padding: 0;
+		}
+
+	.progress-stops .progress-stop > label {
+		position: absolute;
+		top: 150%;
+		right: 0;
+		width: 80%;
+		max-width: 80%;
+		margin-right: -40%;
+
+		text-align: center;
+		white-space: normal;
+		overflow: hidden;
+
+		display: block;
+	}
+
+	.progress-stops .progress-stop:first-child > label {
+		width: 8rem;
+		max-width: 8rem;
+	}
+
+	.progress-stops .progress-stop::before,
+	.progress-stops > li::before {
+		display: block;
+		text-align: center;
+		width: 0.8rem;
+		height: 0.8rem;
+		line-height: 0.8rem;
+		padding: 0;
+		border-radius: 1000px;
+		border-style: solid;
+		border-width: 1px;
+		position: absolute;
+		left: -0.4rem;
+		top: -0.4rem;
+		margin: -1px;
+	}
+	.progress-stops .progress-stop::after,
+	.progress-stops > li::after {
+		content: '';
+		display: block;
+		position: absolute;
+		border-style: solid;
+		border-width: 0;
+		padding: 0;
+		margin: 0;
+		}
+		.progress-stops .progress-stop:last-child::after,
+		.progress-stops > li:last-child::after {
+			content: none!important;
+		}
+
+	.progress-stops.layout-hori {
+		text-align: center;
+		}
+		.progress-stops.layout-hori .progress-stop,
+		.progress-stops.layout-hori > li {
+			height: 1rem;
+		}
+		.progress-stops.layout-hori .progress-stop:last-child,
+		.progress-stops.layout-hori > li:last-child {
+			width: 0!important;
+		}
+		.progress-stops.layout-hori .progress-stop::before,
+		.progress-stops.layout-hori > li::before {
+			top: 0rem;
+			margin-top: 1px;
+		}
+			.progress-stops.layout-hori .progress-stop::after,
+			.progress-stops.layout-hori > li::after {
+				content: '';
+				display: block;
+				border-style: solid;
+				padding: 0;
+				width: 0;
+				height: 0;
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+			}
+
+
+
+
+		.progress-stops.layout-hori.progress-stops-distribution-full-width {
+			width: 100%;
+			}
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="2"] .progress-stop,
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="2"] > li {
+				width: 100%;
+			}
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="3"] .progress-stop,
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="3"] > li {
+				width: 50%;
+			}
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="4"] .progress-stop,
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="4"] > li {
+				width: 33.333%;
+			}
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="5"] .progress-stop,
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="5"] > li {
+				width: 25%;
+			}
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="6"] .progress-stop,
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="6"] > li {
+				width: 20%;
+			}
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="7"] .progress-stop,
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="7"] > li {
+				width: 16.666%;
+			}
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="8"] .progress-stop,
+			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="8"] > li {
+				width: 14.2857%;
+			}
+
+
+		.progress-stops.layout-hori.progress-stops-distribution-compact .progress-stop,
+		.progress-stops.layout-hori.progress-stops-distribution-compact > li {
+			width: 1.9rem;
+		}
+		.progress-stops.layout-hori.progress-stops-distribution-compact .progress-stop::before,
+		.progress-stops.layout-hori.progress-stops-distribution-compact > li::before {
+			display: inline-block;
+		}
+		.progress-stops.layout-hori.progress-stops-distribution-compact .progress-stop::after,
+		.progress-stops.layout-hori.progress-stops-distribution-compact > li::after {
+			border-top-width: 1px;
+			width: 0.6rem;
+		}
+
+
+	.progress-stops.progress-stops-style-decimal {
+		counter-reset: progressIndex;
+		}
+		.progress-stops.progress-stops-style-decimal .progress-stop,
+		.progress-stops.progress-stops-style-decimal > li {
+			counter-increment: progressIndex;
+		}
+		.progress-stops.progress-stops-style-decimal .progress-stop::before,
+		.progress-stops.progress-stops-style-decimal > li::before {
+			content: counter(progressIndex);
+		}
+
+	/* solo label mode: begin */
+		/*.progress-stops .progress-stop > label {
+			width: 8rem;
+			margin-right: -4rem;
+			display: none;
+		}*/
+	/* solo label mode: end */
+
+	.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(8) > label,
+	.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(7) > label,
+	.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(6) > label,
+	.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(5) > label,
+	.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(4) > label,
+	.progress-stops[data-progress-current-stop="3"] .progress-stop:nth-child(3) > label,
+	.progress-stops[data-progress-current-stop="2"] .progress-stop:nth-child(2) > label,
+	.progress-stops[data-progress-current-stop="1"] .progress-stop:first-child > label {
+		display: block;
+	}
+
+	.progress-stops .progress-stop:first-child > label {
+		left: -0.6rem;
+		text-align: left;
+
+		right: auto;
+		margin-right: 0;
+	}
+
+	.progress-stops .progress-stop:last-child > label {
+		right: -0.6rem;
+		text-align: right;
+		margin-right: 0;
+	}
+
+	.progress-stops .progress-stop:first-child {
+		width: 0;
+	}
+
+	.progress-stops .progress-stop:first-child::before {
+		content: none!important;
+	}
+
+
+
 .tiles {}
 
 	.tiles > a {
