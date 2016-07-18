@@ -12,55 +12,55 @@
 <!-- inject:appBGLayer0:html --><!-- endinject -->
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
-<div data-app-header-title="开户" id="page-account-trading-account-register-step-1"
+<div data-app-header-title="开户" id="page-account-trading-account-register-step-3"
 	 class="page fixed-page-header has-page-header"
 	><header class="page-header">
 		<div class="row header-bar">
 			<div class="center"><h1>开户</h1></div>
-			<div class="left"  ><a role="button" class="nav-back" href="account-info.html"></a></div>
+			<div class="left"  ><a role="button" class="nav-back" href="account-trading-account-register-step-2.html"></a></div>
 			<div class="right" ><a role="button" class="nav-home" href="../index.html"></a></div>
 		</div>		
 	</header>
 
 	<div class="page-body">
-		<form name="tradingaccountregisterstep1" action="account-trading-account-register-step-2.html">
+		<form name="settradingpassword" action="account-info.html">
 		<div class="f-block snap-top">
 			<ul class="progress-stops layout-hori progress-stops-distribution-compact progress-stops-style-decimal"
-				data-progress-stops-count="3" data-progress-current-stop="1"
+				data-progress-stops-count="3" data-progress-current-stop="3"
 				><li></li
 				><li></li
 				><li></li
 			></ul>
+			<div class="row">
+				<h2>请输入6位数字密码</h2>
+			</div>
 			<div class="f-block-body">
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="请输入真实姓名" type="text"
+						<input placeholder="请设置交易密码" type="password"
 							name="password" required
-												  id="account-trading-account-register-user-real-name">
-						<label class="input-tip" for="account-trading-account-register-user-real-name">姓名</label>
-						<button 		   for-input="account-trading-account-register-user-real-name"
+												  id="account-trading-register-passward-1">
+						<label class="input-tip" for="account-trading-register-passward-1">请设置交易密码</label>
+						<button 		   for-input="account-trading-register-passward-1"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="请输入18位身份证号" type="text" data-text-format="chinese-id-card"
+						<input placeholder="请确认交易密码" type="password"
 							name="password" required
-												  id="account-trading-account-register-user-id-card">
-						<label class="input-tip" for="account-trading-account-register-user-id-card">身份证号</label>
-						<button 		   for-input="account-trading-account-register-user-id-card"
+												  id="account-trading-register-passward-2">
+						<label class="input-tip" for="account-trading-register-passward-2">请确认交易密码</label>
+						<button 		   for-input="account-trading-register-passward-2"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
-			</div>
-			<div class="row">
-				<p class="tip">提示：根据国家相关规定，投资理财交易必须实名</p>
 			</div>
 		</div>
 
 		<div class="row buttons-in-single-line">
 			<button class="rounded-corners size-std-wide" disabled="disabled" 
-				button-action="submit">下一步</button>
+				button-action="submit">完成</button>
 		</div>
 		</form>
 

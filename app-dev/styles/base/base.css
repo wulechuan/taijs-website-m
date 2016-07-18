@@ -1328,7 +1328,7 @@ label.deco-input {
 		border-style: solid;
 		border-width: 1px;
 		position: absolute;
-		left: -0.4rem;
+		right: -0.4rem;
 		top: -0.4rem;
 		margin: -1px;
 	}
@@ -1342,8 +1342,8 @@ label.deco-input {
 		padding: 0;
 		margin: 0;
 		}
-		.progress-stops .progress-stop:last-child::after,
-		.progress-stops > li:last-child::after {
+		.progress-stops .progress-stop:first-child::after,
+		.progress-stops > li:first-child::after {
 			content: none!important;
 		}
 
@@ -1354,8 +1354,8 @@ label.deco-input {
 		.progress-stops.layout-hori > li {
 			height: 1rem;
 		}
-		.progress-stops.layout-hori .progress-stop:last-child,
-		.progress-stops.layout-hori > li:last-child {
+		.progress-stops.layout-hori .progress-stop:first-child,
+		.progress-stops.layout-hori > li:first-child {
 			width: 0!important;
 		}
 		.progress-stops.layout-hori .progress-stop::before,
@@ -1378,8 +1378,6 @@ label.deco-input {
 				bottom: 0;
 				margin: auto;
 			}
-
-
 
 
 		.progress-stops.layout-hori.progress-stops-distribution-full-width {
@@ -2290,7 +2288,6 @@ ol.f-list, ul.f-list { /* function list */
 		}
 
 
-
 .tab-panel-set {
 	}
 
@@ -2345,49 +2342,51 @@ ol.f-list, ul.f-list { /* function list */
 		transform: translateX(0);
 	}
 
+
 .carousel {
 	position: relative;
 	width: 100%;
 	min-height: 5rem;
-}
+	}
 
-.carousel-nav {
-	display: block;
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: auto;
-	bottom: 0;
-	text-align: center;
-	height: 0;
-	overflow: visible;
-	}
-	.carousel-nav button {
-		position: relative;
-		width: 1rem;
-		height: 1rem;
-		border-width: 0;
-		background-color: transparent;
-		padding: 0;
-		margin: 0.25rem;
-		top: -1.5rem;
-	}
-	.carousel-nav button:hover {
-		background-color: transparent;
-	}
-	.carousel-nav button::before {
-		content: '';
+	.carousel-nav {
+		display: block;
 		position: absolute;
 		left: 0;
 		right: 0;
-		top: 0;
+		top: auto;
 		bottom: 0;
-		width: 0.5rem;
-		height: 0.5rem;
-		margin: auto;
-		background-color: black;
-		border-radius: 1000px;
-	}
+		text-align: center;
+		height: 0;
+		overflow: visible;
+		}
+		.carousel-nav button {
+			position: relative;
+			width: 1rem;
+			height: 1rem;
+			border-width: 0;
+			background-color: transparent;
+			padding: 0;
+			margin: 0.25rem;
+			top: -1.5rem;
+		}
+		.carousel-nav button:hover {
+			background-color: transparent;
+		}
+		.carousel-nav button::before {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			width: 0.5rem;
+			height: 0.5rem;
+			margin: auto;
+			background-color: black;
+			border-radius: 1000px;
+		}
+
 
 @keyframes reveal-content {
 	0%   { opacity: 0; }
