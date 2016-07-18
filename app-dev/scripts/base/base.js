@@ -225,7 +225,7 @@
 		}
 
 		function _formatMobile(text) {
-			var divider = '-';
+			var divider = ' ';
 			return text
 				.replace(/[^\-\+0-9]/, '')
 				.replace(/^\-/, '')
@@ -236,7 +236,7 @@
 			;
 		}
 		function _formatBankCard(text) {
-			var divider = '-';
+			var divider = ' ';
 			return text
 				.replace(/[\D]/, '')
 				.replace(/(\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
@@ -248,7 +248,7 @@
 			;
 		}
 		function _formatChineseIdCard(text) {
-			var divider = '-';
+			var divider = ' ';
 			return text
 				.replace(/[^xX\s0-9]/, '')
 				.replace(/(\d{6})[\s\-]*(.*)/, '$1'+divider+'$2')

@@ -1058,7 +1058,8 @@ label.deco-input {
 		width: 1em!important;
 		height: 1em!important;
 		margin: 0;
-		margin-right: 0.5em;
+		margin-top: 0.15rem;
+		margin-right: 0.3rem;
 
 		border-style: none;
 	}
@@ -1070,10 +1071,10 @@ label.deco-input {
 		width: 1em;
 		height: 1em;
 		padding: 0;
+		margin-top: 0.2rem;
 	}
 	input[type="checkbox"] + label.deco-input[for] {
 		margin-left: -1.5em;
-		margin-top: 0;
 		}
 		input[type="checkbox"] + label.deco-input[for]:before {
 			content: '';
