@@ -1286,12 +1286,14 @@ label.deco-input {
 
 	.tiles > a > .tile,
 	.tiles > .tile {
+		list-style: none;
 		box-sizing: border-box;
 		display: inline-block;
 		vertical-align: top;
 		position: relative;
 		margin: 0;
 		border: 0;
+		text-align: center;
 	}
 
 	.tiles.columns-count-3 > a > .tile,

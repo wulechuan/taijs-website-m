@@ -422,6 +422,18 @@ label.deco-input {
 	}
 
 
+.f-block .tiles > a > .tile,
+.f-block .tiles > .tile {
+	color: #666;
+	border-color: #e5e5e5;
+}
+
+.f-block .tiles > a > .tile .icon,
+.f-block .tiles > .tile .icon {
+	background-color: #e5e5e5; /* simply a default value */
+}
+
+
 .tab-panel-set {
 	}
 

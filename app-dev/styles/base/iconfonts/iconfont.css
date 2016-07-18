@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1468574034'); /* IE9*/
-  src: url('iconfont.eot?t=1468574034#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1468574034') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1468574034') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1468574034#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1468822013'); /* IE9*/
+  src: url('iconfont.eot?t=1468822013#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1468822013') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1468822013') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1468822013#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -26,3 +26,6 @@
 .icon-house:before { content: "\e604"; }
 .icon-classic-phone-30deg-or-so:before { content: "\e607"; }
 .icon-check-mark-circled-s60-stroke4:before { content: "\e621"; }
+.icon-shield-contains-check-mark:before { content: "\e608"; }
+.icon-cloud-contains-downwards-arrow:before { content: "\e60a"; }
+.icon-taijs-logo-symbol-only:before { content: "\e60b"; }
