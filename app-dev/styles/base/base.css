@@ -2150,6 +2150,8 @@ ol.f-list, ul.f-list { /* function list */
 	top: auto;
 	bottom: 0;
 	text-align: center;
+	height: 0;
+	overflow: visible;
 	}
 	.carousel-nav button {
 		position: relative;
@@ -2159,6 +2161,7 @@ ol.f-list, ul.f-list { /* function list */
 		background-color: transparent;
 		padding: 0;
 		margin: 0.25rem;
+		top: -1.5rem;
 	}
 	.carousel-nav button:hover {
 		background-color: transparent;
