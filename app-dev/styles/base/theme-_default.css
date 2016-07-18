@@ -49,6 +49,7 @@ html {
 
 em, .em-digits {
 	color: #ff7200;
+	color: #f60;
 	}
 
 a, a:visited {
@@ -195,6 +196,15 @@ input {
 		border-color: #dfdfdf;
 		background-color: transparent;
 	}
+
+	*[role="button"].button-in-pseudo-slot:hover,
+	*[role="button"].button-in-pseudo-slot,
+	button.button-in-pseudo-slot:hover,
+	button.button-in-pseudo-slot {
+		color: inherit;
+		background-color: transparent;
+	}
+
 
 	input[type="reset"].simple-look *,
 	input[type="reset"].simple-look,

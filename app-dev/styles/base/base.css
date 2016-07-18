@@ -29,11 +29,11 @@ html, body {
 	}
 
 	.app, input, select, option {
-		font-size: 16px;
+		font-size: 0.8rem;
 	}
 
 	button, [role="button"] {
-		font-size: 20px;
+		font-size: 0.9rem;
 	}
 
 .title,
@@ -252,20 +252,17 @@ button {
 			box-sizing: border-box;
 		}
 
-		*[role="button"].button-in-pseudo-slot.has-icon > .label,
-		button.button-in-pseudo-slot.has-icon > .label {
-			padding-left: 2.5em;
-		}
-
-		*[role="button"].button-in-pseudo-slot.has-icon > .iconfont,
-		*[role="button"].button-in-pseudo-slot.has-icon > .icon,
-		button.button-in-pseudo-slot.has-icon > .iconfont,
-		button.button-in-pseudo-slot.has-icon > .icon {
+		*[role="button"].button-in-pseudo-slot > .iconfont,
+		*[role="button"].button-in-pseudo-slot > .icon,
+		button.button-in-pseudo-slot > .iconfont,
+		button.button-in-pseudo-slot > .icon {
 			vertical-align: middle;
-			width: 2em;
-			height: 2em;
-			margin-left: 0;
-			margin-right: -2em;
+			font-size: 1.5em;
+			width: 1em;
+			height: 1em;
+			line-height: 1;
+			margin-left: -0.5em;
+			margin-right: 0.25em;
 		}
 
 	select:active,

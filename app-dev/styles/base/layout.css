@@ -825,6 +825,7 @@ article.message {
 		display: block;
 		height: 5.5rem;
 		border-radius: 0.2rem;
+		overflow: hidden; /* for rounded corners */
 	}
 	.slot.slot-bank-card .icon.icon-of-bank {
 		position: absolute;
