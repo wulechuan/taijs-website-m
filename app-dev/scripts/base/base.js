@@ -178,7 +178,7 @@
 		} else if (tnlc === 'textarea') {
 			contentIsDynamic = true;
 			propertyToFormat = 'value';
-		} else if (this.getAttribute('contentEditable').toLowerCase() === 'true') {
+		} else if (this.getAttribute('contentEditable') && this.getAttribute('contentEditable').toLowerCase() === 'true') {
 			contentIsDynamic = true;
 		}
 
@@ -220,36 +220,45 @@
 					break;
 			}
 
-			console.log('new text:', text);
+			// console.log('new text:', text);
 			el[propertyToFormat] = text;
 		}
 
 		function _formatMobile(text) {
+			var divider = '-';
 			return text
-				.replace(/(\d{3})\s*(.*)/, '$1 $2')
-				.replace(/(\d{3} \d{4})\s*(.*)/, '$1 $2')
-				.replace(/(\d{3} \d{4} \d{4})\s*(.*)/, '$1 $2')
+				.replace(/[^\-\+0-9]/, '')
+				.replace(/^\-/, '')
+				.replace(/(\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/(\d{3}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/(\d{3}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/[\s\-]+$/, '')
 			;
 		}
 		function _formatBankCard(text) {
+			var divider = '-';
 			return text
-				.replace(/(\d{4})\s*(.*)/, '$1 $2')
-				.replace(/(\d{4} \d{4})\s*(.*)/, '$1 $2')
-				.replace(/(\d{4} \d{4} \d{4})\s*(.*)/, '$1 $2')
-				.replace(/(\d{4} \d{4} \d{4} \d{4})\s*(.*)/, '$1 $2')
-				.replace(/(\d{4} \d{4} \d{4} \d{4} \d{4})\s*(.*)/, '$1 $2')
+				.replace(/[\D]/, '')
+				.replace(/(\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/(\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/[\s\-]+$/, '')
 			;
 		}
 		function _formatChineseIdCard(text) {
+			var divider = '-';
 			return text
-				// .replace(/[^xX\s0-9]/, '')
-				.replace(/(\d{6})\s*(.*)/, '$1 $2')
-				.replace(/(\d{6} \d{4})\s*(.*)/, '$1 $2')
-				.replace(/(\d{6} \d{4} \d{4})\s*(.*)/, '$1 $2')
-				.replace(/(\d{6} \d{4} \d{4} \d{3}.)(.*)/, '$1')
-				.replace(/(\d{6} \d{4} \d{4} \d{3})([xX0-9])?(.*)/, '$1$2')
+				.replace(/[^xX\s0-9]/, '')
+				.replace(/(\d{6})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/(\d{6}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3}.)(.*)/, '$1')
+				.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})([xX0-9])?(.*)/, '$1$2')
+				.replace(/[\s\-]+$/, '')
+				.replace(/([0-9xX\s]{21})(.*)/, '$1')
 			;
-			// 36010219790319331x
 		}
 	});
 
