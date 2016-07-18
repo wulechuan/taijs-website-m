@@ -155,7 +155,101 @@
 
 				controlledInput.value = '';
 				this.style.display = 'none';
+				setTimeout(function () {
+					controlledInput.focus();
+				}, 0);
 			});
+		}
+	});
+
+	$('[data-text-format]').each(function () {
+		var tnlc = this.tagName.toLowerCase();
+		var contentIsDynamic = false;
+		var propertyToFormat = 'textContent';
+		var elementIsValid = true;
+
+		if (tnlc === 'input') {
+			if (this.type === 'checkbox' || this.type === 'radio') {
+				elementIsValid = false;
+			} else {
+				contentIsDynamic = true;
+				propertyToFormat = 'value';
+			}
+		} else if (tnlc === 'textarea') {
+			contentIsDynamic = true;
+			propertyToFormat = 'value';
+		} else if (this.getAttribute('contentEditable').toLowerCase() === 'true') {
+			contentIsDynamic = true;
+		}
+
+		if (!elementIsValid) return;
+
+		_formatText(this);
+
+		if (contentIsDynamic) {
+			$(this).on('input', function () {
+				_formatText(this);
+			});
+		}
+
+
+
+		function _formatText(el, textFormat) {
+			if (!textFormat) {
+				textFormat = el.dataset.textFormat;
+			}
+			// console.log(textFormat);
+
+			var text = el[propertyToFormat];
+			// console.log('old text:', text);
+
+			switch (textFormat) {
+				case 'mobile':
+					text = _formatMobile(text);
+					break;
+
+				case 'bank-card':
+					text = _formatBankCard(text);
+					break;
+
+				case 'chinese-id-card':
+					text = _formatChineseIdCard(text);
+					break;
+
+				default:
+					break;
+			}
+
+			console.log('new text:', text);
+			el[propertyToFormat] = text;
+		}
+
+		function _formatMobile(text) {
+			return text
+				.replace(/(\d{3})\s*(.*)/, '$1 $2')
+				.replace(/(\d{3} \d{4})\s*(.*)/, '$1 $2')
+				.replace(/(\d{3} \d{4} \d{4})\s*(.*)/, '$1 $2')
+			;
+		}
+		function _formatBankCard(text) {
+			return text
+				.replace(/(\d{4})\s*(.*)/, '$1 $2')
+				.replace(/(\d{4} \d{4})\s*(.*)/, '$1 $2')
+				.replace(/(\d{4} \d{4} \d{4})\s*(.*)/, '$1 $2')
+				.replace(/(\d{4} \d{4} \d{4} \d{4})\s*(.*)/, '$1 $2')
+				.replace(/(\d{4} \d{4} \d{4} \d{4} \d{4})\s*(.*)/, '$1 $2')
+			;
+		}
+		function _formatChineseIdCard(text) {
+			return text
+				// .replace(/[^xX\s0-9]/, '')
+				.replace(/(\d{6})\s*(.*)/, '$1 $2')
+				.replace(/(\d{6} \d{4})\s*(.*)/, '$1 $2')
+				.replace(/(\d{6} \d{4} \d{4})\s*(.*)/, '$1 $2')
+				.replace(/(\d{6} \d{4} \d{4} \d{3}.)(.*)/, '$1')
+				.replace(/(\d{6} \d{4} \d{4} \d{3})([xX0-9])?(.*)/, '$1$2')
+			;
+			// 36010219790319331x
 		}
 	});
 
