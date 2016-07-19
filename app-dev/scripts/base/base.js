@@ -164,7 +164,7 @@
 
 	$('[data-text-format]').each(function () {
 		var tnlc = this.tagName.toLowerCase();
-		var contentIsDynamic = false;
+		var contentIsFromUserInput = false;
 		var propertyToFormat = 'textContent';
 		var elementIsValid = true;
 
@@ -172,21 +172,21 @@
 			if (this.type === 'checkbox' || this.type === 'radio') {
 				elementIsValid = false;
 			} else {
-				contentIsDynamic = true;
+				contentIsFromUserInput = true;
 				propertyToFormat = 'value';
 			}
 		} else if (tnlc === 'textarea') {
-			contentIsDynamic = true;
+			contentIsFromUserInput = true;
 			propertyToFormat = 'value';
 		} else if (this.getAttribute('contentEditable') && this.getAttribute('contentEditable').toLowerCase() === 'true') {
-			contentIsDynamic = true;
+			contentIsFromUserInput = true;
 		}
 
 		if (!elementIsValid) return;
 
 		_formatText(this);
 
-		if (contentIsDynamic) {
+		if (contentIsFromUserInput) {
 			$(this).on('input', function () {
 				_formatText(this);
 			});
@@ -205,15 +205,27 @@
 
 			switch (textFormat) {
 				case 'mobile':
-					text = _formatMobile(text);
+					if (contentIsFromUserInput) {
+						text = _formatMobileInput(text);
+					} else {
+						text = _formatMobile(text);
+					}
 					break;
 
 				case 'bank-card':
-					text = _formatBankCard(text);
+					if (contentIsFromUserInput) {
+						text = _formatBankCardInput(text);
+					} else {
+						text = _formatBankCard(text);
+					}
 					break;
 
 				case 'chinese-id-card':
-					text = _formatChineseIdCard(text);
+					if (contentIsFromUserInput) {
+						text = _formatChineseIdCardInput(text);
+					} else {
+						text = _formatChineseIdCard(text);
+					}
 					break;
 
 				default:
@@ -227,37 +239,79 @@
 		function _formatMobile(text) {
 			var divider = ' ';
 			return text
-				.replace(/[^\-\+0-9]/, '')
 				.replace(/^\-/, '')
+				.replace(/[^\-\+\*\d]/g, '')
+				.replace(/(\s|.)\+/g, '$1')
+				.replace(/([\d\*]{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{3}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{3}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/[\s\-]+$/, '')
+				.replace(/([\d\*\s\-]{23})(.*)/, '$1')
+			;
+		}
+		function _formatMobileInput(text) {
+			var divider = ' ';
+			return text
+				.replace(/^\-/, '')
+				.replace(/[^\-\+\d]/g, '')
+				.replace(/(\s|.)\+/g, '$1')
 				.replace(/(\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{3}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{3}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/[\s\-]+$/, '')
+				.replace(/([\d\s\-]{23})(.*)/, '$1')
 			;
 		}
 		function _formatBankCard(text) {
 			var divider = ' ';
 			return text
-				.replace(/[\D]/, '')
+				.replace(/[^\d\*]/g, '')
+				.replace(/([\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/[\s\-]+$/, '')
+				.replace(/([\d\*\s\-]{35})(.*)/, '$1')
+			;
+		}
+		function _formatBankCardInput(text) {
+			var divider = ' ';
+			return text
+				.replace(/[^0-9]/g, '')
 				.replace(/(\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/[\s\-]+$/, '')
+				.replace(/([\d\s\-]{35})(.*)/, '$1')
 			;
 		}
 		function _formatChineseIdCard(text) {
 			var divider = ' ';
 			return text
-				.replace(/[^xX\s0-9]/, '')
+				.replace(/[^xX\s0-9\*]/g, '')
+				.replace(/([\d\*]{6})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{6}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3}.)(.*)/, '$1')
+				.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})([xX0-9\*])?(.*)/, '$1$2')
+				.replace(/[\s\-]+$/, '')
+				.replace(/([\dxX\*\s\-]{21})(.*)/, '$1')
+			;
+		}
+		function _formatChineseIdCardInput(text) {
+			var divider = ' ';
+			return text
+				.replace(/[^xX\s0-9]/g, '')
 				.replace(/(\d{6})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{6}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3}.)(.*)/, '$1')
 				.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})([xX0-9])?(.*)/, '$1$2')
 				.replace(/[\s\-]+$/, '')
-				.replace(/([0-9xX\s]{21})(.*)/, '$1')
+				.replace(/([\dxX\s\-]{21})(.*)/, '$1')
 			;
 		}
 	});
