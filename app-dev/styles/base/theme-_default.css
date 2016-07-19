@@ -430,6 +430,9 @@ label.deco-input {
 		color: inherit;
 		font-weight: normal;
 	}
+	.row.input-field input:focus ~ .input-tip {
+		color: #4285f4;
+	}
 
 
 .f-block .tiles > a > .tile,
