@@ -1,11 +1,11 @@
 html, body, .app {
 	height: 100%;
-}
+	}
 
 
 .em-digits {
 	font-size: 1.66rem;
-}
+	}
 
 
 button.nav-home::before,
@@ -808,7 +808,7 @@ article.message {
 	font-size: 0.6rem;
 	letter-spacing: 0.03em;
 	transform: scale(0.81, 0.81);
-}
+	}
 
 
 .slot {
