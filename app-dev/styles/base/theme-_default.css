@@ -354,11 +354,27 @@ label.deco-input {
 		}
 
 
+.single-char-inputs-set {
+	}
+	.single-char-inputs-set input.single-char-input {
+		color: #959595;
+		border-color: #d9d9d9;
+	}
+	.single-char-inputs-set input.single-char-input:focus {
+		background-color: #cfc;
+	}
+	.single-char-inputs-set input.single-char-input.invalid,
+	.single-char-inputs-set input.single-char-input:invalid {
+		background-color: #fcc;
+	}
+
+
 .corner-marker {
 	color: white;
 	border-color: #ff291d;
 	background-color: #ff291d;
 	}
+
 
 .carousel-nav button::before {
 	opacity: 0.2;

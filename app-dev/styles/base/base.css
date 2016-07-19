@@ -2136,11 +2136,13 @@ ol.f-list, ul.f-list { /* function list */
 		vertical-align: middle;
 	}
 
+	.popup-layer.window-dock-bottom,
 	.popup-layer.polite-message,
 	.popup-layer.has-no-popup-window {
 		white-space: normal;
 	}
 
+	.popup-layer.window-dock-bottom::before,
 	.popup-layer.polite-message::before,
 	.popup-layer.has-no-popup-window::before {
 		content: none;
@@ -2254,8 +2256,23 @@ ol.f-list, ul.f-list { /* function list */
 		}
 
 
-	.popup-layer.polite-message {
+	.popup-window.window-dock-bottom {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-height: 100%;
+		position: absolute;
 		max-width: none;
+		top: auto;
+		bottom: 0;
+		animation-name: none;
+		}
+		.popup-window.window-dock-bottom .dialog {
+			border-radius: 0;
+		}
+
+
+	.popup-layer.polite-message {
 		width: 100%;
 		height: 0!important;
 		overflow: visible!important;

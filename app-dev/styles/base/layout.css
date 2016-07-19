@@ -82,6 +82,34 @@ article.message {
 	}
 
 
+.single-char-inputs-set {
+	text-align: center;
+	}
+	.single-char-inputs-set input.single-char-input {
+		margin: 0;
+		padding: 0;
+		width: 2.5rem;
+		height: 2.5rem;
+		line-height: 2.4rem;
+		font-size: 1.5rem;
+		text-align: center;
+		box-sizing: border-box;
+	}
+	.single-char-inputs-set input.single-char-input ~ input.single-char-input {
+		border-left-width: 0;
+	}
+	.single-char-inputs-set input.single-char-input:first-child {
+		border-radius: 0.2rem 0 0 0.2rem;
+	}
+	.single-char-inputs-set input.single-char-input:last-child {
+		border-radius: 0 0.2rem 0.2rem 0;
+	}
+
+	.single-char-inputs-set.inputs-distribution-full-width input.single-char-input {
+		width: 16.666%;
+	}
+
+
 .row, .f-block, .f-block-body {
 	box-sizing: content-box;
 	padding-left: 0.8rem;
