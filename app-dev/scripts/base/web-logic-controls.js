@@ -93,7 +93,7 @@ window.webLogicControls = {};
 			this.options = {
 				cssClassItemActive: 'current',
 				cssClassItemParentOfActive: 'current-parent'
-			}
+			};
 
 			this.onItemActivate = undefined;
 			this.onItemDeactivate = undefined;
@@ -150,7 +150,7 @@ window.webLogicControls = {};
 
 				return currentSubMenuItem || currentItem;
 			}
-		}
+		};
 
 
 		this.DraggingController = function(rootElement, initOptions) {
@@ -548,10 +548,8 @@ window.webLogicControls = {};
 				throw('Too few input fields for constructing a '+this.constructor.name+'.');
 			}
 
-			this.options = {
-			};
+			this.options = {};
 
-			this.defaultValidator = undefined;
 			this.validatorsForEachInput = [];
 
 			this.onOneInputClear = undefined;
@@ -565,33 +563,35 @@ window.webLogicControls = {};
 			this.config = function (options) {
 				config.call(this, options);
 			};
-
-			var status = {
-				isDisabled: false,
-				inputsAreForPassword: false,
-				inputsTypeIsNumber: false,
-				allInputsValue: [],
-				allInputsFilling: [],
-				allInputsValidation: []
-			};
-
 			this.getValue = function () {
-				var finalValue = status.allInputsValue.join('');
-				return finalValue;
-			}
-
+				return status.aggregatedValue;
+			};
 			this.disable = function() {
 				$allInputs.each(function () {
 					this.disabled = true;
 				});
 				status.isDisabled = true;
-			}
+			};
 			this.enable = function() {
 				$allInputs.each(function () {
 					this.disabled = false;
 				});
 				status.isDisabled = false;
-			}
+			};
+
+
+
+			var inputForAggregation = null;
+			var defaultValidator = undefined;
+			var status = {
+				isDisabled: false,
+				inputsAreForPassword: false,
+				inputsTypeIsNumber: false,
+				aggregatedValue: '',
+				allInputsValue: [],
+				allInputsFilling: [],
+				allInputsValidation: []
+			};
 
 			function getCaretPosition(ctrl) {
 				// http://demo.vishalon.net/getset.htm
@@ -674,17 +674,25 @@ window.webLogicControls = {};
 
 				var k = event.keyCode;
 				var input = event.target;
-				// console.log('keydown event: keyCode: '+k, '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
+				// console.log('inputOnKeyDown: keyCode: '+k, '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
 
 				updateCaretPositionForInput.call(this, input);
 
 				if (k === 8) { // baskspace
 					input.keyBackspaceWasDown = true;
 					input.inputFiledWasEmptyOnBackspaceKeyDown = !input.value;
-				};
+				}
 
 				if (k === 46) { // delete, either chief or numpad
 					input.keyDelWasDown = true;
+				}
+
+				if (input.keyBackspaceWasDown || input.keyDelWasDown) {
+					// these keys will NOT fire oninput event at all
+					input.value = '';
+					delete input.keyBackspaceWasDown;
+					delete input.keyDelWasDown;
+					inputOnValueDecided.call(this, event, false);
 				}
 			}
 
@@ -693,19 +701,8 @@ window.webLogicControls = {};
 				event.stopPropagation();
 
 				var input = event.target;
-				// console.log('input event:', '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
+				// console.log('inputOnInput:', '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
 
-				var inputIndex = parseInt(input.dataset.inputIndex);
-				var inputWasFilled = status.allInputsFilling[inputIndex];
-
-				if (input.keyBackspaceWasDown || input.keyDelWasDown) {
-					input.value = '';
-					delete input.keyBackspaceWasDown;
-					delete input.keyDelWasDown;
-				}
-
-				var inputIsFilled = input.value.length > 0;
-				// console.log(input.value, input.value.length);
 				if (input.value.length > 1) {
 					if (input.caretStatus.isAtLeftEnd) {
 						input.value = input.value.slice(0, 1);
@@ -713,18 +710,17 @@ window.webLogicControls = {};
 						input.value = input.value.slice(-1);
 					}
 				}
-				// console.log('\tinputWasFilled:', inputWasFilled, '\tinputIsFilled:', inputIsFilled);
 
-				status.allInputsValue[inputIndex] = input.value;
-				status.allInputsFilling[inputIndex] = inputIsFilled;
+				var inputIsTemporarilyFilled = input.value.length > 0;
+				var inputIsValid = inputIsTemporarilyFilled && validateOneInput.call(this, input);
 
-				if (inputIsFilled) {
-					input.shouldChangeFocusToNextInput = inputOnFill.call(this, event);
+				if (inputIsTemporarilyFilled && !inputIsValid) {
+					if (status.inputsAreForPassword) {
+						input.value = '';
+					}
 				}
 
-				if (inputWasFilled && !inputIsFilled) {
-					input.shouldChangeFocusToPrevInput = inputOnClear.call(this, event);
-				}
+				inputOnValueDecided.call(this, event, inputIsValid);
 			}
 
 			function inputOnKeyUp(event) {
@@ -733,7 +729,7 @@ window.webLogicControls = {};
 
 				var k = event.keyCode;
 				var input = event.target;
-				// console.log('keyup event: keyCode: '+k, '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
+				// console.log('inputOnKeyUp: keyCode: '+k, '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
 
 				if (k === 8) { // baskspace
 					if (input.inputFiledWasEmptyOnBackspaceKeyDown) {
@@ -756,12 +752,12 @@ window.webLogicControls = {};
 				if (k === 37) { // left arrow key
 					input.shouldChangeFocusToPrevInput = valueIsEmpty || input.caretStatus.isAtLeftEnd;
 					input.shouldChangeFocusToNextInput = false;
-				};
+				}
 
 				if (k === 39) { // right arrow key
 					input.shouldChangeFocusToPrevInput = false;
 					input.shouldChangeFocusToNextInput = valueIsEmpty || input.caretStatus.isAtRightEnd;
-				};
+				}
 
 
 				var focusedInput;
@@ -776,81 +772,113 @@ window.webLogicControls = {};
 				delete input.shouldChangeFocusToPrevInput;
 				delete input.shouldChangeFocusToNextInput;
 				delete input.keyWasDot;
-
-				checkAllInputs.call(this);
 			}
 
-			function inputOnFill(event) {
-				var shouldChangeFocus = false;
-				this.onOneInputFill && this.onOneInputFill(event);
+			function inputOnValueDecided(event, inputIsValid) {
+				inputIsValid = !!inputIsValid;
 
 				var input = event.target;
 				var inputIndex = parseInt(input.dataset.inputIndex);
+
 				var inputWasValid = status.allInputsValidation[inputIndex];
-				var inputIsValid = validateOneInput.call(this, input);
+				var inputWasFilled = status.allInputsFilling[inputIndex];
+				var inputIsFinallyFilled = input.value.length > 0;
+				// console.log('\t inputWasFilled:', inputWasFilled, '\t inputIsFinallyFilled:', inputIsFinallyFilled);
+
+
+				// update input status and aggregatedValue BEFORE calling callbacks
+				status.allInputsValue[inputIndex]      = input.value;
+				aggregateAllInputsValue.call(this);
+
+				status.allInputsFilling[inputIndex]    = inputIsFinallyFilled;
+				status.allInputsValidation[inputIndex] = inputIsValid;
+
+
+				if (inputIsValid || !inputIsFinallyFilled) {
+					$(input).removeClass('invalid');
+				} else {
+					$(input)   .addClass('invalid');
+				}
+
+
+				if (inputIsFinallyFilled) {
+					input.shouldChangeFocusToPrevInput = false;
+					input.shouldChangeFocusToNextInput = inputOnFill.call(this, event, inputWasValid);
+				}
+
+				if (inputWasFilled && !inputIsFinallyFilled) {
+					input.shouldChangeFocusToNextInput = false;
+					input.shouldChangeFocusToPrevInput = false;
+					inputOnClear.call(this, event, inputWasValid);
+				}
+
+				// fire allInputs event handlers AFTER calling callbacks of single input
+				aggregateAllInputsStatus.call(this);
+			}
+
+			function inputOnFill(event, inputWasValid) {
+				// console.log('inputOnFill');
+				var input = event.target;
+				var inputIndex = parseInt(input.dataset.inputIndex);
+				var inputIsValid = status.allInputsValidation[inputIndex];
+
+
+				if (this.onOneInputFill) this.onOneInputFill(event);
+
 
 				if (inputIsValid) {
-					this.onOneInputValid && this.onOneInputValid(event);
-					shouldChangeFocus = true;
+					if (this.onOneInputValid) this.onOneInputValid(event);
 				} else {
-					if (status.inputsAreForPassword) {
-						input.value = '';
-						inputOnClear.call(this, event);
-					}
+					if (this.onOneInputInvalid) this.onOneInputInvalid(event);
 				}
 
-
-				if (inputWasValid && !inputIsValid) {
-					this.onOneInputInvalid && this.onOneInputInvalid(event);
-				}
 
 				if (!inputWasValid && inputIsValid) {
-					this.onOneInputCorrected && this.onOneInputCorrected(event);
+					if (this.onOneInputCorrected) this.onOneInputCorrected(event);
 				}
 
+				if (inputWasValid && !inputIsValid) {
+					if (this.onOneInputGoWrong) this.onOneInputGoWrong(event);
+				}
+
+				var shouldChangeFocus = inputIsValid;
 				return shouldChangeFocus;
 			}
-			function inputOnClear(event) {
-				var input = event.target;
-				var inputIndex = parseInt(input.dataset.inputIndex);
-				var inputWasValid = status.allInputsValidation[inputIndex];
 
-				status.allInputsValue[inputIndex] = '';
-				validateOneInput.call(this, event.target);
-				this.onOneInputClear && this.onOneInputClear(event);
+			function inputOnClear(event, inputWasValid) {
+				// console.log('inputOnClear');
+				if (this.onOneInputClear) this.onOneInputClear(event);
 				// this.onOneInputInvalid && this.onOneInputInvalid(event);
-
-				var shouldChangeFocus = inputWasValid;
-				return shouldChangeFocus;
 			}
 
 			function validateOneInput(input) {
+				// console.log('validateOneInput');
 				var inputIndex = parseInt(input.dataset.inputIndex);
 				var inputIsValid = input.value.length > 0;
 				if (inputIsValid) {
 					var validator = this.validatorsForEachInput[inputIndex];
-					if (!validator) validator = this.defaultValidator;
+					if (!validator) validator = defaultValidator;
 					if (validator) {
 						inputIsValid = validator.call(this, input.value);
 					}
 				}
-
-				status.allInputsValidation[inputIndex] = inputIsValid;
-				input.formnovalidate = !inputIsValid;
-				if (inputIsValid || !input.value.length) {
-					$(input).removeClass('invalid');
-				} else {
-					$(input).addClass('invalid');
-				}
 				return inputIsValid;
 			}
 
-			function checkAllInputs(isCheckingOnLoad) {
+			function aggregateAllInputsValue() {
+				status.aggregatedValue = status.allInputsValue.join('');
+				if (inputForAggregation) {
+					inputForAggregation.value = status.aggregatedValue;
+					if (typeof inputForAggregation.onUpdateAtHiddenState === 'function') inputForAggregation.onUpdateAtHiddenState();
+				}
+			}
+			function aggregateAllInputsStatus(isCheckingOnLoad) {
+				// console.log('aggregateAllInputsStatus');
 				var allInputsAreValid = true;
 				var allInputsAreFilled = true;
 				var allInputsAreCleared = true;
 				for (var i = 0; i < $allInputs.length; i++) {
-					var inputIsFilled = status.allInputsFilling[i]
+					var inputIsFilled = status.allInputsFilling[i];
 					var inputIsValid  = status.allInputsValidation[i];
 
 					if (!inputIsFilled) allInputsAreFilled = false;
@@ -886,9 +914,27 @@ window.webLogicControls = {};
 			function config(options) {
 				options = options || {};
 
-				if (status.inputsTypeIsNumber) this.defaultValidator = defaultValidatorForNumber;
+				if (options.hasOwnProperty('inputForAggregation')) {
+					if (options.inputForAggregation instanceof Node) {
+						var _el = options.inputForAggregation;
+						var tnlc = _el.tagName.toLowerCase();
+						if (tnlc === 'input') {
+							var type = _el.type.toLowerCase();
+							if (_el.type !== 'checkbox' && _el.type !== 'raido') {
+								inputForAggregation = options.inputForAggregation;
+								_el.type = status.inputsAreForPassword ? 'hidden' : 'hidden';
+							}
+						}
+					} else {
+						inputForAggregation = null;
+					}
+				}
 
-				if (typeof options.defaultValidator === 'function') this.defaultValidator = options.defaultValidator;
+				if (options.hasOwnProperty('defaultValidator')) {
+					defaultValidator = (typeof options.defaultValidator === 'function') ? options.defaultValidator : undefined;
+				}
+
+				if (status.inputsTypeIsNumber && !defaultValidator) defaultValidator = defaultValidatorForNumber;
 
 				if (Array.isArray(options.validatorsForEachInput)) {
 					for (var i = 0; i < options.validatorsForEachInput.length; i++) {
@@ -903,6 +949,7 @@ window.webLogicControls = {};
 				if (typeof options.onOneInputInvalid   === 'function') this.onOneInputInvalid   = options.onOneInputInvalid;
 				if (typeof options.onOneInputValid     === 'function') this.onOneInputValid     = options.onOneInputValid;
 				if (typeof options.onOneInputCorrected === 'function') this.onOneInputCorrected = options.onOneInputCorrected;
+				if (typeof options.onOneInputGoWrong   === 'function') this.onOneInputGoWrong   = options.onOneInputGoWrong;
 				if (typeof options.onAllInputsClear    === 'function') this.onAllInputsClear    = options.onAllInputsClear;
 				if (typeof options.onAllInputsFill     === 'function') this.onAllInputsFill     = options.onAllInputsFill;
 				if (typeof options.onAllInputsValid    === 'function') this.onAllInputsValid    = options.onAllInputsValid;
@@ -910,9 +957,15 @@ window.webLogicControls = {};
 
 			function init () {
 				var thisController = this;
+				var $_r = $(rootElement);
 
-				status.inputsTypeIsNumber   = $(rootElement).hasClass('input-only-digits');
-				status.inputsAreForPassword = $(rootElement).hasClass('input-password');
+				status.inputsTypeIsNumber   = $_r.hasClass('input-only-digits');
+				status.inputsAreForPassword = $_r.hasClass('input-password');
+
+				var inputForAggregation = $_r.find('input.single-char-inputs-aggregator')[0];
+				if (inputForAggregation) this.config({
+					inputForAggregation: inputForAggregation // might be overrided by initOptions
+				});
 
 				this.config(initOptions);
 
@@ -924,7 +977,7 @@ window.webLogicControls = {};
 					validateOneInput.call(thisController, this);
 				});
 
-				checkAllInputs.call(this, true);
+				aggregateAllInputsStatus.call(this, true);
 
 				// make sure basic setup executed BEFORE binding event listeners
 				$allInputs

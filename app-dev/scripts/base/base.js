@@ -80,12 +80,12 @@
 				return false;
 			}
 
-			var tagNameLC = field.tagName.toLowerCase();
-			if (tagNameLC !== 'input' && tagNameLC !== 'textarea' && tagNameLC !== 'select') {
+			var tnlc = field.tagName.toLowerCase();
+			if (tnlc !== 'input' && tnlc !== 'textarea' && tnlc !== 'select') {
 				return false;
 			}
 
-			var isEmpty = (tagNameLC==='select') ? (field.selectedIndex === -1) : (!field.value);
+			var isEmpty = (tnlc==='select') ? (field.selectedIndex === -1) : (!field.value);
 			if (isEmpty) {
 				$(field).removeClass('non-empty-field');
 				$(field).addClass('empty-field');
@@ -320,9 +320,29 @@
 
 
 	$('form').each(function () {
-		var $form = $(this);
-		var $allRequiredInputs = $form.find('input[required], textarea[required], [contentEditable="true"][required]');
-		var buttonSubmit = $form.find('[button-action="submit"]')[0];
+		var $allRequiredInputs = $(this.elements).filter(function (index, el) {
+			// input[required], textarea[required], [contentEditable="true"][required];
+			var tnlc = el.tagName.toLowerCase();
+			if (tnlc === 'input' || tnlc === 'textarea') {
+				return el.hasAttribute('required');
+			}
+
+			var ce = el.getAttribute('contentEditable');
+			if (ce) ce = ce.toLowerCase();
+
+			return (ce === 'true') && el.hasAttribute('required');
+		});
+
+		var buttonSubmit =$(this.elements).filter(function (index, el) {
+			var attr =  el.getAttribute('button-action');
+			if (attr) attr = attr.toLowerCase();
+			return attr==='submit';
+		})[0];
+
+
+		// console.log($allRequiredInputs);
+		// console.log(buttonSubmit);
+
 
 		var allInputsAreValid = false;
 
@@ -338,6 +358,11 @@
 		$allRequiredInputs.each(function (index) {
 			var tnlc = this.tagName.toLowerCase();
 
+			var validatorForInputOrTextarea = function () {
+				allInputsValidation[index] = !!this.value.replace(/^\s+/, '').replace(/\s+$/, '').length;
+				_validateAllRequiredInputs();
+			}
+
 			if (tnlc === 'input') {
 				var type = this.type.toLowerCase();
 				if (type === 'checkbox') {
@@ -346,19 +371,18 @@
 						_validateAllRequiredInputs();
 					});
 				} else {
-					$(this).on('input', function () {
-						allInputsValidation[index] = !!this.value.replace(/(^\s+|\s+$)/, '');
-						_validateAllRequiredInputs();
-					});
+					$(this).on('input', validatorForInputOrTextarea.bind(this));
+					this.onUpdateAtHiddenState = validatorForInputOrTextarea.bind(this);
 				}
 			} else if (tnlc === 'textarea') {
-				$(this).on('input', function () {
-					allInputsValidation[index] = !!this.value.replace(/(^\s+|\s+$)/, '');
-					_validateAllRequiredInputs();
-				});
+				$(this).on('input', validatorForInputOrTextarea.bind(this));
+				this.onUpdateAtHiddenState = validatorForInputOrTextarea.bind(this);
 			} else {
-				// not implemented yet
+				// $(this).on('input', validatorForContentEditableElement.bind(this));
+				// this.onUpdateAtHiddenState = function () {
+				// }
 			}
+
 		});
 
 
@@ -369,19 +393,6 @@
 			}
 
 			if (buttonSubmit) buttonSubmit.disabled = !allInputsAreValid;
-		}
-	});
-
-	new wlc.UI.SingleCharacterInputsSet($('.page .single-char-inputs-set')[0], {
-		onOneInputFill: function (event) {
-			console.log('a input filled. final value:', this.getValue());
-		},
-		onOneInputClear: function (event) {
-			console.log('a input cleared. final value:', this.getValue());
-		},
-		onAllInputsValid: function (isCheckingOnLoad) {
-			console.log('AWESOME! final value:', this.getValue());
-			if (isCheckingOnLoad) console.log('What\'s better, we did nothing to get this!');
 		}
 	});
 
