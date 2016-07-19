@@ -1,7 +1,7 @@
 $(function () {
 	var wlc = window.webLogicControls;
 
-	$('.page .single-char-inputs-set').each(function () {
+	$('.single-char-inputs-set').each(function () {
 		new wlc.UI.SingleCharacterInputsSet(this, {
 			onAllInputsValid: function (isCheckingOnLoad) {
 				console.log('AWESOME! final value:', this.getValue());
@@ -16,7 +16,14 @@ $(function () {
 	var $thePL = $pL1;
 	$('.progress-stops').on('click', function(event) {
 		console.error('fake logic triggered.');
-		$thePL[0].elements.$popupLayersBackPlate.show();
+		var $bp = $thePL[0].elements.$popupLayersBackPlate;
+		$bp.show();
 		$thePL.show();
+		$thePL.add($bp).on('click', function (event) {
+			if (event.target === $thePL[0]) {
+				$bp.hide();
+				$thePL.hide();
+			}
+		});
 	});
 });
