@@ -531,5 +531,414 @@ window.webLogicControls = {};
 
 			init.call(this);
 		};
+
+
+		this.SingleCharacterInputsSet = function (rootElement, initOptions) {
+			if (!(rootElement instanceof Node)) {
+				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
+			}
+			var $allInputs = $(rootElement).find('input.single-char-input').filter(function (index, input) {
+				var type = input.type.toLowerCase();
+				return type !== 'checkbox' && type !== 'radio';
+			});
+			if ($allInputs.length < 1) {
+				$allInputs.each(function () {
+					this.disabled = true;
+				});
+				throw('Too few input fields for constructing a '+this.constructor.name+'.');
+			}
+
+			this.options = {
+			};
+
+			this.defaultValidator = undefined;
+			this.validatorsForEachInput = [];
+
+			this.onOneInputClear = undefined;
+			this.onAllInputsClear = undefined;
+			this.onOneInputFill = undefined;
+			this.onAllInputsFill = undefined;
+			this.onOneInputInvalid = undefined;
+			this.onOneInputValid = undefined;
+			this.onAllInputsValid = undefined;
+
+			this.config = function (options) {
+				config.call(this, options);
+			};
+
+			var status = {
+				isDisabled: false,
+				inputsAreForPassword: false,
+				inputsTypeIsNumber: false,
+				allInputsValue: [],
+				allInputsFilling: [],
+				allInputsValidation: []
+			};
+
+			this.getValue = function () {
+				var finalValue = status.allInputsValue.join('');
+				return finalValue;
+			}
+
+			this.disable = function() {
+				$allInputs.each(function () {
+					this.disabled = true;
+				});
+				status.isDisabled = true;
+			}
+			this.enable = function() {
+				$allInputs.each(function () {
+					this.disabled = false;
+				});
+				status.isDisabled = false;
+			}
+
+			function getCaretPosition(ctrl) {
+				// http://demo.vishalon.net/getset.htm
+				var CaretPos = 0;
+				if (document.selection) { // IE Support
+					ctrl.focus();
+					var sel = document.selection.createRange ();
+
+					sel.moveStart ('character', -ctrl.value.length);
+
+					CaretPos = sel.text.length;
+				} else if (ctrl.selectionStart || ctrl.selectionStart == '0') { // Non-IE support
+					CaretPos = ctrl.selectionStart;
+				}
+
+				return (CaretPos);
+			}
+
+			function setCaretPosition(ctrl, pos) {
+				if (!ctrl) return false;
+
+				if (typeof pos === 'string' && pos.toLowerCase() === 'end') {
+					pos = ctrl.value.length;
+				}
+				// console.log('desired caret pos:', pos);
+
+				// http://demo.vishalon.net/getset.htm
+				if(ctrl.setSelectionRange) {
+					ctrl.focus();
+					ctrl.setSelectionRange(pos, pos);
+				} else if (ctrl.createTextRange) {
+					var range = ctrl.createTextRange();
+					range.collapse(true);
+					range.moveEnd('character', pos);
+					range.moveStart('character', pos);
+					range.select();
+				}
+			}
+
+			function clearCaretPositionForInput(input) {
+				if (typeof input.caretStatus !== 'object') input.caretStatus = {};
+				input.caretStatus.pos = NaN;
+				input.caretStatus.isAtLeftEnd = false;
+				input.caretStatus.isAtRightEnd = false;
+			}
+
+			function updateCaretPositionForInput(input) {
+				if (!input || !input.tagName || input.tagName.toLowerCase() !== 'input') return null;
+
+				var caretPos = getCaretPosition(input);
+
+				if (typeof input.caretStatus !== 'object') input.caretStatus = {};
+				input.caretStatus.pos = caretPos;
+				input.caretStatus.isAtLeftEnd = caretPos === 0;
+				input.caretStatus.isAtRightEnd = caretPos === input.value.length;
+
+				return input.caretStatus;
+			}
+
+			function defaultValidatorForNumber(value) {
+				var isValid = value.match(/^\d$/);
+				return !!isValid;
+			}
+
+			function inputOnFocus(event) {
+				var input = event.target;
+				// var inputIndex = parseInt(input.dataset.inputIndex);
+				updateCaretPositionForInput.call(this, input);
+			}
+
+			function inputOnBlur(event) {
+				var input = event.target;
+				// var inputIndex = parseInt(input.dataset.inputIndex);
+				clearCaretPositionForInput(input);
+			}
+
+			function inputOnKeyDown(event) {
+				if (!event || !event.target) return false;
+				event.stopPropagation();
+
+				var k = event.keyCode;
+				var input = event.target;
+				// console.log('keydown event: keyCode: '+k, '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
+
+				updateCaretPositionForInput.call(this, input);
+
+				if (k === 8) { // baskspace
+					input.keyBackspaceWasDown = true;
+					input.inputFiledWasEmptyOnBackspaceKeyDown = !input.value;
+				};
+
+				if (k === 46) { // delete, either chief or numpad
+					input.keyDelWasDown = true;
+				}
+			}
+
+			function inputOnInput(event) {
+				if (!event || !event.target) return false;
+				event.stopPropagation();
+
+				var input = event.target;
+				// console.log('input event:', '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
+
+				var inputIndex = parseInt(input.dataset.inputIndex);
+				var inputWasFilled = status.allInputsFilling[inputIndex];
+
+				if (input.keyBackspaceWasDown || input.keyDelWasDown) {
+					input.value = '';
+					delete input.keyBackspaceWasDown;
+					delete input.keyDelWasDown;
+				}
+
+				var inputIsFilled = input.value.length > 0;
+				// console.log(input.value, input.value.length);
+				if (input.value.length > 1) {
+					if (input.caretStatus.isAtLeftEnd) {
+						input.value = input.value.slice(0, 1);
+					} else {
+						input.value = input.value.slice(-1);
+					}
+				}
+				// console.log('\tinputWasFilled:', inputWasFilled, '\tinputIsFilled:', inputIsFilled);
+
+				status.allInputsValue[inputIndex] = input.value;
+				status.allInputsFilling[inputIndex] = inputIsFilled;
+
+				if (inputIsFilled) {
+					input.shouldChangeFocusToNextInput = inputOnFill.call(this, event);
+				}
+
+				if (inputWasFilled && !inputIsFilled) {
+					input.shouldChangeFocusToPrevInput = inputOnClear.call(this, event);
+				}
+			}
+
+			function inputOnKeyUp(event) {
+				if (!event || !event.target) return false;
+				event.stopPropagation();
+
+				var k = event.keyCode;
+				var input = event.target;
+				// console.log('keyup event: keyCode: '+k, '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
+
+				if (k === 8) { // baskspace
+					if (input.inputFiledWasEmptyOnBackspaceKeyDown) {
+						input.shouldChangeFocusToPrevInput = true;
+						input.shouldChangeFocusToNextInput = false;
+					}
+					delete input.inputFiledWasEmptyOnBackspaceKeyDown;
+				}
+
+				if (k === 46) { // delete, either chief or numpad
+					input.shouldChangeFocusToPrevInput = false;
+					input.shouldChangeFocusToNextInput = false;
+				}
+
+				var valueIsEmpty = !input.value;
+
+				// console.log('empty?', valueIsEmpty, '\tshould nex?', input.shouldChangeFocusToNextInput,
+				// 	'\npos:', input.caretStatus.pos, '\t left?', input.caretStatus.isAtLeftEnd, '\t right?', input.caretStatus.isAtRightEnd);
+
+				if (k === 37) { // left arrow key
+					input.shouldChangeFocusToPrevInput = valueIsEmpty || input.caretStatus.isAtLeftEnd;
+					input.shouldChangeFocusToNextInput = false;
+				};
+
+				if (k === 39) { // right arrow key
+					input.shouldChangeFocusToPrevInput = false;
+					input.shouldChangeFocusToNextInput = valueIsEmpty || input.caretStatus.isAtRightEnd;
+				};
+
+
+				var focusedInput;
+				if (input.shouldChangeFocusToPrevInput) {
+					focusedInput = focusPrevInput.call(this, input);
+					setCaretPosition(focusedInput, 'end');
+				} else if (input.shouldChangeFocusToNextInput) {
+					focusedInput = focusNextInput.call(this, input);
+					setCaretPosition(focusedInput, 0);
+				}
+
+				delete input.shouldChangeFocusToPrevInput;
+				delete input.shouldChangeFocusToNextInput;
+				delete input.keyWasDot;
+
+				checkAllInputs.call(this);
+			}
+
+			function inputOnFill(event) {
+				var shouldChangeFocus = false;
+				this.onOneInputFill && this.onOneInputFill(event);
+
+				var input = event.target;
+				var inputIndex = parseInt(input.dataset.inputIndex);
+				var inputWasValid = status.allInputsValidation[inputIndex];
+				var inputIsValid = validateOneInput.call(this, input);
+
+				if (inputIsValid) {
+					this.onOneInputValid && this.onOneInputValid(event);
+					shouldChangeFocus = true;
+				} else {
+					if (status.inputsAreForPassword) {
+						input.value = '';
+						inputOnClear.call(this, event);
+					}
+				}
+
+
+				if (inputWasValid && !inputIsValid) {
+					this.onOneInputInvalid && this.onOneInputInvalid(event);
+				}
+
+				if (!inputWasValid && inputIsValid) {
+					this.onOneInputCorrected && this.onOneInputCorrected(event);
+				}
+
+				return shouldChangeFocus;
+			}
+			function inputOnClear(event) {
+				var input = event.target;
+				var inputIndex = parseInt(input.dataset.inputIndex);
+				var inputWasValid = status.allInputsValidation[inputIndex];
+
+				status.allInputsValue[inputIndex] = '';
+				validateOneInput.call(this, event.target);
+				this.onOneInputClear && this.onOneInputClear(event);
+				// this.onOneInputInvalid && this.onOneInputInvalid(event);
+
+				var shouldChangeFocus = inputWasValid;
+				return shouldChangeFocus;
+			}
+
+			function validateOneInput(input) {
+				var inputIndex = parseInt(input.dataset.inputIndex);
+				var inputIsValid = input.value.length > 0;
+				if (inputIsValid) {
+					var validator = this.validatorsForEachInput[inputIndex];
+					if (!validator) validator = this.defaultValidator;
+					if (validator) {
+						inputIsValid = validator.call(this, input.value);
+					}
+				}
+
+				status.allInputsValidation[inputIndex] = inputIsValid;
+				input.formnovalidate = !inputIsValid;
+				if (inputIsValid || !input.value.length) {
+					$(input).removeClass('invalid');
+				} else {
+					$(input).addClass('invalid');
+				}
+				return inputIsValid;
+			}
+
+			function checkAllInputs(isCheckingOnLoad) {
+				var allInputsAreValid = true;
+				var allInputsAreFilled = true;
+				var allInputsAreCleared = true;
+				for (var i = 0; i < $allInputs.length; i++) {
+					var inputIsFilled = status.allInputsFilling[i]
+					var inputIsValid  = status.allInputsValidation[i];
+
+					if (!inputIsFilled) allInputsAreFilled = false;
+					if (inputIsFilled)  allInputsAreCleared = false;
+					if (!inputIsValid)  allInputsAreValid = false;
+				}
+
+				if (allInputsAreCleared && this.onAllInputsClear) this.onAllInputsClear(isCheckingOnLoad);
+				if (allInputsAreFilled  && this.onAllInputsFill ) this.onAllInputsFill (isCheckingOnLoad);
+				if (allInputsAreValid   && this.onAllInputsValid) this.onAllInputsValid(isCheckingOnLoad);
+			}
+
+			function focusPrevInput(refInput) {
+				var inputIndex = parseInt(refInput.dataset.inputIndex);
+				var targetElement = $allInputs[inputIndex-1];
+				var canFocus = (inputIndex > 0) && !!targetElement;
+				if (canFocus) {
+					targetElement.focus();
+				}
+				return canFocus ? targetElement : null;
+			}
+
+			function focusNextInput(refInput) {
+				var inputIndex = parseInt(refInput.dataset.inputIndex);
+				var targetElement = $allInputs[inputIndex+1];
+				var canFocus = (inputIndex < $allInputs.length-1) && !!targetElement;
+				if (canFocus) {
+					targetElement.focus();
+				}
+				return canFocus ? targetElement : null;
+			}
+
+			function config(options) {
+				options = options || {};
+
+				if (status.inputsTypeIsNumber) this.defaultValidator = defaultValidatorForNumber;
+
+				if (typeof options.defaultValidator === 'function') this.defaultValidator = options.defaultValidator;
+
+				if (Array.isArray(options.validatorsForEachInput)) {
+					for (var i = 0; i < options.validatorsForEachInput.length; i++) {
+					 var validator = options.validatorsForEachInput[i];
+					 if (typeof validator === 'function') this.validatorsForEachInput[i] = validator;
+					 else if (typeof validator === null) this.validatorsForEachInput[i] = undefined;
+					}
+				}
+
+				if (typeof options.onOneInputClear     === 'function') this.onOneInputClear     = options.onOneInputClear;
+				if (typeof options.onOneInputFill      === 'function') this.onOneInputFill      = options.onOneInputFill;
+				if (typeof options.onOneInputInvalid   === 'function') this.onOneInputInvalid   = options.onOneInputInvalid;
+				if (typeof options.onOneInputValid     === 'function') this.onOneInputValid     = options.onOneInputValid;
+				if (typeof options.onOneInputCorrected === 'function') this.onOneInputCorrected = options.onOneInputCorrected;
+				if (typeof options.onAllInputsClear    === 'function') this.onAllInputsClear    = options.onAllInputsClear;
+				if (typeof options.onAllInputsFill     === 'function') this.onAllInputsFill     = options.onAllInputsFill;
+				if (typeof options.onAllInputsValid    === 'function') this.onAllInputsValid    = options.onAllInputsValid;
+			}
+
+			function init () {
+				var thisController = this;
+
+				status.inputsTypeIsNumber   = $(rootElement).hasClass('input-only-digits');
+				status.inputsAreForPassword = $(rootElement).hasClass('input-password');
+
+				this.config(initOptions);
+
+				$allInputs.each(function (index) {
+					this.dataset.inputIndex = index;
+					this.type = status.inputsAreForPassword ? 'password' : 'text';
+					status.allInputsValue[index] = this.value;
+					status.allInputsFilling[index] = this.value.length > 0;
+					validateOneInput.call(thisController, this);
+				});
+
+				checkAllInputs.call(this, true);
+
+				// make sure basic setup executed BEFORE binding event listeners
+				$allInputs
+					.on('focus',    inputOnFocus   .bind(thisController))
+					.on('blur',     inputOnBlur    .bind(thisController))
+					.on('keydown',  inputOnKeyDown .bind(thisController))
+					.on('input',    inputOnInput   .bind(thisController))
+					.on('keyup',    inputOnKeyUp   .bind(thisController))
+				;
+
+				this.enable();
+			}
+
+			init.call(this);
+		};
 	}).call(this.UI);
 }).call(window.webLogicControls);
