@@ -580,9 +580,9 @@ window.webLogicControls = {};
 			};
 
 
-
 			var inputForAggregation = null;
-			var defaultValidator = undefined;
+			var inputToChangeFocusOn = null;
+			var defaultValidator;
 			var status = {
 				isDisabled: false,
 				inputsAreForPassword: false,
@@ -676,6 +676,11 @@ window.webLogicControls = {};
 				var input = event.target;
 				// console.log('inputOnKeyDown: keyCode: '+k, '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
 
+				inputToChangeFocusOn = null;
+
+				input.newValueIsValid = false;
+				input.onInputEventDispatched = false;
+
 				updateCaretPositionForInput.call(this, input);
 
 				if (k === 8) { // baskspace
@@ -692,7 +697,7 @@ window.webLogicControls = {};
 					input.value = '';
 					delete input.keyBackspaceWasDown;
 					delete input.keyDelWasDown;
-					inputOnValueDecided.call(this, event, false);
+					inputOnValueDecided.call(this, event);
 				}
 			}
 
@@ -718,9 +723,13 @@ window.webLogicControls = {};
 					if (status.inputsAreForPassword) {
 						input.value = '';
 					}
+					if (status.inputsTypeIsNumber) {
+						input.value = '';
+					}
 				}
 
-				inputOnValueDecided.call(this, event, inputIsValid);
+				input.onInputEventDispatched = true;
+				input.newValueIsValid = inputIsValid;
 			}
 
 			function inputOnKeyUp(event) {
@@ -731,17 +740,17 @@ window.webLogicControls = {};
 				var input = event.target;
 				// console.log('inputOnKeyUp: keyCode: '+k, '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
 
+				var focusMovingDirectionIsLeft = false;
 				if (k === 8) { // baskspace
 					if (input.inputFiledWasEmptyOnBackspaceKeyDown) {
-						input.shouldChangeFocusToPrevInput = true;
-						input.shouldChangeFocusToNextInput = false;
+						focusMovingDirectionIsLeft = true;
+						inputToChangeFocusOn = getPrevInputOf.call(this, input);
 					}
 					delete input.inputFiledWasEmptyOnBackspaceKeyDown;
 				}
 
 				if (k === 46) { // delete, either chief or numpad
-					input.shouldChangeFocusToPrevInput = false;
-					input.shouldChangeFocusToNextInput = false;
+					inputToChangeFocusOn = null;
 				}
 
 				var valueIsEmpty = !input.value;
@@ -749,36 +758,51 @@ window.webLogicControls = {};
 				// console.log('empty?', valueIsEmpty, '\tshould nex?', input.shouldChangeFocusToNextInput,
 				// 	'\npos:', input.caretStatus.pos, '\t left?', input.caretStatus.isAtLeftEnd, '\t right?', input.caretStatus.isAtRightEnd);
 
+				if (k === 36) { // home key
+					focusMovingDirectionIsLeft = true;
+					inputToChangeFocusOn = getFirstInput.call(this);
+				}
+
+				if (k === 35) { // end key
+					focusMovingDirectionIsLeft = false;
+					inputToChangeFocusOn = getLastInput.call(this);
+				}
+
 				if (k === 37) { // left arrow key
-					input.shouldChangeFocusToPrevInput = valueIsEmpty || input.caretStatus.isAtLeftEnd;
-					input.shouldChangeFocusToNextInput = false;
+					focusMovingDirectionIsLeft = true;
+					if (valueIsEmpty || input.caretStatus.isAtLeftEnd) {
+						inputToChangeFocusOn = getPrevInputOf.call(this, input);
+					}
 				}
 
 				if (k === 39) { // right arrow key
-					input.shouldChangeFocusToPrevInput = false;
-					input.shouldChangeFocusToNextInput = valueIsEmpty || input.caretStatus.isAtRightEnd;
+					focusMovingDirectionIsLeft = false;
+					if (valueIsEmpty || input.caretStatus.isAtRightEnd) {
+						inputToChangeFocusOn = getNextInputOf.call(this, input);
+					}
 				}
 
+				inputOnValueDecided.call(this, event);
 
-				var focusedInput;
-				if (input.shouldChangeFocusToPrevInput) {
-					focusedInput = focusPrevInput.call(this, input);
-					setCaretPosition(focusedInput, 'end');
-				} else if (input.shouldChangeFocusToNextInput) {
-					focusedInput = focusNextInput.call(this, input);
-					setCaretPosition(focusedInput, 0);
+				delete input.newValueIsValid;
+				delete input.onInputEventDispatched;
+
+				if (inputToChangeFocusOn !== input) {
+					focusInput.call(this, inputToChangeFocusOn);
+					setCaretPosition(inputToChangeFocusOn, (focusMovingDirectionIsLeft || k === 35) ? 'end' : 0);
 				}
-
-				delete input.shouldChangeFocusToPrevInput;
-				delete input.shouldChangeFocusToNextInput;
-				delete input.keyWasDot;
 			}
 
-			function inputOnValueDecided(event, inputIsValid) {
-				inputIsValid = !!inputIsValid;
-
+			function inputOnValueDecided(event) {
 				var input = event.target;
 				var inputIndex = parseInt(input.dataset.inputIndex);
+				var inputOldValue = status.allInputsValue[inputIndex];
+
+				var inputValueChanged = !!input.onInputEventDispatched || input.value !== inputOldValue;
+
+				if (!inputValueChanged) return true;
+
+				var inputIsValid = !!input.newValueIsValid;
 
 				var inputWasValid = status.allInputsValidation[inputIndex];
 				var inputWasFilled = status.allInputsFilling[inputIndex];
@@ -802,14 +826,13 @@ window.webLogicControls = {};
 
 
 				if (inputIsFinallyFilled) {
-					input.shouldChangeFocusToPrevInput = false;
-					input.shouldChangeFocusToNextInput = inputOnFill.call(this, event, inputWasValid);
+					inputOnFill.call(this, event, inputWasValid);
+					inputToChangeFocusOn = getNextInputOf.call(this, input);
 				}
 
 				if (inputWasFilled && !inputIsFinallyFilled) {
-					input.shouldChangeFocusToNextInput = false;
-					input.shouldChangeFocusToPrevInput = false;
 					inputOnClear.call(this, event, inputWasValid);
+					inputToChangeFocusOn = null;
 				}
 
 				// fire allInputs event handlers AFTER calling callbacks of single input
@@ -840,9 +863,6 @@ window.webLogicControls = {};
 				if (inputWasValid && !inputIsValid) {
 					if (this.onOneInputGoWrong) this.onOneInputGoWrong(event);
 				}
-
-				var shouldChangeFocus = inputIsValid;
-				return shouldChangeFocus;
 			}
 
 			function inputOnClear(event, inputWasValid) {
@@ -886,29 +906,32 @@ window.webLogicControls = {};
 					if (!inputIsValid)  allInputsAreValid = false;
 				}
 
-				if (allInputsAreCleared && this.onAllInputsClear) this.onAllInputsClear(isCheckingOnLoad);
-				if (allInputsAreFilled  && this.onAllInputsFill ) this.onAllInputsFill (isCheckingOnLoad);
-				if (allInputsAreValid   && this.onAllInputsValid) this.onAllInputsValid(isCheckingOnLoad);
+				if (allInputsAreCleared && this.onAllInputsClear) this.onAllInputsClear(status.aggregatedValue, isCheckingOnLoad);
+				if (allInputsAreFilled  && this.onAllInputsFill ) this.onAllInputsFill (status.aggregatedValue, isCheckingOnLoad);
+				if (allInputsAreValid   && this.onAllInputsValid) this.onAllInputsValid(status.aggregatedValue, isCheckingOnLoad);
 			}
 
-			function focusPrevInput(refInput) {
-				var inputIndex = parseInt(refInput.dataset.inputIndex);
-				var targetElement = $allInputs[inputIndex-1];
-				var canFocus = (inputIndex > 0) && !!targetElement;
-				if (canFocus) {
-					targetElement.focus();
-				}
-				return canFocus ? targetElement : null;
+			function getPrevInputOf(refInput) {
+				return $allInputs[parseInt(refInput.dataset.inputIndex)-1];
 			}
 
-			function focusNextInput(refInput) {
-				var inputIndex = parseInt(refInput.dataset.inputIndex);
-				var targetElement = $allInputs[inputIndex+1];
-				var canFocus = (inputIndex < $allInputs.length-1) && !!targetElement;
-				if (canFocus) {
-					targetElement.focus();
+			function getNextInputOf(refInput) {
+				return $allInputs[parseInt(refInput.dataset.inputIndex)+1];
+			}
+
+			function getFirstInput() {
+				return $allInputs[0];
+			}
+
+			function getLastInput() {
+				return $allInputs[$allInputs.length-1];
+			}
+
+			function focusInput(input) {
+				if (input && typeof input.focus === 'function') {
+					input.focus();
 				}
-				return canFocus ? targetElement : null;
+				return input;
 			}
 
 			function config(options) {
@@ -920,7 +943,7 @@ window.webLogicControls = {};
 						var tnlc = _el.tagName.toLowerCase();
 						if (tnlc === 'input') {
 							var type = _el.type.toLowerCase();
-							if (_el.type !== 'checkbox' && _el.type !== 'raido') {
+							if (type !== 'checkbox' && type !== 'raido') {
 								inputForAggregation = options.inputForAggregation;
 								_el.type = status.inputsAreForPassword ? 'hidden' : 'hidden';
 							}

@@ -3,8 +3,8 @@ $(function () {
 
 	$('.single-char-inputs-set').each(function () {
 		new wlc.UI.SingleCharacterInputsSet(this, {
-			onAllInputsValid: function (isCheckingOnLoad) {
-				console.log('AWESOME! final value:', this.getValue());
+			onAllInputsValid: function (aggregatedValue, isCheckingOnLoad) {
+				console.log('AWESOME! final value:', aggregatedValue);
 				if (isCheckingOnLoad) console.log('What\'s better, we did nothing to get this!');
 			}
 		});
