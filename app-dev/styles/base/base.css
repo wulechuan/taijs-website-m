@@ -1244,7 +1244,9 @@ label.deco-input {
 	}
 
 
+.columns > li,
 .columns > .col {
+	list-style: none;
 	display: inline-block;
 	vertical-align: top;
 	}

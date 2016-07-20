@@ -105,12 +105,18 @@ article.message {
 		border-radius: 0 0.2rem 0.2rem 0;
 	}
 
-	.single-char-inputs-set.inputs-distribution-full-width input.single-char-input {
-		width: 16.666%;
-	}
+	.single-char-inputs-set.inputs-distribution-full-width {
+		max-width: 512px;
+		margin-left: auto;
+		margin-right: auto;
+		}
+		.single-char-inputs-set.inputs-distribution-full-width input.single-char-input {
+			width: 16.666%;
+		}
 
 
-.row, .f-block, .f-block-body {
+
+.row, .f-block, .f-block-body, .f-block .row.full-width {
 	box-sizing: content-box;
 	padding-left: 0.8rem;
 	padding-right: 0.8rem;
@@ -118,6 +124,7 @@ article.message {
 	.row .right {
 		margin-right: 0.8rem;
 	}
+	.f-block .row.full-width,
 	.f-block .tiles,
 	.f-block .row,
 	.f-block-body {
@@ -646,6 +653,34 @@ article.message {
 
 	.panel.current {
 		padding: 1rem 0;
+	}
+
+
+.hero-content-block {
+	position: relative;
+	}
+
+	.hero-content-block h3 {
+		text-align: center;
+	}
+
+	.hero-content-block h3 > * {
+		display: block;
+		clear: both;
+	}
+
+	.hero-content-block h3 .subject {
+		font-size: 1rem;
+	}
+
+	.hero-content-block h3 .hero-word {
+		margin-top: 0.5rem;
+		font-size: 3.19rem;
+		line-height: 1.1;
+	}
+
+	.hero-content-block h3 .subtitle {
+		font-size: 0.6rem;
 	}
 
 
