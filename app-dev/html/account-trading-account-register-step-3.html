@@ -23,19 +23,19 @@
 	</header>
 
 	<div class="page-body">
-		<form name="tradingpassword" id="form-setting-trading-password" method="GET" action="account-trading-account-register-succeeded.html"></form>
-		<div class="f-block snap-top">
-			<ul class="progress-stops layout-hori progress-stops-distribution-compact progress-stops-style-decimal"
-				data-progress-stops-count="3" data-progress-current-stop="3"
-				><li></li
-				><li></li
-				><li></li
-			></ul>
-			<div class="row">
+		<ul class="progress-stops layout-hori progress-stops-distribution-compact progress-stops-style-decimal"
+			data-progress-stops-count="3" data-progress-current-stop="3"
+			><li></li
+			><li></li
+			><li></li
+		></ul>
+		<form name="tradingpassword" id="form-setting-trading-password" method="GET" action="account-trading-account-register-succeeded.html" novalidate></form>
+		<div class="f-block password-pass-1">
+			<div class="row snap-top">
 				<h2>请输入6位数字密码</h2>
 			</div>
 			<div class="f-block-body">
-				<div class="row">
+				<div class="row full-width">
 					<div class="single-char-inputs-set inputs-distribution-full-width input-password input-only-digits"
 						id="account-trading-account-register-password-inputs" 
 						><input form="form-setting-trading-password" class="single-char-inputs-aggregator" name="password1" required="required" type="hidden" 
@@ -49,7 +49,17 @@
 						></div
 					></div>
 				</div>
-				<div class="row">
+			</div>
+			<div class="row error-tip" style="display: none;">
+				<p class="tip color-error">您的两次输入不一致，请重新输入</p>
+			</div>
+		</div>
+		<div class="f-block password-pass-2" style="display: none;">
+			<div class="row snap-top">
+				<h2>请再次输入6位数字密码</h2>
+			</div>
+			<div class="f-block-body">
+				<div class="row full-width">
 					<div class="single-char-inputs-set inputs-distribution-full-width input-password input-only-digits"
 						id="account-trading-account-register-password-inputs" 
 						><input form="form-setting-trading-password" class="single-char-inputs-aggregator" name="password2" required="required" type="hidden" 
@@ -64,11 +74,10 @@
 					></div>
 				</div>
 			</div>
-		</div>
-
-		<div class="row buttons-in-single-line">
-			<button class="rounded-corners size-std-wide" disabled="disabled" form="form-setting-trading-password"
-				button-action="submit">完成</button>
+			<div class="row buttons-in-single-line">
+				<button class="rounded-corners size-std-wide" disabled="disabled" form="form-setting-trading-password"
+					button-action="submit">完成</button>
+			</div>
 		</div>
 		</form>
 

@@ -164,6 +164,7 @@
 		}
 	});
 
+
 	$('[data-text-format]').each(function () {
 		var tnlc = this.tagName.toLowerCase();
 		var contentIsFromUserInput = false;
@@ -319,7 +320,9 @@
 	});
 
 
-	$('form').each(function () {
+	$('form').filter(function (index, form) {
+		return !form.hasAttribute('novalidate');
+	}).each(function () {
 		var $allRequiredInputs = $(this.elements).filter(function (index, el) {
 			// input[required], textarea[required], [contentEditable="true"][required];
 			var tnlc = el.tagName.toLowerCase();

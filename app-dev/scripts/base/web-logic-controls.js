@@ -83,7 +83,7 @@ window.webLogicControls = {};
 		}
 
 
-		this.Menu_NOT_DONE_YET = function (rootElement, initOptions) {
+		this.Menu_NOT_DONE_YET = function Menu(rootElement, initOptions) {
 			// function example() {
 			// 	conf = conf || {};
 			// 	conf.level1IdPrefix = 'menu-chief-1-';
@@ -153,7 +153,7 @@ window.webLogicControls = {};
 		};
 
 
-		this.DraggingController = function(rootElement, initOptions) {
+		this.DraggingController = function DraggingController(rootElement, initOptions) {
 			/*
 				require:
 					ANestedInB()
@@ -533,8 +533,13 @@ window.webLogicControls = {};
 		};
 
 
-		this.SingleCharacterInputsSet = function (rootElement, initOptions) {
-			if (!(rootElement instanceof Node)) {
+		this.SingleCharacterInputsSet = function SingleCharacterInputsSet(rootElement, initOptions) {
+			if (
+				!(rootElement instanceof Node) || 
+				rootElement === document || 
+				rootElement === document.body || 
+				rootElement === document.documentElement
+			) {
 				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
 			}
 			var $allInputs = $(rootElement).find('input.single-char-input').filter(function (index, input) {
@@ -566,6 +571,18 @@ window.webLogicControls = {};
 			this.getValue = function () {
 				return status.aggregatedValue;
 			};
+			this.clear = function () {
+				var thisController = this;
+				$allInputs.each(function (index) {
+					this.value = '';
+					status.allInputsValue[index] = '';
+					status.allInputsFilling[index] = false;
+					status.allInputsValidation[index] = false;
+					// status.allInputsValidation[index] = validateOneInput.call(thisController, this);
+				});
+				aggregateAllInputsValue.call(this);
+				aggregateAllInputsStatus.call(this);
+			};
 			this.disable = function() {
 				$allInputs.each(function () {
 					this.disabled = true;
@@ -578,6 +595,9 @@ window.webLogicControls = {};
 					this.readOnly = false;
 				});
 				status.isDisabled = false;
+			};
+			this.focus = function() {
+				$allInputs[0].focus();
 			};
 
 
@@ -817,6 +837,7 @@ window.webLogicControls = {};
 
 				status.allInputsFilling[inputIndex]    = inputIsFinallyFilled;
 				status.allInputsValidation[inputIndex] = inputIsValid;
+				aggregateAllInputsStatus.call(this);
 
 
 				if (inputIsValid || !inputIsFinallyFilled) {
@@ -837,7 +858,7 @@ window.webLogicControls = {};
 				}
 
 				// fire allInputs event handlers AFTER calling callbacks of single input
-				aggregateAllInputsStatus.call(this);
+				dispatchEventsThatObservingAllInputs.call(this);
 			}
 
 			function inputOnFill(event, inputWasValid) {
@@ -847,26 +868,26 @@ window.webLogicControls = {};
 				var inputIsValid = status.allInputsValidation[inputIndex];
 
 
-				if (this.onOneInputFill) this.onOneInputFill(event);
+				if (this.onOneInputFill) this.onOneInputFill(event, status);
 
 
 				if (inputIsValid) {
-					if (this.onOneInputValid) this.onOneInputValid(event);
+					if (this.onOneInputValid) this.onOneInputValid(event, status);
 				} else {
-					if (this.onOneInputInvalid) this.onOneInputInvalid(event);
+					if (this.onOneInputInvalid) this.onOneInputInvalid(event, status);
 				}
 
 
 				if (!inputWasValid && inputIsValid) {
-					if (this.onOneInputCorrected) this.onOneInputCorrected(event);
+					if (this.onOneInputCorrected) this.onOneInputCorrected(event, status);
 				}
 
 				if (inputWasValid && !inputIsValid) {
-					if (this.onOneInputGoWrong) this.onOneInputGoWrong(event);
+					if (this.onOneInputGoWrong) this.onOneInputGoWrong(event, status);
 				}
 			}
 
-			function inputOnClear(event, inputWasValid) {
+			function inputOnClear(event/*, inputWasValid*/) {
 				// console.log('inputOnClear');
 				if (this.onOneInputClear) this.onOneInputClear(event);
 				// this.onOneInputInvalid && this.onOneInputInvalid(event);
@@ -894,22 +915,24 @@ window.webLogicControls = {};
 				}
 			}
 			function aggregateAllInputsStatus(isCheckingOnLoad) {
-				// console.log('aggregateAllInputsStatus');
-				var allInputsAreValid = true;
-				var allInputsAreFilled = true;
-				var allInputsAreCleared = true;
+				// console.trace('aggregateAllInputsStatus');
+				status.allInputsAreValid   = true;
+				status.allInputsAreFilled  = true;
+				status.allInputsAreCleared = true;
 				for (var i = 0; i < $allInputs.length; i++) {
 					var inputIsFilled = status.allInputsFilling[i];
 					var inputIsValid  = status.allInputsValidation[i];
 
-					if (!inputIsFilled) allInputsAreFilled = false;
-					if (inputIsFilled)  allInputsAreCleared = false;
-					if (!inputIsValid)  allInputsAreValid = false;
+					if (!inputIsFilled) status.allInputsAreFilled  = false;
+					if (inputIsFilled)  status.allInputsAreCleared = false;
+					if (!inputIsValid)  status.allInputsAreValid   = false;
 				}
-
-				if (allInputsAreCleared && this.onAllInputsClear) this.onAllInputsClear(status.aggregatedValue, isCheckingOnLoad);
-				if (allInputsAreFilled  && this.onAllInputsFill ) this.onAllInputsFill (status.aggregatedValue, isCheckingOnLoad);
-				if (allInputsAreValid   && this.onAllInputsValid) this.onAllInputsValid(status.aggregatedValue, isCheckingOnLoad);
+			}
+			function dispatchEventsThatObservingAllInputs(isCheckingOnLoad) {
+				// console.log('dispatchEventsThatObservingAllInputs');
+				if (status.allInputsAreCleared && this.onAllInputsClear) this.onAllInputsClear(status.aggregatedValue, status, isCheckingOnLoad);
+				if (status.allInputsAreFilled  && this.onAllInputsFill ) this.onAllInputsFill (status.aggregatedValue, status, isCheckingOnLoad);
+				if (status.allInputsAreValid   && this.onAllInputsValid) this.onAllInputsValid(status.aggregatedValue, status, isCheckingOnLoad);
 			}
 
 			function getPrevInputOf(refInput) {
@@ -947,7 +970,7 @@ window.webLogicControls = {};
 							if (type !== 'checkbox' && type !== 'raido') {
 								inputForAggregation = options.inputForAggregation;
 								_el.type = status.inputsAreForPassword ? 'hidden' : 'hidden';
-								inputForAggregation.readOnly = true;
+								inputForAggregation.readOnly = false; // important
 								inputForAggregation.disabled = false; // in case it is associated with a form
 							}
 						}
@@ -1005,6 +1028,7 @@ window.webLogicControls = {};
 				});
 
 				aggregateAllInputsStatus.call(this, true);
+				dispatchEventsThatObservingAllInputs.call(this, true);
 
 				// make sure basic setup executed BEFORE binding event listeners
 				$allInputs

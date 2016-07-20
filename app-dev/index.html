@@ -16,6 +16,39 @@
 	 class="page">
 	 <link rel="stylesheet" type="text/css" href="scripts/vendors/swiper-3.3.1/css/swiper.min.css">
 	 <script type="text/javascript" src="scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
+	 <style type="text/css">
+		.banner .carousel {
+			height: 3.9rem;
+		}
+
+		.banner .carousel .carousel-slides > li:nth-child(1) .carousel-bg {
+			background-size: auto 100%;
+			background-position: right center;
+			}
+			.banner .carousel .carousel-slides > li:nth-child(1) > .content article {
+				font-family: 'Microsoft Yahei UI';
+				font-size: 0.65rem;
+				line-height: 1.33;
+				color: black;
+				font-weight: normal;
+			}
+			.banner .carousel .carousel-slides > li:nth-child(1) > .content article h1 {
+				font-size: 1rem;
+				line-height: 1;
+				font-weight: bolder;
+				margin-left: -0.3em;
+			}
+			.banner .carousel .carousel-slides > li:nth-child(1) > .content article h1 em {
+				color: #fc272b;
+			}
+
+		.banner .carousel .carousel-slides > li:nth-child(2) .carousel-bg {
+			background-size: auto 100%;
+			background-position: right center;
+			}
+			.banner .carousel .carousel-slides > li:nth-child(2) > .content article h1 {
+			}
+	 </style>
 	 <header class="page-header color-inverted">
 		<div class="row taijs-brand">
 			<div class="center"
@@ -70,9 +103,16 @@
 				<ul class="swiper-wrapper carousel-slides">
 					<li class="swiper-slide">
 						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-1.png);"></div>
+						<div class="content">
+							<article>
+								<h1>1-100元 <em>现金红包</em></h1>
+								<p>新手好礼 红包送不停</p>
+							</article>
+						</div>
 					</li>
 					<li class="swiper-slide">
 						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-2.png);"></div>
+						<div class="content"></div>
 					</li>
 				</ul>
 				<div class="carousel-nav swiper-pagination"

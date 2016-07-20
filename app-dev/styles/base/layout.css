@@ -311,6 +311,10 @@ article.message {
 
 		.row.input-field button[button-action="clear-input-field"][for-input] {
 			/* top: 1.5rem; */
+			margin-right: 0.25rem;
+		}
+		.row.input-field.single-side-content button[button-action="clear-input-field"][for-input] {
+			margin-right: -0.45rem;
 		}
 		.row.single-side-content .right,
 		.row.single-side-content .left {
@@ -1202,14 +1206,6 @@ article.message {
 		background-size: 100% auto;
 	}
 
-	#page-home .banner .carousel {
-		height: 3.9rem;
-	}
-
-	#page-home .banner .carousel .carousel-slides > li:nth-child(1) .carousel-bg {
-		background-size: auto 100%;
-		background-position: right center;
-	}
 
 #page-account-sign-up-sign-in {
 	}

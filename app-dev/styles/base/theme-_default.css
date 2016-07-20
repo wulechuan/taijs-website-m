@@ -37,6 +37,10 @@ html {
 .color-positive {
 	color: #8ac45f;
 	}
+	.color-negative,
+	.color-error {
+		color: #f33!important;
+	}
 
 
 .tip {
