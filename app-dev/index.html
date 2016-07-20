@@ -13,8 +13,10 @@
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="泰金所" id="page-home"
-	 class="page"
-	><header class="page-header color-inverted">
+	 class="page">
+	 <link rel="stylesheet" type="text/css" href="scripts/vendors/swiper-3.3.1/css/swiper.min.css">
+	 <script type="text/javascript" src="scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
+	 <header class="page-header color-inverted">
 		<div class="row taijs-brand">
 			<div class="center"
 				><div class="taijs-logo   image"></div
@@ -64,12 +66,16 @@
 
 	<div class="page-body">
 		<div class="f-block banner">
-			<div class="carousel">
-				<ul class="carousel-slides">
-					<li><div class="carousel-bg" style="background-image: url(images/pages/index/carousel-1.png);"></div></li>
-					<li><div class="carousel-bg" style="background-image: url(images/pages/index/carousel-2.png);"></div></li>
+			<div class="carousel swiper-container">
+				<ul class="swiper-wrapper carousel-slides">
+					<li class="swiper-slide">
+						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-1.png);"></div>
+					</li>
+					<li class="swiper-slide">
+						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-2.png);"></div>
+					</li>
 				</ul>
-				<div class="carousel-nav"
+				<div class="carousel-nav swiper-pagination"
 					><button></button
 					><button></button
 				></div>
@@ -257,7 +263,15 @@
 	<!-- inject:popupLayersWrapBeginAAA:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEndAAA:html --><!-- endinject -->
 
-	<script src="../scripts/pages/index.min.js"></script>
+	<script>
+		(function () {
+			var swiper1 = new Swiper('.swiper-container', {
+				pagination: '.carousel-nav',
+				paginationElement: 'button',
+				paginationClickable: true
+			});
+		})();
+	</script>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 

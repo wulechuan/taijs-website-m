@@ -463,13 +463,15 @@ label.deco-input {
 	background-color: white;
 	}
 	.carousel-nav button::before {
-		opacity: 0.2;
+		opacity: 0.16;
 		background-color: black;
 	}
 	.carousel-nav button:hover::before {
 		opacity: 1;
 		background-color: #4285f4;
 	}
+	.carousel-nav button.swiper-pagination-bullet-active:hover::before,
+	.carousel-nav button.swiper-pagination-bullet-active::before,
 	.carousel-nav button.current:hover::before,
 	.carousel-nav button.current::before {
 		opacity: 1;

@@ -2459,8 +2459,9 @@ ol.f-list, ul.f-list { /* function list */
 			border-width: 0;
 			background-color: transparent;
 			padding: 0;
-			margin: 0.25rem;
-			top: -1.5rem;
+			margin: 0rem!important;
+			top: -0.75rem;
+			opacity: 1!important;
 		}
 		.carousel-nav button:hover {
 			background-color: transparent;
