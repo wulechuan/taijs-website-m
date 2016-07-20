@@ -1280,6 +1280,7 @@ article.message {
 			width: 100%;
 			height: 2.5rem;
 			z-index: 100;
+			overflow: hidden;
 		}
 
 		#page-home.page-header-in-compact-mode .page-header .row.user-assets-abstract {
