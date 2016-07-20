@@ -455,9 +455,16 @@ label.deco-input {
 }
 
 
-.carousel-nav button::before {
-	opacity: 0.2;
-	background-color: black;
+.banner {
+	background-color: white;
+}
+
+.carousel {
+	background-color: white;
+	}
+	.carousel-nav button::before {
+		opacity: 0.2;
+		background-color: black;
 	}
 	.carousel-nav button:hover::before {
 		opacity: 1;

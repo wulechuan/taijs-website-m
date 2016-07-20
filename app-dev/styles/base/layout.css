@@ -125,7 +125,6 @@ article.message {
 		margin-right: 0.8rem;
 	}
 	.f-block .row.full-width,
-	.f-block .tiles,
 	.f-block .row,
 	.f-block-body {
 		margin-left: -0.8rem;
@@ -462,8 +461,17 @@ article.message {
 		border-width: 1px 0;
 	}
 
+	.f-block.banner {
+		border-width: 0;
+		padding: 0;
+		margin: 0.25rem 0;
+	}
+
 	.f-block.banner .f-block-body {
 		border-width: 0;
+		padding: 0;
+		margin-left: 0;
+		margin-right: 0;
 	}
 
 	.f-block.snap-top .f-block-body {
@@ -1194,6 +1202,14 @@ article.message {
 		background-size: 100% auto;
 	}
 
+	#page-home .banner .carousel {
+		height: 3.9rem;
+	}
+
+	#page-home .banner .carousel .carousel-slides > li:nth-child(1) .carousel-bg {
+		background-size: auto 100%;
+		background-position: right center;
+	}
 
 #page-account-sign-up-sign-in {
 	}

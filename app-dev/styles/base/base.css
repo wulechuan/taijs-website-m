@@ -2405,6 +2405,42 @@ ol.f-list, ul.f-list { /* function list */
 	min-height: 5rem;
 	}
 
+	.carousel-slides {
+		position: relative;
+		display: block;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		overflow: hidden;
+
+		}
+		.carousel-slides > li {
+			list-style: none;
+			position: absolute;
+			display: block;
+			box-sizing: border-box;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			overflow: hidden;
+		}
+
+		.carousel-bg {
+			display: block;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: cover;
+		}
+
 	.carousel-nav {
 		display: block;
 		position: absolute;
