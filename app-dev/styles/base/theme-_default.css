@@ -56,6 +56,14 @@ a, a:visited {
 	color: #4285f4;
 	}
 
+.color-inverted {
+	color: white;
+	background-color: #4285f4;
+	}
+	.color-inverted a, .color-inverted a:visited {
+		color: white;
+	}
+
 input {
 	color: black;
 	}
@@ -79,8 +87,8 @@ input {
 	input[type="button"],
 	input[type="submit"],
 	input[type="reset"],
-	a[role="button"],/* this line is for ie8 */
 	a[role="button"],
+	[role="button"],
 	button {
 		color: white;
 		border-color: #4285f4;
@@ -90,6 +98,7 @@ input {
 	input[type="button"]:hover,
 	input[type="submit"]:hover,
 	input[type="reset"]:hover,
+	a[role="button"]:hover,
 	[role="button"]:hover,
 	button:hover {
 		background-color: #3f93ff;
@@ -98,11 +107,13 @@ input {
 	input[type="button"]:disabled:hover,
 	input[type="submit"]:disabled:hover,
 	input[type="reset"]:disabled:hover,
+	a[role="button"]:disabled:hover,
 	[role="button"]:disabled:hover,
 	button:disabled:hover,
 	input[type="button"]:disabled,
 	input[type="submit"]:disabled,
 	input[type="reset"]:disabled,
+	a[role="button"]:disabled,
 	[role="button"]:disabled,
 	button:disabled {
 		color: #bdbdbd;
@@ -113,8 +124,20 @@ input {
 	input[type="reset"].color-white,
 	input[type="button"].color-white,
 	input[type="submit"].color-white,
+	a[role="button"].color-white,
 	[role="button"].color-white,
 	button.color-white {
+	    color: #4285f4;
+	    border-color: white;
+	    background-color: white;
+	}
+
+	.color-inverted input[type="reset"],
+	.color-inverted input[type="button"],
+	.color-inverted input[type="submit"],
+	.color-inverted a[role="button"],
+	.color-inverted [role="button"],
+	.color-inverted button {
 	    color: #4285f4;
 	    border-color: white;
 	    background-color: white;
@@ -123,6 +146,7 @@ input {
 	input[type="reset"].bg-transparent,
 	input[type="button"].bg-transparent,
 	input[type="submit"].bg-transparent,
+	a[role="button"].bg-transparent,
 	[role="button"].bg-transparent,
 	button.bg-transparent {
 		color: #4285f4;
@@ -131,14 +155,22 @@ input {
 	input[type="reset"].bg-transparent:hover,
 	input[type="button"].bg-transparent:hover,
 	input[type="submit"].bg-transparent:hover,
+	a[role="button"].bg-transparent:hover,
 	[role="button"].bg-transparent:hover,
 	button.bg-transparent:hover {
 		background-color: #e5f1ff;
 	}
 
+	.color-inverted input[type="reset"].bg-transparent,
+	.color-inverted input[type="button"].bg-transparent,
+	.color-inverted input[type="submit"].bg-transparent,
+	.color-inverted a[role="button"].bg-transparent,
+	.color-inverted [role="button"].bg-transparent,
+	.color-inverted button.bg-transparent,
 	input[type="reset"].bg-transparent.color-white,
 	input[type="button"].bg-transparent.color-white,
 	input[type="submit"].bg-transparent.color-white,
+	a[role="button"].bg-transparent.color-white,
 	[role="button"].bg-transparent.color-white,
 	button.bg-transparent.color-white {
 	    color: white;
@@ -147,9 +179,16 @@ input {
 	    background-color: transparent;
 	}
 
+	.color-inverted input[type="reset"].bg-transparent:hover,
+	.color-inverted input[type="button"].bg-transparent:hover,
+	.color-inverted input[type="submit"].bg-transparent:hover,
+	.color-inverted a[role="button"].bg-transparent:hover,
+	.color-inverted [role="button"].bg-transparent:hover,
+	.color-inverted button.bg-transparent:hover,
 	input[type="reset"].bg-transparent.color-white:hover,
 	input[type="button"].bg-transparent.color-white:hover,
 	input[type="submit"].bg-transparent.color-white:hover,
+	a[role="button"].bg-transparent.color-white:hover,
 	[role="button"].bg-transparent.color-white:hover,
 	button.bg-transparent.color-white:hover {
 	    background-color: rgba(255, 255, 255, 0.16)!important;
@@ -158,6 +197,7 @@ input {
 	input[type="reset"].simple-look,
 	input[type="button"].simple-look,
 	input[type="submit"].simple-look,
+	a[role="button"].simple-look,
 	[role="button"].simple-look,
 	button.simple-look .iconfont,
 	button.simple-look {
@@ -167,6 +207,7 @@ input {
 	input[type="reset"].simple-look:hover,
 	input[type="button"].simple-look:hover,
 	input[type="submit"].simple-look:hover,
+	a[role="button"].simple-look:hover,
 	[role="button"].simple-look:hover,
 	button.simple-look:hover {
 		background-color: transparent;
@@ -175,6 +216,8 @@ input {
 	.dialog-footer input[type="reset"],
 	.dialog-footer input[type="button"],
 	.dialog-footer input[type="submit"],
+	.dialog-footer a[role="button"],
+	.dialog-footer [role="button"],
 	.dialog-footer button {
 		color: #333;
 	}
@@ -182,10 +225,14 @@ input {
 	.dialog-footer input[type="reset"].promoted,
 	.dialog-footer input[type="button"].promoted,
 	.dialog-footer input[type="submit"].promoted,
+	.dialog-footer a[role="button"].promoted,
+	.dialog-footer [role="button"].promoted,
 	.dialog-footer button.promoted,
 	.dialog-footer input[type="reset"][button-action="confirm"],
 	.dialog-footer input[type="button"][button-action="confirm"],
 	.dialog-footer input[type="submit"][button-action="confirm"],
+	.dialog-footer a[role="button"][button-action="confirm"],
+	.dialog-footer [role="button"][button-action="confirm"],
 	.dialog-footer button[button-action="confirm"] {
 		color: #4285f4;
 	}
@@ -193,11 +240,13 @@ input {
 	.page-body-stamp input[type="button"]:hover,
 	.page-body-stamp input[type="submit"]:hover,
 	.page-body-stamp input[type="reset"]:hover,
+	.page-body-stamp a[role="button"]:hover,
 	.page-body-stamp [role="button"]:hover,
 	.page-body-stamp button:hover,
 	.page-body-stamp input[type="button"],
 	.page-body-stamp input[type="submit"],
 	.page-body-stamp input[type="reset"],
+	.page-body-stamp a[role="button"],
 	.page-body-stamp [role="button"],
 	.page-body-stamp button {
 		color: #666;
@@ -205,8 +254,10 @@ input {
 		background-color: transparent;
 	}
 
-	*[role="button"].button-in-pseudo-slot:hover,
-	*[role="button"].button-in-pseudo-slot,
+	a[role="button"].button-in-pseudo-slot:hover,
+	a[role="button"].button-in-pseudo-slot,
+	[role="button"].button-in-pseudo-slot:hover,
+	[role="button"].button-in-pseudo-slot,
 	button.button-in-pseudo-slot:hover,
 	button.button-in-pseudo-slot {
 		color: inherit;
@@ -220,14 +271,14 @@ input {
 	input[type="button"].simple-look,
 	input[type="submit"].simple-look *,
 	input[type="submit"].simple-look,
+	a[role="button"].simple-look *,
+	a[role="button"].simple-look,
+	[role="button"].simple-look *,
+	[role="button"].simple-look,
 	button.simple-look *,
 	button.simple-look {
 		/* color: #4285f4; */
 		transition-property: background-color;
-	}
-
-	.item-filters button.simple-look {
-		color: #4285f4;
 	}
 
 	input[type="reset"].simple-look:hover .iconfont,
@@ -236,6 +287,10 @@ input {
 	input[type="button"].simple-look:hover,
 	input[type="submit"].simple-look:hover .iconfont,
 	input[type="submit"].simple-look:hover,
+	a[role="button"].simple-look:hover .iconfont,
+	a[role="button"].simple-look:hover,
+	[role="button"].simple-look:hover .iconfont,
+	[role="button"].simple-look:hover,
 	button.simple-look:hover .iconfont,
 	button.simple-look:hover {
 		color: #4285f4;
@@ -283,6 +338,12 @@ input {
 	button:focus {
 		outline-color: #4285f4;
 	}
+
+
+.color-inverted hr {
+	border-color: white;
+	background-color: white;
+}
 
 
 button.button-x {

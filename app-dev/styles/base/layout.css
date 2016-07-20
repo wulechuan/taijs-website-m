@@ -1082,48 +1082,113 @@ article.message {
 	}
 	#page-home .page-body {
 		min-height: calc(100% - 5rem);
-	}
+		}
+
 	#page-home .page-header .row.taijs-brand {
 		padding-top: 0;
 		padding-bottom: 0;
 		margin-top: 1rem;
 		margin-bottom: 0.25rem;
-	}
-	#page-home .page-header .row.sign-up-sign-in-buttons {
+		}
+		#page-home .page-header .row.sign-up-sign-in-buttons {
+			padding-top: 0;
+			padding-bottom: 0;
+			margin: 0.25rem 1.25rem 0.75rem 1.25rem;
+		}
+		#page-home .page-header .row.sign-up-sign-in-buttons [role="button"],
+		#page-home .page-header .row.sign-up-sign-in-buttons button {
+			padding-top: 0;
+			padding-bottom: 0;
+			margin: 0.25rem 0.25rem;
+			height: 2rem;
+			line-height: 1.9rem;
+			line-height: calc(2rem - 2px);
+			box-sizing: border-box;
+			width: calc(50% - 0.5rem);
+			font-size: 0.9rem;
+		}
+		#page-home .page-header .taijs-logo,
+		#page-home .page-header .taijs-slogan {
+			display: inline-block;
+			vertical-align: top;
+			width: 5rem;
+			height: 1.4rem;
+			background-position: center;
+		}
+		#page-home .page-header .taijs-logo {
+			margin: 0 0.25rem 0 0.7rem;
+			background-size: auto 100%;
+		}
+		#page-home .page-header .taijs-slogan {
+			margin: 0;
+			background-position: left;
+			background-size: 100% auto;
+		}
+
+		#page-home .page-header .row.user-account-toolar {
+			display: none;
+		}
+		#page-home .page-header .row.user-assets-abstract {
+			display: none;
+		}
+
+	.user-has-logged-in #page-home .page-header .row.taijs-brand {
 		padding-top: 0;
 		padding-bottom: 0;
-		margin: 0.25rem 1.25rem 0.75rem 1.25rem;
-	}
-	#page-home .page-header .row.sign-up-sign-in-buttons [role="button"],
-	#page-home .page-header .row.sign-up-sign-in-buttons button {
+		margin-top: 1rem;
+		margin-bottom: 0.25rem;
+		}
+		.user-has-logged-in #page-home .page-header .row.sign-up-sign-in-buttons {
+			display: none;
+		}
+
+		.user-has-logged-in #page-home .page-header .row.user-account-toolar {
+			display: block;
+		}
+
+		.user-has-logged-in #page-home .page-header .row.user-assets-abstract {
+			display: block;
+		}
+
+	#page-home .page-header.compact-mode .row.taijs-brand {
 		padding-top: 0;
 		padding-bottom: 0;
-		margin: 0.25rem 0.25rem;
-		height: 2rem;
-		line-height: 1.9rem;
-		line-height: calc(2rem - 2px);
-		box-sizing: border-box;
-		width: calc(50% - 0.5rem);
-		font-size: 0.9rem;
-	}
-	#page-home .page-header .taijs-logo,
-	#page-home .page-header .taijs-slogan {
+		margin-top: 1rem;
+		margin-bottom: 0.25rem;
+		}
+		#page-home .page-header.compact-mode .row.sign-up-sign-in-buttons {
+			display: none;
+		}
+
+		#page-home .page-header.compact-mode .row.user-assets-abstract {
+		}
+
+
+	.user-has-logged-in #page-home .page-header .row.taijs-brand,
+	#page-home .page-header.compact-mode .row.taijs-brand {
+		padding-top: 0;
+		padding-bottom: 0;
+		margin-top: 1rem;
+		margin-bottom: 0.25rem;
+		}
+
+	.user-has-logged-in #page-home .page-header .taijs-logo,
+	.user-has-logged-in #page-home .page-header .taijs-slogan,
+	#page-home .page-header.compact-mode .taijs-logo,
+	#page-home .page-header.compact-mode .taijs-slogan {
 		display: inline-block;
 		vertical-align: top;
 		width: 5rem;
 		height: 1.4rem;
 		background-position: center;
 	}
-	#page-home .page-header .taijs-logo {
+	.user-has-logged-in #page-home .page-header .taijs-logo,
+	#page-home .page-header.compact-mode .taijs-logo {
 		margin: 0 0.25rem 0 0.7rem;
 		background-size: auto 100%;
 	}
-	#page-home .page-header .taijs-slogan {
-		margin: 0;
-		background-position: left;
-		background-size: 100% auto;
-	}
-	#page-home .page-header .taijs-slogan {
+	.user-has-logged-in #page-home .page-header .taijs-slogan,
+	#page-home .page-header.compact-mode .taijs-slogan {
 		margin: 0;
 		background-position: left;
 		background-size: 100% auto;

@@ -4,7 +4,7 @@
 	<title>泰金所</title>
 	<!-- inject:headAfterTitle:html --><!-- endinject -->
 </head>
-<body>
+<body class="user-has-logged-in">
 <!-- inject:bodyBegin:html --><!-- endinject -->
 
 <!-- inject:appRootWrapBegin:html --><!-- endinject -->
@@ -14,7 +14,7 @@
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="泰金所" id="page-home"
 	 class="page"
-	><header class="page-header">
+	><header class="page-header color-inverted">
 		<div class="row taijs-brand">
 			<div class="center"
 				><div class="taijs-logo   image"></div
@@ -22,10 +22,43 @@
 			></div>
 		</div>
 		<div class="row sign-up-sign-in-buttons">
-			<a role="button" class="size-std-regular1 color-white bg-transparent"
+			<a role="button" class="bg-transparent"
 				href="html/account-sign-up-sign-in.html?tabLabel=sign-in">登录</a
-			><a role="button" class="size-std-regular1 color-white"
+			><a role="button"
 				href="html/account-sign-up-sign-in.html?tabLabel=sign-up">注册</a>
+		</div>
+		<div class="row user-account-toolar">
+			<ul class="toolbar"
+				><li><span class="value user-id" data-text-format="mobile">134****5678</span></li
+				><li><a href="#">退出</a></li
+			></ul>
+		</div>
+		<div class="row user-assets-abstract">
+			<ul class="columns"
+				><li class="col col-1">
+					<span class="label">总资产（元）<i class="iconfont sensitive-content-status-icon"></i></span>
+					<span class="content sensitive-content sensitive-content-shown">
+						<span class="sensitive-value-cell">
+							<span class="sensitive-value value" style="display: none;">100,000.00</span>
+							<span class="sensitive-value-replacement">*************</span>
+						</span>
+					</span>
+				</li
+				><hr class="vert" 
+				><li class="col col-2">
+					<span class="label">昨日收益（元）</span>
+					<span class="content">
+						<span class="value">+89.00</span>
+					</span>
+				</li
+				><hr class="vert" 
+				><li class="col col-3">
+					<span class="label">累计收益（元）</span>
+					<span class="content">
+						<span class="value">+695.00</span>
+					</span>
+				</li
+			></ul>
 		</div>
 	</header>
 

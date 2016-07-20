@@ -97,6 +97,7 @@ hr {
 	height: 1px;
 	padding: 0;
 	border: 0;
+	border-style: solid;
 	overflow: hidden;
 	box-sizing: border-box;
 	}
@@ -124,6 +125,10 @@ hr {
 		border-width: 0 1px 0 0;
 		width: 0;
 		min-height: 1rem;
+	}
+
+	hr.vert:before {
+		content: none;
 	}
 
 	.col ~ hr.vert {
