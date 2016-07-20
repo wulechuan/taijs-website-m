@@ -996,6 +996,7 @@ window.webLogicControls = {};
 				this.config(initOptions);
 
 				$allInputs.each(function (index) {
+					this.autocomplete = 'off';
 					this.dataset.inputIndex = index;
 					this.type = status.inputsAreForPassword ? 'password' : 'text';
 					status.allInputsValue[index] = this.value;
