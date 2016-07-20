@@ -1283,16 +1283,13 @@ label.deco-input {
 		font-size: 1rem;
 		margin: -0.2rem 0.1rem;
 	}
-	.sensitive-content.sensitive-content-shown .sensitive-content-status-icon {
-		background-color: pink;
-	}
 	.sensitive-content .sensitive-content-status-icon::before {
 		font-family: 'iconfont'!important;
-		content: '\e666';
+		content: '\e60d';
 	}
 	.sensitive-content.sensitive-content-shown .sensitive-content-status-icon::before {
 		font-family: 'iconfont'!important;
-		content: '\e666';
+		content: '\e60e';
 	}
 
 
