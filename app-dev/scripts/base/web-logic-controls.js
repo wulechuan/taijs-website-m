@@ -575,6 +575,7 @@ window.webLogicControls = {};
 			this.enable = function() {
 				$allInputs.each(function () {
 					this.disabled = false;
+					this.readOnly = false;
 				});
 				status.isDisabled = false;
 			};
@@ -946,6 +947,8 @@ window.webLogicControls = {};
 							if (type !== 'checkbox' && type !== 'raido') {
 								inputForAggregation = options.inputForAggregation;
 								_el.type = status.inputsAreForPassword ? 'hidden' : 'hidden';
+								inputForAggregation.readOnly = true;
+								inputForAggregation.disabled = false; // in case it is associated with a form
 							}
 						}
 					} else {

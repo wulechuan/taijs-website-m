@@ -386,8 +386,9 @@
 		});
 
 
-		function _validateAllRequiredInputs(shouldSkipDisabledInputs) {
+		function _validateAllRequiredInputs(shouldSkipDisabledInputs, shouldSkipReadOnlyInputs) {
 			shouldSkipDisabledInputs = !!shouldSkipDisabledInputs; // not implemented yet
+			shouldSkipReadOnlyInputs = !!shouldSkipReadOnlyInputs; // not implemented yet
 			allInputsAreValid = true;
 			for (var i = 0; i < allInputsValidation.length; i++) {
 				allInputsAreValid = allInputsAreValid && allInputsValidation[i];
