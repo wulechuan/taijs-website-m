@@ -1139,23 +1139,28 @@ article.message {
 
 		#page-home .page-header .row.user-account-toolar {
 			display: none;
-			position: absolute;
-			width: 45%;
-			right: 0;
+			width: 100%;
 			font-size: 0.7rem;
-			height: 1rem;
-			line-height: 1rem;
-			padding: 0.75rem 0.6rem 0.75rem 0.1rem;
 			text-align: right;
+			margin: 0 0 2.5rem 0;
+			padding: 0;
+			height: 0;
+			position: relative;
+			right: 0;
+			top: 0;
+			overflow: visible;
 			}
 			#page-home .page-header .row.user-account-toolar .toolbar {
+				height: 1rem;
+				line-height: 1rem;
+				padding: 0.75rem 0.6rem 0.75rem 0.1rem;
 				white-space: nowrap;
 				text-align: right;
+				background-color: inherit;
 			}
 		#page-home .page-header .row.user-assets-abstract {
 			display: none;
 			position: relative;
-			margin-top: 2.3rem;
 			font-size: 1rem;
 			}
 			#page-home .page-header .row.user-assets-abstract .col {
@@ -1227,6 +1232,31 @@ article.message {
 
 		#page-home .page-header.compact-mode .row.user-assets-abstract {
 			display: none;
+		}
+		#page-home .page-header.compact-mode .row.user-account-toolar {
+			margin-bottom: 0;
+		}
+		#page-home .page-header.compact-mode .row.sign-up-sign-in-buttons {
+			box-sizing: border-box;
+			width: 100%;
+			height: 0;
+			overflow: visible;
+			text-align: right;
+			white-space: nowrap;
+			padding: 0 0.25rem;
+			margin: 0 0 2.5rem 0;
+		}
+		#page-home .page-header.compact-mode .row.sign-up-sign-in-buttons [role="button"],
+		#page-home .page-header.compact-mode .row.sign-up-sign-in-buttons button {
+			padding-top: 0;
+			padding-bottom: 0;
+			margin: 0.5rem 0.25rem;
+			width: 4.3rem;
+			height: 1.5rem;
+			line-height: 1.4rem;
+			line-height: calc(1.5rem - 2px);
+			box-sizing: border-box;
+			font-size: 0.7rem;
 		}
 
 
