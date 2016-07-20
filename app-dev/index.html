@@ -14,9 +14,9 @@
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="泰金所" id="page-home"
 	 class="page">
-	 <link rel="stylesheet" type="text/css" href="scripts/vendors/swiper-3.3.1/css/swiper.min.css">
-	 <script type="text/javascript" src="scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
-	 <style type="text/css">
+	<link rel="stylesheet" type="text/css" href="scripts/vendors/swiper-3.3.1/css/swiper.min.css">
+	<script type="text/javascript" src="scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
+	<style type="text/css">
 		.banner .carousel {
 			height: 3.9rem;
 		}
@@ -48,14 +48,12 @@
 			}
 			.banner .carousel .carousel-slides > li:nth-child(2) > .content article h1 {
 			}
-	 </style>
-	 <header class="page-header color-inverted">
-		<div class="row taijs-brand">
-			<div class="center"
-				><div class="taijs-logo   image"></div
-				><div class="taijs-slogan image"></div
-			></div>
-		</div>
+	</style>
+	<header class="page-header color-inverted compact-mode">
+		<div class="row taijs-brand"
+			><div class="taijs-logo   image"></div
+			><div class="taijs-slogan image"></div
+		></div>
 		<div class="row sign-up-sign-in-buttons">
 			<a role="button" class="bg-transparent"
 				href="html/account-sign-up-sign-in.html?tabLabel=sign-in">登录</a
@@ -63,7 +61,7 @@
 				href="html/account-sign-up-sign-in.html?tabLabel=sign-up">注册</a>
 		</div>
 		<div class="row user-account-toolar">
-			<ul class="toolbar"
+			<ul class="toolbar has-separator"
 				><li><span class="value user-id" data-text-format="mobile">134****5678</span></li
 				><li><a href="#">退出</a></li
 			></ul>
@@ -83,14 +81,14 @@
 				><li class="col col-2">
 					<span class="label">昨日收益（元）</span>
 					<span class="content">
-						<span class="value">+89.00</span>
+						<span class="value digits digits-with-sign">+89.00</span>
 					</span>
 				</li
 				><hr class="vert" 
 				><li class="col col-3">
 					<span class="label">累计收益（元）</span>
 					<span class="content">
-						<span class="value">+695.00</span>
+						<span class="value digits digits-with-sign">+695.00</span>
 					</span>
 				</li
 			></ul>
@@ -303,15 +301,7 @@
 	<!-- inject:popupLayersWrapBeginAAA:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEndAAA:html --><!-- endinject -->
 
-	<script>
-		(function () {
-			var swiper1 = new Swiper('.swiper-container', {
-				pagination: '.carousel-nav',
-				paginationElement: 'button',
-				paginationClickable: true
-			});
-		})();
-	</script>
+	<script src="scripts/pages/index.min.js"></script>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 

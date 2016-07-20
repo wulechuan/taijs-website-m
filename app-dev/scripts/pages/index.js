@@ -1,4 +1,12 @@
-(function () {
+$(function () {
+	(function () {
+		var swiper1 = new Swiper('.swiper-container', {
+			pagination: '.carousel-nav',
+			paginationElement: 'button',
+			paginationClickable: true
+		});
+	})();
+
 	function processParametersPassedIn() {
 		var qString = location.href.match(/\?[^#]*/);
 		if (qString) qString = qString[0].slice(1);
@@ -28,4 +36,4 @@
 	} else {
 		$('body').removeClass('user-has-logged-in');
 	}
-})();
+});

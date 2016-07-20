@@ -32,7 +32,13 @@ html {
 .bg-transparent {
 	background-color: transparent;
 	}
-
+.sensitive-value-replacement {
+	background-color: white;
+	}
+	.color-inverted .sensitive-value-replacement {
+		color: white;
+		background-color: #4285f4;
+	}
 
 .color-positive {
 	color: #8ac45f;
