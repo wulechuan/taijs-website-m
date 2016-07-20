@@ -1259,6 +1259,42 @@ label.deco-input {
 		margin: 0;
 	}
 
+.sensitive-content {
+	}
+	.sensitive-content .sensitive-content-status-icon {
+		
+	}
+	.sensitive-content .sensitive-value {
+		display: none!important;
+	}
+	.sensitive-content .sensitive-value-replacement {
+		display: block!important;
+	}
+	.sensitive-content.sensitive-content-shown .sensitive-value {
+		display: block!important;
+	}
+	.sensitive-content.sensitive-content-shown .sensitive-value-replacement {
+		display: none!important;
+	}
+	.sensitive-content .sensitive-content-status-icon {
+		width: 1rem;
+		height: 1rem;
+		line-height: 1rem;
+		font-size: 1rem;
+		margin: -0.2rem 0.1rem;
+	}
+	.sensitive-content.sensitive-content-shown .sensitive-content-status-icon {
+		background-color: pink;
+	}
+	.sensitive-content .sensitive-content-status-icon::before {
+		font-family: 'iconfont'!important;
+		content: '\e666';
+	}
+	.sensitive-content.sensitive-content-shown .sensitive-content-status-icon::before {
+		font-family: 'iconfont'!important;
+		content: '\e666';
+	}
+
 
 .expandable {
 	display: block;

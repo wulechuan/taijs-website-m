@@ -402,6 +402,20 @@
 	});
 
 
+	$('.sensitive-content').each(function () {
+		var $sensitiveContentBlock = $(this);
+
+		var $toggleIcon = $sensitiveContentBlock.find('.sensitive-content-status-icon');
+		if ($toggleIcon.length < 1) {
+			return false;
+		}
+
+		$toggleIcon.on('click', function () {
+			$sensitiveContentBlock.toggleClass('sensitive-content-shown');
+		});
+	});
+
+
 	$('.tab-panel-set').each(function () {
 		var $allPanels = $(this).find('.panel');
 		if ($allPanels.length < 1) return false;
