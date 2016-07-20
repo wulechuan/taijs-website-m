@@ -3,11 +3,6 @@ html, body, .app {
 	}
 
 
-.em-digits {
-	font-size: 1.66rem;
-	}
-
-
 button.nav-home::before,
 button.nav-back::before,
 [role="button"].nav-home::before,

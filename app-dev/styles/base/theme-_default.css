@@ -57,8 +57,8 @@ html {
 	color: #999;
 }
 
-em, .em-digits {
-	color: #ff7200;
+em {
+	/* color: #ff7200; */
 	color: #f60;
 	}
 
@@ -518,6 +518,11 @@ label.deco-input {
 	.f-block-body .row {
 		border-color: #f1f1f1;
 	}
+	.f-block-body .row.hide-borders,
+	.row.hide-borders {
+		border-color: white;
+	}
+
 	.f-block-body,
 	.f-block-body a .row {
 		color: #333;
