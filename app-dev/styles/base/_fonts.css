@@ -24,10 +24,13 @@ textarea, input {
 		font-size: 16px;
 	}
 
+.helvetica-digits .arial-digits .digits,
+.helvetica-digits .arial-digits .phone,
+.arial,
 .bank-card-number,
 .phone,
-.digits,
-.currency {
+/* .currency, */
+.digits {
 	font-family: Arial, 'Helvetica Neue LT Pro', Helvetica, 'Microsoft Yahei UI', 'Microsoft Yahei', Sans-Serif;
 	font-weight: lighter;
 }

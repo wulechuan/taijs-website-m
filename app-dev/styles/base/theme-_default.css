@@ -518,10 +518,10 @@ label.deco-input {
 	.f-block-body .row {
 		border-color: #f1f1f1;
 	}
-	.f-block-body .row.hide-borders,
+	/* .f-block-body .row.hide-borders,
 	.row.hide-borders {
 		border-color: white;
-	}
+	} */
 
 	.f-block-body,
 	.f-block-body a .row {
@@ -747,9 +747,6 @@ label.deco-input {
 		background-color: white;
 	}
 
-
-
-.page#page-account-sign-up-succeeded,
-.page#page-account-sign-up-sign-in {
-	background-color: white;
-}
+	.page.bg-white {
+		background-color: white;
+	}

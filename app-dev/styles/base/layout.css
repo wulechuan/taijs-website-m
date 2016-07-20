@@ -136,6 +136,11 @@ article.message {
 		white-space: normal;
 	}
 
+	.hide-borders > .row,
+	.row.hide-borders {
+		border-style: none;
+	}
+
 	.row.buttons-in-single-line {
 		margin-top: 1rem;
 		margin-bottom: 1rem;
@@ -144,8 +149,13 @@ article.message {
 		padding-bottom: 0.5rem;
 	}
 
+	.f-block .row.padding-top-taller,
+	.row.padding-top-taller {
+		padding-top: 1rem;
+	}
+
 	.row.buttons-in-single-line + .row.buttons-in-single-line {
-		margin-top: -0.75rem;
+		margin-top: 0rem;
 	}
 
 	.page-footer .row.buttons-in-single-line {
@@ -480,6 +490,19 @@ article.message {
 	.f-block-body *,
 	.f-block-body {
 		border-style: solid;
+	}
+
+	.f-block-body.hide-borders {
+		border-style: none;
+	}
+
+	.f-block-body hr {
+		margin: 0;
+	}
+	.f-block-body hr.full-width {
+		width: auto;
+		margin-left: -0.8rem;
+		margin-right: -0.8rem;
 	}
 
 	.f-block-body .row {
