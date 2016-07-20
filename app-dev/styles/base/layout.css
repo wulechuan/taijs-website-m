@@ -159,6 +159,12 @@ article.message {
 		margin-bottom: 0;
 	}
 
+	.row.buttons-in-single-line [role="button"],
+	.row.buttons-in-single-line button {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
 	.row.buttons-in-single-line .size-std-wide {
 		width: 100%;
 		height: 2.3rem;
@@ -336,6 +342,12 @@ article.message {
 			border-top-left-radius: 4px;
 			border-top-right-radius: 4px;
 		}
+		.row.input-field.style-traditional .left {
+			padding-left: 0.5rem;
+			margin-left: -0.5rem;
+			padding-top: 0;
+			padding-bottom: 0;
+		}
 		.row.input-field.style-traditional .input-tip {
 			left: 0.5rem;
 		}
@@ -458,8 +470,12 @@ article.message {
 		margin-top: -1px;
 	}
 
-	.f-block-body .row {
+	.f-block-body *,
+	.f-block-body {
 		border-style: solid;
+	}
+
+	.f-block-body .row {
 		border-color: inherit;
 		border-width: 1px 0;
 		margin-top: -1px;
@@ -627,35 +643,6 @@ article.message {
 	}
 
 
-.tab-panel-set {
-	}
-
-	.tab-list {
-		width: 100%;
-		}
-
-		.tab-list.tabs-count-2 > li {
-			width: 50%;
-			text-align: center;
-			padding: 0.5rem;
-			box-sizing: border-box;
-		}
-
-		.tab-list > li > .label {
-			display: inline-block;
-			margin: 0.15rem 0;
-			line-height: 1.2rem;
-		}
-
-
-	.panel-group {
-	}
-
-	.panel.current {
-		padding: 1rem 0;
-	}
-
-
 .hero-content-block {
 	position: relative;
 	}
@@ -699,6 +686,140 @@ article.message {
 
 	.hero-content-block .hero-content-features > li {
 		margin: 0 0.8rem 0;
+	}
+
+	.row.hero-content-block-call-to-action {
+		min-height: 1.5rem;
+	}
+
+
+.product-abstract {
+	}
+	.product-abstract .abstract-title h3 {
+		font-weight: normal;
+		font-size: 0.8rem;
+	}
+	.product-abstract .abstract-title .call-to-action-label {
+		font-weight: normal;
+		font-size: 0.65rem;
+	}
+	.product-abstract .abstract-title::after {
+		transform: scale(0.75, 0.75);
+	}
+
+	.product-abstract .col {
+		margin-top: 0.7rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.product-abstract .col ~ hr.vert {
+		margin-top: 0.95rem;
+		height: 3.8rem;
+	}
+
+	.product-abstract .col.col-1 {
+		box-sizing: border-box;
+		width: 47%;
+		padding: 0 0.4rem;
+	}
+	.product-abstract .col.col-2 {
+		box-sizing: border-box;
+		width: 53%;
+		margin-right: -1.5rem;
+		padding-left: 1.6rem;
+		padding-left: 7%;
+	}
+	.product-abstract .hero-block h4 > * {
+		display: block;
+		clear: both;
+		line-height: 1;
+		}
+		.product-abstract .hero-block h4 .subject {
+			font-size: 0.7rem;
+		}
+		.product-abstract .hero-block h4 .hero-word {
+			margin: 0.25rem 0 0.8rem 0;
+			font-size: 1.64rem;
+		}
+		.product-abstract .hero-block h4 .subtitle {
+			font-size: 0.5rem;
+		}
+		.product-abstract .hero-block h4 > * {
+			display: block;
+			clear: both;
+			line-height: 1;
+		}
+
+	.product-abstract .minor-hero-block h4 > * {
+		display: block;
+		clear: both;
+		line-height: 1;
+		}
+	.product-abstract .minor-hero-block h4 .subject {
+		font-size: 0.8rem;
+		}
+		.product-abstract .minor-hero-block h4 .hero-word {
+			margin: 1rem 0 0.2rem 0;
+			font-size: 1.2rem;
+		}
+		.product-abstract .minor-hero-block h4 .hero-word .digits {
+			font-size: 1.48rem;
+			font-weight: 300;
+		}
+
+		.product-abstract .minor-hero-block h4 .subtitle {
+			font-size: 0.5rem;
+		}
+
+	.product-abstract .features-block {
+		padding-top: 0.1rem;
+		padding-bottom: 0.1rem;
+		}
+		.product-abstract .features-block .f-list > li {
+			margin: 0.5rem 0;
+		}
+		.product-abstract .features-block .f-list > li > * {
+			display: inline-block;
+		}
+		.product-abstract .features-block .f-list > li > .label {
+			width: 3.2rem;
+			padding: 0.1rem 0.4rem;
+			margin: -0.1rem -0.4rem;
+			margin-right: 0;
+		}
+		.product-abstract .features-block .f-list > li > p {
+			padding: 0.1rem 0.4rem;
+			margin: -0.1rem -0.4rem;
+		}
+
+
+
+.tab-panel-set {
+	}
+
+	.tab-list {
+		width: 100%;
+		}
+
+		.tab-list.tabs-count-2 > li {
+			width: 50%;
+			text-align: center;
+			padding: 0.5rem;
+			box-sizing: border-box;
+		}
+
+		.tab-list > li > .label {
+			display: inline-block;
+			margin: 0.15rem 0;
+			line-height: 1.2rem;
+		}
+
+
+	.panel-group {
+	}
+
+	.panel.current {
+		padding: 1rem 0;
 	}
 
 
@@ -979,6 +1100,7 @@ article.message {
 		padding-bottom: 0;
 		margin: 0.25rem 0.25rem;
 		height: 2rem;
+		line-height: 1.9rem;
 		line-height: calc(2rem - 2px);
 		box-sizing: border-box;
 		width: calc(50% - 0.5rem);

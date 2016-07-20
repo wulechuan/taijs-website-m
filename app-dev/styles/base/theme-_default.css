@@ -158,9 +158,17 @@ input {
 	input[type="reset"].simple-look,
 	input[type="button"].simple-look,
 	input[type="submit"].simple-look,
+	[role="button"].simple-look,
 	button.simple-look .iconfont,
 	button.simple-look {
 		color: inherit;
+		background-color: transparent;
+	}
+	input[type="reset"].simple-look:hover,
+	input[type="button"].simple-look:hover,
+	input[type="submit"].simple-look:hover,
+	[role="button"].simple-look:hover,
+	button.simple-look:hover {
 		background-color: transparent;
 	}
 
@@ -290,11 +298,16 @@ button.button-x {
 		background-color: white;
 	}
 
+
 button[button-action="clear-input-field"]:hover,
 button[button-action="clear-input-field"] {
 	color: white;
-	background-color: #adadad;
-}
+	background-color: transparent;
+	}
+	button[button-action="clear-input-field"]::before {
+		color: white;
+		background-color: #adadad;
+	}
 
 
 label.deco-input {
@@ -376,6 +389,11 @@ label.deco-input {
 	}
 
 
+.f-list > li > .label {
+	color: #999;
+}
+
+
 .carousel-nav button::before {
 	opacity: 0.2;
 	background-color: black;
@@ -404,13 +422,6 @@ label.deco-input {
 		border-color: #dadada;
 	}
 
-.popup-layer {
-	}
-	.popup-layer.polite-message .popup-window {
-		color: white;
-		background-color: rgba(0, 0, 0, 0.66);
-	}
-
 
 .f-block { /* function-block */
 	color: #666;
@@ -423,6 +434,7 @@ label.deco-input {
 	.f-block-body {
 		border-color: #e5e5e5;
 	}
+	.f-block-body *,
 	.f-block-body .row {
 		border-color: #f1f1f1;
 	}
@@ -455,12 +467,33 @@ label.deco-input {
 .f-block .tiles > .tile {
 	color: #666;
 	border-color: #e5e5e5;
-}
+	}
 
-.f-block .tiles > a > .tile .icon,
-.f-block .tiles > .tile .icon {
-	background-color: #e5e5e5; /* simply a default value */
-}
+	.f-block .tiles > a > .tile .icon,
+	.f-block .tiles > .tile .icon {
+		background-color: #e5e5e5; /* simply a default value */
+	}
+
+
+.product-abstract {
+	}
+	.product-abstract .abstract-title h3 {
+		color: black;
+	}
+	.product-abstract .abstract-title .call-to-action-label {
+		color: black;
+	}
+	.product-abstract .minor-hero-block .hero-word,
+	.product-abstract .hero-block {
+		color: black;
+	}
+	.product-abstract .minor-hero-block {
+		color: #999;
+	}
+	.product-abstract .minor-hero-block .subtitle,
+	.product-abstract .hero-block .subtitle {
+		color: #999;
+	}
 
 
 .tab-panel-set {
@@ -481,7 +514,6 @@ label.deco-input {
 	.tab-panel-set.tab-style-buttons .tab-list > li {
 		border-color: #4285f4;
 	}
-
 
 
 .progress-stops .progress-stop,
@@ -606,6 +638,14 @@ label.deco-input {
 		.slot.slot-bank-card.bank-cn-ccb {
 			background-color: #4d8ce9;
 		}
+
+
+.popup-layer {
+	}
+	.popup-layer.polite-message .popup-window {
+		color: white;
+		background-color: rgba(0, 0, 0, 0.66);
+	}
 
 
 .page {
