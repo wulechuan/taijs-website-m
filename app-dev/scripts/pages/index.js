@@ -68,17 +68,19 @@ $(function () {
 
 		    var offset = $pageBody.offset();
 
-		    var scrollY = pagePaddingTop - offset.top;
+		    var scrollY = Math.max(0, pagePaddingTop - offset.top);
 
 		    if (scrollY >= pageHeaderScrollYThreshold) {
 		    	if (!currentModeIsCompact) {
 			    	$page.addClass('page-header-in-compact-mode fixed-page-header');
 			    	currentModeIsCompact = true;
+			    	pagePaddingTopIsCorrect = false;
 		    	}
 		    } else {
 		    	if (currentModeIsCompact) {
 			    	$page.removeClass('page-header-in-compact-mode fixed-page-header');
 			    	currentModeIsCompact = false;
+			    	pagePaddingTopIsCorrect = false;
 		    	}
 		    }
 		});

@@ -1107,14 +1107,14 @@ article.message {
 		#page-home .page-header {
 			transition-property: width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
 		}
-		#page-home .page-header .row.taijs-brand {
-			z-index: 5;
-		}
 		#page-home .page-header .row.sign-up-sign-in-buttons {
-			z-index: 3;
+			z-index: 5;
 		}
 		#page-home .page-header .row.user-account-toolar {
 			z-index: 4;
+		}
+		#page-home .page-header .row.taijs-brand {
+			z-index: 3;
 		}
 		#page-home .page-header .row.user-assets-abstract {
 			z-index: 2;
@@ -1196,7 +1196,7 @@ article.message {
 			}
 			#page-home .page-header .row.user-assets-abstract .col {
 				position: relative;
-				margin-top: 0.25rem;
+				margin-top: 0.2rem;
 				height: 3rem;
 				padding: 0.25rem 0.25rem 1.25rem;
 			}
@@ -1223,14 +1223,14 @@ article.message {
 				left: 0.3rem;
 				right: 0;
 				text-align: center;
-				bottom: 0.3rem;
+				bottom: 0.35rem;
 				font-size: 0.6rem;
 				font-weight: lighter;
 				white-space: nowrap;
 				opacity: 0.5;
 			}
 			#page-home .page-header .row.user-assets-abstract .col.col-1 > .label {
-				right: 2rem;
+				right: 1.9rem;
 			}
 			#page-home .page-header .row.user-assets-abstract .col.col-1 > .label .sensitive-content-status-icon {
 				position: absolute;
@@ -1240,10 +1240,20 @@ article.message {
 			}
 			#page-home .page-header .row.user-assets-abstract .col.col-1 .sensitive-value-replacement {
 				display: block;
-				font-size: 0.7rem;
+				font-size: 0.8rem;
 				line-height: 1;
 				padding: 0.4rem 0 0.15rem;
 			}
+
+			@media only screen and (max-width: 340px) {
+				#page-home .page-header .row.user-assets-abstract .col.col-1 > .label {
+					right: 1.6rem;
+				}
+				#page-home .page-header .row.user-assets-abstract .col.col-1 .sensitive-value-replacement {
+					font-size: 0.7rem;
+				}
+			}
+
 
 	.user-has-logged-in #page-home .page-header .row.sign-up-sign-in-buttons {
 		display: none;
