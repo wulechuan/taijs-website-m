@@ -660,27 +660,45 @@ article.message {
 	position: relative;
 	}
 
+	.row > .hero-content-block,
+	.hero-content-block {
+	position: relative;
+	margin: -0.5rem -0.8rem;
+	padding: 0.5rem 0.8rem;
+	}
+
 	.hero-content-block h3 {
 		text-align: center;
+		margin: 0.25rem auto 0.75rem;
 	}
 
 	.hero-content-block h3 > * {
 		display: block;
 		clear: both;
+		line-height: 1.1;
 	}
 
 	.hero-content-block h3 .subject {
 		font-size: 1rem;
+		font-weight: normal;
 	}
 
 	.hero-content-block h3 .hero-word {
 		margin-top: 0.5rem;
 		font-size: 3.19rem;
-		line-height: 1.1;
 	}
 
 	.hero-content-block h3 .subtitle {
 		font-size: 0.6rem;
+	}
+
+	.hero-content-block .hero-content-features {
+		margin: 0.25rem auto;
+		text-align: center;
+	}
+
+	.hero-content-block .hero-content-features > li {
+		margin: 0 0.8rem 0;
 	}
 
 
