@@ -49,6 +49,10 @@ h1 {
 	text-indent: 0;
 }
 
+sub {
+	font-size: 0.5rem;
+	vertical-align: baseline;
+}
 
 article {
 	padding: 0.5rem;
@@ -1264,18 +1268,31 @@ label.deco-input {
 	.sensitive-content .sensitive-content-status-icon {
 		
 	}
-	.sensitive-content .sensitive-value {
-		display: none!important;
-	}
-	.sensitive-content .sensitive-value-replacement {
-		display: block!important;
-	}
-	.sensitive-content.sensitive-content-shown .sensitive-value {
-		display: block!important;
-	}
-	.sensitive-content.sensitive-content-shown .sensitive-value-replacement {
-		display: none!important;
-	}
+	.sensitive-content .sensitive-value-cell {
+		display: inline-block;
+		position: relative;
+		}
+		.sensitive-content .sensitive-value {
+			display: block!important;
+			visibility: hidden!important;
+		}
+		.sensitive-content .sensitive-value-replacement {
+			position: absolute;
+			display: block;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			font-size: 66%;
+			display: block!important;
+		}
+		.sensitive-content.sensitive-content-shown .sensitive-value {
+			visibility: visible!important;
+		}
+		.sensitive-content.sensitive-content-shown .sensitive-value-replacement {
+			display: none!important;
+		}
 	.sensitive-content .sensitive-content-status-icon {
 		width: 1rem;
 		height: 1rem;
@@ -1314,11 +1331,14 @@ label.deco-input {
 	}
 
 
+.layout-hori > a > li,
 .layout-hori > li {
 	display: inline-block;
 	}
 
 
+.columns > a > li,
+.columns > a > .col,
 .columns > li,
 .columns > .col {
 	list-style: none;

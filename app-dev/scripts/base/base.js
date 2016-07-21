@@ -1,5 +1,30 @@
 (function () {
 	var wlc = window.webLogicControls;
+	function processParametersPassedIn() {
+		var qString = location.href.match(/\?[^#]*/);
+		if (qString) qString = qString[0].slice(1);
+
+		var qKVPairs = [];
+		if (qString) {
+			qKVPairs = qString.split('&');
+		}
+
+		var tabLabel; // id of tabLabel to show if any
+
+		for (var i in qKVPairs){
+			var kvpString = qKVPairs[i];
+			var kvp = kvpString.split('=');
+			if (kvp[0] === 'tabLabel') tabLabel = kvp[1];
+		}
+
+		return {
+			tabLabel: tabLabel
+		};
+	}
+
+	var urlParameters = processParametersPassedIn();
+
+
 
 	$('.app > .popup-layers, .page .popup-layers').each(function () {
 		var $pLContainer = $(this);
@@ -27,34 +52,16 @@
 	});
 
 
+
 	$('a[href$="index.html"]').each(function () {
 		this.href += '?login=true';
 	});
-	function processParametersPassedIn() {
-		var qString = location.href.match(/\?[^#]*/);
-		if (qString) qString = qString[0].slice(1);
 
-		var qKVPairs = [];
-		if (qString) {
-			qKVPairs = qString.split('&');
-		}
-
-		var tabLabel; // id of tabLabel to show if any
-
-		for (var i in qKVPairs){
-			var kvpString = qKVPairs[i];
-			var kvp = kvpString.split('=');
-			if (kvp[0] === 'tabLabel') tabLabel = kvp[1];
-		}
-
-		return {
-			tabLabel: tabLabel
-		};
-	}
-
-
-	var urlParameters = processParametersPassedIn();
-
+	$('.nav-back[data-back-target="history"]').on('click', function (event) {
+		event.preventDefault();
+		event.stopPropagation();
+		history.back();
+	});
 
 
 	$('input, textarea, select').each(function () {

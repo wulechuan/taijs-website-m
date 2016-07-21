@@ -536,12 +536,11 @@ label.deco-input {
 	.row .left {
 		color: #999;
 	}
-	.emphasise-both-sides .left,
-	.emphasise-both-sides .right,
-	.emphasise-leftside   .left,
-	.emphasise-rightside  .right {
-		color: inherit;
-		font-weight: normal;
+	.row.emphasise-both-sides .left,
+	.row.emphasise-both-sides .right,
+	.row.emphasise-leftside   .left,
+	.row.emphasise-rightside  .right {
+		color: black;
 	}
 	.row.input-field input:focus ~ .input-tip {
 		color: #4285f4;

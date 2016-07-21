@@ -283,6 +283,14 @@ article.message {
 			width: 80%;
 			margin-left: -0.5rem;
 		}
+		.row.emphasise-both-sides .left,
+		.row.emphasise-both-sides .right,
+		.row.emphasise-leftside   .left,
+		.row.emphasise-rightside  .right {
+			font-size: 0.9rem;
+			font-weight: 500;
+		}
+
 		.f-block-body .row.select-field .right,
 		.f-block-body .row.input-field  .right,
 		.row.select-field .right,
@@ -721,6 +729,25 @@ article.message {
 	.row.hero-content-block-call-to-action {
 		min-height: 1.5rem;
 	}
+
+	.hero-content-block.hero-content-block-style-2 {
+		}
+		.hero-content-block.hero-content-block-style-2 h3 .subject {
+			font-size: 1rem;
+			font-weight: normal;
+		}
+		.hero-content-block.hero-content-block-style-2 h3 .hero-word {
+			margin-top: 0.5rem;
+			font-size: 2.19rem;
+		}
+		.hero-content-block.hero-content-block-style-2 h3 .subtitle {
+			font-size: 0.6rem;
+		}
+		.hero-content-block.hero-content-block-style-2 .hero-content-features {
+			margin: 0.25rem auto;
+			text-align: center;
+		}
+
 
 
 .product-abstract {
@@ -1255,12 +1282,6 @@ article.message {
 				width: 1rem;
 				height: 1rem;
 				margin: -0.2rem 0.1rem;
-			}
-			#page-home .page-header .row.user-assets-abstract .col.col-1 .sensitive-value-replacement {
-				display: block;
-				font-size: 0.8rem;
-				line-height: 1;
-				padding: 0.4rem 0 0.15rem;
 			}
 
 			@media only screen and (max-width: 340px) {
