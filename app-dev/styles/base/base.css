@@ -13,7 +13,7 @@
 	div:before,   p:before,      span:before,
 	div:after,    p:after,       span:after,
 	div,          p,             span,
-	a, em {
+	a, em, i {
 		transition-property: visibility, opacity, color, background-color, border-color, transform;
 		transition-duration: 0.33s,      0.33s,   0.20s, 0.30s,            0.30s,        0.30s;
 		transition-timing-function: ease-out;
@@ -881,6 +881,8 @@ label, .label {
 .v-middled:before,
 .content-vertically-middled:before {
 	content: '';
+	visibility: hidden;
+	opacity: 0;
 	display: inline-block;
 	width: 0;
 	font-size: 0;
@@ -1385,6 +1387,98 @@ label.deco-input {
 	.toolbar.has-separator > li:first-child:before {
 		content: none;
 	}
+
+
+.progress-ring {
+	box-sizing: border-box!important;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border-width: 0;
+	white-space: nowrap;
+	overflow: visible;
+	text-align: left;
+	}
+	.progress-ring::before {
+		content: '';
+		visibility: hidden;
+		display: inline-block;
+		vertical-align: middle;
+		width: 0px;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.progress-ring .label {
+		position: relative;
+		z-index: 5;
+		display: inline-block;
+		vertical-align: middle;
+		text-align: center;
+		min-width: 100%;
+	}
+
+	.progress-ring .ring {
+		}
+		.progress-ring .ring .half i::before,
+		.progress-ring .ring .half i,
+		.progress-ring .ring .half,
+		.progress-ring .ring::before,
+		.progress-ring .ring {
+			box-sizing: border-box!important;
+			position: absolute;
+			display: block;
+			left: 0;
+			top: 0;
+			height: 100%;
+		}
+		.progress-ring .ring .half i::before,
+		.progress-ring .ring::before {
+			border-radius: 50%;
+			border-width: 0.15rem;
+			border-style: solid;
+		}
+		.progress-ring .ring {
+			width: 100%;
+		}
+		.progress-ring .ring::before {
+			content: '';
+			width: 100%;
+			border-color: inherit!important;
+		}
+		.progress-ring .ring .half i,
+		.progress-ring .ring .half {
+			border-width: 0;
+			overflow: hidden;
+			width: 50%;
+		}
+		.progress-ring .ring .half {
+			left: 50%;
+			transform: rotate(180deg);
+			background-color: lightgreen;
+		}
+		.progress-ring .ring .half ~ .half {
+			left: 0%;
+			transform: rotate(0deg);
+			background-color: lightblue;
+		}
+		.progress-ring .ring .half i {
+			left: 0;
+			width: 100%;
+			border-color: inherit!important;
+			transform-origin: right;
+
+			transition-property: transform, opacity, border-color, background-color, border-width;
+			transition-timing-function: linear!important;
+			transform: rotate(0deg);
+		}
+		.progress-ring .ring .half i::before {
+			content: '';
+			left: 0;
+			width: 200%;
+			border-color: inherit!important;
+		}
 
 
 .progress-stops {

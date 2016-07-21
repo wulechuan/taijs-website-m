@@ -463,6 +463,14 @@ label.deco-input {
 	}
 
 
+.progress-ring .ring {
+	border-color: #eaeaea;
+	}
+	.progress-ring .ring .half {
+		border-color: #f60;
+	}
+
+
 .f-list > li > .label {
 	color: #999;
 }
@@ -471,6 +479,7 @@ label.deco-input {
 .banner {
 	background-color: white;
 }
+
 
 .carousel {
 	background-color: white;

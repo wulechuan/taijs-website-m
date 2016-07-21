@@ -523,6 +523,215 @@
 	});
 
 
+	$('.progress-ring').each(function () {
+		var progressRing = this;
+		var $progressRing = $(progressRing);
+		var halves = $progressRing.find('.half > i');
+		if (halves.length !== 2) return false;
+
+		var half1 = halves[0];
+		var half2 = halves[1];
+
+		var currentDegree = 0;
+
+		var isUsingTransition = true;
+		var transitionTotalDuration = 0.33;
+
+
+		(function init(argument) {
+			setDegreeTo(getDegreeFromHtml());
+		})();
+
+		setTimeout(function () {
+			setDegreeTo(39);
+		}, 1000);
+
+		function getDegreeFromHtml() {
+			return _parseDegreeVia(progressRing.getAttribute('data-degree'));
+		}
+
+		function _parseDegreeVia(degree) {
+			var degreeFloatValue = NaN;
+
+			if (typeof degree === 'number' && !isNaN(degree)) {
+				degreeFloatValue = degree;
+			} else {
+				degreeFloatValue = parseFloat(degree);
+
+				if (isNaN(degreeFloatValue)) {
+					degreeFloatValue = 0;
+				} else {
+					var isPercentage = !!degree.match(/^[\+\-]?[\d\.]*\d+%\D*$/);
+
+					if (isPercentage) {
+						degreeFloatValue = 3.6 * degreeFloatValue;
+					}
+				}
+			}
+
+			var degreeFloatValueSafe = degreeFloatValue % 360;
+
+			degree         = (degreeFloatValue)    .toFixed(3);
+			var degreeSafe = (degreeFloatValueSafe).toFixed(3);
+
+			degreeFloatValue     = parseFloat(degree);
+			degreeFloatValueSafe = parseFloat(degreeSafe);
+
+			return {
+				raw: degreeFloatValue,
+				safe: degreeFloatValueSafe
+			};
+		}
+
+		function setDegreeTo(newDegree) {
+			console.log(newDegree);
+			if (!newDegree || typeof newDegree === 'number' || newDegree === true) {
+				newDegree = _parseDegreeVia(newDegree);
+			} else {
+				newDegree = _parseDegreeVia(newDegree.raw);
+			}
+
+			var oldSafeDegree = currentDegree;
+			var newSafeDegree = newDegree.safe;
+
+			console.log('=== from', oldSafeDegree, 'to', newSafeDegree, '===');
+
+			var firstChangingHalf = null;
+			var lastChangingHalf = null;
+
+			var firstHalfOldDegree = NaN;
+			var lastHalfOldDegree = NaN;
+
+			var firstHalfNewDegree = NaN;
+			var lastHalfNewDegree = NaN;
+
+			if (oldSafeDegree <= 180) {
+				firstChangingHalf = half1;
+				lastChangingHalf = half2;
+
+				firstHalfOldDegree = oldSafeDegree + 180;
+				lastHalfOldDegree = 180;
+			} else {
+				firstChangingHalf = half2;
+				lastChangingHalf = half1;
+
+				firstHalfOldDegree = oldSafeDegree;
+				lastHalfOldDegree = 0;
+			}
+
+			if (newSafeDegree <= 180) {
+				firstHalfNewDegree = newSafeDegree + 180;
+				lastHalfNewDegree = 180;
+
+				if (newSafeDegree > oldSafeDegree) {
+					if (firstHalfNewDegree < firstHalfOldDegree) firstHalfNewDegree += 360;
+				}
+				if (newSafeDegree < oldSafeDegree) {
+					if (firstHalfNewDegree > firstHalfOldDegree) firstHalfNewDegree -= 360;
+				}
+			} else {
+				firstHalfNewDegree = newSafeDegree;
+				lastHalfNewDegree = 0;
+
+				if (newSafeDegree > oldSafeDegree) {
+					if (firstHalfNewDegree < firstHalfOldDegree) firstHalfNewDegree += 360;
+				}
+				if (newSafeDegree < oldSafeDegree) {
+					if (firstHalfNewDegree > firstHalfOldDegree) firstHalfNewDegree -= 360;
+				}
+			}
+
+			if (firstChangingHalf === half2 && newSafeDegree > oldSafeDegree) firstHalfNewDegree += 360;
+			if (lastChangingHalf  === half2 && newSafeDegree < oldSafeDegree) lastHalfNewDegree  -= 360;
+
+			var deltaA = firstHalfNewDegree - firstHalfOldDegree;
+			var deltaB  = lastHalfNewDegree - lastHalfOldDegree;
+
+			var deltaAbsA = Math.abs(deltaA);
+			var deltaAbsB = Math.abs(deltaB);
+			var deltaTotalAbs = Math.abs(newSafeDegree - oldSafeDegree);
+
+			var durationA = transitionTotalDuration * deltaAbsA / deltaTotalAbs;
+			var durationB = transitionTotalDuration * deltaAbsB / deltaTotalAbs;
+
+			var eitherTransitionsIsNecessary = isUsingTransition && deltaTotalAbs > 1; // at least one degree to change
+			var transitionANecessary = eitherTransitionsIsNecessary && durationA > 0.01;
+			var transitionBNecessary = eitherTransitionsIsNecessary && durationB > 0.01;
+
+			console.log('deltas:', deltaA, deltaB);
+			console.log('delta abs values:', deltaAbsA, deltaAbsB);
+			console.log('total delta abs:', deltaTotalAbs);
+			console.log('durations:', durationA, durationB);
+			console.log('transitions needed?:', transitionANecessary, transitionBNecessary);
+
+
+
+			if (!eitherTransitionsIsNecessary) {
+				firstChangingHalf.style.transitionDuration = '0s';
+				lastChangingHalf.style.transitionDuration = '0s';
+
+				setTimeout(function () {
+					firstChangingHalf.style.transitionDuration = '';
+					lastChangingHalf.style.transitionDuration = '';
+				}, 10);
+			}
+
+
+			updateFirstHalf();
+
+
+			if (!eitherTransitionsIsNecessary) {
+				updateLastHalf();
+			} else {
+				firstChangingHalf.addEventListener('transitionend', updateLastHalf);
+			}
+
+
+			function updateFirstHalf() {
+				firstChangingHalf.style.transform = 'rotate('+firstHalfNewDegree+'deg)';
+
+				if (!transitionANecessary) {
+					updateLastHalf();
+				} else {
+					firstChangingHalf.addEventListener('transitionend', onTransitionAEnd);
+				}
+			}
+
+
+			function onTransitionAEnd () {
+				console.log('transition A end');
+				firstChangingHalf.removeEventListener('transitionend', onTransitionAEnd);
+				updateLastHalf();
+			}
+
+			function updateLastHalf() {
+				lastChangingHalf.style.transform = 'rotate('+lastHalfNewDegree+'deg)';
+
+				if (!transitionBNecessary) {
+					onBothHalvesUpdated();
+				} else {
+					lastChangingHalf.addEventListener('transitionend', onTransitionBEnd);
+				}
+			}
+
+			function onTransitionBEnd () {
+				console.log('transition B end');
+				lastChangingHalf.removeEventListener('transitionend', onTransitionBEnd);
+				onBothHalvesUpdated();
+			}
+
+			function onBothHalvesUpdated() {
+				firstChangingHalf.style.transitionDuration = '';
+				lastChangingHalf.style.transitionDuration = '';
+
+				progressRing.getAttribute('data-degree', newDegree.raw);
+				currentDegree = newDegree;
+			}
+
+			return newDegree;
+		}
+	});
+
 
 	$('dl.initially-collapsed').each(function () {
 		var $allDTs = $(this).find('> dt');
