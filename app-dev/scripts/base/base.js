@@ -27,6 +27,9 @@
 	});
 
 
+	$('a[href$="index.html"]').each(function () {
+		this.href += '?login=true';
+	});
 	function processParametersPassedIn() {
 		var qString = location.href.match(/\?[^#]*/);
 		if (qString) qString = qString[0].slice(1);
@@ -36,36 +39,16 @@
 			qKVPairs = qString.split('&');
 		}
 
-		var psn1; // page sidebar nav Level 1 current
-		var psn2; // page sidebar nav Level 2 current
 		var tabLabel; // id of tabLabel to show if any
-		var bank;
-		var bankHTML;
-
-		if (typeof window.psn === 'object') {
-			if (window.psn.level1) psn1 = window.psn.level1;
-			if (window.psn.level2) psn2 = window.psn.level2;
-		}
 
 		for (var i in qKVPairs){
 			var kvpString = qKVPairs[i];
 			var kvp = kvpString.split('=');
-
-			if (kvp[0] === 'psn1') psn1 = kvp[1];
-			if (kvp[0] === 'psn2') psn2 = kvp[1];
 			if (kvp[0] === 'tabLabel') tabLabel = kvp[1];
-			if (kvp[0] === 'bank') bank = kvp[1];
-			if (kvp[0] === 'bankHTML') bankHTML = kvp[1];
 		}
 
 		return {
-			bank: decodeURIComponent(bank),
-			bankHTML: decodeURIComponent(bankHTML).replace(/\+/g, ' '),
-			tabLabel: tabLabel,
-			psn: {
-				level1: psn1,
-				level2: psn2
-			}
+			tabLabel: tabLabel
 		};
 	}
 
@@ -843,69 +826,6 @@
 					});
 				}
 			});
-		}
-	});
-
-
-
-	$('.drop-down-list').each(function () {
-		var dropDownList = this;
-		var $currentValueContainer = $(this).find('.drop-down-list-current-value');
-		var inputForStoringValue = $(this).find('input.drop-down-list-value');
-		var inputForStoringHTML = $(this).find('input.drop-down-list-value-html');
-		var $options = $(this).find('.drop-down-list-options > li'); // assuming there is only one level of menu
-
-		if (urlParameters.bank && urlParameters.bank !== 'undefined') {
-			_chooseOption(urlParameters.bank, urlParameters.bankHTML);
-		} else {
-			if ($options.length > 0) {
-				wlc.UI.bodyClickListener.register(this, onClickOutside);
-				_chooseOption(0);
-			} else {
-				_chooseOption(null);
-			}
-		}
-
-		$currentValueContainer.on('click', function () {
-			$(dropDownList).toggleClass('coupled-shown');
-		});
-
-		$options.on('click', function () {
-			_chooseOption(this);
-			$(dropDownList).removeClass('coupled-shown');
-		});
-
-		function _chooseOption(chosenOption, chosenOptionHTML) {
-			if (typeof chosenOption === 'number') {
-				chosenOption = $options[chosenOption];
-			}
-
-			var chosenValue;
-
-			if (chosenOption && typeof chosenOption === 'string' && chosenOptionHTML && typeof chosenOptionHTML === 'string') {
-				$currentValueContainer.html(chosenOptionHTML);
-				$(inputForStoringValue).val(chosenOption);
-				$(inputForStoringHTML).val(chosenOptionHTML);
-			}
-
-			if (!chosenOption) {
-				$currentValueContainer[0].innerHTML = '';
-				$(inputForStoringValue).val('');
-				$(inputForStoringHTML).val('');
-				return true;
-			}
-
-			if (!chosenValue) chosenValue = $(chosenOption).find('.value')[0];
-			if (chosenValue) chosenValue = chosenValue.getAttribute('data-value');
-
-			chosenOptionHTML = $(chosenOption).html();
-			$currentValueContainer.html(chosenOptionHTML);
-			$(inputForStoringValue).val(chosenValue);
-			$(inputForStoringHTML).val(chosenOptionHTML);
-		}
-
-		function onClickOutside() {
-			$(dropDownList).removeClass('coupled-shown');
 		}
 	});
 })();

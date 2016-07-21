@@ -1214,7 +1214,7 @@ article.message {
 			}
 			#page-home .page-header .row.user-assets-abstract .col {
 				position: relative;
-				margin-top: 0.2rem;
+				margin-top: -0.2rem;
 				height: 3rem;
 				padding: 0.25rem 0.25rem 1.25rem;
 			}
