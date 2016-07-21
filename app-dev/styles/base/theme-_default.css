@@ -533,7 +533,7 @@ label.deco-input {
 	}
 	.row.select-field .right,
 	.row.input-field  .right,
-	.row .left {
+	.row              .left {
 		color: #999;
 	}
 	.row.emphasise-both-sides .left,
@@ -548,13 +548,13 @@ label.deco-input {
 
 
 .f-block .tiles > a > .tile,
-.f-block .tiles > .tile {
+.f-block .tiles     > .tile {
 	color: #666;
 	border-color: #e5e5e5;
 	}
 
 	.f-block .tiles > a > .tile .icon,
-	.f-block .tiles > .tile .icon {
+	.f-block .tiles     > .tile .icon {
 		background-color: #e5e5e5; /* simply a default value */
 	}
 
@@ -575,7 +575,7 @@ label.deco-input {
 		color: #999;
 	}
 	.product-abstract .minor-hero-block .subtitle,
-	.product-abstract .hero-block .subtitle {
+	.product-abstract .hero-block       .subtitle {
 		color: #999;
 	}
 
@@ -606,7 +606,7 @@ label.deco-input {
 	}
 
 	.progress-stops .progress-stop > .label,
-	.progress-stops > li > .label {
+	.progress-stops           > li > .label {
 		color: #b3b3b3;
 	}
 
