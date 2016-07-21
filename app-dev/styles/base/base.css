@@ -1271,6 +1271,7 @@ label.deco-input {
 	.sensitive-content .sensitive-value-cell {
 		display: inline-block;
 		position: relative;
+		padding: 0 0.5em; /* make some room for replacement, which might be very long */
 		}
 		.sensitive-content .sensitive-value {
 			display: block!important;
@@ -1281,7 +1282,7 @@ label.deco-input {
 			display: block;
 			left: 0;
 			right: 0;
-			top: 0;
+			top: 0.25em; /* for fonts whose asterisk sign is NOT vertically centerized. */
 			bottom: 0;
 			margin: auto;
 			font-size: 66%;

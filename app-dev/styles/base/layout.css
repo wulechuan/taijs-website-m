@@ -3,9 +3,11 @@ html, body, .app {
 	}
 
 
+button.nav-share::before,
 button.nav-home::before,
 button.nav-back::before,
 [role="button"].nav-home::before,
+[role="button"].nav-share::before,
 [role="button"].nav-back::before {
 	font-family: 'iconfont'!important;
 	font-size: 20px;
@@ -23,6 +25,10 @@ button.nav-back::before,
 	button.nav-back::before,
 	[role="button"].nav-back::before {
 		content: '\e603';
+	}
+	button.nav-share::before,
+	[role="button"].nav-back::before {
+		content: '\e618';
 	}
 
 
@@ -129,7 +135,6 @@ article.message {
 
 .row {
 	white-space: nowrap;
-	overflow: hidden;
 	}
 
 	.row * {
@@ -287,7 +292,7 @@ article.message {
 		.row.emphasise-both-sides .right,
 		.row.emphasise-leftside   .left,
 		.row.emphasise-rightside  .right {
-			font-size: 0.9rem;
+			font-size: 0.8rem;
 			font-weight: 500;
 		}
 
@@ -545,16 +550,17 @@ article.message {
 
 		.f-block-body .row.has-lead-icon .lead-icon {
 			position: absolute;
-			top: 1rem;
-			left: -2rem;
-			width: 1.2rem;
-			height: 1.2rem;
+			top: 0.7rem;
+			left: -2.3rem;
+			width: 1.6rem;
+			height: 1.6rem;
+			line-height: 1.7rem;
+			text-align: center;
 			margin: 0;
 		}
 
 		.f-block-body .row.has-lead-icon .lead-icon.iconfont {
 			font-size: 1.2rem;
-			line-height: 1.2rem;
 		}
 
 	.f-block-body a .row,
@@ -732,12 +738,15 @@ article.message {
 
 	.hero-content-block.hero-content-block-style-2 {
 		}
+		.hero-content-block.hero-content-block-style-2 h3 {
+			margin-bottom: 0.25rem;
+		}
 		.hero-content-block.hero-content-block-style-2 h3 .subject {
-			font-size: 1rem;
+			font-size: 0.8rem;
 			font-weight: normal;
 		}
 		.hero-content-block.hero-content-block-style-2 h3 .hero-word {
-			margin-top: 0.5rem;
+			margin-top: 0.4rem;
 			font-size: 2.19rem;
 		}
 		.hero-content-block.hero-content-block-style-2 h3 .subtitle {
@@ -747,6 +756,44 @@ article.message {
 			margin: 0.25rem auto;
 			text-align: center;
 		}
+
+
+.user-assets-abstract {
+	font-size: 1rem;
+	}
+	.user-assets-abstract .columns {
+		padding: 0.5rem;
+		margin: -0.5rem;
+		position: relative;
+		text-align: center;
+	}
+	.user-assets-abstract .col {
+		position: relative;
+		padding: 0.25rem;
+		margin: -0.25rem;
+		width: 48%;
+	}
+	.user-assets-abstract .col * {
+		line-height: 1;
+	}
+	.user-assets-abstract .col > .label {
+		display: block;
+		font-size: 0.6rem;
+		font-weight: lighter;
+		white-space: nowrap;
+		margin-top: 0.15rem;
+		margin-bottom: 0.65rem;
+	}
+	.user-assets-abstract .col > .content {
+		display: block;
+		font-size: 1rem;
+		white-space: nowrap;
+	}
+	.user-assets-abstract .col > .content .digits {
+		font-weight: 300;
+	}
+
+
 
 
 
@@ -1238,11 +1285,17 @@ article.message {
 			display: none;
 			position: relative;
 			font-size: 1rem;
+			padding-top: 0.2rem;
+			padding-bottom: 0.6rem;
+			}
+			#page-home .page-header .row.user-assets-abstract .columns {
+				margin: 0;
+				padding: 0;
 			}
 			#page-home .page-header .row.user-assets-abstract .col {
 				position: relative;
-				margin-top: -0.2rem;
-				height: 3rem;
+				margin: 0.5rem 0 0 0;
+				height: 2.5rem;
 				padding: 0.25rem 0.25rem 1.25rem;
 			}
 			#page-home .page-header .row.user-assets-abstract .col ~ hr.vert {
@@ -1252,6 +1305,9 @@ article.message {
 			}
 			#page-home .page-header .row.user-assets-abstract .col * {
 				line-height: 1;
+			}
+			#page-home .page-header .row.user-assets-abstract .col .content {
+				font-size: 0.8rem;
 			}
 			#page-home .page-header .row.user-assets-abstract .col.col-1 {
 				width: 37%;
@@ -1263,9 +1319,10 @@ article.message {
 				width: 34%;
 			}
 			#page-home .page-header .row.user-assets-abstract .col > .label {
+				margin: 0;
 				position: absolute;
 				display: block;
-				left: 0.3rem;
+				left: 0;
 				right: 0;
 				text-align: center;
 				bottom: 0.35rem;
@@ -1275,7 +1332,7 @@ article.message {
 				opacity: 0.5;
 			}
 			#page-home .page-header .row.user-assets-abstract .col.col-1 > .label {
-				right: 1.9rem;
+				padding-right: 1.25rem; /* make some room for eye icon */
 			}
 			#page-home .page-header .row.user-assets-abstract .col.col-1 > .label .sensitive-content-status-icon {
 				position: absolute;
@@ -1285,9 +1342,9 @@ article.message {
 			}
 
 			@media only screen and (max-width: 340px) {
-				#page-home .page-header .row.user-assets-abstract .col.col-1 > .label {
+				/* #page-home .page-header .row.user-assets-abstract .col.col-1 > .label {
 					right: 1.6rem;
-				}
+				} */
 				#page-home .page-header .row.user-assets-abstract .col.col-1 .sensitive-value-replacement {
 					font-size: 0.7rem;
 				}
