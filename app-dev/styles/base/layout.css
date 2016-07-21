@@ -794,107 +794,113 @@ article.message {
 	}
 
 
-
-
-
 .product-abstract {
 	}
-	.product-abstract .abstract-title h3 {
-		font-weight: normal;
-		font-size: 0.8rem;
-	}
-	.product-abstract .abstract-title .call-to-action-label {
-		font-weight: normal;
-		font-size: 0.65rem;
-	}
-	.product-abstract .abstract-title::after {
-		transform: scale(0.75, 0.75);
-	}
 
-	.product-abstract .col {
-		margin-top: 0.7rem;
-		margin-bottom: 0.5rem;
-	}
+	.product-abstract .abstract-title {
+		}
+		.product-abstract .abstract-title h3 {
+			font-weight: normal;
+			font-size: 0.8rem;
+		}
+		.product-abstract .abstract-title .call-to-action-label {
+			font-weight: normal;
+			font-size: 0.65rem;
+		}
+		.product-abstract .abstract-title::after {
+			transform: scale(0.75, 0.75);
+		}
 
-	.product-abstract .col ~ hr.vert {
-		margin-top: 0.95rem;
-		height: 3.8rem;
-	}
+	.product-abstract .row.abstract-body {
+		}
+		.product-abstract a > .row.abstract-body::after {
+			content: none;
+		}
 
-	.product-abstract .col.col-1 {
-		box-sizing: border-box;
-		width: 47%;
-		padding: 0 0.4rem;
-	}
-	.product-abstract .col.col-2 {
-		box-sizing: border-box;
-		width: 53%;
-		margin-right: -1.5rem;
-		padding-left: 1.6rem;
-		padding-left: 7%;
-	}
-	.product-abstract .hero-block h4 > * {
-		display: block;
-		clear: both;
-		line-height: 1;
+		.product-abstract .col {
+			margin-top: 0.7rem;
+			margin-bottom: 0.5rem;
 		}
-		.product-abstract .hero-block h4 .subject {
-			font-size: 0.7rem;
+
+		.product-abstract .col ~ hr.vert {
+			margin-top: 0.95rem;
+			height: 3.8rem;
 		}
-		.product-abstract .hero-block h4 .hero-word {
-			margin: 0.25rem 0 0.8rem 0;
-			font-size: 1.64rem;
+
+		.product-abstract .col.col-1 {
+			box-sizing: border-box;
+			width: 47%;
+			padding: 0 0.4rem;
 		}
-		.product-abstract .hero-block h4 .subtitle {
-			font-size: 0.5rem;
+		.product-abstract .col.col-2 {
+			box-sizing: border-box;
+			width: 53%;
+			margin-right: -1.5rem;
+			padding-left: 1.6rem;
+			padding-left: 7%;
 		}
 		.product-abstract .hero-block h4 > * {
 			display: block;
 			clear: both;
 			line-height: 1;
-		}
+			}
+			.product-abstract .hero-block h4 .subject {
+				font-size: 0.7rem;
+			}
+			.product-abstract .hero-block h4 .hero-word {
+				margin: 0.25rem 0 0.8rem 0;
+				font-size: 1.64rem;
+			}
+			.product-abstract .hero-block h4 .subtitle {
+				font-size: 0.5rem;
+			}
+			.product-abstract .hero-block h4 > * {
+				display: block;
+				clear: both;
+				line-height: 1;
+			}
 
-	.product-abstract .minor-hero-block h4 > * {
-		display: block;
-		clear: both;
-		line-height: 1;
-		}
-	.product-abstract .minor-hero-block h4 .subject {
-		font-size: 0.8rem;
-		}
-		.product-abstract .minor-hero-block h4 .hero-word {
-			margin: 1rem 0 0.2rem 0;
-			font-size: 1.2rem;
-		}
-		.product-abstract .minor-hero-block h4 .hero-word .digits {
-			font-size: 1.48rem;
-			font-weight: 300;
-		}
+		.product-abstract .minor-hero-block h4 > * {
+			display: block;
+			clear: both;
+			line-height: 1;
+			}
+		.product-abstract .minor-hero-block h4 .subject {
+			font-size: 0.8rem;
+			}
+			.product-abstract .minor-hero-block h4 .hero-word {
+				margin: 1rem 0 0.2rem 0;
+				font-size: 1.2rem;
+			}
+			.product-abstract .minor-hero-block h4 .hero-word .digits {
+				font-size: 1.48rem;
+				font-weight: 300;
+			}
 
-		.product-abstract .minor-hero-block h4 .subtitle {
-			font-size: 0.5rem;
-		}
+			.product-abstract .minor-hero-block h4 .subtitle {
+				font-size: 0.5rem;
+			}
 
-	.product-abstract .features-block {
-		padding-top: 0.1rem;
-		padding-bottom: 0.1rem;
-		}
-		.product-abstract .features-block .f-list > li {
-			margin: 0.5rem 0;
-		}
-		.product-abstract .features-block .f-list > li > * {
-			display: inline-block;
-		}
-		.product-abstract .features-block .f-list > li > .label {
-			width: 3.2rem;
-			padding: 0.1rem 0.4rem;
-			margin: -0.1rem -0.4rem;
-			margin-right: 0;
-		}
-		.product-abstract .features-block .f-list > li > p {
-			padding: 0.1rem 0.4rem;
-			margin: -0.1rem -0.4rem;
-		}
+		.product-abstract .features-block {
+			padding-top: 0.1rem;
+			padding-bottom: 0.1rem;
+			}
+			.product-abstract .features-block .f-list > li {
+				margin: 0.5rem 0;
+			}
+			.product-abstract .features-block .f-list > li > * {
+				display: inline-block;
+			}
+			.product-abstract .features-block .f-list > li > .label {
+				width: 3.2rem;
+				padding: 0.1rem 0.4rem;
+				margin: -0.1rem -0.4rem;
+				margin-right: 0;
+			}
+			.product-abstract .features-block .f-list > li > p {
+				padding: 0.1rem 0.4rem;
+				margin: -0.1rem -0.4rem;
+			}
 
 
 
