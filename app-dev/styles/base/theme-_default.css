@@ -61,6 +61,9 @@ em {
 	/* color: #ff7200; */
 	color: #f60;
 	}
+	.favorite-entity-icon {
+		color: #f60;
+	}
 
 a, a:visited {
 	color: #4285f4;
@@ -536,10 +539,14 @@ label.deco-input {
 	.row              .left {
 		color: #999;
 	}
-	.row.emphasise-both-sides .left,
-	.row.emphasise-both-sides .right,
-	.row.emphasise-leftside   .left,
-	.row.emphasise-rightside  .right {
+	.emphasise-leftside  .row  .left,
+	.emphasise-rightside .row  .right,
+	.emphasise-both-sides .row .left,
+	.emphasise-both-sides .row .right,
+	.row.emphasise-both-sides  .left,
+	.row.emphasise-both-sides  .right,
+	.row.emphasise-leftside    .left,
+	.row.emphasise-rightside   .right {
 		color: black;
 	}
 	.row.input-field input:focus ~ .input-tip {

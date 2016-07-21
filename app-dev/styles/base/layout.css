@@ -27,9 +27,15 @@ button.nav-back::before,
 		content: '\e603';
 	}
 	button.nav-share::before,
-	[role="button"].nav-back::before {
+	[role="button"].nav-share::before {
 		content: '\e618';
 	}
+
+
+.favorite-entity-icon::before {
+	font-family: 'iconfont'!important;
+	content: '\e619';
+}
 
 
 .taijs-logo.image {
@@ -288,10 +294,14 @@ article.message {
 			width: 80%;
 			margin-left: -0.5rem;
 		}
-		.row.emphasise-both-sides .left,
-		.row.emphasise-both-sides .right,
-		.row.emphasise-leftside   .left,
-		.row.emphasise-rightside  .right {
+		.emphasise-leftside  .row  .left,
+		.emphasise-rightside .row  .right,
+		.emphasise-both-sides .row .left,
+		.emphasise-both-sides .row .right,
+		.row.emphasise-both-sides  .left,
+		.row.emphasise-both-sides  .right,
+		.row.emphasise-leftside    .left,
+		.row.emphasise-rightside   .right {
 			font-size: 0.8rem;
 			font-weight: 500;
 		}
@@ -756,6 +766,42 @@ article.message {
 			margin: 0.25rem auto;
 			text-align: center;
 		}
+
+
+.entity-info-block {
+	font-size: 1rem;
+	}
+	.entity-info-block .columns {
+		padding: 0.5rem;
+		margin: -0.5rem;
+		position: relative;
+		text-align: center;
+	}
+	.entity-info-block .col {
+		position: relative;
+		padding: 0.25rem;
+		margin: -0.25rem;
+		width: 48%;
+	}
+	.entity-info-block .col * {
+		line-height: 1;
+	}
+	.entity-info-block .col > .label {
+		display: block;
+		font-size: 0.6rem;
+		font-weight: lighter;
+		white-space: nowrap;
+		margin-top: 0.15rem;
+		margin-bottom: 0.65rem;
+	}
+	.entity-info-block .col > .content {
+		display: block;
+		font-size: 1rem;
+		white-space: nowrap;
+	}
+	.entity-info-block .col > .content .digits {
+		font-weight: 300;
+	}
 
 
 .user-assets-abstract {
