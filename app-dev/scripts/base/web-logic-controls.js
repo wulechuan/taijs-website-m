@@ -4,13 +4,22 @@ window.webLogicControls = {};
 	var wlc = this;
 
 
-	this.Class = {};
-	(function () { // Class
+	var AbstractClass = {};
+	this.AbstractClass = AbstractClass;
+	(function () { // AbstractClass
 
-	}).call(this.Class);
+	}).call(AbstractClass);
 
 
-	this.DOM = {};
+	var CU = {};
+	this.CoreUtilities = CU;
+	(function () { // CoreUtilities
+
+	}).call(CU);
+
+
+	var DOM = {};
+	this.DOM = DOM;
 	(function () { // DOM
 		this.ANestedInB = function (A, B, considerAisBAsTrue) {
 			if (!(A instanceof Node && B instanceof Node)) return false;
@@ -22,10 +31,11 @@ window.webLogicControls = {};
 
 			return A===B;
 		};
-	}).call(this.DOM);
+	}).call(DOM);
 
 
-	this.UI = {};
+	var UI = {};
+	this.UI = UI;
 	(function () { // UI
 		this.bodyClickListener = new BodyClickListener();
 		function BodyClickListener() {
@@ -1044,5 +1054,350 @@ window.webLogicControls = {};
 
 			init.call(this);
 		};
-	}).call(this.UI);
+
+
+		this.ProgressRing = function ProgressRing(rootElement, initOptions) {
+			if (
+				!(rootElement instanceof Node) || 
+				rootElement === document || 
+				rootElement === document.body || 
+				rootElement === document.documentElement
+			) {
+				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
+			}
+
+			this.options = {
+				isUsingsTransition: true,
+				transitionsTotalDuration: 1.33
+			};
+
+			this.config = config.bind(this);
+			this.setDegreeTo = setDegreeTo.bind(this);
+			this.setPercentageTo = setPercentageTo.bind(this);
+
+			var halves = [];
+			var half1, half2;
+
+			var currentDegree = 0;
+
+			init.call(this);
+
+			function init() {
+				this.config(initOptions);
+				prepareDoms();
+				this.setDegreeTo();
+			}
+
+			function prepareDoms () { // add or remve doms as needed
+				var $halfMasks = $(rootElement).find('> .half-mask');
+				var count, i, j, _mask, $half, _half;
+
+				if ($halfMasks.length < 2) {
+					count = 2 - $halfMasks.length;
+					var tagName = 'B';
+					if (count===1) tagName = $halfMasks[0].tagName;
+
+					for (i = 0; i < count; i++) {
+						_mask = document.createElement(tagName);
+						_mask.className = 'half-mask';
+
+						$halfMasks.push(_mask);
+						rootElement.appendChild(_mask);
+					}
+				} else if ($halfMasks.length > 2) {
+					for (i = 2; i < $halfMasks.length; i++) {
+						_mask = $halfMasks[i];
+						rootElement.removeChild(_mask);
+					}
+				}
+
+
+				for (i = 0; i < $halfMasks.length; i++) {
+					_mask = $halfMasks[i];
+					$half = $(_mask).find('> .half');
+					if ($half.length < 1) {
+						_half = document.createElement('i');
+						_half.className = 'half';
+
+						$half.push(_half);
+						_mask.appendChild(_half);
+					} else {
+						_half = $half[0];
+						if ($half.length > 1) {
+							for (j = 1; j < $half.length; j++) {
+								_mask.removeChild(_half);
+							}
+						}
+					}
+
+					halves.push(_half);
+				}
+
+				half1 = halves[0];
+				half2 = halves[1];
+			}
+
+			function config(options) {
+
+			}
+
+			function _parseDegreeVia(degree) {
+				var degreeFloatValue = NaN;
+
+				if (typeof degree === 'number' && !isNaN(degree)) {
+					degreeFloatValue = degree;
+				} else {
+					degreeFloatValue = parseFloat(degree);
+
+					if (isNaN(degreeFloatValue)) {
+						degreeFloatValue = 0;
+					} else {
+						var stringIsPercentage = !!degree.match(/^\s*[\+\-]?[\d\.]*\d+%\D*\s*$/);
+
+						if (stringIsPercentage) {
+							degreeFloatValue = 3.6 * degreeFloatValue;
+						}
+					}
+				}
+
+				var degreeFloatValueSafe = degreeFloatValue % 360;
+
+				degree         = (degreeFloatValue)    .toFixed(3);
+				var degreeSafe = (degreeFloatValueSafe).toFixed(3);
+
+				degreeFloatValue     = parseFloat(degree);
+				degreeFloatValueSafe = parseFloat(degreeSafe);
+
+				return {
+					raw: degreeFloatValue,
+					safe: degreeFloatValueSafe
+				};
+			}
+
+			function _getDegreeFromHtml() {
+				return _parseDegreeVia(rootElement.getAttribute('data-degree'));
+			}
+
+			function setDegreeTo(newDegree) {
+				if (typeof newDegree === 'undefined' || newDegree === null) {
+					newDegree = _getDegreeFromHtml();
+				} else if (!newDegree || typeof newDegree === 'number' || newDegree === true) {
+					newDegree = _parseDegreeVia(newDegree);
+				} else {
+					newDegree = _parseDegreeVia(newDegree.raw);
+				}
+
+				var oldSafeDegree = _parseDegreeVia(currentDegree);
+				var newSafeDegree = newDegree.safe;
+				var deltaTotalAbs = Math.abs(newSafeDegree - oldSafeDegree);
+				var eitherTransitionsIsNecessary = !!this.options.isUsingsTransition && deltaTotalAbs > 1; // at least one degree to change
+
+				console.log('=== from', oldSafeDegree.safe, 'to', newSafeDegree, '===');
+
+				var half1Settings = {
+					dom: half1,
+					style: half1.style,
+					oldDegree: Math.max(180, oldSafeDegree),
+					newDegree: Math.max(180, newSafeDegree)
+				};
+
+				var half2Settings = {
+					dom: half2,
+					style: half2.style,
+					oldDegree: Math.min(180, oldSafeDegree),
+					newDegree: Math.min(180, newSafeDegree)
+				};
+
+				_processHalfSettings(half1Settings, this.options.transitionsTotalDuration);
+				_processHalfSettings(half2Settings, this.options.transitionsTotalDuration);
+
+				function _processHalfSettings (_S, totalDuration) {
+					_S.delta = _S.oldDegree - _S.newDegree;
+					_S.deltaAbs = Math.abs(_S.delta);
+					_S.duration = totalDuration * _S.deltaAbs / deltaTotalAbs;
+					_S.transitionNecessary = eitherTransitionsIsNecessary && _S.duration > 0.01;
+					if (_S.transitionNecessary) {
+						_S.style.transitionDuration = _S.duration + 's';
+					} else {
+						_S.style.transitionProperty = 'none';
+					}
+				}
+
+
+				var halfA, halfB; // transition of halfA goes BEFORE transition of halfB
+
+				if (oldSafeDegree <= 180) {
+					halfA = half1Settings;
+					halfB = half2Settings;
+				} else {
+					halfA = half2Settings;
+					halfB = half1Settings;
+				}
+
+
+				// console.log('total delta abs:', deltaTotalAbs);
+				// console.log('either transition needed?', eitherTransitionsIsNecessary);
+				// console.log('settings:', '\n', halfA, '\n', halfB);
+				console.log('settings:', '\n', halfA.transitionNecessary, '\n', halfB.transitionNecessary);
+
+				updateHalfA();
+				if (!eitherTransitionsIsNecessary) {
+					setTimeout(function () {
+						onBothHalvesUpdated();
+					}, 10);
+				}
+
+				function updateHalfA() {
+					console.log('update A');
+					halfA.style.transform = 'rotate('+halfA.newDegree+'deg)';
+
+					if (!halfA.transitionNecessary) {
+						updateHalfB();
+					} else {
+						halfA.dom.addEventListener('transitionend', onTransitionAEnd);
+					}
+				}
+				function onTransitionAEnd () {
+					console.log('transition A end');
+					halfA.dom.removeEventListener('transitionend', onTransitionAEnd);
+					updateHalfB();
+				}
+
+				function updateHalfB() {
+					console.log('update B');
+					halfB.style.transform = 'rotate('+halfB.newDegree+'deg)';
+
+					if (!halfB.transitionNecessary) {
+						onBothHalvesUpdated();
+					} else {
+						halfB.dom.addEventListener('transitionend', onTransitionBEnd);
+					}
+				}
+				function onTransitionBEnd () {
+					console.log('transition B end');
+					halfB.dom.removeEventListener('transitionend', onTransitionBEnd);
+					onBothHalvesUpdated();
+				}
+
+				function onBothHalvesUpdated() {
+					halfA.style.transitionDuration = '';
+					halfB.style.transitionDuration = '';
+					halfA.style.transitionProperty = '';
+					halfB.style.transitionProperty = '';
+
+					rootElement.getAttribute('data-degree', newDegree.raw);
+					currentDegree = newDegree;
+					console.log('-------------', currentDegree);
+				}
+
+
+				return newDegree;
+			}
+
+			function setPercentageTo(newPercentage) {
+				if (typeof newPercentage === 'string') {
+					newPercentage = (parseFloat(stringIsPercentage) || 0) * 0.01;
+					// var stringIsPercentage = !!newPercentage.match(/^\s*[\+\-]?[\d\.]*\d+%\D*\s*$/);
+					// if (stringIsPercentage) {
+					// }
+				} else if (typeof newPercentage === 'number' && !isNaN(newPercentage)) {
+				} else {
+					newPercentage = 0;
+				}
+
+				newPercentage = Math.min(0, Math.max(100, newPercentage)) + '%';
+
+				this.setDegreeTo(newPercentage * 360);
+			}
+		};
+
+		this.ProgressRings = function ProgressRings(rootElement, initOptions) {
+			if (
+				!(rootElement instanceof Node) || 
+				rootElement === document || 
+				rootElement === document.body || 
+				rootElement === document.documentElement
+			) {
+				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
+			}
+
+			var ringsDom = Array.prototype.slice.apply($(rootElement).find('.ring'));
+			if (ringsDom.length < 1) {
+				throw('No ring element found under rootElement when constructing a '+this.constructor.name+'.\n rootElement:', rootElement);
+			}
+
+			this.options = {
+				isUsingsTransitions: true,
+				singleRingTransitionsTotalDuration: 1.33
+			};
+
+			var rings = [];
+			this.controllers = {
+				rings: rings
+			};
+
+			this.config = config.bind(this);
+			this.setDegrees = setDegrees.bind(this);
+			this.setPercentages = setPercentages.bind(this);
+
+			init.call(this);
+
+			function init() {
+				for (var i = 0; i < ringsDom.length; i++) {
+					rings.push(new UI.ProgressRing(ringsDom[i]));
+				}
+
+				this.config(initOptions);
+			}
+
+			function setDegrees(degrees) {
+				if (!Array.isArray(degrees)) degrees = [degrees];
+				var count = Math.min(degrees.length, rings.length);
+				for (var i = 0; i < count; i++) {
+					rings[i].setDegreeTo(degrees[i]);
+				}
+			};
+
+			function setPercentages(percentages) {
+				if (!Array.isArray(percentages)) percentages = [percentages];
+				var count = Math.min(percentages.length, rings.length);
+				for (var i = 0; i < count; i++) {
+					rings[i].setPercentageTo(percentages[i]);
+				}
+			};
+
+			function config(options) {
+				if (typeof options !== 'object' || !options) return;
+
+				if (options.hasOwnProperty('isUsingsTransitions')) {
+					this.options.isUsingsTransitions = !! options.isUsingsTransitions;
+				}
+
+				var _num = parseFloat(options.singleRingTransitionsTotalDuration);
+				if (!isNaN(_num) && _num > 0.05) {
+					this.options.singleRingTransitionsTotalDuration = _num;
+				}
+
+				if (typeof options.perRings === 'object') {
+					var _opr = options.perRings;
+					if (!Array.isArray(_opr)) _opr = [_opr];
+
+					var ringsCount = rings.length;
+
+					if (_opr.length < ringsCount) {
+						for (var i = _opr.length; i < ringsCount; i++) {
+							_opr[i] = {
+								isUsingsTransitions: this.options.isUsingsTransitions,
+								transitionsTotalDuration: this.options.singleRingTransitionsTotalDuration
+							};
+						}
+					}
+
+					for (var i = 0; i < ringsCount; i++) {
+						rings[i].config(_opr[i]);
+					}
+				}
+			};
+		};
+	}).call(UI);
 }).call(window.webLogicControls);
