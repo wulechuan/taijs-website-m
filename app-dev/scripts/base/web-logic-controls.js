@@ -1068,7 +1068,7 @@ window.webLogicControls = {};
 
 			this.options = {
 				takeLastQueuedDegreeOnly: true,
-				isUsingTransitions: true,
+				useTransitions: true,
 				transitionsTotalDuration: 0.51219
 			};
 
@@ -1089,7 +1089,7 @@ window.webLogicControls = {};
 			var status = {
 				isRunning: false,
 				queuedDegrees: []
-			}
+			};
 
 			init.call(this);
 
@@ -1166,6 +1166,7 @@ window.webLogicControls = {};
 				var keyName = 'transitionDuration';
 				for (var k = 0; k < possibleKeyPrefixes.length; k++) {
 					var pre = possibleKeyPrefixes[k];
+					var key;
 					if (!pre) {
 						key = keyName;
 					} else {
@@ -1190,8 +1191,12 @@ window.webLogicControls = {};
 			function config(options) {
 				if (typeof options !== 'object' || !options) return;
 
-				if (options.hasOwnProperty('isUsingTransitions')) {
-					this.options.isUsingTransitions = !! options.isUsingTransitions;
+				if (options.hasOwnProperty('disableInitialUpdate')) {
+					this.options.disableInitialUpdate = !! options.disableInitialUpdate;
+				}
+
+				if (options.hasOwnProperty('useTransitions')) {
+					this.options.useTransitions = !! options.useTransitions;
 				}
 
 				if (options.hasOwnProperty('takeLastQueuedDegreeOnly')) {
@@ -1203,7 +1208,7 @@ window.webLogicControls = {};
 					this.options.transitionsTotalDuration = _num;
 				}
 
-				// console.log(this.options);
+				// console.log('result', this.options);
 			}
 
 			function _parseDegreeVia(degree) {
@@ -1241,7 +1246,7 @@ window.webLogicControls = {};
 					inputWasValid: inputWasValid,
 					raw: degreeFloatValue,
 					safe: degreeFloatValueSafe
-				}
+				};
 				// console.log(result);
 
 				return result;
@@ -1306,9 +1311,9 @@ window.webLogicControls = {};
 				var oldSafeDegree = currentDegree.safe;
 				var newSafeDegree = newDegree.safe;
 				var deltaTotalAbs = Math.abs(newSafeDegree - oldSafeDegree);
-				var eitherTransitionsIsNecessary = !!this.options.isUsingTransitions && deltaTotalAbs > 1; // at least one degree to change
+				var eitherTransitionsIsNecessary = !!this.options.useTransitions && deltaTotalAbs > 1; // at least one degree to change
 
-				// console.log('=== from', oldSafeDegree, 'to', newSafeDegree, '===', this.options.isUsingTransitions, deltaTotalAbs);
+				// console.log('=== from', oldSafeDegree, 'to', newSafeDegree, '===', this.options.useTransitions, deltaTotalAbs);
 
 				_processHalfSettings(
 					half1Settings,
@@ -1433,7 +1438,7 @@ window.webLogicControls = {};
 
 			this.options = {
 				takeLastQueuedDegreeOnly: true,
-				isUsingTransitions: true,
+				useTransitions: true,
 				singleRingTransitionsTotalDuration: 0.51219,
 				perRings: []
 			};
@@ -1443,6 +1448,7 @@ window.webLogicControls = {};
 				rings: rings
 			};
 
+			this.createOneRing = createOneRing.bind(this);
 			this.config = config.bind(this);
 			this.setDegrees = setDegrees.bind(this);
 			this.setPercentages = setPercentages.bind(this);
@@ -1453,10 +1459,8 @@ window.webLogicControls = {};
 				this.config(initOptions, true);
 
 				for (var i = 0; i < ringsDom.length; i++) {
-					rings.push(new UI.ProgressRing(ringsDom[i]));
+					this.createOneRing(ringsDom[i]);
 				}
-
-				configRings.call(this);
 			}
 
 			function setDegrees(degrees) {
@@ -1475,72 +1479,171 @@ window.webLogicControls = {};
 				}
 			}
 
+			function createOneRing(ringRootElement) {
+				var results = evaluateOptionsOfRings.call(this, rings.length+1);
+				var options =results.optionsPerRings[0];
+				rings.push(new UI.ProgressRing(ringRootElement, options));
+			}
+
 			function config(options, shouldNotConfigRings) {
 				if (typeof options !== 'object' || !options) return;
 
-				if (options.hasOwnProperty('isUsingTransitions')) {
-					this.options.isUsingTransitions = !! options.isUsingTransitions;
+				var _num;
+
+				if (options.hasOwnProperty('disableInitialUpdate')) {
+					this.options.disableInitialUpdate = !! options.disableInitialUpdate;
+				}
+
+				if (options.hasOwnProperty('useTransitions')) {
+					this.options.useTransitions = !! options.useTransitions;
 				}
 
 				if (options.hasOwnProperty('takeLastQueuedDegreeOnly')) {
 					this.options.takeLastQueuedDegreeOnly = !! options.takeLastQueuedDegreeOnly;
 				}
 
-				var _num = parseFloat(options.singleRingTransitionsTotalDuration);
+				_num = parseFloat(options.singleRingTransitionsTotalDuration);
 				if (!isNaN(_num) && _num > 0.05) {
 					this.options.singleRingTransitionsTotalDuration = _num;
 				}
 
-				var _opr;
-				if (typeof options.perRings === 'object') {
-					var _opr = options.perRings;
-					if (!Array.isArray(_opr)) _opr = [_opr];
+				if (typeof options.perRings === null) {
+					this.options.perRings.splice(0, this.options.perRings.length);
 				} else {
-					_opr = [];
-				}
+					var _oprS; // source
+					var _oprT = this.options.perRings; // target
 
-
-				var ringsCount = ringsDom.length;
-				var i;
-
-				for (i = 0; i < _opr.length; i++) {
-					var _oprI = _opr[i];
-
-					if (!_oprI.hasOwnProperty('isUsingTransitions')) {
-						_oprI.isUsingTransitions = !! this.options.isUsingTransitions;
+					if (typeof options.perRings === 'object') {
+						_oprS = options.perRings;
+						if (!Array.isArray(_oprS)) _oprS = [_oprS];
+					} else {
+						_oprS = [];
 					}
 
-					if (_oprI.hasOwnProperty('takeLastQueuedDegreeOnly')) {
-						_oprI.takeLastQueuedDegreeOnly = !! this.options.takeLastQueuedDegreeOnly;
-					}
+					for (var i = 0; i < _oprS.length; i++) {
+						var _oprSI = _oprS[i];
+						var _oprTI = _oprT[i];
 
-					var _num = parseFloat(_oprI.singleRingTransitionsTotalDuration);
-					if (isNaN(_num) || _num < 0) {
-						_oprI.transitionsTotalDuration = this.options.singleRingTransitionsTotalDuration;
+						if (typeof _oprSI !== 'object' || !_oprSI) {
+							continue;
+						}
+
+						if (typeof _oprTI !== 'object' || !_oprTI) {
+							_oprT[i] = _oprSI;
+							continue;
+						}
+
+						if (_oprSI.hasOwnProperty('disableInitialUpdate')) {
+							_oprTI.disableInitialUpdate = !!_oprSI.disableInitialUpdate;
+						}
+
+						if (_oprSI.hasOwnProperty('useTransitions')) {
+							_oprTI.useTransitions = !!_oprSI.useTransitions;
+						}
+
+						if (_oprSI.hasOwnProperty('takeLastQueuedDegreeOnly')) {
+							_oprTI.takeLastQueuedDegreeOnly = !!_oprSI.takeLastQueuedDegreeOnly;
+						}
+
+						_num = parseFloat(_oprSI.singleRingTransitionsTotalDuration);
+						if (!isNaN(_num) && _num > 0) {
+							_oprTI.transitionsTotalDuration = _oprSI.singleRingTransitionsTotalDuration;
+						}
 					}
 				}
-
-				for (i = _opr.length; i < ringsCount; i++) {
-					_opr[i] = {
-						isUsingTransitions: this.options.isUsingTransitions,
-						takeLastQueuedDegreeOnly: this.options.takeLastQueuedDegreeOnly,
-						transitionsTotalDuration: this.options.singleRingTransitionsTotalDuration
-					};
-				}
-
-				this.options.perRings = _opr;
 
 				if (!shouldNotConfigRings) {
 					configRings.call(this);
 				}
 			}
 
-			function configRings() {
-				var _opr = this.options.perRings;
-				var ringsCount = rings.length;
-				for (i = 0; i < ringsCount; i++) {
-					rings[i].config(_opr[i]);
+			function configRings(indexRangeA, indexRangeB) {
+				var results = evaluateOptionsOfRings.call(this, i).optionsPerRings[0];
+
+				indexRangeA = results.indexRangeA; // valid values
+				indexRangeB = results.indexRangeB; // valid values
+				var optionsPerRings = results.optionsPerRings;
+
+				for (var i = 0; i < optionsPerRings.length; i++) {
+					var ring = rings[i];
+					if (ring) ring.config(optionsPerRings[i]);
 				}
+			}
+
+			function evaluateOptionsOfRings(indexRangeA, indexRangeB) {
+				var results = {
+					indexRangeA: NaN,
+					indexRangeB: NaN,
+					optionsPerRings: []
+				};
+
+				indexRangeA = parseInt(indexRangeA);
+				indexRangeB = parseInt(indexRangeB);
+
+				var ringsCount = rings.length;
+
+				var validIndexRangeAProvided = indexRangeA >= 0; // exceeding [rings.length] is allowed
+				if (!validIndexRangeAProvided) {
+					indexRangeA = 0;
+				}
+				var validIndexRangeBProvided = indexRangeB >= 0; // exceeding [rings.length] is allowed
+				if (!validIndexRangeBProvided) {
+					if (validIndexRangeAProvided) {
+						indexRangeB = indexRangeA;
+					} else {
+						indexRangeB = ringsCount - 1;
+					}
+				}
+
+				var loopStart = Math.min(indexRangeA, indexRangeB);
+				var loopEnd = Math.max(indexRangeA, indexRangeB);
+
+				results.indexRangeA = loopStart;
+				results.indexRangeB = loopEnd;
+
+				var _oGlobalDefault = this.options;
+				var _oprS = this.options.perRings;
+				for (var i = loopStart; i <= loopEnd; i++) {
+					var _oprSI = _oprS[i];
+					var _oprTI = {};
+					var _num;
+					if (typeof _oprSI !== 'object' || !_oprSI) {
+						_oprSI = {};
+					}
+
+					if (_oprSI.hasOwnProperty('disableInitialUpdate')) {
+						_oprTI.disableInitialUpdate = _oprSI.disableInitialUpdate;
+					} else if (_oGlobalDefault.hasOwnProperty('disableInitialUpdate')) {
+						_oprTI.disableInitialUpdate = _oGlobalDefault.disableInitialUpdate;
+					}
+
+					if (_oprSI.hasOwnProperty('useTransitions')) {
+						_oprTI.useTransitions = _oprSI.useTransitions;
+					} else if (_oGlobalDefault.hasOwnProperty('useTransitions')) {
+						_oprTI.useTransitions = _oGlobalDefault.useTransitions;
+					}
+
+					if (_oprSI.hasOwnProperty('takeLastQueuedDegreeOnly')) {
+						_oprTI.takeLastQueuedDegreeOnly = _oprSI.takeLastQueuedDegreeOnly;
+					} else if (_oGlobalDefault.hasOwnProperty('takeLastQueuedDegreeOnly')) {
+						_oprTI.takeLastQueuedDegreeOnly = _oGlobalDefault.takeLastQueuedDegreeOnly;
+					}
+
+					_num = parseFloat(_oprSI.transitionsTotalDuration);
+					if (!isNaN(_num) && _num > 0) {
+						_oprTI.transitionsTotalDuration = _num;
+					} else {
+						_num = parseFloat(_oGlobalDefault.singleRingTransitionsTotalDuration);
+						if (!isNaN(_num) && _num > 0) {
+							_oprTI.transitionsTotalDuration = _num;
+						}
+					}
+
+					// console.log(_oprTI);
+					results.optionsPerRings.push(_oprTI);
+				}
+
+				return results;
 			}
 		};
 	}).call(UI);
