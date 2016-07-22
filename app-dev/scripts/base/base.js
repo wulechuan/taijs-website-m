@@ -563,6 +563,9 @@
 				.on('mouseup', function () {
 					move = false;
 					waiting = false;
+					setTimeout(function () {
+						c.l(progressRings.getDegree());
+					}, 1000);
 				})
 			;
 		}

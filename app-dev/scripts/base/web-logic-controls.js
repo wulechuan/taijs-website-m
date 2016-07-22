@@ -1735,6 +1735,10 @@ window.webLogicControls = {};
 
 			this.createOneRing = createOneRing.bind(this);
 			this.config = config.bind(this);
+			this.getDegree = getDegree.bind(this);
+			this.getDegrees = getDegrees.bind(this);
+			this.getPercentage = getPercentage.bind(this);
+			this.getPercentages = getPercentages.bind(this);
 			this.setDegrees = setDegrees.bind(this);
 			this.setPercentages = setPercentages.bind(this);
 
@@ -1746,6 +1750,39 @@ window.webLogicControls = {};
 				for (var i = 0; i < ringsDom.length; i++) {
 					this.createOneRing(ringsDom[i]);
 				}
+			}
+
+			function getDegree(index) {
+				index = parseInt(index) || 0;
+				var ring = rings[index];
+				if (!ring) return undefined;
+				return ring.getDegree();
+			}
+
+			function getPercentage(index) {
+				var deg = this.getDegree(index);
+				if (typeof deg === 'number') {
+					if (isNaN(deg)) return undefined;
+					return deg / 360;
+				}
+
+				return undefined;
+			}
+
+			function getDegrees() {
+				var results = [];
+				for (var i = 0; i < rings.length; i++) {
+					results.push(rings[i].getDegree());
+				}
+				return results;
+			}
+
+			function getPercentages() {
+				var results = [];
+				for (var i = 0; i < rings.length; i++) {
+					results.push(rings[i].getDegree() / 360);
+				}
+				return results;
 			}
 
 			function setDegrees(degrees) {
