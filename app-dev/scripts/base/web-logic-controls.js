@@ -582,7 +582,7 @@ window.webLogicControls = {};
 				return status.aggregatedValue;
 			};
 			this.clear = function () {
-				var thisController = this;
+				// var thisController = this;
 				$allInputs.each(function (index) {
 					this.value = '';
 					status.allInputsValue[index] = '';
@@ -1067,7 +1067,7 @@ window.webLogicControls = {};
 			}
 
 			this.options = {
-				isUsingsTransition: true,
+				isUsingTransitions: true,
 				transitionsTotalDuration: 1.33
 			};
 
@@ -1138,7 +1138,16 @@ window.webLogicControls = {};
 			}
 
 			function config(options) {
+				if (typeof options !== 'object' || !options) return;
 
+				if (options.hasOwnProperty('isUsingTransitions')) {
+					this.options.isUsingTransitions = !! options.isUsingTransitions;
+				}
+
+				var _num = parseFloat(options.transitionsTotalDuration);
+				if (!isNaN(_num) && _num > 0.05) {
+					this.options.transitionsTotalDuration = _num;
+				}
 			}
 
 			function _parseDegreeVia(degree) {
@@ -1190,7 +1199,7 @@ window.webLogicControls = {};
 				var oldSafeDegree = _parseDegreeVia(currentDegree);
 				var newSafeDegree = newDegree.safe;
 				var deltaTotalAbs = Math.abs(newSafeDegree - oldSafeDegree);
-				var eitherTransitionsIsNecessary = !!this.options.isUsingsTransition && deltaTotalAbs > 1; // at least one degree to change
+				var eitherTransitionsIsNecessary = !!this.options.isUsingTransitions && deltaTotalAbs > 1; // at least one degree to change
 
 				console.log('=== from', oldSafeDegree.safe, 'to', newSafeDegree, '===');
 
@@ -1296,7 +1305,7 @@ window.webLogicControls = {};
 
 			function setPercentageTo(newPercentage) {
 				if (typeof newPercentage === 'string') {
-					newPercentage = (parseFloat(stringIsPercentage) || 0) * 0.01;
+					newPercentage = (parseFloat(newPercentage) || 0) * 0.01;
 					// var stringIsPercentage = !!newPercentage.match(/^\s*[\+\-]?[\d\.]*\d+%\D*\s*$/);
 					// if (stringIsPercentage) {
 					// }
@@ -1327,7 +1336,7 @@ window.webLogicControls = {};
 			}
 
 			this.options = {
-				isUsingsTransitions: true,
+				isUsingTransitions: true,
 				singleRingTransitionsTotalDuration: 1.33
 			};
 
@@ -1356,7 +1365,7 @@ window.webLogicControls = {};
 				for (var i = 0; i < count; i++) {
 					rings[i].setDegreeTo(degrees[i]);
 				}
-			};
+			}
 
 			function setPercentages(percentages) {
 				if (!Array.isArray(percentages)) percentages = [percentages];
@@ -1364,13 +1373,13 @@ window.webLogicControls = {};
 				for (var i = 0; i < count; i++) {
 					rings[i].setPercentageTo(percentages[i]);
 				}
-			};
+			}
 
 			function config(options) {
 				if (typeof options !== 'object' || !options) return;
 
-				if (options.hasOwnProperty('isUsingsTransitions')) {
-					this.options.isUsingsTransitions = !! options.isUsingsTransitions;
+				if (options.hasOwnProperty('isUsingTransitions')) {
+					this.options.isUsingTransitions = !! options.isUsingTransitions;
 				}
 
 				var _num = parseFloat(options.singleRingTransitionsTotalDuration);
@@ -1383,21 +1392,22 @@ window.webLogicControls = {};
 					if (!Array.isArray(_opr)) _opr = [_opr];
 
 					var ringsCount = rings.length;
+					var i;
 
 					if (_opr.length < ringsCount) {
-						for (var i = _opr.length; i < ringsCount; i++) {
+						for (i = _opr.length; i < ringsCount; i++) {
 							_opr[i] = {
-								isUsingsTransitions: this.options.isUsingsTransitions,
+								isUsingTransitions: this.options.isUsingTransitions,
 								transitionsTotalDuration: this.options.singleRingTransitionsTotalDuration
 							};
 						}
 					}
 
-					for (var i = 0; i < ringsCount; i++) {
+					for (i = 0; i < ringsCount; i++) {
 						rings[i].config(_opr[i]);
 					}
 				}
-			};
+			}
 		};
 	}).call(UI);
 }).call(window.webLogicControls);
