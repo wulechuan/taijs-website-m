@@ -1560,3 +1560,6 @@ article.message {
 		height: 1.35rem;
 		background-size: 100% auto;
 	}
+	#page-account-sign-up-sign-in .panel .f-block:first-child {
+		margin-top: 1rem;
+	}
