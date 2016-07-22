@@ -1426,12 +1426,10 @@ label.deco-input {
 		.progress-rings .ring .half-mask,
 		.progress-rings .ring::before,
 		.progress-rings .ring {
-			box-sizing: border-box!important;
 			position: absolute;
 			display: block;
 			left: 0;
 			top: 0;
-			height: 100%;
 		}
 		.progress-rings .ring .half-mask .half::before,
 		.progress-rings .ring::before {
@@ -1440,31 +1438,57 @@ label.deco-input {
 			border-style: solid;
 		}
 		.progress-rings .ring {
+			box-sizing: border-box!important;
+			right: 0;
+			bottom: 0;
 			width: 100%;
+			height: 100%;
+			margin: auto;
 		}
+
+		.progress-rings .ring:nth-child(2) {
+			width: 85%;
+			height: 85%;
+		}
+
+		.progress-rings .ring:nth-child(3) {
+			width: 60%;
+			height: 60%;
+		}
+
 		.progress-rings .ring::before {
+			box-sizing: border-box!important;
 			content: '';
 			width: 100%;
+			height: 100%;
 			border-color: inherit!important;
 		}
-		.progress-rings .ring .half-mask .half,
 		.progress-rings .ring .half-mask {
 			border-width: 0;
 			overflow: hidden;
-		}
-		.progress-rings .ring .half-mask {
+			box-sizing: border-box!important;
 			width: 50%;
+			height: 100%;
 			}
 			.progress-rings .ring .half-mask .half {
+				border-width: 0;
+				/* overflow: hidden; */
+				clip: rect(0px, 2.5rem, auto, 0px);
+				box-sizing: content-box!important;
+				/* background-color: lightgreen; */
 				width: 100%;
+				height: 100%;
 				transform-origin: right;
 				transition-property: transform, opacity, border-color, background-color, border-width;
 				transition-timing-function: linear!important;
 			}
 			.progress-rings .ring .half-mask .half::before {
+				box-sizing: border-box!important;
 				content: '';
 				width: 200%;
+				height: 100%;
 				border-color: inherit!important;
+				/* background-color: pink; */
 			}
 
 		.progress-rings .ring .half-mask {
@@ -1472,9 +1496,6 @@ label.deco-input {
 			}
 			.progress-rings .ring .half-mask .half {
 				transform: rotate(180deg);
-				left: 0;
-			}
-			.progress-rings .ring .half-mask .half::before {
 				left: 0;
 			}
 
@@ -1485,9 +1506,7 @@ label.deco-input {
 				transform: rotate(0deg);
 				left: -100%;
 			}
-			.progress-rings .ring .half-mask ~ .half-mask .half::before {
-				left: 0;
-			}
+
 
 
 .progress-stops {
