@@ -1,43 +1,110 @@
-(function () {
-	$('#button-login-in-splash-block').on('click', function () {
-		onUserLogdIn();
+$(function () {
+	(function () {
+		new window.Swiper('.swiper-container', {
+			pagination: '.carousel-nav',
+			paginationElement: 'button',
+			paginationClickable: true
+		});
+	})();
+
+	$('.page').each(function () {
+		var page = this;
+		var $page = $(page);
+		var pageBody = $page.find('.page-body').get(0); // in case there are accidentally multiple page-body elements;
+		var $pageBody = $(pageBody);
+
+		var pageHeaderNormalHeight = 128;
+		var pageHeaderCompactHeight = 50;
+		var pageHeaderHeightDelta = pageHeaderNormalHeight - pageHeaderCompactHeight;
+
+		var pageBodyTopOffsetBaseInExpandedMode = NaN;
+
+		var pageBodyCurrentTopOffsetThreshold = pageHeaderHeightDelta * -0.75;
+		var pageBodyCurrentTopOffsetBase = 0;
+		var pageBodyCurrentTopOffsetBaseShouldBeCorrect = false;
+
+		var currentModeIsCompact = $page.hasClass('page-header-in-compact-mode');
+
+		$page.on('scroll', function () {
+			if (!pageBodyCurrentTopOffsetBaseShouldBeCorrect) {
+				if (!currentModeIsCompact && !pageBodyTopOffsetBaseInExpandedMode) {
+					var computedStyle = window.getComputedStyle(page, null);
+					if (computedStyle) {
+						pageBodyTopOffsetBaseInExpandedMode = parseFloat(computedStyle.paddingTop);
+					} else {
+						pageBodyTopOffsetBaseInExpandedMode = 0;
+					}
+
+					pageBodyCurrentTopOffsetBase = pageBodyTopOffsetBaseInExpandedMode;
+				} else {
+					pageBodyCurrentTopOffsetBase = pageHeaderCompactHeight;
+				}
+
+				pageBodyCurrentTopOffsetBaseShouldBeCorrect = true;
+			}
+
+		    var pageBodyOffset = $pageBody.offset();
+
+		    var pageBodyCurrentTopOffset = pageBodyCurrentTopOffsetBase - pageBodyOffset.top;
+
+
+		    var shouldSwitchIntoCompactMode = false;
+		    var shouldSwitchIntoExpandedMode = false;
+
+		    if (currentModeIsCompact) {
+		    	// so the pageBodyCurrentTopOffset will be NEGATIVE
+		    	shouldSwitchIntoCompactMode = false;
+		    	shouldSwitchIntoExpandedMode = pageBodyCurrentTopOffset <= pageBodyCurrentTopOffsetThreshold
+		    } else {
+		    	shouldSwitchIntoExpandedMode = false
+		    	shouldSwitchIntoCompactMode = pageBodyCurrentTopOffset >= pageBodyCurrentTopOffsetThreshold;
+		    }
+
+		    if (!currentModeIsCompact && shouldSwitchIntoCompactMode) {
+		    	$page.addClass('page-header-in-compact-mode fixed-page-header');
+		    	currentModeIsCompact = true;
+				pageBodyCurrentTopOffsetThreshold = pageHeaderCompactHeight * 0.75;
+		    	pageBodyCurrentTopOffsetBaseShouldBeCorrect = false;
+		    }
+
+	    	if (currentModeIsCompact && shouldSwitchIntoExpandedMode) {
+		    	$page.removeClass('page-header-in-compact-mode fixed-page-header');
+		    	currentModeIsCompact = false;
+				pageBodyCurrentTopOffsetThreshold = pageHeaderHeightDelta * -0.75;
+		    	pageBodyCurrentTopOffsetBaseShouldBeCorrect = false;
+	    	}
+		});
 	});
+});
 
+$(function () { // fake logic
+	function processParametersPassedIn() {
+		var qString = location.href.match(/\?[^#]*/);
+		if (qString) qString = qString[0].slice(1);
 
-	var $expandablePanel = $('#credit-details-pane .expandable');
-	$('#credit-details-pane .docking button').on('click', function(event) {
-		$expandablePanel.toggleClass('expanded');
-	});
+		var qKVPairs = [];
+		if (qString) {
+			qKVPairs = qString.split('&');
+		}
 
+		var login = false;
 
+		for (var i in qKVPairs){
+			var kvpString = qKVPairs[i];
+			var kvp = kvpString.split('=');
 
-	var $bP = $('.popup-layers-back-plate');
-	var $pL1 = $('#pl-index-user-guide');
-	var $pL2 = $('#pl-taijs-app-promotion');
+			if (kvp[0] === 'login') login = (typeof kvp[1] === 'string') && (kvp[1].toLowerCase() === 'true');
+		}
 
-
-	function onUserLogdIn() {
-		$('html').addClass('user-has-logged-in');
-		$bP.show();
-		$pL1.show();
-		// $expandablePanel.addClass('expanded');
+		return {
+			login: login
+		};
 	}
 
-	$('#index-user-guide-step-1 img').on('click', function () {
-		$bP.hide();
-		$pL1.hide();
-	});
-
-
-	$('#credit-abstract-pane .operations button').on('click', function(event) {
-		if (event) event.preventDefault();
-		$bP.show();
-		$pL2.show();
-		// onPopupLayerShow($pL[0]);
-	});
-
-	$pL2.find('.button-x').on('click', function(event) {
-		$bP.hide();
-		$pL2.hide();
-	});
-})();
+	var urlParameters = processParametersPassedIn();
+	if (urlParameters.login) {
+		$('body').addClass('user-has-logged-in');
+	} else {
+		$('body').removeClass('user-has-logged-in');
+	}
+});

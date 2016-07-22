@@ -1,16 +1,13 @@
 html, body, .app {
 	height: 100%;
-}
+	}
 
 
-.em-digits {
-	font-size: 1.66rem;
-}
-
-
+button.nav-share::before,
 button.nav-home::before,
 button.nav-back::before,
 [role="button"].nav-home::before,
+[role="button"].nav-share::before,
 [role="button"].nav-back::before {
 	font-family: 'iconfont'!important;
 	font-size: 20px;
@@ -29,6 +26,16 @@ button.nav-back::before,
 	[role="button"].nav-back::before {
 		content: '\e603';
 	}
+	button.nav-share::before,
+	[role="button"].nav-share::before {
+		content: '\e618';
+	}
+
+
+.favorite-entity-icon::before {
+	font-family: 'iconfont'!important;
+	content: '\e619';
+}
 
 
 .taijs-logo.image {
@@ -82,7 +89,40 @@ article.message {
 	}
 
 
-.row, .f-block, .f-block-body {
+.single-char-inputs-set {
+	text-align: center;
+	}
+	.single-char-inputs-set input.single-char-input {
+		margin: 0;
+		padding: 0;
+		width: 2.5rem;
+		height: 2.5rem;
+		line-height: 2.4rem;
+		font-size: 1.5rem;
+		text-align: center;
+		box-sizing: border-box;
+	}
+	.single-char-inputs-set input.single-char-input ~ input.single-char-input {
+		border-left-width: 0;
+	}
+	.single-char-inputs-set input.single-char-input:first-child {
+		border-radius: 0.2rem 0 0 0.2rem;
+	}
+	.single-char-inputs-set input.single-char-input:last-child {
+		border-radius: 0 0.2rem 0.2rem 0;
+	}
+
+	.single-char-inputs-set.inputs-distribution-full-width {
+		max-width: 512px;
+		margin-left: auto;
+		margin-right: auto;
+		}
+		.single-char-inputs-set.inputs-distribution-full-width input.single-char-input {
+			width: 16.666%;
+		}
+
+
+.row, .f-block, .f-block-body, .f-block .row.full-width {
 	box-sizing: content-box;
 	padding-left: 0.8rem;
 	padding-right: 0.8rem;
@@ -90,7 +130,7 @@ article.message {
 	.row .right {
 		margin-right: 0.8rem;
 	}
-	.f-block .tiles,
+	.f-block .row.full-width,
 	.f-block .row,
 	.f-block-body {
 		margin-left: -0.8rem;
@@ -100,11 +140,15 @@ article.message {
 
 .row {
 	white-space: nowrap;
-	overflow: hidden;
 	}
 
 	.row * {
 		white-space: normal;
+	}
+
+	.hide-borders > .row,
+	.row.hide-borders {
+		border-style: none;
 	}
 
 	.row.buttons-in-single-line {
@@ -115,13 +159,24 @@ article.message {
 		padding-bottom: 0.5rem;
 	}
 
+	.f-block .row.padding-top-taller,
+	.row.padding-top-taller {
+		padding-top: 1rem;
+	}
+
 	.row.buttons-in-single-line + .row.buttons-in-single-line {
-		margin-top: -0.75rem;
+		margin-top: 0rem;
 	}
 
 	.page-footer .row.buttons-in-single-line {
 		margin-top: 0;
 		margin-bottom: 0;
+	}
+
+	.row.buttons-in-single-line [role="button"],
+	.row.buttons-in-single-line button {
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	.row.buttons-in-single-line .size-std-wide {
@@ -238,6 +293,18 @@ article.message {
 			width: 80%;
 			margin-left: -0.5rem;
 		}
+		.emphasise-leftside  .row  .left,
+		.emphasise-rightside .row  .right,
+		.emphasise-both-sides .row .left,
+		.emphasise-both-sides .row .right,
+		.row.emphasise-both-sides  .left,
+		.row.emphasise-both-sides  .right,
+		.row.emphasise-leftside    .left,
+		.row.emphasise-rightside   .right {
+			font-size: 0.8rem;
+			font-weight: 500;
+		}
+
 		.f-block-body .row.select-field .right,
 		.f-block-body .row.input-field  .right,
 		.row.select-field .right,
@@ -271,6 +338,10 @@ article.message {
 
 		.row.input-field button[button-action="clear-input-field"][for-input] {
 			/* top: 1.5rem; */
+			margin-right: 0.25rem;
+		}
+		.row.input-field.single-side-content button[button-action="clear-input-field"][for-input] {
+			margin-right: -0.45rem;
 		}
 		.row.single-side-content .right,
 		.row.single-side-content .left {
@@ -300,6 +371,12 @@ article.message {
 			margin-top: 0;
 			border-top-left-radius: 4px;
 			border-top-right-radius: 4px;
+		}
+		.row.input-field.style-traditional .left {
+			padding-left: 0.5rem;
+			margin-left: -0.5rem;
+			padding-top: 0;
+			padding-bottom: 0;
 		}
 		.row.input-field.style-traditional .input-tip {
 			left: 0.5rem;
@@ -415,16 +492,46 @@ article.message {
 		border-width: 1px 0;
 	}
 
+	.f-block.banner {
+		border-width: 0;
+		padding: 0;
+		margin: 0.25rem 0;
+	}
+
 	.f-block.banner .f-block-body {
 		border-width: 0;
+		padding: 0;
+		margin-left: 0;
+		margin-right: 0;
 	}
 
 	.f-block.snap-top .f-block-body {
 		margin-top: -1px;
 	}
 
-	.f-block-body .row {
+	.panel > .f-block.snap-top:first-child .f-block-body {
+		margin-top: 0px;
+	}
+
+	.f-block-body *,
+	.f-block-body {
 		border-style: solid;
+	}
+
+	.f-block-body.hide-borders {
+		border-style: none;
+	}
+
+	.f-block-body hr {
+		margin: 0;
+	}
+	.f-block-body hr.full-width {
+		width: auto;
+		margin-left: -0.8rem;
+		margin-right: -0.8rem;
+	}
+
+	.f-block-body .row {
 		border-color: inherit;
 		border-width: 1px 0;
 		margin-top: -1px;
@@ -456,16 +563,17 @@ article.message {
 
 		.f-block-body .row.has-lead-icon .lead-icon {
 			position: absolute;
-			top: 1rem;
-			left: -2rem;
-			width: 1.2rem;
-			height: 1.2rem;
+			top: 0.7rem;
+			left: -2.3rem;
+			width: 1.6rem;
+			height: 1.6rem;
+			line-height: 1.7rem;
+			text-align: center;
 			margin: 0;
 		}
 
 		.f-block-body .row.has-lead-icon .lead-icon.iconfont {
 			font-size: 1.2rem;
-			line-height: 1.2rem;
 		}
 
 	.f-block-body a .row,
@@ -592,6 +700,309 @@ article.message {
 	}
 
 
+.hero-content-block {
+	position: relative;
+	}
+
+	.row > .hero-content-block,
+	.hero-content-block {
+	position: relative;
+	margin: -0.5rem -0.8rem;
+	padding: 0.5rem 0.8rem;
+	}
+
+	.hero-content-block h3 {
+		text-align: center;
+		margin: 0.25rem auto 0.75rem;
+	}
+
+	.hero-content-block h3 > * {
+		display: block;
+		clear: both;
+		line-height: 1.1;
+	}
+
+	.hero-content-block h3 .subject {
+		font-size: 1rem;
+		font-weight: normal;
+	}
+
+	.hero-content-block h3 .hero-word {
+		margin-top: 0.5rem;
+		font-size: 3.19rem;
+	}
+
+	.hero-content-block h3 .subtitle {
+		font-size: 0.6rem;
+	}
+
+	.hero-content-block .hero-content-features {
+		margin: 0.25rem auto;
+		text-align: center;
+	}
+
+	.hero-content-block .hero-content-features > li {
+		margin: 0 0.8rem 0;
+	}
+
+	.row.hero-content-block-call-to-action {
+		min-height: 1.5rem;
+	}
+
+	.hero-content-block.hero-content-block-style-2 {
+		}
+		.hero-content-block.hero-content-block-style-2 h3 {
+			margin-bottom: 0.25rem;
+		}
+		.hero-content-block.hero-content-block-style-2 h3 .subject {
+			font-size: 0.8rem;
+			font-weight: normal;
+		}
+		.hero-content-block.hero-content-block-style-2 h3 .hero-word {
+			margin-top: 0.4rem;
+			font-size: 2.19rem;
+		}
+		.hero-content-block.hero-content-block-style-2 h3 .subtitle {
+			font-size: 0.6rem;
+		}
+		.hero-content-block.hero-content-block-style-2 .hero-content-features {
+			margin: 0.25rem auto;
+			text-align: center;
+		}
+
+
+.entity-info {
+	font-size: 1rem;
+	}
+	.entity-info .entity-body {
+		display: block;
+	}
+
+	.entity-body .call-to-action {
+		display: none;
+	}
+
+	.entity-buyable .entity-body .call-to-action,
+	.entity-body .f-list {
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.entity-body .f-list {
+		width: 100%;
+	}
+	.entity-buyable .entity-body .f-list {
+		width: calc(100% - 4rem);
+	}
+	.entity-buyable .entity-body .call-to-action {
+		width: 4rem;
+		height: 4rem;
+		text-align: right;
+		white-space: nowrap;
+	}
+	.entity-buyable .entity-body .call-to-action::before {
+		content: '';
+		display: inline-block;
+		vertical-align: middle;
+		width: 0px;
+		height: 100%;
+	}
+	.entity-buyable .entity-body .call-to-action > *,
+	.entity-buyable .entity-body .call-to-action [role="button"],
+	.entity-buyable .entity-body .call-to-action button {
+		display: inline-block;
+		vertical-align: middle;
+		margin: 0;
+	}
+	.entity-buyable .entity-body .call-to-action [role="button"],
+	.entity-buyable .entity-body .call-to-action button {
+		padding: 0;
+	}
+	.entity-buyable.entity-time-limited .entity-body .call-to-action [role="button"][button-action="call-to-action"],
+	.entity-buyable.entity-time-limited .entity-body .call-to-action button[button-action="call-to-action"] {
+		width: 3.75rem;
+		height: 3.75rem;
+	}
+
+	.entity-body .f-list {
+		padding: 0.5rem;
+		margin: 0.5rem -0.5rem 0;
+		text-align: left;
+		}
+		.entity-body .f-list > .cell {
+			display: inline-block;
+			vertical-align: top;
+			position: relative;
+			padding: 0.25rem;
+			margin: -0.25rem;
+			width: 33%;
+		}
+		.entity-body .f-list > .cell * {
+			line-height: 1;
+		}
+		.entity-body .f-list > .cell > .label {
+			display: block;
+			font-size: 0.6rem;
+			font-weight: lighter;
+			white-space: nowrap;
+			margin-top: 0.15rem;
+			margin-bottom: 0.65rem;
+		}
+		.entity-body .f-list > .cell > .content {
+			display: block;
+			font-size: 1rem;
+			white-space: nowrap;
+		}
+		.entity-body .f-list > .cell > .content .digits {
+			font-weight: 300;
+		}
+
+
+.user-assets-abstract {
+	font-size: 1rem;
+	}
+	.user-assets-abstract .columns {
+		padding: 0.5rem;
+		margin: -0.5rem;
+		position: relative;
+		text-align: center;
+	}
+	.user-assets-abstract .col {
+		position: relative;
+		padding: 0.25rem;
+		margin: -0.25rem;
+		width: 48%;
+	}
+	.user-assets-abstract .col * {
+		line-height: 1;
+	}
+	.user-assets-abstract .col > .label {
+		display: block;
+		font-size: 0.6rem;
+		font-weight: lighter;
+		white-space: nowrap;
+		margin-top: 0.15rem;
+		margin-bottom: 0.65rem;
+	}
+	.user-assets-abstract .col > .content {
+		display: block;
+		font-size: 1rem;
+		white-space: nowrap;
+	}
+	.user-assets-abstract .col > .content .digits {
+		font-weight: 300;
+	}
+
+
+.product-abstract {
+	}
+
+	.product-abstract .abstract-title {
+		}
+		.product-abstract .abstract-title h3 {
+			font-weight: normal;
+			font-size: 0.8rem;
+		}
+		.product-abstract .abstract-title .call-to-action-label {
+			font-weight: normal;
+			font-size: 0.65rem;
+		}
+		.product-abstract .abstract-title::after {
+			transform: scale(0.75, 0.75);
+		}
+
+	.product-abstract .row.abstract-body {
+		}
+		.product-abstract a > .row.abstract-body::after {
+			content: none;
+		}
+
+		.product-abstract .col {
+			margin-top: 0.7rem;
+			margin-bottom: 0.5rem;
+		}
+
+		.product-abstract .col ~ hr.vert {
+			margin-top: 0.95rem;
+			height: 3.8rem;
+		}
+
+		.product-abstract .col.col-1 {
+			box-sizing: border-box;
+			width: 47%;
+			padding: 0 0.4rem;
+		}
+		.product-abstract .col.col-2 {
+			box-sizing: border-box;
+			width: 53%;
+			margin-right: -1.5rem;
+			padding-left: 1.6rem;
+			padding-left: 7%;
+		}
+		.product-abstract .hero-block h4 > * {
+			display: block;
+			clear: both;
+			line-height: 1;
+			}
+			.product-abstract .hero-block h4 .subject {
+				font-size: 0.7rem;
+			}
+			.product-abstract .hero-block h4 .hero-word {
+				margin: 0.25rem 0 0.8rem 0;
+				font-size: 1.64rem;
+			}
+			.product-abstract .hero-block h4 .subtitle {
+				font-size: 0.5rem;
+			}
+			.product-abstract .hero-block h4 > * {
+				display: block;
+				clear: both;
+				line-height: 1;
+			}
+
+		.product-abstract .minor-hero-block h4 > * {
+			display: block;
+			clear: both;
+			line-height: 1;
+			}
+		.product-abstract .minor-hero-block h4 .subject {
+			font-size: 0.8rem;
+			}
+			.product-abstract .minor-hero-block h4 .hero-word {
+				margin: 1rem 0 0.2rem 0;
+				font-size: 1.2rem;
+			}
+			.product-abstract .minor-hero-block h4 .hero-word .digits {
+				font-size: 1.48rem;
+				font-weight: 300;
+			}
+
+			.product-abstract .minor-hero-block h4 .subtitle {
+				font-size: 0.5rem;
+			}
+
+		.product-abstract .features-block {
+			padding-top: 0.1rem;
+			padding-bottom: 0.1rem;
+			}
+			.product-abstract .features-block .f-list > li {
+				margin: 0.5rem 0;
+			}
+			.product-abstract .features-block .f-list > li > * {
+				display: inline-block;
+			}
+			.product-abstract .features-block .f-list > li > .label {
+				width: 3.2rem;
+				padding: 0.1rem 0.4rem;
+				margin: -0.1rem -0.4rem;
+				margin-right: 0;
+			}
+			.product-abstract .features-block .f-list > li > p {
+				padding: 0.1rem 0.4rem;
+				margin: -0.1rem -0.4rem;
+			}
+
+
 .tab-panel-set {
 	}
 
@@ -617,7 +1028,7 @@ article.message {
 	}
 
 	.panel.current {
-		padding: 1rem 0;
+		/* padding: 1rem 0; */
 	}
 
 
@@ -628,7 +1039,7 @@ article.message {
 	top: 0;
 	width: 100%;
 	height: 100%;
-}
+	}
 
 
 .app-fg-layer {
@@ -639,12 +1050,6 @@ article.message {
 	width: 100%;
 	height: 100%;
 	}
-
-
-.app-popup-layers {
-	position: relative;
-	z-index: 50;
-}
 
 
 .page {
@@ -814,7 +1219,7 @@ article.message {
 	font-size: 0.6rem;
 	letter-spacing: 0.03em;
 	transform: scale(0.81, 0.81);
-}
+	}
 
 
 .slot {
@@ -884,52 +1289,256 @@ article.message {
 
 #page-home {
 	}
+
 	#page-home .page-body {
 		min-height: calc(100% - 5rem);
 	}
-	#page-home .page-header .row.taijs-brand {
-		padding-top: 0;
-		padding-bottom: 0;
-		margin-top: 1rem;
-		margin-bottom: 0.25rem;
-	}
-	#page-home .page-header .row.sign-up-sign-in-buttons {
-		padding-top: 0;
-		padding-bottom: 0;
-		margin: 0.25rem 1.25rem 0.75rem 1.25rem;
-	}
-	#page-home .page-header .row.sign-up-sign-in-buttons [role="button"],
-	#page-home .page-header .row.sign-up-sign-in-buttons button {
-		padding-top: 0;
-		padding-bottom: 0;
-		margin: 0.25rem 0.25rem;
-		height: 2rem;
-		line-height: calc(2rem - 2px);
-		box-sizing: border-box;
-		width: calc(50% - 0.5rem);
-		font-size: 0.9rem;
-	}
-	#page-home .page-header .taijs-logo,
-	#page-home .page-header .taijs-slogan {
-		display: inline-block;
-		vertical-align: top;
-		width: 5rem;
-		height: 1.4rem;
+
+	#page-home .page-header {
+		position: relative;
+		height: 6.4rem;
+		/* min-height: 6.4rem; */
+		}
+
+		#page-home .page-header *,
+		#page-home .page-header {
+			transition-property: width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
+		}
+		#page-home .page-header .row.sign-up-sign-in-buttons {
+			z-index: 5;
+		}
+		#page-home .page-header .row.user-account-toolar {
+			z-index: 4;
+		}
+		#page-home .page-header .row.taijs-brand {
+			z-index: 3;
+		}
+		#page-home .page-header .row.user-assets-abstract {
+			z-index: 2;
+		}
+
+
+		#page-home .page-header .row.taijs-brand {
+			padding-top: 0;
+			padding-bottom: 0;
+			margin-top: 1rem;
+			margin-bottom: 0.6rem;
+		}
+		#page-home .page-header .row.sign-up-sign-in-buttons {
+			padding-top: 0;
+			padding-bottom: 0;
+			margin: 0.25rem 1.25rem 0.75rem 1.25rem;
+		}
+		#page-home .page-header .row.sign-up-sign-in-buttons > .content {
+			padding: 0;
+			margin: 0;
+			white-space: nowrap;
+			background-color: inherit;
+		}
+		#page-home .page-header .row.sign-up-sign-in-buttons [role="button"],
+		#page-home .page-header .row.sign-up-sign-in-buttons button {
+			padding-top: 0;
+			padding-bottom: 0;
+			margin: 0.25rem 0.25rem;
+			height: 2rem;
+			line-height: 1.9rem;
+			line-height: calc(2rem - 2px);
+			box-sizing: border-box;
+			width: calc(50% - 0.5rem);
+			font-size: 0.9rem;
+		}
+		#page-home .page-header .taijs-logo,
+		#page-home .page-header .taijs-slogan {
+			display: inline-block;
+			vertical-align: top;
+			width: 5rem;
+			height: 1.4rem;
+			background-position: center;
+		}
+		#page-home .page-header .taijs-logo {
+			margin: 0 0.25rem 0 0.7rem;
+			background-size: auto 100%;
+		}
+		#page-home .page-header .taijs-slogan {
+			margin: 0;
+			background-position: left;
+			background-size: 100% auto;
+		}
+
+		#page-home .page-header .row.user-account-toolar {
+			display: none;
+			width: 100%;
+			font-size: 0.7rem;
+			text-align: right;
+			margin: 0 0 2.5rem 0;
+			padding: 0;
+			height: 0;
+			position: relative;
+			right: 0;
+			top: 0;
+			overflow: visible;
+			}
+			#page-home .page-header .row.user-account-toolar .toolbar {
+				height: 1rem;
+				line-height: 1rem;
+				padding: 0.75rem 0.6rem 0.75rem 0.1rem;
+				white-space: nowrap;
+				text-align: right;
+				background-color: inherit;
+			}
+		#page-home .page-header .row.user-assets-abstract {
+			display: none;
+			position: relative;
+			font-size: 1rem;
+			padding-top: 0.2rem;
+			padding-bottom: 0.6rem;
+			}
+			#page-home .page-header .row.user-assets-abstract .columns {
+				margin: 0;
+				padding: 0;
+			}
+			#page-home .page-header .row.user-assets-abstract .col {
+				position: relative;
+				margin: 0.5rem 0 0 0;
+				height: 2.5rem;
+				padding: 0.25rem 0.25rem 1.25rem;
+			}
+			#page-home .page-header .row.user-assets-abstract .col ~ hr.vert {
+				height: 2.1rem;
+				margin-top: 0.8rem;
+				opacity: 0.2;
+			}
+			#page-home .page-header .row.user-assets-abstract .col * {
+				line-height: 1;
+			}
+			#page-home .page-header .row.user-assets-abstract .col .content {
+				font-size: 0.8rem;
+			}
+			#page-home .page-header .row.user-assets-abstract .col.col-1 {
+				width: 37%;
+			}
+			#page-home .page-header .row.user-assets-abstract .col.col-2 {
+				width: 29%;
+			}
+			#page-home .page-header .row.user-assets-abstract .col.col-3 {
+				width: 34%;
+			}
+			#page-home .page-header .row.user-assets-abstract .col > .label {
+				margin: 0;
+				position: absolute;
+				display: block;
+				left: 0;
+				right: 0;
+				text-align: center;
+				bottom: 0.35rem;
+				font-size: 0.6rem;
+				font-weight: lighter;
+				white-space: nowrap;
+				opacity: 0.5;
+			}
+			#page-home .page-header .row.user-assets-abstract .col.col-1 > .label {
+				padding-right: 1.25rem; /* make some room for eye icon */
+			}
+			#page-home .page-header .row.user-assets-abstract .col.col-1 > .label .sensitive-content-status-icon {
+				position: absolute;
+				width: 1rem;
+				height: 1rem;
+				margin: -0.2rem 0.1rem;
+			}
+
+			@media only screen and (max-width: 340px) {
+				/* #page-home .page-header .row.user-assets-abstract .col.col-1 > .label {
+					right: 1.6rem;
+				} */
+				#page-home .page-header .row.user-assets-abstract .col.col-1 .sensitive-value-replacement {
+					font-size: 0.7rem;
+				}
+			}
+
+
+	.user-has-logged-in #page-home .page-header .row.sign-up-sign-in-buttons {
+		display: none;
+		}
+
+		.user-has-logged-in #page-home .page-header .row.user-account-toolar {
+			display: block;
+		}
+
+		.user-has-logged-in #page-home .page-header .row.user-assets-abstract {
+			display: block;
+		}
+
+	#page-home.page-header-in-compact-mode {
+		padding-top: 2.5rem;
+		}
+		#page-home.page-header-in-compact-mode .page-body {
+			min-height: calc(100% - 2.5rem);
+		}
+		#page-home.page-header-in-compact-mode .page-header {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 2.5rem;
+			z-index: 100;
+			overflow: hidden;
+		}
+
+		#page-home.page-header-in-compact-mode .page-header .row.user-assets-abstract {
+			display: none;
+		}
+		#page-home.page-header-in-compact-mode .page-header .row.user-account-toolar {
+			margin-bottom: 0;
+		}
+		#page-home.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons {
+			box-sizing: border-box;
+			width: 100%;
+			height: 0;
+			overflow: visible;
+			text-align: right;
+			white-space: nowrap;
+			padding: 0;
+			margin: 0 0 2.5rem 0;
+		}
+		#page-home.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons > .content {
+			display: inline-block;
+			width: 9.6rem;
+			text-align: right;
+			padding: 0.25rem;
+		}
+		#page-home.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons [role="button"],
+		#page-home.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons button {
+			width: 4.3rem;
+			height: 1.5rem;
+			line-height: 1.4rem;
+			line-height: calc(1.5rem - 2px);
+			font-size: 0.7rem;
+		}
+
+
+	.user-has-logged-in #page-home .page-header .row.taijs-brand,
+	#page-home.page-header-in-compact-mode .page-header .row.taijs-brand {
+		position: absolute;
+		margin-left: 0.1rem;
+		margin-top: 0.7rem;
+		margin-bottom: 0;
+		}
+
+	.user-has-logged-in #page-home .page-header .taijs-logo,
+	.user-has-logged-in #page-home .page-header .taijs-slogan,
+	#page-home.page-header-in-compact-mode .page-header .taijs-logo,
+	#page-home.page-header-in-compact-mode .page-header .taijs-slogan {
+		width: 4.8rem;
+		height: 1.1rem;
 		background-position: center;
 	}
-	#page-home .page-header .taijs-logo {
-		margin: 0 0.25rem 0 0.7rem;
-		background-size: auto 100%;
-	}
-	#page-home .page-header .taijs-slogan {
+	.user-has-logged-in #page-home .page-header .taijs-logo,
+	#page-home.page-header-in-compact-mode .page-header .taijs-logo {
 		margin: 0;
-		background-position: left;
-		background-size: 100% auto;
 	}
-	#page-home .page-header .taijs-slogan {
+	.user-has-logged-in #page-home .page-header .taijs-slogan,
+	#page-home.page-header-in-compact-mode .page-header .taijs-slogan {
 		margin: 0;
-		background-position: left;
-		background-size: 100% auto;
 	}
 
 
@@ -950,4 +1559,7 @@ article.message {
 		width: 6.5rem;
 		height: 1.35rem;
 		background-size: 100% auto;
+	}
+	#page-account-sign-up-sign-in .panel .f-block:first-child {
+		margin-top: 1rem;
 	}

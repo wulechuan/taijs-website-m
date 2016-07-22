@@ -4,7 +4,7 @@
 	<title>泰金所</title>
 	<!-- inject:headAfterTitle:html --><!-- endinject -->
 </head>
-<body>
+<body class="user-has-logged-in">
 <!-- inject:bodyBegin:html --><!-- endinject -->
 
 <!-- inject:appRootWrapBegin:html --><!-- endinject -->
@@ -13,70 +13,320 @@
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="泰金所" id="page-home"
-	 class="page"
-	><header class="page-header">
-		<div class="row taijs-brand">
-			<div class="center"
-				><div class="taijs-logo   image"></div
-				><div class="taijs-slogan image"></div
-			></div>
-		</div>
+	 class="page">
+	<link rel="stylesheet" type="text/css" href="scripts/vendors/swiper-3.3.1/css/swiper.min.css">
+	<script type="text/javascript" src="scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
+	<style type="text/css">
+		.banner .carousel {
+			height: 3.9rem;
+		}
+
+		.banner .carousel .carousel-slides > li:nth-child(1) .carousel-bg {
+			background-size: auto 100%;
+			background-position: right center;
+			}
+			.banner .carousel .carousel-slides > li:nth-child(1) > .content article {
+				font-family: 'Microsoft Yahei UI';
+				font-size: 0.65rem;
+				line-height: 1.33;
+				color: black;
+				font-weight: normal;
+			}
+			.banner .carousel .carousel-slides > li:nth-child(1) > .content article h1 {
+				font-size: 1rem;
+				line-height: 1;
+				font-weight: bolder;
+				margin-left: -0.3em;
+			}
+			.banner .carousel .carousel-slides > li:nth-child(1) > .content article h1 em {
+				color: #fc272b;
+			}
+
+		.banner .carousel .carousel-slides > li:nth-child(2) .carousel-bg {
+			background-size: auto 100%;
+			background-position: right center;
+			}
+			.banner .carousel .carousel-slides > li:nth-child(2) > .content article h1 {
+			}
+
+		.promotion-bar {
+			font-size: 0.7rem;
+			line-height: 1.4rem;
+			font-weight: normal;
+			}
+
+			.promotion-bar a,
+			.promotion-bar {
+				color: black;
+			}
+
+			.promotion-bar em {
+				font-size: 1rem;
+				font-weight: bolder;
+				font-style: italic;
+				color: #ee1822;
+			}
+	</style>
+	<header class="page-header color-inverted">
+		<div class="row taijs-brand"
+			><div class="taijs-logo   image"></div
+			><div class="taijs-slogan image"></div
+		></div>
 		<div class="row sign-up-sign-in-buttons">
-			<a role="button" class="size-std-regular1 color-white bg-transparent"
-				href="html/account-sign-up-sign-in.html?tabLabel=sign-in">登录</a
-			><a role="button" class="size-std-regular1 color-white"
-				href="html/account-sign-up-sign-in.html?tabLabel=sign-up">注册</a>
+			<div class="content">
+				<a role="button" class="bg-transparent"
+					href="html/account-sign-up-sign-in.html?tabLabel=sign-in">登录</a
+				><a role="button"
+					href="html/account-sign-up-sign-in.html?tabLabel=sign-up">注册</a>
+			</div>
+		</div>
+		<div class="row user-account-toolar">
+			<ul class="toolbar has-separator"
+				><li><a href="html/account-info.html"
+					><span class="value user-id" data-text-format="mobile"
+						>134****5678</span
+				></a></li
+				><li><a href="html/account-sign-up-sign-in.html?tabLabel=sign-in">退出</a></li
+			></ul>
+		</div>
+		<div class="row user-assets-abstract">
+			<ul class="columns"
+				><li class="col col-1 sensitive-content">
+					<span class="label">总资产（元）<i class="sensitive-content-status-icon"></i></span>
+					<span class="content">
+						<span class="sensitive-value-cell">
+							<a href="html/account-personal-center.html">
+							<span class="sensitive-value value" style="visibility: hidden;">100,000.00</span>
+							</a>
+							<span class="sensitive-value-replacement">*************</span>
+						</span>
+					</span>
+				</li
+				><hr class="vert" 
+				><a href="html/account-personal-center.html"
+				><li class="col col-2">
+					<span class="label">昨日收益（元）</span>
+					<span class="content">
+						<span class="value digits digits-with-sign">+89.00</span>
+					</span>
+				</li
+				></a
+				><hr class="vert" 
+				><a href="html/account-personal-center.html"
+				><li class="col col-3">
+					<span class="label">累计收益（元）</span>
+					<span class="content">
+						<span class="value digits digits-with-sign">+695.00</span>
+					</span>
+				</li
+				></a
+			></ul>
 		</div>
 	</header>
 
-	<div class="page-body">
+	<div class="page-body helvetica-digits">
 		<div class="f-block banner">
-			<div class="f-block-body">
-				<ul class="f-list carousel">
-					<li></li>
-					<li></li>
-					<div class="carousel-nav"
-						><button></button
-						><button></button
-					></div>
+			<div class="carousel swiper-container">
+				<ul class="swiper-wrapper carousel-slides">
+					<li class="swiper-slide">
+						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-1.png);"></div>
+						<div class="content">
+							<article>
+								<h1>1-100元 <em>现金红包</em></h1>
+								<p>新手好礼 红包送不停</p>
+							</article>
+						</div>
+					</li>
+					<li class="swiper-slide">
+						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-2.png);"></div>
+						<div class="content"></div>
+					</li>
 				</ul>
+				<div class="carousel-nav swiper-pagination"
+					><button></button
+					><button></button
+				></div>
 			</div>
 		</div>
 
 		<div class="f-block banner">
 			<div class="f-block-body">
-					<ul class="tiles columns-count-3">
-						<a class="icon-hover-trigger"
-							href="#">
-							<li class="tile">
-			                    <i class="icon icons-in-elements animation" style="color: #54d1bc; background-color: #d8f6f1;">
-			                        <i class="icon-face-1 iconfont icon-shield-contains-check-mark"></i>
-			                        <i class="icon-face-2 iconfont icon-shield-contains-check-mark"></i>
-			                    </i>
-			                    <span class="label">安全保障</span>
-							</li>
-						</a>
-						<a class="icon-hover-trigger"
-							href="#">
-							<li class="tile">
-			                    <i class="icon icons-in-elements animation" style="color: #65a9ff; background-color: #dfeeff;">
-			                        <i class="icon-face-1 iconfont icon-taijs-logo-symbol-only"></i>
-			                        <i class="icon-face-2 iconfont icon-taijs-logo-symbol-only"></i>
-			                    </i>
-			                    <span class="label">关于我们</span>
-							</li>
-						</a>
-						<a class="icon-hover-trigger"
-							href="#">
-							<li class="tile">
-			                    <i class="icon icons-in-elements animation" style="color: #ffa44e; background-color: #fff3ef;">
-			                        <i class="icon-face-1 iconfont icon-cloud-contains-downwards-arrow"></i>
-			                        <i class="icon-face-2 iconfont icon-cloud-contains-downwards-arrow"></i>
-			                    </i>
-			                    <span class="label">下载App</span>
-							</li>
-						</a>
-					</ul>
+				<ul class="tiles columns-count-3">
+					<a class="icon-hover-trigger"
+						href="#">
+						<li class="tile">
+		                    <i class="icon icons-in-elements animation" style="color: #54d1bc; background-color: #d8f6f1;">
+		                        <i class="icon-face-1 iconfont icon-shield-contains-check-mark"></i>
+		                        <i class="icon-face-2 iconfont icon-shield-contains-check-mark"></i>
+		                    </i>
+		                    <span class="label">安全保障</span>
+						</li>
+					</a>
+					<a class="icon-hover-trigger"
+						href="html/taijs-company-about.html">
+						<li class="tile">
+		                    <i class="icon icons-in-elements animation" style="color: #65a9ff; background-color: #dfeeff;">
+		                        <i class="icon-face-1 iconfont icon-taijs-logo-symbol-only"></i>
+		                        <i class="icon-face-2 iconfont icon-taijs-logo-symbol-only"></i>
+		                    </i>
+		                    <span class="label">关于我们</span>
+						</li>
+					</a>
+					<a class="icon-hover-trigger"
+						href="#">
+						<li class="tile">
+		                    <i class="icon icons-in-elements animation" style="color: #ffa44e; background-color: #fff3ef;">
+		                        <i class="icon-face-1 iconfont icon-cloud-contains-downwards-arrow"></i>
+		                        <i class="icon-face-2 iconfont icon-cloud-contains-downwards-arrow"></i>
+		                    </i>
+		                    <span class="label">下载App</span>
+						</li>
+					</a>
+				</ul>
+			</div>
+		</div>
+
+		<div class="f-block">
+			<div class="f-block-body">
+				<div class="row full-width promotion-bar arial-digits">
+					<a href="html/newbie-call-to-action.html"
+						><div class="promotion-message">
+							<h2>新手开户即送<em class="value digits">18888</em>元红包体验金</h2>
+						</div
+					></a>
+				</div>
+				<div class="row full-width">
+					<div class="hero-content-block">
+						<h3>
+							<span class="subject">新手专享</span>
+							<span class="hero-word"><em class="value digits">9.8%</em></span>
+							<span class="subtitle">预计年化收益率</span>
+						</h3>
+						<ul class="layout-hori hero-content-features"
+							><li><em class="value duration-limitation">14</em>天期限</li
+							><li><em class="value min-amount">100</em>元起投</li
+							><li><span class="value begin-date-of-benifits">07-01</span>起息</li
+						></ul>
+					</div>
+				</div>
+				<div class="row full-width buttons-in-single-line hero-content-block-call-to-action">
+					<a role="button" class="size-std-wide simple-look"><em>立即购买</em></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="f-block product-abstract">
+			<div class="f-block-body">
+				<a href="#">
+				<div class="row abstract-title">
+					<div class="left">
+						<h3>固收理财</h3>
+					</div>
+					<div class="right">
+						<span class="call-to-action-label">更多</span>
+					</div>
+				</div>
+				</a>
+				<a href="#">
+				<div class="row full-width abstract-body">
+					<div class="columns">
+						<div class="col col-1 hero-block">
+							<h4>
+								<span class="subject">太靠谱90天295号</span>
+								<span class="hero-word"><em class="value digits">8.50%</em></span>
+								<span class="subtitle">预计年化收益率</span>
+							</h4>
+						</div
+						><hr class="vert" 
+						><div class="col col-2 features-block">
+							<ul class="f-list"
+								><li
+									><span class="label">理财期限</span
+									><p>90天</p
+								></li
+								><li
+									><span class="label">起投金额</span
+									><p><span data-text-format="currency">100000.00</span>元</p
+								></li
+							></ul>
+						</div>
+					</div>
+				</div>
+				</a>
+			</div>
+		</div>
+
+		<div class="f-block product-abstract">
+			<div class="f-block-body">
+				<a href="#">
+				<div class="row abstract-title">
+					<div class="left">
+						<h3>公募基金</h3>
+					</div>
+					<div class="right">
+						<span class="call-to-action-label">更多</span>
+					</div>
+				</div>
+				</a>
+				<a href="#">
+				<div class="row full-width abstract-body">
+					<div class="columns">
+						<div class="col col-1 hero-block">
+							<h4>
+								<span class="subject">工银瑞信新财富</span>
+								<span class="hero-word"><em class="value digits">6.48%</em></span>
+								<span class="subtitle">近一年涨跌幅</span>
+							</h4>
+						</div
+						><hr class="vert" 
+						><div class="col col-2 features-block">
+							<ul class="f-list"
+								><li
+									><span class="label">基金经理</span
+									><p>林黛玉</p
+								></li
+								><li
+									><span class="label">起投金额</span
+									><p><span data-text-format="currency">10.00</span>元</p
+								></li
+							></ul>
+						</div>
+					</div>
+				</div>
+				</a>
+			</div>
+		</div>
+
+		<div class="f-block product-abstract">
+			<div class="f-block-body">
+				<a href="html/taijs-taijinbao-list.html">
+				<div class="row abstract-title">
+					<div class="left">
+						<h3>泰金宝</h3>
+					</div>
+				</div>
+				</a>
+				<a href="html/taijs-taijinbao.html?pid=123">
+				<div class="row full-width abstract-body">
+					<div class="columns">
+						<div class="col col-1 hero-block">
+							<h4>
+								<span class="subject">随存随取</span>
+								<span class="hero-word"><em class="value digits">2.16%</em></span>
+								<span class="subtitle">七日年华收益率</span>
+							</h4>
+						</div
+						><hr class="vert" 
+						><div class="col col-2 minor-hero-block">
+							<h4>
+								<span class="subject">投资1万</span>
+								<span class="hero-word"><span class="value digits">1.05</span>元</span>
+								<span class="subtitle">预计每日收益</span>
+							</h4>
+						</div>
+					</div>
+				</div>
+				</a>
 			</div>
 		</div>
 
@@ -86,7 +336,7 @@
 	<!-- inject:popupLayersWrapBeginAAA:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEndAAA:html --><!-- endinject -->
 
-	<script src="../scripts/pages/index.min.js"></script>
+	<script src="scripts/pages/index.min.js"></script>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 

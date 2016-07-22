@@ -2,15 +2,272 @@ window.webLogicControls = {};
 
 (function () {
 	var wlc = this;
+	var nilFunction = function () {};
 
 
-	this.Class = {};
-	(function () { // Class
+	var AbstractClass = {};
+	this.AbstractClass = AbstractClass;
+	(function () { // AbstractClass
 
-	}).call(this.Class);
+	}).call(AbstractClass);
 
 
-	this.DOM = {};
+	var WCU = {};
+	this.CoreUtilities = WCU;
+	(function () { // CoreUtilities
+		if (window.console && typeof window.console.log === 'function') {
+			window.c = window.console;
+			c.l = c.log;
+			c.t = c.trace;
+			c.w = c.warn;
+			c.e = c.error;
+		} else {
+			window.c = {
+				l: nilFunction,
+				t: nilFunction,
+				w: nilFunction,
+				e: nilFunction
+			};
+		}
+
+		var setValue = {};
+		this.setValue = setValue;
+		(function () {
+			function updateSimpleValue(recursiveDepth, typeString, targetObject, key, sourceValue, allowToRemoveTargetValue, valueParser) {
+				var resultStates = {
+					newValueHasBeenTaken: false,
+					oldValueHasBeenRemoved: false,
+					valueHasBeenChanged: false,
+					valueHasBeenCreated: false,
+					valueTypeChanged: false,
+					inputValueWasInvalid: false
+				};
+				// The value is NOT necessarily to change for newValueHasBeenTaken to be true.
+				// for example:
+				//     at begining:
+				//         targetObject.propertyA === 3
+				//     then:
+				//         targetObject.propertyA = 3
+				// In this situation, the newValueHasBeenTaken is true even if the values before and after this action happen to be the same.
+
+				allowToRemoveTargetValue = !!allowToRemoveTargetValue;
+
+				var oldValueExisted = targetObject.hasOwnProperty(key);
+				var oldValue = targetObject[key];
+				var targetValueOldTypeWrong = oldValueExisted && typeof oldValue !== typeString;
+				var warningMessage = 'Property "'+key+'" has been set to a "'+typeString+'" value. Note that the old value was of type "'+typeof targetObject[key]+'".';
+
+				if (!key || typeof key !== 'string' || typeof targetObject !== 'object' || !targetObject) {
+					throw('Invalid targetObject or key provided.');
+				} else {
+					if (typeof sourceValue === 'function') {
+
+						resultStates.inputValueWasInvalid = true;
+
+					} else if (typeof sourceValue === 'undefined') {
+
+						if (allowToRemoveTargetValue) {
+
+							/* *********************************** */
+							delete targetObject[key];
+							/* *********************************** */
+
+							resultStates.oldValueHasBeenRemoved = oldValueExisted;
+							resultStates.valueHasBeenChanged = oldValueExisted && typeof oldValue !== 'undefined';
+						} else {
+							resultStates.inputValueWasInvalid = true;
+						}
+
+					} else if (sourceValue === null) {
+
+						if (allowToRemoveTargetValue) {
+
+							/* *********************************** */
+							delete targetObject[key];
+							/* *********************************** */
+
+							resultStates.oldValueHasBeenRemoved = oldValueExisted;
+							resultStates.valueHasBeenChanged = oldValue !== null;
+						} else {
+							resultStates.inputValueWasInvalid = true;
+						}
+
+					} else {
+
+						if (typeof sourceValue !== 'object') {
+							var parsedResult;
+							if (typeof valueParser !== 'function') {
+								parsedResult = {
+									isValid: true,
+									value: sourceValue
+								};
+							} else {
+								parsedResult = valueParser(sourceValue);
+							}
+
+							if (parsedResult.isValid) {
+
+								/* *********************************** */
+								targetObject[key] = parsedResult.value; 
+								/* *********************************** */
+
+								resultStates.newValueHasBeenTaken = true;
+								resultStates.valueHasBeenChanged = targetObject[key] !== oldValue;
+								resultStates.valueHasBeenCreated = !oldValueExisted;
+
+								if (targetValueOldTypeWrong) {
+									resultStates.valueTypeChanged = true;
+									console.warn(warningMessage);
+								}
+							} else {
+								resultStates.inputValueWasInvalid = true;
+							}
+
+						} else if (typeof sourceValue === 'object' && sourceValue !== null && sourceValue.hasOwnProperty(key)) {
+							if (recursiveDepth && recursiveDepth > 0) {
+								resultStates = updateSimpleValue(recursiveDepth-1, typeString, targetObject, key, sourceValue[key], allowToRemoveTargetValue, valueParser);
+							} else {
+								resultStates.inputValueWasInvalid = true;
+							}
+						}
+
+					}
+				}
+
+				return resultStates;
+			}
+
+			this.boolean = function (targetObject, key, sourceValue, allowToRemoveTargetValue) {
+				return updateSimpleValue(
+					1,
+					'boolean',
+					targetObject,
+					key,
+					sourceValue,
+					allowToRemoveTargetValue,
+					function (value) {
+						return {
+							isValid: true,
+							value: !!value
+						};
+					}
+				);
+			};
+			this.number = function (targetObject, key, sourceValue, allowToRemoveTargetValue, allowNaNValue, customParser) {
+				return updateSimpleValue(
+					1,
+					'number',
+					targetObject,
+					key,
+					sourceValue,
+					allowToRemoveTargetValue,
+					function (value) {
+						var result = {
+							isValid: true,
+							value: value
+						};
+						result.value = parseFloat(value);
+						result.isValid = !!allowNaNValue || !isNaN(result.value);
+						if (result.isValid && typeof customParser === 'function') {
+							result = customParser(value);
+						}
+						return result;
+					}
+				);
+			};
+			this.numberPositive = function (targetObject, key, sourceValue, allowToRemoveTargetValue) {
+				return this.number(
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
+					false,
+					function (value) {
+						return {
+							isValid: value > 0,
+							value: value
+						};
+					}
+				);
+			};
+			this.numberNonNegative = function (targetObject, key, sourceValue, allowToRemoveTargetValue) {
+				return this.number(
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
+					false,
+					function (value) {
+						return {
+							isValid: value >= 0,
+							value: value
+						};
+					}
+				);
+			};
+			this.numberNoLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit) {
+				return this.number(
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
+					false,
+					function (value) {
+						limit = parseFloat(limit);
+						var limitValid = !isNaN(limit);
+
+						if (!limitValid) {
+							throw('Invalid limitation provided while setting value to a number no less than the limitation.');
+						}
+
+						return {
+							isValid: value >= limit,
+							value: value
+						};
+					}
+				);
+			};
+			this.numberLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit) {
+				return this.number(
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
+					false,
+					function (value) {
+						limit = parseFloat(limit);
+						var limitValid = !isNaN(limit);
+
+						if (!limitValid) {
+							throw('Invalid limitation provided while setting value to a number less than the limitation.');
+						}
+
+						return {
+							isValid: value < limit,
+							value: value
+						};
+					}
+				);
+			};
+			this.numberInRange = function (targetObject, key, sourceValue, allowToRemoveTargetValue, rangeA, rangeB) {
+				return this.number(
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
+					false,
+					function (value) {
+						rangeA = parseFloat(rangeA);
+						rangeB = parseFloat(rangeB);
+
+						var rangeAValid = !isNaN(rangeA);
+						var rangeBValid = !isNaN(rangeB);
+
+						if (!rangeAValid || !rangeBValid) {
+							throw('Invalid range provided while setting value to a number with range.');
+						}
+
+						var start = Math.min(rangeA, rangeB);
+						var end = Math.max(rangeA, rangeB);
+
+						return {
+							isValid: (value >= start) && (value < end),
+							value: value
+						};
+					}
+				);
+			};
+		}).call(setValue);
+	}).call(WCU);
+
+
+	var DOM = {};
+	this.DOM = DOM;
 	(function () { // DOM
 		this.ANestedInB = function (A, B, considerAisBAsTrue) {
 			if (!(A instanceof Node && B instanceof Node)) return false;
@@ -22,10 +279,11 @@ window.webLogicControls = {};
 
 			return A===B;
 		};
-	}).call(this.DOM);
+	}).call(DOM);
 
 
-	this.UI = {};
+	var UI = {};
+	this.UI = UI;
 	(function () { // UI
 		this.bodyClickListener = new BodyClickListener();
 		function BodyClickListener() {
@@ -83,7 +341,7 @@ window.webLogicControls = {};
 		}
 
 
-		this.Menu_NOT_DONE_YET = function (rootElement, initOptions) {
+		this.Menu_NOT_DONE_YET = function Menu(rootElement, initOptions) {
 			// function example() {
 			// 	conf = conf || {};
 			// 	conf.level1IdPrefix = 'menu-chief-1-';
@@ -93,7 +351,7 @@ window.webLogicControls = {};
 			this.options = {
 				cssClassItemActive: 'current',
 				cssClassItemParentOfActive: 'current-parent'
-			}
+			};
 
 			this.onItemActivate = undefined;
 			this.onItemDeactivate = undefined;
@@ -150,10 +408,10 @@ window.webLogicControls = {};
 
 				return currentSubMenuItem || currentItem;
 			}
-		}
+		};
 
 
-		this.DraggingController = function(rootElement, initOptions) {
+		this.DraggingController = function DraggingController(rootElement, initOptions) {
 			/*
 				require:
 					ANestedInB()
@@ -531,5 +789,1196 @@ window.webLogicControls = {};
 
 			init.call(this);
 		};
-	}).call(this.UI);
+
+
+		this.SingleCharacterInputsSet = function SingleCharacterInputsSet(rootElement, initOptions) {
+			if (
+				!(rootElement instanceof Node) || 
+				rootElement === document || 
+				rootElement === document.body || 
+				rootElement === document.documentElement
+			) {
+				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
+			}
+			var $allInputs = $(rootElement).find('input.single-char-input').filter(function (index, input) {
+				var type = input.type.toLowerCase();
+				return type !== 'checkbox' && type !== 'radio';
+			});
+			if ($allInputs.length < 1) {
+				$allInputs.each(function () {
+					this.disabled = true;
+				});
+				throw('Too few input fields for constructing a '+this.constructor.name+'.');
+			}
+
+			this.options = {};
+
+			this.validatorsForEachInput = [];
+
+			this.onOneInputClear = undefined;
+			this.onAllInputsClear = undefined;
+			this.onOneInputFill = undefined;
+			this.onAllInputsFill = undefined;
+			this.onOneInputInvalid = undefined;
+			this.onOneInputValid = undefined;
+			this.onAllInputsValid = undefined;
+
+			this.config = function (options) {
+				config.call(this, options);
+			};
+			this.getValue = function () {
+				return status.aggregatedValue;
+			};
+			this.clear = function () {
+				// var thisController = this;
+				$allInputs.each(function (index) {
+					this.value = '';
+					status.allInputsValue[index] = '';
+					status.allInputsFilling[index] = false;
+					status.allInputsValidation[index] = false;
+					// status.allInputsValidation[index] = validateOneInput.call(thisController, this);
+				});
+				aggregateAllInputsValue.call(this);
+				aggregateAllInputsStatus.call(this);
+			};
+			this.disable = function() {
+				$allInputs.each(function () {
+					this.disabled = true;
+				});
+				status.isDisabled = true;
+			};
+			this.enable = function() {
+				$allInputs.each(function () {
+					this.disabled = false;
+					this.readOnly = false;
+				});
+				status.isDisabled = false;
+			};
+			this.focus = function() {
+				$allInputs[0].focus();
+			};
+
+
+			var inputForAggregation = null;
+			var inputToChangeFocusOn = null;
+			var defaultValidator;
+			var status = {
+				isDisabled: false,
+				inputsAreForPassword: false,
+				inputsTypeIsNumber: false,
+				aggregatedValue: '',
+				allInputsValue: [],
+				allInputsFilling: [],
+				allInputsValidation: []
+			};
+
+			function getCaretPosition(ctrl) {
+				// http://demo.vishalon.net/getset.htm
+				var CaretPos = 0;
+				if (document.selection) { // IE Support
+					ctrl.focus();
+					var sel = document.selection.createRange ();
+
+					sel.moveStart ('character', -ctrl.value.length);
+
+					CaretPos = sel.text.length;
+				} else if (ctrl.selectionStart || ctrl.selectionStart == '0') { // Non-IE support
+					CaretPos = ctrl.selectionStart;
+				}
+
+				return (CaretPos);
+			}
+
+			function setCaretPosition(ctrl, pos) {
+				if (!ctrl) return false;
+
+				if (typeof pos === 'string' && pos.toLowerCase() === 'end') {
+					pos = ctrl.value.length;
+				}
+				// console.log('desired caret pos:', pos);
+
+				// http://demo.vishalon.net/getset.htm
+				if(ctrl.setSelectionRange) {
+					ctrl.focus();
+					ctrl.setSelectionRange(pos, pos);
+				} else if (ctrl.createTextRange) {
+					var range = ctrl.createTextRange();
+					range.collapse(true);
+					range.moveEnd('character', pos);
+					range.moveStart('character', pos);
+					range.select();
+				}
+			}
+
+			function clearCaretPositionForInput(input) {
+				if (typeof input.caretStatus !== 'object') input.caretStatus = {};
+				input.caretStatus.pos = NaN;
+				input.caretStatus.isAtLeftEnd = false;
+				input.caretStatus.isAtRightEnd = false;
+			}
+
+			function updateCaretPositionForInput(input) {
+				if (!input || !input.tagName || input.tagName.toLowerCase() !== 'input') return null;
+
+				var caretPos = getCaretPosition(input);
+
+				if (typeof input.caretStatus !== 'object') input.caretStatus = {};
+				input.caretStatus.pos = caretPos;
+				input.caretStatus.isAtLeftEnd = caretPos === 0;
+				input.caretStatus.isAtRightEnd = caretPos === input.value.length;
+
+				return input.caretStatus;
+			}
+
+			function defaultValidatorForNumber(value) {
+				var isValid = value.match(/^\d$/);
+				return !!isValid;
+			}
+
+			function inputOnFocus(event) {
+				var input = event.target;
+				// var inputIndex = parseInt(input.dataset.inputIndex);
+				updateCaretPositionForInput.call(this, input);
+			}
+
+			function inputOnBlur(event) {
+				var input = event.target;
+				// var inputIndex = parseInt(input.dataset.inputIndex);
+				clearCaretPositionForInput(input);
+			}
+
+			function inputOnKeyDown(event) {
+				if (!event || !event.target) return false;
+				event.stopPropagation();
+
+				var k = event.keyCode;
+				var input = event.target;
+				// console.log('inputOnKeyDown: keyCode: '+k, '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
+
+				inputToChangeFocusOn = null;
+
+				input.newValueIsValid = false;
+				input.onInputEventDispatched = false;
+
+				updateCaretPositionForInput.call(this, input);
+
+				if (k === 8) { // baskspace
+					input.keyBackspaceWasDown = true;
+					input.inputFiledWasEmptyOnBackspaceKeyDown = !input.value;
+				}
+
+				if (k === 46) { // delete, either chief or numpad
+					input.keyDelWasDown = true;
+				}
+
+				if (input.keyBackspaceWasDown || input.keyDelWasDown) {
+					// these keys will NOT fire oninput event at all
+					input.value = '';
+					delete input.keyBackspaceWasDown;
+					delete input.keyDelWasDown;
+					inputOnValueDecided.call(this, event);
+				}
+			}
+
+			function inputOnInput(event) {
+				if (!event || !event.target) return false;
+				event.stopPropagation();
+
+				var input = event.target;
+				// console.log('inputOnInput:', '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
+
+				if (input.value.length > 1) {
+					if (input.caretStatus.isAtLeftEnd) {
+						input.value = input.value.slice(0, 1);
+					} else {
+						input.value = input.value.slice(-1);
+					}
+				}
+
+				var inputIsTemporarilyFilled = input.value.length > 0;
+				var inputIsValid = inputIsTemporarilyFilled && validateOneInput.call(this, input);
+
+				if (inputIsTemporarilyFilled && !inputIsValid) {
+					if (status.inputsAreForPassword) {
+						input.value = '';
+					}
+					if (status.inputsTypeIsNumber) {
+						input.value = '';
+					}
+				}
+
+				input.onInputEventDispatched = true;
+				input.newValueIsValid = inputIsValid;
+			}
+
+			function inputOnKeyUp(event) {
+				if (!event || !event.target) return false;
+				event.stopPropagation();
+
+				var k = event.keyCode;
+				var input = event.target;
+				// console.log('inputOnKeyUp: keyCode: '+k, '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
+
+				var focusMovingDirectionIsLeft = false;
+				if (k === 8) { // baskspace
+					if (input.inputFiledWasEmptyOnBackspaceKeyDown) {
+						focusMovingDirectionIsLeft = true;
+						inputToChangeFocusOn = getPrevInputOf.call(this, input);
+					}
+					delete input.inputFiledWasEmptyOnBackspaceKeyDown;
+				}
+
+				if (k === 46) { // delete, either chief or numpad
+					inputToChangeFocusOn = null;
+				}
+
+				var valueIsEmpty = !input.value;
+
+				// console.log('empty?', valueIsEmpty, '\tshould nex?', input.shouldChangeFocusToNextInput,
+				// 	'\npos:', input.caretStatus.pos, '\t left?', input.caretStatus.isAtLeftEnd, '\t right?', input.caretStatus.isAtRightEnd);
+
+				if (k === 36) { // home key
+					focusMovingDirectionIsLeft = true;
+					inputToChangeFocusOn = getFirstInput.call(this);
+				}
+
+				if (k === 35) { // end key
+					focusMovingDirectionIsLeft = false;
+					inputToChangeFocusOn = getLastInput.call(this);
+				}
+
+				if (k === 37) { // left arrow key
+					focusMovingDirectionIsLeft = true;
+					if (valueIsEmpty || input.caretStatus.isAtLeftEnd) {
+						inputToChangeFocusOn = getPrevInputOf.call(this, input);
+					}
+				}
+
+				if (k === 39) { // right arrow key
+					focusMovingDirectionIsLeft = false;
+					if (valueIsEmpty || input.caretStatus.isAtRightEnd) {
+						inputToChangeFocusOn = getNextInputOf.call(this, input);
+					}
+				}
+
+				inputOnValueDecided.call(this, event);
+
+				delete input.newValueIsValid;
+				delete input.onInputEventDispatched;
+
+				if (inputToChangeFocusOn !== input) {
+					focusInput.call(this, inputToChangeFocusOn);
+					setCaretPosition(inputToChangeFocusOn, (focusMovingDirectionIsLeft || k === 35) ? 'end' : 0);
+				}
+			}
+
+			function inputOnValueDecided(event) {
+				var input = event.target;
+				var inputIndex = parseInt(input.dataset.inputIndex);
+				var inputOldValue = status.allInputsValue[inputIndex];
+
+				var inputValueChanged = !!input.onInputEventDispatched || input.value !== inputOldValue;
+
+				if (!inputValueChanged) return true;
+
+				var inputIsValid = !!input.newValueIsValid;
+
+				var inputWasValid = status.allInputsValidation[inputIndex];
+				var inputWasFilled = status.allInputsFilling[inputIndex];
+				var inputIsFinallyFilled = input.value.length > 0;
+				// console.log('\t inputWasFilled:', inputWasFilled, '\t inputIsFinallyFilled:', inputIsFinallyFilled);
+
+
+				// update input status and aggregatedValue BEFORE calling callbacks
+				status.allInputsValue[inputIndex]      = input.value;
+				aggregateAllInputsValue.call(this);
+
+				status.allInputsFilling[inputIndex]    = inputIsFinallyFilled;
+				status.allInputsValidation[inputIndex] = inputIsValid;
+				aggregateAllInputsStatus.call(this);
+
+
+				if (inputIsValid || !inputIsFinallyFilled) {
+					$(input).removeClass('invalid');
+				} else {
+					$(input)   .addClass('invalid');
+				}
+
+
+				if (inputIsFinallyFilled) {
+					inputOnFill.call(this, event, inputWasValid);
+					inputToChangeFocusOn = getNextInputOf.call(this, input);
+				}
+
+				if (inputWasFilled && !inputIsFinallyFilled) {
+					inputOnClear.call(this, event, inputWasValid);
+					inputToChangeFocusOn = null;
+				}
+
+				// fire allInputs event handlers AFTER calling callbacks of single input
+				dispatchEventsThatObservingAllInputs.call(this);
+			}
+
+			function inputOnFill(event, inputWasValid) {
+				// console.log('inputOnFill');
+				var input = event.target;
+				var inputIndex = parseInt(input.dataset.inputIndex);
+				var inputIsValid = status.allInputsValidation[inputIndex];
+
+
+				if (this.onOneInputFill) this.onOneInputFill(event, status);
+
+
+				if (inputIsValid) {
+					if (this.onOneInputValid) this.onOneInputValid(event, status);
+				} else {
+					if (this.onOneInputInvalid) this.onOneInputInvalid(event, status);
+				}
+
+
+				if (!inputWasValid && inputIsValid) {
+					if (this.onOneInputCorrected) this.onOneInputCorrected(event, status);
+				}
+
+				if (inputWasValid && !inputIsValid) {
+					if (this.onOneInputGoWrong) this.onOneInputGoWrong(event, status);
+				}
+			}
+
+			function inputOnClear(event/*, inputWasValid*/) {
+				// console.log('inputOnClear');
+				if (this.onOneInputClear) this.onOneInputClear(event);
+				// this.onOneInputInvalid && this.onOneInputInvalid(event);
+			}
+
+			function validateOneInput(input) {
+				// console.log('validateOneInput');
+				var inputIndex = parseInt(input.dataset.inputIndex);
+				var inputIsValid = input.value.length > 0;
+				if (inputIsValid) {
+					var validator = this.validatorsForEachInput[inputIndex];
+					if (!validator) validator = defaultValidator;
+					if (validator) {
+						inputIsValid = validator.call(this, input.value);
+					}
+				}
+				return inputIsValid;
+			}
+
+			function aggregateAllInputsValue() {
+				status.aggregatedValue = status.allInputsValue.join('');
+				if (inputForAggregation) {
+					inputForAggregation.value = status.aggregatedValue;
+					if (typeof inputForAggregation.onUpdateAtHiddenState === 'function') inputForAggregation.onUpdateAtHiddenState();
+				}
+			}
+			function aggregateAllInputsStatus(isCheckingOnLoad) {
+				// console.trace('aggregateAllInputsStatus');
+				status.allInputsAreValid   = true;
+				status.allInputsAreFilled  = true;
+				status.allInputsAreCleared = true;
+				for (var i = 0; i < $allInputs.length; i++) {
+					var inputIsFilled = status.allInputsFilling[i];
+					var inputIsValid  = status.allInputsValidation[i];
+
+					if (!inputIsFilled) status.allInputsAreFilled  = false;
+					if (inputIsFilled)  status.allInputsAreCleared = false;
+					if (!inputIsValid)  status.allInputsAreValid   = false;
+				}
+			}
+			function dispatchEventsThatObservingAllInputs(isCheckingOnLoad) {
+				// console.log('dispatchEventsThatObservingAllInputs');
+				if (status.allInputsAreCleared && this.onAllInputsClear) this.onAllInputsClear(status.aggregatedValue, status, isCheckingOnLoad);
+				if (status.allInputsAreFilled  && this.onAllInputsFill ) this.onAllInputsFill (status.aggregatedValue, status, isCheckingOnLoad);
+				if (status.allInputsAreValid   && this.onAllInputsValid) this.onAllInputsValid(status.aggregatedValue, status, isCheckingOnLoad);
+			}
+
+			function getPrevInputOf(refInput) {
+				return $allInputs[parseInt(refInput.dataset.inputIndex)-1];
+			}
+
+			function getNextInputOf(refInput) {
+				return $allInputs[parseInt(refInput.dataset.inputIndex)+1];
+			}
+
+			function getFirstInput() {
+				return $allInputs[0];
+			}
+
+			function getLastInput() {
+				return $allInputs[$allInputs.length-1];
+			}
+
+			function focusInput(input) {
+				if (input && typeof input.focus === 'function') {
+					input.focus();
+				}
+				return input;
+			}
+
+			function config(options) {
+				options = options || {};
+
+				if (options.hasOwnProperty('inputForAggregation')) {
+					if (options.inputForAggregation instanceof Node) {
+						var _el = options.inputForAggregation;
+						var tnlc = _el.tagName.toLowerCase();
+						if (tnlc === 'input') {
+							var type = _el.type.toLowerCase();
+							if (type !== 'checkbox' && type !== 'raido') {
+								inputForAggregation = options.inputForAggregation;
+								_el.type = status.inputsAreForPassword ? 'hidden' : 'hidden';
+								inputForAggregation.readOnly = false; // important
+								inputForAggregation.disabled = false; // in case it is associated with a form
+							}
+						}
+					} else {
+						inputForAggregation = null;
+					}
+				}
+
+				if (options.hasOwnProperty('defaultValidator')) {
+					defaultValidator = (typeof options.defaultValidator === 'function') ? options.defaultValidator : undefined;
+				}
+
+				if (status.inputsTypeIsNumber && !defaultValidator) defaultValidator = defaultValidatorForNumber;
+
+				if (Array.isArray(options.validatorsForEachInput)) {
+					for (var i = 0; i < options.validatorsForEachInput.length; i++) {
+					 var validator = options.validatorsForEachInput[i];
+					 if (typeof validator === 'function') this.validatorsForEachInput[i] = validator;
+					 else if (typeof validator === null) this.validatorsForEachInput[i] = undefined;
+					}
+				}
+
+				if (typeof options.onOneInputClear     === 'function') this.onOneInputClear     = options.onOneInputClear;
+				if (typeof options.onOneInputFill      === 'function') this.onOneInputFill      = options.onOneInputFill;
+				if (typeof options.onOneInputInvalid   === 'function') this.onOneInputInvalid   = options.onOneInputInvalid;
+				if (typeof options.onOneInputValid     === 'function') this.onOneInputValid     = options.onOneInputValid;
+				if (typeof options.onOneInputCorrected === 'function') this.onOneInputCorrected = options.onOneInputCorrected;
+				if (typeof options.onOneInputGoWrong   === 'function') this.onOneInputGoWrong   = options.onOneInputGoWrong;
+				if (typeof options.onAllInputsClear    === 'function') this.onAllInputsClear    = options.onAllInputsClear;
+				if (typeof options.onAllInputsFill     === 'function') this.onAllInputsFill     = options.onAllInputsFill;
+				if (typeof options.onAllInputsValid    === 'function') this.onAllInputsValid    = options.onAllInputsValid;
+			}
+
+			function init () {
+				var thisController = this;
+				var $_r = $(rootElement);
+
+				status.inputsTypeIsNumber   = $_r.hasClass('input-only-digits');
+				status.inputsAreForPassword = $_r.hasClass('input-password');
+
+				var inputForAggregation = $_r.find('input.single-char-inputs-aggregator')[0];
+				if (inputForAggregation) this.config({
+					inputForAggregation: inputForAggregation // might be overrided by initOptions
+				});
+
+				this.config(initOptions);
+
+				$allInputs.each(function (index) {
+					this.autocomplete = 'off';
+					this.dataset.inputIndex = index;
+					this.type = status.inputsAreForPassword ? 'password' : 'text';
+					status.allInputsValue[index] = this.value;
+					status.allInputsFilling[index] = this.value.length > 0;
+					validateOneInput.call(thisController, this);
+				});
+
+				aggregateAllInputsStatus.call(this, true);
+				dispatchEventsThatObservingAllInputs.call(this, true);
+
+				// make sure basic setup executed BEFORE binding event listeners
+				$allInputs
+					.on('focus',    inputOnFocus   .bind(thisController))
+					.on('blur',     inputOnBlur    .bind(thisController))
+					.on('keydown',  inputOnKeyDown .bind(thisController))
+					.on('input',    inputOnInput   .bind(thisController))
+					.on('keyup',    inputOnKeyUp   .bind(thisController))
+				;
+
+				this.enable();
+			}
+
+			init.call(this);
+		};
+
+
+		this.ProgressRing = function ProgressRing(rootElement, initOptions) {
+			if (
+				!(rootElement instanceof Node) || 
+				rootElement === document || 
+				rootElement === document.body || 
+				rootElement === document.documentElement
+			) {
+				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
+			}
+
+			// $(rootElement).addClass('uses-css-clip');
+			// $(rootElement).removeClass('huge-scale-down').removeClass('quadruple-scale-down'); // really bad
+			// $(rootElement).addClass('huge-scale-down').removeClass('quadruple-scale-down'); // smooth but blur
+			$(rootElement).addClass('quadruple-scale-down').removeClass('huge-scale-down'); // balanced
+
+			this.options = {
+				useCanvas: false,
+				useTransitions: true,
+				transitionsTotalDuration: 0.51219,
+				treatTotalDurationAsRoughSpeed: true, // that is 360deg per duration
+				doNotQueueAnyDregree: false,
+				takeLastQueuedDegreeOnly: true,
+			};
+
+			this.config = config.bind(this);
+			this.getDegree = getDegree.bind(this);
+			this.getPercentage = getPercentage.bind(this);
+			this.setDegreeTo = setDegreeTo.bind(this);
+			this.setPercentageTo = setPercentageTo.bind(this);
+			this.setDegreeViaHTMLAttribute = function () {
+				this.setDegreeTo('html-attribute-value');
+			};
+
+			var half1, half2, pKeyTransitionDuration;
+
+			var halves = [];
+			var half1Settings = { index: 1 };
+			var half2Settings = { index: 2 };
+
+			var currentDegree = 0;
+			var currentTargetDegree;
+			var status = {
+				isRunning: false,
+				queuedDegrees: []
+			};
+
+			var half1DegreeMeansHidden = 0;
+			var half2DegreeMeansHidden = 180;
+
+			init.call(this);
+
+			function init() {
+				var thisController = this;
+				this.config(initOptions, true);
+				currentDegree = _parseDegreeVia(currentDegree);
+
+				if (initOptions && !!initOptions.disableInitialUpdate) {
+				} else {
+					setTimeout(function () { // important for first running, especially for the first acting half element
+						thisController.setDegreeViaHTMLAttribute();
+					}, 0);
+				}
+			}
+
+			function prepareDoms() {
+				if (this.options.useCanvas) {
+					prepareDomsForCanvas.call(this);
+				} else {
+					prepareDomsForTransitions.call(this);
+				}
+			}
+			function prepareDomsForCanvas() {
+
+			}
+			function prepareDomsForTransitions() { // add or remve doms as needed
+				var $halfMasks = $(rootElement).find('> .half-mask');
+				var count, i, j, _mask, $half, _half;
+
+				if ($halfMasks.length < 2) {
+					count = 2 - $halfMasks.length;
+					var tagName = 'B';
+					if (count===1) tagName = $halfMasks[0].tagName;
+
+					for (i = 0; i < count; i++) {
+						_mask = document.createElement(tagName);
+						_mask.className = 'half-mask';
+
+						$halfMasks.push(_mask);
+						rootElement.appendChild(_mask);
+					}
+				} else if ($halfMasks.length > 2) {
+					for (i = 2; i < $halfMasks.length; i++) {
+						_mask = $halfMasks[i];
+						rootElement.removeChild(_mask);
+					}
+				}
+
+
+				for (i = 0; i < $halfMasks.length; i++) {
+					_mask = $halfMasks[i];
+					$half = $(_mask).find('> .half');
+					if ($half.length < 1) {
+						_half = document.createElement('i');
+						_half.className = 'half';
+
+						$half.push(_half);
+						_mask.appendChild(_half);
+					} else {
+						_half = $half[0];
+						if ($half.length > 1) {
+							for (j = 1; j < $half.length; j++) {
+								_mask.removeChild(_half);
+							}
+						}
+					}
+
+					halves.push(_half);
+				}
+
+				half1 = halves[0];
+				half2 = halves[1];
+
+				$(half1.parentNode).addClass('half-1').removeClass('half-2');
+				$(half2.parentNode).addClass('half-2').removeClass('half-1');
+
+				var _S = half1.style;
+				var possibleKeyPrefixes = [
+					'',
+					'webkit',
+					'ms',
+					'moz'
+				];
+
+				var keyName = 'transitionDuration';
+				for (var k = 0; k < possibleKeyPrefixes.length; k++) {
+					var pre = possibleKeyPrefixes[k];
+					var key;
+					if (!pre) {
+						key = keyName;
+					} else {
+						key = pre + keyName.slice(0, 1).toUpperCase() + keyName.slice(1);
+					}
+					if (typeof _S[key] === 'string') {
+						pKeyTransitionDuration = key;
+						break;
+					}
+				}
+
+				half1.style.transform = 'rotate('+half1DegreeMeansHidden+'deg)';
+				half2.style.transform = 'rotate('+half2DegreeMeansHidden+'deg)';
+
+				half1Settings.dom = half1;
+				half1Settings.style = half1.style;
+
+				half2Settings.dom = half2;
+				half2Settings.style = half2.style;
+			}
+
+			function config(options, isInitializing) {
+				if (typeof options !== 'object' || !options) return;
+
+				var R;
+
+					WCU.setValue.boolean(this.options, 'disableInitialUpdate', options);
+				R = WCU.setValue.boolean(this.options, 'useCanvas', options);
+					WCU.setValue.boolean(this.options, 'useTransitions', options);
+					WCU.setValue.boolean(this.options, 'doNotQueueAnyDregree', options);
+					WCU.setValue.boolean(this.options, 'takeLastQueuedDegreeOnly', options);
+					WCU.setValue.boolean(this.options, 'treatTotalDurationAsRoughSpeed', options);
+					WCU.setValue.numberNoLessThan(this.options, 'transitionsTotalDuration', options, false, 0.05);
+
+				if (isInitializing || R.valueHasBeenChanged) {
+					prepareDoms.call(this);
+				}
+
+				// console.log('single ring configered: ', this.options);
+			}
+
+			function _parseDegreeVia(degree) {
+				var inputWasValid = true;
+				var degreeFloatValue = NaN;
+
+				if (typeof degree === 'number' && !isNaN(degree)) {
+					degreeFloatValue = degree;
+				} else {
+					degreeFloatValue = parseFloat(degree);
+
+					if (isNaN(degreeFloatValue)) {
+						inputWasValid = false;
+						degreeFloatValue = 0;
+					} else {
+						var stringIsPercentage = !!degree.match(/^\s*[\+\-]?[\d\.]*\d+%\D*\s*$/);
+
+						if (stringIsPercentage) {
+							degreeFloatValue = 3.6 * degreeFloatValue;
+						}
+					}
+				}
+
+				var degreeFloatValueSafe = degreeFloatValue % 360;
+
+				degree         = (degreeFloatValue)    .toFixed(3);
+				var degreeSafe = (degreeFloatValueSafe).toFixed(3);
+
+				degreeFloatValue     = parseFloat(degree);
+				degreeFloatValueSafe = parseFloat(degreeSafe);
+
+				if (degreeFloatValueSafe === 0 && degreeFloatValue >= 359.9999) degreeFloatValueSafe = 360;
+
+				var result = {
+					inputWasValid: inputWasValid,
+					raw: degreeFloatValue,
+					safe: degreeFloatValueSafe
+				};
+				// console.log(result);
+
+				return result;
+			}
+
+			function _getDegreeFromHtml() {
+				return _parseDegreeVia(rootElement.getAttribute('data-degree'));
+			}
+
+			function getDegree() {
+				if (typeof currentTargetDegree !== 'object') {
+					return 0;
+				}
+
+				return currentTargetDegree.raw;
+			}
+
+			function getPercentage() {
+				return this.getDegree() / 360;
+			}
+
+			function setPercentageTo(newPercentage) {
+				if (typeof newPercentage === 'string') {
+					newPercentage = (parseFloat(newPercentage) || 0) * 0.01;
+					// var stringIsPercentage = !!newPercentage.match(/^\s*[\+\-]?[\d\.]*\d+%\D*\s*$/);
+					// if (stringIsPercentage) {
+					// }
+				} else if (typeof newPercentage === 'number' && !isNaN(newPercentage)) {
+				} else {
+					newPercentage = 0;
+				}
+
+				newPercentage = Math.min(0, Math.max(100, newPercentage)) + '%';
+
+				this.setDegreeTo(newPercentage * 360);
+			}
+
+			function setDegreeTo(newDegree) {
+				if (status.isRunning && this.options.doNotQueueAnyDregree) {
+				} else {
+					queueOneNewDegree.call(this, newDegree);
+				}
+				doUpdateDegreeFromQueue.call(this);
+			}
+
+			function queueOneNewDegree(newDegree) {
+				if (newDegree === 'html-attribute-value') {
+					newDegree = _getDegreeFromHtml();
+				} else if (!newDegree || typeof newDegree === 'number' || newDegree === true) {
+					newDegree = _parseDegreeVia(newDegree);
+				} else {
+					newDegree = _parseDegreeVia(newDegree.raw);
+				}
+
+				if (this.options.takeLastQueuedDegreeOnly) {
+					status.queuedDegrees.splice(0);
+				}
+				status.queuedDegrees.push(newDegree);
+			}
+
+			function fetchDegreeFromQueue() {
+				return status.queuedDegrees.splice(0, 1)[0];
+			}
+
+			function doUpdateDegreeFromQueue() {
+				// c.l('This ring is already running:', status.isRunning);
+				if (status.isRunning) {
+					return;
+				}
+
+				var newDegree = fetchDegreeFromQueue.call(this);
+				if (typeof newDegree !== 'object' || typeof newDegree.safe !== 'number' || isNaN(newDegree.safe)) {
+					return false;
+				}
+
+				currentTargetDegree = newDegree;
+
+				var thisController = this;
+				status.isRunning = true;
+
+				var oldSafeDegree = currentDegree.safe;
+				var newSafeDegree = newDegree.safe;
+				var deltaTotalAbs = Math.abs(newSafeDegree - oldSafeDegree);
+				var eitherTransitionsIsNecessary = !!this.options.useTransitions && deltaTotalAbs > 1; // at least one degree to change
+
+				// console.log('\n\n=== from', oldSafeDegree, 'to', newSafeDegree, '===', deltaTotalAbs, 'transition?', this.options.useTransitions, '\t', this.options.transitionsTotalDuration, 'sec');
+
+				_processHalfSettings.call(this,
+					half1Settings,
+					Math.min(180, oldSafeDegree),
+					Math.min(180, newSafeDegree),
+					this.options.transitionsTotalDuration
+				);
+				_processHalfSettings.call(this,
+					half2Settings,
+					Math.max(180, oldSafeDegree),
+					Math.max(180, newSafeDegree),
+					this.options.transitionsTotalDuration
+				);
+
+				function _processHalfSettings (_S, oldSafeDegree, newSafeDegree, totalDurationOrSpeed) {
+					_S.oldDegree = oldSafeDegree;
+					_S.newDegree = newSafeDegree;
+					_S.delta = _S.oldDegree - _S.newDegree;
+					_S.deltaAbs = Math.abs(_S.delta);
+
+					if (deltaTotalAbs < 0.001) {
+						_S.duration = 0;
+					} else {
+						if (this.options.treatTotalDurationAsRoughSpeed) {
+							_S.duration = totalDurationOrSpeed * _S.deltaAbs / 360;
+						} else {
+							_S.duration = totalDurationOrSpeed * _S.deltaAbs / deltaTotalAbs;
+						}
+					}
+
+					_S.transitionNecessary = eitherTransitionsIsNecessary && _S.duration > 0.01 && _S.deltaAbs > 0.1;
+					if (_S.transitionNecessary) {
+						$(_S.dom).removeClass('no-transition');
+						_S.style[pKeyTransitionDuration] = _S.duration + 's';
+					} else {
+						$(_S.dom).addClass('no-transition');
+					}
+					// console.log('transition?', _S.transitionNecessary, '\t',
+					// 	_S.style[pKeyTransitionDuration],
+					// 	'\t\t', _S.deltaAbs+' deg to go: ',
+					// 	oldSafeDegree, 'to', newSafeDegree
+					// );
+				}
+
+
+				var halfA, halfB; // transition of halfA goes BEFORE transition of halfB
+
+				if (oldSafeDegree <= 180) {
+					halfA = half1Settings;
+					halfB = half2Settings;
+				} else {
+					halfA = half2Settings;
+					halfB = half1Settings;
+				}
+
+				// console.log('action order will be: half', halfA.index, '>>> half', halfB.index);
+
+
+				updateHalfA();
+				var aTransitionEndedAnyHow = false;
+				var bTransitionEndedAnyHow = false;
+
+
+				function updateHalfA() {
+					// console.log('update A [', halfA.index,']:\t', halfA.oldDegree, '-->', halfA.newDegree, '\t transition?', halfA.transitionNecessary, '\t\t',halfA.duration,'sec');
+					halfA.style.transform = 'rotate('+halfA.newDegree+'deg)';
+
+					if (!halfA.transitionNecessary) {
+						updateHalfB();
+					} else {
+						// console.log('B is waiting for A...');
+						setTimeout(function () { onTransitionAEnd(false); }, halfA.duration * 1010);
+						halfA.dom.addEventListener('transitionend', onTransitionAEnd);
+					}
+				}
+				function onTransitionAEnd (eventOrFalse) {
+					if (aTransitionEndedAnyHow) return true;
+
+					// console.log('transition A end.\t\t\t from timer?', eventOrFalse===false, halfA.duration);
+					halfA.dom.removeEventListener('transitionend', onTransitionAEnd);
+					aTransitionEndedAnyHow = true;
+					updateHalfB();
+				}
+
+				function updateHalfB() {
+					// console.log('update B [', halfB.index,']:\t', halfB.oldDegree, '-->', halfB.newDegree, '\t transition?', halfB.transitionNecessary, '\t\t',halfB.duration,'sec');
+					halfB.style.transform = 'rotate('+halfB.newDegree+'deg)';
+
+					if (!halfB.transitionNecessary) {
+						onBothHalvesUpdated();
+					} else {
+						// console.log('finishing is waiting for B...');
+						setTimeout(function () { onTransitionBEnd(false); }, halfB.duration * 1010);
+						halfB.dom.addEventListener('transitionend', onTransitionBEnd);
+					}
+				}
+				function onTransitionBEnd (eventOrFalse) {
+					if (bTransitionEndedAnyHow) return true;
+
+					// console.log('transition B end.\t from timer?', eventOrFalse===false, halfB.duration);
+					halfB.dom.removeEventListener('transitionend', onTransitionBEnd);
+					bTransitionEndedAnyHow = true;
+					onBothHalvesUpdated();
+				}
+
+				function onBothHalvesUpdated() {
+					halfA.style[pKeyTransitionDuration] = '';
+					halfB.style[pKeyTransitionDuration] = '';
+
+					$(rootElement).removeClass('no-transition');
+
+					rootElement.getAttribute('data-degree', newDegree.raw);
+					currentDegree = newDegree;
+
+					status.isRunning = false;
+					// console.trace('-- everything done! --', currentDegree);
+
+					doUpdateDegreeFromQueue.call(thisController);
+				}
+
+
+				return newDegree;
+			}
+
+		};
+
+		this.ProgressRings = function ProgressRings(rootElement, initOptions) {
+			if (
+				!(rootElement instanceof Node) || 
+				rootElement === document || 
+				rootElement === document.body || 
+				rootElement === document.documentElement
+			) {
+				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
+			}
+
+			var ringsDom = Array.prototype.slice.apply($(rootElement).find('.ring'));
+			if (ringsDom.length < 1) {
+				throw('No ring element found under rootElement when constructing a '+this.constructor.name+'.\n rootElement:', rootElement);
+			}
+
+			this.options = {
+				// useTransitions: true,
+				// singleRingTransitionsTotalDuration: NaN,
+				// treatTotalDurationAsRoughSpeed: true,
+				// doNotQueueAnyDregree: false,
+				// takeLastQueuedDegreeOnly: true,
+				perRings: []
+			};
+
+			var rings = [];
+			this.controllers = {
+				rings: rings
+			};
+
+			this.createOneRing = createOneRing.bind(this);
+			this.config = config.bind(this);
+			this.getDegree = getDegree.bind(this);
+			this.getDegrees = getDegrees.bind(this);
+			this.getPercentage = getPercentage.bind(this);
+			this.getPercentages = getPercentages.bind(this);
+			this.setDegrees = setDegrees.bind(this);
+			this.setPercentages = setPercentages.bind(this);
+
+			init.call(this);
+
+			function init() {
+				this.config(initOptions, true);
+
+				for (var i = 0; i < ringsDom.length; i++) {
+					this.createOneRing(ringsDom[i]);
+				}
+			}
+
+			function getDegree(index) {
+				index = parseInt(index) || 0;
+				var ring = rings[index];
+				if (!ring) return undefined;
+				return ring.getDegree();
+			}
+
+			function getPercentage(index) {
+				var deg = this.getDegree(index);
+				if (typeof deg === 'number') {
+					if (isNaN(deg)) return undefined;
+					return deg / 360;
+				}
+
+				return undefined;
+			}
+
+			function getDegrees() {
+				var results = [];
+				for (var i = 0; i < rings.length; i++) {
+					results.push(rings[i].getDegree());
+				}
+				return results;
+			}
+
+			function getPercentages() {
+				var results = [];
+				for (var i = 0; i < rings.length; i++) {
+					results.push(rings[i].getDegree() / 360);
+				}
+				return results;
+			}
+
+			function setDegrees(degrees) {
+				if (!Array.isArray(degrees)) degrees = [degrees];
+				var count = Math.min(degrees.length, rings.length);
+				for (var i = 0; i < count; i++) {
+					rings[i].setDegreeTo(degrees[i]);
+				}
+			}
+
+			function setPercentages(percentages) {
+				if (!Array.isArray(percentages)) percentages = [percentages];
+				var count = Math.min(percentages.length, rings.length);
+				for (var i = 0; i < count; i++) {
+					rings[i].setPercentageTo(percentages[i]);
+				}
+			}
+
+			function createOneRing(ringRootElement) {
+				var results = evaluateOptionsOfRings.call(this, rings.length);
+				var options =results.optionsPerRings[0];
+				rings.push(new UI.ProgressRing(ringRootElement, options));
+			}
+
+			function config(options, shouldNotConfigRings) {
+				if (typeof options !== 'object' || !options) return;
+
+				WCU.setValue.boolean(this.options, 'disableInitialUpdate', options, true);
+				WCU.setValue.boolean(this.options, 'useTransitions', options, true);
+				WCU.setValue.boolean(this.options, 'doNotQueueAnyDregree', options, true);
+				WCU.setValue.boolean(this.options, 'takeLastQueuedDegreeOnly', options, true);
+				WCU.setValue.boolean(this.options, 'treatTotalDurationAsRoughSpeed', options, true);
+				WCU.setValue.numberPositive(this.options, 'singleRingTransitionsTotalDuration', options, true);
+
+				if (options.hasOwnProperty('perRings')) {
+					if (typeof options.perRings === 'undefined' || options.perRings === null) {
+						this.options.perRings.splice(0, this.options.perRings.length);
+					} else {
+						var _oprS; // source
+						var _oprT = this.options.perRings; // target
+
+						if (typeof options.perRings === 'object') {
+							_oprS = options.perRings;
+							if (!Array.isArray(_oprS)) _oprS = [_oprS];
+						} else {
+							_oprS = [];
+						}
+
+						for (var i = 0; i < _oprS.length; i++) {
+							var _oprSI = _oprS[i];
+							var _oprTI = _oprT[i];
+
+							if (typeof _oprSI !== 'object' || !_oprSI) {
+								continue;
+							}
+
+							if (typeof _oprTI !== 'object' || !_oprTI) {
+								_oprT[i] = _oprSI;
+								continue;
+							}
+
+							WCU.setValue.boolean(_oprTI, 'disableInitialUpdate', _oprSI, true);
+							WCU.setValue.boolean(_oprTI, 'useTransitions', _oprSI, true);
+							WCU.setValue.boolean(_oprTI, 'doNotQueueAnyDregree', _oprSI, true);
+							WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oprSI, true);
+							WCU.setValue.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oprSI, true);
+							WCU.setValue.numberPositive(_oprTI, 'singleRingTransitionsTotalDuration', _oprSI, true);
+						}
+					}
+				}
+
+				if (!shouldNotConfigRings) {
+					configRings.call(this);
+				}
+
+				// console.log('ProgressRings options:', this.options);
+			}
+
+			function configRings(indexRangeA, indexRangeB) {
+				var results = evaluateOptionsOfRings.call(this, i).optionsPerRings[0];
+
+				indexRangeA = results.indexRangeA; // valid values
+				indexRangeB = results.indexRangeB; // valid values
+				var optionsPerRings = results.optionsPerRings;
+
+				for (var i = 0; i < optionsPerRings.length; i++) {
+					var ring = rings[i];
+					if (ring) ring.config(optionsPerRings[i]);
+				}
+			}
+
+			function evaluateOptionsOfRings(indexRangeA, indexRangeB) {
+				var results = {
+					indexRangeA: NaN,
+					indexRangeB: NaN,
+					optionsPerRings: []
+				};
+
+				indexRangeA = parseInt(indexRangeA);
+				indexRangeB = parseInt(indexRangeB);
+
+				var ringsCount = rings.length;
+
+				var validIndexRangeAProvided = indexRangeA >= 0; // exceeding [rings.length] is allowed
+				if (!validIndexRangeAProvided) {
+					indexRangeA = 0;
+				}
+				var validIndexRangeBProvided = indexRangeB >= 0; // exceeding [rings.length] is allowed
+				if (!validIndexRangeBProvided) {
+					if (validIndexRangeAProvided) {
+						indexRangeB = indexRangeA;
+					} else {
+						indexRangeB = ringsCount - 1;
+					}
+				}
+
+				var loopStart = Math.min(indexRangeA, indexRangeB);
+				var loopEnd = Math.max(indexRangeA, indexRangeB);
+
+				results.indexRangeA = loopStart;
+				results.indexRangeB = loopEnd;
+
+				var _oGlobalDefault = this.options;
+				var _oprS = this.options.perRings;
+				for (var i = loopStart; i <= loopEnd; i++) {
+					var _oprSI = _oprS[i];
+					var _oprTI = {};
+
+					if (typeof _oprSI !== 'object' || !_oprSI) {
+						_oprSI = {};
+					}
+
+					var R;
+
+					R = WCU.setValue.boolean(_oprTI, 'disableInitialUpdate', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.boolean(_oprTI, 'disableInitialUpdate', _oGlobalDefault);
+					}
+
+					R = WCU.setValue.boolean(_oprTI, 'doNotQueueAnyDregree', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.boolean(_oprTI, 'doNotQueueAnyDregree', _oGlobalDefault);
+					}
+
+					R = WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oGlobalDefault);
+					}
+
+					R = WCU.setValue.boolean(_oprTI, 'useTransitions', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.boolean(_oprTI, 'useTransitions', _oGlobalDefault);
+					}
+
+					R = WCU.setValue.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oGlobalDefault);
+					}
+
+					R = WCU.setValue.numberPositive(_oprTI, 'transitionsTotalDuration', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.numberPositive(_oprTI, 'transitionsTotalDuration', _oGlobalDefault.singleRingTransitionsTotalDuration);
+					}
+
+					// c.l('merged options for ring ['+i+']', _oprTI);
+					results.optionsPerRings.push(_oprTI);
+				}
+
+				return results;
+			}
+		};
+	}).call(UI);
 }).call(window.webLogicControls);

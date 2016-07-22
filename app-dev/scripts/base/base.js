@@ -1,4 +1,31 @@
 (function () {
+	var wlc = window.webLogicControls;
+	function processParametersPassedIn() {
+		var qString = location.href.match(/\?[^#]*/);
+		if (qString) qString = qString[0].slice(1);
+
+		var qKVPairs = [];
+		if (qString) {
+			qKVPairs = qString.split('&');
+		}
+
+		var tabLabel; // id of tabLabel to show if any
+
+		for (var i in qKVPairs){
+			var kvpString = qKVPairs[i];
+			var kvp = kvpString.split('=');
+			if (kvp[0] === 'tabLabel') tabLabel = kvp[1];
+		}
+
+		return {
+			tabLabel: tabLabel
+		};
+	}
+
+	var urlParameters = processParametersPassedIn();
+
+
+
 	$('.app > .popup-layers, .page .popup-layers').each(function () {
 		var $pLContainer = $(this);
 		var $bp = $pLContainer.find('.popup-layers-back-plate');
@@ -25,51 +52,16 @@
 	});
 
 
-	function processParametersPassedIn() {
-		var qString = location.href.match(/\?[^#]*/);
-		if (qString) qString = qString[0].slice(1);
 
-		var qKVPairs = [];
-		if (qString) {
-			qKVPairs = qString.split('&');
-		}
+	$('a[href$="index.html"]').each(function () {
+		this.href += '?login=true';
+	});
 
-		var psn1; // page sidebar nav Level 1 current
-		var psn2; // page sidebar nav Level 2 current
-		var tabLabel; // id of tabLabel to show if any
-		var bank;
-		var bankHTML;
-
-		if (typeof window.psn === 'object') {
-			if (window.psn.level1) psn1 = window.psn.level1;
-			if (window.psn.level2) psn2 = window.psn.level2;
-		}
-
-		for (var i in qKVPairs){
-			var kvpString = qKVPairs[i];
-			var kvp = kvpString.split('=');
-
-			if (kvp[0] === 'psn1') psn1 = kvp[1];
-			if (kvp[0] === 'psn2') psn2 = kvp[1];
-			if (kvp[0] === 'tabLabel') tabLabel = kvp[1];
-			if (kvp[0] === 'bank') bank = kvp[1];
-			if (kvp[0] === 'bankHTML') bankHTML = kvp[1];
-		}
-
-		return {
-			bank: decodeURIComponent(bank),
-			bankHTML: decodeURIComponent(bankHTML).replace(/\+/g, ' '),
-			tabLabel: tabLabel,
-			psn: {
-				level1: psn1,
-				level2: psn2
-			}
-		};
-	}
-
-
-	var urlParameters = processParametersPassedIn();
-
+	$('.nav-back[data-back-target="history"]').on('click', function (event) {
+		event.preventDefault();
+		event.stopPropagation();
+		history.back();
+	});
 
 
 	$('input, textarea, select').each(function () {
@@ -78,12 +70,12 @@
 				return false;
 			}
 
-			var tagNameLC = field.tagName.toLowerCase();
-			if (tagNameLC !== 'input' && tagNameLC !== 'textarea' && tagNameLC !== 'select') {
+			var tnlc = field.tagName.toLowerCase();
+			if (tnlc !== 'input' && tnlc !== 'textarea' && tnlc !== 'select') {
 				return false;
 			}
 
-			var isEmpty = (tagNameLC==='select') ? (field.selectedIndex === -1) : (!field.value);
+			var isEmpty = (tnlc==='select') ? (field.selectedIndex === -1) : (!field.value);
 			if (isEmpty) {
 				$(field).removeClass('non-empty-field');
 				$(field).addClass('empty-field');
@@ -162,9 +154,10 @@
 		}
 	});
 
+
 	$('[data-text-format]').each(function () {
 		var tnlc = this.tagName.toLowerCase();
-		var contentIsDynamic = false;
+		var contentIsFromUserInput = false;
 		var propertyToFormat = 'textContent';
 		var elementIsValid = true;
 
@@ -172,21 +165,21 @@
 			if (this.type === 'checkbox' || this.type === 'radio') {
 				elementIsValid = false;
 			} else {
-				contentIsDynamic = true;
+				contentIsFromUserInput = true;
 				propertyToFormat = 'value';
 			}
 		} else if (tnlc === 'textarea') {
-			contentIsDynamic = true;
+			contentIsFromUserInput = true;
 			propertyToFormat = 'value';
 		} else if (this.getAttribute('contentEditable') && this.getAttribute('contentEditable').toLowerCase() === 'true') {
-			contentIsDynamic = true;
+			contentIsFromUserInput = true;
 		}
 
 		if (!elementIsValid) return;
 
 		_formatText(this);
 
-		if (contentIsDynamic) {
+		if (contentIsFromUserInput) {
 			$(this).on('input', function () {
 				_formatText(this);
 			});
@@ -205,15 +198,27 @@
 
 			switch (textFormat) {
 				case 'mobile':
-					text = _formatMobile(text);
+					if (contentIsFromUserInput) {
+						text = _formatMobileInput(text);
+					} else {
+						text = _formatMobile(text);
+					}
 					break;
 
 				case 'bank-card':
-					text = _formatBankCard(text);
+					if (contentIsFromUserInput) {
+						text = _formatBankCardInput(text);
+					} else {
+						text = _formatBankCard(text);
+					}
 					break;
 
 				case 'chinese-id-card':
-					text = _formatChineseIdCard(text);
+					if (contentIsFromUserInput) {
+						text = _formatChineseIdCardInput(text);
+					} else {
+						text = _formatChineseIdCard(text);
+					}
 					break;
 
 				default:
@@ -227,52 +232,116 @@
 		function _formatMobile(text) {
 			var divider = ' ';
 			return text
-				.replace(/[^\-\+0-9]/, '')
 				.replace(/^\-/, '')
+				.replace(/[^\-\+\*\d]/g, '')
+				.replace(/(\s|.)\+/g, '$1')
+				.replace(/([\d\*]{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{3}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{3}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/[\s\-]+$/, '')
+				.replace(/([\d\*\s\-]{23})(.*)/, '$1')
+			;
+		}
+		function _formatMobileInput(text) {
+			var divider = ' ';
+			return text
+				.replace(/^\-/, '')
+				.replace(/[^\-\+\d]/g, '')
+				.replace(/(\s|.)\+/g, '$1')
 				.replace(/(\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{3}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{3}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/[\s\-]+$/, '')
+				.replace(/([\d\s\-]{23})(.*)/, '$1')
 			;
 		}
 		function _formatBankCard(text) {
 			var divider = ' ';
 			return text
-				.replace(/[\D]/, '')
+				.replace(/[^\d\*]/g, '')
+				.replace(/([\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/[\s\-]+$/, '')
+				.replace(/([\d\*\s\-]{35})(.*)/, '$1')
+			;
+		}
+		function _formatBankCardInput(text) {
+			var divider = ' ';
+			return text
+				.replace(/[^0-9]/g, '')
 				.replace(/(\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/[\s\-]+$/, '')
+				.replace(/([\d\s\-]{35})(.*)/, '$1')
 			;
 		}
 		function _formatChineseIdCard(text) {
 			var divider = ' ';
 			return text
-				.replace(/[^xX\s0-9]/, '')
+				.replace(/[^xX\s0-9\*]/g, '')
+				.replace(/([\d\*]{6})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{6}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+				.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3}.)(.*)/, '$1')
+				.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})([xX0-9\*])?(.*)/, '$1$2')
+				.replace(/[\s\-]+$/, '')
+				.replace(/([\dxX\*\s\-]{21})(.*)/, '$1')
+			;
+		}
+		function _formatChineseIdCardInput(text) {
+			var divider = ' ';
+			return text
+				.replace(/[^xX\s0-9]/g, '')
 				.replace(/(\d{6})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{6}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
 				.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3}.)(.*)/, '$1')
 				.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})([xX0-9])?(.*)/, '$1$2')
 				.replace(/[\s\-]+$/, '')
-				.replace(/([0-9xX\s]{21})(.*)/, '$1')
+				.replace(/([\dxX\s\-]{21})(.*)/, '$1')
 			;
 		}
 	});
 
 
-	$('form').each(function () {
-		var $form = $(this);
-		var $allRequiredInputs = $form.find('input[required], textarea[required], [contentEditable="true"][required]');
-		var buttonSubmit = $form.find('[button-action="submit"]')[0];
+	$('form').filter(function (index, form) {
+		return !form.hasAttribute('novalidate');
+	}).each(function () {
+		var $allRequiredInputs = $(this.elements).filter(function (index, el) {
+			// input[required], textarea[required], [contentEditable="true"][required];
+			var tnlc = el.tagName.toLowerCase();
+			if (tnlc === 'input' || tnlc === 'textarea') {
+				return el.hasAttribute('required');
+			}
+
+			var ce = el.getAttribute('contentEditable');
+			if (ce) ce = ce.toLowerCase();
+
+			return (ce === 'true') && el.hasAttribute('required');
+		});
+
+		var buttonSubmit =$(this.elements).filter(function (index, el) {
+			var attr =  el.getAttribute('button-action');
+			if (attr) attr = attr.toLowerCase();
+			return attr==='submit';
+		})[0];
+
+
+		// console.log($allRequiredInputs);
+		// console.log(buttonSubmit);
+
 
 		var allInputsAreValid = false;
 
-		var allInputValidations = [];
+		var allInputsValidation = [];
 		for (var i = 0; i < $allRequiredInputs.length; i++) {
-			allInputValidations[i] = false;
+			allInputsValidation[i] = false;
 		}
 
 
@@ -282,40 +351,59 @@
 		$allRequiredInputs.each(function (index) {
 			var tnlc = this.tagName.toLowerCase();
 
+			function validatorForInputOrTextarea() {
+				allInputsValidation[index] = !!this.value.replace(/^\s+/, '').replace(/\s+$/, '').length;
+				_validateAllRequiredInputs();
+			}
+
 			if (tnlc === 'input') {
 				var type = this.type.toLowerCase();
 				if (type === 'checkbox') {
 					$(this).on('change', function () {
-						allInputValidations[index] = this.checked;
+						allInputsValidation[index] = this.checked;
 						_validateAllRequiredInputs();
 					});
 				} else {
-					$(this).on('input', function () {
-						allInputValidations[index] = !!this.value.replace(/(^\s+|\s+$)/, '');
-						_validateAllRequiredInputs();
-					});
+					$(this).on('input', validatorForInputOrTextarea.bind(this));
+					this.onUpdateAtHiddenState = validatorForInputOrTextarea.bind(this);
 				}
 			} else if (tnlc === 'textarea') {
-				$(this).on('input', function () {
-					allInputValidations[index] = !!this.value.replace(/(^\s+|\s+$)/, '');
-					_validateAllRequiredInputs();
-				});
+				$(this).on('input', validatorForInputOrTextarea.bind(this));
+				this.onUpdateAtHiddenState = validatorForInputOrTextarea.bind(this);
 			} else {
-				// not implemented yet
+				// $(this).on('input', validatorForContentEditableElement.bind(this));
+				// this.onUpdateAtHiddenState = function () {
+				// }
 			}
+
 		});
 
 
-		function _validateAllRequiredInputs() {
+		function _validateAllRequiredInputs(shouldSkipDisabledInputs, shouldSkipReadOnlyInputs) {
+			shouldSkipDisabledInputs = !!shouldSkipDisabledInputs; // not implemented yet
+			shouldSkipReadOnlyInputs = !!shouldSkipReadOnlyInputs; // not implemented yet
 			allInputsAreValid = true;
-			for (var i = 0; i < allInputValidations.length; i++) {
-				allInputsAreValid = allInputsAreValid && allInputValidations[i];
+			for (var i = 0; i < allInputsValidation.length; i++) {
+				allInputsAreValid = allInputsAreValid && allInputsValidation[i];
 			}
 
 			if (buttonSubmit) buttonSubmit.disabled = !allInputsAreValid;
 		}
 	});
 
+
+	$('.sensitive-content').each(function () {
+		var $sensitiveContentBlock = $(this);
+
+		var $toggleIcon = $sensitiveContentBlock.find('.sensitive-content-status-icon');
+		if ($toggleIcon.length < 1) {
+			return false;
+		}
+
+		$toggleIcon.on('click', function () {
+			$sensitiveContentBlock.toggleClass('sensitive-content-shown');
+		});
+	});
 
 
 	$('.tab-panel-set').each(function () {
@@ -434,6 +522,59 @@
 		}
 	});
 
+
+	$('.progress-rings').each(function (index) {
+		var progressRings = new wlc.UI.ProgressRings(this, {
+			// takeLastQueuedDegreeOnly: false,
+			// useTransitions: false,
+			// disableInitialUpdate: true,
+			// treatTotalDurationAsRoughSpeed: false,
+			// singleRingTransitionsTotalDuration: 1,
+			// perRings: [
+			// 	{ transitionsTotalDuration: 2 }
+			// ]
+		});
+
+
+		var pageWidth = window.innerWidth;
+		function update(pageX) {
+			// return false;
+			var margin = 75;
+			progressRings.setDegrees(
+				Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360
+			);
+		}
+		function print() {
+			c.l('Got degree:', progressRings.getDegree());
+		}
+
+		if (index === 0) {
+			var move = false;
+			var waiting = false;
+			setTimeout(print, 1000);
+
+			$(document.body)
+				.on('mousedown', function (event) {
+					update(event.pageX);
+					move = true;
+				})
+				.on('mousemove', function (event) {
+					if (!move) return false;
+					if (waiting) return false;
+					waiting = true;
+					setTimeout(function () {
+						// update(event.pageX);
+						waiting = false;
+					}, 100);
+				})
+				.on('mouseup', function () {
+					move = false;
+					waiting = false;
+					// setTimeout(print, 1000);
+				})
+			;
+		}
+	});
 
 
 	$('dl.initially-collapsed').each(function () {
@@ -747,74 +888,11 @@
 			});
 		}
 	});
-
-
-
-	$('.drop-down-list').each(function () {
-		var dropDownList = this;
-		var $currentValueContainer = $(this).find('.drop-down-list-current-value');
-		var inputForStoringValue = $(this).find('input.drop-down-list-value');
-		var inputForStoringHTML = $(this).find('input.drop-down-list-value-html');
-		var $options = $(this).find('.drop-down-list-options > li'); // assuming there is only one level of menu
-
-		if (urlParameters.bank && urlParameters.bank !== 'undefined') {
-			_chooseOption(urlParameters.bank, urlParameters.bankHTML);
-		} else {
-			if ($options.length > 0) {
-				wlc.UI.bodyClickListener.register(this, onClickOutside);
-				_chooseOption(0);
-			} else {
-				_chooseOption(null);
-			}
-		}
-
-		$currentValueContainer.on('click', function () {
-			$(dropDownList).toggleClass('coupled-shown');
-		});
-
-		$options.on('click', function () {
-			_chooseOption(this);
-			$(dropDownList).removeClass('coupled-shown');
-		});
-
-		function _chooseOption(chosenOption, chosenOptionHTML) {
-			if (typeof chosenOption === 'number') {
-				chosenOption = $options[chosenOption];
-			}
-
-			var chosenValue;
-
-			if (chosenOption && typeof chosenOption === 'string' && chosenOptionHTML && typeof chosenOptionHTML === 'string') {
-				$currentValueContainer.html(chosenOptionHTML);
-				$(inputForStoringValue).val(chosenOption);
-				$(inputForStoringHTML).val(chosenOptionHTML);
-			}
-
-			if (!chosenOption) {
-				$currentValueContainer[0].innerHTML = '';
-				$(inputForStoringValue).val('');
-				$(inputForStoringHTML).val('');
-				return true;
-			}
-
-			if (!chosenValue) chosenValue = $(chosenOption).find('.value')[0];
-			if (chosenValue) chosenValue = chosenValue.getAttribute('data-value');
-
-			chosenOptionHTML = $(chosenOption).html();
-			$currentValueContainer.html(chosenOptionHTML);
-			$(inputForStoringValue).val(chosenValue);
-			$(inputForStoringHTML).val(chosenOptionHTML);
-		}
-
-		function onClickOutside() {
-			$(dropDownList).removeClass('coupled-shown');
-		}
-	});
 })();
 
 
 (function fakeLogics() {
-	var DC = new webLogicControls.UI.DraggingController(
+	window.DC = new webLogicControls.UI.DraggingController(
 		document.body,
 		{
 			movingElement: $('.app-fg-layer')[0],

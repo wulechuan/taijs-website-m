@@ -13,7 +13,7 @@
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="银行卡" id="page-account-bank-cards-list"
-	 class="page fixed-page-header has-page-header"
+	 class="page has-page-header fixed-page-header"
 	><header class="page-header">
 		<div class="row header-bar">
 			<div class="center"><h1>银行卡</h1></div>
@@ -28,14 +28,18 @@
 				<div class="slot slot-bank-card bank-cn-icbc">
 					<i class="icon icon-size-medium icon-of-bank"></i>
 					<h4 class="caption-of-bank"></h4>
-					<p class="bank-card-number"><span class="value">**** **** **** 1234</span></p>
+					<p class="bank-card-number"
+						><span class="value" data-text-format="bank-card">************1234</span
+					></p>
 				</div>
 			</li>
 			<li role="cell">
 				<div class="slot slot-bank-card bank-cn-ccb">
 					<i class="icon icon-size-medium icon-of-bank"></i>
 					<h4 class="caption-of-bank"></h4>
-					<p class="bank-card-number"><span class="value">**** **** **** 1234</span></p>
+					<p class="bank-card-number"
+						><span class="value" data-text-format="bank-card">6222********1234123</span
+					></p>
 				</div>
 			</li>
 			<li role="cell"><div class="slot slot-bank-card slot-pseudo">

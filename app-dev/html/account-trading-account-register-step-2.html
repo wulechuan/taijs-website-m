@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html><head>
 	<!-- inject:headBeforeTitle:html --><!-- endinject -->
-	<title>添加银行卡</title>
+	<title>开户</title>
 	<!-- inject:headAfterTitle:html --><!-- endinject -->
 </head>
 <body>
@@ -12,25 +12,31 @@
 <!-- inject:appBGLayer0:html --><!-- endinject -->
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
-<div data-app-header-title="添加银行卡" id="page-account-bank-card-addition"
+<div data-app-header-title="开户" id="page-account-trading-account-register-step-2"
 	 class="page has-page-header fixed-page-header"
 	><header class="page-header">
 		<div class="row header-bar">
-			<div class="center"><h1>添加银行卡</h1></div>
-			<div class="left"  ><a role="button" class="nav-back" href="account-bank-cards-list.html"></a></div>
+			<div class="center"><h1>开户</h1></div>
+			<div class="left"  ><a role="button" class="nav-back" href="account-trading-account-register-step-1.html"></a></div>
 			<div class="right" ><a role="button" class="nav-home" href="../index.html"></a></div>
 		</div>		
 	</header>
 
 	<div class="page-body">
-		<form name="addbankcard" method="POST" action="account-info.html">
-		<div class="f-block snap-top">
+		<form name="tradingaccountregisterstep2" action="account-trading-account-register-step-3.html">
+		<div class="f-block">
+			<ul class="progress-stops layout-hori progress-stops-distribution-compact progress-stops-style-decimal"
+				data-progress-stops-count="3" data-progress-current-stop="2"
+				><li></li
+				><li></li
+				><li></li
+			></ul>
 			<div class="row"><p class="tip">提示：为了保障投资人的资金安全，暂不支持信用卡</p></div>
 			<div class="f-block-body">
 				<div class="row select-field">
 					<div class="left">
 						<select placeholder="请选择银行"
-							name="bankname" required id="bank-card-addition-bank-name">
+							name="bankname" required id="account-trading-account-register-bank-name">
 							<option value="">银行名称</option>
 							<option value="bank-cn-icbc">中国工商银行</option>
 							<option value="bank-cn-cmb">招商银行</option>
@@ -55,16 +61,16 @@
 					<div class="left">
 						<input placeholder="请输入银行卡账号" type="text" data-text-format="bank-card"
 							name="bankcardnumber" required
-												  id="bank-card-addition-card-number">
-						<label class="input-tip" for="bank-card-addition-card-number">银行卡号</label>
-						<button 		   for-input="bank-card-addition-card-number"
+												  id="account-trading-account-register-card-number">
+						<label class="input-tip" for="account-trading-account-register-card-number">银行卡号</label>
+						<button 		   for-input="account-trading-account-register-card-number"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
 				<div class="row select-field">
 					<div class="left">
 						<select placeholder="请选择开户城市"
-							name="city" required id="bank-card-addition-city">
+							name="city" required id="account-trading-account-register-city">
 							<option value="">开户城市</option>
 							<option value="city-cn-beijing">北京</option>
 							<option value="city-cn-shanghai">上海</option>
@@ -81,9 +87,9 @@
 					<div class="left">
 						<input placeholder="请输入银行卡绑定的手机号" type="tel" data-text-format="mobile"
 							name="mobile" required
-												  id="bank-card-addition-mobile">
-						<label class="input-tip" for="bank-card-addition-mobile">银行卡绑定的手机号</label>
-						<button 		   for-input="bank-card-addition-mobile"
+												  id="account-trading-account-register-mobile">
+						<label class="input-tip" for="account-trading-account-register-mobile">银行卡绑定的手机号</label>
+						<button 		   for-input="account-trading-account-register-mobile"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
@@ -91,9 +97,9 @@
 					<div class="left">
 						<input placeholder="请输入验证码" type="number"
 							name="smsvcode" required
-												  id="bank-card-addition-sms-verification-code">
-						<label class="input-tip" for="bank-card-addition-sms-verification-code">验证码</label>
-						<button 		   for-input="bank-card-addition-sms-verification-code"
+												  id="account-trading-account-register-sms-verification-code">
+						<label class="input-tip" for="account-trading-account-register-sms-verification-code">验证码</label>
+						<button 		   for-input="account-trading-account-register-sms-verification-code"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 					<div class="right">
@@ -120,7 +126,7 @@
 
 		<div class="row buttons-in-single-line">
 			<button class="rounded-corners size-std-wide" disabled="disabled" 
-				button-action="submit">确认</button>
+				button-action="submit">下一步</button>
 		</div>
 		</form>
 
@@ -131,7 +137,7 @@
 		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
-	<script src="../scripts/pages/account-bank-card-addition.min.js"></script>
+	<script src="../scripts/pages/account-trading-account-register-step-2.min.js"></script>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 

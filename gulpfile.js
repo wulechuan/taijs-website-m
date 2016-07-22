@@ -248,10 +248,11 @@ gulp.task('html-inject-snippets', ['pre-process-html-snippets'], () => {
     { file: 'module-app-bg-layer-0.html', name: 'appBGLayer0:html' },
     { file: 'module-app-fg-layer-wrap-begin.html', name: 'appFGLayerWrapBegin:html' },
     { file: 'module-app-fg-layer-wrap-end.html', name: 'appFGLayerWrapEnd:html' },
+    { file: 'module-page-body-stamp-0.html', name: 'pageBodyStamp0:html' },
     { file: 'module-global-popup-layers.html', name: 'globalPopupLayers:html' },
     { file: 'module-popup-layers-wrap-begin.html', name: 'popupLayersWrapBegin:html' },
     { file: 'module-popup-layers-wrap-end.html', name: 'popupLayersWrapEnd:html' },
-    { file: 'module-page-body-stamp-0.html', name: 'pageBodyStamp0:html' }
+    { file: 'module-popup-layer-vcodes.html', name: 'popupLayerVCodes:html' }
   ];
 
   var targetFilesToProcess = gulp.src([
@@ -279,59 +280,59 @@ gulp.task('html-inject-snippets', ['pre-process-html-snippets'], () => {
 
 
 gulp.task('html', ['html-inject-snippets'], () => {
-  function _injectCssClassInto(stringToProcess, desiredTagName, classNamesToInject) {
-    var resultString;
+  // function _injectCssClassInto(stringToProcess, desiredTagName, classNamesToInject) {
+  //   var resultString;
 
-    var regExp = new RegExp('<'+desiredTagName+'[^>]*');
+  //   var regExp = new RegExp('<'+desiredTagName+'[^>]*');
 
-    var beginTag = stringToProcess.match(regExp); // without tail '>'
-    var beginTagPos = stringToProcess.search(regExp);
+  //   var beginTag = stringToProcess.match(regExp); // without tail '>'
+  //   // var beginTagPos = stringToProcess.search(regExp);
 
-    if (!beginTag) return stringToProcess;
+  //   if (!beginTag) return stringToProcess;
 
-    beginTag = beginTag[0];
+  //   beginTag = beginTag[0];
 
-    var hasClassAttribute = false;
-    var attributeNameMatch = beginTag.match(/[\"\'\s]class\s*\=\s*[\"\']?/);
-    if (!attributeNameMatch) {
-      resultString = stringToProcess.replace(beginTag, beginTag+' class="'+classNamesToInject+'"');
-    } else {
-      var attributeName = attributeNameMatch[0]
-      var valuePos = attributeName.length + attributeNameMatch.index;
-      var lastChar = beginTag.charAt(valuePos-1);
-      var charAfter = beginTag.charAt(valuePos);
+  //   var hasClassAttribute = false;
+  //   var attributeNameMatch = beginTag.match(/[\"\'\s]class\s*\=\s*[\"\']?/);
+  //   if (!attributeNameMatch) {
+  //     resultString = stringToProcess.replace(beginTag, beginTag+' class="'+classNamesToInject+'"');
+  //   } else {
+  //     var attributeName = attributeNameMatch[0];
+  //     var valuePos = attributeName.length + attributeNameMatch.index;
+  //     var lastChar = beginTag.charAt(valuePos-1);
+  //     var charAfter = beginTag.charAt(valuePos);
 
-      var lastCharIsPunc = !!lastChar.match(/[\'\"']/);
-      var lastCharIsSpace = !!lastChar.match(/\s/);
+  //     var lastCharIsPunc = !!lastChar.match(/[\'\"']/);
+  //     var lastCharIsSpace = !!lastChar.match(/\s/);
 
-      hasClassAttribute = !lastCharIsSpace;
+  //     hasClassAttribute = !lastCharIsSpace;
 
-      var newValueSuffix = '';
+  //     var newValueSuffix = '';
 
-      if (!hasClassAttribute) {
+  //     if (!hasClassAttribute) {
 
-        attributeName = attributeName.replace(/\s+$/, '');
-        newValueSuffix = charAfter.match(/[\s>]/) ? '' : ' ';
-        resultString = stringToProcess.replace(attributeName, attributeName+'"'+classNamesToInject+'"'+newValueSuffix);
+  //       attributeName = attributeName.replace(/\s+$/, '');
+  //       newValueSuffix = charAfter.match(/[\s>]/) ? '' : ' ';
+  //       resultString = stringToProcess.replace(attributeName, attributeName+'"'+classNamesToInject+'"'+newValueSuffix);
 
-      } else if (!lastCharIsPunc) {
+  //     } else if (!lastCharIsPunc) {
 
-        var attributePairMatch = beginTag.match(/[\"\'\s]class\s*\=\S+/);
-        var attributePair = attributePairMatch[0];
+  //       var attributePairMatch = beginTag.match(/[\"\'\s]class\s*\=\S+/);
+  //       var attributePair = attributePairMatch[0];
 
-        var attributePairResult = attributePair.replace(/([\"\'\s]class\s*\=)/, '$1'+'\"') + ' ' + classNamesToInject + '\"';
-        resultString = stringToProcess.replace(attributePair, attributePairResult);
+  //       var attributePairResult = attributePair.replace(/([\"\'\s]class\s*\=)/, '$1'+'\"') + ' ' + classNamesToInject + '\"';
+  //       resultString = stringToProcess.replace(attributePair, attributePairResult);
 
-      } else {
+  //     } else {
 
-        newValueSuffix = charAfter.match(/[\s\'\"']/) ? '' : ' ';
-        resultString = stringToProcess.replace(attributeName, attributeName+classNamesToInject+newValueSuffix);
+  //       newValueSuffix = charAfter.match(/[\s\'\"']/) ? '' : ' ';
+  //       resultString = stringToProcess.replace(attributeName, attributeName+classNamesToInject+newValueSuffix);
 
-      }
-    }
+  //     }
+  //   }
 
-    return resultString;
-  }
+  //   return resultString;
+  // }
 
   return gulp.src([
     pathNewDistCacheRoot+'/**/*.html',

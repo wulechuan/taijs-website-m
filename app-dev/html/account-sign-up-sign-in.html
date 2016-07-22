@@ -13,14 +13,14 @@
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="注册与登录" id="page-account-sign-up-sign-in"
-	 class="page"
+	 class="page bg-white"
 	><header class="page-header">
 		<div class="row header-bar">
 			<div class="center"
 				><div class="taijs-logo   image"></div
 				><div class="taijs-slogan image"></div
 			></div>
-			<div class="left"  ><a role="button" class="nav-home" href="../index.html"></a></div>
+			<div class="left"  ><a role="button" class="nav-home" href="../index.html?login=false"></a></div>
 		</div>		
 	</header>
 
@@ -136,45 +136,7 @@
 	</div>
 
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
-	<div role="dialog" class="popup-layer" id="pl-info-too-many-vcodes-today">
-		<div class="popup-window has-dialog shows-up-from-rightside">
-			<div class="dialog">
-				<header class="dialog-header"><h3>提示</h3></header>
-				<div class="dialog-body">
-					<div class="content">
-						<article class="message">
-							<p>该手机号码今天发送的验证码过多</p>
-						</article>
-					</div>
-				</div>
-				<footer class="dialog-footer">
-					<button class="promoted" button-action="confirm">确定</button>
-				</footer>
-			</div>
-		</div>
-	</div>
-	<div role="dialog" class="popup-layer" id="pl-input-image-vcode">
-		<div class="popup-window has-dialog">
-			<div class="dialog">
-				<header class="dialog-header"><h3>请输入图片验证码</h3></header>
-				<div class="dialog-body">
-					<div class="content">
-						<div class="row input-field input-image-vcode">
-							<div class="left"
-								><input placeholder="请输入图片验证码" type="text"
-									name="imagevcode" required
-							></div>
-							<div class="right"><span class="image-vcode" style="background-image: url(something);"></span></div>
-						</div>
-					</div>
-				</div>
-				<footer class="dialog-footer">
-					<span class="col"><button button-action="cancel">取消</button></span>
-					<span class="col"><button class="promoted" button-action="confirm">确定</button></span>
-				</footer>
-			</div>
-		</div>
-	</div>
+		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
 	<script src="../scripts/pages/account-sign-up-sign-in.min.js"></script>
