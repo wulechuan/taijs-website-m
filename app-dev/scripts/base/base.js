@@ -523,12 +523,18 @@
 	});
 
 
-	$('.progress-ring').each(function () {
+	$('.progress-rings').each(function () {
 		var progressRings = new wlc.UI.ProgressRings(this);
 
 		setTimeout(function () {
-			progressRings.setDegrees(39);
-		}, 5000);
+			progressRings.setDegrees(Math.random() * 199);
+		}, 50);
+		setTimeout(function () {
+			progressRings.setDegrees(0);
+		}, 80);
+		setTimeout(function () {
+			progressRings.setDegrees(360);
+		}, 120);
 	});
 
 

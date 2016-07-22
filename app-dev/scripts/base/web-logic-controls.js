@@ -1067,25 +1067,44 @@ window.webLogicControls = {};
 			}
 
 			this.options = {
+				takeLastQueuedDegreeOnly: true,
 				isUsingTransitions: true,
-				transitionsTotalDuration: 1.33
+				transitionsTotalDuration: 0.51219
 			};
 
 			this.config = config.bind(this);
 			this.setDegreeTo = setDegreeTo.bind(this);
 			this.setPercentageTo = setPercentageTo.bind(this);
+			this.setDegreeViaHTMLAttribute = function () {
+				this.setDegreeTo('html-attribute-value');
+			};
+
+			var half1, half2, pKeyTransitionDuration;
 
 			var halves = [];
-			var half1, half2;
+			var half1Settings = { index: 1 };
+			var half2Settings = { index: 2 };
 
 			var currentDegree = 0;
+			var status = {
+				isRunning: false,
+				queuedDegrees: []
+			}
 
 			init.call(this);
 
 			function init() {
+				var thisController = this;
 				this.config(initOptions);
 				prepareDoms();
-				this.setDegreeTo();
+				currentDegree = _parseDegreeVia(currentDegree);
+
+				if (initOptions && !!initOptions.disableInitialUpdate) {
+				} else {
+					setTimeout(function () {
+						thisController.setDegreeViaHTMLAttribute();
+					}, 0);
+				}
 			}
 
 			function prepareDoms () { // add or remve doms as needed
@@ -1135,6 +1154,37 @@ window.webLogicControls = {};
 
 				half1 = halves[0];
 				half2 = halves[1];
+
+				var _S = half1.style;
+				var possibleKeyPrefixes = [
+					'',
+					'webkit',
+					'ms',
+					'moz'
+				];
+
+				var keyName = 'transitionDuration';
+				for (var k = 0; k < possibleKeyPrefixes.length; k++) {
+					var pre = possibleKeyPrefixes[k];
+					if (!pre) {
+						key = keyName;
+					} else {
+						key = pre + keyName.slice(0, 1).toUpperCase() + keyName.slice(1);
+					}
+					if (typeof _S[key] === 'string') {
+						pKeyTransitionDuration = key;
+						break;
+					}
+				}
+
+				half1.style.transform = 'rotate(180deg)';
+				half2.style.transform = 'rotate(0deg)';
+
+				half1Settings.dom = half1;
+				half1Settings.style = half1.style;
+
+				half2Settings.dom = half2;
+				half2Settings.style = half2.style;
 			}
 
 			function config(options) {
@@ -1144,13 +1194,20 @@ window.webLogicControls = {};
 					this.options.isUsingTransitions = !! options.isUsingTransitions;
 				}
 
+				if (options.hasOwnProperty('takeLastQueuedDegreeOnly')) {
+					this.options.takeLastQueuedDegreeOnly = !! options.takeLastQueuedDegreeOnly;
+				}
+
 				var _num = parseFloat(options.transitionsTotalDuration);
 				if (!isNaN(_num) && _num > 0.05) {
 					this.options.transitionsTotalDuration = _num;
 				}
+
+				// console.log(this.options);
 			}
 
 			function _parseDegreeVia(degree) {
+				var inputWasValid = true;
 				var degreeFloatValue = NaN;
 
 				if (typeof degree === 'number' && !isNaN(degree)) {
@@ -1159,6 +1216,7 @@ window.webLogicControls = {};
 					degreeFloatValue = parseFloat(degree);
 
 					if (isNaN(degreeFloatValue)) {
+						inputWasValid = false;
 						degreeFloatValue = 0;
 					} else {
 						var stringIsPercentage = !!degree.match(/^\s*[\+\-]?[\d\.]*\d+%\D*\s*$/);
@@ -1177,130 +1235,20 @@ window.webLogicControls = {};
 				degreeFloatValue     = parseFloat(degree);
 				degreeFloatValueSafe = parseFloat(degreeSafe);
 
-				return {
+				if (degreeFloatValueSafe === 0 && degreeFloatValue >= 359.9999) degreeFloatValueSafe = 360;
+
+				var result = {
+					inputWasValid: inputWasValid,
 					raw: degreeFloatValue,
 					safe: degreeFloatValueSafe
-				};
+				}
+				// console.log(result);
+
+				return result;
 			}
 
 			function _getDegreeFromHtml() {
 				return _parseDegreeVia(rootElement.getAttribute('data-degree'));
-			}
-
-			function setDegreeTo(newDegree) {
-				if (typeof newDegree === 'undefined' || newDegree === null) {
-					newDegree = _getDegreeFromHtml();
-				} else if (!newDegree || typeof newDegree === 'number' || newDegree === true) {
-					newDegree = _parseDegreeVia(newDegree);
-				} else {
-					newDegree = _parseDegreeVia(newDegree.raw);
-				}
-
-				var oldSafeDegree = _parseDegreeVia(currentDegree);
-				var newSafeDegree = newDegree.safe;
-				var deltaTotalAbs = Math.abs(newSafeDegree - oldSafeDegree);
-				var eitherTransitionsIsNecessary = !!this.options.isUsingTransitions && deltaTotalAbs > 1; // at least one degree to change
-
-				console.log('=== from', oldSafeDegree.safe, 'to', newSafeDegree, '===');
-
-				var half1Settings = {
-					dom: half1,
-					style: half1.style,
-					oldDegree: Math.max(180, oldSafeDegree),
-					newDegree: Math.max(180, newSafeDegree)
-				};
-
-				var half2Settings = {
-					dom: half2,
-					style: half2.style,
-					oldDegree: Math.min(180, oldSafeDegree),
-					newDegree: Math.min(180, newSafeDegree)
-				};
-
-				_processHalfSettings(half1Settings, this.options.transitionsTotalDuration);
-				_processHalfSettings(half2Settings, this.options.transitionsTotalDuration);
-
-				function _processHalfSettings (_S, totalDuration) {
-					_S.delta = _S.oldDegree - _S.newDegree;
-					_S.deltaAbs = Math.abs(_S.delta);
-					_S.duration = totalDuration * _S.deltaAbs / deltaTotalAbs;
-					_S.transitionNecessary = eitherTransitionsIsNecessary && _S.duration > 0.01;
-					if (_S.transitionNecessary) {
-						_S.style.transitionDuration = _S.duration + 's';
-					} else {
-						_S.style.transitionProperty = 'none';
-					}
-				}
-
-
-				var halfA, halfB; // transition of halfA goes BEFORE transition of halfB
-
-				if (oldSafeDegree <= 180) {
-					halfA = half1Settings;
-					halfB = half2Settings;
-				} else {
-					halfA = half2Settings;
-					halfB = half1Settings;
-				}
-
-
-				// console.log('total delta abs:', deltaTotalAbs);
-				// console.log('either transition needed?', eitherTransitionsIsNecessary);
-				// console.log('settings:', '\n', halfA, '\n', halfB);
-				console.log('settings:', '\n', halfA.transitionNecessary, '\n', halfB.transitionNecessary);
-
-				updateHalfA();
-				if (!eitherTransitionsIsNecessary) {
-					setTimeout(function () {
-						onBothHalvesUpdated();
-					}, 10);
-				}
-
-				function updateHalfA() {
-					console.log('update A');
-					halfA.style.transform = 'rotate('+halfA.newDegree+'deg)';
-
-					if (!halfA.transitionNecessary) {
-						updateHalfB();
-					} else {
-						halfA.dom.addEventListener('transitionend', onTransitionAEnd);
-					}
-				}
-				function onTransitionAEnd () {
-					console.log('transition A end');
-					halfA.dom.removeEventListener('transitionend', onTransitionAEnd);
-					updateHalfB();
-				}
-
-				function updateHalfB() {
-					console.log('update B');
-					halfB.style.transform = 'rotate('+halfB.newDegree+'deg)';
-
-					if (!halfB.transitionNecessary) {
-						onBothHalvesUpdated();
-					} else {
-						halfB.dom.addEventListener('transitionend', onTransitionBEnd);
-					}
-				}
-				function onTransitionBEnd () {
-					console.log('transition B end');
-					halfB.dom.removeEventListener('transitionend', onTransitionBEnd);
-					onBothHalvesUpdated();
-				}
-
-				function onBothHalvesUpdated() {
-					halfA.style.transitionDuration = '';
-					halfB.style.transitionDuration = '';
-					halfA.style.transitionProperty = '';
-					halfB.style.transitionProperty = '';
-
-					rootElement.getAttribute('data-degree', newDegree.raw);
-					currentDegree = newDegree;
-					console.log('-------------', currentDegree);
-				}
-
-
-				return newDegree;
 			}
 
 			function setPercentageTo(newPercentage) {
@@ -1318,6 +1266,154 @@ window.webLogicControls = {};
 
 				this.setDegreeTo(newPercentage * 360);
 			}
+
+			function setDegreeTo(newDegree) {
+				queueOneNewDegree.call(this, newDegree);
+				doUpdateDegreeFromQueue.call(this);
+			}
+
+			function queueOneNewDegree(newDegree) {
+				if (newDegree === 'html-attribute-value') {
+					newDegree = _getDegreeFromHtml();
+				} else if (!newDegree || typeof newDegree === 'number' || newDegree === true) {
+					newDegree = _parseDegreeVia(newDegree);
+				} else {
+					newDegree = _parseDegreeVia(newDegree.raw);
+				}
+
+				if (this.options.takeLastQueuedDegreeOnly) {
+					status.queuedDegrees.splice(0);
+				}
+				status.queuedDegrees.push(newDegree);
+			}
+			function fetchDegreeFromQueue() {
+				return status.queuedDegrees.splice(0, 1)[0];
+			}
+
+			function doUpdateDegreeFromQueue() {
+				if (status.isRunning) {
+					return;
+				}
+
+				var newDegree = fetchDegreeFromQueue.call(this);
+				if (typeof newDegree !== 'object' || typeof newDegree.safe !== 'number' || isNaN(newDegree.safe)) {
+					return false;
+				}
+
+				var thisController = this;
+				status.isRunning = true;
+
+				var oldSafeDegree = currentDegree.safe;
+				var newSafeDegree = newDegree.safe;
+				var deltaTotalAbs = Math.abs(newSafeDegree - oldSafeDegree);
+				var eitherTransitionsIsNecessary = !!this.options.isUsingTransitions && deltaTotalAbs > 1; // at least one degree to change
+
+				// console.log('=== from', oldSafeDegree, 'to', newSafeDegree, '===', this.options.isUsingTransitions, deltaTotalAbs);
+
+				_processHalfSettings(
+					half1Settings,
+					Math.max(180, oldSafeDegree),
+					Math.max(180, newSafeDegree),
+					this.options.transitionsTotalDuration
+				);
+				_processHalfSettings(
+					half2Settings,
+					Math.min(180, oldSafeDegree),
+					Math.min(180, newSafeDegree),
+					this.options.transitionsTotalDuration
+				);
+
+				function _processHalfSettings (_S, oldSafeDegree, newSafeDegree, totalDuration) {
+					_S.oldDegree = oldSafeDegree;
+					_S.newDegree = newSafeDegree;
+					_S.delta = _S.oldDegree - _S.newDegree;
+					_S.deltaAbs = Math.abs(_S.delta);
+
+					if (deltaTotalAbs < 0.001) {
+						_S.duration = 0;
+					} else {
+						_S.duration = totalDuration * _S.deltaAbs / deltaTotalAbs;
+					}
+
+					_S.transitionNecessary = eitherTransitionsIsNecessary && _S.duration > 0.01 && _S.deltaAbs > 0.1;
+					if (_S.transitionNecessary) {
+						_S.style[pKeyTransitionDuration] = _S.duration + 's';
+						// console.log('transition:', _S.style[pKeyTransitionDuration], _S.deltaAbs+'deg: ', oldSafeDegree, 'to', newSafeDegree);
+					} else {
+						_S.style.transitionProperty = 'none';
+					}
+				}
+
+
+				var halfA, halfB; // transition of halfA goes BEFORE transition of halfB
+
+				if (oldSafeDegree > 180) {
+					halfA = half1Settings;
+					halfB = half2Settings;
+				} else {
+					halfA = half2Settings;
+					halfB = half1Settings;
+				}
+
+				// console.log('order:', halfA.index, ' >>> ', halfB.index);
+
+
+				updateHalfA();
+
+
+				function updateHalfA() {
+					// console.log('update A:\t', halfA.oldDegree, '-->', halfA.newDegree, '\ttransition?', halfA.transitionNecessary, '\t\t',halfA.duration,'sec');
+					halfA.style.transform = 'rotate('+halfA.newDegree+'deg)';
+
+					if (!halfA.transitionNecessary) {
+						updateHalfB();
+					} else {
+						// console.log('B is waiting for A...');
+						halfA.dom.addEventListener('transitionend', onTransitionAEnd);
+					}
+				}
+				function onTransitionAEnd () {
+					// console.log('transition A end');
+					halfA.dom.removeEventListener('transitionend', onTransitionAEnd);
+					updateHalfB();
+				}
+
+				function updateHalfB() {
+					// console.log('update B:\t', halfB.oldDegree, '-->', halfB.newDegree,  '\ttransition?', halfB.transitionNecessary, '\t\t',halfB.duration,'sec');
+					halfB.style.transform = 'rotate('+halfB.newDegree+'deg)';
+
+					if (!halfB.transitionNecessary) {
+						onBothHalvesUpdated();
+					} else {
+						// console.log('finishing is waiting for B...');
+						halfB.dom.addEventListener('transitionend', onTransitionBEnd);
+					}
+				}
+				function onTransitionBEnd () {
+					// console.log('transition B end');
+					halfB.dom.removeEventListener('transitionend', onTransitionBEnd);
+					onBothHalvesUpdated();
+				}
+
+				function onBothHalvesUpdated() {
+					halfA.style[pKeyTransitionDuration] = '';
+					halfB.style[pKeyTransitionDuration] = '';
+					halfA.style.transitionProperty = '';
+					halfB.style.transitionProperty = '';
+
+					rootElement.getAttribute('data-degree', newDegree.raw);
+					currentDegree = newDegree;
+
+					status.isRunning = false;
+					// console.trace('-------------', currentDegree);
+
+					doUpdateDegreeFromQueue.call(thisController);
+				}
+
+
+				return newDegree;
+			}
+
 		};
 
 		this.ProgressRings = function ProgressRings(rootElement, initOptions) {
@@ -1336,8 +1432,10 @@ window.webLogicControls = {};
 			}
 
 			this.options = {
+				takeLastQueuedDegreeOnly: true,
 				isUsingTransitions: true,
-				singleRingTransitionsTotalDuration: 1.33
+				singleRingTransitionsTotalDuration: 0.51219,
+				perRings: []
 			};
 
 			var rings = [];
@@ -1352,11 +1450,13 @@ window.webLogicControls = {};
 			init.call(this);
 
 			function init() {
+				this.config(initOptions, true);
+
 				for (var i = 0; i < ringsDom.length; i++) {
 					rings.push(new UI.ProgressRing(ringsDom[i]));
 				}
 
-				this.config(initOptions);
+				configRings.call(this);
 			}
 
 			function setDegrees(degrees) {
@@ -1375,11 +1475,15 @@ window.webLogicControls = {};
 				}
 			}
 
-			function config(options) {
+			function config(options, shouldNotConfigRings) {
 				if (typeof options !== 'object' || !options) return;
 
 				if (options.hasOwnProperty('isUsingTransitions')) {
 					this.options.isUsingTransitions = !! options.isUsingTransitions;
+				}
+
+				if (options.hasOwnProperty('takeLastQueuedDegreeOnly')) {
+					this.options.takeLastQueuedDegreeOnly = !! options.takeLastQueuedDegreeOnly;
 				}
 
 				var _num = parseFloat(options.singleRingTransitionsTotalDuration);
@@ -1387,25 +1491,55 @@ window.webLogicControls = {};
 					this.options.singleRingTransitionsTotalDuration = _num;
 				}
 
+				var _opr;
 				if (typeof options.perRings === 'object') {
 					var _opr = options.perRings;
 					if (!Array.isArray(_opr)) _opr = [_opr];
+				} else {
+					_opr = [];
+				}
 
-					var ringsCount = rings.length;
-					var i;
 
-					if (_opr.length < ringsCount) {
-						for (i = _opr.length; i < ringsCount; i++) {
-							_opr[i] = {
-								isUsingTransitions: this.options.isUsingTransitions,
-								transitionsTotalDuration: this.options.singleRingTransitionsTotalDuration
-							};
-						}
+				var ringsCount = ringsDom.length;
+				var i;
+
+				for (i = 0; i < _opr.length; i++) {
+					var _oprI = _opr[i];
+
+					if (!_oprI.hasOwnProperty('isUsingTransitions')) {
+						_oprI.isUsingTransitions = !! this.options.isUsingTransitions;
 					}
 
-					for (i = 0; i < ringsCount; i++) {
-						rings[i].config(_opr[i]);
+					if (_oprI.hasOwnProperty('takeLastQueuedDegreeOnly')) {
+						_oprI.takeLastQueuedDegreeOnly = !! this.options.takeLastQueuedDegreeOnly;
 					}
+
+					var _num = parseFloat(_oprI.singleRingTransitionsTotalDuration);
+					if (isNaN(_num) || _num < 0) {
+						_oprI.transitionsTotalDuration = this.options.singleRingTransitionsTotalDuration;
+					}
+				}
+
+				for (i = _opr.length; i < ringsCount; i++) {
+					_opr[i] = {
+						isUsingTransitions: this.options.isUsingTransitions,
+						takeLastQueuedDegreeOnly: this.options.takeLastQueuedDegreeOnly,
+						transitionsTotalDuration: this.options.singleRingTransitionsTotalDuration
+					};
+				}
+
+				this.options.perRings = _opr;
+
+				if (!shouldNotConfigRings) {
+					configRings.call(this);
+				}
+			}
+
+			function configRings() {
+				var _opr = this.options.perRings;
+				var ringsCount = rings.length;
+				for (i = 0; i < ringsCount; i++) {
+					rings[i].config(_opr[i]);
 				}
 			}
 		};

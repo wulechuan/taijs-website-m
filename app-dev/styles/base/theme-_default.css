@@ -463,10 +463,10 @@ label.deco-input {
 	}
 
 
-.progress-ring .ring {
+.progress-rings .ring {
 	border-color: #eaeaea;
 	}
-	.progress-ring .ring .half {
+	.progress-rings .ring .half {
 		border-color: #f60;
 	}
 
