@@ -822,8 +822,6 @@ article.message {
 	.entity-buyable.entity-time-limited .entity-body .call-to-action button[button-action="call-to-action"] {
 		width: 3.75rem;
 		height: 3.75rem;
-/* 		width: 3.8rem;
-		height: 3.8rem; */
 	}
 
 	.entity-body .f-list {

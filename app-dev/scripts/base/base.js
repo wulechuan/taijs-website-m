@@ -351,7 +351,7 @@
 		$allRequiredInputs.each(function (index) {
 			var tnlc = this.tagName.toLowerCase();
 
-			var validatorForInputOrTextarea = function () {
+			function validatorForInputOrTextarea() {
 				allInputsValidation[index] = !!this.value.replace(/^\s+/, '').replace(/\s+$/, '').length;
 				_validateAllRequiredInputs();
 			}
@@ -525,28 +525,35 @@
 
 	$('.progress-rings').each(function (index) {
 		var progressRings = new wlc.UI.ProgressRings(this, {
-			takeLastQueuedDegreeOnly: false,
-			useTransitions: false,
-			disableInitialUpdate: true,
-			// singleRingTransitionsTotalDuration: 2,
+			// takeLastQueuedDegreeOnly: false,
+			// useTransitions: false,
+			// disableInitialUpdate: true,
+			// treatTotalDurationAsRoughSpeed: false,
+			// singleRingTransitionsTotalDuration: 1,
 			// perRings: [
 			// 	{ transitionsTotalDuration: 2 }
 			// ]
 		});
 
 
+		var pageWidth = window.innerWidth;
+		function update(pageX) {
+			// return false;
+			var margin = 75;
+			progressRings.setDegrees(
+				Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360
+			);
+		}
+		function print() {
+			c.l('Got degree:', progressRings.getDegree());
+		}
 
 		if (index === 0) {
 			var move = false;
 			var waiting = false;
-			var deg = 0;
-			var margin = 100;
-			function update(pageX) {
-				progressRings.setDegrees(
-					Math.max(0, Math.min(1, (pageX - margin) / (window.innerWidth - margin - margin))) * 360
-				);
-			}
-			$('.page-body')
+			setTimeout(print, 1000);
+
+			$(document.body)
 				.on('mousedown', function (event) {
 					update(event.pageX);
 					move = true;
@@ -556,16 +563,14 @@
 					if (waiting) return false;
 					waiting = true;
 					setTimeout(function () {
-						update(event.pageX);
+						// update(event.pageX);
 						waiting = false;
 					}, 100);
 				})
 				.on('mouseup', function () {
 					move = false;
 					waiting = false;
-					setTimeout(function () {
-						c.l(progressRings.getDegree());
-					}, 1000);
+					// setTimeout(print, 1000);
 				})
 			;
 		}
@@ -887,7 +892,7 @@
 
 
 (function fakeLogics() {
-	var DC = new webLogicControls.UI.DraggingController(
+	window.DC = new webLogicControls.UI.DraggingController(
 		document.body,
 		{
 			movingElement: $('.app-fg-layer')[0],

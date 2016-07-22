@@ -1409,7 +1409,6 @@ label.deco-input {
 		height: 100%;
 		overflow: hidden;
 		perspective: 1px;
-		perspective-origin: top;
 		transfrom-style: preserver-3d;
 	}
 
@@ -1434,9 +1433,9 @@ label.deco-input {
 		.progress-rings .ring .half-mask .half::before,
 		.progress-rings .ring::before {
 			border-radius: 50%;
-			border-width: 1.5rem; /* set this to be ten times the desired value because the ring is going to be scaled down */
 			border-style: solid;
-			margin: 2px;
+			border-width: 0.15rem;
+			margin: 0px;
 		}
 		.progress-rings .ring {
 			box-sizing: border-box!important;
@@ -1444,10 +1443,10 @@ label.deco-input {
 			right: 0;
 			top: 0;
 			bottom: 0;
-			width: 1000%; /* make sure raw rendering dimensions pixel counts are integers, thus avoiding render defects */
-			height: 1000%;
-			margin: -450%;
-			transform: scale3d(0.1, 0.1, 0.1); /* scale it back down to desired size */
+			width: 100%;
+			height: 100%;
+			margin: 0%;
+			transform: scale3d(1, 1, 1);
 		}
 
 		.progress-rings .ring::before {
@@ -1467,9 +1466,6 @@ label.deco-input {
 			width: 50%;
 			height: 100%;
 			margin: 0;
-			/* width: calc(50% + 2px);
-			height: calc(100% + 4px);
-			margin: -2px; */
 			border-width: 0;
 			}
 			.progress-rings .ring .half-mask .half {
@@ -1498,6 +1494,10 @@ label.deco-input {
 			}
 
 
+		.progress-rings .ring .half-mask .half.no-transition {
+			transition-property: none!important;
+		}
+
 
 		.progress-rings .ring .half-mask {
 			overflow: hidden;
@@ -1508,7 +1508,6 @@ label.deco-input {
 				.progress-rings .ring .half-mask.half-1 .half {
 					transform: rotate(0deg);
 					left: -100%;
-					left: calc(-100% - 4px); /* for removing chrome render defects */
 				}
 
 			.progress-rings .ring .half-mask.half-2 {
@@ -1517,11 +1516,50 @@ label.deco-input {
 				.progress-rings .ring .half-mask.half-2 .half {
 					transform: rotate(180deg);
 					left: 0;
-					left: 4px; /* for removing chrome render defects */
 				}
 
 			.progress-rings .ring .half-mask .half::before {
 				left: 0;
+			}
+
+
+		.progress-rings .ring.quadruple-scale-down {
+			width: 400%; /* make sure raw rendering dimensions pixel counts are integers, thus avoiding render defects */
+			height: 400%;
+			margin: -150%;
+			transform: scale3d(0.25, 0.25, 0.25); /* scale it back down to desired size */
+			}
+			.progress-rings .ring.quadruple-scale-down .half-mask .half::before,
+			.progress-rings .ring.quadruple-scale-down::before {
+				border-width: 0.6rem; /* set this to be ten times the desired value because the ring is going to be scaled down */
+				margin: 1px;
+			}
+			.progress-rings .ring.quadruple-scale-down .half-mask.half-1 .half {
+				left: calc(-100% - 2px); /* for removing chrome render defects */
+			}
+
+			.progress-rings .ring.quadruple-scale-down .half-mask.half-2 .half {
+				left: 2px; /* for removing chrome render defects */
+			}
+
+
+		.progress-rings .ring.huge-scale-down {
+			width: 1000%; /* make sure raw rendering dimensions pixel counts are integers, thus avoiding render defects */
+			height: 1000%;
+			margin: -450%;
+			transform: scale3d(0.1, 0.1, 0.1); /* scale it back down to desired size */
+			}
+			.progress-rings .ring.huge-scale-down .half-mask .half::before,
+			.progress-rings .ring.huge-scale-down::before {
+				border-width: 1.5rem; /* set this to be ten times the desired value because the ring is going to be scaled down */
+				margin: 3px;
+			}
+			.progress-rings .ring.huge-scale-down .half-mask.half-1 .half {
+				left: calc(-100% - 4px); /* for removing chrome render defects */
+			}
+
+			.progress-rings .ring.huge-scale-down .half-mask.half-2 .half {
+				left: 4px; /* for removing chrome render defects */
 			}
 
 
@@ -1531,12 +1569,12 @@ label.deco-input {
 				1) google chrome has some rendering issues,
 				2) negative margin values for all ::before pseudo elments works
 		*/
-		/* .progress-rings .ring.uses-css-clip {
+		.progress-rings .ring.uses-css-clip {
 			}
 
 			.progress-rings .ring.uses-css-clip .half-mask .half::before,
 			.progress-rings .ring.uses-css-clip::before {
-				margin: -20px;
+				margin: 2px;
 			}
 
 			.progress-rings .ring.uses-css-clip .half-mask .half {
@@ -1557,7 +1595,7 @@ label.deco-input {
 				left: -100%;
 				right: 0;
 				bottom: 0;
-			} */
+			}
 
 
 

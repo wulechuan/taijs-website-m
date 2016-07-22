@@ -1315,11 +1315,17 @@ window.webLogicControls = {};
 			}
 
 			// $(rootElement).addClass('uses-css-clip');
+			// $(rootElement).removeClass('huge-scale-down').removeClass('quadruple-scale-down'); // really bad
+			// $(rootElement).addClass('huge-scale-down').removeClass('quadruple-scale-down'); // smooth but blur
+			$(rootElement).addClass('quadruple-scale-down').removeClass('huge-scale-down'); // balanced
 
 			this.options = {
-				takeLastQueuedDegreeOnly: true,
+				useCanvas: false,
 				useTransitions: true,
-				transitionsTotalDuration: 2.51219
+				transitionsTotalDuration: 0.51219,
+				treatTotalDurationAsRoughSpeed: true, // that is 360deg per duration
+				doNotQueueAnyDregree: false,
+				takeLastQueuedDegreeOnly: true,
 			};
 
 			this.config = config.bind(this);
@@ -1344,23 +1350,35 @@ window.webLogicControls = {};
 				queuedDegrees: []
 			};
 
+			var half1DegreeMeansHidden = 0;
+			var half2DegreeMeansHidden = 180;
+
 			init.call(this);
 
 			function init() {
 				var thisController = this;
-				this.config(initOptions);
-				prepareDoms();
+				this.config(initOptions, true);
 				currentDegree = _parseDegreeVia(currentDegree);
 
 				if (initOptions && !!initOptions.disableInitialUpdate) {
 				} else {
-					setTimeout(function () {
+					setTimeout(function () { // important for first running, especially for the first acting half element
 						thisController.setDegreeViaHTMLAttribute();
 					}, 0);
 				}
 			}
 
-			function prepareDoms () { // add or remve doms as needed
+			function prepareDoms() {
+				if (this.options.useCanvas) {
+					prepareDomsForCanvas.call(this);
+				} else {
+					prepareDomsForTransitions.call(this);
+				}
+			}
+			function prepareDomsForCanvas() {
+
+			}
+			function prepareDomsForTransitions() { // add or remve doms as needed
 				var $halfMasks = $(rootElement).find('> .half-mask');
 				var count, i, j, _mask, $half, _half;
 
@@ -1434,8 +1452,8 @@ window.webLogicControls = {};
 					}
 				}
 
-				half1.style.transform = 'rotate(180deg)';
-				half2.style.transform = 'rotate(0deg)';
+				half1.style.transform = 'rotate('+half1DegreeMeansHidden+'deg)';
+				half2.style.transform = 'rotate('+half2DegreeMeansHidden+'deg)';
 
 				half1Settings.dom = half1;
 				half1Settings.style = half1.style;
@@ -1444,33 +1462,24 @@ window.webLogicControls = {};
 				half2Settings.style = half2.style;
 			}
 
-			function config(options) {
+			function config(options, isInitializing) {
 				if (typeof options !== 'object' || !options) return;
 
-				WCU.setValue.boolean(this.options, 'disableInitialUpdate', options);
-				WCU.setValue.boolean(this.options, 'useTransitions', options);
-				WCU.setValue.boolean(this.options, 'takeLastQueuedDegreeOnly', options);
-				WCU.setValue.numberNoLessThan(this.options, 'singleRingTransitionsTotalDuration', options, false, 0.05);
+				var R;
 
+					WCU.setValue.boolean(this.options, 'disableInitialUpdate', options);
+				R = WCU.setValue.boolean(this.options, 'useCanvas', options);
+					WCU.setValue.boolean(this.options, 'useTransitions', options);
+					WCU.setValue.boolean(this.options, 'doNotQueueAnyDregree', options);
+					WCU.setValue.boolean(this.options, 'takeLastQueuedDegreeOnly', options);
+					WCU.setValue.boolean(this.options, 'treatTotalDurationAsRoughSpeed', options);
+					WCU.setValue.numberNoLessThan(this.options, 'transitionsTotalDuration', options, false, 0.05);
 
-				// if (options.hasOwnProperty('disableInitialUpdate')) {
-				// 	this.options.disableInitialUpdate = !! options.disableInitialUpdate;
-				// }
+				if (isInitializing || R.valueHasBeenChanged) {
+					prepareDoms.call(this);
+				}
 
-				// if (options.hasOwnProperty('useTransitions')) {
-				// 	this.options.useTransitions = !! options.useTransitions;
-				// }
-
-				// if (options.hasOwnProperty('takeLastQueuedDegreeOnly')) {
-				// 	this.options.takeLastQueuedDegreeOnly = !! options.takeLastQueuedDegreeOnly;
-				// }
-
-				// var _num = parseFloat(options.transitionsTotalDuration);
-				// if (!isNaN(_num) && _num > 0.05) {
-				// 	this.options.transitionsTotalDuration = _num;
-				// }
-
-				console.log('result', this.options);
+				// console.log('single ring configered: ', this.options);
 			}
 
 			function _parseDegreeVia(degree) {
@@ -1520,7 +1529,7 @@ window.webLogicControls = {};
 
 			function getDegree() {
 				if (typeof currentTargetDegree !== 'object') {
-					return undefined;
+					return 0;
 				}
 
 				return currentTargetDegree.raw;
@@ -1547,7 +1556,10 @@ window.webLogicControls = {};
 			}
 
 			function setDegreeTo(newDegree) {
-				queueOneNewDegree.call(this, newDegree);
+				if (status.isRunning && this.options.doNotQueueAnyDregree) {
+				} else {
+					queueOneNewDegree.call(this, newDegree);
+				}
 				doUpdateDegreeFromQueue.call(this);
 			}
 
@@ -1571,7 +1583,7 @@ window.webLogicControls = {};
 			}
 
 			function doUpdateDegreeFromQueue() {
-				c.l('hi', status.isRunning);
+				// c.l('This ring is already running:', status.isRunning);
 				if (status.isRunning) {
 					return;
 				}
@@ -1582,7 +1594,6 @@ window.webLogicControls = {};
 				}
 
 				currentTargetDegree = newDegree;
-				c.l('hi hi hi hi hi', currentTargetDegree);
 
 				var thisController = this;
 				status.isRunning = true;
@@ -1592,22 +1603,22 @@ window.webLogicControls = {};
 				var deltaTotalAbs = Math.abs(newSafeDegree - oldSafeDegree);
 				var eitherTransitionsIsNecessary = !!this.options.useTransitions && deltaTotalAbs > 1; // at least one degree to change
 
-				console.log('=== from', oldSafeDegree, 'to', newSafeDegree, '===', deltaTotalAbs, 'transition?', this.options.useTransitions, '\t', this.options.transitionsTotalDuration, 'sec');
+				// console.log('\n\n=== from', oldSafeDegree, 'to', newSafeDegree, '===', deltaTotalAbs, 'transition?', this.options.useTransitions, '\t', this.options.transitionsTotalDuration, 'sec');
 
-				_processHalfSettings(
+				_processHalfSettings.call(this,
 					half1Settings,
 					Math.min(180, oldSafeDegree),
 					Math.min(180, newSafeDegree),
 					this.options.transitionsTotalDuration
 				);
-				_processHalfSettings(
+				_processHalfSettings.call(this,
 					half2Settings,
 					Math.max(180, oldSafeDegree),
 					Math.max(180, newSafeDegree),
 					this.options.transitionsTotalDuration
 				);
 
-				function _processHalfSettings (_S, oldSafeDegree, newSafeDegree, totalDuration) {
+				function _processHalfSettings (_S, oldSafeDegree, newSafeDegree, totalDurationOrSpeed) {
 					_S.oldDegree = oldSafeDegree;
 					_S.newDegree = newSafeDegree;
 					_S.delta = _S.oldDegree - _S.newDegree;
@@ -1616,26 +1627,31 @@ window.webLogicControls = {};
 					if (deltaTotalAbs < 0.001) {
 						_S.duration = 0;
 					} else {
-						_S.duration = totalDuration * _S.deltaAbs / deltaTotalAbs;
+						if (this.options.treatTotalDurationAsRoughSpeed) {
+							_S.duration = totalDurationOrSpeed * _S.deltaAbs / 360;
+						} else {
+							_S.duration = totalDurationOrSpeed * _S.deltaAbs / deltaTotalAbs;
+						}
 					}
 
 					_S.transitionNecessary = eitherTransitionsIsNecessary && _S.duration > 0.01 && _S.deltaAbs > 0.1;
 					if (_S.transitionNecessary) {
+						$(_S.dom).removeClass('no-transition');
 						_S.style[pKeyTransitionDuration] = _S.duration + 's';
 					} else {
-						_S.style.transitionProperty = 'none';
+						$(_S.dom).addClass('no-transition');
 					}
-					console.log('transition?', _S.transitionNecessary, '\t',
-						_S.style[pKeyTransitionDuration],
-						'\t\t', _S.deltaAbs+' deg to go: ',
-						oldSafeDegree, 'to', newSafeDegree
-					);
+					// console.log('transition?', _S.transitionNecessary, '\t',
+					// 	_S.style[pKeyTransitionDuration],
+					// 	'\t\t', _S.deltaAbs+' deg to go: ',
+					// 	oldSafeDegree, 'to', newSafeDegree
+					// );
 				}
 
 
 				var halfA, halfB; // transition of halfA goes BEFORE transition of halfB
 
-				if (oldSafeDegree > 180) {
+				if (oldSafeDegree <= 180) {
 					halfA = half1Settings;
 					halfB = half2Settings;
 				} else {
@@ -1643,59 +1659,67 @@ window.webLogicControls = {};
 					halfB = half1Settings;
 				}
 
-				// console.log('order:', halfA.index, ' >>> ', halfB.index);
+				// console.log('action order will be: half', halfA.index, '>>> half', halfB.index);
 
 
 				updateHalfA();
+				var aTransitionEndedAnyHow = false;
+				var bTransitionEndedAnyHow = false;
 
 
 				function updateHalfA() {
-					console.log('update A [',halfA.index,']:\t', halfA.oldDegree, '-->', halfA.newDegree, '\ttransition?', halfA.transitionNecessary, '\t\t',halfA.duration,'sec');
+					// console.log('update A [', halfA.index,']:\t', halfA.oldDegree, '-->', halfA.newDegree, '\t transition?', halfA.transitionNecessary, '\t\t',halfA.duration,'sec');
 					halfA.style.transform = 'rotate('+halfA.newDegree+'deg)';
 
 					if (!halfA.transitionNecessary) {
-						setTimeout(function () {
-							updateHalfB();
-						}, 0);
+						updateHalfB();
 					} else {
-						console.log('B is waiting for A...');
+						// console.log('B is waiting for A...');
+						setTimeout(function () { onTransitionAEnd(false); }, halfA.duration * 1010);
 						halfA.dom.addEventListener('transitionend', onTransitionAEnd);
 					}
 				}
-				function onTransitionAEnd () {
-					console.log('transition A end');
+				function onTransitionAEnd (eventOrFalse) {
+					if (aTransitionEndedAnyHow) return true;
+
+					// console.log('transition A end.\t\t\t from timer?', eventOrFalse===false, halfA.duration);
 					halfA.dom.removeEventListener('transitionend', onTransitionAEnd);
+					aTransitionEndedAnyHow = true;
 					updateHalfB();
 				}
 
 				function updateHalfB() {
-					console.log('update B [',halfB.index,']:\t', halfB.oldDegree, '-->', halfB.newDegree,  '\ttransition?', halfB.transitionNecessary, '\t\t',halfB.duration,'sec');
+					// console.log('update B [', halfB.index,']:\t', halfB.oldDegree, '-->', halfB.newDegree, '\t transition?', halfB.transitionNecessary, '\t\t',halfB.duration,'sec');
 					halfB.style.transform = 'rotate('+halfB.newDegree+'deg)';
 
 					if (!halfB.transitionNecessary) {
 						onBothHalvesUpdated();
 					} else {
-						console.log('finishing is waiting for B...');
+						// console.log('finishing is waiting for B...');
+						setTimeout(function () { onTransitionBEnd(false); }, halfB.duration * 1010);
 						halfB.dom.addEventListener('transitionend', onTransitionBEnd);
 					}
 				}
-				function onTransitionBEnd () {
-					console.log('transition B end');
+				function onTransitionBEnd (eventOrFalse) {
+					if (bTransitionEndedAnyHow) return true;
+
+					// console.log('transition B end.\t from timer?', eventOrFalse===false, halfB.duration);
 					halfB.dom.removeEventListener('transitionend', onTransitionBEnd);
+					bTransitionEndedAnyHow = true;
 					onBothHalvesUpdated();
 				}
 
 				function onBothHalvesUpdated() {
 					halfA.style[pKeyTransitionDuration] = '';
 					halfB.style[pKeyTransitionDuration] = '';
-					halfA.style.transitionProperty = '';
-					halfB.style.transitionProperty = '';
+
+					$(rootElement).removeClass('no-transition');
 
 					rootElement.getAttribute('data-degree', newDegree.raw);
 					currentDegree = newDegree;
 
 					status.isRunning = false;
-					console.trace('-- everything done! --', currentDegree);
+					// console.trace('-- everything done! --', currentDegree);
 
 					doUpdateDegreeFromQueue.call(thisController);
 				}
@@ -1722,9 +1746,11 @@ window.webLogicControls = {};
 			}
 
 			this.options = {
-				// takeLastQueuedDegreeOnly: true,
 				// useTransitions: true,
 				// singleRingTransitionsTotalDuration: NaN,
+				// treatTotalDurationAsRoughSpeed: true,
+				// doNotQueueAnyDregree: false,
+				// takeLastQueuedDegreeOnly: true,
 				perRings: []
 			};
 
@@ -1812,7 +1838,9 @@ window.webLogicControls = {};
 
 				WCU.setValue.boolean(this.options, 'disableInitialUpdate', options, true);
 				WCU.setValue.boolean(this.options, 'useTransitions', options, true);
+				WCU.setValue.boolean(this.options, 'doNotQueueAnyDregree', options, true);
 				WCU.setValue.boolean(this.options, 'takeLastQueuedDegreeOnly', options, true);
+				WCU.setValue.boolean(this.options, 'treatTotalDurationAsRoughSpeed', options, true);
 				WCU.setValue.numberPositive(this.options, 'singleRingTransitionsTotalDuration', options, true);
 
 				if (options.hasOwnProperty('perRings')) {
@@ -1844,7 +1872,9 @@ window.webLogicControls = {};
 
 							WCU.setValue.boolean(_oprTI, 'disableInitialUpdate', _oprSI, true);
 							WCU.setValue.boolean(_oprTI, 'useTransitions', _oprSI, true);
+							WCU.setValue.boolean(_oprTI, 'doNotQueueAnyDregree', _oprSI, true);
 							WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oprSI, true);
+							WCU.setValue.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oprSI, true);
 							WCU.setValue.numberPositive(_oprTI, 'singleRingTransitionsTotalDuration', _oprSI, true);
 						}
 					}
@@ -1918,9 +1948,9 @@ window.webLogicControls = {};
 						WCU.setValue.boolean(_oprTI, 'disableInitialUpdate', _oGlobalDefault);
 					}
 
-					R = WCU.setValue.boolean(_oprTI, 'useTransitions', _oprSI);
+					R = WCU.setValue.boolean(_oprTI, 'doNotQueueAnyDregree', _oprSI);
 					if (!R.valueHasBeenCreated) {
-						WCU.setValue.boolean(_oprTI, 'useTransitions', _oGlobalDefault);
+						WCU.setValue.boolean(_oprTI, 'doNotQueueAnyDregree', _oGlobalDefault);
 					}
 
 					R = WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oprSI);
@@ -1928,12 +1958,22 @@ window.webLogicControls = {};
 						WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oGlobalDefault);
 					}
 
+					R = WCU.setValue.boolean(_oprTI, 'useTransitions', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.boolean(_oprTI, 'useTransitions', _oGlobalDefault);
+					}
+
+					R = WCU.setValue.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oGlobalDefault);
+					}
+
 					R = WCU.setValue.numberPositive(_oprTI, 'transitionsTotalDuration', _oprSI);
 					if (!R.valueHasBeenCreated) {
 						WCU.setValue.numberPositive(_oprTI, 'transitionsTotalDuration', _oGlobalDefault.singleRingTransitionsTotalDuration);
 					}
 
-					// c.l(_oprTI);
+					// c.l('merged options for ring ['+i+']', _oprTI);
 					results.optionsPerRings.push(_oprTI);
 				}
 
