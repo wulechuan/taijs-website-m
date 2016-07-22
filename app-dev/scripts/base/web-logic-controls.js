@@ -1314,7 +1314,7 @@ window.webLogicControls = {};
 				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
 			}
 
-			$(rootElement).addClass('uses-css-clip');
+			// $(rootElement).addClass('uses-css-clip');
 
 			this.options = {
 				takeLastQueuedDegreeOnly: true,

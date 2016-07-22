@@ -524,7 +524,7 @@
 
 
 	$('.progress-rings').each(function () {
-		var testInit = true;
+		var testInit = false;
 		var progressRings = new wlc.UI.ProgressRings(this, {
 			takeLastQueuedDegreeOnly: false,
 			// useTransitions: false,

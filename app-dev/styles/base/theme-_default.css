@@ -469,12 +469,12 @@ label.deco-input {
 	.progress-rings .ring .half {
 		border-color: #f60;
 	}
-	.progress-rings .ring .half-1 .half{
-		border-color: rgba(0, 0, 255, 0.2);
+/* 	.progress-rings .ring .half-1 .half{
+		border-color: rgba(0, 0, 255, 0.4);
 	}
 	.progress-rings .ring .half-2 .half{
-		border-color: rgba(255, 0, 0, 0.2);
-	}
+		border-color: rgba(255, 0, 0, 0.4);
+	} */
 
 
 .f-list > li > .label {
