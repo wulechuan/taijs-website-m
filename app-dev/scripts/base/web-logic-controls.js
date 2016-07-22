@@ -2,6 +2,7 @@ window.webLogicControls = {};
 
 (function () {
 	var wlc = this;
+	var nilFunction = function () {};
 
 
 	var AbstractClass = {};
@@ -11,11 +12,258 @@ window.webLogicControls = {};
 	}).call(AbstractClass);
 
 
-	var CU = {};
-	this.CoreUtilities = CU;
+	var WCU = {};
+	this.CoreUtilities = WCU;
 	(function () { // CoreUtilities
+		if (window.console && typeof window.console.log === 'function') {
+			window.c = window.console;
+			c.l = c.log;
+			c.t = c.trace;
+			c.w = c.warn;
+			c.e = c.error;
+		} else {
+			window.c = {
+				l: nilFunction,
+				t: nilFunction,
+				w: nilFunction,
+				e: nilFunction
+			};
+		}
 
-	}).call(CU);
+		var setValue = {};
+		this.setValue = setValue;
+		(function () {
+			function updateSimpleValue(recursiveDepth, typeString, targetObject, key, sourceValue, allowToRemoveTargetValue, valueParser) {
+				var resultStates = {
+					newValueHasBeenTaken: false,
+					oldValueHasBeenRemoved: false,
+					valueHasBeenChanged: false,
+					valueHasBeenCreated: false,
+					valueTypeChanged: false,
+					inputValueWasInvalid: false
+				};
+				// The value is NOT necessarily to change for newValueHasBeenTaken to be true.
+				// for example:
+				//     at begining:
+				//         targetObject.propertyA === 3
+				//     then:
+				//         targetObject.propertyA = 3
+				// In this situation, the newValueHasBeenTaken is true even if the values before and after this action happen to be the same.
+
+				allowToRemoveTargetValue = !!allowToRemoveTargetValue;
+
+				var oldValueExisted = targetObject.hasOwnProperty(key);
+				var oldValue = targetObject[key];
+				var targetValueOldTypeWrong = oldValueExisted && typeof oldValue !== typeString;
+				var warningMessage = 'Property "'+key+'" has been set to a "'+typeString+'" value. Note that the old value was of type "'+typeof targetObject[key]+'".';
+
+				if (!key || typeof key !== 'string' || typeof targetObject !== 'object' || !targetObject) {
+					throw('Invalid targetObject or key provided.');
+				} else {
+					if (typeof sourceValue === 'function') {
+
+						resultStates.inputValueWasInvalid = true;
+
+					} else if (typeof sourceValue === 'undefined') {
+
+						if (allowToRemoveTargetValue) {
+
+							/* *********************************** */
+							delete targetObject[key];
+							/* *********************************** */
+
+							resultStates.oldValueHasBeenRemoved = oldValueExisted;
+							resultStates.valueHasBeenChanged = oldValueExisted && typeof oldValue !== 'undefined';
+						} else {
+							resultStates.inputValueWasInvalid = true;
+						}
+
+					} else if (sourceValue === null) {
+
+						if (allowToRemoveTargetValue) {
+
+							/* *********************************** */
+							delete targetObject[key];
+							/* *********************************** */
+
+							resultStates.oldValueHasBeenRemoved = oldValueExisted;
+							resultStates.valueHasBeenChanged = oldValue !== null;
+						} else {
+							resultStates.inputValueWasInvalid = true;
+						}
+
+					} else {
+
+						if (typeof sourceValue !== 'object') {
+							var parsedResult;
+							if (typeof valueParser !== 'function') {
+								parsedResult = {
+									isValid: true,
+									value: sourceValue
+								};
+							} else {
+								parsedResult = valueParser(sourceValue);
+							}
+
+							if (parsedResult.isValid) {
+
+								/* *********************************** */
+								targetObject[key] = parsedResult.value; 
+								/* *********************************** */
+
+								resultStates.newValueHasBeenTaken = true;
+								resultStates.valueHasBeenChanged = targetObject[key] !== oldValue;
+								resultStates.valueHasBeenCreated = !oldValueExisted;
+
+								if (targetValueOldTypeWrong) {
+									resultStates.valueTypeChanged = true;
+									console.warn(warningMessage);
+								}
+							} else {
+								resultStates.inputValueWasInvalid = true;
+							}
+
+						} else if (typeof sourceValue === 'object' && sourceValue !== null && sourceValue.hasOwnProperty(key)) {
+							if (recursiveDepth && recursiveDepth > 0) {
+								resultStates = updateSimpleValue(recursiveDepth-1, typeString, targetObject, key, sourceValue[key], allowToRemoveTargetValue, valueParser);
+							} else {
+								resultStates.inputValueWasInvalid = true;
+							}
+						}
+
+					}
+				}
+
+				return resultStates;
+			}
+
+			this.boolean = function (targetObject, key, sourceValue, allowToRemoveTargetValue) {
+				return updateSimpleValue(
+					1,
+					'boolean',
+					targetObject,
+					key,
+					sourceValue,
+					allowToRemoveTargetValue,
+					function (value) {
+						return {
+							isValid: true,
+							value: !!value
+						};
+					}
+				);
+			};
+			this.number = function (targetObject, key, sourceValue, allowToRemoveTargetValue, allowNaNValue, customParser) {
+				return updateSimpleValue(
+					1,
+					'number',
+					targetObject,
+					key,
+					sourceValue,
+					allowToRemoveTargetValue,
+					function (value) {
+						var result = {
+							isValid: true,
+							value: value
+						};
+						result.value = parseFloat(value);
+						result.isValid = !!allowNaNValue || !isNaN(result.value);
+						if (result.isValid && typeof customParser === 'function') {
+							result = customParser(value);
+						}
+						return result;
+					}
+				);
+			};
+			this.numberPositive = function (targetObject, key, sourceValue, allowToRemoveTargetValue) {
+				return this.number(
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
+					false,
+					function (value) {
+						return {
+							isValid: value > 0,
+							value: value
+						};
+					}
+				);
+			};
+			this.numberNonNegative = function (targetObject, key, sourceValue, allowToRemoveTargetValue) {
+				return this.number(
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
+					false,
+					function (value) {
+						return {
+							isValid: value >= 0,
+							value: value
+						};
+					}
+				);
+			};
+			this.numberNoLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit) {
+				return this.number(
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
+					false,
+					function (value) {
+						limit = parseFloat(limit);
+						var limitValid = !isNaN(limit);
+
+						if (!limitValid) {
+							throw('Invalid limitation provided while setting value to a number no less than the limitation.');
+						}
+
+						return {
+							isValid: value >= limit,
+							value: value
+						};
+					}
+				);
+			};
+			this.numberLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit) {
+				return this.number(
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
+					false,
+					function (value) {
+						limit = parseFloat(limit);
+						var limitValid = !isNaN(limit);
+
+						if (!limitValid) {
+							throw('Invalid limitation provided while setting value to a number less than the limitation.');
+						}
+
+						return {
+							isValid: value < limit,
+							value: value
+						};
+					}
+				);
+			};
+			this.numberInRange = function (targetObject, key, sourceValue, allowToRemoveTargetValue, rangeA, rangeB) {
+				return this.number(
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
+					false,
+					function (value) {
+						rangeA = parseFloat(rangeA);
+						rangeB = parseFloat(rangeB);
+
+						var rangeAValid = !isNaN(rangeA);
+						var rangeBValid = !isNaN(rangeB);
+
+						if (!rangeAValid || !rangeBValid) {
+							throw('Invalid range provided while setting value to a number with range.');
+						}
+
+						var start = Math.min(rangeA, rangeB);
+						var end = Math.max(rangeA, rangeB);
+
+						return {
+							isValid: (value >= start) && (value < end),
+							value: value
+						};
+					}
+				);
+			};
+		}).call(setValue);
+	}).call(WCU);
 
 
 	var DOM = {};
@@ -1071,7 +1319,7 @@ window.webLogicControls = {};
 			this.options = {
 				takeLastQueuedDegreeOnly: true,
 				useTransitions: true,
-				transitionsTotalDuration: 0.51219
+				transitionsTotalDuration: 2.51219
 			};
 
 			this.config = config.bind(this);
@@ -1296,6 +1544,7 @@ window.webLogicControls = {};
 				}
 				status.queuedDegrees.push(newDegree);
 			}
+
 			function fetchDegreeFromQueue() {
 				return status.queuedDegrees.splice(0, 1)[0];
 			}
@@ -1318,18 +1567,18 @@ window.webLogicControls = {};
 				var deltaTotalAbs = Math.abs(newSafeDegree - oldSafeDegree);
 				var eitherTransitionsIsNecessary = !!this.options.useTransitions && deltaTotalAbs > 1; // at least one degree to change
 
-				// console.log('=== from', oldSafeDegree, 'to', newSafeDegree, '===', this.options.useTransitions, deltaTotalAbs);
+				// console.log('=== from', oldSafeDegree, 'to', newSafeDegree, '===', deltaTotalAbs, 'transition?', this.options.useTransitions, '\t', this.options.transitionsTotalDuration, 'sec');
 
 				_processHalfSettings(
 					half1Settings,
-					Math.max(180, oldSafeDegree),
-					Math.max(180, newSafeDegree),
+					Math.min(180, oldSafeDegree),
+					Math.min(180, newSafeDegree),
 					this.options.transitionsTotalDuration
 				);
 				_processHalfSettings(
 					half2Settings,
-					Math.min(180, oldSafeDegree),
-					Math.min(180, newSafeDegree),
+					Math.max(180, oldSafeDegree),
+					Math.max(180, newSafeDegree),
 					this.options.transitionsTotalDuration
 				);
 
@@ -1348,10 +1597,10 @@ window.webLogicControls = {};
 					_S.transitionNecessary = eitherTransitionsIsNecessary && _S.duration > 0.01 && _S.deltaAbs > 0.1;
 					if (_S.transitionNecessary) {
 						_S.style[pKeyTransitionDuration] = _S.duration + 's';
-						// console.log('transition:', _S.style[pKeyTransitionDuration], _S.deltaAbs+'deg: ', oldSafeDegree, 'to', newSafeDegree);
 					} else {
 						_S.style.transitionProperty = 'none';
 					}
+					// console.log('transition:', _S.style[pKeyTransitionDuration], _S.deltaAbs+'deg: ', oldSafeDegree, 'to', newSafeDegree);
 				}
 
 
@@ -1372,7 +1621,7 @@ window.webLogicControls = {};
 
 
 				function updateHalfA() {
-					// console.log('update A:\t', halfA.oldDegree, '-->', halfA.newDegree, '\ttransition?', halfA.transitionNecessary, '\t\t',halfA.duration,'sec');
+					// console.log('update A [',halfA.index,']:\t', halfA.oldDegree, '-->', halfA.newDegree, '\ttransition?', halfA.transitionNecessary, '\t\t',halfA.duration,'sec');
 					halfA.style.transform = 'rotate('+halfA.newDegree+'deg)';
 
 					if (!halfA.transitionNecessary) {
@@ -1389,7 +1638,7 @@ window.webLogicControls = {};
 				}
 
 				function updateHalfB() {
-					// console.log('update B:\t', halfB.oldDegree, '-->', halfB.newDegree,  '\ttransition?', halfB.transitionNecessary, '\t\t',halfB.duration,'sec');
+					// console.log('update B [',halfB.index,']:\t', halfB.oldDegree, '-->', halfB.newDegree,  '\ttransition?', halfB.transitionNecessary, '\t\t',halfB.duration,'sec');
 					halfB.style.transform = 'rotate('+halfB.newDegree+'deg)';
 
 					if (!halfB.transitionNecessary) {
@@ -1442,9 +1691,9 @@ window.webLogicControls = {};
 			}
 
 			this.options = {
-				takeLastQueuedDegreeOnly: true,
-				useTransitions: true,
-				singleRingTransitionsTotalDuration: 0.51219,
+				// takeLastQueuedDegreeOnly: true,
+				// useTransitions: true,
+				// singleRingTransitionsTotalDuration: NaN,
 				perRings: []
 			};
 
@@ -1485,7 +1734,7 @@ window.webLogicControls = {};
 			}
 
 			function createOneRing(ringRootElement) {
-				var results = evaluateOptionsOfRings.call(this, rings.length+1);
+				var results = evaluateOptionsOfRings.call(this, rings.length);
 				var options =results.optionsPerRings[0];
 				rings.push(new UI.ProgressRing(ringRootElement, options));
 			}
@@ -1493,66 +1742,42 @@ window.webLogicControls = {};
 			function config(options, shouldNotConfigRings) {
 				if (typeof options !== 'object' || !options) return;
 
-				var _num;
+				WCU.setValue.boolean(this.options, 'disableInitialUpdate', options, true);
+				WCU.setValue.boolean(this.options, 'useTransitions', options, true);
+				WCU.setValue.boolean(this.options, 'takeLastQueuedDegreeOnly', options, true);
+				WCU.setValue.numberPositive(this.options, 'singleRingTransitionsTotalDuration', options, true);
 
-				if (options.hasOwnProperty('disableInitialUpdate')) {
-					this.options.disableInitialUpdate = !! options.disableInitialUpdate;
-				}
-
-				if (options.hasOwnProperty('useTransitions')) {
-					this.options.useTransitions = !! options.useTransitions;
-				}
-
-				if (options.hasOwnProperty('takeLastQueuedDegreeOnly')) {
-					this.options.takeLastQueuedDegreeOnly = !! options.takeLastQueuedDegreeOnly;
-				}
-
-				_num = parseFloat(options.singleRingTransitionsTotalDuration);
-				if (!isNaN(_num) && _num > 0.05) {
-					this.options.singleRingTransitionsTotalDuration = _num;
-				}
-
-				if (typeof options.perRings === null) {
-					this.options.perRings.splice(0, this.options.perRings.length);
-				} else {
-					var _oprS; // source
-					var _oprT = this.options.perRings; // target
-
-					if (typeof options.perRings === 'object') {
-						_oprS = options.perRings;
-						if (!Array.isArray(_oprS)) _oprS = [_oprS];
+				if (options.hasOwnProperty('perRings')) {
+					if (typeof options.perRings === 'undefined' || options.perRings === null) {
+						this.options.perRings.splice(0, this.options.perRings.length);
 					} else {
-						_oprS = [];
-					}
+						var _oprS; // source
+						var _oprT = this.options.perRings; // target
 
-					for (var i = 0; i < _oprS.length; i++) {
-						var _oprSI = _oprS[i];
-						var _oprTI = _oprT[i];
-
-						if (typeof _oprSI !== 'object' || !_oprSI) {
-							continue;
+						if (typeof options.perRings === 'object') {
+							_oprS = options.perRings;
+							if (!Array.isArray(_oprS)) _oprS = [_oprS];
+						} else {
+							_oprS = [];
 						}
 
-						if (typeof _oprTI !== 'object' || !_oprTI) {
-							_oprT[i] = _oprSI;
-							continue;
-						}
+						for (var i = 0; i < _oprS.length; i++) {
+							var _oprSI = _oprS[i];
+							var _oprTI = _oprT[i];
 
-						if (_oprSI.hasOwnProperty('disableInitialUpdate')) {
-							_oprTI.disableInitialUpdate = !!_oprSI.disableInitialUpdate;
-						}
+							if (typeof _oprSI !== 'object' || !_oprSI) {
+								continue;
+							}
 
-						if (_oprSI.hasOwnProperty('useTransitions')) {
-							_oprTI.useTransitions = !!_oprSI.useTransitions;
-						}
+							if (typeof _oprTI !== 'object' || !_oprTI) {
+								_oprT[i] = _oprSI;
+								continue;
+							}
 
-						if (_oprSI.hasOwnProperty('takeLastQueuedDegreeOnly')) {
-							_oprTI.takeLastQueuedDegreeOnly = !!_oprSI.takeLastQueuedDegreeOnly;
-						}
-
-						_num = parseFloat(_oprSI.singleRingTransitionsTotalDuration);
-						if (!isNaN(_num) && _num > 0) {
-							_oprTI.transitionsTotalDuration = _oprSI.singleRingTransitionsTotalDuration;
+							WCU.setValue.boolean(_oprTI, 'disableInitialUpdate', _oprSI, true);
+							WCU.setValue.boolean(_oprTI, 'useTransitions', _oprSI, true);
+							WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oprSI, true);
+							WCU.setValue.numberPositive(_oprTI, 'singleRingTransitionsTotalDuration', _oprSI, true);
 						}
 					}
 				}
@@ -1560,6 +1785,8 @@ window.webLogicControls = {};
 				if (!shouldNotConfigRings) {
 					configRings.call(this);
 				}
+
+				// console.log('ProgressRings options:', this.options);
 			}
 
 			function configRings(indexRangeA, indexRangeB) {
@@ -1611,40 +1838,34 @@ window.webLogicControls = {};
 				for (var i = loopStart; i <= loopEnd; i++) {
 					var _oprSI = _oprS[i];
 					var _oprTI = {};
-					var _num;
+
 					if (typeof _oprSI !== 'object' || !_oprSI) {
 						_oprSI = {};
 					}
 
-					if (_oprSI.hasOwnProperty('disableInitialUpdate')) {
-						_oprTI.disableInitialUpdate = _oprSI.disableInitialUpdate;
-					} else if (_oGlobalDefault.hasOwnProperty('disableInitialUpdate')) {
-						_oprTI.disableInitialUpdate = _oGlobalDefault.disableInitialUpdate;
+					var R;
+
+					R = WCU.setValue.boolean(_oprTI, 'disableInitialUpdate', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.boolean(_oprTI, 'disableInitialUpdate', _oGlobalDefault);
 					}
 
-					if (_oprSI.hasOwnProperty('useTransitions')) {
-						_oprTI.useTransitions = _oprSI.useTransitions;
-					} else if (_oGlobalDefault.hasOwnProperty('useTransitions')) {
-						_oprTI.useTransitions = _oGlobalDefault.useTransitions;
+					R = WCU.setValue.boolean(_oprTI, 'useTransitions', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.boolean(_oprTI, 'useTransitions', _oGlobalDefault);
 					}
 
-					if (_oprSI.hasOwnProperty('takeLastQueuedDegreeOnly')) {
-						_oprTI.takeLastQueuedDegreeOnly = _oprSI.takeLastQueuedDegreeOnly;
-					} else if (_oGlobalDefault.hasOwnProperty('takeLastQueuedDegreeOnly')) {
-						_oprTI.takeLastQueuedDegreeOnly = _oGlobalDefault.takeLastQueuedDegreeOnly;
+					R = WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oGlobalDefault);
 					}
 
-					_num = parseFloat(_oprSI.transitionsTotalDuration);
-					if (!isNaN(_num) && _num > 0) {
-						_oprTI.transitionsTotalDuration = _num;
-					} else {
-						_num = parseFloat(_oGlobalDefault.singleRingTransitionsTotalDuration);
-						if (!isNaN(_num) && _num > 0) {
-							_oprTI.transitionsTotalDuration = _num;
-						}
+					R = WCU.setValue.numberPositive(_oprTI, 'transitionsTotalDuration', _oprSI);
+					if (!R.valueHasBeenCreated) {
+						WCU.setValue.numberPositive(_oprTI, 'transitionsTotalDuration', _oGlobalDefault.singleRingTransitionsTotalDuration);
 					}
 
-					// console.log(_oprTI);
+					// c.l(_oprTI);
 					results.optionsPerRings.push(_oprTI);
 				}
 

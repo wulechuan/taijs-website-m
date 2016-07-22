@@ -524,17 +524,28 @@
 
 
 	$('.progress-rings').each(function () {
+		var testInit = true;
 		var progressRings = new wlc.UI.ProgressRings(this, {
 			takeLastQueuedDegreeOnly: false,
 			// useTransitions: false,
-			disableInitialUpdate: true
+			// disableInitialUpdate: testInit,
+			// singleRingTransitionsTotalDuration: 2,
+			// perRings: [
+			// 	{ transitionsTotalDuration: 2 }
+			// ]
 		});
 
-		// setTimeout(function () {
-		// 	progressRings.setDegrees([Math.random()*360, Math.random()*360, Math.random()*360]);
-		// 	progressRings.setDegrees([Math.random()*360, Math.random()*360, Math.random()*360]);
-		// 	progressRings.setDegrees([Math.random()*360, Math.random()*360, Math.random()*360]);
-		// },2000);
+		if (!testInit) {
+			setTimeout(function () {
+				progressRings.setDegrees([10]);
+			}, 1000);
+			setTimeout(function () {
+				progressRings.setDegrees([190]);
+			}, 2000);
+			setTimeout(function () {
+				progressRings.setDegrees([240]);
+			}, 3000);
+		}
 	});
 
 

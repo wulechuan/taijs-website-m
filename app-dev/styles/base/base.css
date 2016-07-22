@@ -1492,44 +1492,41 @@ label.deco-input {
 			left: 50%;
 			}
 			.progress-rings .ring .half-mask.half-1 .half {
-				transform: rotate(180deg);
-				left: 0;
+				transform: rotate(0deg);
+				left: -100%;
 			}
 
 		.progress-rings .ring .half-mask.half-2 {
 			left: 0;
 			}
 			.progress-rings .ring .half-mask.half-2 .half {
-				transform: rotate(0deg);
-				left: -100%;
+				transform: rotate(180deg);
+				left:0;
 			}
+
 
 		.progress-rings .ring.uses-css-clip { /* using clip instead of overflow:hidden simply because google chrome has some rendering issues */
 			}
 
 			.progress-rings .ring.uses-css-clip .half-mask {
-				overflow: visible;
+				/* overflow: visible; */
 			}
 
 			.progress-rings .ring.uses-css-clip .half-mask .half {
-				width: 200%;
 				overflow: visible;
+				clip: rect(-2px, 0px, 1000px, -1000px);
 				transform-origin: left;
-				clip: rect(-2px, 0.5px, 1000px, -1000px);
 				}
 				.progress-rings .ring.uses-css-clip .half-mask.half-1 .half {
 					left: 0;
-					transform: rotate(180deg)!important;
 				}
 
 				.progress-rings .ring.uses-css-clip .half-mask.half-2 .half {
 					left: 100%;
-					transform: rotate(0deg);
 				}
 
 			.progress-rings .ring.uses-css-clip .half-mask .half::before {
-				width: 100%;
-				left: -50%;
+				left: -100%;
 			}
 
 
