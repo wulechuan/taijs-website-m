@@ -1505,7 +1505,8 @@ label.deco-input {
 			}
 
 
-		.progress-rings .ring.uses-css-clip { /* using clip instead of overflow:hidden simply because google chrome has some rendering issues */
+		/* using clip instead of overflow:hidden simply because google chrome has some rendering issues */
+		.progress-rings .ring.uses-css-clip {
 			}
 
 			.progress-rings .ring.uses-css-clip .half-mask {
