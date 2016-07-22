@@ -1408,6 +1408,9 @@ label.deco-input {
 		width: 0px;
 		height: 100%;
 		overflow: hidden;
+		perspective: 1px;
+		perspective-origin: top;
+		transfrom-style: preserver-3d;
 	}
 
 	.progress-rings .label {
@@ -1433,7 +1436,7 @@ label.deco-input {
 			border-radius: 50%;
 			border-width: 1.5rem; /* set this to be ten times the desired value because the ring is going to be scaled down */
 			border-style: solid;
-			margin: 0.5px;
+			margin: 2px;
 		}
 		.progress-rings .ring {
 			box-sizing: border-box!important;
@@ -1444,7 +1447,7 @@ label.deco-input {
 			width: 1000%; /* make sure raw rendering dimensions pixel counts are integers, thus avoiding render defects */
 			height: 1000%;
 			margin: -450%;
-			transform: scale(0.1, 0.1); /* scale it back down to desired size */
+			transform: scale3d(0.1, 0.1, 0.1); /* scale it back down to desired size */
 		}
 
 		.progress-rings .ring::before {
@@ -1463,6 +1466,10 @@ label.deco-input {
 			box-sizing: border-box!important;
 			width: 50%;
 			height: 100%;
+			margin: 0;
+			/* width: calc(50% + 2px);
+			height: calc(100% + 4px);
+			margin: -2px; */
 			border-width: 0;
 			}
 			.progress-rings .ring .half-mask .half {
@@ -1493,7 +1500,7 @@ label.deco-input {
 
 
 		.progress-rings .ring .half-mask {
-			overflow: visible;
+			overflow: hidden;
 			}
 			.progress-rings .ring .half-mask.half-1 {
 				left: 50%;
@@ -1501,6 +1508,7 @@ label.deco-input {
 				.progress-rings .ring .half-mask.half-1 .half {
 					transform: rotate(0deg);
 					left: -100%;
+					left: calc(-100% - 4px); /* for removing chrome render defects */
 				}
 
 			.progress-rings .ring .half-mask.half-2 {
@@ -1508,7 +1516,8 @@ label.deco-input {
 				}
 				.progress-rings .ring .half-mask.half-2 .half {
 					transform: rotate(180deg);
-					left:0;
+					left: 0;
+					left: 4px; /* for removing chrome render defects */
 				}
 
 			.progress-rings .ring .half-mask .half::before {

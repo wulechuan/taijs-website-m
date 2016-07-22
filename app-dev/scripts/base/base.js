@@ -523,28 +523,48 @@
 	});
 
 
-	$('.progress-rings').each(function () {
-		var testInit = false;
+	$('.progress-rings').each(function (index) {
 		var progressRings = new wlc.UI.ProgressRings(this, {
 			takeLastQueuedDegreeOnly: false,
-			// useTransitions: false,
-			// disableInitialUpdate: testInit,
+			useTransitions: false,
+			disableInitialUpdate: true,
 			// singleRingTransitionsTotalDuration: 2,
 			// perRings: [
 			// 	{ transitionsTotalDuration: 2 }
 			// ]
 		});
 
-		if (!testInit) {
-			setTimeout(function () {
-				progressRings.setDegrees([10]);
-			}, 1000);
-			setTimeout(function () {
-				progressRings.setDegrees([190]);
-			}, 2000);
-			setTimeout(function () {
-				progressRings.setDegrees([240]);
-			}, 3000);
+
+
+		if (index === 0) {
+			var move = false;
+			var waiting = false;
+			var deg = 0;
+			var margin = 100;
+			function update(pageX) {
+				progressRings.setDegrees(
+					Math.max(0, Math.min(1, (pageX - margin) / (window.innerWidth - margin - margin))) * 360
+				);
+			}
+			$('.page-body')
+				.on('mousedown', function (event) {
+					update(event.pageX);
+					move = true;
+				})
+				.on('mousemove', function (event) {
+					if (!move) return false;
+					if (waiting) return false;
+					waiting = true;
+					setTimeout(function () {
+						update(event.pageX);
+						waiting = false;
+					}, 100);
+				})
+				.on('mouseup', function () {
+					move = false;
+					waiting = false;
+				})
+			;
 		}
 	});
 
