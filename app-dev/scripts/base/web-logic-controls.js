@@ -1066,6 +1066,8 @@ window.webLogicControls = {};
 				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
 			}
 
+			$(rootElement).addClass('uses-css-clip');
+
 			this.options = {
 				takeLastQueuedDegreeOnly: true,
 				useTransitions: true,
@@ -1154,6 +1156,9 @@ window.webLogicControls = {};
 
 				half1 = halves[0];
 				half2 = halves[1];
+
+				$(half1.parentNode).addClass('half-1').removeClass('half-2');
+				$(half2.parentNode).addClass('half-2').removeClass('half-1');
 
 				var _S = half1.style;
 				var possibleKeyPrefixes = [

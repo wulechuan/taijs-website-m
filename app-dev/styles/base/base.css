@@ -1472,10 +1472,8 @@ label.deco-input {
 			}
 			.progress-rings .ring .half-mask .half {
 				border-width: 0;
-				/* overflow: hidden; */
-				clip: rect(0px, 2.5rem, auto, 0px);
+				overflow: hidden;
 				box-sizing: content-box!important;
-				/* background-color: lightgreen; */
 				width: 100%;
 				height: 100%;
 				transform-origin: right;
@@ -1488,23 +1486,50 @@ label.deco-input {
 				width: 200%;
 				height: 100%;
 				border-color: inherit!important;
-				/* background-color: pink; */
 			}
 
-		.progress-rings .ring .half-mask {
-			left: 0;
+		.progress-rings .ring .half-mask.half-1 {
+			left: 50%;
 			}
-			.progress-rings .ring .half-mask .half {
+			.progress-rings .ring .half-mask.half-1 .half {
 				transform: rotate(180deg);
 				left: 0;
 			}
 
-		.progress-rings .ring .half-mask ~ .half-mask {
-			left: 50%;
+		.progress-rings .ring .half-mask.half-2 {
+			left: 0;
 			}
-			.progress-rings .ring .half-mask ~ .half-mask .half {
+			.progress-rings .ring .half-mask.half-2 .half {
 				transform: rotate(0deg);
 				left: -100%;
+			}
+
+		.progress-rings .ring.uses-css-clip { /* using clip instead of overflow:hidden simply because google chrome has some rendering issues */
+			}
+
+			.progress-rings .ring.uses-css-clip .half-mask {
+				overflow: visible;
+			}
+
+			.progress-rings .ring.uses-css-clip .half-mask .half {
+				width: 200%;
+				overflow: visible;
+				transform-origin: left;
+				clip: rect(-2px, 0.5px, 1000px, -1000px);
+				}
+				.progress-rings .ring.uses-css-clip .half-mask.half-1 .half {
+					left: 0;
+					transform: rotate(180deg)!important;
+				}
+
+				.progress-rings .ring.uses-css-clip .half-mask.half-2 .half {
+					left: 100%;
+					transform: rotate(0deg);
+				}
+
+			.progress-rings .ring.uses-css-clip .half-mask .half::before {
+				width: 100%;
+				left: -50%;
 			}
 
 
