@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html><head>
+	<!-- inject:headBeforeTitle:html --><!-- endinject -->
+	<title>添加银行卡</title>
+	<!-- inject:headAfterTitle:html --><!-- endinject -->
+</head>
+<body>
+<!-- inject:bodyBegin:html --><!-- endinject -->
+
+<!-- inject:appRootWrapBegin:html --><!-- endinject -->
+
+<!-- inject:appBGLayer0:html --><!-- endinject -->
+
+<!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
+<div data-app-header-title="添加银行卡" id="page-account-bank-card-addition"
+	 class="page fixed-page-header has-page-header"
+	><header class="page-header">
+		<div class="row header-bar">
+			<div class="center"><h1>添加银行卡</h1></div>
+			<div class="left"  ><a role="button" class="nav-back" href="account-bank-cards-list.html"></a></div>
+			<div class="right" ><a role="button" class="nav-home" href="../index.html"></a></div>
+		</div>		
+	</header>
+
+	<div class="page-body">
+		<form name="addbankcard" action="account-info.html">
+		<div class="f-block snap-top">
+			<div class="row"><h2>提示：为了保障投资人的资金安全，暂不支持信用卡</h2></div>
+			<div class="f-block-body">
+				<div class="row select-field">
+					<div class="left">
+						<select placeholder="请选择银行"
+							name="bankname" required id="bank-card-addition-bank-name">
+							<option value="">银行名称</option>
+							<option value="bank-cn-icbc">中国工商银行</option>
+							<option value="bank-cn-cmb">招商银行</option>
+							<option value="bank-cn-ccb">中国建设银行</option>
+							<option value="bank-cn-abc">中国农业银行</option>
+							<option value="bank-cn-boc">中国银行</option>
+							<option value="bank-cn-bankcomm">中国交通银行</option>
+							<option value="bank-cn-psbc">中国邮政储蓄银行</option>
+							<option value="bank-cn-citic">中信银行</option>
+							<option value="bank-cn-cmbc">中国民生银行</option>
+							<option value="bank-cn-cib">兴业银行</option>
+							<option value="bank-cn-hxb">华夏银行</option>
+							<option value="bank-cn-ceb">中国光大银行</option>
+							<option value="bank-cn-spdb">上海浦东发展银行</option>
+							<option value="bank-cn-bankofbeijing">北京银行</option>
+							<option value="bank-cn-bankofshanghai">上海银行</option>
+						</select>
+					</div>
+					<div class="right">请选择</div>
+				</div>
+				<div class="row input-field single-side-content">
+					<div class="left">
+						<input placeholder="请输入银行卡账号" type="text" data-text-format="bank-card"
+							name="bankcardnumber" required
+												  id="bank-card-addition-card-number">
+						<label class="input-tip" for="bank-card-addition-card-number">银行卡号</label>
+						<button 		   for-input="bank-card-addition-card-number"
+							button-action="clear-input-field" type="button"></button>
+					</div>
+				</div>
+				<div class="row select-field">
+					<div class="left">
+						<select placeholder="请选择开户城市"
+							name="city" required id="bank-card-addition-city">
+							<option value="">开户城市</option>
+							<option value="city-cn-beijing">北京</option>
+							<option value="city-cn-shanghai">上海</option>
+							<option value="city-cn-tianjin">天津</option>
+							<option value="city-cn-guangzhou">广州</option>
+							<option value="city-cn-chongqing">重庆</option>
+							<option value="city-cn-nanjing">南京</option>
+							<option value="city-cn-nanchang">南昌</option>
+						</select>
+					</div>
+					<div class="right">请选择</div>
+				</div>
+				<div class="row input-field single-side-content">
+					<div class="left">
+						<input placeholder="请输入银行卡绑定的手机号" type="tel" data-text-format="mobile"
+							name="mobile" required
+												  id="bank-card-addition-mobile">
+						<label class="input-tip" for="bank-card-addition-mobile">银行卡绑定的手机号</label>
+						<button 		   for-input="bank-card-addition-mobile"
+							button-action="clear-input-field" type="button"></button>
+					</div>
+				</div>
+				<div class="row input-field input-verification-code">
+					<div class="left">
+						<input placeholder="请输入验证码" type="number"
+							name="smsvcode" required
+												  id="bank-card-addition-sms-verification-code">
+						<label class="input-tip" for="bank-card-addition-sms-verification-code">验证码</label>
+						<button 		   for-input="bank-card-addition-sms-verification-code"
+							button-action="clear-input-field" type="button"></button>
+					</div>
+					<div class="right">
+						<div class="step current fetch"
+							><button class="simple-look" type="button" 
+								button-action="fetch-sms-vcode">获取验证码</button
+						></div>
+						<div class="step countdown"
+							><span class="value">60</span
+							><span class="unit-time-second">s</span
+						></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<input type="checkbox"
+					name="eula" required
+											id="eula-checkbox"
+				><label class="deco-input" for="eula-checkbox"></label
+				><label for="eula-checkbox">我已阅读并同意<a href="#">《委托代扣授权书》</a></label>
+			</div>
+		</div>
+
+		<div class="row buttons-in-single-line">
+			<button class="rounded-corners size-std-wide" disabled="disabled" 
+				button-action="submit">确认</button>
+		</div>
+		</form>
+
+		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
+	</div>
+
+	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
+	<div role="dialog" class="popup-layer" id="pl-info-too-many-vcodes-today">
+		<div class="popup-window has-dialog shows-up-from-rightside">
+			<div class="dialog">
+				<header class="dialog-header"><h3>提示</h3></header>
+				<div class="dialog-body">
+					<div class="content">
+						<article class="message">
+							<p>该手机号码今天发送的验证码过多</p>
+						</article>
+					</div>
+				</div>
+				<footer class="dialog-footer">
+					<button class="promoted" button-action="confirm">确定</button>
+				</footer>
+			</div>
+		</div>
+	</div>
+	<div role="dialog" class="popup-layer" id="pl-input-image-vcode">
+		<div class="popup-window has-dialog">
+			<div class="dialog">
+				<header class="dialog-header"><h3>请输入图片验证码</h3></header>
+				<div class="dialog-body">
+					<div class="content">
+						<div class="row input-field input-image-vcode">
+							<div class="left"
+								><input placeholder="请输入图片验证码" type="text"
+									name="imagevcode" required
+							></div>
+							<div class="right"><span class="image-vcode" style="background-image: url(something);"></span></div>
+						</div>
+					</div>
+				</div>
+				<footer class="dialog-footer">
+					<span class="col"><button button-action="cancel">取消</button></span>
+					<span class="col"><button class="promoted" button-action="confirm">确定</button></span>
+				</footer>
+			</div>
+		</div>
+	</div>
+	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
+
+	<script src="../scripts/pages/account-bank-card-addition.min.js"></script>
+</div>
+<!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
+
+<!-- inject:globalPopupLayers:html --><!-- endinject -->
+
+<!-- inject:appRootWrapEnd:html --><!-- endinject -->
+
+<!-- inject:bodyEnd:html --><!-- endinject -->
+</body></html>

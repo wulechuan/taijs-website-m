@@ -1,0 +1,34 @@
+.font-default, html, body, button, select, option {
+	font-family: 'Noto Sans', 'Noto Sans CJK SC', 'Noto Sans CJK', 'Microsoft Yahei UI', 'Microsoft Yahei', 'Helvetica', Arial, 'Lucida Grande', 'SimHei', Sans-Serif;
+}
+
+.f-block-body, html, body, button, select, option {
+	font-weight: lighter; /* for noto sans and yahei */
+}
+
+textarea, input {
+	font-family: Arial, Sans-Serif;
+	letter-spacing: 0.05em;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+	font-size: 16px;
+	}
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+		font-size: 16px;
+	}
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		font-size: 16px;
+	}
+	:-ms-input-placeholder { /* Internet Explorer 10+ */
+		font-size: 16px;
+	}
+
+.bank-card-number,
+.phone,
+.digits,
+.em-digits,
+.currency {
+	font-family: 'Helvetica Neue LT Pro', Helvetica, Arial, 'Microsoft Yahei UI', 'Microsoft Yahei', Sans-Serif;
+	font-weight: lighter;
+}

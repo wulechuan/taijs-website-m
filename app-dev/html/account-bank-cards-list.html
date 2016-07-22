@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html><head>
+	<!-- inject:headBeforeTitle:html --><!-- endinject -->
+	<title>银行卡</title>
+	<!-- inject:headAfterTitle:html --><!-- endinject -->
+</head>
+<body>
+<!-- inject:bodyBegin:html --><!-- endinject -->
+
+<!-- inject:appRootWrapBegin:html --><!-- endinject -->
+
+<!-- inject:appBGLayer0:html --><!-- endinject -->
+
+<!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
+<div data-app-header-title="银行卡" id="page-account-bank-cards-list"
+	 class="page fixed-page-header has-page-header"
+	><header class="page-header">
+		<div class="row header-bar">
+			<div class="center"><h1>银行卡</h1></div>
+			<div class="left"  ><a role="button" class="nav-back" href="account-info.html"></a></div>
+			<div class="right" ><a role="button" class="nav-home" href="../index.html"></a></div>
+		</div>		
+	</header>
+
+	<div class="page-body">
+		<ul role="grid" class="f-list slots slot-bank-cards snap-top">
+			<li role="cell">
+				<div class="slot slot-bank-card bank-cn-icbc">
+					<i class="icon icon-size-medium icon-of-bank"></i>
+					<h4 class="caption-of-bank"></h4>
+					<p class="bank-card-number"><span class="value">**** **** **** 1234</span></p>
+				</div>
+			</li>
+			<li role="cell">
+				<div class="slot slot-bank-card bank-cn-ccb">
+					<i class="icon icon-size-medium icon-of-bank"></i>
+					<h4 class="caption-of-bank"></h4>
+					<p class="bank-card-number"><span class="value">**** **** **** 1234</span></p>
+				</div>
+			</li>
+			<li role="cell"><div class="slot slot-bank-card slot-pseudo">
+				<a role="button" class="button-in-pseudo-slot"
+					href="account-bank-card-addition.html" 
+					button-action="add-bank-card"
+					><i class="iconfont icon-plus-sign-circled"></i
+					><span class="label"
+						>添加银行卡</span
+				></a>
+			</div></li>
+		</ul>
+
+		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
+	</div>
+
+	<script src="../scripts/pages/account-bank-cards-list.min.js"></script>
+</div>
+<!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
+
+<!-- inject:globalPopupLayers:html --><!-- endinject -->
+
+<!-- inject:appRootWrapEnd:html --><!-- endinject -->
+
+<!-- inject:bodyEnd:html --><!-- endinject -->
+</body></html>

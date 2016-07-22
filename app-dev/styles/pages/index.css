@@ -1,0 +1,15 @@
+	.user-has-logged-in #splash-block {
+		}
+
+		.user-has-logged-in #splash-block #splash-slogan {
+			margin-left: 175px;
+			margin-top: 45px;
+		}
+
+		.user-has-logged-in #splash-block #splash-login-block {
+			display: none;
+		}
+
+		.user-has-logged-in #splash-block #splash-credit-info-block {
+			display: block;
+		}
