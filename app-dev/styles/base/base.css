@@ -1421,9 +1421,9 @@ label.deco-input {
 
 	.progress-ring .ring {
 		}
-		.progress-ring .ring .half i::before,
-		.progress-ring .ring .half i,
-		.progress-ring .ring .half,
+		.progress-ring .ring .half-mask .half::before,
+		.progress-ring .ring .half-mask .half,
+		.progress-ring .ring .half-mask,
 		.progress-ring .ring::before,
 		.progress-ring .ring {
 			box-sizing: border-box!important;
@@ -1433,7 +1433,7 @@ label.deco-input {
 			top: 0;
 			height: 100%;
 		}
-		.progress-ring .ring .half i::before,
+		.progress-ring .ring .half-mask .half::before,
 		.progress-ring .ring::before {
 			border-radius: 50%;
 			border-width: 0.15rem;
@@ -1447,38 +1447,47 @@ label.deco-input {
 			width: 100%;
 			border-color: inherit!important;
 		}
-		.progress-ring .ring .half i,
-		.progress-ring .ring .half {
+		.progress-ring .ring .half-mask .half,
+		.progress-ring .ring .half-mask {
 			border-width: 0;
 			overflow: hidden;
+		}
+		.progress-ring .ring .half-mask {
 			width: 50%;
-		}
-		.progress-ring .ring .half {
-			left: 50%;
-			transform: rotate(180deg);
-			background-color: lightgreen;
-		}
-		.progress-ring .ring .half ~ .half {
-			left: 0%;
-			transform: rotate(0deg);
-			background-color: lightblue;
-		}
-		.progress-ring .ring .half i {
-			left: 0;
-			width: 100%;
-			border-color: inherit!important;
-			transform-origin: right;
+			}
+			.progress-ring .ring .half-mask .half {
+				width: 100%;
+				transform-origin: right;
+				transition-property: transform, opacity, border-color, background-color, border-width;
+				transition-timing-function: linear!important;
+			}
+			.progress-ring .ring .half-mask .half::before {
+				content: '';
+				width: 200%;
+				border-color: inherit!important;
+			}
 
-			transition-property: transform, opacity, border-color, background-color, border-width;
-			transition-timing-function: linear!important;
-			transform: rotate(0deg);
-		}
-		.progress-ring .ring .half i::before {
-			content: '';
+		.progress-ring .ring .half-mask {
 			left: 0;
-			width: 200%;
-			border-color: inherit!important;
-		}
+			}
+			.progress-ring .ring .half-mask .half {
+				transform: rotate(180deg);
+				left: 0;
+			}
+			.progress-ring .ring .half-mask .half::before {
+				left: 0;
+			}
+
+		.progress-ring .ring .half-mask ~ .half-mask {
+			left: 50%;
+			}
+			.progress-ring .ring .half-mask ~ .half-mask .half {
+				transform: rotate(0deg);
+				left: -100%;
+			}
+			.progress-ring .ring .half-mask ~ .half-mask .half::before {
+				left: 0;
+			}
 
 
 .progress-stops {

@@ -526,7 +526,7 @@
 	$('.progress-ring').each(function () {
 		var progressRing = this;
 		var $progressRing = $(progressRing);
-		var halves = $progressRing.find('.half > i');
+		var halves = $progressRing.find('.half');
 		if (halves.length !== 2) return false;
 
 		var half1 = halves[0];
@@ -534,8 +534,8 @@
 
 		var currentDegree = 0;
 
-		var isUsingTransition = true;
-		var transitionTotalDuration = 0.33;
+		var isUsingTransition = 0;
+		var transitionTotalDuration = 1.33;
 
 
 		(function init(argument) {
@@ -544,7 +544,7 @@
 
 		setTimeout(function () {
 			setDegreeTo(39);
-		}, 1000);
+		}, 5000);
 
 		function getDegreeFromHtml() {
 			return _parseDegreeVia(progressRing.getAttribute('data-degree'));
@@ -584,149 +584,115 @@
 		}
 
 		function setDegreeTo(newDegree) {
-			console.log(newDegree);
 			if (!newDegree || typeof newDegree === 'number' || newDegree === true) {
 				newDegree = _parseDegreeVia(newDegree);
 			} else {
 				newDegree = _parseDegreeVia(newDegree.raw);
 			}
 
-			var oldSafeDegree = currentDegree;
+			var oldSafeDegree = _parseDegreeVia(currentDegree);
 			var newSafeDegree = newDegree.safe;
+			var deltaTotalAbs = Math.abs(newSafeDegree - oldSafeDegree);
+			var eitherTransitionsIsNecessary = !!isUsingTransition && deltaTotalAbs > 1; // at least one degree to change
 
-			console.log('=== from', oldSafeDegree, 'to', newSafeDegree, '===');
+			console.log('=== from', oldSafeDegree.safe, 'to', newSafeDegree, '===');
 
-			var firstChangingHalf = null;
-			var lastChangingHalf = null;
+			var half1Settings = {
+				dom: half1,
+				style: half1.style,
+				oldDegree: Math.max(180, oldSafeDegree),
+				newDegree: Math.max(180, newSafeDegree)
+			};
 
-			var firstHalfOldDegree = NaN;
-			var lastHalfOldDegree = NaN;
+			var half2Settings = {
+				dom: half2,
+				style: half2.style,
+				oldDegree: Math.min(180, oldSafeDegree),
+				newDegree: Math.min(180, newSafeDegree)
+			};
 
-			var firstHalfNewDegree = NaN;
-			var lastHalfNewDegree = NaN;
+			_processHalfSettings(half1Settings);
+			_processHalfSettings(half2Settings);
+
+			function _processHalfSettings (_S) {
+				_S.delta = _S.oldDegree - _S.newDegree;
+				_S.deltaAbs = Math.abs(_S.delta);
+				_S.duration = transitionTotalDuration * _S.deltaAbs / deltaTotalAbs;
+				_S.transitionNecessary = eitherTransitionsIsNecessary && _S.duration > 0.01;
+				if (_S.transitionNecessary) {
+					_S.style.transitionDuration = _S.duration + 's';
+				} else {
+					_S.style.transitionProperty = 'none';
+				}
+			}
+
+
+			var halfA, halfB; // transition of halfA goes BEFORE transition of halfB
 
 			if (oldSafeDegree <= 180) {
-				firstChangingHalf = half1;
-				lastChangingHalf = half2;
-
-				firstHalfOldDegree = oldSafeDegree + 180;
-				lastHalfOldDegree = 180;
+				halfA = half1Settings;
+				halfB = half2Settings;
 			} else {
-				firstChangingHalf = half2;
-				lastChangingHalf = half1;
-
-				firstHalfOldDegree = oldSafeDegree;
-				lastHalfOldDegree = 0;
+				halfA = half2Settings;
+				halfB = half1Settings;
 			}
 
-			if (newSafeDegree <= 180) {
-				firstHalfNewDegree = newSafeDegree + 180;
-				lastHalfNewDegree = 180;
 
-				if (newSafeDegree > oldSafeDegree) {
-					if (firstHalfNewDegree < firstHalfOldDegree) firstHalfNewDegree += 360;
-				}
-				if (newSafeDegree < oldSafeDegree) {
-					if (firstHalfNewDegree > firstHalfOldDegree) firstHalfNewDegree -= 360;
-				}
-			} else {
-				firstHalfNewDegree = newSafeDegree;
-				lastHalfNewDegree = 0;
+			// console.log('total delta abs:', deltaTotalAbs);
+			// console.log('either transition needed?', eitherTransitionsIsNecessary);
+			// console.log('settings:', '\n', halfA, '\n', halfB);
+			console.log('settings:', '\n', halfA.transitionNecessary, '\n', halfB.transitionNecessary);
 
-				if (newSafeDegree > oldSafeDegree) {
-					if (firstHalfNewDegree < firstHalfOldDegree) firstHalfNewDegree += 360;
-				}
-				if (newSafeDegree < oldSafeDegree) {
-					if (firstHalfNewDegree > firstHalfOldDegree) firstHalfNewDegree -= 360;
-				}
-			}
-
-			if (firstChangingHalf === half2 && newSafeDegree > oldSafeDegree) firstHalfNewDegree += 360;
-			if (lastChangingHalf  === half2 && newSafeDegree < oldSafeDegree) lastHalfNewDegree  -= 360;
-
-			var deltaA = firstHalfNewDegree - firstHalfOldDegree;
-			var deltaB  = lastHalfNewDegree - lastHalfOldDegree;
-
-			var deltaAbsA = Math.abs(deltaA);
-			var deltaAbsB = Math.abs(deltaB);
-			var deltaTotalAbs = Math.abs(newSafeDegree - oldSafeDegree);
-
-			var durationA = transitionTotalDuration * deltaAbsA / deltaTotalAbs;
-			var durationB = transitionTotalDuration * deltaAbsB / deltaTotalAbs;
-
-			var eitherTransitionsIsNecessary = isUsingTransition && deltaTotalAbs > 1; // at least one degree to change
-			var transitionANecessary = eitherTransitionsIsNecessary && durationA > 0.01;
-			var transitionBNecessary = eitherTransitionsIsNecessary && durationB > 0.01;
-
-			console.log('deltas:', deltaA, deltaB);
-			console.log('delta abs values:', deltaAbsA, deltaAbsB);
-			console.log('total delta abs:', deltaTotalAbs);
-			console.log('durations:', durationA, durationB);
-			console.log('transitions needed?:', transitionANecessary, transitionBNecessary);
-
-
-
+			updateHalfA();
 			if (!eitherTransitionsIsNecessary) {
-				firstChangingHalf.style.transitionDuration = '0s';
-				lastChangingHalf.style.transitionDuration = '0s';
-
 				setTimeout(function () {
-					firstChangingHalf.style.transitionDuration = '';
-					lastChangingHalf.style.transitionDuration = '';
+					onBothHalvesUpdated();
 				}, 10);
 			}
 
+			function updateHalfA() {
+				console.log('update A');
+				halfA.style.transform = 'rotate('+halfA.newDegree+'deg)';
 
-			updateFirstHalf();
-
-
-			if (!eitherTransitionsIsNecessary) {
-				updateLastHalf();
-			} else {
-				firstChangingHalf.addEventListener('transitionend', updateLastHalf);
-			}
-
-
-			function updateFirstHalf() {
-				firstChangingHalf.style.transform = 'rotate('+firstHalfNewDegree+'deg)';
-
-				if (!transitionANecessary) {
-					updateLastHalf();
+				if (!halfA.transitionNecessary) {
+					updateHalfB();
 				} else {
-					firstChangingHalf.addEventListener('transitionend', onTransitionAEnd);
+					halfA.dom.addEventListener('transitionend', onTransitionAEnd);
 				}
 			}
-
-
 			function onTransitionAEnd () {
 				console.log('transition A end');
-				firstChangingHalf.removeEventListener('transitionend', onTransitionAEnd);
-				updateLastHalf();
+				halfA.dom.removeEventListener('transitionend', onTransitionAEnd);
+				updateHalfB();
 			}
 
-			function updateLastHalf() {
-				lastChangingHalf.style.transform = 'rotate('+lastHalfNewDegree+'deg)';
+			function updateHalfB() {
+				console.log('update B');
+				halfB.style.transform = 'rotate('+halfB.newDegree+'deg)';
 
-				if (!transitionBNecessary) {
+				if (!halfB.transitionNecessary) {
 					onBothHalvesUpdated();
 				} else {
-					lastChangingHalf.addEventListener('transitionend', onTransitionBEnd);
+					halfB.dom.addEventListener('transitionend', onTransitionBEnd);
 				}
 			}
-
 			function onTransitionBEnd () {
 				console.log('transition B end');
-				lastChangingHalf.removeEventListener('transitionend', onTransitionBEnd);
+				halfB.dom.removeEventListener('transitionend', onTransitionBEnd);
 				onBothHalvesUpdated();
 			}
 
 			function onBothHalvesUpdated() {
-				firstChangingHalf.style.transitionDuration = '';
-				lastChangingHalf.style.transitionDuration = '';
+				halfA.style.transitionDuration = '';
+				halfB.style.transitionDuration = '';
+				halfA.style.transitionProperty = '';
+				halfB.style.transitionProperty = '';
 
 				progressRing.getAttribute('data-degree', newDegree.raw);
 				currentDegree = newDegree;
+				console.log('-------------', currentDegree);
 			}
+
 
 			return newDegree;
 		}
