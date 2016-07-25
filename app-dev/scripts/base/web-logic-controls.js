@@ -1317,7 +1317,7 @@ window.webLogicControls = {};
 			this.options = {
 				useCanvas: true,
 				colorHighLightStroke: '#f60',
-				colorBg: '#eaeaea',
+				colorBgStroke: '#eaeaea',
 				useTransitions: true,
 				transitionsTotalDuration: 0.51219,
 				treatTotalDurationAsRoughSpeed: true, // that is 360deg per duration
@@ -1411,7 +1411,7 @@ window.webLogicControls = {};
 							},
 							itemStyle: {
 								normal: {
-									color: this.options.colorBg
+									color: this.options.colorBgStroke
 								}
 							},
 							data: [ 100 ],

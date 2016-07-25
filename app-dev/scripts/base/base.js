@@ -540,13 +540,13 @@
 		function update(pageX) {
 			// return false;
 			var margin = 75;
-			progressRings.setDegrees(
-				[
-					// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
-					// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
-					Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random()
-				]
-			);
+			var degrees = [
+				// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
+				// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
+				Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360
+			];
+			c.l(degrees);
+			progressRings.setDegrees(degrees);
 		}
 		function print() {
 			c.l('Got degree:', progressRings.getDegree());

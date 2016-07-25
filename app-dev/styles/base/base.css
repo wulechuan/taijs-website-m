@@ -1620,7 +1620,7 @@ label.deco-input {
 				display: none!important;
 			}
 
-		.progress-rings .ring:nth-child(2) {
+		/* .progress-rings .ring:nth-child(2) {
 			width: 85%;
 			height: 85%;
 		}
@@ -1628,7 +1628,7 @@ label.deco-input {
 		.progress-rings .ring:nth-child(3) {
 			width: 60%;
 			height: 60%;
-		}
+		} */
 
 
 .progress-stops {
