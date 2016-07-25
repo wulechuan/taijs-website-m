@@ -541,7 +541,11 @@
 			// return false;
 			var margin = 75;
 			progressRings.setDegrees(
-				Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360
+				[
+					// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
+					// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
+					Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random()
+				]
 			);
 		}
 		function print() {

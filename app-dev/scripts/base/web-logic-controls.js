@@ -1317,6 +1317,7 @@ window.webLogicControls = {};
 			this.options = {
 				useCanvas: true,
 				colorHighLightStroke: '#f60',
+				colorBg: '#eaeaea',
 				useTransitions: true,
 				transitionsTotalDuration: 0.51219,
 				treatTotalDurationAsRoughSpeed: true, // that is 360deg per duration
@@ -1333,7 +1334,24 @@ window.webLogicControls = {};
 				this.setDegreeTo('html-attribute-value');
 			};
 
+
+
+
 			var eChartRing;
+			var eChartRingItemStyle = {
+				normal: {
+					color: this.options.colorHighLightStroke
+				}
+			};
+			var eChartRingBgStyle = {
+				normal: {
+					color: 'transparent'
+				}
+			};
+
+
+
+
 
 			var half1, half2, pKeyTransitionDuration;
 
@@ -1377,9 +1395,52 @@ window.webLogicControls = {};
 				$(rootElement).addClass('use-canvas');
 				$(rootElement).removeClass('huge-scale-down quadruple-scale-down uses-css-clip');
 
-				// $(rootElement).find('.half-mask, .half').remove();
-
 				eChartRing = echarts.init(rootElement);
+
+				var radii = evaluateRadiiForCanvas.call(this);
+				var options = {
+					series: [
+						{
+							type:'pie',
+							radius: radii,
+							hoverAnimation: false,
+							label: {
+								normal: {
+									show: false    
+								}  
+							},
+							itemStyle: {
+								normal: {
+									color: this.options.colorBg
+								}
+							},
+							data: [ 100 ],
+							animation: false
+						},
+						{
+							type:'pie',
+							radius: radii,
+							hoverAnimation: false,
+							label: {
+								normal: {
+									show: false    
+								}  
+							},
+							data:[
+								{
+									value: 0,
+									itemStyle: eChartRingItemStyle
+								},
+								{
+									value: 100,
+									itemStyle: eChartRingBgStyle,
+								}
+							]
+						}
+					]
+				};
+
+				eChartRing.setOption(options);
 			}
 			function prepareDomsForElements() { // add or remve doms as needed
 				$(rootElement).removeClass('use-canvas');
@@ -1570,7 +1631,7 @@ window.webLogicControls = {};
 				} else {
 					queueOneNewDegree.call(this, newDegree);
 				}
-				doUpdateDegreeFromQueue.call(this);
+				fetchDegreeFromQueueAndUpdateDomsOrCanvas.call(this);
 			}
 
 			function queueOneNewDegree(newDegree) {
@@ -1592,7 +1653,7 @@ window.webLogicControls = {};
 				return status.queuedDegrees.splice(0, 1)[0];
 			}
 
-			function doUpdateDegreeFromQueue() {
+			function fetchDegreeFromQueueAndUpdateDomsOrCanvas() {
 				// c.l('This ring is already running:', status.isRunning);
 				if (status.isRunning) {
 					return;
@@ -1606,82 +1667,66 @@ window.webLogicControls = {};
 				currentTargetDegree = newDegree;
 
 				if (this.options.useCanvas) {
-					doUpdateDegreeFromQueueForCanvas.call(this, newDegree);
+					fetchDegreeFromQueueAndUpdateCanvas.call(this, newDegree);
 				} else {
-					doUpdateDegreeFromQueueForElements.call(this, newDegree);
+					fetchDegreeFromQueueAndUpdateDoms.call(this, newDegree);
 				}
 			}
 
-			function doUpdateDegreeFromQueueForCanvas(newDegree) {
+			function evaluateRadiiForCanvas() {
+				if (!eChartRing || typeof eChartRing.getWidth !== 'function') {
+					return [ '92%', '100%' ];
+				}
+
+				var chartWidth = eChartRing.getWidth();
+				var radii = [
+					((chartWidth - 6) / chartWidth * 100)+'%',
+					'100%'
+				];
+
+				return radii;
+			}
+
+			function fetchDegreeFromQueueAndUpdateCanvas(newDegree) {
 				// use eCharts
+				var thisController = this;
 
 				var degree = newDegree.safe;
 				var value = Math.max(0, Math.min(360, degree * 100 / (360 - degree)));
 
-				var colorHighLightStroke = this.options.colorHighLightStroke;
-				var colorBg = '#eaeaea';
-				var radii = [
-				    '92%',
-				    '100%'
-				];
-
 				var options = {
-				    series: [
-				        {
-				            type:'pie',
-				            radius: radii,
-				            hoverAnimation: false,
-				            label: {
-				                normal: {
-				                    show: false    
-				                }  
-				            },
-				            itemStyle: {
-				                normal: {
-				                    color: colorBg
-				                }
-				            },
-				            data: [ 100 ],
-				            animation: false
-				        },
-				        {
-				            type:'pie',
-				            radius: radii,
-				            hoverAnimation: false,
-				            label: {
-				                normal: {
-				                    show: false    
-				                }  
-				            },
-				            data:[
-				                {
-				                    value: value,
-				                    itemStyle: {
-				                        normal: {
-				                            color: colorHighLightStroke
-				                        }
-				                    },
-				                },
-				                {
-				                    value: 100,
-				                    itemStyle: {
-				                        normal: {
-				                            color: 'transparent'
-				                        },
-				                        emphasis: {
-				                            color: 'transparent'
-				                        }
-				                    },
-				                }
-				            ]
-				        }
-				    ]
+					series: [{
+					},
+					{
+						radius: evaluateRadiiForCanvas.call(this), // in case canvas resized
+						data:[
+							{
+								value: value,
+								itemStyle: eChartRingItemStyle
+							},
+							{
+								value: 100,
+								itemStyle: eChartRingBgStyle,
+							}
+						]
+					}]
 				};
 
 				eChartRing.setOption(options);
+				onUpdateDone();
+
+				function onUpdateDone() {
+					rootElement.getAttribute('data-degree', newDegree.raw);
+					currentDegree = newDegree;
+
+					status.isRunning = false;
+					// console.trace('-- everything done! --', currentDegree);
+
+					fetchDegreeFromQueueAndUpdateDomsOrCanvas.call(thisController);
+				}
 			}
 
-			function doUpdateDegreeFromQueueForElements(newDegree) {
+			function fetchDegreeFromQueueAndUpdateDoms(newDegree) {
 				var thisController = this;
 				status.isRunning = true;
 
@@ -1760,6 +1805,9 @@ window.webLogicControls = {};
 
 					if (!halfA.transitionNecessary) {
 						updateHalfB();
+						setTimeout(function () {
+							$(halfA.dom).removeClass('no-transition');
+						}, 0);
 					} else {
 						// console.log('B is waiting for A...');
 						setTimeout(function () { onTransitionAEnd(false); }, halfA.duration * 1010);
@@ -1781,6 +1829,9 @@ window.webLogicControls = {};
 
 					if (!halfB.transitionNecessary) {
 						onBothHalvesUpdated();
+						setTimeout(function () {
+							$(halfB.dom).removeClass('no-transition');
+						}, 0);
 					} else {
 						// console.log('finishing is waiting for B...');
 						setTimeout(function () { onTransitionBEnd(false); }, halfB.duration * 1010);
@@ -1800,15 +1851,13 @@ window.webLogicControls = {};
 					halfA.style[pKeyTransitionDuration] = '';
 					halfB.style[pKeyTransitionDuration] = '';
 
-					$(rootElement).removeClass('no-transition');
-
 					rootElement.getAttribute('data-degree', newDegree.raw);
 					currentDegree = newDegree;
 
 					status.isRunning = false;
 					// console.trace('-- everything done! --', currentDegree);
 
-					doUpdateDegreeFromQueue.call(thisController);
+					fetchDegreeFromQueueAndUpdateDomsOrCanvas.call(thisController);
 				}
 
 
