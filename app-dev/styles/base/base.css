@@ -1598,6 +1598,24 @@ label.deco-input {
 			}
 
 
+		.progress-rings .ring.use-canvas::before {
+			content: none!important;
+		}
+		.progress-rings .ring.use-canvas {
+			width: 100%;
+			height: 100%;
+			margin: 0%;
+			transform: scale3d(1, 1, 1);
+			}
+			.progress-rings .ring.use-canvas .half-mask .half::before,
+			.progress-rings .ring.use-canvas::before {
+				content: none!important;
+			}
+			.progress-rings .ring.use-canvas .half-mask,
+			.progress-rings .ring.use-canvas .half {
+				display: none!important;
+			}
+
 
 .progress-stops {
 	position: relative;

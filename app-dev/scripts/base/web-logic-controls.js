@@ -1314,13 +1314,9 @@ window.webLogicControls = {};
 				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
 			}
 
-			// $(rootElement).addClass('uses-css-clip');
-			// $(rootElement).removeClass('huge-scale-down').removeClass('quadruple-scale-down'); // really bad
-			// $(rootElement).addClass('huge-scale-down').removeClass('quadruple-scale-down'); // smooth but blur
-			$(rootElement).addClass('quadruple-scale-down').removeClass('huge-scale-down'); // balanced
-
 			this.options = {
-				useCanvas: false,
+				useCanvas: true,
+				colorHighLightStroke: '#f60',
 				useTransitions: true,
 				transitionsTotalDuration: 0.51219,
 				treatTotalDurationAsRoughSpeed: true, // that is 360deg per duration
@@ -1336,6 +1332,8 @@ window.webLogicControls = {};
 			this.setDegreeViaHTMLAttribute = function () {
 				this.setDegreeTo('html-attribute-value');
 			};
+
+			var eChartRing;
 
 			var half1, half2, pKeyTransitionDuration;
 
@@ -1372,13 +1370,25 @@ window.webLogicControls = {};
 				if (this.options.useCanvas) {
 					prepareDomsForCanvas.call(this);
 				} else {
-					prepareDomsForTransitions.call(this);
+					prepareDomsForElements.call(this);
 				}
 			}
 			function prepareDomsForCanvas() {
+				$(rootElement).addClass('use-canvas');
+				$(rootElement).removeClass('huge-scale-down quadruple-scale-down uses-css-clip');
 
+				// $(rootElement).find('.half-mask, .half').remove();
+
+				eChartRing = echarts.init(rootElement);
 			}
-			function prepareDomsForTransitions() { // add or remve doms as needed
+			function prepareDomsForElements() { // add or remve doms as needed
+				$(rootElement).removeClass('use-canvas');
+				// $(rootElement).addClass('uses-css-clip');
+				// $(rootElement).removeClass('huge-scale-down').removeClass('quadruple-scale-down'); // really bad
+				// $(rootElement).addClass('huge-scale-down').removeClass('quadruple-scale-down'); // smooth but blur
+				$(rootElement).addClass('quadruple-scale-down').removeClass('huge-scale-down'); // balanced
+
+
 				var $halfMasks = $(rootElement).find('> .half-mask');
 				var count, i, j, _mask, $half, _half;
 
@@ -1595,6 +1605,83 @@ window.webLogicControls = {};
 
 				currentTargetDegree = newDegree;
 
+				if (this.options.useCanvas) {
+					doUpdateDegreeFromQueueForCanvas.call(this, newDegree);
+				} else {
+					doUpdateDegreeFromQueueForElements.call(this, newDegree);
+				}
+			}
+
+			function doUpdateDegreeFromQueueForCanvas(newDegree) {
+				// use eCharts
+
+				var degree = newDegree.safe;
+				var value = Math.max(0, Math.min(360, degree * 100 / (360 - degree)));
+
+				var colorHighLightStroke = this.options.colorHighLightStroke;
+				var colorBg = '#eaeaea';
+				var radii = [
+				    '92%',
+				    '100%'
+				];
+
+				var options = {
+				    series: [
+				        {
+				            type:'pie',
+				            radius: radii,
+				            hoverAnimation: false,
+				            label: {
+				                normal: {
+				                    show: false    
+				                }  
+				            },
+				            itemStyle: {
+				                normal: {
+				                    color: colorBg
+				                }
+				            },
+				            data: [ 100 ],
+				            animation: false
+				        },
+				        {
+				            type:'pie',
+				            radius: radii,
+				            hoverAnimation: false,
+				            label: {
+				                normal: {
+				                    show: false    
+				                }  
+				            },
+				            data:[
+				                {
+				                    value: value,
+				                    itemStyle: {
+				                        normal: {
+				                            color: colorHighLightStroke
+				                        }
+				                    },
+				                },
+				                {
+				                    value: 100,
+				                    itemStyle: {
+				                        normal: {
+				                            color: 'transparent'
+				                        },
+				                        emphasis: {
+				                            color: 'transparent'
+				                        }
+				                    },
+				                }
+				            ]
+				        }
+				    ]
+				};
+
+				eChartRing.setOption(options);
+			}
+
+			function doUpdateDegreeFromQueueForElements(newDegree) {
 				var thisController = this;
 				status.isRunning = true;
 
