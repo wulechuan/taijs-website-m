@@ -30,10 +30,10 @@ window.webLogicControls = {};
 			};
 		}
 
-		var setValue = {};
-		this.setValue = setValue;
+		var save = {};
+		this.save = save;
 		(function () {
-			function updateSimpleValue(recursiveDepth, typeString, targetObject, key, sourceValue, allowToRemoveTargetValue, valueParser) {
+			function _updateValueSafely(recursiveDepth, typeString, targetObject, key, sourceValue, allowToRemoveTargetValue, valueParser) {
 				var resultStates = {
 					newValueHasBeenTaken: false,
 					oldValueHasBeenRemoved: false,
@@ -42,6 +42,12 @@ window.webLogicControls = {};
 					valueTypeChanged: false,
 					inputValueWasInvalid: false
 				};
+				// a valid valueParser MUST return an object like this:
+				// {
+				//     isValid: boolean,
+				//     value: the value, which is NOT necessarily be valid, because we rely on the isValid boolean
+				// }
+
 				// The value is NOT necessarily to change for newValueHasBeenTaken to be true.
 				// for example:
 				//     at begining:
@@ -52,9 +58,13 @@ window.webLogicControls = {};
 
 				allowToRemoveTargetValue = !!allowToRemoveTargetValue;
 
-				var oldValueExisted = targetObject.hasOwnProperty(key);
+				var oldKeyExisted = targetObject.hasOwnProperty(key);
 				var oldValue = targetObject[key];
-				var targetValueOldTypeWrong = oldValueExisted && typeof oldValue !== typeString;
+				var parsedResult = {
+					isValid: false,
+					value: sourceValue
+				};
+				var targetValueOldTypeWrong = oldKeyExisted && typeof oldValue !== typeString;
 				var warningMessage = 'Property "'+key+'" has been set to a "'+typeString+'" value. Note that the old value was of type "'+typeof targetObject[key]+'".';
 
 				if (!key || typeof key !== 'string' || typeof targetObject !== 'object' || !targetObject) {
@@ -62,7 +72,15 @@ window.webLogicControls = {};
 				} else {
 					if (typeof sourceValue === 'function') {
 
-						resultStates.inputValueWasInvalid = true;
+						if (typeString !== 'function') {
+							resultStates.inputValueWasInvalid = true;
+						} else {
+
+							/* *********************************** */
+							parsedResult.isValid = true;
+							/* *********************************** */
+
+						}
 
 					} else if (typeof sourceValue === 'undefined') {
 
@@ -72,8 +90,10 @@ window.webLogicControls = {};
 							delete targetObject[key];
 							/* *********************************** */
 
-							resultStates.oldValueHasBeenRemoved = oldValueExisted;
-							resultStates.valueHasBeenChanged = oldValueExisted && typeof oldValue !== 'undefined';
+							// here the parsedResult.isValid is still FALSE but the resultStates.inputValueWasInvalid is also FLASE
+
+							resultStates.oldValueHasBeenRemoved = oldKeyExisted;
+							resultStates.valueHasBeenChanged = oldKeyExisted && typeof oldValue !== 'undefined';
 						} else {
 							resultStates.inputValueWasInvalid = true;
 						}
@@ -86,7 +106,9 @@ window.webLogicControls = {};
 							delete targetObject[key];
 							/* *********************************** */
 
-							resultStates.oldValueHasBeenRemoved = oldValueExisted;
+							// here the parsedResult.isValid is still FALSE but the resultStates.inputValueWasInvalid is also FLASE
+
+							resultStates.oldValueHasBeenRemoved = oldKeyExisted;
 							resultStates.valueHasBeenChanged = oldValue !== null;
 						} else {
 							resultStates.inputValueWasInvalid = true;
@@ -95,42 +117,41 @@ window.webLogicControls = {};
 					} else {
 
 						if (typeof sourceValue !== 'object') {
-							var parsedResult;
 							if (typeof valueParser !== 'function') {
-								parsedResult = {
-									isValid: true,
-									value: sourceValue
-								};
+
+								/* *********************************** */
+								parsedResult.isValid = true; // simple don't parse or validate the soureValue, treating it valid.
+								/* *********************************** */
+
 							} else {
 								parsedResult = valueParser(sourceValue);
 							}
-
-							if (parsedResult.isValid) {
-
-								/* *********************************** */
-								targetObject[key] = parsedResult.value; 
-								/* *********************************** */
-
-								resultStates.newValueHasBeenTaken = true;
-								resultStates.valueHasBeenChanged = targetObject[key] !== oldValue;
-								resultStates.valueHasBeenCreated = !oldValueExisted;
-
-								if (targetValueOldTypeWrong) {
-									resultStates.valueTypeChanged = true;
-									console.warn(warningMessage);
-								}
-							} else {
-								resultStates.inputValueWasInvalid = true;
-							}
-
 						} else if (typeof sourceValue === 'object' && sourceValue !== null && sourceValue.hasOwnProperty(key)) {
 							if (recursiveDepth && recursiveDepth > 0) {
-								resultStates = updateSimpleValue(recursiveDepth-1, typeString, targetObject, key, sourceValue[key], allowToRemoveTargetValue, valueParser);
+								resultStates = _updateValueSafely(recursiveDepth-1, typeString, targetObject, key, sourceValue[key], allowToRemoveTargetValue, valueParser);
 							} else {
 								resultStates.inputValueWasInvalid = true;
 							}
+						} else {
+							resultStates.inputValueWasInvalid = true;
 						}
 
+					}
+				}
+
+				if (parsedResult.isValid) {
+
+					/* *********************************** */
+					targetObject[key] = parsedResult.value; 
+					/* *********************************** */
+
+					resultStates.newValueHasBeenTaken = true;
+					resultStates.valueHasBeenChanged = targetObject[key] !== oldValue;
+					resultStates.valueHasBeenCreated = !oldKeyExisted;
+
+					if (targetValueOldTypeWrong) {
+						resultStates.valueTypeChanged = true;
+						console.warn(warningMessage);
 					}
 				}
 
@@ -138,7 +159,7 @@ window.webLogicControls = {};
 			}
 
 			this.boolean = function (targetObject, key, sourceValue, allowToRemoveTargetValue) {
-				return updateSimpleValue(
+				return _updateValueSafely(
 					1,
 					'boolean',
 					targetObject,
@@ -154,7 +175,7 @@ window.webLogicControls = {};
 				);
 			};
 			this.number = function (targetObject, key, sourceValue, allowToRemoveTargetValue, allowNaNValue, customParser) {
-				return updateSimpleValue(
+				return _updateValueSafely(
 					1,
 					'number',
 					targetObject,
@@ -262,7 +283,17 @@ window.webLogicControls = {};
 					}
 				);
 			};
-		}).call(setValue);
+			this.method = function (targetObject, key, sourceFunction, allowToRemoveExistingFunction) {
+				return _updateValueSafely(
+					1,
+					'function',
+					targetObject,
+					key,
+					sourceFunction,
+					allowToRemoveExistingFunction
+				);
+			};
+		}).call(save);
 	}).call(WCU);
 
 
@@ -1538,13 +1569,13 @@ window.webLogicControls = {};
 
 				var R;
 
-					WCU.setValue.boolean(this.options, 'disableInitialUpdate', options);
-				R = WCU.setValue.boolean(this.options, 'useCanvas', options);
-					WCU.setValue.boolean(this.options, 'useTransitions', options);
-					WCU.setValue.boolean(this.options, 'doNotQueueAnyDregree', options);
-					WCU.setValue.boolean(this.options, 'takeLastQueuedDegreeOnly', options);
-					WCU.setValue.boolean(this.options, 'treatTotalDurationAsRoughSpeed', options);
-					WCU.setValue.numberNoLessThan(this.options, 'transitionsTotalDuration', options, false, 0.05);
+					WCU.save.boolean(this.options, 'disableInitialUpdate', options);
+				R = WCU.save.boolean(this.options, 'useCanvas', options);
+					WCU.save.boolean(this.options, 'useTransitions', options);
+					WCU.save.boolean(this.options, 'doNotQueueAnyDregree', options);
+					WCU.save.boolean(this.options, 'takeLastQueuedDegreeOnly', options);
+					WCU.save.boolean(this.options, 'treatTotalDurationAsRoughSpeed', options);
+					WCU.save.numberNoLessThan(this.options, 'transitionsTotalDuration', options, false, 0.05);
 
 				if (isInitializing || R.valueHasBeenChanged) {
 					prepareDoms.call(this);
@@ -1680,7 +1711,7 @@ window.webLogicControls = {};
 
 				var chartWidth = eChartRing.getWidth();
 				var radii = [
-					((chartWidth - 6) / chartWidth * 100)+'%',
+					((chartWidth - 7) / chartWidth * 100)+'%',
 					'100%'
 				];
 
@@ -1972,12 +2003,12 @@ window.webLogicControls = {};
 			function config(options, shouldNotConfigRings) {
 				if (typeof options !== 'object' || !options) return;
 
-				WCU.setValue.boolean(this.options, 'disableInitialUpdate', options, true);
-				WCU.setValue.boolean(this.options, 'useTransitions', options, true);
-				WCU.setValue.boolean(this.options, 'doNotQueueAnyDregree', options, true);
-				WCU.setValue.boolean(this.options, 'takeLastQueuedDegreeOnly', options, true);
-				WCU.setValue.boolean(this.options, 'treatTotalDurationAsRoughSpeed', options, true);
-				WCU.setValue.numberPositive(this.options, 'singleRingTransitionsTotalDuration', options, true);
+				WCU.save.boolean(this.options, 'disableInitialUpdate', options, true);
+				WCU.save.boolean(this.options, 'useTransitions', options, true);
+				WCU.save.boolean(this.options, 'doNotQueueAnyDregree', options, true);
+				WCU.save.boolean(this.options, 'takeLastQueuedDegreeOnly', options, true);
+				WCU.save.boolean(this.options, 'treatTotalDurationAsRoughSpeed', options, true);
+				WCU.save.numberPositive(this.options, 'singleRingTransitionsTotalDuration', options, true);
 
 				if (options.hasOwnProperty('perRings')) {
 					if (typeof options.perRings === 'undefined' || options.perRings === null) {
@@ -2006,12 +2037,12 @@ window.webLogicControls = {};
 								continue;
 							}
 
-							WCU.setValue.boolean(_oprTI, 'disableInitialUpdate', _oprSI, true);
-							WCU.setValue.boolean(_oprTI, 'useTransitions', _oprSI, true);
-							WCU.setValue.boolean(_oprTI, 'doNotQueueAnyDregree', _oprSI, true);
-							WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oprSI, true);
-							WCU.setValue.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oprSI, true);
-							WCU.setValue.numberPositive(_oprTI, 'singleRingTransitionsTotalDuration', _oprSI, true);
+							WCU.save.boolean(_oprTI, 'disableInitialUpdate', _oprSI, true);
+							WCU.save.boolean(_oprTI, 'useTransitions', _oprSI, true);
+							WCU.save.boolean(_oprTI, 'doNotQueueAnyDregree', _oprSI, true);
+							WCU.save.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oprSI, true);
+							WCU.save.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oprSI, true);
+							WCU.save.numberPositive(_oprTI, 'singleRingTransitionsTotalDuration', _oprSI, true);
 						}
 					}
 				}
@@ -2079,34 +2110,34 @@ window.webLogicControls = {};
 
 					var R;
 
-					R = WCU.setValue.boolean(_oprTI, 'disableInitialUpdate', _oprSI);
+					R = WCU.save.boolean(_oprTI, 'disableInitialUpdate', _oprSI);
 					if (!R.valueHasBeenCreated) {
-						WCU.setValue.boolean(_oprTI, 'disableInitialUpdate', _oGlobalDefault);
+						WCU.save.boolean(_oprTI, 'disableInitialUpdate', _oGlobalDefault);
 					}
 
-					R = WCU.setValue.boolean(_oprTI, 'doNotQueueAnyDregree', _oprSI);
+					R = WCU.save.boolean(_oprTI, 'doNotQueueAnyDregree', _oprSI);
 					if (!R.valueHasBeenCreated) {
-						WCU.setValue.boolean(_oprTI, 'doNotQueueAnyDregree', _oGlobalDefault);
+						WCU.save.boolean(_oprTI, 'doNotQueueAnyDregree', _oGlobalDefault);
 					}
 
-					R = WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oprSI);
+					R = WCU.save.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oprSI);
 					if (!R.valueHasBeenCreated) {
-						WCU.setValue.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oGlobalDefault);
+						WCU.save.boolean(_oprTI, 'takeLastQueuedDegreeOnly', _oGlobalDefault);
 					}
 
-					R = WCU.setValue.boolean(_oprTI, 'useTransitions', _oprSI);
+					R = WCU.save.boolean(_oprTI, 'useTransitions', _oprSI);
 					if (!R.valueHasBeenCreated) {
-						WCU.setValue.boolean(_oprTI, 'useTransitions', _oGlobalDefault);
+						WCU.save.boolean(_oprTI, 'useTransitions', _oGlobalDefault);
 					}
 
-					R = WCU.setValue.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oprSI);
+					R = WCU.save.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oprSI);
 					if (!R.valueHasBeenCreated) {
-						WCU.setValue.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oGlobalDefault);
+						WCU.save.boolean(_oprTI, 'treatTotalDurationAsRoughSpeed', _oGlobalDefault);
 					}
 
-					R = WCU.setValue.numberPositive(_oprTI, 'transitionsTotalDuration', _oprSI);
+					R = WCU.save.numberPositive(_oprTI, 'transitionsTotalDuration', _oprSI);
 					if (!R.valueHasBeenCreated) {
-						WCU.setValue.numberPositive(_oprTI, 'transitionsTotalDuration', _oGlobalDefault.singleRingTransitionsTotalDuration);
+						WCU.save.numberPositive(_oprTI, 'transitionsTotalDuration', _oGlobalDefault.singleRingTransitionsTotalDuration);
 					}
 
 					// c.l('merged options for ring ['+i+']', _oprTI);

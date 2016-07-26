@@ -545,7 +545,7 @@
 				// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
 				Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360
 			];
-			c.l(degrees);
+			// c.l(degrees);
 			progressRings.setDegrees(degrees);
 		}
 		function print() {
