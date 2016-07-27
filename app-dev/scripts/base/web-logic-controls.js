@@ -1723,7 +1723,7 @@ window.webLogicControls = {};
 				var thisController = this;
 
 				var degree = newDegree.safe;
-				var value = Math.max(0, Math.min(360, degree * 100 / (360 - degree)));
+				var value1 = degree / 360;
 
 				var options = {
 					series: [{
@@ -1732,11 +1732,11 @@ window.webLogicControls = {};
 						radius: evaluateRadiiForCanvas.call(this), // in case canvas resized
 						data:[
 							{
-								value: value,
+								value: value1,
 								itemStyle: eChartRingItemStyle
 							},
 							{
-								value: 100,
+								value: (1 - value1),
 								itemStyle: eChartRingBgStyle,
 							}
 						]

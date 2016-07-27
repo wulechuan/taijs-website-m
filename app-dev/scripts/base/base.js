@@ -550,21 +550,21 @@
 			// c.l(degrees);
 			progressRings.setDegrees(degrees);
 		}
-		function print() {
-			c.l('Got degree:', progressRings.getDegree());
-		}
+		// function print() {
+		// 	c.l('Got degree:', progressRings.getDegree());
+		// }
 
 		if (index === 0) {
 			var move = false;
 			var waiting = false;
-			setTimeout(print, 1000);
+			// setTimeout(print, 1000);
 
 			$(document.body)
 				.on('mousedown', function (event) {
 					update(event.pageX);
 					move = true;
 				})
-				.on('mousemove', function (event) {
+				.on('mousemove', function () {
 					if (!move) return false;
 					if (waiting) return false;
 					waiting = true;
@@ -580,202 +580,6 @@
 				})
 			;
 		}
-	});
-
-
-	$('dl.initially-collapsed').each(function () {
-		var $allDTs = $(this).find('> dt');
-		var $allDDs = $(this).find('> dd');
-
-		$allDTs.each(function (index, dt) {
-			var dd = $(dt).find('+ dd')[0];
-			if (!dd) throw('Can not find <dd> right after a <dt> element.');
-
-			var ddContent = $(dd).find('> .content')[0];
-			if (!ddContent) throw('Can not find .content within a <dd> element.');
-
-			dd.elements = { dt: dt, content: ddContent };
-			dt.elements = { dd: dd };
-
-			$(dd).removeClass('expanded');
-		});
-
-
-		$allDTs.on('click', function () {
-			_showDDAccordingToDT(this);
-		});
-
-
-		_showDDAccordingToDT(null);
-
-
-
-		function _showDDAccordingToDT(dt) {
-			var theDD = null;
-			if (dt) theDD = dt.elements.dd;
-
-			for (var i = 0; i < $allDDs.length; i++) {
-				var dd = $allDDs[i];
-				if (theDD && dd === theDD) {
-					_processOnePairOfDTDD(dd, 'toggle');
-				} else {
-					_processOnePairOfDTDD(dd, 'collapse');
-				}
-			}
-		}
-
-		function _processOnePairOfDTDD(dd, action) {
-			if (!dd) return false;
-
-			var dt = dd.elements.dt;
-			var content = dd.elements.content;
-
-			if (!dt) return false;
-			if (!content) return false;
-
-			var $dt = $(dt);
-			var $dd = $(dd);
-			var $content = $(content);
-
-			var ddNewHeight;
-
-			var wasCollapsed = !$dd.hasClass('expanded');
-			var needAction = (!wasCollapsed && action==='collapse') || (action==='toggle');
-			if (!needAction) {
-				return true;
-			}
-
-
-			if (wasCollapsed) {
-				if (content.knownHeight > 20) {
-					setTimeout(function () {
-						var ddContentCurrentHeight = $content.outerHeight();
-						if (ddContentCurrentHeight !== content.knownHeight) {
-							content.knownHeight = ddContentCurrentHeight;
-							ddNewHeight = ddContentCurrentHeight;
-							dd.style.height = content.ddNewHeight+'px';
-						}
-					}, 100);
-				} else {
-					content.knownHeight = $content.outerHeight();
-				}
-
-				ddNewHeight = content.knownHeight;
-				dd.style.height = ddNewHeight+'px';
-
-				$dd.addClass('expanded');
-				dd.setAttribute('aria-expanded', true);
-				dd.setAttribute('aria-hidden',   false);
-				$dt.addClass('expanded');
-			} else {
-				dd.style.height = '';
-
-				$dd.removeClass('expanded');
-				dd.setAttribute('aria-expanded', false);
-				dd.setAttribute('aria-hidden',   true);
-				$dt.removeClass('expanded');
-			}
-
-
-			return 0;
-		}
-	});
-
-
-	setPageSidebarNavCurrentItem(urlParameters.psn);
-
-	function updatePageSidebarNavSubMenuForMenuItem(menuItem, action) {
-		var $subMenu = $(menuItem).find('> .menu');
-		var subMenuWasExpanded = $(menuItem).hasClass('coupled-shown');
-		var needAction =
-			(!subMenuWasExpanded && action==='expand') ||
-			(subMenuWasExpanded && action==='collapse') ||
-			(action==='toggle')
-		;
-		if (!needAction) {
-			return 0;
-		}
-
-		if (subMenuWasExpanded) {
-			$(menuItem).removeClass('coupled-shown');
-			$subMenu.slideUp(null);
-		} else {
-			$(menuItem).addClass('coupled-shown');
-			$subMenu.slideDown(null);
-		}
-	}
-
-	function setPageSidebarNavCurrentItem(conf) {
-		conf = conf || {};
-		conf.level1IdPrefix = 'menu-psn-1-';
-		setMenuCurrentItemForLevel(1, 2, $('#page-sidebar-nav'), conf);
-	}
-
-	function setMenuCurrentItemForLevel(level, depth, parentDom, conf) {
-		level = parseInt(level);
-		depth = parseInt(depth);
-		if (!(level > 0) || !(depth >= level)) {
-			throw('Invalid menu level/depth for configuring a menu tree.');
-		}
-		if (typeof conf !== 'object') {
-			throw('Invalid configuration object for configuring a menu tree.');
-		}
-
-		var prefix = conf['level'+level+'IdPrefix'];
-		var desiredId = prefix + conf['level'+level];
-
-		var $allItems = $(parentDom).find('.menu.level-'+level+' > .menu-item');
-		var currentItem;
-		var currentItemId;
-
-		$allItems.each(function (index, menuItem) {
-			var itemLabel = $(menuItem).find('> a > .label')[0];
-			var itemId = itemLabel.id;
-
-			var isCurrentItemOrParentOfCurrentItem = itemId && desiredId && (itemId===desiredId);
-			var isCurrentItem = isCurrentItemOrParentOfCurrentItem && level === depth;
-			if (isCurrentItemOrParentOfCurrentItem) {
-				currentItem = menuItem;
-				currentItemId = itemId;
-				if (isCurrentItem) {
-					$(menuItem).addClass('current');
-					$(menuItem).removeClass('current-parent');
-				} else {
-					$(menuItem).addClass('current-parent');
-					$(menuItem).removeClass('current');
-				}
-			} else {
-				$(menuItem).removeClass('current');
-				$(menuItem).removeClass('current-parent');
-			}
-		});
-
-		var currentSubMenuItem = null;
-		if (level < depth && currentItem) {
-			var nextLevel = level + 1;
-			conf['level'+nextLevel+'IdPrefix'] = currentItemId + '-' + nextLevel + '-';
-			currentSubMenuItem = setMenuCurrentItemForLevel(nextLevel, depth, currentItem, conf);
-			if (currentSubMenuItem) {
-				$(currentItem).addClass('has-sub-menu'); // update this for robustness
-				$(currentItem).addClass('coupled-shown');
-			}
-		}
-
-		return currentSubMenuItem || currentItem;
-	}
-
-	$('.menu-item.has-sub-menu').each(function () {
-		var menuItem = this;
-		var $subMenuHint = $(this).find('> a > .sub-menu-hint, > .sub-menu-hint');
-
-		$subMenuHint.on('click', function (event) {
-			if (event) {
-				event.preventDefault();
-				event.stopPropagation();
-			}
-
-			updatePageSidebarNavSubMenuForMenuItem(menuItem, 'toggle');
-		});
 	});
 
 
