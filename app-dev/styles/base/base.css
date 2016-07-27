@@ -1638,7 +1638,6 @@ label.deco-input {
 
 	ul.progress-stops {
 		margin: 1rem 0;
-		line-height: 0;
 	}
 
 	.progress-stops .progress-stop,
@@ -1652,24 +1651,23 @@ label.deco-input {
 		padding: 0;
 		}
 
-	.progress-stops .progress-stop > label {
+	.progress-stops .progress-stop > .label,
+	.progress-stops > li > .label {
 		position: absolute;
-		top: 150%;
-		right: 0;
-		width: 80%;
-		max-width: 80%;
-		margin-right: -40%;
-
+		display: block;
 		text-align: center;
 		white-space: normal;
 		overflow: hidden;
-
-		display: block;
 	}
 
-	.progress-stops .progress-stop:first-child > label {
-		width: 8rem;
-		max-width: 8rem;
+	.progress-stops .progress-stop > .tip,
+	.progress-stops > li > .tip {
+		position: absolute;
+		display: block;
+		display: none;
+		text-align: center;
+		white-space: normal;
+		overflow: hidden;
 	}
 
 	.progress-stops .progress-stop::before,
@@ -1704,41 +1702,96 @@ label.deco-input {
 		}
 
 	.progress-stops.layout-hori {
+		overflow: hidden;
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
 		text-align: center;
+		}
+		.progress-stops.layout-hori.has-labels {
+			padding-bottom: 1.2rem;
+		}
+		.progress-stops.layout-hori.has-tips {
+			padding-top: 0.4rem;
 		}
 		.progress-stops.layout-hori .progress-stop,
 		.progress-stops.layout-hori > li {
 			height: 1rem;
 		}
+
 		.progress-stops.layout-hori .progress-stop:first-child,
 		.progress-stops.layout-hori > li:first-child {
 			width: 0!important;
 		}
 		.progress-stops.layout-hori .progress-stop::before,
 		.progress-stops.layout-hori > li::before {
+			content: '';
 			top: 0rem;
 			margin-top: 1px;
+			display: block;
+			position: absolute;
+			border-radius: 1000px;
+			width: 0.4rem;
+			height: 0.4rem;
+			right: 0;
+			top: 50%;
+			margin: -0.2rem;
 		}
-			.progress-stops.layout-hori .progress-stop::after,
-			.progress-stops.layout-hori > li::after {
-				content: '';
-				display: block;
-				border-style: solid;
-				padding: 0;
-				width: 0;
-				height: 0;
-				position: absolute;
-				left: 0;
-				right: 0;
-				top: 0;
-				bottom: 0;
-				margin: auto;
-			}
+
+		.progress-stops.layout-hori .progress-stop::after,
+		.progress-stops.layout-hori > li::after {
+			content: '';
+			display: block;
+			border-style: solid;
+			padding: 0;
+			width: 0;
+			height: 0;
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			border-top-width: 1px;
+		}
+
+		.progress-stops.layout-hori .progress-stop > .label,
+		.progress-stops.layout-hori           > li > .label {
+			font-size: 0.6rem;
+			color: black;
+			left: -0.6rem;
+			height: 1rem;
+			text-align: center;
+
+			top: 100%;
+			left: 50%;
+			right: -50%;
+			width: 80%;
+			margin: 0.4rem auto;
+		}
+
+		.progress-stops.layout-hori > .progress-sotp:first-child > .label,
+		.progress-stops.layout-hori             > li:first-child > .label {
+			width: 8rem;
+			max-width: 8rem;
+
+			left: -4rem;
+			right: auto;
+			margin-right: 0;
+		}
+
+		.progress-stops.layout-hori .progress-stop:last-child > .label,
+		.progress-stops.layout-hori           > li:last-child > .label {
+		}
 
 
 		.progress-stops.layout-hori.progress-stops-distribution-full-width {
-			width: 100%;
+			width: auto;
 			}
+			.progress-stops.layout-hori.progress-stops-distribution-full-width .progress-stop::after,
+			.progress-stops.layout-hori.progress-stops-distribution-full-width           > li::after {
+				width: 100%;
+			}
+
 			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="2"] .progress-stop,
 			.progress-stops.layout-hori.progress-stops-distribution-full-width[data-progress-stops-count="2"] > li {
 				width: 100%;
@@ -1779,7 +1832,6 @@ label.deco-input {
 		}
 		.progress-stops.layout-hori.progress-stops-distribution-compact .progress-stop::after,
 		.progress-stops.layout-hori.progress-stops-distribution-compact > li::after {
-			border-top-width: 1px;
 			width: 0.6rem;
 		}
 
@@ -1798,44 +1850,22 @@ label.deco-input {
 		}
 
 	/* solo label mode: begin */
-		/*.progress-stops .progress-stop > label {
+		/*.progress-stops .progress-stop > .label {
 			width: 8rem;
 			margin-right: -4rem;
 			display: none;
 		}*/
 	/* solo label mode: end */
 
-	.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(8) > label,
-	.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(7) > label,
-	.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(6) > label,
-	.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(5) > label,
-	.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(4) > label,
-	.progress-stops[data-progress-current-stop="3"] .progress-stop:nth-child(3) > label,
-	.progress-stops[data-progress-current-stop="2"] .progress-stop:nth-child(2) > label,
-	.progress-stops[data-progress-current-stop="1"] .progress-stop:first-child > label {
+	.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(8) > .label,
+	.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(7) > .label,
+	.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(6) > .label,
+	.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(5) > .label,
+	.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(4) > .label,
+	.progress-stops[data-progress-current-stop="3"] .progress-stop:nth-child(3) > .label,
+	.progress-stops[data-progress-current-stop="2"] .progress-stop:nth-child(2) > .label,
+	.progress-stops[data-progress-current-stop="1"] .progress-stop:first-child > .label {
 		display: block;
-	}
-
-	.progress-stops .progress-stop:first-child > label {
-		left: -0.6rem;
-		text-align: left;
-
-		right: auto;
-		margin-right: 0;
-	}
-
-	.progress-stops .progress-stop:last-child > label {
-		right: -0.6rem;
-		text-align: right;
-		margin-right: 0;
-	}
-
-	.progress-stops .progress-stop:first-child {
-		width: 0;
-	}
-
-	.progress-stops .progress-stop:first-child::before {
-		content: none!important;
 	}
 
 
