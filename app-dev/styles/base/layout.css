@@ -79,6 +79,15 @@ article.message {
 	}
 
 
+.input-tip {
+	font-size: 0.6rem;
+	visibility: hidden;
+	opacity: 0;
+	transition-property: visibility, opacity;
+	transition-duration: 0.30s;
+	}
+
+
 .info-subject-symbol {
 	margin: 0.25rem auto 1rem auto;
 	}
@@ -230,14 +239,9 @@ article.message {
 
 
 		.row.input-field .input-tip {
-			font-size: 12px;
 			position: absolute;
 			left: 0;
 			top: 0.6rem;
-			visibility: hidden;
-			opacity: 0;
-			transition-property: visibility, opacity;
-			transition-duration: 0.30s;
 			}
 
 			.row.input-field input:focus ~ .input-tip.default,
@@ -249,6 +253,7 @@ article.message {
 			.row.input-field input.value-invalid:focus ~ .input-tip.default {
 				opacity: 0!important;
 			}
+
 
 	.row > div {
 		padding: 0.2rem 0.5rem;
@@ -296,6 +301,20 @@ article.message {
 		.row.rightside-wider .right {
 			width: 80%;
 			margin-left: -0.5rem;
+		}
+		.row.input-tips .left {
+			box-sizing: border-box;
+			width: 75%;
+			padding-left: 0.8rem;
+			padding-right: 0.8rem;
+			margin-left: 0;
+			margin-right: 0;
+		}
+		.row.input-tips .right {
+			box-sizing: border-box;
+			width: 25%;
+			margin-left: 0;
+			padding-right: 0;
 		}
 		.emphasise-leftside  .row  .left,
 		.emphasise-rightside .row  .right,
@@ -457,14 +476,21 @@ article.message {
 
 			background-color: #ccc;
 		}
-		.dialog .row.input-field.input-image-vcode {
+		.dialog .row {
 			margin-left: 1rem;
 			margin-right: 1rem;
 			padding-left: 0;
 			padding-right: 0;
 		}
+		.dialog .row.input-field.input-image-vcode {
+		}
 		.dialog .row.input-field.input-image-vcode .left {
 			width: 8rem;
+		}
+		.dialog .row p.input-tip {
+			margin-top: 0;
+			margin-bottom: 0;
+			font-weight: 500;
 		}
 
 
@@ -487,6 +513,11 @@ article.message {
 
 		.f-block > .row:first-child {
 			margin-top: 1.5rem;
+		}
+
+		.f-block > .row.input-tips {
+			margin-top: 0;
+			margin-bottom: 0;
 		}
 
 	.f-block-body {

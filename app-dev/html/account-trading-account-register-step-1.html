@@ -34,31 +34,37 @@
 			<div class="f-block-body">
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="请输入真实姓名" type="text"
+						<input placeholder="请输入您的真实姓名" type="text"
 							name="realname" required
-												  id="account-trading-account-register-user-real-name">
-						<label class="input-tip" for="account-trading-account-register-user-real-name">姓名</label>
-						<button 		   for-input="account-trading-account-register-user-real-name"
+									   id="account-trading-account-register-user-real-name">
+						<label        for="account-trading-account-register-user-real-name" class="input-tip default">姓名</label>
+						<label        for="account-trading-account-register-user-real-name" class="input-tip error" data-subject="user-real-name-invalid">请输入2-20个汉字</label>
+						<button for-input="account-trading-account-register-user-real-name"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="请输入18位身份证号" type="text" data-text-format="chinese-id-card"
+						<input placeholder="请输入您的身份证号" type="text" data-text-format="chinese-id-card"
 							name="idcard" required
-												  id="account-trading-account-register-user-id-card">
-						<label class="input-tip" for="account-trading-account-register-user-id-card">身份证号</label>
-						<button 		   for-input="account-trading-account-register-user-id-card"
+									   id="account-trading-account-register-user-id-card">
+						<label        for="account-trading-account-register-user-id-card" class="input-tip default">身份证号</label>
+						<label        for="account-trading-account-register-user-id-card" class="input-tip error" data-subject="user-id-card-invalid">请输入正确的身份证号</label>
+						<label        for="account-trading-account-register-user-id-card" class="input-tip error" data-subject="user-id-card-occupied">此身份证号已被使用</label>
+						<button for-input="account-trading-account-register-user-id-card"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<p class="tip">提示：根据国家相关规定，投资理财交易必须实名</p>
+			<div class="row input-tips">
+				<p class="input-tip error" data-subject="user-real-name-id-card-pare-mismatch">姓名和身份证号不匹配</p>
 			</div>
+			<!-- <div class="row">
+				<p class="tip">提示：根据国家相关规定，投资理财交易必须实名</p>
+			</div> -->
 		</div>
 
-		<div class="row buttons-in-single-line">
+		<div class="row buttons-in-single-line snap-top">
 			<button class="rounded-corners size-std-wide" disabled="disabled" 
 				button-action="submit">下一步</button>
 		</div>
@@ -66,6 +72,16 @@
 
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
+
+	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
+		<div class="popup-layer polite-message" id="plpm-trading-account-register-id-card-verification-succeeded">
+			<div class="popup-window">
+				<article><p>校验成功</p></article>
+			</div>
+		</div>
+
+		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
+	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
 	<script src="../scripts/pages/account-trading-account-register-step-1.min.js"></script>
 </div>

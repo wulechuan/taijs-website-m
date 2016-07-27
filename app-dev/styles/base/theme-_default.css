@@ -46,6 +46,7 @@ html {
 	color: #8ac45f;
 	}
 	.color-negative,
+	.input-tip.error,
 	.color-error {
 		color: #f33!important;
 	}
@@ -591,9 +592,6 @@ label.deco-input {
 	}
 	.row.input-field input:focus ~ .input-tip.default {
 		color: #4285f4;
-	}
-	.row.input-field .input-tip.error {
-		color: #f00;
 	}
 
 
