@@ -865,7 +865,7 @@ article.message {
 		right: 0;
 		top: 0;
 		font-size: 0.9rem;
-		margin: 1rem 0.7rem 0 0;
+		margin: 0.9rem 0.7rem 0 0;
 	}
 	.entity-info .entity-body {
 		display: block;
@@ -886,7 +886,7 @@ article.message {
 	}
 	.entity-body .call-to-action {
 		width: 4.5rem;
-		height: 2.4rem;
+		height: 3rem;
 		text-align: right;
 		white-space: nowrap;
 		}
@@ -981,8 +981,11 @@ article.message {
 				margin: 0 auto;
 			}
 
-	.entity-info.entity-type-funds .entity-body .f-list > .cell {
-		width: 50%;
+	.entity-info.entity-type-fund .entity-body .f-list > .cell:first-child {
+		width: 55%;
+	}
+	.entity-info.entity-type-fund .entity-body .f-list > .cell:last-child {
+		width: 45%;
 	}
 
 
