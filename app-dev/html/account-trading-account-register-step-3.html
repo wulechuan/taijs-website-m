@@ -34,55 +34,61 @@
 			<div class="row snap-top">
 				<h2>请输入6位数字密码</h2>
 			</div>
-			<div class="f-block-body">
-				<div class="row full-width">
-					<div class="single-char-inputs-set inputs-distribution-full-width input-password input-only-digits"
-						id="account-trading-account-register-password-inputs" 
-						><input form="form-setting-trading-password" class="single-char-inputs-aggregator" name="password1" required="required" type="hidden" 
-						><div class="single-char-inputs-group" 
-							><input class="single-char-input" 
-							><input class="single-char-input" 
-							><input class="single-char-input" 
-							><input class="single-char-input" 
-							><input class="single-char-input" 
-							><input class="single-char-input" 
-						></div
-					></div>
-				</div>
+			<div class="row">
+				<div class="single-char-inputs-set inputs-distribution-full-width input-password input-only-digits"
+					id="account-trading-account-register-password-inputs" 
+					><input form="form-setting-trading-password" class="single-char-inputs-aggregator" name="password1" required="required" type="hidden" 
+					><div class="single-char-inputs-group" 
+						><input class="single-char-input" 
+						><input class="single-char-input" 
+						><input class="single-char-input" 
+						><input class="single-char-input" 
+						><input class="single-char-input" 
+						><input class="single-char-input" 
+					></div
+				></div>
 			</div>
-			<div class="row error-tip" style="display: none;">
+			<!-- <div class="row error-tip" style="display: none;">
 				<p class="tip color-error">您的两次输入不一致，请重新输入</p>
-			</div>
+			</div> -->
 		</div>
 		<div class="f-block password-pass-2" style="display: none;">
 			<div class="row snap-top">
-				<h2>请再次输入6位数字密码</h2>
+				<h2>请确认6位数字密码</h2>
 			</div>
-			<div class="f-block-body">
-				<div class="row full-width">
-					<div class="single-char-inputs-set inputs-distribution-full-width input-password input-only-digits"
-						id="account-trading-account-register-password-inputs" 
-						><input form="form-setting-trading-password" class="single-char-inputs-aggregator" name="password2" required="required" type="hidden" 
-						><div class="single-char-inputs-group" 
-							><input class="single-char-input" 
-							><input class="single-char-input" 
-							><input class="single-char-input" 
-							><input class="single-char-input" 
-							><input class="single-char-input" 
-							><input class="single-char-input" 
-						></div
-					></div>
-				</div>
+			<div class="row">
+				<div class="single-char-inputs-set inputs-distribution-full-width input-password input-only-digits"
+					id="account-trading-account-register-password-inputs" 
+					><input form="form-setting-trading-password" class="single-char-inputs-aggregator" name="password2" required="required" type="hidden" 
+					><div class="single-char-inputs-group" 
+						><input class="single-char-input" 
+						><input class="single-char-input" 
+						><input class="single-char-input" 
+						><input class="single-char-input" 
+						><input class="single-char-input" 
+						><input class="single-char-input" 
+					></div
+				></div>
 			</div>
-			<div class="row buttons-in-single-line">
+			<!-- <div class="row buttons-in-single-line">
 				<button class="rounded-corners size-std-wide" disabled="disabled" form="form-setting-trading-password"
 					button-action="submit">完成</button>
-			</div>
+			</div> -->
 		</div>
 		</form>
 
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
+
+	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
+		<div class="popup-layer polite-message" id="plpm-trading-account-register-passwords-mismatch">
+			<div class="popup-window">
+				<article><p>两次密码不一致</p></article>
+			</div>
+		</div>
+
+		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
+	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
 	<script src="../scripts/pages/account-trading-account-register-step-3.min.js"></script>
 </div>

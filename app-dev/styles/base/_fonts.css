@@ -3,7 +3,7 @@
 }
 
 .f-block-body, html, body, button, select, option {
-	font-weight: lighter; /* for noto sans and yahei */
+	font-weight: 300; /* for noto sans and yahei */
 }
 
 textarea, input {

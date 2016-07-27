@@ -71,12 +71,24 @@ article.message {
 	padding-top: 0.25rem;
 	padding-bottom: 0.25rem;
 	}
+	article.message h3 {
+		font-weight: 500;
+	}
 	article.message p {
+		font-size: 0.8rem;
 		letter-spacing: 0.075em;
 	}
-	article.message p:last-child {
+	/* article.message p:last-child {
 		margin-bottom: 0;
-	}
+	} */
+
+	article.message .info-subject-symbol {
+		margin: 0.1rem auto 0.1rem auto;
+		}
+		article.message .info-subject-symbol .iconfont,
+		article.message .info-subject-symbol {
+			font-size: 3rem;
+		}
 
 
 .input-tip {
@@ -88,18 +100,12 @@ article.message {
 	}
 
 
-.info-subject-symbol {
-	margin: 0.25rem auto 1rem auto;
-	}
-
-	.info-subject-symbol .iconfont,
-	.info-subject-symbol {
-		font-size: 3rem;
-	}
-
 
 .single-char-inputs-set {
 	text-align: center;
+	}
+	.row > .single-char-inputs-set {
+		padding: 0;
 	}
 	.single-char-inputs-set input.single-char-input {
 		margin: 0;

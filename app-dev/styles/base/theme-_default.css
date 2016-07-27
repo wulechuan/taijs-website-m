@@ -74,6 +74,9 @@ em {
 a, a:visited {
 	color: #4285f4;
 	}
+	a:active {
+		opacity: 0.6;
+	}
 
 
 .color-inverted {
@@ -460,8 +463,10 @@ label.deco-input {
 .single-char-inputs-set {
 	}
 	.single-char-inputs-set input.single-char-input {
-		color: #959595;
+		/* color: #959595; */
+		color: black;
 		border-color: #d9d9d9;
+		background-color: white;
 	}
 	.single-char-inputs-set input.single-char-input:focus {
 		background-color: #cfc;
@@ -605,6 +610,15 @@ label.deco-input {
 	.f-block .tiles     > .tile .icon {
 		background-color: #e5e5e5; /* simply a default value */
 	}
+
+
+.hero-content-block {
+	color: #999;
+	}
+	.hero-content-block .subject {
+		color: #333;
+	}
+
 
 
 .product-abstract {
