@@ -28,10 +28,11 @@ html {
 	}
 
 
-*[role="button"].bg-transparent,
-.bg-transparent {
+.bg-transparent, [role="button"] {
 	background-color: transparent;
 	}
+
+
 .sensitive-value-replacement {
 	background-color: white;
 	}
@@ -39,6 +40,7 @@ html {
 		color: white;
 		background-color: #4285f4;
 	}
+
 
 .color-positive {
 	color: #8ac45f;
@@ -53,9 +55,11 @@ html {
 	color: #999;
 }
 
+
 .copyright p {
 	color: #999;
 }
+
 
 em {
 	/* color: #ff7200; */
@@ -65,9 +69,11 @@ em {
 		color: #f60;
 	}
 
+
 a, a:visited {
 	color: #4285f4;
 	}
+
 
 .color-inverted {
 	color: white;
@@ -76,6 +82,7 @@ a, a:visited {
 	.color-inverted a, .color-inverted a:visited {
 		color: white;
 	}
+
 
 input {
 	color: black;
@@ -475,6 +482,16 @@ label.deco-input {
 	.progress-rings .ring .half-2 .half{
 		border-color: rgba(255, 0, 0, 0.4);
 	} */
+
+
+.count-down-disc {
+	color: #f60;
+	}
+	.f-block .count-down-disc,
+	.count-down-disc {
+		border-color: initial;
+		border-color: #f60; /* for IE 11 */
+	}
 
 
 .f-list > li > .label {

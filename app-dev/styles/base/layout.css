@@ -771,6 +771,26 @@ article.message {
 		}
 
 
+.count-down-disc {
+	position: relative;
+	border-radius: 1000px;
+	border-width: 1px;
+	text-align: center;
+	}
+	.count-down-disc .count-down-time {
+		display: block;
+		font-size: 0.78rem;
+		line-height: 1rem;
+		margin-top: 1.2rem;
+	}
+	.count-down-disc .label {
+		display: block;
+		margin: 0 auto;
+		font-size: 0.55rem;
+	}
+
+
+
 .entity-info {
 	font-size: 1rem;
 	}
@@ -832,6 +852,7 @@ article.message {
 	.entity-buyable .entity-body .call-to-action button {
 		padding: 0;
 	}
+	.entity-buyable.entity-time-limited .entity-body .call-to-action .count-down-disc,
 	.entity-buyable.entity-time-limited .entity-body .call-to-action [role="button"][button-action="call-to-action"],
 	.entity-buyable.entity-time-limited .entity-body .call-to-action button[button-action="call-to-action"] {
 		width: 3.75rem;
