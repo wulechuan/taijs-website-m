@@ -653,8 +653,17 @@ label.deco-input {
 .tab-panel-set {
 	}
 
-	.tab-list > li {
+	.tab-list.tabs-style-simple > li {
 		background-color: #f2f2f2;
+	}
+
+	.tab-list.tabs-style-regular > li {
+		color: black;
+		background-color: white;
+	}
+
+	.tab-list > .current-item-hint {
+		background-color: #4285f4;
 	}
 
 	.tab-list > li.current {

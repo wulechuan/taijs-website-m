@@ -458,7 +458,7 @@
 		function _slideHintToTab(theTab) {
 			if (!currentItemHint) return false;
 
-			var currentItemHintCssLeft = -20;
+			var currentItemHintCssLeft = 0;
 
 			if (!theTab) {
 				currentItemHint.style.clip = '';
@@ -477,8 +477,10 @@
 			var _R = _L+_W;
 
 
-			currentItemHint.style.clip = 'rect(0px, '+
-				_R+'px, 2px, '+
+			currentItemHint.style.clip = 'rect('+
+			       '0, '+
+				_R+'px, '+
+				   '3px, '+
 				_L+'px)'
 			;
 

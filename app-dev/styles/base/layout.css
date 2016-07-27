@@ -1138,6 +1138,7 @@ article.message {
 	}
 
 	.tab-list {
+		position: relative;
 		width: 100%;
 		}
 
@@ -1146,6 +1147,7 @@ article.message {
 			text-align: center;
 			padding: 0.5rem;
 			box-sizing: border-box;
+			font-weight: 400;
 		}
 
 		.tab-list > li > .label {
@@ -1153,6 +1155,32 @@ article.message {
 			margin: 0.15rem 0;
 			line-height: 1.2rem;
 		}
+
+
+		.tab-list > .current-item-hint {
+			display: none;
+		}
+
+		.tab-list.tabs-style-regular > .current-item-hint {
+			display: block;
+			height: 3px;
+			position: absolute;
+
+			left: 0;
+			right: 0;
+
+			top: auto;
+			bottom: 0;
+			z-index: 20;
+
+			clip: rect(auto, 0px, auto, auto);
+			margin: 0;
+			transition-property: clip;
+			transition-duration: 0.25s;
+			/* transition-timing-function: cubic-bezier(.19,1.08,.63,1.36); */
+			transition-timing-function: ease-out;
+		}
+
 
 
 	.panel-group {
