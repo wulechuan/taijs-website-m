@@ -285,6 +285,15 @@ input {
 	}
 
 
+	input[type="reset"].simple-look,
+	input[type="button"].simple-look,
+	input[type="submit"].simple-look,
+	a[role="button"].simple-look,
+	[role="button"].simple-look,
+	button.simple-look {
+		color: #4285f4;
+	}
+
 	input[type="reset"].simple-look *,
 	input[type="reset"].simple-look,
 	input[type="button"].simple-look *,
@@ -297,7 +306,6 @@ input {
 	[role="button"].simple-look,
 	button.simple-look *,
 	button.simple-look {
-		/* color: #4285f4; */
 		transition-property: background-color;
 	}
 
@@ -583,6 +591,9 @@ label.deco-input {
 	}
 	.row.input-field input:focus ~ .input-tip {
 		color: #4285f4;
+	}
+	.row.input-field .input-tip.error {
+		color: #f00;
 	}
 
 
