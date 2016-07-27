@@ -860,7 +860,7 @@ article.message {
 		font-weight: 400;
 		vertical-align: middle;
 	}
-	.entity-info.favorite-entity .favorite-entity-icon {
+	.entity-info .favorite-entity-icon {
 		position: absolute;
 		right: 0;
 		top: 0;
@@ -957,10 +957,19 @@ article.message {
 			.entity-body .f-list > .cell > .content {
 				display: block;
 				font-size: 1rem;
+				line-height: 1rem;
 				white-space: nowrap;
+				height: 1rem;
+				padding: 0.6rem 0 0 0;
 			}
 			.entity-body .f-list > .cell > .content .digits {
 				font-weight: 300;
+			}
+
+			.entity-body .f-list > .cell.hero > .content {
+				font-size: 1.6em;
+				padding-top: 0;
+				height: 1.6rem;
 			}
 
 		.entity-body .f-list.labels-at-bottom > .cell {
@@ -968,17 +977,13 @@ article.message {
 			}
 			.entity-body .f-list.labels-at-bottom > .cell > .label {
 				position: absolute;
-				bottom: 0;
+				bottom: 0.1rem;
 				margin: 0 auto;
 			}
-			.entity-body .f-list.labels-at-bottom > .cell > .content {
-				display: block;
-				font-size: 1rem;
-				white-space: nowrap;
-			}
-			.entity-body .f-list.labels-at-bottom > .cell > .content .digits {
-				font-weight: 300;
-			}
+
+	.entity-info.entity-type-funds .entity-body .f-list > .cell {
+		width: 50%;
+	}
 
 
 .user-assets-abstract {
