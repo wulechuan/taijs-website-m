@@ -683,7 +683,7 @@ article.message {
 		border-width: 0 1px;
 	}
 	.f-block .tiles > a > .tile .icon,
-	.f-block .tiles > .tile .icon {
+	.f-block .tiles     > .tile .icon {
 		display: block;
 		margin: 0.6rem auto 0.4rem auto;
 		border-radius: 1000px;
@@ -694,7 +694,7 @@ article.message {
 		overflow: hidden;
 	}
 	.f-block .tiles > a > .tile .label,
-	.f-block .tiles > .tile .label {
+	.f-block .tiles     > .tile .label {
 		display: block;
 		margin: 0.4rem auto 0.4rem auto;
 	}
@@ -773,6 +773,20 @@ article.message {
 
 .entity-info {
 	font-size: 1rem;
+	}
+	.entity-info > h4 {
+		position: relative;
+		display: inline-block;
+		padding-right: 1.25rem;
+		font-size: 0.8rem;
+		font-weight: 500;
+	}
+	.entity-info > h4 .icon {
+		position: absolute;
+		right: 0;
+		top: 0;
+		font-size: 0.8rem;
+		margin: 0.1rem;
 	}
 	.entity-info .entity-body {
 		display: block;
