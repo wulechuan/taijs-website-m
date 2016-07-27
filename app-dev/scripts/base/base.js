@@ -146,6 +146,8 @@
 				}
 
 				controlledInput.value = '';
+				$(controlledInput).removeClass('non-empty-field');
+				$(controlledInput).removeClass('Invalid');
 				this.style.display = 'none';
 				setTimeout(function () {
 					controlledInput.focus();

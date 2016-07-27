@@ -240,10 +240,14 @@ article.message {
 			transition-duration: 0.30s;
 			}
 
-			.row.input-field input:focus ~ .input-tip,
-			.row.input-field input.non-empty-field ~ .input-tip {
+			.row.input-field input:focus ~ .input-tip.default,
+			.row.input-field input.non-empty-field ~ .input-tip.default {
 				visibility: visible;
 				opacity: 1;
+			}
+
+			.row.input-field input.value-invalid:focus ~ .input-tip.default {
+				opacity: 0!important;
 			}
 
 	.row > div {

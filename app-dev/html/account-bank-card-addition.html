@@ -91,15 +91,17 @@
 					<div class="left">
 						<input placeholder="请输入验证码" type="number"
 							name="smsvcode" required
-												  id="bank-card-addition-sms-verification-code">
-						<label class="input-tip" for="bank-card-addition-sms-verification-code">验证码</label>
-						<button 		   for-input="bank-card-addition-sms-verification-code"
+									   id="bank-card-addition-sms-verification-code">
+						<label        for="bank-card-addition-sms-verification-code" class="input-tip default">验证码</label>
+						<button for-input="bank-card-addition-sms-verification-code"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 					<div class="right">
 						<div class="step current fetch"
 							><button class="simple-look" type="button" 
 								button-action="fetch-sms-vcode">获取验证码</button
+							><button class="simple-look" type="button" style="display: none;" 
+								button-action="fetch-sms-vcode">重新获取</button
 						></div>
 						<div class="step countdown"
 							><span class="value">60</span

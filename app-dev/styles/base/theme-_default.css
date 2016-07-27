@@ -589,7 +589,7 @@ label.deco-input {
 	.row.emphasise-rightside   .right {
 		color: black;
 	}
-	.row.input-field input:focus ~ .input-tip {
+	.row.input-field input:focus ~ .input-tip.default {
 		color: #4285f4;
 	}
 	.row.input-field .input-tip.error {
