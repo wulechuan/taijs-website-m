@@ -516,6 +516,11 @@
 				panel.setAttribute('aria-hidden', false);
 				$(tab).addClass('current');
 				$(panel).addClass('current');
+				var nameToShowInPageHeader = panel.dataset.nameInPageHeader;
+				if (nameToShowInPageHeader) {
+					$(panel).parents('.page').find('.page-header .header-bar .center h1').html(nameToShowInPageHeader);
+					$('title').html(nameToShowInPageHeader);
+				}
 			} else {
 				panel.setAttribute('aria-hidden', true);
 				$(tab).removeClass('current');
