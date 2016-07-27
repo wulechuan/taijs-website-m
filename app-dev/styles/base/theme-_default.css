@@ -48,7 +48,10 @@ html {
 	.color-negative,
 	.input-tip.error,
 	.color-error {
-		color: #f33!important;
+		color: #f00!important;
+	}
+	.negative-value {
+		color: #2c9b01!important;
 	}
 
 
@@ -619,6 +622,11 @@ label.deco-input {
 		color: #333;
 	}
 
+.entity-info {
+	}
+	.entity-info > h5 {
+		color: #999;
+	}
 
 
 .product-abstract {
@@ -651,9 +659,6 @@ label.deco-input {
 
 	.tab-list > li.current {
 		color: #4285f4;
-		background-color: white;
-	}
-	.panel {
 		background-color: white;
 	}
 
