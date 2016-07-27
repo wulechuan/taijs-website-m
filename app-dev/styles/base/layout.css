@@ -1722,3 +1722,11 @@ article.message {
 	#page-account-sign-up-sign-in .panel .f-block:first-child {
 		margin-top: 1rem;
 	}
+
+
+#page-newbie-call-to-action {
+	}
+
+	#page-newbie-call-to-action .page-header {
+		height: 10rem;
+	}
