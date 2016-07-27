@@ -29,13 +29,13 @@ textarea, input {
 .arial,
 .bank-card-number,
 .phone,
-/* .currency, */
 .digits {
 	font-family: Arial, 'Helvetica Neue LT Pro', Helvetica, 'Microsoft Yahei UI', 'Microsoft Yahei', Sans-Serif;
 	font-weight: lighter;
 }
 
-
+.helvetica-digits.digits,
+.helvetica-digits.phone,
 .helvetica-digits .digits,
 .helvetica-digits .phone,
 .page-body-stamp  .phone,
