@@ -78,9 +78,14 @@ a, a:visited {
 	color: #4285f4;
 	}
 	a:active {
+		transition-property: none;
 		opacity: 0.6;
 	}
-
+	a:active .hero-content-block,
+	a:active .row {
+		transition-property: none;
+		background-color: rgba(0, 0, 0, 0.05);
+	}
 
 .color-inverted {
 	color: white;
@@ -713,6 +718,7 @@ label.deco-input {
 	  .row.call-to-action::after {
 		color: #999;
 	}
+
 	.row.select-field .right,
 	.row.input-field  .right,
 	.row              .left {
