@@ -55,26 +55,51 @@
 		<div class="f-block">
 			<div class="f-block-body">
 				<div class="row full-width">
-					<ul class="progress-stops layout-hori progress-stops-distribution-full-width has-labels has-tips"
-						data-progress-stops-count="4" data-progress-current-stop="-1"
-						><li
-							><span class="label">今日购买</span
+					<ul class="progress-stops layout-hori progress-stops-distribution-full-width has-labels has-floating-tips progress-stops-style-1"
+						data-progress-stops-count="4" data-progress-current-stop="0"
+						><li>
+							<div class="label">
+								<p>今日购买</p>
+							</div>
+						</li
+						><li>
+							<div class="label">
+								<p>明日起息</p>
+							</div>
+						</li
+						><li>
+							<div class="label">
+								<p>预计结息</p>
+							</div>
+							<div class="floating-tip">
+								<div class="tip-balloon has-border-triangle border-triangle-at-bottom border-triangle-size-tiny">
+									<div class="content">
+										<p>
+											<time class="date-format-yyyy-mm-dd"
+												><span class="value yu-ji-jie-xi">2016.09.05</span
+											></time>
+										</p>
+									</div>
+								</div>
+							</div
 						></li
-						><li
-							><span class="label">明日起息</span
-						></li
-						><li
-							><span class="label">预计结息</span
-							><span class="tip has-border-triangle border-triangle-at-bottom"
-								><time class="date-format-yyyy-mm-dd">2016.09.05</time
-							></span
-						></li
-						><li
-							><span class="label">预计本息到账</span
-							><span class="tip has-border-triangle border-triangle-at-bottom"
-								><time class="date-format-yyyy-mm-dd">2016.09.06</time
-							></span
-						></li
+						><li class="emphasis">
+							<div class="label">
+								<p>预计本息到账</p>
+								<p class="minor-content" style="white-space: nowrap;">注： 如遇节假日顺延</p>
+							</div>
+							<div class="floating-tip">
+								<div class="tip-balloon has-border-triangle border-triangle-at-bottom border-triangle-size-tiny">
+									<div class="content">
+										<p>
+											<time class="date-format-yyyy-mm-dd"
+												><span class="value yu-ji-ben-xi-dao-zhang">2016.09.06</span
+											></time>
+										</p>
+									</div>
+								</div>
+							</div>
+						</li
 					></ul>
 				</div>
 			</div>

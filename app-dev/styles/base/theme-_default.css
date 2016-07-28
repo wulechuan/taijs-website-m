@@ -55,7 +55,7 @@ html {
 	}
 
 
-.tip {
+.minor-content, .tip {
 	color: #999;
 }
 
@@ -501,6 +501,136 @@ label.deco-input {
 	} */
 
 
+.progress-stops .progress-stop,
+.progress-stops > li {
+	color: #cecece;
+	background-color: #cfcfcf;
+	}
+
+	.progress-stops .progress-stop > .label,
+	.progress-stops           > li > .label {
+		color: #b3b3b3;
+	}
+
+	.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(8),
+	.progress-stops[data-progress-current-stop="8"]           > li:nth-child(8),
+	.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(7),
+	.progress-stops[data-progress-current-stop="7"]           > li:nth-child(7),
+	.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(6),
+	.progress-stops[data-progress-current-stop="6"]           > li:nth-child(6),
+	.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(5),
+	.progress-stops[data-progress-current-stop="5"]           > li:nth-child(5),
+	.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(4),
+	.progress-stops[data-progress-current-stop="4"]           > li:nth-child(4),
+	.progress-stops[data-progress-current-stop="3"] .progress-stop:nth-child(3),
+	.progress-stops[data-progress-current-stop="3"]           > li:nth-child(3),
+	.progress-stops[data-progress-current-stop="2"] .progress-stop:nth-child(2),
+	.progress-stops[data-progress-current-stop="2"]           > li:nth-child(2),
+	.progress-stops[data-progress-current-stop="1"] .progress-stop:first-child,
+	.progress-stops[data-progress-current-stop="1"]           > li:first-child {
+		color: #4285f4;
+	}
+
+	/* all past nodes: begin */
+		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(8),
+		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(8),
+		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(7),
+		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(7),
+		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(6),
+		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(6),
+		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(5),
+		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(5),
+		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(4),
+		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(4),
+		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(3),
+		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(3),
+		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(2),
+		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(2),
+		.progress-stops[data-progress-current-stop="8"] .progress-stop:first-child,
+		.progress-stops[data-progress-current-stop="8"]           > li:first-child,
+
+		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(7),
+		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(7),
+		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(6),
+		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(6),
+		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(5),
+		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(5),
+		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(4),
+		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(4),
+		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(3),
+		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(3),
+		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(2),
+		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(2),
+		.progress-stops[data-progress-current-stop="7"] .progress-stop:first-child,
+		.progress-stops[data-progress-current-stop="7"]           > li:first-child,
+
+		.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(6),
+		.progress-stops[data-progress-current-stop="6"]           > li:nth-child(6),
+		.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(5),
+		.progress-stops[data-progress-current-stop="6"]           > li:nth-child(5),
+		.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(4),
+		.progress-stops[data-progress-current-stop="6"]           > li:nth-child(4),
+		.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(3),
+		.progress-stops[data-progress-current-stop="6"]           > li:nth-child(3),
+		.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(2),
+		.progress-stops[data-progress-current-stop="6"]           > li:nth-child(2),
+		.progress-stops[data-progress-current-stop="6"] .progress-stop:first-child,
+		.progress-stops[data-progress-current-stop="6"]           > li:first-child,
+
+		.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(5),
+		.progress-stops[data-progress-current-stop="5"]           > li:nth-child(5),
+		.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(4),
+		.progress-stops[data-progress-current-stop="5"]           > li:nth-child(4),
+		.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(3),
+		.progress-stops[data-progress-current-stop="5"]           > li:nth-child(3),
+		.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(2),
+		.progress-stops[data-progress-current-stop="5"]           > li:nth-child(2),
+		.progress-stops[data-progress-current-stop="5"] .progress-stop:first-child,
+		.progress-stops[data-progress-current-stop="5"]           > li:first-child,
+
+		.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(4),
+		.progress-stops[data-progress-current-stop="4"]           > li:nth-child(4),
+		.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(3),
+		.progress-stops[data-progress-current-stop="4"]           > li:nth-child(3),
+		.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(2),
+		.progress-stops[data-progress-current-stop="4"]           > li:nth-child(2),
+		.progress-stops[data-progress-current-stop="4"] .progress-stop:first-child,
+		.progress-stops[data-progress-current-stop="4"]           > li:first-child,
+
+		.progress-stops[data-progress-current-stop="3"] .progress-stop:nth-child(3),
+		.progress-stops[data-progress-current-stop="3"]           > li:nth-child(3),
+		.progress-stops[data-progress-current-stop="3"] .progress-stop:nth-child(2),
+		.progress-stops[data-progress-current-stop="3"]           > li:nth-child(2),
+		.progress-stops[data-progress-current-stop="3"] .progress-stop:first-child,
+		.progress-stops[data-progress-current-stop="3"]           > li:first-child,
+
+		.progress-stops[data-progress-current-stop="2"] .progress-stop:nth-child(2),
+		.progress-stops[data-progress-current-stop="2"]           > li:nth-child(2),
+		.progress-stops[data-progress-current-stop="2"] .progress-stop:first-child,
+		.progress-stops[data-progress-current-stop="2"]           > li:first-child {
+			color: #4285f4;
+			background-color: #4285f4;
+		}
+	/* all past nodes: end */
+
+	.progress-stops.progress-stops-style-1 .progress-stop > .floating-tip,
+	.progress-stops.progress-stops-style-1           > li > .floating-tip,
+	.progress-stops.progress-stops-style-1 .progress-stop > .label,
+	.progress-stops.progress-stops-style-1           > li > .label {
+		color: #333;
+	}
+
+	.progress-stops.progress-stops-style-1 .progress-stop.emphasis .floating-tip .tip-balloon,
+	.progress-stops.progress-stops-style-1 .progress-stop.emphasis::before,
+	.progress-stops.progress-stops-style-1           > li.emphasis .floating-tip .tip-balloon,
+	.progress-stops.progress-stops-style-1           > li.emphasis::before {
+		color: white;
+		background-color: #ff3700;
+		/* background-color: #f60; */
+	}
+
+
+
 .count-down-disc {
 	color: #f60;
 	}
@@ -691,106 +821,6 @@ label.deco-input {
 	.tab-panel-set.tab-style-buttons .tab-list > li {
 		border-color: #4285f4;
 	}
-
-
-.progress-stops .progress-stop,
-.progress-stops > li {
-	color: #cecece;
-	}
-
-	.progress-stops .progress-stop > .label,
-	.progress-stops           > li > .label {
-		color: #b3b3b3;
-	}
-
-	.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(8),
-	.progress-stops[data-progress-current-stop="8"]           > li:nth-child(8),
-	.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(7),
-	.progress-stops[data-progress-current-stop="7"]           > li:nth-child(7),
-	.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(6),
-	.progress-stops[data-progress-current-stop="6"]           > li:nth-child(6),
-	.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(5),
-	.progress-stops[data-progress-current-stop="5"]           > li:nth-child(5),
-	.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(4),
-	.progress-stops[data-progress-current-stop="4"]           > li:nth-child(4),
-	.progress-stops[data-progress-current-stop="3"] .progress-stop:nth-child(3),
-	.progress-stops[data-progress-current-stop="3"]           > li:nth-child(3),
-	.progress-stops[data-progress-current-stop="2"] .progress-stop:nth-child(2),
-	.progress-stops[data-progress-current-stop="2"]           > li:nth-child(2),
-	.progress-stops[data-progress-current-stop="1"] .progress-stop:first-child,
-	.progress-stops[data-progress-current-stop="1"]           > li:first-child {
-		color: #4285f4;
-	}
-
-	/* all past nodes: begin */
-		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(8),
-		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(8),
-		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(7),
-		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(7),
-		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(6),
-		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(6),
-		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(5),
-		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(5),
-		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(4),
-		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(4),
-		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(3),
-		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(3),
-		.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(2),
-		.progress-stops[data-progress-current-stop="8"]           > li:nth-child(2),
-
-		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(7),
-		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(7),
-		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(6),
-		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(6),
-		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(5),
-		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(5),
-		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(4),
-		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(4),
-		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(3),
-		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(3),
-		.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(2),
-		.progress-stops[data-progress-current-stop="7"]           > li:nth-child(2),
-
-		.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(6),
-		.progress-stops[data-progress-current-stop="6"]           > li:nth-child(6),
-		.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(5),
-		.progress-stops[data-progress-current-stop="6"]           > li:nth-child(5),
-		.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(4),
-		.progress-stops[data-progress-current-stop="6"]           > li:nth-child(4),
-		.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(3),
-		.progress-stops[data-progress-current-stop="6"]           > li:nth-child(3),
-		.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(2),
-		.progress-stops[data-progress-current-stop="6"]           > li:nth-child(2),
-
-		.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(5),
-		.progress-stops[data-progress-current-stop="5"]           > li:nth-child(5),
-		.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(4),
-		.progress-stops[data-progress-current-stop="5"]           > li:nth-child(4),
-		.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(3),
-		.progress-stops[data-progress-current-stop="5"]           > li:nth-child(3),
-		.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(2),
-		.progress-stops[data-progress-current-stop="5"]           > li:nth-child(2),
-
-		.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(4),
-		.progress-stops[data-progress-current-stop="4"]           > li:nth-child(4),
-		.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(3),
-		.progress-stops[data-progress-current-stop="4"]           > li:nth-child(3),
-		.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(2),
-		.progress-stops[data-progress-current-stop="4"]           > li:nth-child(2),
-
-		.progress-stops[data-progress-current-stop="3"] .progress-stop:nth-child(3),
-		.progress-stops[data-progress-current-stop="3"]           > li:nth-child(3),
-		.progress-stops[data-progress-current-stop="3"] .progress-stop:nth-child(2),
-		.progress-stops[data-progress-current-stop="3"]           > li:nth-child(2),
-
-		.progress-stops[data-progress-current-stop="2"] .progress-stop:nth-child(2),
-		.progress-stops[data-progress-current-stop="2"]           > li:nth-child(2),
-
-		.progress-stops .progress-stop:first-child,
-		.progress-stops           > li:first-child {
-			color: #4285f4;
-		}
-	/* all past nodes: end */
 
 
 .slot {

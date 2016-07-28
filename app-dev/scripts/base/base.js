@@ -46,11 +46,12 @@
 	var $globalbp = $('.app > .popup-layers .popup-layers-back-plate');
 	var $pLTaijsServiceContact = $('.app > .popup-layers #pl-taijs-service-contact');
 
-	$('.page-body-stamp .taijs-service-contact').on('click', function () {
-		$globalbp.show();
-		$pLTaijsServiceContact.show();
-	});
-
+	// $('.page-body-stamp .taijs-service-contact').on('click', function () {
+	// 	if (!navigator.userAgent.math(/MicroMessenger/i)) {
+	// 		$globalbp.show();
+	// 		$pLTaijsServiceContact.show();
+	// 	}
+	// });
 
 
 	$('a[href$="index.html"]').each(function () {

@@ -304,6 +304,7 @@ article.message {
 		.row .right {
 			text-align: right;
 			margin-left: -2rem;
+			margin-right: -0.5rem;
 		}
 		.row.leftside-wider .left {
 			width: 80%;
@@ -828,6 +829,8 @@ article.message {
 
 	.color-inverted .hero-content-block,
 	.page-header .hero-content-block {
+		margin-left: 0;
+		margin-right: 0;
 		padding-top: 1rem;
 		padding-bottom: 1rem;
 		}
@@ -1267,6 +1270,7 @@ article.message {
 	height: 100%;
 	margin: auto;
 	overflow: auto;
+	-webkit-overflow-scrolling: touch;
 	}
 
 	/*
@@ -1331,9 +1335,14 @@ article.message {
 		padding-top: 2.4rem;
 	}
 
-	.page.fixed-page-footer,
+	/* .page.fixed-page-footer,
 	.page.fixed-page-footer.has-page-footer {
-		padding-bottom: 3.3rem;
+		padding-bottom: 1px;
+	} */
+
+	.page.fixed-page-footer .page-body,
+	.page.fixed-page-footer.has-page-footer .page-body {
+		margin-bottom: 3.3rem; /* for IE */
 	}
 
 
@@ -1440,7 +1449,7 @@ article.message {
 			min-height: calc(100% - 2.5rem);
 		}
 		.page.page-header-in-compact-mode .page-header {
-			position: absolute;
+			position: fixed;
 			left: 0;
 			top: 0;
 			width: 100%;
@@ -1455,7 +1464,7 @@ article.message {
 .copyright {
 	font-size: 0.6rem;
 	letter-spacing: 0.03em;
-	transform: scale(0.81, 0.81);
+	/* transform: scale(0.81, 0.81); */
 	}
 
 
@@ -1509,7 +1518,7 @@ article.message {
 	}
 
 
-#pl-taijs-service-contact .dialog-header {
+/* #pl-taijs-service-contact .dialog-header {
 	display: none;
 	}
 	#pl-taijs-service-contact .main {
@@ -1520,9 +1529,8 @@ article.message {
 	}
 	#pl-taijs-service-contact .main .phone {
 		font-weight: bold;
-		/* font-size: 1rem; */
 	}
-
+ */
 
 #page-home {
 	}
