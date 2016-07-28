@@ -368,15 +368,17 @@ article.message {
 			margin-left: -0.5rem;
 		}
 		.row.select-field .left {
-			width: 85%;
+			width: 80%;
 			margin-left: 0;
 			margin-right: 0;
 			padding-left: 0;
 			padding-right: 0;
 		}
 		.row.select-field .right {
-			width: 15%;
+			width: 20%;
 			margin-left: -0.5rem;
+			white-space: nowrap;
+			direction: rtl;
 		}
 
 		.row.input-field button[button-action="clear-input-field"][for-input] {
