@@ -39,6 +39,12 @@ input {
 	padding: 8px 16px;
 	min-height: 22px;
 }
+input[type=text] {   
+    /* Remove iOS inner shadow for input fields */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
 input, select, option {
 	padding-left: 0.5em;
 	padding-right: 0.5em;

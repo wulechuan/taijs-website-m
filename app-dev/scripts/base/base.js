@@ -86,21 +86,23 @@
 			}
 
 			if (Array.isArray(field.onValueChange)) {
-				var valueStatus = {
-					isEmpty: isEmpty,
-					isValid: true // not implemented yet
-				};
+				field.valueStatus.isEmpty = isEmpty;
+				field.valueStatus.isValid = true; // not implemented yet
 
 				for (var i = 0; i < field.onValueChange.length; i++) {
 					var callback = field.onValueChange[i];
-					if (typeof callback === 'function') callback.call(field, valueStatus);
+					if (typeof callback === 'function') callback.call(field, field.valueStatus);
 				}
 			}
 		}
 
-		_updateInputValueStatus(this);
-
 		this.onValueChange = [];
+		this.valueStatus = {
+			isEmpty: true,
+			isValid: false
+		};
+
+		_updateInputValueStatus(this);
 
 		$(this).on('input', function () {
 			_updateInputValueStatus(this);
@@ -109,6 +111,15 @@
 
 
 	$('button[button-action="clear-input-field"][for-input]').each(function () {
+		function updateClearButtonStatusForInputField($clearButton, valueStatus) {
+			valueStatus = valueStatus || { isValid: true };
+			if (valueStatus.isEmpty) {
+				$clearButton.hide();
+			} else {
+				$clearButton.show();
+			}
+		}
+
 		var $clearButton = $(this);
 		this.setAttribute('type', 'button'); // prevent this from submitting <form>
 
@@ -131,13 +142,12 @@
 		}
 
 		if (inputIsValid) {
+			setTimeout(function () {
+				updateClearButtonStatusForInputField($clearButton, controlledInput.valueStatus);
+			}, 100);
+
 			controlledInput.onValueChange.push(function (valueStatus) {
-				valueStatus = valueStatus || { isValid: true };
-				if (valueStatus.isEmpty) {
-					$clearButton.hide();
-				} else {
-					$clearButton.show();
-				}
+				updateClearButtonStatusForInputField($clearButton, valueStatus);
 			});
 
 			$clearButton.on('click', function (event) {
