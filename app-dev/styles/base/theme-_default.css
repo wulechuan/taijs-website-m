@@ -28,7 +28,7 @@ html {
 	}
 
 
-.bg-transparent, [role="button"] {
+.bg-transparent, [role="button"], a[role="button"] {
 	background-color: transparent;
 	}
 
@@ -187,6 +187,7 @@ input {
 	[role="button"].bg-transparent,
 	button.bg-transparent {
 		color: #4285f4;
+		background-color: transparent;
 	}
 
 	input[type="reset"].bg-transparent:hover,
@@ -511,15 +512,29 @@ label.deco-input {
 	} */
 
 
-.progress-stops .progress-stop,
-.progress-stops > li {
-	color: #cecece;
-	background-color: #cfcfcf;
+.progress-stops {
+	}
+	.progress-stops .progress-stop,
+	.progress-stops           > li {
+		color: #999;
+		border-color: #cfcfcf;
 	}
 
-	.progress-stops .progress-stop > .label,
-	.progress-stops           > li > .label {
-		color: #b3b3b3;
+	.progress-stops.layout-hori .progress-stop::before,
+	.progress-stops.layout-hori           > li::before {
+		background-color: #cfcfcf;
+	}
+
+	.progress-stops.layout-vert .progress-stop.future-stop::after,
+	.progress-stops.layout-vert .progress-stop.future-stop::before,
+	.progress-stops.layout-vert           > li.future-stop::after,
+	.progress-stops.layout-vert           > li.future-stop::before {
+		color: #cfcfcf;
+	}
+
+	.progress-stops.progress-stops-style-decimal .progress-stop,
+	.progress-stops.progress-stops-style-decimal           > li {
+		color: #cecece;
 	}
 
 	.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(8),
@@ -537,7 +552,14 @@ label.deco-input {
 	.progress-stops[data-progress-current-stop="2"] .progress-stop:nth-child(2),
 	.progress-stops[data-progress-current-stop="2"]           > li:nth-child(2),
 	.progress-stops[data-progress-current-stop="1"] .progress-stop:first-child,
-	.progress-stops[data-progress-current-stop="1"]           > li:first-child {
+	.progress-stops[data-progress-current-stop="1"]           > li:first-child,
+	.progress-stops .progress-stop.current-stop,
+	.progress-stops           > li.current-stop {
+		color: #4285f4;
+	}
+
+	.progress-stops .progress-stop.past-step,
+	.progress-stops           > li.past-step {
 		color: #4285f4;
 	}
 
@@ -619,7 +641,8 @@ label.deco-input {
 		.progress-stops[data-progress-current-stop="2"] .progress-stop:first-child,
 		.progress-stops[data-progress-current-stop="2"]           > li:first-child {
 			color: #4285f4;
-			background-color: #4285f4;
+			/* border-color: #4285f4; */
+			/* background-color: #4285f4; */
 		}
 	/* all past nodes: end */
 
@@ -635,8 +658,8 @@ label.deco-input {
 	.progress-stops.progress-stops-style-1           > li.emphasis .floating-tip .tip-balloon,
 	.progress-stops.progress-stops-style-1           > li.emphasis::before {
 		color: white;
-		background-color: #ff3700;
-		/* background-color: #f60; */
+		/* background-color: #ff3700; */
+		background-color: #f60;
 	}
 
 

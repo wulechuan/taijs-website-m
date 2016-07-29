@@ -1683,6 +1683,7 @@ ol.f-list, ul.f-list { /* function list */
 
 
 .progress-stops {
+	overflow: visible;
 	position: relative;
 	line-height: 0;
 	}
@@ -1720,6 +1721,8 @@ ol.f-list, ul.f-list { /* function list */
 		width: 0.5rem;
 		height: 0.5rem;
 		margin: -0.25rem;
+		color: inherit;
+		border-color: inherit;
 		background-color: inherit;
 
 		z-index: 2;
@@ -1740,20 +1743,16 @@ ol.f-list, ul.f-list { /* function list */
 		top: 0;
 		bottom: 0;
 		margin: auto;
+		color: inherit;
+		border-color: inherit;
 		background-color: inherit;
 
 		z-index: 1;
 		}
-		.progress-stops .progress-stop:first-child::after,
-		.progress-stops           > li:first-child::after {
-			content: none!important;
-		}
 
 	.progress-stops .progress-stop > .label,
 	.progress-stops           > li > .label {
-		position: absolute;
 		display: block;
-		text-align: center;
 		white-space: normal;
 		background-color: transparent;
 
@@ -1762,9 +1761,7 @@ ol.f-list, ul.f-list { /* function list */
 
 	.progress-stops .progress-stop > .floating-tip,
 	.progress-stops           > li > .floating-tip {
-		position: absolute;
 		display: block;
-		text-align: center;
 		white-space: normal;
 		background-color: transparent;
 
@@ -1777,8 +1774,65 @@ ol.f-list, ul.f-list { /* function list */
 			border-radius: 0.1rem;
 		}
 
+	.progress-stops.progress-stops-style-decimal {
+		font-size: 0.7rem;
+		counter-reset: progressIndex;
+		}
+		.progress-stops.progress-stops-style-decimal .progress-stop,
+		.progress-stops.progress-stops-style-decimal           > li {
+			counter-increment: progressIndex;
+		}
+		.progress-stops.progress-stops-style-decimal .progress-stop::before,
+		.progress-stops.progress-stops-style-decimal           > li::before {
+			content: counter(progressIndex);
+			border-width: 1px;
+			width: 0.76rem;
+			height: 0.76rem;
+			line-height: 0.76rem;
+			margin: -0.38rem;
+			background-color: transparent!important;
+			border-color: initial;
+		}
+
+		.progress-stops.layout-hori.progress-stops-style-decimal .progress-stop::after,
+		.progress-stops.layout-hori.progress-stops-style-decimal           > li::after {
+			right: 2px;
+			border-color: initial;
+		}
+
+
+
+	/* solo label mode: begin */
+		.progress-stops.solo-current-stop .progress-stop > .label,
+		.progress-stops.solo-current-stop           > li > .label {
+			display: none;
+		}
+
+		.progress-stops.solo-current-stop[data-progress-current-stop="8"] .progress-stop:nth-child(8) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="8"]           > li:nth-child(8) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="7"] .progress-stop:nth-child(7) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="7"]           > li:nth-child(7) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="6"] .progress-stop:nth-child(6) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="6"]           > li:nth-child(6) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="5"] .progress-stop:nth-child(5) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="5"]           > li:nth-child(5) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="4"] .progress-stop:nth-child(4) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="4"]           > li:nth-child(4) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="3"] .progress-stop:nth-child(3) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="3"]           > li:nth-child(3) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="2"] .progress-stop:nth-child(2) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="2"]           > li:nth-child(2) > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="1"] .progress-stop:first-child > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="1"]           > li:first-child > .label {
+			display: block;
+		}
+	/* solo label mode: end */
+
+
+
+
+
 	.progress-stops.layout-hori {
-		overflow: visible;
 		padding: 0.5rem 1.6rem;
 		text-align: center;
 		}
@@ -1793,23 +1847,28 @@ ol.f-list, ul.f-list { /* function list */
 			height: 0;
 		}
 
+		.progress-stops.layout-hori .progress-stop::after,
+		.progress-stops.layout-hori           > li::after {
+			border-top-width: 1px;
+		}
+
 		.progress-stops.layout-hori .progress-stop:first-child,
 		.progress-stops.layout-hori           > li:first-child {
 			width: 0!important;
 		}
-
-		.progress-stops.layout-hori .progress-stop::after,
-		.progress-stops.layout-hori           > li::after {
-			height: 1px;
+		.progress-stops.layout-hori .progress-stop:first-child::after,
+		.progress-stops.layout-hori           > li:first-child::after {
+			content: none!important;
 		}
 
 		.progress-stops.layout-hori .progress-stop > .floating-tip,
 		.progress-stops.layout-hori           > li > .floating-tip,
 		.progress-stops.layout-hori .progress-stop > .label,
 		.progress-stops.layout-hori           > li > .label {
+			position: absolute;
+			text-align: center;
 			font-size: 0.5rem;
 			left: -0.6rem;
-			text-align: center;
 
 			left: 50%;
 			right: -50%;
@@ -1904,49 +1963,112 @@ ol.f-list, ul.f-list { /* function list */
 			width: 0.6rem;
 		}
 
+		.progress-stops.layout-hori.progress-stops-style-1 {
+			margin-top: 0.25rem;
+			margin-bottom: 0.25rem;
+		}
 
-	.progress-stops.progress-stops-style-decimal {
-		font-size: 0.7rem;
-		counter-reset: progressIndex;
+
+
+
+	.progress-stops.layout-vert {
+		padding: 0.5rem 0.5rem 0.5rem 2rem;
+		text-align: left;
 		}
-		.progress-stops.progress-stops-style-decimal .progress-stop,
-		.progress-stops.progress-stops-style-decimal           > li {
-			counter-increment: progressIndex;
+
+		.progress-stops.layout-vert .progress-stop,
+		.progress-stops.layout-vert           > li {
+			min-height: 3rem;
+			padding: 1px 0; /* for fixing label margin top/bottom issues */
+			margin: -1px 0;
 		}
-		.progress-stops.progress-stops-style-decimal .progress-stop::before,
-		.progress-stops.progress-stops-style-decimal           > li::before {
-			content: counter(progressIndex);
+
+		.progress-stops.layout-vert .progress-stop::before,
+		.progress-stops.layout-vert           > li::before {
+			width: 0.7rem;
+			height: 0.7rem;
+			margin: 0 0 0 -0.35rem;
 			border-width: 1px;
-			width: 0.76rem;
-			height: 0.76rem;
-			line-height: 0.76rem;
-			margin: -0.38rem;
+			left: -1.25rem;
+			right: auto;
+			top: 0;
+			bottom: auto;
+			border-color: initial;
 			background-color: transparent;
 		}
 
-	/* solo label mode: begin */
-		/*.progress-stops .progress-stop > .label {
-			width: 8rem;
-			margin-right: -4rem;
-			display: none;
-		}*/
-	/* solo label mode: end */
+		.progress-stops.layout-vert .progress-stop::after,
+		.progress-stops.layout-vert           > li::after {
+			left: -1.25rem;
+			right: auto;
+			top: 0.7rem;
+			bottom: 0;
+			height: auto;
+			margin: 0.25rem 0;
+			border-left-width: 1px;
+			border-color: initial;
+		}
 
-	.progress-stops[data-progress-current-stop="8"] .progress-stop:nth-child(8) > .label,
-	.progress-stops[data-progress-current-stop="7"] .progress-stop:nth-child(7) > .label,
-	.progress-stops[data-progress-current-stop="6"] .progress-stop:nth-child(6) > .label,
-	.progress-stops[data-progress-current-stop="5"] .progress-stop:nth-child(5) > .label,
-	.progress-stops[data-progress-current-stop="4"] .progress-stop:nth-child(4) > .label,
-	.progress-stops[data-progress-current-stop="3"] .progress-stop:nth-child(3) > .label,
-	.progress-stops[data-progress-current-stop="2"] .progress-stop:nth-child(2) > .label,
-	.progress-stops[data-progress-current-stop="1"] .progress-stop:first-child > .label {
-		display: block;
-	}
+		.progress-stops.layout-vert .progress-stop:last-child::after,
+		.progress-stops.layout-vert           > li:last-child::after {
+			content: none!important;
+		}
 
-	.progress-stops.progress-stops-style-1 {
-		margin-top: 0.25rem;
-		margin-bottom: 0.25rem;
-	}
+		.progress-stops.layout-vert .progress-stop > .label,
+		.progress-stops.layout-vert           > li > .label {
+			padding: 0.25rem;
+			margin: -0.3rem -0.25rem 1.3rem;
+		}
+
+		.progress-stops.layout-vert .progress-stop > .label p,
+		.progress-stops.layout-vert           > li > .label p {
+			padding: 0.25rem;
+			margin: -0.2rem;
+			margin-bottom: 0;
+		}
+
+		.progress-stops.layout-vert .progress-stop > .label .minor,
+		.progress-stops.layout-vert           > li > .label .minor {
+			font-size: 0.8em;
+		}
+
+		.progress-stops.layout-vert[data-progress-current-stop="8"] .progress-stop:nth-child(8)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="8"]           > li:nth-child(8)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="7"] .progress-stop:nth-child(7)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="7"]           > li:nth-child(7)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="6"] .progress-stop:nth-child(6)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="6"]           > li:nth-child(6)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="5"] .progress-stop:nth-child(5)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="5"]           > li:nth-child(5)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="4"] .progress-stop:nth-child(4)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="4"]           > li:nth-child(4)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="3"] .progress-stop:nth-child(3)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="3"]           > li:nth-child(3)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="2"] .progress-stop:nth-child(2)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="2"]           > li:nth-child(2)::before,
+		.progress-stops.layout-vert[data-progress-current-stop="1"] .progress-stop:first-child::before,
+		.progress-stops.layout-vert[data-progress-current-stop="1"]           > li:first-child::before {
+			font-family: 'iconfont'!important;
+			content: '\e623';
+			font-size: 1.2rem;
+			line-height: 0.85rem;
+			text-indent: -1px;
+			border-width: 0;
+		}
+
+		.progress-stops.layout-vert .progress-stop.last-stop::before,
+		.progress-stops.layout-vert           > li.last-stop::before,
+		.progress-stops.layout-vert .progress-stop:last-child::before,
+		.progress-stops.layout-vert           > li:last-child::before {
+			font-family: 'iconfont'!important;
+			content: '\e605';
+			font-size: 0.6rem;
+			line-height: 0.77rem;
+			text-indent: 0px;
+			border-width: 1px;
+		}
+
+
 
 
 .tiles {}

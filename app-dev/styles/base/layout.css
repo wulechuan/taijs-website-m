@@ -371,6 +371,15 @@ article.message {
 		vertical-align: top;
 	}
 
+	.hero-content-block .hero-content-features > .f-list > li .label {
+		display: block;
+		font-size: 0.6rem;
+	}
+	.hero-content-block .hero-content-features > .f-list > li .content {
+		display: block;
+		font-size: 1rem;
+	}
+
 
 	.hero-content-block.hero-content-block-style-1 { /* homepage and trading-account-register-succeeded page */
 		}
@@ -397,8 +406,13 @@ article.message {
 		margin-left: -0.8rem;
 		margin-right: -0.8rem;
 		padding-top: 1rem;
-		padding-bottom: 1rem;
+		padding-bottom: 0.6rem;
 		}
+		.color-inverted .hero-content-block.hero-content-block-style-2 h3 .hero-word {
+			margin-top: 0.6rem;
+			margin-bottom: 1.4rem;
+		}
+
 		.color-inverted .hero-content-block.hero-content-block-style-2 .hero-content-features > .f-list > li {
 			font-weight: lighter;
 			width: 33.3%;
@@ -408,6 +422,12 @@ article.message {
 		}
 		.color-inverted .hero-content-block.hero-content-block-style-2 .hero-content-features > .f-list > li.col-3 {
 			text-align: right;
+		}
+		.color-inverted .hero-content-block.hero-content-block-style-2 .hero-content-features > .f-list > li.col-1 > .label {
+			text-indent: 0;
+		}
+		.color-inverted .hero-content-block.hero-content-block-style-2 .hero-content-features > .f-list > li.col-3 > .label {
+			margin-right: -0.7em;
 		}
 
 
@@ -447,14 +467,10 @@ article.message {
 		}
 
 		.hero-content-block.hero-content-block-style-3 .hero-content-features .f-list li .label {
-			display: block;
-			font-size: 0.6rem;
 			margin: 0.1rem auto;
 		}
 
 		.hero-content-block.hero-content-block-style-3 .hero-content-features .f-list li .content {
-			display: block;
-			font-size: 1rem;
 			margin: 0.5rem auto;
 		}
 
@@ -1279,6 +1295,25 @@ article.message {
 		.f-block-body .row .right p ~ p {
 			margin-top: 0.5rem;
 		}
+
+		.f-block article {
+			padding: 0.25rem;
+			margin: -0.25rem;
+			}
+			.f-block article p {
+				padding: 0.25rem;
+				margin: -0.25rem;
+				margin-bottom: 0;
+			}
+			.f-block article p.selectable {
+				position: relative;
+				padding-left: 1.3rem;
+			}
+			.f-block article p.selectable input[type="radio"],
+			.f-block article p.selectable input[type="checkbox"] {
+				position: absolute;
+				left: 0.4rem;
+			}
 
 
 .f-block .tiles {
