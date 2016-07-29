@@ -13,7 +13,7 @@
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="投资确认" id="page-newbie-buying-confirm"
-	 class="page has-page-header fixed-page-header"
+	 class="page has-page-header fixed-page-header has-page-footer fixed-page-footer"
 	><header class="page-header">
 		<div class="row header-bar">
 			<div class="center"><h1>投资确认</h1></div>
@@ -88,23 +88,18 @@
 				</article>
 			</div>
 		</div>
-
-		<div class="row buttons-in-single-line">
-			<button class="rounded-corners size-std-wide" disabled="disabled" 
-				button-action="submit">下一步</button>
-		</div>
 		</form>
 
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
 
-	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
-		<div class="popup-layer polite-message" id="plpm-bank-card-info-verification-failed">
-			<div class="popup-window">
-				<article><p>银行卡验证码失败，请确认信息</p></article>
-			</div>
+	<footer class="page-footer">
+		<div class="row buttons-in-single-line">
+			<button class="rounded-corners size-std-wide" button-action="buy">购买</button>
 		</div>
+	</footer>
 
+	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
 		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
