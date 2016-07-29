@@ -1664,8 +1664,12 @@ article.message {
 	}
 
 	#page-newbie-call-to-action .hero-content-block.hero-content-block-style-3 {
+		background-image: none!important;
+	}
+
+	#page-newbie-call-to-action .hero-content-block.hero-content-block-style-3 {
 		background-color: transparent!important;
-		background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-fading-top.png);
+		/* background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-fading-top.png); */
 	}
 
 	#page-newbie-call-to-action.use-extended-bg-image::before,
@@ -1682,5 +1686,14 @@ article.message {
 	}
 
 	#page-newbie-call-to-action.use-extended-bg-image .hero-content-block.hero-content-block-style-3 {
-		background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-extended-fading-top.png);
+		/* background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-extended-fading-top.png); */
+	}
+
+	@media only screen and (min-width: 760px) { /* iPad */
+		#page-newbie-call-to-action.use-extended-bg-image::before,
+		#page-newbie-call-to-action.use-extended-bg-image .page-header-patch-for-safari,
+		#page-newbie-call-to-action.use-extended-bg-image .page-header,
+		#page-newbie-call-to-action.use-extended-bg-image .hero-content-block.hero-content-block-style-3 {
+			background-size: auto 32rem;
+		}
 	}
