@@ -53,6 +53,13 @@
 	// 	}
 	// });
 
+	$('.page-body').each(function () {
+		var pageHeaderHeight = 48;
+		var windowInnerHeight = window.innerHeight;
+		var pageBodyMinHeight = windowInnerHeight - pageHeaderHeight;
+		this.style.minHeight = pageBodyMinHeight + 'px';
+	});
+
 
 	$('a[href$="index.html"]').each(function () {
 		this.href += '?login=true';

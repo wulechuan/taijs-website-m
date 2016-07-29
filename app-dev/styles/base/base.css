@@ -656,13 +656,18 @@ dd {
 	}
 
 
+.content-align-left {
+	text-align: left!important;
+	}
+
+
 .content-align-center {
-	text-align: center;
+	text-align: center!important;
 	}
 
 
 .content-align-right {
-	text-align: right;
+	text-align: right!important;
 	}
 
 
@@ -1311,8 +1316,9 @@ label.deco-input {
 			display: block;
 			left: 0;
 			right: 0;
-			top: 0.25em; /* for fonts whose asterisk sign is NOT vertically centerized. */
+			top: 0;
 			bottom: 0;
+			padding-top: 0.35em; /* for fonts whose asterisk sign is NOT vertically centerized. */
 			margin: auto;
 			font-size: 66%;
 			display: block!important;
