@@ -318,7 +318,7 @@ article.message {
 
 .row.hero-content-block-call-to-action { /* homepage */
 	min-height: 1.5rem;
-}
+	}
 
 
 .hero-content-block {
@@ -368,7 +368,6 @@ article.message {
 	}
 
 
-
 	.hero-content-block.hero-content-block-style-1 { /* homepage and trading-account-register-succeeded page */
 		}
 		.hero-content-block.hero-content-block-style-1 h3 .subject {
@@ -413,6 +412,9 @@ article.message {
 		margin-right: 0;
 		padding-top: 1rem;
 		padding-bottom: 1rem;
+
+		background-repeat: no-repeat;
+		background-position: center -2.4rem;
 		}
 		.hero-content-block.hero-content-block-style-3 h3 {
 			margin-bottom: 1.4rem;
@@ -495,7 +497,6 @@ article.message {
 		.user-assets-abstract.user-assets-abstract-style-2 > .f-list     > li > .content .digits {
 			font-weight: 300;
 		}
-
 
 
 .product-abstract {
@@ -1397,15 +1398,9 @@ article.message {
 		.page.page-header-in-compact-mode.has-page-header,
 		.page.page-header-in-compact-mode,
 		.page.fixed-page-header.has-page-header,
-		.page.fixed-page-header                           {
+		.page.fixed-page-header {
 			margin-top: 2.4rem;
 		}
-		/* .page.page-header-in-compact-mode.has-page-header .page-body,
-		.page.page-header-in-compact-mode                 .page-body,
-		.page.fixed-page-header.has-page-header           .page-body,
-		.page.fixed-page-header                           .page-body {
-			padding-top: 2.4rem;
-		} */
 
 	.page.fixed-page-footer .page-footer {
 		left: 0;
@@ -1425,8 +1420,8 @@ article.message {
 		text-align: center;
 
 		background-repeat: no-repeat;
-		background-position: top;
-		background-size: cover;
+		background-position: center top;
+		/* background-size: cover; */
 		}
 		.page-header *,
 		.page-header {

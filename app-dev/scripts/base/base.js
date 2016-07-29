@@ -53,12 +53,26 @@
 	// 	}
 	// });
 
-	$('.page-body').each(function () {
-		var pageHeaderHeight = 48;
-		var windowInnerHeight = window.innerHeight;
-		var pageBodyMinHeight = windowInnerHeight - pageHeaderHeight;
-		this.style.minHeight = pageBodyMinHeight + 'px';
+	$('.page').each(function () {
+		var $page = $(this);
+		var pageBody = $page.find('.page-body')[0];
+
+		if (pageBody) {
+			var pageHeaderHeight = 48;
+
+			var windowInnerHeight = window.innerHeight;
+			var pageBodyMinHeight = windowInnerHeight - pageHeaderHeight;
+
+			var pageHasFixedFooter = $page.hasClass('fixed-page-footer') && !!$page.find('.page-footer')[0];
+			if (pageHasFixedFooter) {
+				var pageFixedFooterHeight = 66;
+				pageBodyMinHeight -= pageFixedFooterHeight;
+			}
+
+			pageBody.style.minHeight = pageBodyMinHeight + 'px';
+		}
 	});
+
 
 
 	$('a[href$="index.html"]').each(function () {
