@@ -1668,10 +1668,6 @@ article.message {
 #page-newbie-call-to-action {
 	}
 
-	#page-newbie-call-to-action .page-body {
-		visibility: hidden;
-	}
-
 	#page-newbie-call-to-action::before,
 	#page-newbie-call-to-action .page-header-patch-for-safari,
 	#page-newbie-call-to-action .page-header,
