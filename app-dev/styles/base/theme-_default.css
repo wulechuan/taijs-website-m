@@ -865,6 +865,7 @@ label.deco-input {
 	color: #666;
 	background-color: #f1f1f1;
 	}
+	.app-bg-patch-for-page-header,
 	.page-header {
 		color: white;
 		background-color: #4285f4;

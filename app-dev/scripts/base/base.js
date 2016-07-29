@@ -53,6 +53,10 @@
 	// 	}
 	// });
 
+	$('.page-body').each(function () {
+		this.style.minHeight = window.innerHeight + 'px';
+	});
+
 
 	$('a[href$="index.html"]').each(function () {
 		this.href += '?login=true';

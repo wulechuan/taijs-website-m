@@ -1,5 +1,4 @@
 html, body, .app {
-	height: 100%;
 	}
 
 
@@ -1294,7 +1293,12 @@ article.message {
 	width: 100%;
 	height: 100%;
 	}
-
+	.app-bg-patch-for-page-header {
+		position: fixed;
+		width: 100%;
+		height: 30%;
+		background-color: pink;
+	}
 
 .app-fg-layer {
 	position: relative;
@@ -1311,8 +1315,6 @@ article.message {
 	max-width: 768px;
 	height: 100%;
 	margin: auto;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
 	}
 
 	/*
@@ -1351,18 +1353,34 @@ article.message {
 
 	.page-body {
 		box-sizing: border-box;
-		min-height: 100%;
 		position: relative;
 		padding-bottom: 6rem;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
 	}
 
-	.page.fixed-page-header .page-header {
+	.page.page-header-in-compact-mode .page-header,
+	.page-header {
 		left: 0;
 		top: 0;
 		position: fixed;
 		width: 100%;
 		z-index: 45;
-	}
+		height: 2.4rem;
+		overflow: hidden;
+		}
+		.page.page-header-in-compact-mode.has-page-header,
+		.page.page-header-in-compact-mode,
+		.page.fixed-page-header.has-page-header,
+		.page.fixed-page-header                           {
+			margin-top: 2.4rem;
+		}
+		/* .page.page-header-in-compact-mode.has-page-header .page-body,
+		.page.page-header-in-compact-mode                 .page-body,
+		.page.fixed-page-header.has-page-header           .page-body,
+		.page.fixed-page-header                           .page-body {
+			padding-top: 2.4rem;
+		} */
 
 	.page.fixed-page-footer .page-footer {
 		left: 0;
@@ -1370,22 +1388,11 @@ article.message {
 		position: fixed;
 		width: 100%;
 		z-index: 46;
-	}
-
-	.page.fixed-page-header,
-	.page.fixed-page-header.has-page-header {
-		padding-top: 2.4rem;
-	}
-
-	/* .page.fixed-page-footer,
-	.page.fixed-page-footer.has-page-footer {
-		padding-bottom: 1px;
-	} */
-
-	.page.fixed-page-footer .page-body,
-	.page.fixed-page-footer.has-page-footer .page-body {
-		margin-bottom: 3.3rem; /* for IE */
-	}
+		}
+		.page.fixed-page-footer.has-page-footer .page-body,
+		.page.fixed-page-footer                 .page-body {
+			margin-bottom: 3.3rem;
+		}
 
 
 	.page-header {
@@ -1396,7 +1403,10 @@ article.message {
 		background-position: top;
 		background-size: cover;
 		}
-
+		.page-header *,
+		.page-header {
+			transition-property: width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
+		}
 		.page-header .row {
 			margin: 0;
 			padding-left: 0;
@@ -1407,45 +1417,45 @@ article.message {
 
 		.page-header .row.header-bar {
 			min-height: 1.4rem;
-		}
+			}
 
-		.page-header .row.header-bar .center {
-			display: block;
-			padding: 0;
-			margin: 0 4rem;
-			min-height: 1.4rem;
-			line-height: 1.4rem;
-			text-align: center;
-		}
+			.page-header .row.header-bar .center {
+				display: block;
+				padding: 0;
+				margin: 0 4rem;
+				min-height: 1.4rem;
+				line-height: 1.4rem;
+				text-align: center;
+			}
 
-		.page-header .row.header-bar .left,
-		.page-header .row.header-bar .right {
-			display: block;
-			position: absolute;
-			top: 0;
-			padding: 0;
-			margin: 0;
-		}
-		.page-header .row.header-bar .left {
-			left: 0;
-		}
-		.page-header .row.header-bar .right {
-			right: 0;
-		}
-		.page-header .row.header-bar .left *,
-		.page-header .row.header-bar .right * {
-			margin: 0;
-		}
-		.page-header .row.header-bar button,
-		.page-header .row.header-bar [role="button"] {
-			border-width: 0;
-			width: 2.4rem;
-			height: 2.4rem;
-			line-height: 2.4rem;
-			padding: 0;
-			text-align: center;
-			background-color: transparent;
-		}
+			.page-header .row.header-bar .left,
+			.page-header .row.header-bar .right {
+				display: block;
+				position: absolute;
+				top: 0;
+				padding: 0;
+				margin: 0;
+			}
+			.page-header .row.header-bar .left {
+				left: 0;
+			}
+			.page-header .row.header-bar .right {
+				right: 0;
+			}
+			.page-header .row.header-bar .left *,
+			.page-header .row.header-bar .right * {
+				margin: 0;
+			}
+			.page-header .row.header-bar button,
+			.page-header .row.header-bar [role="button"] {
+				border-width: 0;
+				width: 2.4rem;
+				height: 2.4rem;
+				line-height: 2.4rem;
+				padding: 0;
+				text-align: center;
+				background-color: transparent;
+			}
 
 
 	.page-body-stamp {
@@ -1476,28 +1486,6 @@ article.message {
 		.page-body-stamp [role="button"] .iconfont,
 		.page-body-stamp button .iconfont {
 			margin: 0 0 0 -0.3rem;
-		}
-
-
-	.page-header *,
-	.page-header {
-		transition-property: width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
-	}
-
-	.page.page-header-in-compact-mode {
-		padding-top: 2.5rem;
-		}
-		.page.page-header-in-compact-mode .page-body {
-			min-height: calc(100% - 2.5rem);
-		}
-		.page.page-header-in-compact-mode .page-header {
-			position: fixed;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 2.5rem;
-			z-index: 100;
-			overflow: hidden;
 		}
 
 
@@ -1574,255 +1562,12 @@ article.message {
 	}
  */
 
-#page-home {
-	}
 
-	#page-home .page-body {
-		min-height: calc(100% - 5rem);
-	}
-
-		#page-home .page-header .row.sign-up-sign-in-buttons {
-			z-index: 5;
-		}
-		#page-home .page-header .row.user-account-toolar {
-			z-index: 4;
-		}
-		#page-home .page-header .row.taijs-brand {
-			z-index: 3;
-		}
-		#page-home .page-header .row.user-assets-abstract {
-			z-index: 2;
-		}
-
-
-		#page-home .page-header .row.taijs-brand {
-			padding-top: 0;
-			padding-bottom: 0;
-			margin-top: 1rem;
-			margin-bottom: 0.6rem;
-		}
-		#page-home .page-header .row.sign-up-sign-in-buttons {
-			padding-top: 0;
-			padding-bottom: 0;
-			margin: 0.25rem 1.25rem 0.75rem 1.25rem;
-		}
-		#page-home .page-header .row.sign-up-sign-in-buttons > .content {
-			padding: 0;
-			margin: 0;
-			white-space: nowrap;
-			background-color: inherit;
-		}
-		#page-home .page-header .row.sign-up-sign-in-buttons [role="button"],
-		#page-home .page-header .row.sign-up-sign-in-buttons button {
-			padding-top: 0;
-			padding-bottom: 0;
-			margin: 0.25rem 0.25rem;
-			height: 2rem;
-			line-height: 1.9rem;
-			line-height: calc(2rem - 2px);
-			box-sizing: border-box;
-			width: calc(50% - 0.5rem);
-			font-size: 0.9rem;
-		}
-		#page-home .page-header .taijs-logo,
-		#page-home .page-header .taijs-slogan {
-			display: inline-block;
-			vertical-align: top;
-			width: 5rem;
-			height: 1.4rem;
-			background-position: center;
-		}
-		#page-home .page-header .taijs-logo {
-			margin: 0 0.25rem 0 0.7rem;
-			background-size: auto 100%;
-		}
-		#page-home .page-header .taijs-slogan {
-			margin: 0;
-			background-position: left;
-			background-size: 100% auto;
-		}
-
-		#page-home .page-header .row.user-account-toolar {
-			display: none;
-			width: 100%;
-			font-size: 0.7rem;
-			text-align: right;
-			margin: 0 0 2.5rem 0;
-			padding: 0;
-			height: 0;
-			position: relative;
-			right: 0;
-			top: 0;
-			overflow: visible;
-			}
-			#page-home .page-header .row.user-account-toolar .toolbar {
-				height: 1rem;
-				line-height: 1rem;
-				padding: 0.75rem 0.6rem 0.75rem 0.1rem;
-				white-space: nowrap;
-				text-align: right;
-				background-color: inherit;
-			}
-		#page-home .page-header .row.user-assets-abstract {
-			display: none;
-			position: relative;
-			font-size: 1rem;
-			padding-top: 0.2rem;
-			padding-bottom: 0.6rem;
-			}
-			#page-home .page-header .row.user-assets-abstract .columns {
-				margin: 0;
-				padding: 0;
-			}
-			#page-home .page-header .row.user-assets-abstract .col {
-				position: relative;
-				margin: 0.5rem 0 0 0;
-				height: 2.5rem;
-				padding: 0.25rem 0.25rem 1.25rem;
-			}
-			#page-home .page-header .row.user-assets-abstract .col ~ hr.vert {
-				height: 2.1rem;
-				margin-top: 0.8rem;
-				opacity: 0.2;
-			}
-			#page-home .page-header .row.user-assets-abstract .col * {
-				line-height: 1;
-			}
-			#page-home .page-header .row.user-assets-abstract .col .content {
-				font-size: 0.8rem;
-			}
-			#page-home .page-header .row.user-assets-abstract .col.col-1 {
-				width: 37%;
-			}
-			#page-home .page-header .row.user-assets-abstract .col.col-2 {
-				width: 29%;
-			}
-			#page-home .page-header .row.user-assets-abstract .col.col-3 {
-				width: 34%;
-			}
-			#page-home .page-header .row.user-assets-abstract .col > .label {
-				margin: 0;
-				position: absolute;
-				display: block;
-				left: 0;
-				right: 0;
-				text-align: center;
-				bottom: 0.35rem;
-				font-size: 0.6rem;
-				font-weight: lighter;
-				white-space: nowrap;
-				opacity: 0.5;
-			}
-			#page-home .page-header .row.user-assets-abstract .col.col-1 > .label {
-				padding-right: 1.25rem; /* make some room for eye icon */
-			}
-			#page-home .page-header .row.user-assets-abstract .col.col-1 > .label .sensitive-content-status-icon {
-				position: absolute;
-				width: 1rem;
-				height: 1rem;
-				margin: -0.2rem 0.1rem;
-			}
-
-			@media only screen and (max-width: 340px) {
-				/* #page-home .page-header .row.user-assets-abstract .col.col-1 > .label {
-					right: 1.6rem;
-				} */
-				#page-home .page-header .row.user-assets-abstract .col.col-1 .sensitive-value-replacement {
-					font-size: 0.7rem;
-				}
-			}
-
-
-	.user-has-logged-in #page-home .page-header .row.sign-up-sign-in-buttons {
-		display: none;
-		}
-
-		.user-has-logged-in #page-home .page-header .row.user-account-toolar {
-			display: block;
-		}
-
-		.user-has-logged-in #page-home .page-header .row.user-assets-abstract {
-			display: block;
-		}
-
-	/* #page-home.page-header-in-compact-mode {
-		padding-top: 2.5rem;
-		}
-		#page-home.page-header-in-compact-mode .page-body {
-			min-height: calc(100% - 2.5rem);
-		}
-		#page-home.page-header-in-compact-mode .page-header {
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 2.5rem;
-			z-index: 100;
-			overflow: hidden;
-		} */
-
-		#page-home.page-header-in-compact-mode .page-header .row.user-assets-abstract {
-			display: none;
-		}
-		#page-home.page-header-in-compact-mode .page-header .row.user-account-toolar {
-			margin-bottom: 0;
-		}
-		#page-home.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons {
-			box-sizing: border-box;
-			width: 100%;
-			height: 0;
-			overflow: visible;
-			text-align: right;
-			white-space: nowrap;
-			padding: 0;
-			margin: 0 0 2.5rem 0;
-		}
-		#page-home.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons > .content {
-			display: inline-block;
-			width: 9.6rem;
-			text-align: right;
-			padding: 0.25rem;
-		}
-		#page-home.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons [role="button"],
-		#page-home.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons button {
-			width: 4.3rem;
-			height: 1.5rem;
-			line-height: 1.4rem;
-			line-height: calc(1.5rem - 2px);
-			font-size: 0.7rem;
-		}
-
-
-	.user-has-logged-in #page-home .page-header .row.taijs-brand,
-	#page-home.page-header-in-compact-mode .page-header .row.taijs-brand {
-		position: absolute;
-		margin-left: 0.1rem;
-		margin-top: 0.7rem;
-		margin-bottom: 0;
-		}
-
-	.user-has-logged-in #page-home .page-header .taijs-logo,
-	.user-has-logged-in #page-home .page-header .taijs-slogan,
-	#page-home.page-header-in-compact-mode .page-header .taijs-logo,
-	#page-home.page-header-in-compact-mode .page-header .taijs-slogan {
-		width: 4.8rem;
-		height: 1.1rem;
-		background-position: center;
-	}
-	.user-has-logged-in #page-home .page-header .taijs-logo,
-	#page-home.page-header-in-compact-mode .page-header .taijs-logo {
-		margin: 0;
-	}
-	.user-has-logged-in #page-home .page-header .taijs-slogan,
-	#page-home.page-header-in-compact-mode .page-header .taijs-slogan {
-		margin: 0;
-	}
-
-
-#page-account-sign-up-sign-in {
+#page-account-sign-up-sign-in .page-header {
+	height: 5rem;
 	}
 	#page-account-sign-up-sign-in .page-body {
-		min-height: calc(100% - 5rem);
+		padding-top: 5rem;
 	}
 	#page-account-sign-up-sign-in .page-header .taijs-logo {
 		margin: 0.5rem auto 0.25rem auto;
@@ -1839,15 +1584,4 @@ article.message {
 	}
 	#page-account-sign-up-sign-in .panel .f-block:first-child {
 		margin-top: 1rem;
-	}
-
-
-#page-newbie-call-to-action {
-	}
-
-	#page-newbie-call-to-action .page-header {
-		height: 13.2rem;
-	}
-	#page-newbie-call-to-action .page-body {
-		min-height: calc(100% - 13.2rem);
 	}
