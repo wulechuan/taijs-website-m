@@ -54,7 +54,10 @@
 	// });
 
 	$('.page-body').each(function () {
-		this.style.minHeight = window.innerHeight + 'px';
+		var pageHeaderHeight = 48;
+		var windowInnerHeight = window.innerHeight;
+		var pageBodyMinHeight = windowInnerHeight - pageHeaderHeight;
+		this.style.minHeight = pageBodyMinHeight + 'px';
 	});
 
 

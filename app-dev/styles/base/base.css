@@ -656,13 +656,18 @@ dd {
 	}
 
 
+.content-align-left {
+	text-align: left!important;
+	}
+
+
 .content-align-center {
-	text-align: center;
+	text-align: center!important;
 	}
 
 
 .content-align-right {
-	text-align: right;
+	text-align: right!important;
 	}
 
 

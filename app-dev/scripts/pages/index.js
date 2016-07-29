@@ -45,7 +45,7 @@ $(function () {
 		var triggerRatioForCallapse = 1.2;
 		var triggerRatioForExpansion = 0.8;
 		var pageHeaderNormalHeight = 128;
-		var pageHeaderCompactHeight = 50;
+		var pageHeaderCompactHeight = 48;
 
 
 
