@@ -863,9 +863,8 @@ label.deco-input {
 
 .page {
 	color: #666;
-	background-color: #f1f1f1;
 	}
-	.app-bg-patch-for-page-header,
+	.page::before,
 	.page-header {
 		color: white;
 		background-color: #4285f4;
@@ -874,7 +873,10 @@ label.deco-input {
 		border-color: #e5e5e5;
 		background-color: white;
 	}
+	.page-body {
+		background-color: #f1f1f1;
+	}
 
-	.page.bg-white {
+	.page.bg-white .page-body {
 		background-color: white;
 	}

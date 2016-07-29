@@ -1293,12 +1293,7 @@ article.message {
 	width: 100%;
 	height: 100%;
 	}
-	.app-bg-patch-for-page-header {
-		position: fixed;
-		width: 100%;
-		height: 30%;
-		background-color: pink;
-	}
+
 
 .app-fg-layer {
 	position: relative;
@@ -1317,10 +1312,17 @@ article.message {
 	margin: auto;
 	}
 
-	/*
-	  .page::before is for preventing first f-block margin-top
-	  from effecting .page layout, while .page-body is omitted.
+	.page::before { /* page-header patch for iOS Safari momentum scrolling */
+		content: '';
+		position: fixed;
+		left: 0;
+		top: 0;
+		display: block;
+		width: 100%;
+		height: 30%;
+	}
 
+	/*
 	  .page-body::before is for preventing first f-block margin-top
 	  from effecting .page-body layout.
 
@@ -1328,8 +1330,7 @@ article.message {
 	  from effecting .page-header layout
 	*/
 	.page-body::before,
-	.page-header::before,
-	.page::before {
+	.page-header::before {
 		content: '';
 		display: block;
 		border-width: 1px 0 0 0;
