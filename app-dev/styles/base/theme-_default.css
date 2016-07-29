@@ -879,6 +879,7 @@ label.deco-input {
 		border-color: #e5e5e5;
 		background-color: white;
 	}
+	.page::after,
 	.page-body.use-content-as-main-container > .content,
 	.page-body {
 		background-color: #f1f1f1;
