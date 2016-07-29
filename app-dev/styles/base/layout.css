@@ -469,8 +469,8 @@ article.message {
 	}
 	.user-assets-abstract > .f-list > a > li > .label,
 	.user-assets-abstract > .f-list     > li > .label {
-		display: block;
 		font-size: 0.6rem;
+		display: block;
 		font-weight: lighter;
 		white-space: nowrap;
 		margin-top: 0.15rem;
@@ -482,19 +482,18 @@ article.message {
 		font-size: 1rem;
 		white-space: nowrap;
 	}
-	.user-assets-abstract > .f-list > a > li > .content .digits,
-	.user-assets-abstract > .f-list     > li > .content .digits {
-		font-weight: 300;
-	}
-
 	.user-assets-abstract.user-assets-abstract-style-2 > .f-list > li { /* personal center page */
 		width: 40%;
 		}
 		.user-assets-abstract.user-assets-abstract-style-2 > .f-list > li:first-child {
-			margin-right: 1.1rem;
+			margin-right: 1.2rem;
 		}
 		.user-assets-abstract.user-assets-abstract-style-2 > .f-list > li:last-child {
-			margin-left: 1.1rem;
+			margin-left: 1.2rem;
+		}
+		.user-assets-abstract.user-assets-abstract-style-2 > .f-list > a > li > .content .digits,
+		.user-assets-abstract.user-assets-abstract-style-2 > .f-list     > li > .content .digits {
+			font-weight: 300;
 		}
 
 

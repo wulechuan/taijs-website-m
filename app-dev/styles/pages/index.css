@@ -178,12 +178,18 @@
 	box-sizing: border-box;
 	height: 4rem;
 	}
+	.user-assets-abstract > .f-list {
+		padding-left: 0;
+		padding-right: 0;
+		margin-left: -0.8rem;
+		margin-right: -0.8rem;
+	}
 	.user-assets-abstract > .f-list > a > li,
 	.user-assets-abstract > .f-list     > li {
 		position: relative;
 		margin: 0.5rem 0 0 0;
 		height: 2.5rem;
-		padding-tom: 0.25rem 0.25rem 1.25rem;
+		padding-bottom: 1.25rem;
 	}
 	.user-assets-abstract .col ~ hr.vert {
 		height: 2.1rem;
@@ -201,7 +207,7 @@
 	}
 	.user-assets-abstract .f-list > a > li > .content,
 	.user-assets-abstract .f-list     > li > .content {
-		font-size: 0.8rem;
+		font-size: 0.9rem;
 	}
 	.user-assets-abstract .f-list > a > li > .label,
 	.user-assets-abstract .f-list     > li > .label {
@@ -212,23 +218,22 @@
 		right: 0;
 		text-align: center;
 		bottom: 0.35rem;
-		font-size: 0.6rem;
 		font-weight: lighter;
 		white-space: nowrap;
 		opacity: 0.5;
 	}
-	.user-assets-abstract .col.col-1 > .label {
+	.user-assets-abstract .f-list .col.col-1 > .label {
 		padding-right: 1.25rem; /* make some room for eye icon */
-	}
-	.user-assets-abstract .col.col-1 > .label .sensitive-content-status-icon {
-		position: absolute;
-		width: 1rem;
-		height: 1rem;
-		margin: -0.2rem 0.1rem;
-	}
+		}
+		.user-assets-abstract .f-list .col.col-1 > .label .sensitive-content-status-icon {
+			position: absolute;
+			width: 1rem;
+			height: 1rem;
+			margin: -0.2rem 0.1rem;
+		}
 
 	@media only screen and (max-width: 340px) {
-		.user-assets-abstract .col.col-1 .sensitive-value-replacement {
+		.user-assets-abstract .f-list .col.col-1 .sensitive-value-replacement {
 			font-size: 0.7rem;
 		}
 	}

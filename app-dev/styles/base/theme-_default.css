@@ -55,7 +55,8 @@ html {
 	}
 
 
-.minor-content, .tip {
+.minor-content,
+.tip {
 	color: #999;
 }
 
@@ -91,6 +92,10 @@ a, a:visited {
 	color: white;
 	background-color: #4285f4;
 	}
+	.color-inverted .f-list > a > li .label,
+	.color-inverted .f-list     > li .label,
+	.color-inverted .f-list > a > li,
+	.color-inverted .f-list     > li,
 	.color-inverted a, .color-inverted a:visited {
 		color: white;
 	}
