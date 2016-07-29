@@ -8,72 +8,55 @@ $(function () {
 	})();
 
 	$('.page').each(function () {
-		var page = this;
-		var $page = $(page);
-		var pageBody = $page.find('.page-body').get(0); // in case there are accidentally multiple page-body elements;
-		var $pageBody = $(pageBody);
-
-		var pageHeaderNormalHeight = 128;
-		var pageHeaderCompactHeight = 50;
-		var pageHeaderHeightDelta = pageHeaderNormalHeight - pageHeaderCompactHeight;
-
-		var pageBodyTopOffsetBaseInExpandedMode = NaN;
-
-		var pageBodyCurrentTopOffsetThreshold = pageHeaderHeightDelta * -0.75;
-		var pageBodyCurrentTopOffsetBase = 0;
-		var pageBodyCurrentTopOffsetBaseShouldBeCorrect = false;
-
-		var currentModeIsCompact = $page.hasClass('page-header-in-compact-mode');
-
-		$page.on('scroll', function () {
-			if (!pageBodyCurrentTopOffsetBaseShouldBeCorrect) {
-				if (!currentModeIsCompact && !pageBodyTopOffsetBaseInExpandedMode) {
-					var computedStyle = window.getComputedStyle(page, null);
-					if (computedStyle) {
-						pageBodyTopOffsetBaseInExpandedMode = parseFloat(computedStyle.paddingTop);
-					} else {
-						pageBodyTopOffsetBaseInExpandedMode = 0;
-					}
-
-					pageBodyCurrentTopOffsetBase = pageBodyTopOffsetBaseInExpandedMode;
-				} else {
-					pageBodyCurrentTopOffsetBase = pageHeaderCompactHeight;
-				}
-
-				pageBodyCurrentTopOffsetBaseShouldBeCorrect = true;
+		function getScrollingOffsetFor(content) {
+			if (!content || content === document) {
+				return {
+					top:  -window.scrollY,
+					left: -window.scrollX
+				};
 			}
 
-		    var pageBodyOffset = $pageBody.offset();
+			return $(content).offset();
+		}
+		function updatePageHeaderModeBasedOnScrolling() {
+			var shouldSwitchPageHeaderMode = false;
+			var currentTopOffset = getScrollingOffsetFor(scrollingElement).top;
 
-		    var pageBodyCurrentTopOffset = pageBodyCurrentTopOffsetBase - pageBodyOffset.top;
+			if (pageHeaderIsInCompactMode) {
+				shouldSwitchPageHeaderMode = currentTopOffset >= currentTopOffsetThresholdForExpansion;
+				if (shouldSwitchPageHeaderMode) {
+					$page.removeClass('page-header-in-compact-mode');
+					pageHeaderIsInCompactMode = false;
+				}
+			} else {
+				shouldSwitchPageHeaderMode = currentTopOffset <= currentTopOffsetThresholdForCollapse;
+				if (shouldSwitchPageHeaderMode) {
+					$page.addClass('page-header-in-compact-mode');
+					pageHeaderIsInCompactMode = true;
+				}
+			}
+		}
 
 
-		    var shouldSwitchIntoCompactMode = false;
-		    var shouldSwitchIntoExpandedMode = false;
+		var scrollingElement = document;
+		var $page = $(this);
 
-		    if (currentModeIsCompact) {
-		    	// so the pageBodyCurrentTopOffset will be NEGATIVE
-		    	shouldSwitchIntoCompactMode = false;
-		    	shouldSwitchIntoExpandedMode = pageBodyCurrentTopOffset <= pageBodyCurrentTopOffsetThreshold
-		    } else {
-		    	shouldSwitchIntoExpandedMode = false
-		    	shouldSwitchIntoCompactMode = pageBodyCurrentTopOffset >= pageBodyCurrentTopOffsetThreshold;
-		    }
 
-		    if (!currentModeIsCompact && shouldSwitchIntoCompactMode) {
-		    	$page.addClass('page-header-in-compact-mode fixed-page-header');
-		    	currentModeIsCompact = true;
-				pageBodyCurrentTopOffsetThreshold = pageHeaderCompactHeight * 0.75;
-		    	pageBodyCurrentTopOffsetBaseShouldBeCorrect = false;
-		    }
+		var triggerRatioForCallapse = 1.2;
+		var triggerRatioForExpansion = 0.8;
+		var pageHeaderNormalHeight = 128;
+		var pageHeaderCompactHeight = 48;
 
-	    	if (currentModeIsCompact && shouldSwitchIntoExpandedMode) {
-		    	$page.removeClass('page-header-in-compact-mode fixed-page-header');
-		    	currentModeIsCompact = false;
-				pageBodyCurrentTopOffsetThreshold = pageHeaderHeightDelta * -0.75;
-		    	pageBodyCurrentTopOffsetBaseShouldBeCorrect = false;
-	    	}
-		});
+
+
+		var pageHeaderHeightDelta = pageHeaderNormalHeight - pageHeaderCompactHeight;
+		var currentTopOffsetThresholdForCollapse  = Math.abs(pageHeaderHeightDelta) * -Math.abs(triggerRatioForCallapse);
+		var currentTopOffsetThresholdForExpansion = Math.abs(pageHeaderHeightDelta) * -Math.abs(triggerRatioForExpansion);
+		var pageHeaderIsInCompactMode = $page.hasClass('page-header-in-compact-mode');
+
+
+		updatePageHeaderModeBasedOnScrolling();
+		$(scrollingElement).on('scroll', updatePageHeaderModeBasedOnScrolling);
 	});
 });
 

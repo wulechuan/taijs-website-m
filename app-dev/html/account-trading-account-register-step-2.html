@@ -61,9 +61,10 @@
 					<div class="left">
 						<input placeholder="请输入银行卡账号" type="text" data-text-format="bank-card"
 							name="bankcardnumber" required
-												  id="account-trading-account-register-card-number">
-						<label class="input-tip" for="account-trading-account-register-card-number">银行卡号</label>
-						<button 		   for-input="account-trading-account-register-card-number"
+									   id="account-trading-account-register-card-number">
+						<label        for="account-trading-account-register-card-number" class="input-tip default">银行卡号</label>
+						<label        for="account-trading-account-register-card-number" class="input-tip error" data-subject="bank-card-number-invalid">请输入正确的银行卡号</label>
+						<button for-input="account-trading-account-register-card-number"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
@@ -87,9 +88,10 @@
 					<div class="left">
 						<input placeholder="请输入银行卡绑定的手机号" type="tel" data-text-format="mobile"
 							name="mobile" required
-												  id="account-trading-account-register-mobile">
-						<label class="input-tip" for="account-trading-account-register-mobile">银行卡绑定的手机号</label>
-						<button 		   for-input="account-trading-account-register-mobile"
+									   id="account-trading-account-register-mobile">
+						<label        for="account-trading-account-register-mobile" class="input-tip default">银行卡预留手机号</label>
+						<label        for="account-trading-account-register-mobile" class="input-tip error" data-subject="mobile-number-invalid">请输入正确的手机号码</label>
+						<button for-input="account-trading-account-register-mobile"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
@@ -97,15 +99,17 @@
 					<div class="left">
 						<input placeholder="请输入验证码" type="number"
 							name="smsvcode" required
-												  id="account-trading-account-register-sms-verification-code">
-						<label class="input-tip" for="account-trading-account-register-sms-verification-code">验证码</label>
-						<button 		   for-input="account-trading-account-register-sms-verification-code"
+									   id="account-trading-account-register-sms-verification-code">
+						<label        for="account-trading-account-register-sms-verification-code" class="input-tip default">验证码</label>
+						<button for-input="account-trading-account-register-sms-verification-code"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 					<div class="right">
 						<div class="step current fetch"
 							><button class="simple-look" type="button" 
 								button-action="fetch-sms-vcode">获取验证码</button
+							><button class="simple-look" type="button" style="display: none;" 
+								button-action="fetch-sms-vcode">重新获取</button
 						></div>
 						<div class="step countdown"
 							><span class="value">60</span
@@ -134,6 +138,12 @@
 	</div>
 
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
+		<div class="popup-layer polite-message" id="plpm-bank-card-info-verification-failed">
+			<div class="popup-window">
+				<article><p>银行卡验证码失败，请确认信息</p></article>
+			</div>
+		</div>
+
 		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 

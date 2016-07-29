@@ -13,7 +13,7 @@
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="注册与登录" id="page-account-sign-up-sign-in"
-	 class="page bg-white"
+	 class="page bg-white has-page-header fixed-page-header"
 	><header class="page-header">
 		<div class="row header-bar">
 			<div class="center"
@@ -26,7 +26,7 @@
 
 	<div class="page-body">
 		<div class="tab-panel-set">
-			<ul role="tablist" class="tab-list tabs-count-2"
+			<ul role="tablist" class="tab-list tabs-count-2 tabs-style-simple"
 				><li role="tab"
 							  aria-controls="panel-sign-in"
 							aria-labelledby="panel-tab-sign-in"
@@ -43,25 +43,31 @@
 					<form name="signin" action="account-info.html">
 					<div class="f-block">
 						<div class="row input-field style-traditional first-of-set">
-							<input placeholder="请输入手机号" type="tel" data-text-format="mobile"
+							<input placeholder="请输入您的手机号" type="tel" data-text-format="mobile"
 								name="mobile" required
-													  id="sign-in-mobile">
-							<label class="input-tip" for="sign-in-mobile">手机号</label>
-							<button 		   for-input="sign-in-mobile"
+										   id="sign-in-mobile">
+							<label        for="sign-in-mobile" class="input-tip default">手机号码</label>
+							<label        for="sign-in-mobile" class="input-tip error" data-subject="mobile-not-registered-yet">该手机号尚未注册</label>
+							<button for-input="sign-in-mobile"
 								button-action="clear-input-field" type="button"></button>
 						</div>
 
 						<div class="row input-field style-traditional last-of-set">
-							<input placeholder="请输入登录密码" type="password"
+							<input placeholder="请输入您的密码" type="password"
 								name="password" required
-													  id="sign-in-passward">
-							<label class="input-tip" for="sign-in-passward">登录密码</label>
-							<button 		   for-input="sign-in-passward"
+										   id="sign-in-passward">
+							<label        for="sign-in-passward" class="input-tip default">登录密码</label>
+							<button for-input="sign-in-passward"
 								button-action="clear-input-field" type="button"></button>
 						</div>
 
-						<div class="row article content-align-right">
-							<a href="account-account-password-reset.html">忘记密码？</a>
+						<div class="row input-tips">
+							<div class="left">
+								<p class="input-tip error" data-subject="mobile-password-pare-mismatch">您输入的手机号与密码不符</p>
+							</div>
+							<div class="right">
+								<a href="account-account-password-reset-step-1.html">忘记密码？</a>
+							</div>
 						</div>
 
 						<div class="row buttons-in-single-line">
@@ -76,20 +82,23 @@
 					<form name="signup" action="account-sign-up-succeeded.html">
 					<div class="f-block">
 						<div class="row input-field style-traditional first-of-set">
-							<input placeholder="请输入手机号" type="tel" data-text-format="mobile"
+							<input placeholder="请输入您的手机号码" type="tel" data-text-format="mobile"
 								name="mobile" required
-													  id="sign-up-mobile">
-							<label class="input-tip" for="sign-up-mobile">手机号</label>
-							<button 		   for-input="sign-up-mobile"
+										   id="sign-up-mobile">
+							<label        for="sign-up-mobile" class="input-tip default">手机号码</label>
+							<label        for="sign-up-mobile" class="input-tip error" data-subject="mobile-number-invalid">请输入正确的手机号码</label>
+							<label        for="sign-up-mobile" class="input-tip error" data-subject="mobile-number-occupied">手机号码已被注册</label>
+							<button for-input="sign-up-mobile"
 								button-action="clear-input-field" type="button"></button>
 						</div>
 
 						<div class="row input-field style-traditional">
-							<input placeholder="请输入登录密码" type="password"
+							<input placeholder="密码须为6-20位字母和数字的组合" type="password"
 								name="password" required
-													  id="sign-up-passward">
-							<label class="input-tip" for="sign-up-passward">登录密码</label>
-							<button 		   for-input="sign-up-passward"
+										   id="sign-up-passward">
+							<label        for="sign-up-passward" class="input-tip default">登录密码</label>
+							<label        for="sign-up-passward" class="input-tip error" data-subject="password-invalid">密码须为6-20位字母和数字的组合</label>
+							<button for-input="sign-up-passward"
 								button-action="clear-input-field" type="button"></button>
 						</div>
 
@@ -97,15 +106,17 @@
 							<div class="left">
 								<input placeholder="请输入验证码" type="number"
 									name="smsvcode" required
-														  id="sign-up-sms-verification-code">
-								<label class="input-tip" for="sign-up-sms-verification-code">验证码</label>
-								<button 		   for-input="sign-up-sms-verification-code"
+											   id="sign-up-sms-verification-code">
+								<label        for="sign-up-sms-verification-code" class="input-tip default">验证码</label>
+								<button for-input="sign-up-sms-verification-code"
 									button-action="clear-input-field" type="button"></button>
 							</div>
 							<div class="right">
 								<div class="step current fetch"
 									><button class="simple-look" type="button" 
 										button-action="fetch-sms-vcode">获取验证码</button
+									><button class="simple-look" type="button" style="display: none;" 
+										button-action="fetch-sms-vcode">重新获取</button
 								></div>
 								<div class="step countdown"
 									><span class="value">60</span
@@ -136,6 +147,18 @@
 	</div>
 
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
+		<div class="popup-layer polite-message" id="plpm-sign-in-succeeded">
+			<div class="popup-window">
+				<article><p>登录成功</p></article>
+			</div>
+		</div>
+
+		<div class="popup-layer polite-message" id="plpm-sign-up-succeeded">
+			<div class="popup-window">
+				<article><p>注册成功</p></article>
+			</div>
+		</div>
+
 		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 

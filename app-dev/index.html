@@ -13,8 +13,9 @@
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="泰金所" id="page-home"
-	 class="page">
+	 class="page has-page-header fixed-page-header">
 	<link rel="stylesheet" type="text/css" href="scripts/vendors/swiper-3.3.1/css/swiper.min.css">
+	<link rel="stylesheet" type="text/css" href="styles/pages/index.min.css">
 	<script type="text/javascript" src="scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
 	<style type="text/css">
 		.banner .carousel {
@@ -86,45 +87,48 @@
 					><span class="value user-id" data-text-format="mobile"
 						>134****5678</span
 				></a></li
-				><li><a href="html/account-sign-up-sign-in.html?tabLabel=sign-in">退出</a></li
-			></ul>
-		</div>
-		<div class="row user-assets-abstract">
-			<ul class="columns"
-				><li class="col col-1 sensitive-content">
-					<span class="label">总资产（元）<i class="sensitive-content-status-icon"></i></span>
-					<span class="content">
-						<span class="sensitive-value-cell">
-							<a href="html/account-personal-center.html">
-							<span class="sensitive-value value" style="visibility: hidden;">100,000.00</span>
-							</a>
-							<span class="sensitive-value-replacement">*************</span>
-						</span>
-					</span>
-				</li
-				><hr class="vert" 
-				><a href="html/account-personal-center.html"
-				><li class="col col-2">
-					<span class="label">昨日收益（元）</span>
-					<span class="content">
-						<span class="value digits digits-with-sign">+89.00</span>
-					</span>
-				</li
-				></a
-				><hr class="vert" 
-				><a href="html/account-personal-center.html"
-				><li class="col col-3">
-					<span class="label">累计收益（元）</span>
-					<span class="content">
-						<span class="value digits digits-with-sign">+695.00</span>
-					</span>
-				</li
-				></a
+				><li><a href="index.html?login=false">退出</a></li
 			></ul>
 		</div>
 	</header>
 
 	<div class="page-body helvetica-digits">
+		<div class="row color-inverted  arial-digits">
+			<div class="user-assets-abstract">
+				<ul class="f-list"
+					><li class="col col-1 sensitive-content">
+						<span class="label">总资产（元）<i class="sensitive-content-status-icon"></i></span>
+						<span class="content">
+							<span class="sensitive-value-cell">
+								<a href="html/account-personal-center.html">
+								<span class="sensitive-value value digits currency" style="visibility: hidden;">100,000.00</span>
+								</a>
+								<span class="sensitive-value-replacement">*************</span>
+							</span>
+						</span>
+					</li
+					><hr class="vert" 
+					><a href="html/account-personal-center.html"
+					><li class="col col-2">
+						<span class="label">昨日收益（元）</span>
+						<span class="content">
+							<span class="value digits digits-with-sign">+89.00</span>
+						</span>
+					</li
+					></a
+					><hr class="vert" 
+					><a href="html/account-personal-center.html"
+					><li class="col col-3">
+						<span class="label">累计收益（元）</span>
+						<span class="content">
+							<span class="value digits digits-with-sign">+695.00</span>
+						</span>
+					</li
+					></a
+				></ul>
+			</div>
+		</div>
+
 		<div class="f-block banner">
 			<div class="carousel swiper-container">
 				<ul class="swiper-wrapper carousel-slides">
@@ -189,28 +193,33 @@
 		<div class="f-block">
 			<div class="f-block-body">
 				<div class="row full-width promotion-bar arial-digits">
-					<a href="html/newbie-call-to-action.html"
+					<a href="html/account-trading-account-register-step-1.html"
 						><div class="promotion-message">
 							<h2>新手开户即送<em class="value digits">18888</em>元红包体验金</h2>
 						</div
 					></a>
 				</div>
 				<div class="row full-width">
-					<div class="hero-content-block">
+					<a href="html/newbie-call-to-action.html">
+					<div class="hero-content-block hero-content-block-style-1">
 						<h3>
 							<span class="subject">新手专享</span>
 							<span class="hero-word"><em class="value digits">9.8%</em></span>
 							<span class="subtitle">预计年化收益率</span>
 						</h3>
-						<ul class="layout-hori hero-content-features"
-							><li><em class="value duration-limitation">14</em>天期限</li
-							><li><em class="value min-amount">100</em>元起投</li
-							><li><span class="value begin-date-of-benifits">07-01</span>起息</li
-						></ul>
+						<div class="hero-content-features">
+							<ul class="f-list"
+								><li><em class="value duration-limitation">14</em>天期限</li
+								><li><em class="value min-amount">100</em>元起投</li
+								><li><span class="value begin-date-of-benifits">07-01</span>起息</li
+							></ul>
+						</div>
 					</div>
+					</a>
 				</div>
 				<div class="row full-width buttons-in-single-line hero-content-block-call-to-action">
-					<a role="button" class="size-std-wide simple-look"><em>立即购买</em></a>
+					<a href="html/newbie-call-to-action.html"
+						role="button" class="size-std-wide simple-look"><em>立即购买</em></a>
 				</div>
 			</div>
 		</div>

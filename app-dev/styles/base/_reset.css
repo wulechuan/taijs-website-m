@@ -39,6 +39,12 @@ input {
 	padding: 8px 16px;
 	min-height: 22px;
 }
+input[type=text] {   
+    /* Remove iOS inner shadow for input fields */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
 input, select, option {
 	padding-left: 0.5em;
 	padding-right: 0.5em;
@@ -137,4 +143,15 @@ input[type='number'] {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+}
+
+:active, :focus,
+option, option:active, option:focus,
+select, select:active, select:focus,
+input, input:active, input:focus,
+textarea, textarea:active, textarea:focus,
+button, button:active, button:focus,
+a, a:active, a:focus {
+    outline: 0;
+	-webkit-tap-highlight-color: transparent;
 }
