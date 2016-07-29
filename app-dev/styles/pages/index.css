@@ -179,10 +179,8 @@
 	height: 4rem;
 	}
 	.user-assets-abstract > .f-list {
-		padding-left: 0;
-		padding-right: 0;
-		margin-left: -0.8rem;
-		margin-right: -0.8rem;
+		padding: 0;
+		margin: 0 -0.8rem;
 	}
 	.user-assets-abstract > .f-list > a > li,
 	.user-assets-abstract > .f-list     > li {

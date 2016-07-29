@@ -1,3 +1,8 @@
+.bg-meets-page-header-container {
+	background-color: transparent!important;
+}
+
+
 button.nav-share::before,
 button.nav-home::before,
 button.nav-back::before,
@@ -325,7 +330,6 @@ article.message {
 	position: relative;
 	}
 
-	.row > .hero-content-block,
 	.hero-content-block {
 	position: relative;
 	margin: -0.5rem -0.8rem;
@@ -408,16 +412,16 @@ article.message {
 
 
 	.hero-content-block.hero-content-block-style-3 { /* in newbie-call-to-action page */
-		margin-left: 0;
-		margin-right: 0;
-		padding-top: 1rem;
-		padding-bottom: 1rem;
-
+		margin-top: 0;
+		margin-bottom: 0;
+		padding-top: 1.25rem;
+		padding-bottom: 0.25rem;
 		background-repeat: no-repeat;
-		background-position: center -2.4rem;
+		background-position: center -2.4rem; /* offset background for page-header bg */
 		}
 		.hero-content-block.hero-content-block-style-3 h3 {
-			margin-bottom: 1.4rem;
+			margin-top: 0.25rem;
+			margin-bottom: 1.5rem;
 		}
 		.hero-content-block.hero-content-block-style-3 h3 .subject {
 			font-size: 0.7rem;
@@ -425,11 +429,8 @@ article.message {
 			font-weight: 200;
 		}
 		.hero-content-block.hero-content-block-style-3 h3 .hero-word {
-			margin-top: 0.4rem;
+			margin-top: 0.5rem;
 			font-size: 2.6rem;
-		}
-		.hero-content-block.hero-content-block-style-3 h3 .subtitle {
-			font-size: 0.6rem;
 		}
 		.hero-content-block.hero-content-block-style-3 .hero-content-features {
 			margin: 0.25rem auto;
@@ -443,6 +444,18 @@ article.message {
 			height: 2.7rem;
 			margin-top: 0.2rem;
 			opacity: 0.1;
+		}
+
+		.hero-content-block.hero-content-block-style-3 .hero-content-features .f-list li .label {
+			display: block;
+			font-size: 0.6rem;
+			margin: 0.1rem auto;
+		}
+
+		.hero-content-block.hero-content-block-style-3 .hero-content-features .f-list li .content {
+			display: block;
+			font-size: 1rem;
+			margin: 0.5rem auto;
 		}
 
 
@@ -794,11 +807,11 @@ article.message {
 			}
 
 
-	.row > div {
+	/* .row > div {
 		padding: 0.2rem 0.5rem;
 		margin-left: -0.5rem;
 		margin-right: -0.5rem;
-	}
+	} */
 
 	.row > h6,
 	.row > h5,
@@ -1344,7 +1357,10 @@ article.message {
 		top: 0;
 		display: block;
 		width: 100%;
-		height: 30%;
+		height: 51%;
+
+		background-repeat: no-repeat;
+		background-position: center top;
 	}
 
 	/*
@@ -1355,6 +1371,7 @@ article.message {
 	  from effecting .page-header layout
 	*/
 	.page-body::before,
+	.page-body > .content::before,
 	.page-header::before {
 		content: '';
 		display: block;
@@ -1383,7 +1400,14 @@ article.message {
 		padding-bottom: 6rem;
 		overflow: auto;
 		-webkit-overflow-scrolling: touch;
-	}
+		}
+		.page-body.use-content-as-main-container {
+			padding-bottom: 0;
+		}
+		.page-body.use-content-as-main-container > .content {
+			box-sizing: border-box;
+			padding-bottom: 6rem;
+		}
 
 	.page.page-header-in-compact-mode .page-header,
 	.page-header {
@@ -1401,6 +1425,7 @@ article.message {
 		.page.fixed-page-header {
 			margin-top: 2.4rem;
 		}
+
 
 	.page.fixed-page-footer .page-footer {
 		left: 0;
@@ -1597,8 +1622,8 @@ article.message {
 #page-account-sign-up-sign-in .page-header {
 	height: 5rem;
 	}
-	#page-account-sign-up-sign-in .page-body {
-		padding-top: 5rem;
+	#page-account-sign-up-sign-in {
+		margin-top: 5rem;
 	}
 	#page-account-sign-up-sign-in .page-header .taijs-logo {
 		margin: 0.5rem auto 0.25rem auto;
@@ -1615,4 +1640,22 @@ article.message {
 	}
 	#page-account-sign-up-sign-in .panel .f-block:first-child {
 		margin-top: 1rem;
+	}
+
+
+#page-newbie-call-to-action::before,
+	#page-newbie-call-to-action .page-header {
+		background-size: auto 13.5rem;
+		background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg.png);
+	}
+	#page-newbie-call-to-action .hero-content-block.hero-content-block-style-3 {
+		background-color: transparent!important;
+		background-size: auto 13.5rem;
+		background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-fading-top.png);
+	}
+	#page-newbie-call-to-action .page-body {
+		background-color: transparent!important;
+	}
+	#page-newbie-call-to-action .page-body > .content {
+		background-color: #f1f1f1;
 	}

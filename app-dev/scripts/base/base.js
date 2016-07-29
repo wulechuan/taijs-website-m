@@ -46,19 +46,15 @@
 	var $globalbp = $('.app > .popup-layers .popup-layers-back-plate');
 	var $pLTaijsServiceContact = $('.app > .popup-layers #pl-taijs-service-contact');
 
-	// $('.page-body-stamp .taijs-service-contact').on('click', function () {
-	// 	if (!navigator.userAgent.math(/MicroMessenger/i)) {
-	// 		$globalbp.show();
-	// 		$pLTaijsServiceContact.show();
-	// 	}
-	// });
 
 	$('.page').each(function () {
 		var $page = $(this);
 		var pageBody = $page.find('.page-body')[0];
 
 		if (pageBody) {
-			var pageHeaderHeight = 48;
+			var pageHeaderHeight = $page.offset().top;
+			var shouldSetBodyContent = false;
+			var pageBodyContentOffsetY = 0;
 
 			var windowInnerHeight = window.innerHeight;
 			var pageBodyMinHeight = windowInnerHeight - pageHeaderHeight;
@@ -69,7 +65,27 @@
 				pageBodyMinHeight -= pageFixedFooterHeight;
 			}
 
-			pageBody.style.minHeight = pageBodyMinHeight + 'px';
+			var $pageBodyContent = $(pageBody).find('> .content');
+			var pageBodyContent = $pageBodyContent[0];
+			if (pageBodyContent) {
+				shouldSetBodyContent = true;
+				pageBodyContentOffsetY = $pageBodyContent.offset().top;
+			}
+
+			var pageBodyContentMinHeight = pageBodyMinHeight - pageBodyContentOffsetY + pageHeaderHeight;
+			c.l(
+				'fixed-page-footer?', pageHasFixedFooter,
+			 	'\t pageBodyMinHeight', pageBodyMinHeight,
+			 	'\t pageBodyContentMinHeight', pageBodyContentMinHeight
+			 );
+
+			if (shouldSetBodyContent) {
+				$(pageBody).addClass('use-content-as-main-container');
+				pageBodyContent.style.minHeight = pageBodyContentMinHeight + 'px';
+			} else {
+				$(pageBody).removeClass('use-content-as-main-container');
+				pageBody.style.minHeight = pageBodyMinHeight + 'px';
+			}
 		}
 	});
 
@@ -740,19 +756,19 @@
 })();
 
 
-(function fakeLogics() {
-	window.DC = new webLogicControls.UI.DraggingController(
-		document.body,
-		{
-			movingElement: $('.app-fg-layer')[0],
-			durationForResettingPosition: 0.2,
-			triggerDirection: 'd',
-			onFirstTrigger: function (event, options) {
-				console.log('first:', options.status.triggerCount);
-			},
-			onEachTrigger: function(event, options) {
-				console.log('each:', options.status.triggerCount);
-			}
-		}
-	);
-})();
+// (function fakeLogics() {
+// 	window.DC = new webLogicControls.UI.DraggingController(
+// 		document.body,
+// 		{
+// 			movingElement: $('.app-fg-layer')[0],
+// 			durationForResettingPosition: 0.2,
+// 			triggerDirection: 'd',
+// 			onFirstTrigger: function (event, options) {
+// 				console.log('first:', options.status.triggerCount);
+// 			},
+// 			onEachTrigger: function(event, options) {
+// 				console.log('each:', options.status.triggerCount);
+// 			}
+// 		}
+// 	);
+// })();
