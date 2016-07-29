@@ -1235,8 +1235,7 @@ article.message {
 		.f-block-body   .row.call-to-action::after {
 			height: 1.2rem;
 			line-height: 1.2rem;
-			/* margin-top: 0.62rem; */
-			top: 0.62rem;
+			top: 0.6rem;
 		}
 
 	.f-block-body .row.select-field,
@@ -1654,18 +1653,33 @@ article.message {
 	#page-newbie-call-to-action .page-header-patch-for-safari,
 	#page-newbie-call-to-action .page-header,
 	#page-newbie-call-to-action .hero-content-block.hero-content-block-style-3 {
-		background-size: auto 26rem;
+		background-size: auto 13.5rem;
 	}
 
 	#page-newbie-call-to-action::before,
 	#page-newbie-call-to-action .page-header-patch-for-safari,
 	#page-newbie-call-to-action .page-header {
-		/* background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg.png); */
-		background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-extended.jpg);
+		background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg.png);
 	}
 
 	#page-newbie-call-to-action .hero-content-block.hero-content-block-style-3 {
 		background-color: transparent!important;
-		/* background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-fading-top.png); */
+		background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-fading-top.png);
+	}
+
+	#page-newbie-call-to-action.use-extended-bg-image::before,
+	#page-newbie-call-to-action.use-extended-bg-image .page-header-patch-for-safari,
+	#page-newbie-call-to-action.use-extended-bg-image .page-header,
+	#page-newbie-call-to-action.use-extended-bg-image .hero-content-block.hero-content-block-style-3 {
+		background-size: auto 26rem;
+	}
+
+	#page-newbie-call-to-action.use-extended-bg-image::before,
+	#page-newbie-call-to-action.use-extended-bg-image .page-header-patch-for-safari,
+	#page-newbie-call-to-action.use-extended-bg-image .page-header {
+		background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-extended.jpg);
+	}
+
+	#page-newbie-call-to-action.use-extended-bg-image .hero-content-block.hero-content-block-style-3 {
 		background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-extended-fading-top.png);
 	}
