@@ -82,10 +82,6 @@
 	}
 
 
-
-
-
-
 .page-header .row.sign-up-sign-in-buttons {
 	position: absolute;
 	box-sizing: border-box;
@@ -150,7 +146,6 @@
 	}
 
 
-
 .page-header .row.user-account-toolar {
 	display: none;
 	width: 100%;
@@ -178,35 +173,22 @@
 	}
 
 
-
 .user-assets-abstract {
 	display: block;
 	box-sizing: border-box;
 	height: 4rem;
-	font-size: 1rem;
-	padding-top: 0.2rem;
-	padding-bottom: 0.6rem;
 	}
-	.user-assets-abstract .columns {
-		margin: 0;
-		padding: 0;
-	}
-	.user-assets-abstract .col {
+	.user-assets-abstract > .f-list > a > li,
+	.user-assets-abstract > .f-list     > li {
 		position: relative;
 		margin: 0.5rem 0 0 0;
 		height: 2.5rem;
-		padding: 0.25rem 0.25rem 1.25rem;
+		padding-tom: 0.25rem 0.25rem 1.25rem;
 	}
 	.user-assets-abstract .col ~ hr.vert {
 		height: 2.1rem;
 		margin-top: 0.8rem;
 		opacity: 0.2;
-	}
-	.user-assets-abstract .col * {
-		line-height: 1;
-	}
-	.user-assets-abstract .col .content {
-		font-size: 0.8rem;
 	}
 	.user-assets-abstract .col.col-1 {
 		width: 37%;
@@ -217,7 +199,12 @@
 	.user-assets-abstract .col.col-3 {
 		width: 34%;
 	}
-	.user-assets-abstract .col > .label {
+	.user-assets-abstract .f-list > a > li > .content,
+	.user-assets-abstract .f-list     > li > .content {
+		font-size: 0.8rem;
+	}
+	.user-assets-abstract .f-list > a > li > .label,
+	.user-assets-abstract .f-list     > li > .label {
 		margin: 0;
 		position: absolute;
 		display: block;
