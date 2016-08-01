@@ -1,5 +1,8 @@
 (function () {
 	var wlc = window.webLogicControls;
+	var WCU = wlc.CoreUtilities;
+
+
 	function processParametersPassedIn() {
 		var qString = location.href.match(/\?[^#]*/);
 		if (qString) qString = qString[0].slice(1);
@@ -73,11 +76,11 @@
 			}
 
 			var pageBodyContentMinHeight = pageBodyMinHeight - pageBodyContentOffsetY + pageHeaderHeight;
-			c.l(
-				'fixed-page-footer?', pageHasFixedFooter,
-			 	'\t pageBodyMinHeight', pageBodyMinHeight,
-			 	'\t pageBodyContentMinHeight', pageBodyContentMinHeight
-			 );
+			// C.L(
+			// 	'fixed-page-footer?', pageHasFixedFooter,
+			//  	'\t pageBodyMinHeight', pageBodyMinHeight,
+			//  	'\t pageBodyContentMinHeight', pageBodyContentMinHeight
+			//  );
 
 			if (shouldSetBodyContent) {
 				$(pageBody).addClass('use-content-as-main-container');
@@ -360,6 +363,64 @@
 	});
 
 
+	$('.chinese-number[for-element]').each(function () {
+		var servedElementId = this.getAttribute('for-element');
+		if (!servedElementId) return false;
+
+		var servedElement = $(document).find('#'+servedElementId)[0];
+		if (!servedElement) return false;
+
+
+		var thisFormatElement = this;
+
+
+		var tnlc = servedElement.tagName.toLowerCase();
+		var contentIsFromUserInput = false;
+		var contentIsFromSelect = false;
+		var propertyToFormat = 'textContent';
+		var elementIsValid = true;
+
+		if (tnlc === 'input') {
+			if (servedElement.type === 'checkbox' || servedElement.type === 'radio') {
+				elementIsValid = false;
+			} else {
+				contentIsFromUserInput = true;
+				propertyToFormat = 'value';
+			}
+		} else if (tnlc === 'textarea') {
+			contentIsFromUserInput = true;
+			propertyToFormat = 'value';
+		} else if (tnlc === 'select') {
+			contentIsFromUserInput = true;
+			contentIsFromSelect = true;
+			propertyToFormat = 'value';
+		} else if (servedElement.getAttribute('contentEditable') && servedElement.getAttribute('contentEditable').toLowerCase() === 'true') {
+			contentIsFromUserInput = true;
+		}
+
+		if (!elementIsValid) return;
+
+
+
+		_updateChineseNumbers();
+
+		if (contentIsFromUserInput) {
+			$(servedElement).on(contentIsFromSelect ? 'change' : 'input', function () {
+				_updateChineseNumbers();
+			});
+		}
+
+
+		function _updateChineseNumbers() {
+			var decimal = servedElement[propertyToFormat];
+			var formatter = WCU.formatter.decimalToChineseMoney;
+
+			thisFormatElement.innerHTML     = formatter.process(decimal);
+			servedElement[propertyToFormat] = formatter.data.lastGroomedInput;
+		}
+	});
+
+
 	$('form').filter(function (index, form) {
 		return !form.hasAttribute('novalidate');
 	}).each(function () {
@@ -602,11 +663,11 @@
 				// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
 				Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360
 			];
-			// c.l(degrees);
+			// C.L(degrees);
 			progressRings.setDegrees(degrees);
 		}
 		// function print() {
-		// 	c.l('Got degree:', progressRings.getDegree());
+		// 	C.L('Got degree:', progressRings.getDegree());
 		// }
 
 		if (index === 0) {

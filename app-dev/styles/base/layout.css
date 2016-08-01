@@ -1380,9 +1380,13 @@ article.message {
 
 .page {
 	box-sizing: border-box;
-	max-width: 768px;
 	height: 100%;
-	margin: auto;
+	}
+
+	.page-header .width-wrap,
+	.page {
+		margin: auto;
+		max-width: 768px;
 	}
 
 	.page::before { /* page-header patch for iOS Safari momentum scrolling */
@@ -1510,7 +1514,7 @@ article.message {
 			transition-property: width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
 		}
 		.page-header .row {
-			margin: 0;
+			margin: 0 auto;
 			padding-left: 0;
 			padding-right: 0;
 			padding-top: 0.5rem;
@@ -1518,6 +1522,7 @@ article.message {
 		}
 
 		.page-header .row.header-bar {
+			width: 100%;
 			min-height: 1.4rem;
 			}
 
@@ -1735,6 +1740,7 @@ article.message {
 		background-size: auto 26rem;
 	}
 	#page-newbie-call-to-action.use-extended-bg-image::after {
+		/* height: -webkit-calc(100% - 25.5rem); */
 		height: calc(100% - 25.5rem);
 	}
 

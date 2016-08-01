@@ -1,5 +1,7 @@
 $(function () { // fake logics
 	var wlc = window.webLogicControls;
+
+
 	var $pL1 = $('#pl-password-input-panel-trading');
 
 	new wlc.UI.SingleCharacterInputsSet($pL1.find('.single-char-inputs-set')[0], {
@@ -10,7 +12,7 @@ $(function () { // fake logics
 	});
 
 	var $thePL = $pL1;
-	$('[button-action="buy"]').on('click', function(event) {
+	$('[button-action="buy"]').on('click', function() {
 		console.error('fake logic triggered.');
 		var $bp = $thePL[0].elements.$popupLayersBackPlate;
 		$bp.show();

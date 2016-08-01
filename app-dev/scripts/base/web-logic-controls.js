@@ -16,24 +16,24 @@ window.webLogicControls = {};
 	this.CoreUtilities = WCU;
 	(function () { // CoreUtilities
 		if (window.console && typeof window.console.log === 'function') {
-			window.c = window.console;
-			c.l = c.log;
-			c.t = c.trace;
-			c.w = c.warn;
-			c.e = c.error;
+			window.C = window.console;
+			C.L = C.log;
+			C.T = C.trace;
+			C.W = C.warn;
+			C.E = C.error;
 		} else {
-			window.c = {
-				l: nilFunction,
-				t: nilFunction,
-				w: nilFunction,
-				e: nilFunction
+			window.C = {
+				L: nilFunction,
+				T: nilFunction,
+				W: nilFunction,
+				E: nilFunction
 			};
 		}
 
 		var save = {};
 		this.save = save;
 		(function () {
-			function _updateValueSafely(recursiveDepth, typeString, targetObject, key, sourceValue, allowToRemoveTargetValue, valueParser) {
+			function _updateValueSafely(recursiveDepth, typeString, targetObject, key, sourceValue, allowToRemoveTargetValue, valueParser, shouldTrace) {
 				var resultStates = {
 					newValueHasBeenTaken: false,
 					oldValueHasBeenRemoved: false,
@@ -128,7 +128,7 @@ window.webLogicControls = {};
 							}
 						} else if (typeof sourceValue === 'object' && sourceValue !== null && sourceValue.hasOwnProperty(key)) {
 							if (recursiveDepth && recursiveDepth > 0) {
-								resultStates = _updateValueSafely(recursiveDepth-1, typeString, targetObject, key, sourceValue[key], allowToRemoveTargetValue, valueParser);
+								resultStates = _updateValueSafely(recursiveDepth-1, typeString, targetObject, key, sourceValue[key], allowToRemoveTargetValue, valueParser, shouldTrace);
 							} else {
 								resultStates.inputValueWasInvalid = true;
 							}
@@ -146,8 +146,8 @@ window.webLogicControls = {};
 					/* *********************************** */
 
 					resultStates.newValueHasBeenTaken = true;
-					resultStates.valueHasBeenChanged = targetObject[key] !== oldValue;
 					resultStates.valueHasBeenCreated = !oldKeyExisted;
+					resultStates.valueHasBeenChanged = !oldKeyExisted || (targetObject[key] !== oldValue);
 
 					if (targetValueOldTypeWrong) {
 						resultStates.valueTypeChanged = true;
@@ -158,7 +158,7 @@ window.webLogicControls = {};
 				return resultStates;
 			}
 
-			this.boolean = function (targetObject, key, sourceValue, allowToRemoveTargetValue) {
+			this.boolean = function (targetObject, key, sourceValue, allowToRemoveTargetValue, shouldTrace) {
 				return _updateValueSafely(
 					1,
 					'boolean',
@@ -174,7 +174,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.number = function (targetObject, key, sourceValue, allowToRemoveTargetValue, allowNaNValue, customParser) {
+			this.number = function (targetObject, key, sourceValue, allowToRemoveTargetValue, allowNaNValue, customParser, shouldTrace) {
 				return _updateValueSafely(
 					1,
 					'number',
@@ -196,7 +196,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.numberPositive = function (targetObject, key, sourceValue, allowToRemoveTargetValue) {
+			this.numberPositive = function (targetObject, key, sourceValue, allowToRemoveTargetValue, shouldTrace) {
 				return this.number(
 					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					false,
@@ -208,7 +208,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.numberNonNegative = function (targetObject, key, sourceValue, allowToRemoveTargetValue) {
+			this.numberNonNegative = function (targetObject, key, sourceValue, allowToRemoveTargetValue, shouldTrace) {
 				return this.number(
 					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					false,
@@ -220,7 +220,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.numberNoLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit) {
+			this.numberNoLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit, shouldTrace) {
 				return this.number(
 					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					false,
@@ -239,7 +239,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.numberLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit) {
+			this.numberLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit, shouldTrace) {
 				return this.number(
 					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					false,
@@ -258,7 +258,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.numberInRange = function (targetObject, key, sourceValue, allowToRemoveTargetValue, rangeA, rangeB) {
+			this.numberInRange = function (targetObject, key, sourceValue, allowToRemoveTargetValue, rangeA, rangeB, shouldTrace) {
 				return this.number(
 					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					false,
@@ -283,7 +283,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.method = function (targetObject, key, sourceFunction, allowToRemoveExistingFunction) {
+			this.method = function (targetObject, key, sourceFunction, allowToRemoveExistingFunction, shouldTrace) {
 				return _updateValueSafely(
 					1,
 					'function',
@@ -294,6 +294,435 @@ window.webLogicControls = {};
 				);
 			};
 		}).call(save);
+
+
+		var formatter = {};
+		this.formatter = formatter;
+		(function () {
+			this.DecimalToChineseNumbers = function DecimalToChineseNumbers(initOptions) {
+				var c0s = '〇';
+				var c1s = '一';
+				var c2s = '二';
+				var c3s = '三';
+				var c4s = '四';
+				var c5s = '五';
+				var c6s = '六';
+				var c7s = '七';
+				var c8s = '八';
+				var c9s = '九';
+				var c10s = '十';
+				var c100s = '百';
+				var c1000s = '千';
+				var c10000s = '万';
+				var cBaseUnitMoneyS = '元';
+
+				var c0t = '零';
+				var c1t = '壹';
+				var c2t = '贰';
+				var c3t = '叁';
+				var c4t = '肆';
+				var c5t = '伍';
+				var c6t = '陆';
+				var c7t = '柒';
+				var c8t = '捌';
+				var c9t = '玖';
+				var c10t = '拾';
+				var c100t = '佰';
+				var c1000t = '仟';
+				var c10000t = '萬';
+				var cBaseUnitMoneyT = '圆';
+
+				var cBaseUnitRegular = '个';
+				var cDot = '点';
+				var cYi = '亿';
+				var cFractionUnitsMoney = '角分厘豪';
+				var cSuffixZheng = '整';
+
+
+				this.options = { // default values, will be overrided by runtime values
+					isMoney: true,
+					tenWritesOneTen: false, // 拾写作壹拾；零拾写作零壹拾
+					jianXie: false, // 简写
+					jianXieLing: false, // 简写零
+					jianXieShiBaiQian: false, // 简写十百千
+					jianXieWan: false, // 简写万
+					jianXieMoneyUnitYuan: false, // 简写元
+					fractionMaxDigitsRegular: NaN, // 非货币（钱数）最长小数位数
+					fractionMaxDigitsMoney: 2 // 货币（钱数）最长小数位
+				};
+
+				this.data = {
+					lastGroomedInput: '',
+					lastConciseValue: '',
+					lastResult: '',
+					lastValueHadDot: false
+				};
+
+				this.config = config.bind(this);
+				this.process = process.bind(this);
+
+
+				init.call(this);
+
+
+
+
+				function init() {
+					this.config(initOptions, this.options, true);
+				}
+
+				function config(newOptions, targetOptions, isInitializing) {
+					if (typeof targetOptions !== 'object' || !targetOptions) {
+						targetOptions = this.options; // by default we config the this.options instead of runtime options
+					}
+					isInitializing = !!isInitializing && (targetOptions === this.options);
+
+
+					WCU.save.number(targetOptions, 'fractionMaxDigitsRegular', newOptions, false, true);
+					WCU.save.numberNoLessThan(targetOptions, 'fractionMaxDigitsMoney', newOptions, false, 2);
+
+					var saveBool = WCU.save.boolean;
+
+					var R1 = saveBool(targetOptions, 'isMoney', newOptions);
+					var R4;
+					if (R1.valueHasBeenChanged || isInitializing) {
+						R4 = saveBool(targetOptions, 'jianXie', !targetOptions.isMoney);
+					}
+
+					var R2 = saveBool(targetOptions, 'jianXie', newOptions);
+					var R3 = saveBool(targetOptions, 'tenWritesOneTen', newOptions);
+
+					if ((R4 && R4.valueHasBeenChanged) || R2.valueHasBeenChanged || isInitializing) {
+						// if (!targetOptions.isMoney) {
+						// 	saveBool(targetOptions, 'jianXieLing', targetOptions.jianXie);
+						// }
+
+						saveBool(targetOptions, 'jianXieShiBaiQian', targetOptions.jianXie);
+						saveBool(targetOptions, 'jianXieWan', targetOptions.jianXie);
+						saveBool(targetOptions, 'jianXieMoneyUnitYuan', targetOptions.jianXie);
+					}
+
+					saveBool(targetOptions, 'jianXieLing', newOptions);
+					saveBool(targetOptions, 'jianXieShiBaiQian', newOptions);
+					saveBool(targetOptions, 'jianXieWan', newOptions);
+					saveBool(targetOptions, 'jianXieMoneyUnitYuan', newOptions);
+
+
+					if (R1.valueHasBeenChanged || R3.valueHasBeenChanged || isInitializing) {
+						targetOptions.tenWritesOneTen = targetOptions.tenWritesOneTen || targetOptions.isMoney;
+					}
+				}
+
+				function process(n, optionsOrIsMoney, shouldLog) {
+					// http://www.cnblogs.com/zyxzhsh/archive/2010/10/18/1854476.html
+
+					var inputIsValid = true;
+					shouldLog = !!shouldLog;
+
+
+					if (typeof n === 'number') {
+						inputIsValid = !isNaN(n);
+						n = n.toString();
+					} else if (typeof n === 'string') {
+						inputIsValid = /^\d*\.?\d*$/.test(n) && n.length > 0; // 允许小数点前后均无数字，故意要求不那么严格
+					} else {
+						inputIsValid = false;
+					}
+
+					if (!inputIsValid) {
+						this.data.lastValueHadDot = false;
+						this.data.lastGroomedInput = n;
+						this.data.lastConciseValue = '';
+						this.data.lastResult = '';
+						return '';
+						// throw('Invalid number to convert to Chinese capital number.');
+					}
+
+
+					var options = {}; // runtime copy
+
+
+					this.config(this.options, options); // first of all, copy default values into runtime options
+
+
+					if (typeof optionsOrIsMoney === 'boolean' || typeof optionsOrIsMoney === 'number') {
+						this.config({
+							isMoney: optionsOrIsMoney
+						});
+					} else if (typeof optionsOrIsMoney === 'object' && optionsOrIsMoney) { // should handle null object
+						this.config(optionsOrIsMoney, options);
+					}
+
+					if (shouldLog) C.L(options);
+
+
+
+					n = n
+						.replace(/^0+/, '')
+						// .replace(/\.$/, '') // we need to record wheather there was a dot within the input
+					;
+
+
+
+					var c0 = options.jianXieLing ? c0s : c0t;
+					var c1 = options.jianXie ? c1s : c1t;
+					var c2 = options.jianXie ? c2s : c2t;
+					var c3 = options.jianXie ? c3s : c3t;
+					var c4 = options.jianXie ? c4s : c4t;
+					var c5 = options.jianXie ? c5s : c5t;
+					var c6 = options.jianXie ? c6s : c6t;
+					var c7 = options.jianXie ? c7s : c7t;
+					var c8 = options.jianXie ? c8s : c8t;
+					var c9 = options.jianXie ? c9s : c9t;
+					var c10 = options.jianXieShiBaiQian ? c10s : c10t;
+					var c100 = options.jianXieShiBaiQian ? c100s : c100t;
+					var c1000 = options.jianXieShiBaiQian ? c1000s : c1000t;
+					var c10000 = options.jianXieWan ? c10000s : c10000t;
+
+					var cBaseUnitMoney = options.jianXieMoneyUnitYuan ? cBaseUnitMoneyS : cBaseUnitMoneyT;
+
+					var cNumbers  = [c0, c1, c2, c3, c4, c5, c6, c7, c8, c9];
+					var cIntUnits = (function () {
+						var section = c1000+c100+c10+c10000+c1000+c100+c10; // 千百十万千百十
+						return section+cYi+section;
+					})();
+
+
+
+
+					var fractionMaxDigitsMoneyDecided = cFractionUnitsMoney.length;
+
+					var fractionMaxDigitsMoneyAllowed = parseInt(options.fractionMaxDigitsMoney);
+					if (!isNaN(fractionMaxDigitsMoneyAllowed) && fractionMaxDigitsMoneyAllowed>1) {
+						fractionMaxDigitsMoneyDecided = Math.min(fractionMaxDigitsMoneyAllowed, fractionMaxDigitsMoneyDecided);
+					}
+
+
+
+					var cUnits = cIntUnits;
+					var fractionMaxDigits;
+
+					if (options.isMoney) {
+						cUnits += cBaseUnitMoney; // 追加个位数字单位，即“圆”。
+						fractionMaxDigits = fractionMaxDigitsMoneyDecided;
+					} else {
+						cUnits += cBaseUnitRegular; // 追加个位数字临时占位单位，即“个”。
+						fractionMaxDigits = parseInt(options.fractionMaxDigitsRegular);
+					}
+
+
+
+					var pop = n.indexOf('.'); // position of point
+
+					var nInterger = '';
+					var nFractionRaw = '';
+					var inputSegmentAfterDot ='';
+					var nFraction = '';
+					var i; // loop indexer
+
+					if (pop >= 0) {
+						nInterger = n.substring(0, pop);
+						inputSegmentAfterDot = n.substring(pop+1);
+
+						if (!isNaN(fractionMaxDigits)) {
+							inputSegmentAfterDot = n.substr(pop+1, fractionMaxDigits);
+						}
+
+						nFractionRaw = inputSegmentAfterDot.replace(/0*$/, '');
+					} else {
+						nInterger = n;
+					}
+
+
+					if (options.isMoney) {
+						if (nFractionRaw.length > 0) {
+							cUnits += cFractionUnitsMoney.slice(0, fractionMaxDigits);
+							nFraction = (nFractionRaw + '0000000000000000000000000').slice(0, fractionMaxDigits);
+						}
+						// 钱数小数点后面的各个数字也带单位，为数字位数与单位位数对应，此处须预先补零
+					} else {
+						nFraction = nFractionRaw;
+					}
+
+
+					var nWithUnit = nInterger;
+					if (options.isMoney) {
+						nWithUnit += nFraction; // 钱数小数点后面的各个数字也带单位，所以处理方法与整数部分相同
+					}
+
+					cUnits = cUnits.slice(-nWithUnit.length);
+
+					var result = (n.length > 0) ? '' : (c0 + (options.isMoney ? cBaseUnitMoney : cBaseUnitRegular));
+					var resultFraction = '';
+
+
+					var needSuffixZheng = options.isMoney && (nFractionRaw.length < fractionMaxDigits);
+
+
+					if (shouldLog) {
+						C.L(
+							'n:', n, '\t pop:', pop,
+							'\n\t nInterger:', nInterger,
+							'\n\t fractionMaxDigits:', fractionMaxDigits,
+							'\n\t nFractionRaw:', nFractionRaw,
+							'\n\t nFraction:', nFraction,
+							'\n\t nWithUnit:', nWithUnit,
+							'\n\t nWithUnit.length:', nWithUnit.length,
+							'\n\t cUnits:', cUnits,
+							'\n\t needSuffixZheng:', needSuffixZheng
+						);
+					}
+
+
+					for (i=0; i < nWithUnit.length; i++) {
+						result += cNumbers[nWithUnit.charAt(i)] + cUnits.charAt(i);
+					}
+
+					if (!options.isMoney && nFraction.length) { // 还要处理小数部分，常规模式下，小数部分无单位
+						resultFraction = cDot;
+						for (i=0; i < nFraction.length; i++) {
+							resultFraction += cNumbers[nFraction.charAt(i)];
+						}
+					}
+
+					result += resultFraction;
+					if (shouldLog) C.L(result);
+
+
+
+
+					var regexp;
+
+
+
+
+					// 取得所有零值的配套单位，例如“零仟零佰”变成“零零”；其中，最新钱数单位暂不处理，因为末尾的零值须另行处理
+					regexp = new RegExp(
+						c0+'('+
+							(
+								c1000+c100+c10+(options.isMoney ? cFractionUnitsMoney.slice(0, fractionMaxDigitsMoneyDecided-1) : cBaseUnitRegular)
+							).split('').join('|')+
+						')',
+						'g'
+					);
+					result = result.replace(regexp, c0);
+					if (shouldLog) C.L('\n'+regexp + ' ----> '+c0+ '\n\t\t' + result);
+
+
+					// 处理连零
+					regexp = new RegExp(c0+'+', 'g');
+					result = result.replace(regexp, c0);
+					if (shouldLog) C.L('\n'+regexp + ' ----> '+c0+ '\n\t\t' + result);
+
+
+					// 处理连零之后（注意，是之后），“零亿”、“零万”之前剩余的“零”须去除
+					regexp = new RegExp(c0+'('+cYi+'|'+c10000+')', 'g');
+					result = result.replace(regexp, '$1');
+					if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+ '\n\t\t' + result);
+
+
+
+					// 去除零万之前的零之后（注意，是之后），“亿”、“万”二字可能紧邻，须将“万”字替换为“零”字；
+					// 但如果“亿万”二字后面原本就紧跟“零”字，则不需追加额外“零”字
+					regexp = new RegExp(cYi+c10000+c0+'*', 'g');
+					result = result.replace(regexp, cYi+c0);
+					if (shouldLog) C.L('\n'+regexp + ' ----> '+cYi+c0+ '\n\t\t' + result);
+
+
+
+					// 为安全起见，很多场合要求将小于二十的值，写作“壹拾”，即“壹”不省略
+					// 如果不要求写作“壹拾”，则应去除前面的“壹”
+					if (!options.tenWritesOneTen) {
+						
+						regexp = new RegExp('^'+c1+c10);
+						result = result.replace(regexp, c10);
+						if (shouldLog) C.L('\n'+regexp + ' ----> '+c10+ '\n\t\t' + result);
+
+
+						regexp = new RegExp(c0+c1+c10, 'g');
+						result = result.replace(regexp, c0+c10);
+						if (shouldLog) C.L('\n'+regexp + ' ----> '+c10+ '\n\t\t' + result);
+					}
+
+
+					// 如果“零”出现在整数部分或整个字符串末尾，却又不是整数部分唯一的字符或整个串唯一的字符，那么应去除该“零”
+					regexp = new RegExp('(.+)'+c0+(options.isMoney ? ('('+cBaseUnitMoney+')') :'$'));
+					result = result.replace(regexp, '$1$2');
+					if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1$2'+ '\n\t\t' + result);
+
+
+
+					if (options.isMoney) {
+						// 钱数最小单位前方如果出现了零，则零连同单位整个去掉
+						var smallestMoneyUnitThatUsed = cFractionUnitsMoney[fractionMaxDigitsMoneyDecided-1];
+						regexp = new RegExp(c0+smallestMoneyUnitThatUsed);
+						result = result.replace(regexp, '');
+						if (shouldLog) C.L('smallestMoneyUnitThatUsed:', smallestMoneyUnitThatUsed);
+						if (shouldLog) C.L('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
+
+
+						// 如果没有整数部分，即仅有“角分厘豪”，那么字符串首部的“零”须去除
+						if (nInterger.length < 1) {
+							regexp = new RegExp('^'+c0+'+');
+							result = result.replace(regexp, '');
+							if (shouldLog) C.L('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
+						}
+
+
+						// 如果亿或者万字后面是元，而元之后还有合法内容，则亿字或万字后面不一个“零”字
+						regexp = new RegExp('('+cYi+'|'+c10000+')'+cBaseUnitMoney+'(.+)');
+						result = result.replace(regexp, '$1'+cBaseUnitMoney+c0+'$2');
+						if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+cBaseUnitMoney+c0+'$2'+ '\n\t\t' + result);
+
+
+						// 假定钱数最小单位是“分”，那么“两角”应做“两角整”；
+						// 假定钱数最小单位是“厘”，那么“两分”应做“两分整”；
+						// 依此类推
+						if (needSuffixZheng) {
+							result += cSuffixZheng;
+						}
+					} else {
+						// 如果“零点”并非出现在字符串起始，那么应去除该“零”
+						regexp = new RegExp('(.+)'+c0+cDot);
+						result = result.replace(regexp, '$1'+cDot);
+						if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+cDot+ '\n\t\t' + result);
+
+
+						// 如果“点”出现在字符串末尾，那么应去除该“点”
+						regexp = new RegExp(cDot+'$');
+						result = result.replace(regexp, '');
+						if (shouldLog) C.L('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
+					}
+
+
+
+					var nIntergerString = nInterger.length ? nInterger : '0';
+					this.data.lastValueHadDot = pop >= 0;
+					this.data.lastResult = result;
+					this.data.lastGroomedInput = nIntergerString +
+						(this.data.lastValueHadDot ? ('.') : '') + inputSegmentAfterDot
+					;
+					this.data.lastConciseValue = nIntergerString +
+						(nFractionRaw.length ? ('.') : '') + nFractionRaw
+					;
+
+					if (shouldLog) C.L('\nFINAL：\n\t\t', this.data);
+					return result;
+				}
+			};
+			this.decimalToChineseNumbers = (function () { // for direct usage
+				var formatter = new this.DecimalToChineseNumbers({
+					isMoney: false,
+				});
+				return formatter;
+			}).call(this);
+			this.decimalToChineseMoney = (function () { // for direct usage
+				var formatter = new this.DecimalToChineseNumbers({
+					isMoney: true
+				});
+				return formatter;
+			}).call(this);
+		}).call(formatter);
 	}).call(WCU);
 
 
@@ -361,85 +790,88 @@ window.webLogicControls = {};
 				// return testEl !== clickedEl;
 			};
 
-			function _init() {
+			function init() {
 				$('body').on('click', (function (event) {
 					var clickedEl = event.target;
 					this.broadCastOutsideClickToRegisteredElements(clickedEl);
 				}).bind(this));
 			}
 
-			_init.call(this);
+			init.call(this);
 		}
 
 
-		this.Menu_NOT_DONE_YET = function Menu(rootElement, initOptions) {
-			// function example() {
-			// 	conf = conf || {};
-			// 	conf.level1IdPrefix = 'menu-chief-1-';
-			// 	setMenuCurrentItemForLevel(1, 2, $('#app-chief-nav'), conf);
-			// }
+		// this.Menu_NOT_DONE_YET = function Menu(rootElement, initOptions) {
+		// 	// function example() {
+		// 	// 	conf = conf || {};
+		// 	// 	conf.level1IdPrefix = 'menu-chief-1-';
+		// 	// 	setMenuCurrentItemForLevel(1, 2, $('#app-chief-nav'), conf);
+		// 	// }
 
-			this.options = {
-				cssClassItemActive: 'current',
-				cssClassItemParentOfActive: 'current-parent'
-			};
+		// 	this.options = {
+		// 		cssClassItemActive: 'current',
+		// 		cssClassItemParentOfActive: 'current-parent'
+		// 	};
 
-			this.onItemActivate = undefined;
-			this.onItemDeactivate = undefined;
+		// 	this.onItemActivate = undefined;
+		// 	this.onItemDeactivate = undefined;
 
-			function setMenuCurrentItemForLevel(level, depth, parentDom, conf) {
-				level = parseInt(level);
-				depth = parseInt(depth);
-				if (!(level > 0) || !(depth >= level)) {
-					throw('Invalid menu level/depth for configuring a menu tree.');
-				}
-				if (typeof conf !== 'object') {
-					throw('Invalid configuration object for configuring a menu tree.');
-				}
+		// 	function setMenuCurrentItemForLevel(level, depth, parentDom, conf) {
+		// 		level = parseInt(level);
+		// 		depth = parseInt(depth);
+		// 		var levelIsValid = level > 0;
+		// 		var depthIsValid = depth >= level;
 
-				var prefix = conf['level'+level+'IdPrefix'];
-				var desiredId = prefix + conf['level'+level];
+		// 		if (!levelIsValid || !depthIsValid) {
+		// 			throw('Invalid menu level/depth for configuring a menu tree.');
+		// 		}
+		// 		if (typeof conf !== 'object') {
+		// 			throw('Invalid configuration object for configuring a menu tree.');
+		// 		}
 
-				var $allItems = $(parentDom).find('.menu.level-'+level+' > .menu-item');
-				var currentItem;
-				var currentItemId;
+		// 		var prefix = conf['level'+level+'IdPrefix'];
+		// 		var desiredId = prefix + conf['level'+level];
 
-				$allItems.each(function (index, menuItem) {
-					var itemLabel = $(menuItem).find('> a > .label')[0];
-					var itemId = itemLabel.id;
+		// 		var $allItems = $(parentDom).find('.menu.level-'+level+' > .menu-item');
+		// 		var currentItem;
+		// 		var currentItemId;
 
-					var isCurrentItemOrParentOfCurrentItem = itemId && desiredId && (itemId===desiredId);
-					var isCurrentItem = isCurrentItemOrParentOfCurrentItem && level === depth;
-					if (isCurrentItemOrParentOfCurrentItem) {
-						currentItem = menuItem;
-						currentItemId = itemId;
-						if (isCurrentItem) {
-							$(menuItem).addClass('current');
-							$(menuItem).removeClass('current-parent');
-						} else {
-							$(menuItem).addClass('current-parent');
-							$(menuItem).removeClass('current');
-						}
-					} else {
-						$(menuItem).removeClass('current');
-						$(menuItem).removeClass('current-parent');
-					}
-				});
+		// 		$allItems.each(function (index, menuItem) {
+		// 			var itemLabel = $(menuItem).find('> a > .label')[0];
+		// 			var itemId = itemLabel.id;
 
-				var currentSubMenuItem = null;
-				if (level < depth && currentItem) {
-					var nextLevel = level + 1;
-					conf['level'+nextLevel+'IdPrefix'] = currentItemId + '-' + nextLevel + '-';
-					currentSubMenuItem = setMenuCurrentItemForLevel(nextLevel, depth, currentItem, conf);
-					if (currentSubMenuItem) {
-						$(currentItem).addClass('has-sub-menu'); // update this for robustness
-						$(currentItem).addClass('coupled-shown');
-					}
-				}
+		// 			var isCurrentItemOrParentOfCurrentItem = itemId && desiredId && (itemId===desiredId);
+		// 			var isCurrentItem = isCurrentItemOrParentOfCurrentItem && level === depth;
+		// 			if (isCurrentItemOrParentOfCurrentItem) {
+		// 				currentItem = menuItem;
+		// 				currentItemId = itemId;
+		// 				if (isCurrentItem) {
+		// 					$(menuItem).addClass('current');
+		// 					$(menuItem).removeClass('current-parent');
+		// 				} else {
+		// 					$(menuItem).addClass('current-parent');
+		// 					$(menuItem).removeClass('current');
+		// 				}
+		// 			} else {
+		// 				$(menuItem).removeClass('current');
+		// 				$(menuItem).removeClass('current-parent');
+		// 			}
+		// 		});
 
-				return currentSubMenuItem || currentItem;
-			}
-		};
+		// 		var currentSubMenuItem = null;
+		// 		if (level < depth && currentItem) {
+		// 			var nextLevel = level + 1;
+		// 			conf['level'+nextLevel+'IdPrefix'] = currentItemId + '-' + nextLevel + '-';
+		// 			currentSubMenuItem = setMenuCurrentItemForLevel(nextLevel, depth, currentItem, conf);
+		// 			if (currentSubMenuItem) {
+		// 				$(currentItem).addClass('has-sub-menu'); // update this for robustness
+		// 				$(currentItem).addClass('coupled-shown');
+		// 			}
+		// 		}
+
+		// 		return currentSubMenuItem || currentItem;
+		// 	}
+		// };
 
 
 		this.DraggingController = function DraggingController(rootElement, initOptions) {
@@ -1203,7 +1635,7 @@ window.webLogicControls = {};
 					if (typeof inputForAggregation.onUpdateAtHiddenState === 'function') inputForAggregation.onUpdateAtHiddenState();
 				}
 			}
-			function aggregateAllInputsStatus(isCheckingOnLoad) {
+			function aggregateAllInputsStatus(/*isCheckingOnLoad*/) {
 				// console.trace('aggregateAllInputsStatus');
 				status.allInputsAreValid   = true;
 				status.allInputsAreFilled  = true;
@@ -1426,7 +1858,7 @@ window.webLogicControls = {};
 				$(rootElement).addClass('use-canvas');
 				$(rootElement).removeClass('huge-scale-down quadruple-scale-down uses-css-clip');
 
-				eChartRing = echarts.init(rootElement);
+				eChartRing = window.echarts.init(rootElement);
 
 				var radii = evaluateRadiiForCanvas.call(this);
 				var options = {
@@ -1685,7 +2117,7 @@ window.webLogicControls = {};
 			}
 
 			function fetchDegreeFromQueueAndUpdateDomsOrCanvas() {
-				// c.l('This ring is already running:', status.isRunning);
+				// C.L('This ring is already running:', status.isRunning);
 				if (status.isRunning) {
 					return;
 				}
@@ -1845,7 +2277,7 @@ window.webLogicControls = {};
 						halfA.dom.addEventListener('transitionend', onTransitionAEnd);
 					}
 				}
-				function onTransitionAEnd (eventOrFalse) {
+				function onTransitionAEnd (/*eventOrFalse*/) {
 					if (aTransitionEndedAnyHow) return true;
 
 					// console.log('transition A end.\t\t\t from timer?', eventOrFalse===false, halfA.duration);
@@ -1869,7 +2301,7 @@ window.webLogicControls = {};
 						halfB.dom.addEventListener('transitionend', onTransitionBEnd);
 					}
 				}
-				function onTransitionBEnd (eventOrFalse) {
+				function onTransitionBEnd (/*eventOrFalse*/) {
 					if (bTransitionEndedAnyHow) return true;
 
 					// console.log('transition B end.\t from timer?', eventOrFalse===false, halfB.duration);
@@ -2140,7 +2572,7 @@ window.webLogicControls = {};
 						WCU.save.numberPositive(_oprTI, 'transitionsTotalDuration', _oGlobalDefault.singleRingTransitionsTotalDuration);
 					}
 
-					// c.l('merged options for ring ['+i+']', _oprTI);
+					// C.L('merged options for ring ['+i+']', _oprTI);
 					results.optionsPerRings.push(_oprTI);
 				}
 
