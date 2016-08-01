@@ -158,7 +158,7 @@ window.webLogicControls = {};
 				return resultStates;
 			}
 
-			this.boolean = function (targetObject, key, sourceValue, allowToRemoveTargetValue, shouldTrace) {
+			this.boolean = function (targetObject, key, sourceValue, allowToRemoveTargetValue/*, shouldTrace*/) {
 				return _updateValueSafely(
 					1,
 					'boolean',
@@ -174,7 +174,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.number = function (targetObject, key, sourceValue, allowToRemoveTargetValue, allowNaNValue, customParser, shouldTrace) {
+			this.number = function (targetObject, key, sourceValue, allowToRemoveTargetValue, allowNaNValue, customParser/*, shouldTrace*/) {
 				return _updateValueSafely(
 					1,
 					'number',
@@ -196,7 +196,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.numberPositive = function (targetObject, key, sourceValue, allowToRemoveTargetValue, shouldTrace) {
+			this.numberPositive = function (targetObject, key, sourceValue, allowToRemoveTargetValue/*, shouldTrace*/) {
 				return this.number(
 					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					false,
@@ -208,7 +208,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.numberNonNegative = function (targetObject, key, sourceValue, allowToRemoveTargetValue, shouldTrace) {
+			this.numberNonNegative = function (targetObject, key, sourceValue, allowToRemoveTargetValue/*, shouldTrace*/) {
 				return this.number(
 					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					false,
@@ -220,7 +220,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.numberNoLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit, shouldTrace) {
+			this.numberNoLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit/*, shouldTrace*/) {
 				return this.number(
 					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					false,
@@ -239,7 +239,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.numberLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit, shouldTrace) {
+			this.numberLessThan = function (targetObject, key, sourceValue, allowToRemoveTargetValue, limit/*, shouldTrace*/) {
 				return this.number(
 					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					false,
@@ -258,7 +258,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.numberInRange = function (targetObject, key, sourceValue, allowToRemoveTargetValue, rangeA, rangeB, shouldTrace) {
+			this.numberInRange = function (targetObject, key, sourceValue, allowToRemoveTargetValue, rangeA, rangeB/*, shouldTrace*/) {
 				return this.number(
 					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					false,
@@ -283,7 +283,7 @@ window.webLogicControls = {};
 					}
 				);
 			};
-			this.method = function (targetObject, key, sourceFunction, allowToRemoveExistingFunction, shouldTrace) {
+			this.method = function (targetObject, key, sourceFunction, allowToRemoveExistingFunction/*, shouldTrace*/) {
 				return _updateValueSafely(
 					1,
 					'function',
@@ -453,7 +453,7 @@ window.webLogicControls = {};
 						this.config(optionsOrIsMoney, options);
 					}
 
-					if (shouldLog) C.L(options);
+					// if (shouldLog) C.L(options);
 
 
 
@@ -559,19 +559,19 @@ window.webLogicControls = {};
 					var needSuffixZheng = options.isMoney && (nFractionRaw.length < fractionMaxDigits);
 
 
-					if (shouldLog) {
-						C.L(
-							'n:', n, '\t pop:', pop,
-							'\n\t nInterger:', nInterger,
-							'\n\t fractionMaxDigits:', fractionMaxDigits,
-							'\n\t nFractionRaw:', nFractionRaw,
-							'\n\t nFraction:', nFraction,
-							'\n\t nWithUnit:', nWithUnit,
-							'\n\t nWithUnit.length:', nWithUnit.length,
-							'\n\t cUnits:', cUnits,
-							'\n\t needSuffixZheng:', needSuffixZheng
-						);
-					}
+					// if (shouldLog) {
+					// 	C.L(
+					// 		'n:', n, '\t pop:', pop,
+					// 		'\n\t nInterger:', nInterger,
+					// 		'\n\t fractionMaxDigits:', fractionMaxDigits,
+					// 		'\n\t nFractionRaw:', nFractionRaw,
+					// 		'\n\t nFraction:', nFraction,
+					// 		'\n\t nWithUnit:', nWithUnit,
+					// 		'\n\t nWithUnit.length:', nWithUnit.length,
+					// 		'\n\t cUnits:', cUnits,
+					// 		'\n\t needSuffixZheng:', needSuffixZheng
+					// 	);
+					// }
 
 
 					for (i=0; i < nWithUnit.length; i++) {
@@ -586,7 +586,7 @@ window.webLogicControls = {};
 					}
 
 					result += resultFraction;
-					if (shouldLog) C.L(result);
+					// if (shouldLog) C.L(result);
 
 
 
@@ -606,19 +606,19 @@ window.webLogicControls = {};
 						'g'
 					);
 					result = result.replace(regexp, c0);
-					if (shouldLog) C.L('\n'+regexp + ' ----> '+c0+ '\n\t\t' + result);
+					// if (shouldLog) C.L('\n'+regexp + ' ----> '+c0+ '\n\t\t' + result);
 
 
 					// 处理连零
 					regexp = new RegExp(c0+'+', 'g');
 					result = result.replace(regexp, c0);
-					if (shouldLog) C.L('\n'+regexp + ' ----> '+c0+ '\n\t\t' + result);
+					// if (shouldLog) C.L('\n'+regexp + ' ----> '+c0+ '\n\t\t' + result);
 
 
 					// 处理连零之后（注意，是之后），“零亿”、“零万”之前剩余的“零”须去除
 					regexp = new RegExp(c0+'('+cYi+'|'+c10000+')', 'g');
 					result = result.replace(regexp, '$1');
-					if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+ '\n\t\t' + result);
+					// if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+ '\n\t\t' + result);
 
 
 
@@ -626,7 +626,7 @@ window.webLogicControls = {};
 					// 但如果“亿万”二字后面原本就紧跟“零”字，则不需追加额外“零”字
 					regexp = new RegExp(cYi+c10000+c0+'*', 'g');
 					result = result.replace(regexp, cYi+c0);
-					if (shouldLog) C.L('\n'+regexp + ' ----> '+cYi+c0+ '\n\t\t' + result);
+					// if (shouldLog) C.L('\n'+regexp + ' ----> '+cYi+c0+ '\n\t\t' + result);
 
 
 
@@ -636,19 +636,19 @@ window.webLogicControls = {};
 						
 						regexp = new RegExp('^'+c1+c10);
 						result = result.replace(regexp, c10);
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+c10+ '\n\t\t' + result);
+						// if (shouldLog) C.L('\n'+regexp + ' ----> '+c10+ '\n\t\t' + result);
 
 
 						regexp = new RegExp(c0+c1+c10, 'g');
 						result = result.replace(regexp, c0+c10);
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+c10+ '\n\t\t' + result);
+						// if (shouldLog) C.L('\n'+regexp + ' ----> '+c10+ '\n\t\t' + result);
 					}
 
 
 					// 如果“零”出现在整数部分或整个字符串末尾，却又不是整数部分唯一的字符或整个串唯一的字符，那么应去除该“零”
 					regexp = new RegExp('(.+)'+c0+(options.isMoney ? ('('+cBaseUnitMoney+')') :'$'));
 					result = result.replace(regexp, '$1$2');
-					if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1$2'+ '\n\t\t' + result);
+					// if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1$2'+ '\n\t\t' + result);
 
 
 
@@ -657,8 +657,8 @@ window.webLogicControls = {};
 						var smallestMoneyUnitThatUsed = cFractionUnitsMoney[fractionMaxDigitsMoneyDecided-1];
 						regexp = new RegExp(c0+smallestMoneyUnitThatUsed);
 						result = result.replace(regexp, '');
-						if (shouldLog) C.L('smallestMoneyUnitThatUsed:', smallestMoneyUnitThatUsed);
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
+						// if (shouldLog) C.L('smallestMoneyUnitThatUsed:', smallestMoneyUnitThatUsed);
+						// if (shouldLog) C.L('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
 
 
 						// 如果没有整数部分，即仅有“角分厘豪”，那么字符串首部的“零”须去除
@@ -672,7 +672,7 @@ window.webLogicControls = {};
 						// 如果亿或者万字后面是元，而元之后还有合法内容，则亿字或万字后面不一个“零”字
 						regexp = new RegExp('('+cYi+'|'+c10000+')'+cBaseUnitMoney+'(.+)');
 						result = result.replace(regexp, '$1'+cBaseUnitMoney+c0+'$2');
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+cBaseUnitMoney+c0+'$2'+ '\n\t\t' + result);
+						// if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+cBaseUnitMoney+c0+'$2'+ '\n\t\t' + result);
 
 
 						// 假定钱数最小单位是“分”，那么“两角”应做“两角整”；
@@ -685,13 +685,13 @@ window.webLogicControls = {};
 						// 如果“零点”并非出现在字符串起始，那么应去除该“零”
 						regexp = new RegExp('(.+)'+c0+cDot);
 						result = result.replace(regexp, '$1'+cDot);
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+cDot+ '\n\t\t' + result);
+						// if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+cDot+ '\n\t\t' + result);
 
 
 						// 如果“点”出现在字符串末尾，那么应去除该“点”
 						regexp = new RegExp(cDot+'$');
 						result = result.replace(regexp, '');
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
+						// if (shouldLog) C.L('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
 					}
 
 
@@ -706,7 +706,7 @@ window.webLogicControls = {};
 						(nFractionRaw.length ? ('.') : '') + nFractionRaw
 					;
 
-					if (shouldLog) C.L('\nFINAL：\n\t\t', this.data);
+					// if (shouldLog) C.L('\nFINAL：\n\t\t', this.data);
 					return result;
 				}
 			};
