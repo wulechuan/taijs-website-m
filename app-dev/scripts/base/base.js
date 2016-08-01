@@ -416,7 +416,9 @@
 			var formatter = WCU.formatter.decimalToChineseMoney;
 
 			thisFormatElement.innerHTML     = formatter.process(decimal);
-			servedElement[propertyToFormat] = formatter.data.lastGroomedInput;
+			if (!contentIsFromSelect) {
+				servedElement[propertyToFormat] = formatter.data.lastGroomedInput;
+			}
 		}
 	});
 
