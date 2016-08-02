@@ -789,7 +789,7 @@ article.message {
 
 		.row.input-field input:focus,
 		.row.input-field input.non-empty-field {
-			margin-top: 1.6rem;
+			margin-top: 1.5rem;
 			margin-bottom: 0;
 			height: 1.0rem;
 			padding-top: 0.3rem;
