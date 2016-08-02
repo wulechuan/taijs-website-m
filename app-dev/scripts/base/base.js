@@ -200,6 +200,13 @@
 				$(controlledInput).removeClass('non-empty-field');
 				$(controlledInput).removeClass('Invalid');
 				this.style.display = 'none';
+				if (typeof controlledInput.elements === 'object') {
+					var el = controlledInput.elements;
+					if (el.coupledChineseNumbers) {
+						el.coupledChineseNumbers.innerHTML = '';
+					}
+				}
+
 				setTimeout(function () {
 					controlledInput.focus();
 				}, 0);
@@ -401,10 +408,12 @@
 		if (!elementIsValid) return;
 
 
-
 		_updateChineseNumbers();
 
+
 		if (contentIsFromUserInput) {
+			if (typeof servedElement.elements !== 'object') servedElement.elements = {};
+			servedElement.elements.coupledChineseNumbers = thisFormatElement;
 			$(servedElement).on(contentIsFromSelect ? 'change' : 'input', function () {
 				_updateChineseNumbers();
 			});
@@ -415,7 +424,7 @@
 			var decimal = servedElement[propertyToFormat];
 			var formatter = WCU.formatter.decimalToChineseMoney;
 
-			thisFormatElement.innerHTML     = formatter.process(decimal);
+			thisFormatElement.innerHTML = formatter.format(decimal);
 			if (!contentIsFromSelect) {
 				servedElement[propertyToFormat] = formatter.data.lastGroomedInput;
 			}

@@ -359,7 +359,7 @@ window.webLogicControls = {};
 				};
 
 				this.config = config.bind(this);
-				this.process = process.bind(this);
+				this.format = format.bind(this);
 
 
 				init.call(this);
@@ -413,7 +413,7 @@ window.webLogicControls = {};
 					}
 				}
 
-				function process(n, optionsOrIsMoney, shouldLog) {
+				function format(n, optionsOrIsMoney, shouldLog) {
 					// http://www.cnblogs.com/zyxzhsh/archive/2010/10/18/1854476.html
 
 					var inputIsValid = true;
