@@ -35,33 +35,21 @@
 		<div class="f-block">
 			<div class="row"><p class="tip">选择支付方式</p></div>
 			<div class="f-block-body">
-				<div class="row select-field single-side-content bank-choose">
-					<div class="left">
-						<select placeholder="请选择银行"
-							name="bankname" required id="account-trading-account-register-bank-name">
-							<option value="">银行名称</option>
-							<option value="bank-cn-icbc">中国工商银行</option>
-							<option value="bank-cn-cmb">招商银行</option>
-							<option value="bank-cn-ccb">中国建设银行</option>
-							<option value="bank-cn-abc">中国农业银行</option>
-							<option value="bank-cn-boc">中国银行</option>
-							<option value="bank-cn-bankcomm">中国交通银行</option>
-							<option value="bank-cn-psbc">中国邮政储蓄银行</option>
-							<option value="bank-cn-citic">中信银行</option>
-							<option value="bank-cn-cmbc">中国民生银行</option>
-							<option value="bank-cn-cib">兴业银行</option>
-							<option value="bank-cn-hxb">华夏银行</option>
-							<option value="bank-cn-ceb">中国光大银行</option>
-							<option value="bank-cn-spdb">上海浦东发展银行</option>
-							<option value="bank-cn-bankofbeijing">北京银行</option>
-							<option value="bank-cn-bankofshanghai">上海银行</option>
-						</select>
+				<div class="row menu-item has-lead-icon entity-of-bank call-to-action" id="newbie-buying-confirm-choose-bank-card">
+					<i class="icon lead-icon icon-size-medium icon-bank-cn-abc" ></i
+					><div class="left" data-value="农业银行">
+						<h5>农业银行<sub><q>3678</q></sub></h5>
+						<p class="tip">单笔5万；日累计5万</p>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div class="f-block">
+			<div class="f-block-body">
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="请输入投资金额，起投金额1000.00元" type="text" data-text-format="currency"
-							name="amount" required 
+						<input placeholder="请输入投资金额，起投金额1000.00元" type="number" data-text-format="currency"
+							name="amount" required
 									   id="newbie-buying-amount">
 						<label        for="newbie-buying-amount" class="input-tip default">投资金额</label>
 						<label        for="newbie-buying-amount" class="input-tip error" data-subject="bank-card-number-invalid">最高投资金额150,000.00元</label>
@@ -101,6 +89,83 @@
 
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
 		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
+		<div role="dialog" class="popup-layer has-docked-panel" id="pl-choose-bank-card">
+			<div class="popup-panel">
+				<header class="popup-panel-header">
+					<div class="row header-bar">
+						<div class="center"><h1>选择银行卡</h1></div>
+						<div class="left"  ><button class="nav-back"></button></div>
+					</div>		
+				</header>
+				<div class="popup-panel-body">
+					<div class="f-block snap-top">
+						<div role="menu" class="f-block-body">
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-abc" ></i
+								><div class="left" data-value="农业银行">
+									<h5>农业银行<sub><q>3678</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-icbc"></i
+								><div class="left" data-value="工商银行">
+									<h5>工商银行<sub><q>5992</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-ccb"></i
+								><div class="left" data-value="建设银行">
+									<h5>建设银行<sub><q>5568</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-cmb"></i
+								><div class="left" data-value="招商银行">
+									<h5>招商银行<sub><q>9945</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-boc"></i
+								><div class="left" data-value="中国银行">
+									<h5>中国银行<sub><q>1170</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-cmbc"></i
+								><div class="left" data-value="中国民生银行">
+									<h5>中国民生银行<sub><q>2352</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-citic"></i
+								><div class="left" data-value="中信银行">
+									<h5>中信银行<sub><q>1785</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-citic"></i
+								><div class="left" data-value="中信银行">
+									<h5>中信银行<sub><q>3324</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<a href="account-bank-card-addition.html">
+							<div role="menuitem" class="row menu-item tall emphasise-leftside">
+								<div class="left">使用新卡支付</div>
+							</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
 	<script src="../scripts/pages/newbie-buying-confirm.min.js"></script>

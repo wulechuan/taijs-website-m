@@ -3,6 +3,9 @@ $(function () { // fake logics
 
 
 	var $pL1 = $('#pl-password-input-panel-trading');
+	var $pL2 = $('#pl-choose-bank-card');
+
+
 
 	new wlc.UI.SingleCharacterInputsSet($pL1.find('.single-char-inputs-set')[0], {
 		onAllInputsValid: function (aggregatedValue, status, isCheckingOnLoad) {
@@ -11,16 +14,34 @@ $(function () { // fake logics
 		}
 	});
 
-	var $thePL = $pL1;
+
+
 	$('[button-action="buy"]').on('click', function() {
 		console.error('fake logic triggered.');
-		var $bp = $thePL[0].elements.$popupLayersBackPlate;
+		var $bp = $pL1[0].elements.$popupLayersBackPlate;
 		$bp.show();
-		$thePL.show();
-		$thePL.add($bp).on('click', function (event) {
-			if (event.target === $thePL[0]) {
+		$pL1.show();
+		$pL1.on('click', function (event) {
+			var el = event.target;
+			if (el === $pL1[0] || $(el).hasClass('button-x')) {
 				$bp.hide();
-				$thePL.hide();
+				$pL1.hide();
+			}
+		});
+	});
+
+
+
+	$('#newbie-buying-confirm-choose-bank-card').on('click', function() {
+		console.error('fake logic triggered.');
+		var $bp = $pL2[0].elements.$popupLayersBackPlate;
+		$bp.show();
+		$pL2.show();
+		$pL2.on('click', function (event) {
+			var el = event.target;
+			if (el === $pL2[0] || $(el).hasClass('nav-back')) {
+				$bp.hide();
+				$pL2.hide();
 			}
 		});
 	});

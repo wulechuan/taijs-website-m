@@ -424,7 +424,7 @@
 			var decimal = servedElement[propertyToFormat];
 			var formatter = WCU.formatter.decimalToChineseMoney;
 
-			thisFormatElement.innerHTML = formatter.format(decimal);
+			thisFormatElement.innerHTML = formatter.format(decimal, null, 1);
 			if (!contentIsFromSelect) {
 				servedElement[propertyToFormat] = formatter.data.lastGroomedInput;
 			}
@@ -710,137 +710,119 @@
 	});
 
 
-	var $allTabularLists = $('.tabular .f-list');
+	// var $allTabularLists = $('.tabular .f-list');
 
-	$allTabularLists.each(function () {
-		var $allListItems  = $(this).find(' > li.selectable');
-		var $allCheckboxes = $allListItems.find('input[type="checkbox"].selectable-list-item-selector');
-		var $allRadios     = $allListItems.find('input[type="radio"].selectable-list-item-selector');
-		// console.log('has checkboxes: ', $allCheckboxes.length > 0, '\nhas radios: ', $allRadios.length > 0);
+	// $allTabularLists.each(function () {
+	// 	var $allListItems  = $(this).find(' > li.selectable');
+	// 	var $allCheckboxes = $allListItems.find('input[type="checkbox"].selectable-list-item-selector');
+	// 	var $allRadios     = $allListItems.find('input[type="radio"].selectable-list-item-selector');
+	// 	// console.log('has checkboxes: ', $allCheckboxes.length > 0, '\nhas radios: ', $allRadios.length > 0);
 
-		function _updateListItemAccordingToCheckboxStatus(listItem, checkbox) {
-			var $li = $(listItem);
-			if (checkbox.disabled) {
-				$li.addClass('disabled');
-			} else {
-				$li.removeClass('disabled');
-			}
+	// 	function _updateListItemAccordingToCheckboxStatus(listItem, checkbox) {
+	// 		var $li = $(listItem);
+	// 		if (checkbox.disabled) {
+	// 			$li.addClass('disabled');
+	// 		} else {
+	// 			$li.removeClass('disabled');
+	// 		}
 
-			if (checkbox.checked) {
-				$li.addClass('selected');
-			} else {
-				$li.removeClass('selected');
-			}
-		}
+	// 		if (checkbox.checked) {
+	// 			$li.addClass('selected');
+	// 		} else {
+	// 			$li.removeClass('selected');
+	// 		}
+	// 	}
 
-		if ($allCheckboxes.length > 0) {
-			$allListItems.each(function () {
-				var listItem = this;
-				var $listItem = $(this);
-
-
-				var $myCheckbox = $listItem.find('input[type="checkbox"].selectable-list-item-selector');
-				var myCheckbox = $myCheckbox[0];
+	// 	if ($allCheckboxes.length > 0) {
+	// 		$allListItems.each(function () {
+	// 			var listItem = this;
+	// 			var $listItem = $(this);
 
 
-				var _myCheckboxUntouchedYet = true;
-				setTimeout(function () { /* Initializing selection status; And this must dealy because ie8 to ie11 updates cached "checked" statuses very late */
-					if (_myCheckboxUntouchedYet) {
-						_updateListItemAccordingToCheckboxStatus(listItem, myCheckbox);
-					}
-				}, 100);
-
-				if (myCheckbox) {
-					$myCheckbox.on('click', function(event) {
-						if (this.disabled) return false;
-						_myCheckboxUntouchedYet = false;
-						if (event) event.stopPropagation();
-					});
-
-					$listItem.on('click', function () {
-						if (myCheckbox.disabled) return false;
-						myCheckbox.checked = !myCheckbox.checked;
-						_myCheckboxUntouchedYet = false;
-						_updateListItemAccordingToCheckboxStatus(this, myCheckbox);
-					});
-
-					$myCheckbox.on('change', function() {
-						_updateListItemAccordingToCheckboxStatus(listItem, this);
-					});
-				}
-			});
-		}
+	// 			var $myCheckbox = $listItem.find('input[type="checkbox"].selectable-list-item-selector');
+	// 			var myCheckbox = $myCheckbox[0];
 
 
+	// 			var _myCheckboxUntouchedYet = true;
+	// 			setTimeout(function () { /* Initializing selection status; And this must dealy because ie8 to ie11 updates cached "checked" statuses very late */
+	// 				if (_myCheckboxUntouchedYet) {
+	// 					_updateListItemAccordingToCheckboxStatus(listItem, myCheckbox);
+	// 				}
+	// 			}, 100);
+
+	// 			if (myCheckbox) {
+	// 				$myCheckbox.on('click', function(event) {
+	// 					if (this.disabled) return false;
+	// 					_myCheckboxUntouchedYet = false;
+	// 					if (event) event.stopPropagation();
+	// 				});
+
+	// 				$listItem.on('click', function () {
+	// 					if (myCheckbox.disabled) return false;
+	// 					myCheckbox.checked = !myCheckbox.checked;
+	// 					_myCheckboxUntouchedYet = false;
+	// 					_updateListItemAccordingToCheckboxStatus(this, myCheckbox);
+	// 				});
+
+	// 				$myCheckbox.on('change', function() {
+	// 					_updateListItemAccordingToCheckboxStatus(listItem, this);
+	// 				});
+	// 			}
+	// 		});
+	// 	}
 
 
 
 
 
-		function _updateAllListItemsAccordingToRadioStatuses() {
-			for (var i = 0; i < $allListItems.length; i++) {
-				var _li = $allListItems[i];
-				var _radio = _li.elements && _li.elements.radio;
 
-				var $li = $(_li);
 
-				if (_radio.disabled) {
-					$li.addClass('disabled');
-				}
+	// 	function _updateAllListItemsAccordingToRadioStatuses() {
+	// 		for (var i = 0; i < $allListItems.length; i++) {
+	// 			var _li = $allListItems[i];
+	// 			var _radio = _li.elements && _li.elements.radio;
 
-				if (_radio.checked) {
-					$li.addClass('selected');
-				} else {
-					$li.removeClass('selected');
-				}
-			}
-		}
+	// 			var $li = $(_li);
 
-		if ($allRadios.length > 0) {
-			var _radioUntouchedYet = true;
-			setTimeout(function () { /* Initializing selection status; And this must dealy because ie8 to ie11 updates cached "checked" statuses very late */
-				if (_radioUntouchedYet) {
-					_updateAllListItemsAccordingToRadioStatuses();
-				}
-			}, 100);
+	// 			if (_radio.disabled) {
+	// 				$li.addClass('disabled');
+	// 			}
 
-			$allListItems.each(function () {
-				var listItem = this;
-				var $listItem = $(this);
+	// 			if (_radio.checked) {
+	// 				$li.addClass('selected');
+	// 			} else {
+	// 				$li.removeClass('selected');
+	// 			}
+	// 		}
+	// 	}
 
-				var $myRadio = $listItem.find('input[type="radio"].selectable-list-item-selector');
-				var myRadio = $myRadio[0];
-				if (myRadio) {
-					if (typeof listItem.elements !== 'object') listItem.elements = {};
-					listItem.elements.radio = myRadio;
+	// 	if ($allRadios.length > 0) {
+	// 		var _radioUntouchedYet = true;
+	// 		setTimeout(function () { /* Initializing selection status; And this must dealy because ie8 to ie11 updates cached "checked" statuses very late */
+	// 			if (_radioUntouchedYet) {
+	// 				_updateAllListItemsAccordingToRadioStatuses();
+	// 			}
+	// 		}, 100);
 
-					$listItem.on('click', function () {
-						if (!myRadio.disabled) {
-							_radioUntouchedYet = false;
-							myRadio.checked = true;
-						}
-						_updateAllListItemsAccordingToRadioStatuses();
-					});
-				}
-			});
-		}
-	});
+	// 		$allListItems.each(function () {
+	// 			var listItem = this;
+	// 			var $listItem = $(this);
+
+	// 			var $myRadio = $listItem.find('input[type="radio"].selectable-list-item-selector');
+	// 			var myRadio = $myRadio[0];
+	// 			if (myRadio) {
+	// 				if (typeof listItem.elements !== 'object') listItem.elements = {};
+	// 				listItem.elements.radio = myRadio;
+
+	// 				$listItem.on('click', function () {
+	// 					if (!myRadio.disabled) {
+	// 						_radioUntouchedYet = false;
+	// 						myRadio.checked = true;
+	// 					}
+	// 					_updateAllListItemsAccordingToRadioStatuses();
+	// 				});
+	// 			}
+	// 		});
+	// 	}
+	// });
 })();
-
-
-// (function fakeLogics() {
-// 	window.DC = new webLogicControls.UI.DraggingController(
-// 		document.body,
-// 		{
-// 			movingElement: $('.app-fg-layer')[0],
-// 			durationForResettingPosition: 0.2,
-// 			triggerDirection: 'd',
-// 			onFirstTrigger: function (event, options) {
-// 				console.log('first:', options.status.triggerCount);
-// 			},
-// 			onEachTrigger: function(event, options) {
-// 				console.log('each:', options.status.triggerCount);
-// 			}
-// 		}
-// 	);
-// })();

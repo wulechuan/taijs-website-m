@@ -27,36 +27,39 @@
 				</div>
 			</div>
 		</div> -->
-		<div role="dialog" class="popup-layer" id="pl-password-input-panel-trading">
-			<div class="popup-window has-dialog window-dock-bottom">
-				<div class="dialog">
-					<header class="dialog-header">
-						<h3>请输入交易密码</h3>
-						<button class="button-x"></button>
-					</header>
-					<div class="dialog-body">
-						<article class="content-align-center">
-							<p>支付金额<em><span class="value amount currency">1,000.00</span>元</em></p>
-						</article>
-						<form method="POST" id="form-submit-trading-password" name="tradingpassword"
-							action="#"></form>
-						<div class="row">
-							<div class="single-char-inputs-set inputs-distribution-full-width input-password input-only-digits"
-								id="account-trading-account-register-password-inputs" 
-								><input form="form-submit-trading-password" class="single-char-inputs-aggregator" name="tradingpassword" required="required" type="hidden" 
-								><div class="single-char-inputs-group" 
-									><input class="single-char-input" 
-									><input class="single-char-input" 
-									><input class="single-char-input" 
-									><input class="single-char-input" 
-									><input class="single-char-input" 
-									><input class="single-char-input" 
-								></div
-							></div>
-						</div>
-						<div class="row single-side-content">
-							<div class="right tip"><a href="account-trading-password-reset-step-1.html">忘记密码？</a></div>
-						</div>
+		<div role="dialog" class="popup-layer has-docked-panel" id="pl-password-input-panel-trading">
+			<div class="popup-panel bg-light-gray">
+				<header class="popup-panel-header">
+					<div class="row header-bar">
+						<div class="center"><h1>请输入交易密码</h1></div>
+						<div class="left"  ><button class="button-x at-leftside"></button></div>
+					</div>		
+				</header>
+				<div class="popup-panel-body">
+					<article class="content-align-center">
+						<p>支付金额<em><span class="value amount currency">1,000.00</span>元</em></p>
+					</article>
+					<form method="POST" id="form-submit-trading-password" name="tradingpassword"
+						action="#"></form>
+					<div class="row">
+						<div class="single-char-inputs-set inputs-distribution-full-width input-password input-only-digits"
+							id="account-trading-account-register-password-inputs" 
+							><input form="form-submit-trading-password" class="single-char-inputs-aggregator" name="tradingpassword" required="required" type="hidden" 
+							><div class="single-char-inputs-group" 
+								><input class="single-char-input" 
+								><input class="single-char-input" 
+								><input class="single-char-input" 
+								><input class="single-char-input" 
+								><input class="single-char-input" 
+								><input class="single-char-input" 
+							></div
+						></div>
+					</div>
+					<div class="row single-side-content">
+						<div class="right tip"
+							><a role="button" class="simple-look"
+							 href="account-trading-password-reset-step-1.html">忘记密码？</a
+						></div>
 					</div>
 				</div>
 			</div>
