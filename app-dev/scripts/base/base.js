@@ -26,28 +26,238 @@
 	}
 
 	var urlParameters = processParametersPassedIn();
+	window.urlParameters = urlParameters;
 
+
+
+	$('.tab-panel-set').each(function () {
+		var $allPanels = $(this).find('.panel');
+		if ($allPanels.length < 1) return false;
+
+		var $tabList = $(this).find('.tab-list');
+		var $allTabs = $tabList.find('> li');
+
+		$allPanels.each(function () {
+			this.elements = { tab: null };
+		});
+
+		$allTabs.each(function (index, tab) {
+			var panelId = tab.getAttribute('aria-controls');
+			var panel = $('#'+panelId)[0];
+
+			if (!panel) throw('Can not find controlled panel for tab [expected panel id="'+panelId+'"].');
+
+			panel.elements.tab = tab;
+			tab.elements = { panel: panel };
+		});
+
+
+
+		var currentTab = null;
+		var currentItemHint = $tabList.find('> .current-item-hint')[0];
+
+
+		if ($allTabs.length > 1) {
+			$allTabs.on('click', function () {
+				_showPanelAccordingToTab(this);
+			});
+			$allTabs.on('mouseover', function () {
+				_slideHintToTab(this);
+			});
+			$tabList.on('mouseout', function () {
+				_slideHintToTab(currentTab);
+			});
+		}
+
+		if ($allTabs.length < 1 || $allPanels.length === 1) {
+			_showPanel($allPanels[0]);
+		} else {
+			var tabToShowAtBegining = $allTabs[0];
+			if (urlParameters && urlParameters.tabLabel) {
+				var _temp = $('#panel-tab-'+urlParameters.tabLabel).parent()[0];
+				if (_temp) tabToShowAtBegining = _temp;
+			}
+			_showPanelAccordingToTab(tabToShowAtBegining);
+		}
+
+
+		function _slideHintToTab(theTab) {
+			if (!currentItemHint) return false;
+
+			var currentItemHintCssLeft = 0;
+
+			if (!theTab) {
+				currentItemHint.style.clip = '';
+				return true;
+			}
+
+			var _P = $(theTab).offsetParent();
+			var _L = $(theTab).offset().left;
+			var _LP = $(_P).offset().left;
+
+			_L -= _LP;
+			_L -= currentItemHintCssLeft;
+
+			var _W = $(theTab).outerWidth();
+
+			var _R = _L+_W;
+
+
+			currentItemHint.style.clip = 'rect('+
+			       '0, '+
+				_R+'px, '+
+				   '3px, '+
+				_L+'px)'
+			;
+
+			return true;
+		}
+
+		function _showPanelAccordingToTab(theTab) {
+			currentTab = theTab;
+			_slideHintToTab(theTab);
+
+			var thePanel = null;
+			if (theTab && theTab.elements) thePanel = theTab.elements.panel;
+			_showPanel(thePanel);
+		}
+
+		function _showPanel(thePanel) {
+			var currentTab = null;
+			if (thePanel && thePanel.elements) currentTab = thePanel.elements.tab;
+			_slideHintToTab(currentTab);
+
+			for (var i = 0; i < $allPanels.length; i++) {
+				var panel = $allPanels[i];
+				_showHideOnePanel(panel, (thePanel && panel === thePanel));
+			}
+		}
+
+		function _showHideOnePanel(panel, isToShow) {
+			if (!panel) return false;
+
+			var tab = panel.elements.tab;
+
+			if (isToShow) {
+				panel.setAttribute('aria-hidden', false);
+				$(tab).addClass('current');
+				$(panel).addClass('current');
+				var nameToShowInPageHeader = panel.dataset.nameInPageHeader;
+				if (nameToShowInPageHeader) {
+					$(panel).parents('.page').find('.page-header .header-bar .center h1').html(nameToShowInPageHeader);
+					$('title').html(nameToShowInPageHeader);
+				}
+			} else {
+				panel.setAttribute('aria-hidden', true);
+				$(tab).removeClass('current');
+				$(panel).removeClass('current');
+			}
+
+			return true;
+		}
+	});
+
+
+	var popupLayersManager = {
+		show: function (popupLayerIdOrDom, event) {
+			showOrHidePopupLayer(popupLayerIdOrDom, true, event);
+		},
+		hide: function (popupLayerIdOrDom) {
+			showOrHidePopupLayer(popupLayerIdOrDom);
+		}
+	};
+	window.popupLayersManager = popupLayersManager;
+
+	function showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow) {
+		if (!popupLayerIdOrDom) return false;
+
+		var plId, pl;
+		if (typeof popupLayerIdOrDom === 'string') {
+			plId = popupLayerIdOrDom;
+			pl = $('#'+plId)[0];
+		} else {
+			pl = popupLayerIdOrDom;
+			plId = pl.id;
+		}
+
+		if (!pl || !pl.elements) {
+			C.e('Cannot find popup layer with id "'+plId+'".');
+			return false;			
+		}
+
+		var $bp = pl.elements.$popupLayersBackPlate;
+
+		if (!isToShow) {
+			$bp.hide();
+			$(pl).hide().removeClass('shows-up-from-center shows-up-from-top shows-up-from-top-left shows-up-from-top-right shows-up-from-bottom shows-up-from-bottom-left shows-up-from-bottom-right shows-up-from-leftside shows-up-from-rightside');
+		} else {
+			var w = window.innerWidth;
+			var h = window.innerHeight;
+			var x =  w / 2;
+			var y = h / 2;
+			if (typeof eventOfShow === 'object') {
+				x = eventOfShow.pageX;
+				y = eventOfShow.pageY;
+			}
+
+			var ratioX = 0.33;
+			var ratioY = 0.33;
+
+			var isLeft = x <= w * ratioX;
+			var isRight = x >= w * (1 - ratioX);
+			var isAbove = y <= h * ratioY;
+			var isBelow = y >= h * (1 - ratioY);
+
+			var cssClass = 'shows-up-from-center';
+
+			if (isAbove) {
+				cssClass = 'shows-up-from-top';
+				if (isLeft) {
+					cssClass = 'shows-up-from-top-left';
+				} else if (isRight) {
+					cssClass = 'shows-up-from-top-right';
+				}
+			} else if (isBelow) {
+				cssClass = 'shows-up-from-bottom';
+				if (isLeft) {
+					cssClass = 'shows-up-from-bottom-left';
+				} else if (isRight) {
+					cssClass = 'shows-up-from-bottom-right';
+				}
+			} else {
+				if (isLeft) {
+					cssClass = 'shows-up-from-leftside';
+				} else if (isRight) {
+					cssClass = 'shows-up-from-rightside';
+				}
+			}
+
+			$bp.show();
+
+			var $pl = $(pl);
+			$pl.addClass(cssClass);
+			$pl.show();
+		}
+	}
 
 
 	$('.app > .popup-layers, .page .popup-layers').each(function () {
-		var $pLContainer = $(this);
-		var $bp = $pLContainer.find('.popup-layers-back-plate');
+		var $plContainer = $(this);
+		var $bp = $plContainer.find('.popup-layers-back-plate');
 
-		$pLContainer.find('.popup-layer').each(function () {
+		$plContainer.find('.popup-layer').each(function () {
 			this.elements = {
 				$popupLayersBackPlate: $bp
 			};
+			// C.l(this.id, this.elements.$popupLayersBackPlate[0]);
 
-			var $pL = $(this);
-			$pL.find('[button-action="confirm"], [button-action="cancel"]').on('click', function() {
-				$bp.hide();
-				$pL.hide();
+			var pl = this;
+			var $pl = $(pl);
+			$pl.find('[button-action="confirm"], [button-action="cancel"]').on('click', function() {
+				popupLayersManager.hide(pl);
 			});
 		});
 	});
-
-	var $globalbp = $('.app > .popup-layers .popup-layers-back-plate');
-	var $pLTaijsServiceContact = $('.app > .popup-layers #pl-taijs-service-contact');
 
 
 	$('.page').each(function () {
@@ -92,6 +302,9 @@
 		}
 	});
 
+
+	C.e('temp line below.');
+	return false;
 
 
 	$('a[href$="index.html"]').each(function () {
@@ -528,130 +741,6 @@
 	});
 
 
-	$('.tab-panel-set').each(function () {
-		var $allPanels = $(this).find('.panel');
-		if ($allPanels.length < 1) return false;
-
-		var $tabList = $(this).find('.tab-list');
-		var $allTabs = $tabList.find('> li');
-
-		$allPanels.each(function () {
-			this.elements = { tab: null };
-		});
-
-		$allTabs.each(function (index, tab) {
-			var panelId = tab.getAttribute('aria-controls');
-			var panel = $('#'+panelId)[0];
-
-			if (!panel) throw('Can not find controlled panel for tab [expected panel id="'+panelId+'"].');
-
-			panel.elements.tab = tab;
-			tab.elements = { panel: panel };
-		});
-
-
-
-		var currentTab = null;
-		var currentItemHint = $tabList.find('> .current-item-hint')[0];
-
-
-		if ($allTabs.length > 1) {
-			$allTabs.on('click', function () {
-				_showPanelAccordingToTab(this);
-			});
-			$allTabs.on('mouseover', function () {
-				_slideHintToTab(this);
-			});
-			$tabList.on('mouseout', function () {
-				_slideHintToTab(currentTab);
-			});
-		}
-
-		if ($allTabs.length < 1 || $allPanels.length === 1) {
-			_showPanel($allPanels[0]);
-		} else {
-			var tabToShowAtBegining = $('#panel-tab-'+urlParameters.tabLabel).parent()[0] || $allTabs[0];
-			_showPanelAccordingToTab(tabToShowAtBegining);
-		}
-
-
-		function _slideHintToTab(theTab) {
-			if (!currentItemHint) return false;
-
-			var currentItemHintCssLeft = 0;
-
-			if (!theTab) {
-				currentItemHint.style.clip = '';
-				return true;
-			}
-
-			var _P = $(theTab).offsetParent();
-			var _L = $(theTab).offset().left;
-			var _LP = $(_P).offset().left;
-
-			_L -= _LP;
-			_L -= currentItemHintCssLeft;
-
-			var _W = $(theTab).outerWidth();
-
-			var _R = _L+_W;
-
-
-			currentItemHint.style.clip = 'rect('+
-			       '0, '+
-				_R+'px, '+
-				   '3px, '+
-				_L+'px)'
-			;
-
-			return true;
-		}
-
-		function _showPanelAccordingToTab(theTab) {
-			currentTab = theTab;
-			_slideHintToTab(theTab);
-
-			var thePanel = null;
-			if (theTab && theTab.elements) thePanel = theTab.elements.panel;
-			_showPanel(thePanel);
-		}
-
-		function _showPanel(thePanel) {
-			var currentTab = null;
-			if (thePanel && thePanel.elements) currentTab = thePanel.elements.tab;
-			_slideHintToTab(currentTab);
-
-			for (var i = 0; i < $allPanels.length; i++) {
-				var panel = $allPanels[i];
-				_showHideOnePanel(panel, (thePanel && panel === thePanel));
-			}
-		}
-
-		function _showHideOnePanel(panel, isToShow) {
-			if (!panel) return false;
-
-			var tab = panel.elements.tab;
-
-			if (isToShow) {
-				panel.setAttribute('aria-hidden', false);
-				$(tab).addClass('current');
-				$(panel).addClass('current');
-				var nameToShowInPageHeader = panel.dataset.nameInPageHeader;
-				if (nameToShowInPageHeader) {
-					$(panel).parents('.page').find('.page-header .header-bar .center h1').html(nameToShowInPageHeader);
-					$('title').html(nameToShowInPageHeader);
-				}
-			} else {
-				panel.setAttribute('aria-hidden', true);
-				$(tab).removeClass('current');
-				$(panel).removeClass('current');
-			}
-
-			return true;
-		}
-	});
-
-
 	$('.progress-rings').each(function (index) {
 		var progressRings = new wlc.UI.ProgressRings(this, {
 			// takeLastQueuedDegreeOnly: false,
@@ -708,6 +797,12 @@
 			;
 		}
 	});
+})();
+
+(function () {
+	var wlc = window.webLogicControls;
+	var WCU = wlc.CoreUtilities;
+
 
 
 	// var $allTabularLists = $('.tabular .f-list');

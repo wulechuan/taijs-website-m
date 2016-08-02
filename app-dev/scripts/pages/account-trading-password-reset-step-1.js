@@ -1,12 +1,9 @@
 $(function () {
-	var $pL1 = $('#pl-info-too-many-vcodes-today');
-	var $pL2 = $('#pl-input-image-vcode');
+	var pl1 = $('#pl-info-too-many-vcodes-today')[0];
+	var pl2 = $('#pl-input-image-vcode')[0];
 
-	var $thePL = $pL1;
 	$('[button-action="fetch-sms-vcode"]').on('click', function(event) {
 		console.error('fake logic triggered.');
-		if ($thePL[0] && $thePL[0].elements)
-			$thePL[0].elements.$popupLayersBackPlate.show();
-		$thePL.show();
+		window.popupLayersManager.show(pl1, event);
 	});
 });
