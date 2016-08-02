@@ -83,6 +83,8 @@ a, a:visited {
 		opacity: 0.6;
 	}
 	a:active .hero-content-block,
+	.row.menu-item:active,
+	.row.call-to-action:active,
 	a:active .row {
 		transition-property: none;
 		background-color: rgba(0, 0, 0, 0.05);
@@ -92,6 +94,8 @@ a, a:visited {
 	color: white;
 	background-color: #4285f4;
 	}
+	.color-inverted.row  sub,
+	.color-inverted .row sub,
 	.color-inverted .f-list > a > li .label,
 	.color-inverted .f-list     > li .label,
 	.color-inverted .f-list > a > li,
@@ -663,7 +667,6 @@ label.deco-input {
 	}
 
 
-
 .count-down-disc {
 	color: #f60;
 	}
@@ -752,6 +755,9 @@ label.deco-input {
 	.row              .left {
 		color: #999;
 	}
+
+	.row h4,
+	.row h5,
 	.emphasise-leftside  .row  .left,
 	.emphasise-rightside .row  .right,
 	.emphasise-both-sides .row .left,
@@ -762,6 +768,10 @@ label.deco-input {
 	.row.emphasise-rightside   .right {
 		color: black;
 	}
+	.row sub {
+		color: #666;
+	}
+
 	.row.input-field input:focus ~ .input-tip.default {
 		color: #4285f4;
 	}
@@ -886,6 +896,24 @@ label.deco-input {
 	.popup-layer.polite-message .popup-window {
 		color: white;
 		background-color: rgba(0, 0, 0, 0.66);
+	}
+
+
+.popup-panel {
+	background-color: #f8f8f8;
+	border-color: #d9d9d9;
+	}
+	.popup-panel.bg-light-gray {
+		background-color: #f1f1f1;
+	}
+	.popup-panel .popup-panel-header h1 {
+		color: black;
+	}
+
+	.popup-panel .header-bar a[role="button"],
+	.popup-panel .header-bar [role="button"],
+	.popup-panel .header-bar button {
+		color: #999;
 	}
 
 

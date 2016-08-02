@@ -1,5 +1,8 @@
 (function () {
 	var wlc = window.webLogicControls;
+	var WCU = wlc.CoreUtilities;
+
+
 	function processParametersPassedIn() {
 		var qString = location.href.match(/\?[^#]*/);
 		if (qString) qString = qString[0].slice(1);
@@ -23,28 +26,271 @@
 	}
 
 	var urlParameters = processParametersPassedIn();
+	window.urlParameters = urlParameters;
 
+
+
+	$('.tab-panel-set').each(function () {
+		var $allPanels = $(this).find('.panel');
+		if ($allPanels.length < 1) return false;
+
+		var $tabList = $(this).find('.tab-list');
+		var $allTabs = $tabList.find('> li');
+
+		$allPanels.each(function () {
+			this.elements = { tab: null };
+		});
+
+		$allTabs.each(function (index, tab) {
+			var panelId = tab.getAttribute('aria-controls');
+			var panel = $('#'+panelId)[0];
+
+			if (!panel) throw('Can not find controlled panel for tab [expected panel id="'+panelId+'"].');
+
+			panel.elements.tab = tab;
+			tab.elements = { panel: panel };
+		});
+
+
+
+		var currentTab = null;
+		var currentItemHint = $tabList.find('> .current-item-hint')[0];
+
+
+		if ($allTabs.length > 1) {
+			$allTabs.on('click', function () {
+				_showPanelAccordingToTab(this);
+			});
+			$allTabs.on('mouseover', function () {
+				_slideHintToTab(this);
+			});
+			$tabList.on('mouseout', function () {
+				_slideHintToTab(currentTab);
+			});
+		}
+
+		if ($allTabs.length < 1 || $allPanels.length === 1) {
+			_showPanel($allPanels[0]);
+		} else {
+			var tabToShowAtBegining = $allTabs[0];
+			if (urlParameters && urlParameters.tabLabel) {
+				var _temp = $('#panel-tab-'+urlParameters.tabLabel).parent()[0];
+				if (_temp) tabToShowAtBegining = _temp;
+			}
+			_showPanelAccordingToTab(tabToShowAtBegining);
+		}
+
+
+		function _slideHintToTab(theTab) {
+			if (!currentItemHint) return false;
+
+			var currentItemHintCssLeft = 0;
+
+			if (!theTab) {
+				currentItemHint.style.clip = '';
+				return true;
+			}
+
+			var _P = $(theTab).offsetParent();
+			var _L = $(theTab).offset().left;
+			var _LP = $(_P).offset().left;
+
+			_L -= _LP;
+			_L -= currentItemHintCssLeft;
+
+			var _W = $(theTab).outerWidth();
+
+			var _R = _L+_W;
+
+
+			currentItemHint.style.clip = 'rect('+
+			       '0, '+
+				_R+'px, '+
+				   '3px, '+
+				_L+'px)'
+			;
+
+			return true;
+		}
+
+		function _showPanelAccordingToTab(theTab) {
+			currentTab = theTab;
+			_slideHintToTab(theTab);
+
+			var thePanel = null;
+			if (theTab && theTab.elements) thePanel = theTab.elements.panel;
+			_showPanel(thePanel);
+		}
+
+		function _showPanel(thePanel) {
+			var currentTab = null;
+			if (thePanel && thePanel.elements) currentTab = thePanel.elements.tab;
+			_slideHintToTab(currentTab);
+
+			for (var i = 0; i < $allPanels.length; i++) {
+				var panel = $allPanels[i];
+				_showHideOnePanel(panel, (thePanel && panel === thePanel));
+			}
+		}
+
+		function _showHideOnePanel(panel, isToShow) {
+			if (!panel) return false;
+
+			var tab = panel.elements.tab;
+
+			if (isToShow) {
+				panel.setAttribute('aria-hidden', false);
+				$(tab).addClass('current');
+				$(panel).addClass('current');
+				var nameToShowInPageHeader = panel.dataset.nameInPageHeader;
+				if (nameToShowInPageHeader) {
+					$(panel).parents('.page').find('.page-header .header-bar .center h1').html(nameToShowInPageHeader);
+					$('title').html(nameToShowInPageHeader);
+				}
+			} else {
+				panel.setAttribute('aria-hidden', true);
+				$(tab).removeClass('current');
+				$(panel).removeClass('current');
+			}
+
+			return true;
+		}
+	});
+
+
+	var popupLayersManager = new PopupLayersManager();
+	window.popupLayersManager = popupLayersManager;
+
+	function PopupLayersManager() {
+		this.show = function (popupLayerIdOrDom, event) {
+			_showOrHidePopupLayer(popupLayerIdOrDom, true, event);
+		},
+		this.hide = function (popupLayerIdOrDom) {
+			_showOrHidePopupLayer(popupLayerIdOrDom);
+		}
+
+		function _showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow) {
+			if (!popupLayerIdOrDom) return false;
+
+			var plId, pl;
+			if (typeof popupLayerIdOrDom === 'string') {
+				plId = popupLayerIdOrDom;
+				pl = $('#'+plId)[0];
+			} else {
+				pl = popupLayerIdOrDom;
+				plId = pl.id;
+			}
+
+			if (!pl || !pl.elements) {
+				C.e('Cannot find popup layer with id "'+plId+'".');
+				return false;			
+			}
+
+			var $bp = pl.elements.$popupLayersBackPlate;
+
+			if (!isToShow) {
+				$bp.hide();
+				$(pl).hide();
+				// _clearCssClassNamesAboutShowingUp(pl);
+			} else {
+				var $pl = $(pl);
+				var isPoliteMessage = $pl.hasClass('polite-message');
+				var isPopupPanel = $pl.hasClass('has-docked-panel');
+
+
+				if (!isPopupPanel && !isPoliteMessage) {
+					var $pw = $pl.find('.popup-window');
+					_clearCssClassNamesAboutShowingUp($pw);
+					var cssClass = _decideShowingUpSourceDirection(eventOfShow);
+					$pw.addClass(cssClass);
+				}
+
+
+
+				var needToShowBackPlate = !isPoliteMessage;
+				if (needToShowBackPlate) $bp.show();
+				$pl.show();
+
+				if (isPoliteMessage) {
+					var durationBeforeAutoHide = 3000;
+					var _temp = parseFloat(pl.getAttribute('data-showing-duration-in-seconds'));
+					if (!isNaN(_temp) && _temp > 1) durationBeforeAutoHide = _temp * 1000;
+
+					setTimeout(function () {
+						$pl.fadeOut();
+					}, durationBeforeAutoHide);
+				}
+			}
+		}
+
+		function _clearCssClassNamesAboutShowingUp($pw) {
+			$pw
+				.removeClass('shows-up-from-center shows-up-from-top shows-up-from-top-left shows-up-from-top-right shows-up-from-bottom shows-up-from-bottom-left shows-up-from-bottom-right shows-up-from-leftside shows-up-from-rightside');
+		}
+
+		function _decideShowingUpSourceDirection(event) {
+			var cssClass = 'shows-up-from-center';
+
+			if (typeof event !== 'object' || typeof event.pageX !== 'number' || typeof event.pageY !== 'number') {
+				return cssClass;
+			}
+
+			var w = window.innerWidth;
+			var h = window.innerHeight;
+			var x = event.pageX;
+			var y = event.pageY;
+			var ratioX = 0.33;
+			var ratioY = 0.4;
+
+			var isLeft = x <= w * ratioX;
+			var isRight = x >= w * (1 - ratioX);
+			var isAbove = y <= h * ratioY;
+			var isBelow = y >= h * (1 - ratioY);
+
+			if (isAbove) {
+				cssClass = 'shows-up-from-top';
+				if (isLeft) {
+					cssClass = 'shows-up-from-top-left';
+				} else if (isRight) {
+					cssClass = 'shows-up-from-top-right';
+				}
+			} else if (isBelow) {
+				cssClass = 'shows-up-from-bottom';
+				if (isLeft) {
+					cssClass = 'shows-up-from-bottom-left';
+				} else if (isRight) {
+					cssClass = 'shows-up-from-bottom-right';
+				}
+			} else {
+				if (isLeft) {
+					cssClass = 'shows-up-from-leftside';
+				} else if (isRight) {
+					cssClass = 'shows-up-from-rightside';
+				}
+			}
+
+			return cssClass;
+		}
+	}
 
 
 	$('.app > .popup-layers, .page .popup-layers').each(function () {
-		var $pLContainer = $(this);
-		var $bp = $pLContainer.find('.popup-layers-back-plate');
+		var $plContainer = $(this);
+		var $bp = $plContainer.find('.popup-layers-back-plate');
 
-		$pLContainer.find('.popup-layer').each(function () {
+		$plContainer.find('.popup-layer').each(function () {
 			this.elements = {
 				$popupLayersBackPlate: $bp
 			};
+			// C.l(this.id, this.elements.$popupLayersBackPlate[0]);
 
-			var $pL = $(this);
-			$pL.find('[button-action="confirm"], [button-action="cancel"]').on('click', function() {
-				$bp.hide();
-				$pL.hide();
+			var pl = this;
+			var $pl = $(pl);
+			$pl.find('[button-action="confirm"], [button-action="cancel"]').on('click', function() {
+				popupLayersManager.hide(pl);
 			});
 		});
 	});
-
-	var $globalbp = $('.app > .popup-layers .popup-layers-back-plate');
-	var $pLTaijsServiceContact = $('.app > .popup-layers #pl-taijs-service-contact');
 
 
 	$('.page').each(function () {
@@ -73,11 +319,11 @@
 			}
 
 			var pageBodyContentMinHeight = pageBodyMinHeight - pageBodyContentOffsetY + pageHeaderHeight;
-			c.l(
-				'fixed-page-footer?', pageHasFixedFooter,
-			 	'\t pageBodyMinHeight', pageBodyMinHeight,
-			 	'\t pageBodyContentMinHeight', pageBodyContentMinHeight
-			 );
+			// C.l(
+			// 	'fixed-page-footer?', pageHasFixedFooter,
+			//  	'\t pageBodyMinHeight', pageBodyMinHeight,
+			//  	'\t pageBodyContentMinHeight', pageBodyContentMinHeight
+			//  );
 
 			if (shouldSetBodyContent) {
 				$(pageBody).addClass('use-content-as-main-container');
@@ -90,10 +336,10 @@
 	});
 
 
-
 	$('a[href$="index.html"]').each(function () {
 		this.href += '?login=true';
 	});
+
 
 	$('.nav-back[data-back-target="history"]').on('click', function (event) {
 		event.preventDefault();
@@ -197,6 +443,13 @@
 				$(controlledInput).removeClass('non-empty-field');
 				$(controlledInput).removeClass('Invalid');
 				this.style.display = 'none';
+				if (typeof controlledInput.elements === 'object') {
+					var el = controlledInput.elements;
+					if (el.coupledChineseNumbers) {
+						el.coupledChineseNumbers.innerHTML = '';
+					}
+				}
+
 				setTimeout(function () {
 					controlledInput.focus();
 				}, 0);
@@ -360,6 +613,68 @@
 	});
 
 
+	$('.chinese-number[for-element]').each(function () {
+		var servedElementId = this.getAttribute('for-element');
+		if (!servedElementId) return false;
+
+		var servedElement = $(document).find('#'+servedElementId)[0];
+		if (!servedElement) return false;
+
+
+		var thisFormatElement = this;
+
+
+		var tnlc = servedElement.tagName.toLowerCase();
+		var contentIsFromUserInput = false;
+		var contentIsFromSelect = false;
+		var propertyToFormat = 'textContent';
+		var elementIsValid = true;
+
+		if (tnlc === 'input') {
+			if (servedElement.type === 'checkbox' || servedElement.type === 'radio') {
+				elementIsValid = false;
+			} else {
+				contentIsFromUserInput = true;
+				propertyToFormat = 'value';
+			}
+		} else if (tnlc === 'textarea') {
+			contentIsFromUserInput = true;
+			propertyToFormat = 'value';
+		} else if (tnlc === 'select') {
+			contentIsFromUserInput = true;
+			contentIsFromSelect = true;
+			propertyToFormat = 'value';
+		} else if (servedElement.getAttribute('contentEditable') && servedElement.getAttribute('contentEditable').toLowerCase() === 'true') {
+			contentIsFromUserInput = true;
+		}
+
+		if (!elementIsValid) return;
+
+
+		_updateChineseNumbers();
+
+
+		if (contentIsFromUserInput) {
+			if (typeof servedElement.elements !== 'object') servedElement.elements = {};
+			servedElement.elements.coupledChineseNumbers = thisFormatElement;
+			$(servedElement).on(contentIsFromSelect ? 'change' : 'input', function () {
+				_updateChineseNumbers();
+			});
+		}
+
+
+		function _updateChineseNumbers() {
+			var decimal = servedElement[propertyToFormat];
+			var formatter = WCU.formatter.decimalToChineseMoney;
+
+			thisFormatElement.innerHTML = formatter.format(decimal);
+			if (!contentIsFromSelect) {
+				servedElement[propertyToFormat] = formatter.data.lastGroomedInput;
+			}
+		}
+	});
+
+
 	$('form').filter(function (index, form) {
 		return !form.hasAttribute('novalidate');
 	}).each(function () {
@@ -456,130 +771,6 @@
 	});
 
 
-	$('.tab-panel-set').each(function () {
-		var $allPanels = $(this).find('.panel');
-		if ($allPanels.length < 1) return false;
-
-		var $tabList = $(this).find('.tab-list');
-		var $allTabs = $tabList.find('> li');
-
-		$allPanels.each(function () {
-			this.elements = { tab: null };
-		});
-
-		$allTabs.each(function (index, tab) {
-			var panelId = tab.getAttribute('aria-controls');
-			var panel = $('#'+panelId)[0];
-
-			if (!panel) throw('Can not find controlled panel for tab [expected panel id="'+panelId+'"].');
-
-			panel.elements.tab = tab;
-			tab.elements = { panel: panel };
-		});
-
-
-
-		var currentTab = null;
-		var currentItemHint = $tabList.find('> .current-item-hint')[0];
-
-
-		if ($allTabs.length > 1) {
-			$allTabs.on('click', function () {
-				_showPanelAccordingToTab(this);
-			});
-			$allTabs.on('mouseover', function () {
-				_slideHintToTab(this);
-			});
-			$tabList.on('mouseout', function () {
-				_slideHintToTab(currentTab);
-			});
-		}
-
-		if ($allTabs.length < 1 || $allPanels.length === 1) {
-			_showPanel($allPanels[0]);
-		} else {
-			var tabToShowAtBegining = $('#panel-tab-'+urlParameters.tabLabel).parent()[0] || $allTabs[0];
-			_showPanelAccordingToTab(tabToShowAtBegining);
-		}
-
-
-		function _slideHintToTab(theTab) {
-			if (!currentItemHint) return false;
-
-			var currentItemHintCssLeft = 0;
-
-			if (!theTab) {
-				currentItemHint.style.clip = '';
-				return true;
-			}
-
-			var _P = $(theTab).offsetParent();
-			var _L = $(theTab).offset().left;
-			var _LP = $(_P).offset().left;
-
-			_L -= _LP;
-			_L -= currentItemHintCssLeft;
-
-			var _W = $(theTab).outerWidth();
-
-			var _R = _L+_W;
-
-
-			currentItemHint.style.clip = 'rect('+
-			       '0, '+
-				_R+'px, '+
-				   '3px, '+
-				_L+'px)'
-			;
-
-			return true;
-		}
-
-		function _showPanelAccordingToTab(theTab) {
-			currentTab = theTab;
-			_slideHintToTab(theTab);
-
-			var thePanel = null;
-			if (theTab && theTab.elements) thePanel = theTab.elements.panel;
-			_showPanel(thePanel);
-		}
-
-		function _showPanel(thePanel) {
-			var currentTab = null;
-			if (thePanel && thePanel.elements) currentTab = thePanel.elements.tab;
-			_slideHintToTab(currentTab);
-
-			for (var i = 0; i < $allPanels.length; i++) {
-				var panel = $allPanels[i];
-				_showHideOnePanel(panel, (thePanel && panel === thePanel));
-			}
-		}
-
-		function _showHideOnePanel(panel, isToShow) {
-			if (!panel) return false;
-
-			var tab = panel.elements.tab;
-
-			if (isToShow) {
-				panel.setAttribute('aria-hidden', false);
-				$(tab).addClass('current');
-				$(panel).addClass('current');
-				var nameToShowInPageHeader = panel.dataset.nameInPageHeader;
-				if (nameToShowInPageHeader) {
-					$(panel).parents('.page').find('.page-header .header-bar .center h1').html(nameToShowInPageHeader);
-					$('title').html(nameToShowInPageHeader);
-				}
-			} else {
-				panel.setAttribute('aria-hidden', true);
-				$(tab).removeClass('current');
-				$(panel).removeClass('current');
-			}
-
-			return true;
-		}
-	});
-
-
 	$('.progress-rings').each(function (index) {
 		var progressRings = new wlc.UI.ProgressRings(this, {
 			// takeLastQueuedDegreeOnly: false,
@@ -602,11 +793,11 @@
 				// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
 				Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360
 			];
-			// c.l(degrees);
+			// C.l(degrees);
 			progressRings.setDegrees(degrees);
 		}
 		// function print() {
-		// 	c.l('Got degree:', progressRings.getDegree());
+		// 	C.l('Got degree:', progressRings.getDegree());
 		// }
 
 		if (index === 0) {
@@ -636,139 +827,127 @@
 			;
 		}
 	});
-
-
-	var $allTabularLists = $('.tabular .f-list');
-
-	$allTabularLists.each(function () {
-		var $allListItems  = $(this).find(' > li.selectable');
-		var $allCheckboxes = $allListItems.find('input[type="checkbox"].selectable-list-item-selector');
-		var $allRadios     = $allListItems.find('input[type="radio"].selectable-list-item-selector');
-		// console.log('has checkboxes: ', $allCheckboxes.length > 0, '\nhas radios: ', $allRadios.length > 0);
-
-		function _updateListItemAccordingToCheckboxStatus(listItem, checkbox) {
-			var $li = $(listItem);
-			if (checkbox.disabled) {
-				$li.addClass('disabled');
-			} else {
-				$li.removeClass('disabled');
-			}
-
-			if (checkbox.checked) {
-				$li.addClass('selected');
-			} else {
-				$li.removeClass('selected');
-			}
-		}
-
-		if ($allCheckboxes.length > 0) {
-			$allListItems.each(function () {
-				var listItem = this;
-				var $listItem = $(this);
-
-
-				var $myCheckbox = $listItem.find('input[type="checkbox"].selectable-list-item-selector');
-				var myCheckbox = $myCheckbox[0];
-
-
-				var _myCheckboxUntouchedYet = true;
-				setTimeout(function () { /* Initializing selection status; And this must dealy because ie8 to ie11 updates cached "checked" statuses very late */
-					if (_myCheckboxUntouchedYet) {
-						_updateListItemAccordingToCheckboxStatus(listItem, myCheckbox);
-					}
-				}, 100);
-
-				if (myCheckbox) {
-					$myCheckbox.on('click', function(event) {
-						if (this.disabled) return false;
-						_myCheckboxUntouchedYet = false;
-						if (event) event.stopPropagation();
-					});
-
-					$listItem.on('click', function () {
-						if (myCheckbox.disabled) return false;
-						myCheckbox.checked = !myCheckbox.checked;
-						_myCheckboxUntouchedYet = false;
-						_updateListItemAccordingToCheckboxStatus(this, myCheckbox);
-					});
-
-					$myCheckbox.on('change', function() {
-						_updateListItemAccordingToCheckboxStatus(listItem, this);
-					});
-				}
-			});
-		}
-
-
-
-
-
-
-
-		function _updateAllListItemsAccordingToRadioStatuses() {
-			for (var i = 0; i < $allListItems.length; i++) {
-				var _li = $allListItems[i];
-				var _radio = _li.elements && _li.elements.radio;
-
-				var $li = $(_li);
-
-				if (_radio.disabled) {
-					$li.addClass('disabled');
-				}
-
-				if (_radio.checked) {
-					$li.addClass('selected');
-				} else {
-					$li.removeClass('selected');
-				}
-			}
-		}
-
-		if ($allRadios.length > 0) {
-			var _radioUntouchedYet = true;
-			setTimeout(function () { /* Initializing selection status; And this must dealy because ie8 to ie11 updates cached "checked" statuses very late */
-				if (_radioUntouchedYet) {
-					_updateAllListItemsAccordingToRadioStatuses();
-				}
-			}, 100);
-
-			$allListItems.each(function () {
-				var listItem = this;
-				var $listItem = $(this);
-
-				var $myRadio = $listItem.find('input[type="radio"].selectable-list-item-selector');
-				var myRadio = $myRadio[0];
-				if (myRadio) {
-					if (typeof listItem.elements !== 'object') listItem.elements = {};
-					listItem.elements.radio = myRadio;
-
-					$listItem.on('click', function () {
-						if (!myRadio.disabled) {
-							_radioUntouchedYet = false;
-							myRadio.checked = true;
-						}
-						_updateAllListItemsAccordingToRadioStatuses();
-					});
-				}
-			});
-		}
-	});
 })();
 
+(function () {
+	var wlc = window.webLogicControls;
+	var WCU = wlc.CoreUtilities;
 
-// (function fakeLogics() {
-// 	window.DC = new webLogicControls.UI.DraggingController(
-// 		document.body,
-// 		{
-// 			movingElement: $('.app-fg-layer')[0],
-// 			durationForResettingPosition: 0.2,
-// 			triggerDirection: 'd',
-// 			onFirstTrigger: function (event, options) {
-// 				console.log('first:', options.status.triggerCount);
-// 			},
-// 			onEachTrigger: function(event, options) {
-// 				console.log('each:', options.status.triggerCount);
-// 			}
-// 		}
-// 	);
-// })();
+
+
+	// var $allTabularLists = $('.tabular .f-list');
+
+	// $allTabularLists.each(function () {
+	// 	var $allListItems  = $(this).find(' > li.selectable');
+	// 	var $allCheckboxes = $allListItems.find('input[type="checkbox"].selectable-list-item-selector');
+	// 	var $allRadios     = $allListItems.find('input[type="radio"].selectable-list-item-selector');
+	// 	// console.log('has checkboxes: ', $allCheckboxes.length > 0, '\nhas radios: ', $allRadios.length > 0);
+
+	// 	function _updateListItemAccordingToCheckboxStatus(listItem, checkbox) {
+	// 		var $li = $(listItem);
+	// 		if (checkbox.disabled) {
+	// 			$li.addClass('disabled');
+	// 		} else {
+	// 			$li.removeClass('disabled');
+	// 		}
+
+	// 		if (checkbox.checked) {
+	// 			$li.addClass('selected');
+	// 		} else {
+	// 			$li.removeClass('selected');
+	// 		}
+	// 	}
+
+	// 	if ($allCheckboxes.length > 0) {
+	// 		$allListItems.each(function () {
+	// 			var listItem = this;
+	// 			var $listItem = $(this);
+
+
+	// 			var $myCheckbox = $listItem.find('input[type="checkbox"].selectable-list-item-selector');
+	// 			var myCheckbox = $myCheckbox[0];
+
+
+	// 			var _myCheckboxUntouchedYet = true;
+	// 			setTimeout(function () { /* Initializing selection status; And this must dealy because ie8 to ie11 updates cached "checked" statuses very late */
+	// 				if (_myCheckboxUntouchedYet) {
+	// 					_updateListItemAccordingToCheckboxStatus(listItem, myCheckbox);
+	// 				}
+	// 			}, 100);
+
+	// 			if (myCheckbox) {
+	// 				$myCheckbox.on('click', function(event) {
+	// 					if (this.disabled) return false;
+	// 					_myCheckboxUntouchedYet = false;
+	// 					if (event) event.stopPropagation();
+	// 				});
+
+	// 				$listItem.on('click', function () {
+	// 					if (myCheckbox.disabled) return false;
+	// 					myCheckbox.checked = !myCheckbox.checked;
+	// 					_myCheckboxUntouchedYet = false;
+	// 					_updateListItemAccordingToCheckboxStatus(this, myCheckbox);
+	// 				});
+
+	// 				$myCheckbox.on('change', function() {
+	// 					_updateListItemAccordingToCheckboxStatus(listItem, this);
+	// 				});
+	// 			}
+	// 		});
+	// 	}
+
+
+
+
+
+
+
+	// 	function _updateAllListItemsAccordingToRadioStatuses() {
+	// 		for (var i = 0; i < $allListItems.length; i++) {
+	// 			var _li = $allListItems[i];
+	// 			var _radio = _li.elements && _li.elements.radio;
+
+	// 			var $li = $(_li);
+
+	// 			if (_radio.disabled) {
+	// 				$li.addClass('disabled');
+	// 			}
+
+	// 			if (_radio.checked) {
+	// 				$li.addClass('selected');
+	// 			} else {
+	// 				$li.removeClass('selected');
+	// 			}
+	// 		}
+	// 	}
+
+	// 	if ($allRadios.length > 0) {
+	// 		var _radioUntouchedYet = true;
+	// 		setTimeout(function () { /* Initializing selection status; And this must dealy because ie8 to ie11 updates cached "checked" statuses very late */
+	// 			if (_radioUntouchedYet) {
+	// 				_updateAllListItemsAccordingToRadioStatuses();
+	// 			}
+	// 		}, 100);
+
+	// 		$allListItems.each(function () {
+	// 			var listItem = this;
+	// 			var $listItem = $(this);
+
+	// 			var $myRadio = $listItem.find('input[type="radio"].selectable-list-item-selector');
+	// 			var myRadio = $myRadio[0];
+	// 			if (myRadio) {
+	// 				if (typeof listItem.elements !== 'object') listItem.elements = {};
+	// 				listItem.elements.radio = myRadio;
+
+	// 				$listItem.on('click', function () {
+	// 					if (!myRadio.disabled) {
+	// 						_radioUntouchedYet = false;
+	// 						myRadio.checked = true;
+	// 					}
+	// 					_updateAllListItemsAccordingToRadioStatuses();
+	// 				});
+	// 			}
+	// 		});
+	// 	}
+	// });
+})();

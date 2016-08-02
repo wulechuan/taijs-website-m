@@ -3,12 +3,8 @@ $(function () {
 
 	var $plpm1 = $('#plpm-trading-account-register-passwords-mismatch');
 	function showPoliteMessagePasswordsMismatch() {
-		$plpm1.show();
-		if ($plpm1.length > 0) {
-			setTimeout(function () {
-				$plpm1.hide();
-			}, 6000);
-		}
+		var plpm1 = $plpm1[0];
+		window.popupLayersManager.show(plpm1);
 	}
 
 	var $passwordPass1Container = $('.password-pass-1');

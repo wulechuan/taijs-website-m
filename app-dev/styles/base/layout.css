@@ -715,7 +715,13 @@ article.message {
 
 	.row * {
 		white-space: normal;
-	}
+
+		/* -moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+		user-select: none; */ /* do NOT use user-select, otherwise its impossible to input text under iOS */
+		}
+
 
 	.hide-borders > .row,
 	.row.hide-borders {
@@ -785,7 +791,7 @@ article.message {
 
 		.row.input-field input:focus,
 		.row.input-field input.non-empty-field {
-			margin-top: 1.6rem;
+			margin-top: 1.5rem;
 			margin-bottom: 0;
 			height: 1.0rem;
 			padding-top: 0.3rem;
@@ -886,8 +892,8 @@ article.message {
 			margin-left: 0;
 			padding-right: 0;
 		}
-		.emphasise-leftside  .row  .left,
-		.emphasise-rightside .row  .right,
+		.emphasise-leftside   .row .left,
+		.emphasise-rightside  .row .right,
 		.emphasise-both-sides .row .left,
 		.emphasise-both-sides .row .right,
 		.row.emphasise-both-sides  .left,
@@ -907,7 +913,7 @@ article.message {
 			line-height: 1.2rem;
 		}
 		.row.input-field .left {
-			position: relative; /* for positioning of clear input button */
+			position: relative; /* for positioning of clear-input-button */
 			width: 75%;
 			margin: 0;
 			padding-left: 0;
@@ -940,9 +946,19 @@ article.message {
 		}
 		.row.single-side-content .right,
 		.row.single-side-content .left {
-			width: 100%;
+			display: block;
+			width: auto;
+			margin-left: -0.5rem;
+			margin-right: -0.5rem;
+		}
+
+		.row.single-side-content.input-field .left {
 			margin-left: 0;
 			margin-right: 0;
+		}
+
+		.row.single-side-content .right .simple-look {
+			margin-right: -0.5rem;
 		}
 
 
@@ -1071,6 +1087,52 @@ article.message {
 	}
 
 
+.row.header-bar {
+	width: 100%;
+	min-height: 1.4rem;
+	margin: 0 auto;
+	padding: 0.5rem 0;
+	}
+
+	.row.header-bar .center {
+		display: block;
+		padding: 0;
+		margin: 0 4rem;
+		min-height: 1.4rem;
+		line-height: 1.4rem;
+		text-align: center;
+	}
+
+	.row.header-bar .left,
+	.row.header-bar .right {
+		display: block;
+		position: absolute;
+		top: 0;
+		padding: 0;
+		margin: 0;
+	}
+	.row.header-bar .left {
+		left: 0;
+	}
+	.row.header-bar .right {
+		right: 0;
+	}
+	.row.header-bar .left *,
+	.row.header-bar .right * {
+		margin: 0;
+	}
+	.row.header-bar button,
+	.row.header-bar [role="button"] {
+		border-width: 0;
+		width: 2.4rem;
+		height: 2.4rem;
+		line-height: 2.4rem;
+		padding: 0;
+		text-align: center;
+		background-color: transparent;
+	}
+
+
 .f-block { /* function-block */
 	font-size: 0.7rem;
 	font-weight: normal;
@@ -1126,7 +1188,9 @@ article.message {
 	.f-block-body {
 		border-style: solid;
 	}
-
+	/* .popup-panel .f-block-body {
+		background-color: transparent;
+	} */
 	.f-block-body.hide-borders {
 		border-style: none;
 	}
@@ -1190,6 +1254,8 @@ article.message {
 
 	.f-block-body .row.has-lead-icon {
 		padding-left: 3rem;
+		padding-top: 0.3rem;
+		padding-bottom: 0.3rem;
 		}
 
 		.f-block-body .row.has-lead-icon::before {
@@ -1210,6 +1276,56 @@ article.message {
 		.f-block-body .row.has-lead-icon .lead-icon.iconfont {
 			font-size: 1.2rem;
 		}
+
+	.f-block-body .row.entity-of-bank.has-lead-icon {
+		padding-left: 2.5rem;
+		}
+
+		.f-block-body .row.entity-of-bank.has-lead-icon::before {
+			left: 0.8rem;
+		}
+
+		.f-block-body .row.entity-of-bank.has-lead-icon::after {
+			top: 1.05rem;
+		}
+
+		.f-block-body .row.entity-of-bank.has-lead-icon .lead-icon {
+			position: absolute;
+			top: 0.35rem;
+			left: 0.25rem;
+			width: 2.5rem;
+			height: 2.5rem;
+			line-height: 1.7rem;
+			text-align: center;
+			margin: 0;
+			transform: scale(0.6, 0.6);
+		}
+
+		.f-block-body .row.entity-of-bank.has-lead-icon h5 {
+			font-size: 0.8rem;
+			font-weight: 400;
+			line-height: 1.2rem;
+			height: 1.2rem;
+		}
+
+		.f-block-body .row.entity-of-bank.has-lead-icon h5 sub {
+			font-size: 0.9em;
+			margin-left: 0.1rem;
+		}
+
+		.f-block-body .row.entity-of-bank.has-lead-icon h5 q {
+			quotes: '(' ')';
+		}
+
+		.f-block-body .row.entity-of-bank.has-lead-icon .tip {
+			margin-top: 0;
+		}
+
+		.f-block-body .row.entity-of-bank.has-lead-icon .left {
+			width: auto;
+		}
+
+
 
 	.f-block-body a .row,
 	.f-block-body   .row.select-field,
@@ -1316,6 +1432,16 @@ article.message {
 			}
 
 
+.popup-panel .f-block-body {
+	margin-bottom: -1px;
+	}
+
+	.popup-panel-body > .row {
+		margin-bottom: 0.5rem;
+	}
+
+
+
 .f-block .tiles {
 	}
 	.f-block .tiles > a > .tile,
@@ -1380,9 +1506,13 @@ article.message {
 
 .page {
 	box-sizing: border-box;
-	max-width: 768px;
 	height: 100%;
-	margin: auto;
+	}
+
+	.page-header .width-wrap,
+	.page {
+		margin: auto;
+		max-width: 768px;
 	}
 
 	.page::before { /* page-header patch for iOS Safari momentum scrolling */
@@ -1509,55 +1639,6 @@ article.message {
 		.page-header {
 			transition-property: width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
 		}
-		.page-header .row {
-			margin: 0;
-			padding-left: 0;
-			padding-right: 0;
-			padding-top: 0.5rem;
-			padding-bottom: 0.5rem;
-		}
-
-		.page-header .row.header-bar {
-			min-height: 1.4rem;
-			}
-
-			.page-header .row.header-bar .center {
-				display: block;
-				padding: 0;
-				margin: 0 4rem;
-				min-height: 1.4rem;
-				line-height: 1.4rem;
-				text-align: center;
-			}
-
-			.page-header .row.header-bar .left,
-			.page-header .row.header-bar .right {
-				display: block;
-				position: absolute;
-				top: 0;
-				padding: 0;
-				margin: 0;
-			}
-			.page-header .row.header-bar .left {
-				left: 0;
-			}
-			.page-header .row.header-bar .right {
-				right: 0;
-			}
-			.page-header .row.header-bar .left *,
-			.page-header .row.header-bar .right * {
-				margin: 0;
-			}
-			.page-header .row.header-bar button,
-			.page-header .row.header-bar [role="button"] {
-				border-width: 0;
-				width: 2.4rem;
-				height: 2.4rem;
-				line-height: 2.4rem;
-				padding: 0;
-				text-align: center;
-				background-color: transparent;
-			}
 
 
 	.page-body-stamp {
@@ -1735,6 +1816,7 @@ article.message {
 		background-size: auto 26rem;
 	}
 	#page-newbie-call-to-action.use-extended-bg-image::after {
+		/* height: -webkit-calc(100% - 25.5rem); */
 		height: calc(100% - 25.5rem);
 	}
 
