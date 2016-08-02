@@ -158,57 +158,93 @@
 	});
 
 
-	var popupLayersManager = {
-		show: function (popupLayerIdOrDom, event) {
-			showOrHidePopupLayer(popupLayerIdOrDom, true, event);
-		},
-		hide: function (popupLayerIdOrDom) {
-			showOrHidePopupLayer(popupLayerIdOrDom);
-		}
-	};
+	var popupLayersManager = new PopupLayersManager();
 	window.popupLayersManager = popupLayersManager;
 
-	function showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow) {
-		if (!popupLayerIdOrDom) return false;
-
-		var plId, pl;
-		if (typeof popupLayerIdOrDom === 'string') {
-			plId = popupLayerIdOrDom;
-			pl = $('#'+plId)[0];
-		} else {
-			pl = popupLayerIdOrDom;
-			plId = pl.id;
+	function PopupLayersManager() {
+		this.show = function (popupLayerIdOrDom, event) {
+			_showOrHidePopupLayer(popupLayerIdOrDom, true, event);
+		},
+		this.hide = function (popupLayerIdOrDom) {
+			_showOrHidePopupLayer(popupLayerIdOrDom);
 		}
 
-		if (!pl || !pl.elements) {
-			C.e('Cannot find popup layer with id "'+plId+'".');
-			return false;			
-		}
+		function _showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow) {
+			if (!popupLayerIdOrDom) return false;
 
-		var $bp = pl.elements.$popupLayersBackPlate;
-
-		if (!isToShow) {
-			$bp.hide();
-			$(pl).hide().removeClass('shows-up-from-center shows-up-from-top shows-up-from-top-left shows-up-from-top-right shows-up-from-bottom shows-up-from-bottom-left shows-up-from-bottom-right shows-up-from-leftside shows-up-from-rightside');
-		} else {
-			var w = window.innerWidth;
-			var h = window.innerHeight;
-			var x =  w / 2;
-			var y = h / 2;
-			if (typeof eventOfShow === 'object') {
-				x = eventOfShow.pageX;
-				y = eventOfShow.pageY;
+			var plId, pl;
+			if (typeof popupLayerIdOrDom === 'string') {
+				plId = popupLayerIdOrDom;
+				pl = $('#'+plId)[0];
+			} else {
+				pl = popupLayerIdOrDom;
+				plId = pl.id;
 			}
 
+			if (!pl || !pl.elements) {
+				C.e('Cannot find popup layer with id "'+plId+'".');
+				return false;			
+			}
+
+			var $bp = pl.elements.$popupLayersBackPlate;
+
+			if (!isToShow) {
+				$bp.hide();
+				$(pl).hide();
+				_clearCssClassNamesAboutShowingUp(pl);
+			} else {
+				var $pl = $(pl);
+				var isPoliteMessage = $pl.hasClass('polite-message');
+				var isPopupPanel = $pl.hasClass('has-docked-panel');
+
+
+				if (!isPopupPanel && !isPoliteMessage) {
+					_clearCssClassNamesAboutShowingUp(pl);
+					var cssClass = _decideShowingUpSourceDirection(eventOfShow);
+					$pl.addClass(cssClass);
+				}
+
+
+
+				var needToShowBackPlate = !isPoliteMessage;
+				if (needToShowBackPlate) $bp.show();
+				$pl.show();
+
+				if (isPoliteMessage) {
+					var durationBeforeAutoHide = 100;
+					var _temp = parseFloat(pl.getAttribute('data-showing-duration-in-seconds'));
+					if (!isNaN(_temp) && _temp > 1) durationBeforeAutoHide = _temp * 1000;
+
+					setTimeout(function () {
+						$pl.fadeOut();
+					}, durationBeforeAutoHide);
+				}
+			}
+		}
+
+		function _clearCssClassNamesAboutShowingUp(pl) {
+			$(pl)
+				.removeClass('shows-up-from-center shows-up-from-top shows-up-from-top-left shows-up-from-top-right shows-up-from-bottom shows-up-from-bottom-left shows-up-from-bottom-right shows-up-from-leftside shows-up-from-rightside');
+		}
+
+		function _decideShowingUpSourceDirection(event) {
+			var cssClass = 'shows-up-from-center';
+
+			if (typeof event !== 'object' || typeof event.pageX !== 'number' || typeof event.pageY !== 'number') {
+				return cssClass;
+			}
+
+			var w = window.innerWidth;
+			var h = window.innerHeight;
+			var x = event.pageX;
+			var y = event.pageY;
 			var ratioX = 0.33;
-			var ratioY = 0.33;
+			var ratioY = 0.4;
 
 			var isLeft = x <= w * ratioX;
 			var isRight = x >= w * (1 - ratioX);
 			var isAbove = y <= h * ratioY;
 			var isBelow = y >= h * (1 - ratioY);
-
-			var cssClass = 'shows-up-from-center';
 
 			if (isAbove) {
 				cssClass = 'shows-up-from-top';
@@ -232,11 +268,7 @@
 				}
 			}
 
-			$bp.show();
-
-			var $pl = $(pl);
-			$pl.addClass(cssClass);
-			$pl.show();
+			return cssClass;
 		}
 	}
 
@@ -303,13 +335,10 @@
 	});
 
 
-	C.e('temp line below.');
-	return false;
-
-
 	$('a[href$="index.html"]').each(function () {
 		this.href += '?login=true';
 	});
+
 
 	$('.nav-back[data-back-target="history"]').on('click', function (event) {
 		event.preventDefault();
