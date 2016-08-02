@@ -212,7 +212,7 @@
 				$pl.show();
 
 				if (isPoliteMessage) {
-					var durationBeforeAutoHide = 100;
+					var durationBeforeAutoHide = 3000;
 					var _temp = parseFloat(pl.getAttribute('data-showing-duration-in-seconds'));
 					if (!isNaN(_temp) && _temp > 1) durationBeforeAutoHide = _temp * 1000;
 
