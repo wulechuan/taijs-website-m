@@ -714,12 +714,14 @@ article.message {
 	}
 
 	.row * {
-		-moz-user-select: none;
+		white-space: normal;
+
+		/* -moz-user-select: none;
 		-webkit-user-select: none;
 		-ms-user-select: none;
-		user-select: none;
-		white-space: normal;
-	}
+		user-select: none; */ /* do NOT use user-select, otherwise its impossible to input text under iOS */
+		}
+
 
 	.hide-borders > .row,
 	.row.hide-borders {
