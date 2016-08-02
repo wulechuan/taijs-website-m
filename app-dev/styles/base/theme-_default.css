@@ -84,6 +84,7 @@ a, a:visited {
 	}
 	a:active .hero-content-block,
 	.row.menu-item:active,
+	.row.interactive:active,
 	.row.call-to-action:active,
 	a:active .row {
 		transition-property: none;
@@ -502,6 +503,28 @@ label.deco-input {
 	}
 
 
+.progress-bar {
+	}
+
+	.color-inverted .progress-bar {
+		}
+
+		.color-inverted .progress-bar .progress-range {
+			background-color: rgba(255, 255, 255, 0.3);
+		}
+
+		.color-inverted .progress-bar .current-progress {
+			background-color: #ffda10;
+		}
+
+		.color-inverted .progress-bar .current-progress-dot {
+			background-color: white;
+		}
+
+		.progress-bar .label {
+		}
+
+
 .progress-rings .ring {
 	border-color: #eaeaea;
 	}
@@ -666,6 +689,10 @@ label.deco-input {
 		background-color: #f60;
 	}
 
+	.progress-stops.layout-vert .progress-stop .label .minor {
+		color: #999;
+	}
+
 
 .count-down-disc {
 	color: #f60;
@@ -675,6 +702,13 @@ label.deco-input {
 		border-color: initial;
 		border-color: #f60; /* for IE 11 */
 	}
+
+	.count-down-disc.time-out {
+		color: #999;
+		border-color: #eaeaea;
+		background-color: #eaeaea;
+		}
+
 
 
 .f-list > li > .label {
@@ -724,6 +758,12 @@ label.deco-input {
 .f-block { /* function-block */
 	color: #666;
 	}
+	.f-block .row h3,
+	.f-block .row h2,
+	.f-block .row h1 {
+		color: black;
+	}
+
 	.f-block-body {
 		background-color: white;
 	}
@@ -813,12 +853,26 @@ label.deco-input {
 		}
 
 
+.markers {
+
+	}
+	.marker {
+	}
+	.marker.marker-ke-zhuan-rang { color: #4285f4; }
+	.marker.marker-ke-yong-quan { color: #fb5f5f; }
+
+
+
 .entity-info {
 	}
 	.entity-info > h5 {
 		color: #999;
 	}
-
+	.entity-info.entity-time-limited.entity-out-of-time {
+		}
+		.entity-info.entity-time-limited.entity-out-of-time em {
+			color: #333;
+		}
 
 .product-abstract {
 	}

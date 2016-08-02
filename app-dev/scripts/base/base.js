@@ -45,7 +45,10 @@
 			var panelId = tab.getAttribute('aria-controls');
 			var panel = $('#'+panelId)[0];
 
-			if (!panel) throw('Can not find controlled panel for tab [expected panel id="'+panelId+'"].');
+			if (!panel) {
+				C.e('Can not find controlled panel for tab [expected panel id="'+panelId+'"].');
+				return false;
+			}
 
 			panel.elements.tab = tab;
 			tab.elements = { panel: panel };
@@ -772,60 +775,7 @@
 
 
 	$('.progress-rings').each(function (index) {
-		var progressRings = new wlc.UI.ProgressRings(this, {
-			// takeLastQueuedDegreeOnly: false,
-			// useTransitions: false,
-			// disableInitialUpdate: true,
-			// treatTotalDurationAsRoughSpeed: false,
-			// singleRingTransitionsTotalDuration: 1,
-			// perRings: [
-			// 	{ transitionsTotalDuration: 2 }
-			// ]
-		});
-
-
-		var pageWidth = window.innerWidth;
-		function update(pageX) {
-			// return false;
-			var margin = 75;
-			var degrees = [
-				// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
-				// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
-				Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360
-			];
-			// C.l(degrees);
-			progressRings.setDegrees(degrees);
-		}
-		// function print() {
-		// 	C.l('Got degree:', progressRings.getDegree());
-		// }
-
-		if (index === 0) {
-			var move = false;
-			var waiting = false;
-			// setTimeout(print, 1000);
-
-			$(document.body)
-				.on('mousedown', function (event) {
-					update(event.pageX);
-					move = true;
-				})
-				.on('mousemove', function () {
-					if (!move) return false;
-					if (waiting) return false;
-					waiting = true;
-					setTimeout(function () {
-						// update(event.pageX);
-						waiting = false;
-					}, 100);
-				})
-				.on('mouseup', function () {
-					move = false;
-					waiting = false;
-					// setTimeout(print, 1000);
-				})
-			;
-		}
+		var progressRings = new wlc.UI.ProgressRings(this);
 	});
 })();
 
