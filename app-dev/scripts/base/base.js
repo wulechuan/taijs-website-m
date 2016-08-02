@@ -191,7 +191,7 @@
 			if (!isToShow) {
 				$bp.hide();
 				$(pl).hide();
-				_clearCssClassNamesAboutShowingUp(pl);
+				// _clearCssClassNamesAboutShowingUp(pl);
 			} else {
 				var $pl = $(pl);
 				var isPoliteMessage = $pl.hasClass('polite-message');
@@ -199,9 +199,10 @@
 
 
 				if (!isPopupPanel && !isPoliteMessage) {
-					_clearCssClassNamesAboutShowingUp(pl);
+					var $pw = $pl.find('.popup-window');
+					_clearCssClassNamesAboutShowingUp($pw);
 					var cssClass = _decideShowingUpSourceDirection(eventOfShow);
-					$pl.addClass(cssClass);
+					$pw.addClass(cssClass);
 				}
 
 
@@ -222,8 +223,8 @@
 			}
 		}
 
-		function _clearCssClassNamesAboutShowingUp(pl) {
-			$(pl)
+		function _clearCssClassNamesAboutShowingUp($pw) {
+			$pw
 				.removeClass('shows-up-from-center shows-up-from-top shows-up-from-top-left shows-up-from-top-right shows-up-from-bottom shows-up-from-bottom-left shows-up-from-bottom-right shows-up-from-leftside shows-up-from-rightside');
 		}
 
