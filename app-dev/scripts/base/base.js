@@ -76,7 +76,7 @@
 			}
 
 			var pageBodyContentMinHeight = pageBodyMinHeight - pageBodyContentOffsetY + pageHeaderHeight;
-			// C.L(
+			// C.l(
 			// 	'fixed-page-footer?', pageHasFixedFooter,
 			//  	'\t pageBodyMinHeight', pageBodyMinHeight,
 			//  	'\t pageBodyContentMinHeight', pageBodyContentMinHeight
@@ -424,7 +424,7 @@
 			var decimal = servedElement[propertyToFormat];
 			var formatter = WCU.formatter.decimalToChineseMoney;
 
-			thisFormatElement.innerHTML = formatter.format(decimal, null, 1);
+			thisFormatElement.innerHTML = formatter.format(decimal);
 			if (!contentIsFromSelect) {
 				servedElement[propertyToFormat] = formatter.data.lastGroomedInput;
 			}
@@ -674,11 +674,11 @@
 				// Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360 * Math.random(),
 				Math.max(0, Math.min(1, (pageX - margin) / (pageWidth - margin - margin))) * 360
 			];
-			// C.L(degrees);
+			// C.l(degrees);
 			progressRings.setDegrees(degrees);
 		}
 		// function print() {
-		// 	C.L('Got degree:', progressRings.getDegree());
+		// 	C.l('Got degree:', progressRings.getDegree());
 		// }
 
 		if (index === 0) {

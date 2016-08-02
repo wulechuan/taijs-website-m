@@ -17,10 +17,10 @@ window.webLogicControls = {};
 	(function () { // CoreUtilities
 		if (window.console && typeof window.console.log === 'function') {
 			window.C = window.console;
-			C.L = C.log;
-			C.T = C.trace;
-			C.W = C.warn;
-			C.E = C.error;
+			C.l = C.log;
+			C.t = C.trace;
+			C.w = C.warn;
+			C.e = C.error;
 		} else {
 			window.C = {
 				L: nilFunction,
@@ -375,6 +375,10 @@ window.webLogicControls = {};
 					if (typeof targetOptions !== 'object' || !targetOptions) {
 						targetOptions = this.options; // by default we config the this.options instead of runtime options
 					}
+					if (typeof isInitializing !== 'boolean' && typeof targetOptions !== 'object') {
+						throw('No targetOptions provided.');
+					}
+
 					isInitializing = !!isInitializing && (targetOptions === this.options);
 
 
@@ -384,6 +388,7 @@ window.webLogicControls = {};
 					var saveBool = WCU.save.boolean;
 
 					var R1 = saveBool(targetOptions, 'isMoney', newOptions);
+					// C.t('changed?', R1.valueHasBeenChanged, 'isMoney:', targetOptions.isMoney);
 					var R4;
 					if (R1.valueHasBeenChanged || isInitializing) {
 						R4 = saveBool(targetOptions, 'jianXie', !targetOptions.isMoney);
@@ -448,12 +453,12 @@ window.webLogicControls = {};
 					if (typeof optionsOrIsMoney === 'boolean' || typeof optionsOrIsMoney === 'number') {
 						this.config({
 							isMoney: optionsOrIsMoney
-						});
+						}, options);
 					} else if (typeof optionsOrIsMoney === 'object' && optionsOrIsMoney) { // should handle null object
 						this.config(optionsOrIsMoney, options);
 					}
 
-					// if (shouldLog) C.L(options);
+					// if (shouldLog) C.l(options);
 
 
 
@@ -552,26 +557,26 @@ window.webLogicControls = {};
 
 					cUnits = cUnits.slice(-nWithUnit.length);
 
-					var result = (n.length > 0) ? '' : (c0 + (options.isMoney ? cBaseUnitMoney : cBaseUnitRegular));
+					var result = '';
 					var resultFraction = '';
 
 
 					var needSuffixZheng = options.isMoney && (nFractionRaw.length < fractionMaxDigits);
 
 
-					// if (shouldLog) {
-					// 	C.L(
-					// 		'n:', n, '\t pop:', pop,
-					// 		'\n\t nInterger:', nInterger,
-					// 		'\n\t fractionMaxDigits:', fractionMaxDigits,
-					// 		'\n\t nFractionRaw:', nFractionRaw,
-					// 		'\n\t nFraction:', nFraction,
-					// 		'\n\t nWithUnit:', nWithUnit,
-					// 		'\n\t nWithUnit.length:', nWithUnit.length,
-					// 		'\n\t cUnits:', cUnits,
-					// 		'\n\t needSuffixZheng:', needSuffixZheng
-					// 	);
-					// }
+					if (shouldLog) {
+						C.l(
+							'n:', n, '\t pop:', pop,
+							'\n\t nInterger:', nInterger,
+							'\n\t fractionMaxDigits:', fractionMaxDigits,
+							'\n\t nFractionRaw:', nFractionRaw,
+							'\n\t nFraction:', nFraction,
+							'\n\t nWithUnit:', nWithUnit,
+							'\n\t nWithUnit.length:', nWithUnit.length,
+							'\n\t cUnits:', cUnits,
+							'\n\t needSuffixZheng:', needSuffixZheng
+						);
+					}
 
 
 					for (i=0; i < nWithUnit.length; i++) {
@@ -585,8 +590,11 @@ window.webLogicControls = {};
 						}
 					}
 
-					result += resultFraction;
-					// if (shouldLog) C.L(result);
+					result;
+					if (result.length < 1) {
+						result = c0 + (options.isMoney ? cBaseUnitMoney : cBaseUnitRegular);
+					}
+					if (shouldLog) C.l(options.isMoney, result);
 
 
 
@@ -595,30 +603,38 @@ window.webLogicControls = {};
 
 
 
+					if (!options.isMoney) {
+						// 去除非钱数的临时单位，即“个”
+						regexp = new RegExp(cBaseUnitRegular);
+						result = result.replace(regexp, '');
+						if (shouldLog) C.l('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
+					}
+
+
 
 					// 取得所有零值的配套单位，例如“零仟零佰”变成“零零”；其中，最新钱数单位暂不处理，因为末尾的零值须另行处理
 					regexp = new RegExp(
 						c0+'('+
 							(
-								c1000+c100+c10+(options.isMoney ? cFractionUnitsMoney.slice(0, fractionMaxDigitsMoneyDecided-1) : cBaseUnitRegular)
+								c1000+c100+c10+(options.isMoney ? cFractionUnitsMoney.slice(0, fractionMaxDigitsMoneyDecided-1) : '')
 							).split('').join('|')+
 						')',
 						'g'
 					);
 					result = result.replace(regexp, c0);
-					if (shouldLog) C.L('\n'+regexp + ' ----> '+c0+ '\n\t\t' + result);
+					if (shouldLog) C.l('\n'+regexp + ' ----> '+c0+ '\n\t\t' + result);
 
 
 					// 处理连零
 					regexp = new RegExp(c0+'+', 'g');
 					result = result.replace(regexp, c0);
-					if (shouldLog) C.L('\n'+regexp + ' ----> '+c0+ '\n\t\t' + result);
+					if (shouldLog) C.l('\n'+regexp + ' ----> '+c0+ '\n\t\t' + result);
 
 
 					// 处理连零之后（注意，是之后），“零亿”、“零万”之前剩余的“零”须去除
 					regexp = new RegExp(c0+'('+cYi+'|'+c10000+')', 'g');
 					result = result.replace(regexp, '$1');
-					if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+ '\n\t\t' + result);
+					if (shouldLog) C.l('\n'+regexp + ' ----> '+'$1'+ '\n\t\t' + result);
 
 
 
@@ -626,7 +642,7 @@ window.webLogicControls = {};
 					// 但如果“亿万”二字后面原本就紧跟“零”字，则不需追加额外“零”字
 					regexp = new RegExp(cYi+c10000+c0+'*', 'g');
 					result = result.replace(regexp, cYi+c0);
-					if (shouldLog) C.L('\n'+regexp + ' ----> '+cYi+c0+ '\n\t\t' + result);
+					if (shouldLog) C.l('\n'+regexp + ' ----> '+cYi+c0+ '\n\t\t' + result);
 
 
 
@@ -636,19 +652,19 @@ window.webLogicControls = {};
 						
 						regexp = new RegExp('^'+c1+c10);
 						result = result.replace(regexp, c10);
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+c10+ '\n\t\t' + result);
+						if (shouldLog) C.l('\n'+regexp + ' ----> '+c10+ '\n\t\t' + result);
 
 
 						regexp = new RegExp(c0+c1+c10, 'g');
 						result = result.replace(regexp, c0+c10);
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+c10+ '\n\t\t' + result);
+						if (shouldLog) C.l('\n'+regexp + ' ----> '+c10+ '\n\t\t' + result);
 					}
 
 
 					// 如果“零”出现在整数部分或整个字符串末尾，却又不是整数部分唯一的字符或整个串唯一的字符，那么应去除该“零”
 					regexp = new RegExp('(.+)'+c0+(options.isMoney ? ('('+cBaseUnitMoney+')') :'$'));
 					result = result.replace(regexp, '$1$2');
-					if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1$2'+ '\n\t\t' + result);
+					if (shouldLog) C.l('\n'+regexp + ' ----> '+'$1$2'+ '\n\t\t' + result);
 
 
 
@@ -657,22 +673,22 @@ window.webLogicControls = {};
 						var smallestMoneyUnitThatUsed = cFractionUnitsMoney[fractionMaxDigitsMoneyDecided-1];
 						regexp = new RegExp(c0+smallestMoneyUnitThatUsed);
 						result = result.replace(regexp, '');
-						// if (shouldLog) C.L('smallestMoneyUnitThatUsed:', smallestMoneyUnitThatUsed);
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
+						// if (shouldLog) C.l('smallestMoneyUnitThatUsed:', smallestMoneyUnitThatUsed);
+						if (shouldLog) C.l('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
 
 
 						// 如果没有整数部分，即仅有“角分厘豪”，那么字符串首部的“零”须去除
 						if (nInterger.length < 1 && nFractionRaw.length > 0) {
 							regexp = new RegExp('^'+c0+'+');
 							result = result.replace(regexp, '');
-							if (shouldLog) C.L('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
+							if (shouldLog) C.l('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
 						}
 
 
 						// 如果亿或者万字后面是元，而元之后还有合法内容，则亿字或万字后面不一个“零”字
 						regexp = new RegExp('('+cYi+'|'+c10000+')'+cBaseUnitMoney+'(.+)');
 						result = result.replace(regexp, '$1'+cBaseUnitMoney+c0+'$2');
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+cBaseUnitMoney+c0+'$2'+ '\n\t\t' + result);
+						if (shouldLog) C.l('\n'+regexp + ' ----> '+'$1'+cBaseUnitMoney+c0+'$2'+ '\n\t\t' + result);
 
 
 						// 假定钱数最小单位是“分”，那么“两角”应做“两角整”；
@@ -682,16 +698,18 @@ window.webLogicControls = {};
 							result += cSuffixZheng;
 						}
 					} else {
+						result += resultFraction;
+
 						// 如果“零点”并非出现在字符串起始，那么应去除该“零”
 						regexp = new RegExp('(.+)'+c0+cDot);
 						result = result.replace(regexp, '$1'+cDot);
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+'$1'+cDot+ '\n\t\t' + result);
+						if (shouldLog) C.l('\n'+regexp + ' ----> '+'$1'+cDot+ '\n\t\t' + result);
 
 
 						// 如果“点”出现在字符串末尾，那么应去除该“点”
 						regexp = new RegExp(cDot+'$');
 						result = result.replace(regexp, '');
-						if (shouldLog) C.L('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
+						if (shouldLog) C.l('\n'+regexp + ' ----> '+'""'+ '\n\t\t' + result);
 					}
 
 
@@ -706,7 +724,7 @@ window.webLogicControls = {};
 						(nFractionRaw.length ? ('.') : '') + nFractionRaw
 					;
 
-					if (shouldLog) C.L('\nFINAL：\n\t\t', this.data);
+					if (shouldLog) C.l('\nFINAL：\n\t\t', this.data);
 					return result;
 				}
 			};
@@ -2117,7 +2135,7 @@ window.webLogicControls = {};
 			}
 
 			function fetchDegreeFromQueueAndUpdateDomsOrCanvas() {
-				// C.L('This ring is already running:', status.isRunning);
+				// C.l('This ring is already running:', status.isRunning);
 				if (status.isRunning) {
 					return;
 				}
@@ -2572,7 +2590,7 @@ window.webLogicControls = {};
 						WCU.save.numberPositive(_oprTI, 'transitionsTotalDuration', _oGlobalDefault.singleRingTransitionsTotalDuration);
 					}
 
-					// C.L('merged options for ring ['+i+']', _oprTI);
+					// C.l('merged options for ring ['+i+']', _oprTI);
 					results.optionsPerRings.push(_oprTI);
 				}
 
