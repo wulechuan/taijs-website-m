@@ -2807,6 +2807,31 @@ dl.initially-collapsed {
 		}
 
 
+.user-guide-step {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	}
+
+	.user-guide-step .illustrate {
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+	}
+	.user-guide-step button.invisible {
+		opacity: 0!important;
+		background-color: transparent!important;
+		border-width: 0!important;
+		padding: 0!important;
+		margin: auto!important;
+		position: absolute;
+		width: 100%;
+		height: 2rem;
+	}
+
+
 @keyframes reveal-content {
 	0%   { opacity: 0; }
 	50%  { opacity: 0; }

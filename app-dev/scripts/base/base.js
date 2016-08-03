@@ -77,9 +77,11 @@
 				var $pl = $(pl);
 				var isPoliteMessage = $pl.hasClass('polite-message');
 				var isPopupPanel = $pl.hasClass('has-docked-panel');
+				var hasPopupWindowOrDialog = !$pl.hasClass('has-no-popup-window');
 
+				var needToDecideShowingUpDirection = !isPopupPanel && !isPoliteMessage && !hasPopupWindowOrDialog;
 
-				if (!isPopupPanel && !isPoliteMessage) {
+				if (needToDecideShowingUpDirection) {
 					var $pw = $pl.find('.popup-window');
 					_clearCssClassNamesAboutShowingUp($pw);
 					var cssClass = _decideShowingUpSourceDirection(eventOfShow);

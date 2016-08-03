@@ -2788,7 +2788,7 @@ window.webLogicControls = {};
 				}
 
 
-
+				C.w('wwww');
 				if ($tabs.length < 1 || $panels.length === 1) {
 					this.showPanel($panels[0]);
 				} else {

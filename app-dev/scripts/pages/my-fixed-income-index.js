@@ -3,6 +3,41 @@ $(function () {
 
 	var $page = $('#page-my-fixed-income-index');
 
+
+	var isFirstTimeAccess = true;
+	if (isFirstTimeAccess) {
+		var userGuide = (function () {
+			var userGuide = {
+			};
+			userGuide.show = showUserGuide.bind(userGuide);
+			userGuide.hide = hideUserGuide.bind(userGuide);
+
+			var $plUserGuide = $('#pl-my-fixed-income-index-page-user-guide');
+			var plUserGuide = $plUserGuide[0];
+			if (!plUserGuide) return false;
+
+			var $stepButton1 = $plUserGuide.find('.user-guide-step.step-1 button');
+
+			if ($stepButton1.length < 1) $stepButton1 = $plUserGuide;
+
+			$stepButton1.on('click', hideUserGuide);
+
+			function showUserGuide() {
+				window.popupLayersManager.show(plUserGuide);
+			}
+
+			function hideUserGuide() {
+				window.popupLayersManager.hide(plUserGuide);
+			}
+
+			return userGuide;
+		})();
+
+		userGuide.show();
+	}
+
+
+
 	var tabPanelSetRoot = $page.find('.tab-panel-set')[0];
 	if (!tabPanelSetRoot) {
 		C.e('tab panel set root not found!');
