@@ -902,10 +902,13 @@ label.deco-input {
 		background-color: #f2f2f2;
 	}
 
-	.tab-list.tabs-style-regular > li {
+	.tab-list.tabs-style-regular {
 		color: black;
 		background-color: white;
-	}
+		}
+		.tab-list.tabs-style-regular > li {
+			background-color: transparent;
+		}
 
 	.tab-list > .current-item-hint {
 		background-color: #4285f4;

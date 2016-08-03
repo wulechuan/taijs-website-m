@@ -29,135 +29,13 @@
 	window.urlParameters = urlParameters;
 
 
-
 	$('.tab-panel-set').each(function () {
-		var $allPanels = $(this).find('.panel');
-		if ($allPanels.length < 1) return false;
-
-		var $tabList = $(this).find('.tab-list');
-		var $allTabs = $tabList.find('> li');
-
-		$allPanels.each(function () {
-			this.elements = { tab: null };
-		});
-
-		$allTabs.each(function (index, tab) {
-			var panelId = tab.getAttribute('aria-controls');
-			var panel = $('#'+panelId)[0];
-
-			if (!panel) {
-				C.e('Can not find controlled panel for tab [expected panel id="'+panelId+'"].');
-				return false;
-			}
-
-			panel.elements.tab = tab;
-			tab.elements = { panel: panel };
-		});
-
-
-
-		var currentTab = null;
-		var currentItemHint = $tabList.find('> .current-item-hint')[0];
-
-
-		if ($allTabs.length > 1) {
-			$allTabs.on('click', function () {
-				_showPanelAccordingToTab(this);
-			});
-			$allTabs.on('mouseover', function () {
-				_slideHintToTab(this);
-			});
-			$tabList.on('mouseout', function () {
-				_slideHintToTab(currentTab);
-			});
-		}
-
-		if ($allTabs.length < 1 || $allPanels.length === 1) {
-			_showPanel($allPanels[0]);
-		} else {
-			var tabToShowAtBegining = $allTabs[0];
-			if (urlParameters && urlParameters.tabLabel) {
-				var _temp = $('#panel-tab-'+urlParameters.tabLabel).parent()[0];
-				if (_temp) tabToShowAtBegining = _temp;
-			}
-			_showPanelAccordingToTab(tabToShowAtBegining);
-		}
-
-
-		function _slideHintToTab(theTab) {
-			if (!currentItemHint) return false;
-
-			var currentItemHintCssLeft = 0;
-
-			if (!theTab) {
-				currentItemHint.style.clip = '';
-				return true;
-			}
-
-			var _P = $(theTab).offsetParent();
-			var _L = $(theTab).offset().left;
-			var _LP = $(_P).offset().left;
-
-			_L -= _LP;
-			_L -= currentItemHintCssLeft;
-
-			var _W = $(theTab).outerWidth();
-
-			var _R = _L+_W;
-
-
-			currentItemHint.style.clip = 'rect('+
-			       '0, '+
-				_R+'px, '+
-				   '3px, '+
-				_L+'px)'
-			;
-
+		var shouldSkipThis = !!this.getAttribute('data-do-not-auto-construct').match(/^\s*true\s*$/i);
+		if (shouldSkipThis) {
+			C.l('Skipping auto constructing TabPanelSet from:', this);
 			return true;
 		}
-
-		function _showPanelAccordingToTab(theTab) {
-			currentTab = theTab;
-			_slideHintToTab(theTab);
-
-			var thePanel = null;
-			if (theTab && theTab.elements) thePanel = theTab.elements.panel;
-			_showPanel(thePanel);
-		}
-
-		function _showPanel(thePanel) {
-			var currentTab = null;
-			if (thePanel && thePanel.elements) currentTab = thePanel.elements.tab;
-			_slideHintToTab(currentTab);
-
-			for (var i = 0; i < $allPanels.length; i++) {
-				var panel = $allPanels[i];
-				_showHideOnePanel(panel, (thePanel && panel === thePanel));
-			}
-		}
-
-		function _showHideOnePanel(panel, isToShow) {
-			if (!panel) return false;
-
-			var tab = panel.elements.tab;
-
-			if (isToShow) {
-				panel.setAttribute('aria-hidden', false);
-				$(tab).addClass('current');
-				$(panel).addClass('current');
-				var nameToShowInPageHeader = panel.dataset.nameInPageHeader;
-				if (nameToShowInPageHeader) {
-					$(panel).parents('.page').find('.page-header .header-bar .center h1').html(nameToShowInPageHeader);
-					$('title').html(nameToShowInPageHeader);
-				}
-			} else {
-				panel.setAttribute('aria-hidden', true);
-				$(tab).removeClass('current');
-				$(panel).removeClass('current');
-			}
-
-			return true;
-		}
+		new wlc.UI.TabPanelSet(this);
 	});
 
 
@@ -668,7 +546,7 @@
 
 		function _updateChineseNumbers() {
 			var decimal = servedElement[propertyToFormat];
-			var formatter = WCU.formatter.decimalToChineseMoney;
+			var formatter = WCU.stringFormatters.decimalToChineseMoney;
 
 			thisFormatElement.innerHTML = formatter.format(decimal);
 			if (!contentIsFromSelect) {

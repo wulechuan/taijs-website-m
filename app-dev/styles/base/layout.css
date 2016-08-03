@@ -405,8 +405,12 @@ article.message {
 
 	.hero-content-block {
 	position: relative;
-	margin: -0.5rem -0.8rem;
+	margin: -0.5rem -0.8rem 0;
 	padding: 0.5rem 0.8rem;
+	}
+
+	.f-block .hero-content-block {
+		margin-bottom: -0.5rem; /* because .row under .f-block has non-zero padding-bottom */
 	}
 
 	.hero-content-block h3 {
@@ -506,8 +510,7 @@ article.message {
 
 	.hero-content-block.hero-content-block-style-3 { /* in newbie-call-to-action page */
 		margin-top: 0;
-		margin-bottom: 0;
-		padding-top: 1.25rem;
+		padding-top: 0.75rem;
 		padding-bottom: 0.25rem;
 		background-repeat: no-repeat;
 		background-position: center -2.4rem; /* offset background for page-header bg */
@@ -767,6 +770,26 @@ article.message {
 			/* transition-timing-function: cubic-bezier(.19,1.08,.63,1.36); */
 			transition-timing-function: ease-out;
 		}
+
+
+		.tab-list.tabs-with-gaps > li {
+			margin-left: 1rem;
+			margin-right: 1rem;
+			}
+
+			.tab-list.tabs-with-gaps.tabs-count-2 > li {
+				width: calc(50% - 1rem - 1rem);
+			}
+
+			.tab-list.tabs-with-gaps.tabs-count-3 > li {
+				width: calc(33.3% - 1rem - 1rem);
+			}
+
+			.tab-list.tabs-with-gaps.tabs-count-3 > li:nth-child(2) {
+				width: calc(33.4% - 1rem - 1rem);
+			}
+
+
 
 
 	.panel-group {

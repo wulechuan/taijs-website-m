@@ -15,20 +15,23 @@ window.webLogicControls = {};
 	var WCU = {};
 	this.CoreUtilities = WCU;
 	(function () { // CoreUtilities
-		if (window.console && typeof window.console.log === 'function') {
-			window.C = window.console;
-			C.l = C.log;
-			C.t = C.trace;
-			C.w = C.warn;
-			C.e = C.error;
-		} else {
-			window.C = {
-				L: nilFunction,
-				T: nilFunction,
-				W: nilFunction,
-				E: nilFunction
-			};
-		}
+		(function () { // Global Pollution
+			if (window.console && typeof window.console.log === 'function') {
+				window.C = window.console;
+				C.l = C.log;
+				C.t = C.trace;
+				C.w = C.warn;
+				C.e = C.error;
+			} else {
+				window.C = {
+					L: nilFunction,
+					T: nilFunction,
+					W: nilFunction,
+					E: nilFunction
+				};
+			}
+		})();
+
 
 		var save = {};
 		this.save = save;
@@ -162,10 +165,7 @@ window.webLogicControls = {};
 				return _updateValueSafely(
 					1,
 					'boolean',
-					targetObject,
-					key,
-					sourceValue,
-					allowToRemoveTargetValue,
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					function (value) {
 						return {
 							isValid: true,
@@ -178,10 +178,7 @@ window.webLogicControls = {};
 				return _updateValueSafely(
 					1,
 					'number',
-					targetObject,
-					key,
-					sourceValue,
-					allowToRemoveTargetValue,
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
 					function (value) {
 						var result = {
 							isValid: true,
@@ -283,6 +280,23 @@ window.webLogicControls = {};
 					}
 				);
 			};
+			this.string = function (targetObject, key, sourceValue, allowToRemoveTargetValue, allowEmptyString, customParser/*, shouldTrace*/) {
+				return _updateValueSafely(
+					1,
+					'string',
+					targetObject, key, sourceValue, allowToRemoveTargetValue,
+					function (value) {
+						var result = {
+							isValid: (typeof value === 'string') && (!!allowEmptyString || value.length > 0),
+							value: value
+						};
+						if (result.isValid && typeof customParser === 'function') {
+							result = customParser(value);
+						}
+						return result;
+					}
+				);
+			};
 			this.method = function (targetObject, key, sourceFunction, allowToRemoveExistingFunction/*, shouldTrace*/) {
 				return _updateValueSafely(
 					1,
@@ -296,8 +310,23 @@ window.webLogicControls = {};
 		}).call(save);
 
 
-		var formatter = {};
-		this.formatter = formatter;
+		var objectToolkit = {};
+		this.objectToolkit = objectToolkit;
+		(function () {
+			this.destroyInstanceObject = function (obj) {
+				if (typeof obj === 'object') {
+					for (var p in obj) {
+						delete obj[p];
+					}
+				}
+
+				return obj;
+			};
+		}).call(objectToolkit);
+
+
+		var stringFormatters = {};
+		this.stringFormatters = stringFormatters;
 		(function () {
 			this.DecimalToChineseNumbers = function DecimalToChineseNumbers(initOptions) {
 				var c0s = '〇';
@@ -590,7 +619,6 @@ window.webLogicControls = {};
 						}
 					}
 
-					result;
 					if (result.length < 1) {
 						result = c0 + (options.isMoney ? cBaseUnitMoney : cBaseUnitRegular);
 					}
@@ -740,7 +768,7 @@ window.webLogicControls = {};
 				});
 				return formatter;
 			}).call(this);
-		}).call(formatter);
+		}).call(stringFormatters);
 	}).call(WCU);
 
 
@@ -756,6 +784,41 @@ window.webLogicControls = {};
 			}
 
 			return A===B;
+		};
+
+		this.validateRootElement = function(dom, constructorName, options) {
+			options = options || {};
+
+			if (!options.domAlias || typeof options.domAlias !== 'string') {
+				options.domAlias = 'rootElement';
+			}
+
+			if (typeof constructorName === 'object') {
+				constructorName = constructorName.constructor.name;
+			} else if (typeof constructorName === 'function') {
+				constructorName = constructorName.name;
+			}
+
+			if (!constructorName || typeof constructorName !== 'string') {
+				constructorName = '<untitled constructor>';
+			}
+
+			if (
+				!(dom instanceof Node) || 
+				dom === document || 
+				dom === document.documentElement ||
+				(dom === document.body && !options.allowBody)
+			) {
+				var errorString = 'Invalid '+options.domAlias+' for constructing a '+constructorName+'.';
+				if (!!options.doNotThrowError) {
+					C.e(errorString);
+					return null;
+				} else {
+					throw(errorString);
+				}
+			}
+
+			return dom;
 		};
 	}).call(DOM);
 
@@ -818,88 +881,86 @@ window.webLogicControls = {};
 			init.call(this);
 		}
 
-
 		// this.Menu_NOT_DONE_YET = function Menu(rootElement, initOptions) {
-		// 	// function example() {
-		// 	// 	conf = conf || {};
-		// 	// 	conf.level1IdPrefix = 'menu-chief-1-';
-		// 	// 	setMenuCurrentItemForLevel(1, 2, $('#app-chief-nav'), conf);
-		// 	// }
+			// // function example() {
+			// // 	conf = conf || {};
+			// // 	conf.level1IdPrefix = 'menu-chief-1-';
+			// // 	setMenuCurrentItemForLevel(1, 2, $('#app-chief-nav'), conf);
+			// // }
 
-		// 	this.options = {
-		// 		cssClassItemActive: 'current',
-		// 		cssClassItemParentOfActive: 'current-parent'
-		// 	};
+			// this.options = {
+			// 	cssClassItemActive: 'current',
+			// 	cssClassItemParentOfActive: 'current-parent'
+			// };
 
-		// 	this.onItemActivate = undefined;
-		// 	this.onItemDeactivate = undefined;
+			// this.onItemActivate = undefined;
+			// this.onItemDeactivate = undefined;
 
-		// 	function setMenuCurrentItemForLevel(level, depth, parentDom, conf) {
-		// 		level = parseInt(level);
-		// 		depth = parseInt(depth);
-		// 		var levelIsValid = level > 0;
-		// 		var depthIsValid = depth >= level;
+			// function setMenuCurrentItemForLevel(level, depth, parentDom, conf) {
+			// 	level = parseInt(level);
+			// 	depth = parseInt(depth);
+			// 	var levelIsValid = level > 0;
+			// 	var depthIsValid = depth >= level;
 
-		// 		if (!levelIsValid || !depthIsValid) {
-		// 			throw('Invalid menu level/depth for configuring a menu tree.');
-		// 		}
-		// 		if (typeof conf !== 'object') {
-		// 			throw('Invalid configuration object for configuring a menu tree.');
-		// 		}
+			// 	if (!levelIsValid || !depthIsValid) {
+			// 		throw('Invalid menu level/depth for configuring a menu tree.');
+			// 	}
+			// 	if (typeof conf !== 'object') {
+			// 		throw('Invalid configuration object for configuring a menu tree.');
+			// 	}
 
-		// 		var prefix = conf['level'+level+'IdPrefix'];
-		// 		var desiredId = prefix + conf['level'+level];
+			// 	var prefix = conf['level'+level+'IdPrefix'];
+			// 	var desiredId = prefix + conf['level'+level];
 
-		// 		var $allItems = $(parentDom).find('.menu.level-'+level+' > .menu-item');
-		// 		var currentItem;
-		// 		var currentItemId;
+			// 	var $allItems = $(parentDom).find('.menu.level-'+level+' > .menu-item');
+			// 	var currentItem;
+			// 	var currentItemId;
 
-		// 		$allItems.each(function (index, menuItem) {
-		// 			var itemLabel = $(menuItem).find('> a > .label')[0];
-		// 			var itemId = itemLabel.id;
+			// 	$allItems.each(function (index, menuItem) {
+			// 		var itemLabel = $(menuItem).find('> a > .label')[0];
+			// 		var itemId = itemLabel.id;
 
-		// 			var isCurrentItemOrParentOfCurrentItem = itemId && desiredId && (itemId===desiredId);
-		// 			var isCurrentItem = isCurrentItemOrParentOfCurrentItem && level === depth;
-		// 			if (isCurrentItemOrParentOfCurrentItem) {
-		// 				currentItem = menuItem;
-		// 				currentItemId = itemId;
-		// 				if (isCurrentItem) {
-		// 					$(menuItem).addClass('current');
-		// 					$(menuItem).removeClass('current-parent');
-		// 				} else {
-		// 					$(menuItem).addClass('current-parent');
-		// 					$(menuItem).removeClass('current');
-		// 				}
-		// 			} else {
-		// 				$(menuItem).removeClass('current');
-		// 				$(menuItem).removeClass('current-parent');
-		// 			}
-		// 		});
+			// 		var isCurrentItemOrParentOfCurrentItem = itemId && desiredId && (itemId===desiredId);
+			// 		var isCurrentItem = isCurrentItemOrParentOfCurrentItem && level === depth;
+			// 		if (isCurrentItemOrParentOfCurrentItem) {
+			// 			currentItem = menuItem;
+			// 			currentItemId = itemId;
+			// 			if (isCurrentItem) {
+			// 				$(menuItem).addClass('current');
+			// 				$(menuItem).removeClass('current-parent');
+			// 			} else {
+			// 				$(menuItem).addClass('current-parent');
+			// 				$(menuItem).removeClass('current');
+			// 			}
+			// 		} else {
+			// 			$(menuItem).removeClass('current');
+			// 			$(menuItem).removeClass('current-parent');
+			// 		}
+			// 	});
 
-		// 		var currentSubMenuItem = null;
-		// 		if (level < depth && currentItem) {
-		// 			var nextLevel = level + 1;
-		// 			conf['level'+nextLevel+'IdPrefix'] = currentItemId + '-' + nextLevel + '-';
-		// 			currentSubMenuItem = setMenuCurrentItemForLevel(nextLevel, depth, currentItem, conf);
-		// 			if (currentSubMenuItem) {
-		// 				$(currentItem).addClass('has-sub-menu'); // update this for robustness
-		// 				$(currentItem).addClass('coupled-shown');
-		// 			}
-		// 		}
+			// 	var currentSubMenuItem = null;
+			// 	if (level < depth && currentItem) {
+			// 		var nextLevel = level + 1;
+			// 		conf['level'+nextLevel+'IdPrefix'] = currentItemId + '-' + nextLevel + '-';
+			// 		currentSubMenuItem = setMenuCurrentItemForLevel(nextLevel, depth, currentItem, conf);
+			// 		if (currentSubMenuItem) {
+			// 			$(currentItem).addClass('has-sub-menu'); // update this for robustness
+			// 			$(currentItem).addClass('coupled-shown');
+			// 		}
+			// 	}
 
-		// 		return currentSubMenuItem || currentItem;
-		// 	}
+			// 	return currentSubMenuItem || currentItem;
+			// }
 		// };
-
 
 		this.DraggingController = function DraggingController(rootElement, initOptions) {
 			/*
 				require:
 					ANestedInB()
 			*/
-			if (!(rootElement instanceof Node)) {
-				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
-			}
+			wlc.DOM.validateRootElement(rootElement, this, {
+				allowBody: true
+			});
 
 			this.options = {
 				durationForResettingPosition: 0.4,
@@ -1271,16 +1332,9 @@ window.webLogicControls = {};
 			init.call(this);
 		};
 
-
 		this.SingleCharacterInputsSet = function SingleCharacterInputsSet(rootElement, initOptions) {
-			if (
-				!(rootElement instanceof Node) || 
-				rootElement === document || 
-				rootElement === document.body || 
-				rootElement === document.documentElement
-			) {
-				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
-			}
+			wlc.DOM.validateRootElement(rootElement, this);
+
 			var $allInputs = $(rootElement).find('input.single-char-input').filter(function (index, input) {
 				var type = input.type.toLowerCase();
 				return type !== 'checkbox' && type !== 'radio';
@@ -1784,16 +1838,8 @@ window.webLogicControls = {};
 			init.call(this);
 		};
 
-
 		this.ProgressRing = function ProgressRing(rootElement, initOptions) {
-			if (
-				!(rootElement instanceof Node) || 
-				rootElement === document || 
-				rootElement === document.body || 
-				rootElement === document.documentElement
-			) {
-				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
-			}
+			wlc.DOM.validateRootElement(rootElement, this);
 
 			this.options = {
 				useCanvas: true,
@@ -2344,18 +2390,10 @@ window.webLogicControls = {};
 
 				return newDegree;
 			}
-
 		};
 
 		this.ProgressRings = function ProgressRings(rootElement, initOptions) {
-			if (
-				!(rootElement instanceof Node) || 
-				rootElement === document || 
-				rootElement === document.body || 
-				rootElement === document.documentElement
-			) {
-				throw('Invalid rootElement for constructing a '+this.constructor.name+'.');
-			}
+			wlc.DOM.validateRootElement(rootElement, this);
 
 			var ringsDom = Array.prototype.slice.apply($(rootElement).find('.ring'));
 			if (ringsDom.length < 1) {
@@ -2595,6 +2633,359 @@ window.webLogicControls = {};
 				}
 
 				return results;
+			}
+		};
+
+		this.TabPanelSet = function TabPanelSet(rootElement, initOptions) {
+			rootElement = wlc.DOM.validateRootElement(rootElement, this, {
+				doNotThrowError: true
+			});
+			if (!rootElement) return;
+
+			this.options = {
+				allowToShowNone: false,
+				// shouldSkipShowHideDomsAction: false,
+				selectorOfPanel: '.panel',
+				selectorOfTabList: '.tab-list',
+				selectorOfTab: '> li', // treat as under tablist, so in face this value is "rootElement .tab-list > li"
+				selectorOfTabListCurrentItemHint: '> .current-item-hint', // treat as under tablist, so in face this value is "rootElement .tab-list > .current-item-hint"
+				classNameOfCurrentPanel: 'current'
+			};
+
+			this.config = config.bind(this);
+			this.getPanel = getPanel.bind(this);
+			this.showPanel = showPanel.bind(this); // support both dom and integer index
+			this.showPanelViaTab = this.showPanel;
+			this.showPrevPanel = showPrevPanel.bind(this);
+			this.showNextPanel = showNextPanel.bind(this);
+			this.slideTabCurrentItemHintTo = slideTabCurrentItemHintTo.bind(this);
+
+			// If the panel is shown through a way other than showPanel/showPrevPanel/showNextPanel/showPanelViaTab,
+			// for example the panel is shown via the famous Swiper.js,
+			// then we need to update tablist separately.
+			this.syncStatusToPanel = syncStatusToPanel.bind(this);
+
+			var elements = {
+				rootElement: rootElement,
+				panels: [],
+				tabList: null,
+				tabs: [],
+				tabListCurrentItemHint: null,
+
+				currentTab: null,
+				currentPanel: null
+			};
+
+			var status = {
+				// elements: elements,
+				// options: this.options,
+				currentPanelIndex: NaN
+			};
+
+			var $tabList;
+			var $tabs;
+			var tabListCurrentItemHint;
+
+			function config(options, isInitializing) {
+				var shouldWarnAllowToShowNone = false;
+				if (!options) {
+					if (!!isInitializing) {
+						shouldWarnAllowToShowNone = this.options.allowToShowNone;
+					}
+				} else {
+					var R1 = WCU.save.boolean(this.options, 'allowToShowNone', options);
+					// var R2 = WCU.save.boolean(this.options, 'shouldSkipShowHideDomsAction', options);
+
+					shouldWarnAllowToShowNone = R1.valueHasBeenChanged;
+				}
+
+				if (shouldWarnAllowToShowNone) {
+					C.w('This TabPanelSet allows to show none of its member panel.');
+				}
+
+				WCU.save.string(this.options, 'selectorOfPanel', options, false, false);
+				WCU.save.string(this.options, 'selectorOfTabList', options, false, false);
+				WCU.save.string(this.options, 'selectorOfTab', options, false, false);
+				WCU.save.string(this.options, 'selectorOfTabListCurrentItemHint', options, false, false);
+			}
+
+			function init() {
+				this.config(initOptions, true);
+
+
+
+
+
+				var $root = $(rootElement);
+
+				var $panels = $root.find(this.options.selectorOfPanel);
+				if ($panels.length < 1) {
+					C.e('No panel was found under <'+this.constructor.name+'> rootElement:', rootElement);
+					return false;
+				}
+
+				$tabList = $root.find(this.options.selectorOfTabList);
+				if ($tabList.length > 1) {
+					C.e('More than one tablists were found under <'+this.constructor.name+'> rootElement:', rootElement);
+					return false;
+				}
+
+				$tabs = $tabList.find(this.options.selectorOfTab);
+				if ($tabs.length !== $panels.length) {
+					C.w('The count of panels ('+$panels.length+') and that of tabs ('+$tabs.length+') do not match under <'+this.constructor.name+'> rootElement:', rootElement);
+				}
+
+				tabListCurrentItemHint = $tabList.find(this.options.selectorOfTabListCurrentItemHint);
+				if (tabListCurrentItemHint.length > 1) {
+					C.w('More than one tablists current item hint element were found under <'+this.constructor.name+'> rootElement:', rootElement);
+				}
+				tabListCurrentItemHint = tabListCurrentItemHint[0];
+
+				// we'd better make sure the order of tabs in elements.tabs matches the order of panels in elements.panels
+				// elements.panels  = elements.panels.concat($panels);
+				// elements.tabs    = elements.tabs.concat($tabs);
+				elements.tabList = $tabList[0];
+				elements.tabListCurrentItemHint = tabListCurrentItemHint;
+
+				$panels.each(function () {
+					// we'd better make sure the order of tabs in elements.tabs matches the order of panels in elements.panels
+					this.panelIndex = elements.panels.length;
+					elements.panels[this.panelIndex] = this;
+					this.elements = { tab: null };
+				});
+
+				$tabs.each(function () {
+					var myPanelId = this.getAttribute('aria-controls');
+					var myPanel = $('#'+myPanelId)[0];
+
+					if (!myPanel) {
+						C.e('Can not find controlled panel for tab [expected panel id="'+myPanelId+'"].');
+						return false;
+					}
+
+					// we'd better make sure the order of tabs in elements.tabs matches the order of panels in elements.panels
+					elements.tabs[myPanel.panelIndex] = this;
+					this.panelIndex = myPanel.panelIndex;
+					myPanel.elements.tab = this;
+					this.elements = { panel: myPanel };
+				});
+
+
+				var thisController = this;
+				if ($tabs.length > 1) {
+					$tabs.on('click', function () {
+						thisController.showPanelViaTab(this);
+					});
+					$tabs.on('mouseover', function () {
+						thisController.slideTabCurrentItemHintTo(this);
+					});
+					$tabList.on('mouseout', function () {
+						thisController.slideTabCurrentItemHintTo(elements.currentTab);
+					});
+				}
+
+
+
+				if ($tabs.length < 1 || $panels.length === 1) {
+					this.showPanel($panels[0]);
+				} else {
+					var tabToShowAtBegining = $tabs[0];
+					if (initOptions && initOptions.initTab) {
+						var _temp = $('#panel-tab-'+initOptions.initTab).parent()[0];
+						if (_temp) tabToShowAtBegining = _temp;
+					}
+					this.showPanelViaTab(tabToShowAtBegining);
+				}
+
+				return true;
+			}
+
+			if (!init.call(this)) {
+				WCU.objectToolkit.destroyInstanceObject(this);
+				return;
+			}
+
+
+			function slideTabCurrentItemHintTo(theTab) {
+				if (!tabListCurrentItemHint || !tabListCurrentItemHint.style) return false;
+
+				var tabListCurrentItemHintCssLeft = 0;
+
+				if (!theTab) {
+					tabListCurrentItemHint.style.clip = '';
+					return true;
+				}
+
+				var _P = $(theTab).offsetParent();
+				var _L = $(theTab).offset().left;
+				var _LP = $(_P).offset().left;
+
+				_L -= _LP;
+				_L -= tabListCurrentItemHintCssLeft;
+
+				var _W = $(theTab).outerWidth();
+
+				var _R = _L+_W;
+
+
+				tabListCurrentItemHint.style.clip = 'rect('+
+				       '0, '+
+					_R+'px, '+
+					   '3px, '+
+					_L+'px)'
+				;
+
+				return true;
+			}
+
+			function getPanel(input) {
+				// The input argument could be a tab dom, a panel dom, an integer or a string contains a number, or simply be omitted.
+				// If the input is omitted and the currentPanel exists, then the currentPanel is returned.
+				// If the input is omitted while the currentPanel does NOT exist, then null is returned.
+				// If the input is NOT omitted and a non-object value is provided,  the currentPanel is returned if the currentPanel exists, otherwise the null.
+				// But if the input is NOT omitted and an invalid object is provided, this function returns false instead of null.
+				// If a panel dom or its tab dom is provided but the panel is NOT the member of this TabPanelSet, then false instead of null is returned.
+				var inputPanel;
+				var theFoundPanel;
+				var inputPanelIndex;
+
+				var inputIsAnObjectThatIsNotANull = typeof input === 'object' && !!input; // handle null object
+				var inputIsAPanel = (input instanceof Node) && (typeof input.panelIndex === 'number') && (input.panelIndex >= 0) &&  (typeof input.elements === 'object');
+				var inputIsATab   = inputIsAPanel && (input.elements.panel instanceof Node);
+				inputIsAPanel = inputIsAPanel && !inputIsATab;
+
+				if (inputIsAnObjectThatIsNotANull) {
+					if (inputIsAPanel) {
+						// inputPanelIndex = parseInt(input.panelIndex);
+						inputPanel = input;
+						inputPanelIndex = inputPanel.panelIndex;
+					} else if (inputIsATab) {
+						inputPanel = input.elements.panel;
+						inputPanelIndex = inputPanel.panelIndex;
+					} else {
+						// some nonsense object
+						C.e('Invalid object provided.', input.panelIndex, input);
+						return false;
+					}
+				} else {
+					inputPanelIndex = parseInt(input);
+				}
+
+				if (isNaN(inputPanelIndex)) {
+					if (typeof status.currentPanelIndex !== 'number' || isNaN(status.currentPanelIndex) || !elements.currentPanel) {
+						C.w('The desired panel can not be found, nor can the currentPanel.');
+						return null;
+					} else {
+						return elements.currentPanel;
+					}
+				}
+
+				inputPanelIndex = Math.max(0, Math.min(elements.panels.length-1, inputPanelIndex));
+				theFoundPanel = elements.panels[inputPanelIndex];
+
+				if (inputPanel && (theFoundPanel !== inputPanel)) {
+					C.e('The input panel is not a member of this TabPanelSet.');
+					return false;
+				}
+
+				if (!theFoundPanel) {
+					C.e('The input was not a dom, then a valid index was evaluated. But an invalid panel got via the index. The panels array might have issue.');
+					// Either:
+					//     the input was neither a panel dom nor a tab dom,
+					//     so inputPanelIndex was evaluated within allowed value range,
+					//     and theFoundPanel should be get from the elements.panels array.
+					//     thus !theFoundPanel should be false.
+					//     in short, if !inputPanel then !!theFoundPanel is hopefully always true,
+					//     unless the elements.panels array contains invalid member, which is hopefully impossible.
+					// Or:
+					//     the input was a panel or a tab dom,
+					//     but the panelIndex of the input might NOT be within allowed value range,
+					//     since the input itself might not be a valid member of this TabPanelSet,
+					//     thus !theFoundPanel might be true (theFoundPanel might be undefined).
+
+					return false;
+				}
+
+				return theFoundPanel;
+			}
+
+			function showPrevPanel() {
+				this.showPanel(status.currentPanelIndex-1);
+			}
+			function showNextPanel() {
+				this.showPanel(status.currentPanelIndex+1);
+			}
+
+			function showPanel(thePanelOrTheTabOrTheIndex, shouldTrace) {
+				var thePanel = this.getPanel(thePanelOrTheTabOrTheIndex);
+				if (thePanel === false) { // false means thePanel is a nonsense input, while null means omitted panel
+					return false;
+				}
+
+				var shouldTakeAction = (!elements.currentPanel && !!thePanel) || (!!elements.currentPanel && (thePanel !== elements.currentPanel));
+
+				if (!thePanel && !elements.currentPanel && !this.options.allowToShowNone) {
+					shouldTakeAction = true;
+					thePanel = elements.panels[0];
+				}
+
+				if (shouldTakeAction) {
+					this.syncStatusToPanel(thePanel, shouldTrace);
+				}
+			}
+
+			function syncStatusToPanel(panelOrPanelIndex, shouldTrace) {
+				var thePanel = this.getPanel(panelOrPanelIndex);
+
+				if (thePanel === false) {
+					return false;
+				}
+
+				if (!thePanel) {
+					elements.currentTab = null;
+					elements.currentPanel = null;
+					status.currentPanelIndex = NaN;
+				} else {
+					if (shouldTrace) C.l('----------------------');
+					for (var i = 0; i < elements.panels.length; i++) {
+						var panel = elements.panels[i];
+						_showHideOnePanel.call(this, panel, (thePanel && panel === thePanel), shouldTrace);
+					}
+
+					elements.currentPanel = thePanel;
+					status.currentPanelIndex = thePanel.panelIndex;
+					if (thePanel.elements) {
+						elements.currentTab = thePanel.elements.tab;
+					} else {
+						C.w('This panel [id="'+thePanel.id+'"] seems not initialized correctly.');
+					}
+				}
+
+				this.slideTabCurrentItemHintTo(elements.currentTab);
+			}
+
+			function _showHideOnePanel(panel, isToShow, shouldTrace) {
+				if (shouldTrace) C.t(isToShow ? 'show --> ' : 'hide', panel.id);
+				if (!panel) return false;
+
+				var tab = panel.elements.tab;
+
+				if (isToShow) {
+					panel.setAttribute('aria-hidden', false);
+					$(tab).addClass('current');
+					$(panel).addClass('current');
+					var nameToShowInPageHeader = panel.dataset.nameInPageHeader;
+					if (nameToShowInPageHeader) {
+						$(panel).parents('.page').find('.page-header .header-bar .center h1').html(nameToShowInPageHeader);
+						$('title').html(nameToShowInPageHeader);
+					}
+				} else {
+					panel.setAttribute('aria-hidden', true);
+					$(tab).removeClass('current');
+					$(panel).removeClass('current');
+				}
+
+				return true;
 			}
 		};
 	}).call(UI);
