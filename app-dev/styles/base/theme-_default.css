@@ -790,6 +790,7 @@ label.deco-input {
 		color: #333;
 	}
 	a .row::after,
+	.f-block-body a .right::after,
 	  .row.call-to-action::after {
 		color: #999;
 	}
@@ -897,6 +898,11 @@ label.deco-input {
 	.product-abstract .hero-block       .subtitle {
 		color: #999;
 	}
+
+
+	.product-abstract .entity-info.entity-type-fixed-income .entity-body .call-to-action {
+		color: #4285f4;
+		}
 
 
 .tab-panel-set {

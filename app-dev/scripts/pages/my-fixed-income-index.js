@@ -2,6 +2,7 @@ $(function () {
 	var wlc = window.webLogicControls;
 
 	var $page = $('#page-my-fixed-income-index');
+		// window.popupLayersManager.show('pl-product-terminated');
 
 
 	var isFirstTimeAccess = true;

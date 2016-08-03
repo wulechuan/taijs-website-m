@@ -394,22 +394,66 @@ article.message {
 			margin-bottom: -0.3rem;
 		}
 
-		.entity-info.entity-type-fixed-income .entity-body .f-list > .cell:first-child {
+		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:first-child {
 			width: 70%;
 		}
-		.entity-info.entity-type-fixed-income .entity-body .f-list > .cell:last-child {
+		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:last-child {
 			width: 30%;
 		}
-		.entity-info.entity-type-fixed-income .entity-body .f-list > .cell > .content {
+		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell > .content {
 			padding-top: 0.9rem;
 		}
-		.entity-info.entity-type-fixed-income .entity-body .f-list > .cell.hero > .content {
+		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell.hero > .content {
 			font-size: 1.85em;
 			height: 1.9rem;
 		}
-		.entity-info.entity-type-fixed-income .entity-body .f-list > .cell:last-child > .content {
+		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:last-child > .content {
 			font-size: 0.75rem;
 		}
+
+
+	.product-abstract .entity-info.entity-type-fixed-income .entity-body {
+		margin: 0;
+		}
+
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .call-to-action {
+			height: 2rem;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			right: 0.8rem;
+			margin: auto 0;
+
+			font-size: 0.75rem;
+			font-weight: 400;
+			width: auto;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list {
+			padding: 0;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell {
+			margin: 0;
+			box-sizing: border-box;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell:first-child {
+			width: 46%;
+			margin-left: 8%;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell:last-child {
+			width: 46%;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell > .label {
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell > .content {
+			padding-top: 0;
+			font-size: 0.9rem;
+			height: auto;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell time {
+			font-size: 0.75rem;
+			font-weight: 500;
+		}
+
 
 
 .row.hero-content-block-call-to-action { /* homepage */
@@ -623,7 +667,35 @@ article.message {
 .product-abstract {
 	}
 
-	.product-abstract .abstract-title {
+	.product-abstract .f-block-body .row.abstract-title {
+		padding-top: 0;
+		padding-bottom: 0;
+		}
+		.product-abstract .f-block-body .row.abstract-title .left {
+			box-sizing: border-box;
+			display: block;
+			height: 2.4rem;
+			margin-top: 0;
+			margin-bottom: 0;
+			width: 85%;
+			margin-right: 3rem;
+			padding-top: 0.5rem;
+			padding-bottom: 0.5rem;
+			line-height: 1.4rem;
+		}
+		.product-abstract .f-block-body .row.abstract-title .right {
+			box-sizing: border-box;
+			display: block;
+			position: absolute;
+			height: 2.4rem;
+			margin: 0;
+			width: auto;
+			top: 0;
+			right: 0;
+			padding-top: 0.5rem;
+			padding-bottom: 0.5rem;
+			padding-right: 1.6rem;
+			line-height: 1.4rem;
 		}
 		.product-abstract .abstract-title h3 {
 			font-weight: normal;
@@ -633,8 +705,22 @@ article.message {
 			font-weight: normal;
 			font-size: 0.65rem;
 		}
+		.product-abstract .abstract-title a .right::after {
+			font-family: 'iconfont'!important;
+			display: block;
+			position: absolute;
+			right: 0.6rem;
+			content: '\e601';
+			text-align: right;
+			font-size: 0.8rem;
+			direction: rtl;
+			text-indent: 0;
+			height: 1.2rem;
+			line-height: 1.2rem;
+			top: 0.6rem;
+		}
 		.product-abstract .abstract-title::after {
-			transform: scale(0.75, 0.75);
+			/* transform: scale(0.75, 0.75); */
 		}
 
 	.product-abstract .row.abstract-body {
