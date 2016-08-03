@@ -95,6 +95,10 @@ article.message {
 
 
 .empty-content-hint {
+	position: relative;
+	top: auto;
+	margin-top: 5rem;
+	margin-bottom: 2rem;
 	background-image: url(../../images/_common/empty-content-hint-money-bag-in-hand.png);
 	}
 	.empty-content-hint:after {

@@ -48,7 +48,9 @@ $(function () {
 		}
 
 
-		var tabPanelSetSwiper = new window.Swiper('.swiper-container');
+		var tabPanelSetSwiper = new window.Swiper('.swiper-container', {
+			autoHeight: true
+		});
 		if (tabPanelSetSwiper) {
 			var $pageFooter = $page.find('.page-footer');
 
