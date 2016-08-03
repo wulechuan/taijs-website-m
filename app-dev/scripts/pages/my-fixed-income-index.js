@@ -45,21 +45,20 @@ $(function () {
 		if (tabPanelSet.hasBeenDestroied) {
 			return;
 		}
-
-
-
-
-
 		var tabPanelSetSwiper = new window.Swiper('.swiper-container', {
-			pagination: '.tab-list',
-			paginationType: 'custome',
-			paginationElement: 'li',
-			paginationClickable: true
-
+			// pagination: '.tab-list',
+			// paginationType: 'custom',
+			// paginationElement: 'li',
+			// paginationClickable: true
 		});
-		tabPanelSetSwiper.on('slideChangeStart', function (swiper) {
-			tabPanelSet.syncStatusToPanel(swiper.activeIndex);
-		});
+		if (tabPanelSetSwiper) {
+			tabPanelSetSwiper.on('slideChangeStart', function (swiper) {
+				tabPanelSet.syncStatusToPanel(swiper.activeIndex);
+			});
+			tabPanelSet.onTabClick = function (tab, event) {
+				tabPanelSetSwiper.slideTo(tab.panelIndex);
+			};
+		}
 
 
 

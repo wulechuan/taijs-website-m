@@ -2882,7 +2882,10 @@ window.webLogicControls = {};
 
 				var thisController = this;
 				if ($tabs.length > 1) {
-					$tabs.on('click', function () {
+					$tabs.on('click', function (event) {
+						if (typeof thisController.onTabClick === 'function') {
+							thisController.onTabClick(this, event);
+						}
 						thisController.showPanelViaTab(this);
 					});
 					$tabs.on('mouseover', function () {
