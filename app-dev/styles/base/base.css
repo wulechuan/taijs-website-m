@@ -2685,18 +2685,22 @@ dl.initially-collapsed {
 		visibility: hidden;
 		height: 0;
 		overflow: hidden;
+		}
+		.panel.current {
+			opacity: 1;
+			height: auto;
+			overflow: initial;
+			visibility: visible;
+		}
+
+	.panel.panel-has-animation {
 		/* transition-property: visibility, opacity, transform; */
 		transition-duration: 0.38s;
 		transform: translate(-100%) scale(0.2, 0.2);
-	}
-
-	.panel.current {
-		opacity: 1;
-		height: auto;
-		overflow: initial;
-		visibility: visible;
-		transform: translate(0) scale(1, 1);
-	}
+		}
+		.panel.panel-has-animation.current {
+			transform: translate(0) scale(1, 1);
+		}
 
 
 .carousel {

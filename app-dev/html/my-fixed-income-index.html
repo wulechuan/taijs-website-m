@@ -15,6 +15,8 @@
 <div data-app-header-title="固收理财" id="page-my-fixed-income-index"
 	 class="page has-page-header fixed-page-header has-page-footer fixed-page-footer use-extended-bg-image"
 	>
+	<link rel="stylesheet" type="text/css" href="../scripts/vendors/swiper-3.3.1/css/swiper.min.css">
+	<script type="text/javascript" src="../scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
 	<div class="page-header-patch-for-safari"></div>
 	<header class="page-header">
 		<div class="row header-bar">
@@ -58,7 +60,7 @@
 		</div>
 
 		<div class="content">
-			<div class="tab-panel-set">
+			<div class="tab-panel-set swiper-container">
 				<ul role="tablist" class="tab-list tabs-count-3 tabs-style-regular"
 					><li role="tab"
 								  aria-controls="panel-products-confirming"
@@ -77,8 +79,8 @@
 					></li
 		            ><div class="current-item-hint"></div
 				></ul>
-				<div class="panel-group">
-					<div role="tabpanel" class="panel" aria-hidden="false" id="panel-products-confirming">
+				<div class="panel-group swiper-wrapper">
+					<div role="tabpanel" class="panel swiper-slide" aria-hidden="false" id="panel-products-confirming">
 						<div class="f-block product-abstract">
 							<div class="f-block-body">
 								<a href="#">
@@ -243,11 +245,11 @@
 							</div>
 						</div>
 					</div>
-					<div role="tabpanel" class="panel" aria-hidden="false" id="panel-products-owned">
+					<div role="tabpanel" class="panel swiper-slide" aria-hidden="false" id="panel-products-owned">
 						<div class="f-block">
 						</div>
 					</div>
-					<div role="tabpanel" class="panel" aria-hidden="false" id="panel-products-payed">
+					<div role="tabpanel" class="panel swiper-slide" aria-hidden="false" id="panel-products-payed">
 						<div class="f-block">
 						</div>
 					</div>
@@ -258,7 +260,7 @@
 		</div>
 	</div>
 
-	<script src="scripts/pages/newbie-call-to-action.min.js"></script>
+	<script src="../scripts/pages/my-fixed-income-index.min.js"></script>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 
