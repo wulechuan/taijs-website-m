@@ -1005,6 +1005,17 @@ article.message {
 		margin: -0.2rem -0.5rem;
 	}
 
+	.row.caption-bar {
+		}
+		.row.caption-bar h1 {
+			font-size: 0.9rem;
+			font-weight: 400;
+		}
+		.row.caption-bar h1 .label {
+			margin-right: 0.75em;
+		}
+
+
 	.row .left,
 	.row .right {
 		display: inline-block;
