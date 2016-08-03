@@ -195,7 +195,7 @@
 		function setupAllAutoConstructTabPanelSets($page) {
 			$('.tab-panel-set').each(function () {
 				if (this.dataset.doNotAutoConstruct) {
-					C.l('Skipping auto constructing TabPanelSet from:', this);
+					// C.l('Skipping auto constructing TabPanelSet from:', this);
 					return true;
 				}
 				new wlc.UI.TabPanelSet(this, {

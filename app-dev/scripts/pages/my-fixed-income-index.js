@@ -40,27 +40,35 @@ $(function () {
 
 	(function _setupTabPanelSet() {
 		var tabPanelSet = new wlc.UI.TabPanelSet($page.find('.tab-panel-set')[0], {
-			initTab: window.urlParameters.tabLabel
+			doNotShowPanelAtInit: true,
+			// initTab: window.urlParameters.tabLabel
 		});
 		if (tabPanelSet.hasBeenDestroied) {
 			return;
 		}
-		var tabPanelSetSwiper = new window.Swiper('.swiper-container', {
-			// pagination: '.tab-list',
-			// paginationType: 'custom',
-			// paginationElement: 'li',
-			// paginationClickable: true
-		});
+
+
+		var tabPanelSetSwiper = new window.Swiper('.swiper-container');
 		if (tabPanelSetSwiper) {
+			var $pageFooter = $page.find('.page-footer');
+
 			tabPanelSetSwiper.on('slideChangeStart', function (swiper) {
-				tabPanelSet.syncStatusToPanel(swiper.activeIndex);
+				var panelIndexToShow = swiper.activeIndex;
+				tabPanelSet.syncStatusToPanel(panelIndexToShow);
 			});
-			tabPanelSet.onTabClick = function (tab, event) {
-				tabPanelSetSwiper.slideTo(tab.panelIndex);
+
+			tabPanelSet.onPanelShow = function (panel) {
+				if (panel.panelIndex === 1) {
+					$pageFooter.show();
+				} else {
+					$pageFooter.hide();
+				}
+				// tabPanelSet.showNextPanel();
+				tabPanelSetSwiper.slideTo(panel.panelIndex);
 			};
 		}
 
-
+		tabPanelSet.showPanelViaTab(window.urlParameters.tabLabel || 0);
 
 
 

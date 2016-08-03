@@ -2745,6 +2745,7 @@ window.webLogicControls = {};
 		};
 
 		this.TabPanelSet = function TabPanelSet(rootElement, initOptions) {
+			var thisController = this;
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 
@@ -2760,6 +2761,10 @@ window.webLogicControls = {};
 			};
 
 			var status = {
+				isOnAction: false
+			};
+
+			var publicStatus = { // not public in any way at present
 				// elements: elements,
 				// options: this.options,
 				currentPanelIndex: NaN
@@ -2778,8 +2783,9 @@ window.webLogicControls = {};
 
 			this.config = config.bind(this);
 			this.getPanel = getPanel.bind(this);
-			this.showPanel = showPanel.bind(this); // support both dom and integer index
-			this.showPanelViaTab = this.showPanel;
+			this.getPanelViaTab = getPanelViaTab.bind(this);
+			this.showPanel = showPanel.bind(this);
+			this.showPanelViaTab = showPanelViaTab.bind(this);
 			this.showPrevPanel = showPrevPanel.bind(this);
 			this.showNextPanel = showNextPanel.bind(this);
 			this.slideTabCurrentItemHintTo = slideTabCurrentItemHintTo.bind(this);
@@ -2787,7 +2793,9 @@ window.webLogicControls = {};
 			// If the panel is shown through a way other than showPanel/showPrevPanel/showNextPanel/showPanelViaTab,
 			// for example the panel is shown via the famous Swiper.js,
 			// then we need to update tablist separately.
-			this.syncStatusToPanel = syncStatusToPanel.bind(this);
+			this.syncStatusToPanel = function (thePanelOrTheTabOrTheIndex, shouldTrace) {
+				syncStatusToPanel.call(this, thePanelOrTheTabOrTheIndex, shouldTrace, false);
+			};
 
 			var $tabList;
 			var $tabs;
@@ -2880,7 +2888,6 @@ window.webLogicControls = {};
 				});
 
 
-				var thisController = this;
 				if ($tabs.length > 1) {
 					$tabs.on('click', function (event) {
 						if (typeof thisController.onTabClick === 'function') {
@@ -2897,19 +2904,9 @@ window.webLogicControls = {};
 				}
 
 
-				var tabToShowAtBegining;
-				if (initOptions && initOptions.initTab) {
-					var tabOrTabLabel = $('#panel-tab-'+initOptions.initTab)[0];
-					if (tabOrTabLabel) {
-						if (wlc.DOM.getRole(tabOrTabLabel) === 'tab') {
-							tabToShowAtBegining = tabOrTabLabel;
-						} else {
-							tabToShowAtBegining = $(tabOrTabLabel).parents('[role="tab"]')[0];
-						}
-					}
+				if (initOptions && initOptions.initTab && !initOptions.doNotShowPanelAtInit) {
+					this.showPanelViaTab(initOptions.initTab);
 				}
-
-				this.showPanelViaTab(tabToShowAtBegining);
 
 
 				delete status.isInitializing;
@@ -2989,7 +2986,7 @@ window.webLogicControls = {};
 				}
 
 				if (isNaN(inputPanelIndex)) {
-					if (typeof status.currentPanelIndex !== 'number' || isNaN(status.currentPanelIndex) || !elements.currentPanel) {
+					if (typeof publicStatus.currentPanelIndex !== 'number' || isNaN(publicStatus.currentPanelIndex) || !elements.currentPanel) {
 						if (!status.isInitializing) {
 							C.w('The desired panel can not be found, nor can the currentPanel.');
 						}
@@ -3028,11 +3025,39 @@ window.webLogicControls = {};
 				return theFoundPanel;
 			}
 
-			function showPrevPanel() {
-				this.showPanel(status.currentPanelIndex-1);
+			function getPanelViaTab(tabNameOrTabDomOrPanelIndex) {
+				if (typeof tabNameOrTabDomOrPanelIndex === 'string') {
+					var panelIndex = parseInt(tabNameOrTabDomOrPanelIndex);
+					if (isNaN(panelIndex)) {
+						var tabDomOrTabLabelDom = $('#panel-tab-'+tabNameOrTabDomOrPanelIndex)[0];
+						var tabDom;
+						if (tabDomOrTabLabelDom) {
+							if (wlc.DOM.getRole(tabDomOrTabLabelDom) === 'tab') {
+								tabDom = tabDomOrTabLabelDom;
+							} else {
+								tabDom = $(tabDomOrTabLabelDom).parents('[role="tab"]')[0];
+							}
+
+							return this.getPanel(tabDom);
+						} else {
+							return null;
+						}
+					}
+				}
+
+				return this.getPanel(tabNameOrTabDomOrPanelIndex);
 			}
+
+			function showPrevPanel() {
+				this.showPanel(publicStatus.currentPanelIndex-1);
+			}
+
 			function showNextPanel() {
-				this.showPanel(status.currentPanelIndex+1);
+				this.showPanel(publicStatus.currentPanelIndex+1);
+			}
+
+			function showPanelViaTab(tab) {
+				this.showPanel(this.getPanelViaTab(tab));
 			}
 
 			function showPanel(thePanelOrTheTabOrTheIndex, shouldTrace) {
@@ -3049,12 +3074,20 @@ window.webLogicControls = {};
 				}
 
 				if (shouldTakeAction) {
-					this.syncStatusToPanel(thePanel, shouldTrace);
+					syncStatusToPanel.call(this, thePanel, shouldTrace, true);
+				// } else {
+				// 	C.t('Skipped');
 				}
 			}
 
-			function syncStatusToPanel(panelOrPanelIndex, shouldTrace) {
-				var thePanel = this.getPanel(panelOrPanelIndex);
+			function syncStatusToPanel(thePanelOrTheTabOrTheIndex, shouldTrace, isMotiveActionFromShowPanel) {
+				if (status.isOnAction) {
+					// C.e('Re-entered, might encount an infinite loop invoking.');
+					return false;
+				}
+				status.isOnAction = true;
+
+				var thePanel = this.getPanel(thePanelOrTheTabOrTheIndex);
 
 				if (thePanel === false) {
 					return false;
@@ -3063,16 +3096,16 @@ window.webLogicControls = {};
 				if (!thePanel) {
 					elements.currentTab = null;
 					elements.currentPanel = null;
-					status.currentPanelIndex = NaN;
+					publicStatus.currentPanelIndex = NaN;
 				} else {
 					if (shouldTrace) C.l('----------------------');
 					for (var i = 0; i < elements.panels.length; i++) {
 						var panel = elements.panels[i];
-						_showHideOnePanel.call(this, panel, (thePanel && panel === thePanel), shouldTrace);
+						_showHideOnePanel.call(this, panel, (thePanel && panel === thePanel), shouldTrace, isMotiveActionFromShowPanel);
 					}
 
 					elements.currentPanel = thePanel;
-					status.currentPanelIndex = thePanel.panelIndex;
+					publicStatus.currentPanelIndex = thePanel.panelIndex;
 					if (thePanel.elements) {
 						elements.currentTab = thePanel.elements.tab;
 					} else {
@@ -3081,9 +3114,11 @@ window.webLogicControls = {};
 				}
 
 				this.slideTabCurrentItemHintTo(elements.currentTab);
+
+				status.isOnAction = false;
 			}
 
-			function _showHideOnePanel(panel, isToShow, shouldTrace) {
+			function _showHideOnePanel(panel, isToShow, shouldTrace/*, isMotiveActionFromShowPanel*/) {
 				if (shouldTrace) C.t(isToShow ? 'show --> ' : 'hide', panel.id);
 				if (!panel) return false;
 
@@ -3098,10 +3133,18 @@ window.webLogicControls = {};
 						$(panel).parents('.page').find('.page-header .header-bar .center h1').html(nameToShowInPageHeader);
 						$('title').html(nameToShowInPageHeader);
 					}
+
+					if (typeof thisController.onPanelShow === 'function') {
+						thisController.onPanelShow(panel);
+					}
 				} else {
 					panel.setAttribute('aria-hidden', true);
 					$(tab).removeClass('current');
 					$(panel).removeClass('current');
+
+					if (typeof thisController.onPanelHide === 'function') {
+						thisController.onPanelHide(panel);
+					}
 				}
 
 				return true;
