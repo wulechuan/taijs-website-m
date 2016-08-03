@@ -58,12 +58,14 @@ button.nav-back::before,
 	font-size: 0.5em;
 	font-weight: lighter;
 	}
-
-	.digits.percentage-value.strong {
-		display: inline-block;
-		font-weight: 400;
-		letter-spacing: 0.04em;
-		text-indent: 0.1em;
+	.suffix-percentage-value {
+		display: none;
+	}
+	.has-suffix-percentage-value .suffix-percentage-value {
+		display: inline;
+	}
+	.has-suffix-percentage-value > .percentage-value::after {
+		content: none;
 	}
 
 
