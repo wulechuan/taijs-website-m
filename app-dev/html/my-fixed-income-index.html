@@ -13,7 +13,7 @@
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="固收理财" id="page-my-fixed-income-index"
-	 class="page has-page-header fixed-page-header has-page-footer fixed-page-footer use-extended-bg-image"
+	 class="page has-page-header fixed-page-header"
 	>
 	<link rel="stylesheet" type="text/css" href="../scripts/vendors/swiper-3.3.1/css/swiper.min.css">
 	<script type="text/javascript" src="../scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
@@ -27,7 +27,7 @@
 	</header>
 
 	<div class="page-body">
-		<div class="row color-inverted bg-meets-page-header-container">
+		<div class="row color-inverted content-above-tab-panel-set">
 			<div class="hero-content-block hero-content-block-style-2">
 				<h3 class="sensitive-content">
 					<span class="subject">总资产（元）<i class="sensitive-content-status-icon"></i></span>
@@ -61,24 +61,26 @@
 
 		<div class="content">
 			<div class="tab-panel-set swiper-container" data-do-not-auto-construct="true">
-				<ul role="tablist" class="tab-list tabs-count-3 tabs-style-regular tabs-with-gaps"
-					><li role="tab"
-								  aria-controls="panel-products-confirming"
-								aria-labelledby="panel-tab-products-confirming"
-						><span class="label" id="panel-tab-products-confirming">确认中</span
-					></li
-					><li role="tab"
-								  aria-controls="panel-products-owned"
-								aria-labelledby="panel-tab-products-owned"
-						><span class="label" id="panel-tab-products-owned">持有中</span
-					></li
-					><li role="tab"
-								  aria-controls="panel-products-payed"
-								aria-labelledby="panel-tab-products-payed"
-						><span class="label" id="panel-tab-products-payed">已兑付</span
-					></li
-		            ><div class="current-item-hint"></div
-				></ul>
+				<div class="tab-list-container">
+					<ul role="tablist" class="tab-list tabs-count-3 tabs-style-regular tabs-with-gaps"
+						><li role="tab"
+									  aria-controls="panel-products-confirming"
+									aria-labelledby="panel-tab-products-confirming"
+							><span class="label" id="panel-tab-products-confirming">确认中</span
+						></li
+						><li role="tab"
+									  aria-controls="panel-products-owned"
+									aria-labelledby="panel-tab-products-owned"
+							><span class="label" id="panel-tab-products-owned">持有中</span
+						></li
+						><li role="tab"
+									  aria-controls="panel-products-payed"
+									aria-labelledby="panel-tab-products-payed"
+							><span class="label" id="panel-tab-products-payed">已兑付</span
+						></li
+			            ><div class="current-item-hint"></div
+					></ul>
+				</div>
 				<div class="panel-group swiper-wrapper">
 					<div role="tabpanel" class="panel swiper-slide" aria-hidden="false" id="panel-products-confirming">
 						<div class="f-block product-abstract">

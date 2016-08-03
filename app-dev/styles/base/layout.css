@@ -405,11 +405,12 @@ article.message {
 
 	.hero-content-block {
 	position: relative;
-	margin: -0.5rem -0.8rem 0;
+	margin: 0 -0.8rem 0;
 	padding: 0.5rem 0.8rem;
 	}
 
 	.f-block .hero-content-block {
+		margin-top: -0.5rem;    /* because .row under .f-block has non-zero padding-top */
 		margin-bottom: -0.5rem; /* because .row under .f-block has non-zero padding-bottom */
 	}
 
@@ -480,9 +481,6 @@ article.message {
 
 
 	.color-inverted .hero-content-block.hero-content-block-style-2 { /* in pages such as newbie-reserved-assets */
-		margin-left: -0.8rem;
-		margin-right: -0.8rem;
-		padding-top: 1rem;
 		padding-bottom: 0.6rem;
 		}
 		.color-inverted .hero-content-block.hero-content-block-style-2 h3 .hero-word {

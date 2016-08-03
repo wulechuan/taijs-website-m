@@ -1,69 +1,120 @@
 $(function () {
 	var wlc = window.webLogicControls;
 
-	var tabPanelSet1 = new wlc.UI.TabPanelSet($('.tab-panel-set')[0]);
-	var tabPanelSet1Swiper = new window.Swiper('.swiper-container', {
+	var $page = $('#page-my-fixed-income-index');
+
+	var tabPanelSetRoot = $page.find('.tab-panel-set')[0];
+	if (!tabPanelSetRoot) {
+		C.e('tab panel set root not found!');
+		return;
+	}
+
+	var tabPanelSet = new wlc.UI.TabPanelSet(tabPanelSetRoot);
+	var tabPanelSetSwiper = new window.Swiper('.swiper-container', {
 		pagination: '.tab-list',
 		paginationType: 'custome',
 		paginationElement: 'li',
 		paginationClickable: true
 
 	});
-
-	tabPanelSet1Swiper.on('slideChangeStart', function (swiper) {
-		tabPanelSet1.syncStatusToPanel(swiper.activeIndex);
+	tabPanelSetSwiper.on('slideChangeStart', function (swiper) {
+		tabPanelSet.syncStatusToPanel(swiper.activeIndex);
 	});
 
 
-	// $('.page').each(function () {
-	// 	function getScrollingOffsetFor(content) {
-	// 		if (!content || content === document) {
-	// 			return {
-	// 				top:  -window.scrollY,
-	// 				left: -window.scrollX
-	// 			};
-	// 		}
 
-	// 		return $(content).offset();
-	// 	}
-	// 	function updatePageHeaderModeBasedOnScrolling() {
-	// 		var shouldSwitchPageHeaderMode = false;
-	// 		var currentTopOffset = getScrollingOffsetFor(scrollingElement).top;
+	var tabPanelSetTabList = tabPanelSet.elements.tabList;
+	var $tabPanelSetTabList = $(tabPanelSetTabList);
+	var tabPanelSetTabListContainer = tabPanelSetTabList.parentNode;
 
-	// 		if (pageHeaderIsInCompactMode) {
-	// 			shouldSwitchPageHeaderMode = currentTopOffset >= currentTopOffsetThresholdForExpansion;
-	// 			if (shouldSwitchPageHeaderMode) {
-	// 				$page.removeClass('page-header-in-compact-mode');
-	// 				pageHeaderIsInCompactMode = false;
-	// 			}
-	// 		} else {
-	// 			shouldSwitchPageHeaderMode = currentTopOffset <= currentTopOffsetThresholdForCollapse;
-	// 			if (shouldSwitchPageHeaderMode) {
-	// 				$page.addClass('page-header-in-compact-mode');
-	// 				pageHeaderIsInCompactMode = true;
-	// 			}
-	// 		}
-	// 	}
+	var heightOfPageHeader = $page.find('.page-header').outerHeight();
+	var heightAboveTabPanelSet = $('.content-above-tab-panel-set').outerHeight();
+	var heightOfTabPanelSetTabList = $tabPanelSetTabList.outerHeight();
+		tabPanelSetTabListContainer.style.height = heightOfTabPanelSetTabList + 'px';
+
+	setupScrollingTriggerForTabPanelSetTabList(
+		heightOfPageHeader,
+		heightAboveTabPanelSet,
+		switchToFixedMode,
+		switchToFreeMode
+	);
+
+	function switchToFixedMode() {
+		$tabPanelSetTabList.addClass('fixed');
+		tabPanelSetTabList.style.top = heightOfPageHeader + 'px';
+	}
+
+	function switchToFreeMode() {
+		$tabPanelSetTabList.removeClass('fixed');
+		tabPanelSetTabList.style.top = '';
+	}
 
 
-	// 	var scrollingElement = document;
-	// 	var $page = $(this);
+	function setupScrollingTriggerForTabPanelSetTabList(fixedY, aboveHeight, switchToFixedMode, switchToFreeMode) {
+		function getScrollingOffsetFor(content) {
+			if (!content || content === document) {
+				return {
+					top:  -window.scrollY,
+					left: -window.scrollX
+				};
+			}
 
+			return $(content).offset();
+		}
+		function actionsOnScroll() {
+			var shouldSwitch = false;
+			var currentTopOffset = getScrollingOffsetFor(scrollingElement).top; // a negative value
+			currentTopOffset = -currentTopOffset;  // a positive value
+			// C.l(
+			// 	'already fixed', positionIsFixed, 
+			// 	'\t currentTopOffset', currentTopOffset, 
+			// 	'\t expasion', scrollYOffsetThresholdForExpansion,
+			// 	'\t collapse', scrollYOffsetThresholdForCollapse
+			// );
 
-	// 	var triggerRatioForCallapse = 1.2;
-	// 	var triggerRatioForExpansion = 0.8;
-	// 	var pageHeaderNormalHeight = 128;
-	// 	var pageHeaderCompactHeight = 48;
+			if (positionIsFixed) {
+				shouldSwitch = currentTopOffset <= scrollYOffsetThresholdForExpansion;
+				if (shouldSwitch) {
+					switchToFreeMode();
+					positionIsFixed = false;
+				}
+			} else {
+				shouldSwitch = currentTopOffset >= scrollYOffsetThresholdForCollapse;
+				if (shouldSwitch) {
+					switchToFixedMode();
+					$(scrollingElement).scrollTop(currentTopOffset);
+					positionIsFixed = true;
+				}
+			}
+		}
 
+		var scrollingElement = document;
 
+		var triggerRatioForCallapse = 1;
+		var triggerRatioForExpansion = 1;
 
-	// 	var pageHeaderHeightDelta = pageHeaderNormalHeight - pageHeaderCompactHeight;
-	// 	var currentTopOffsetThresholdForCollapse  = Math.abs(pageHeaderHeightDelta) * -Math.abs(triggerRatioForCallapse);
-	// 	var currentTopOffsetThresholdForExpansion = Math.abs(pageHeaderHeightDelta) * -Math.abs(triggerRatioForExpansion);
-	// 	var pageHeaderIsInCompactMode = $page.hasClass('page-header-in-compact-mode');
+		var pageOrPageBodyTopSpace = 48; // known
+		var aboveHeightInTotal = heightAboveTabPanelSet + pageOrPageBodyTopSpace;
 
+		if (fixedY >= aboveHeightInTotal) {
+			return false;
+		}
 
-	// 	updatePageHeaderModeBasedOnScrolling();
-	// 	$(scrollingElement).on('scroll', updatePageHeaderModeBasedOnScrolling);
-	// });
+		var freeModeTargetScrollY = aboveHeightInTotal - fixedY; // a positive value
+
+		var scrollYOffsetThresholdForCollapse  = Math.abs(freeModeTargetScrollY) * Math.abs(triggerRatioForCallapse);
+		var scrollYOffsetThresholdForExpansion = Math.abs(freeModeTargetScrollY) * Math.abs(triggerRatioForExpansion);
+
+		// C.l(
+		// 	'\n freeModeTargetScrollY', freeModeTargetScrollY,
+		// 	'\n aboveHeight', aboveHeight,
+		// 	'\n aboveHeightInTotal', aboveHeightInTotal,
+		// 	'\n scrollYOffsetThresholdForCollapse', scrollYOffsetThresholdForCollapse,
+		// 	'\n scrollYOffsetThresholdForExpansion', scrollYOffsetThresholdForExpansion
+		// );
+
+		var positionIsFixed = false;
+		actionsOnScroll();
+		$(scrollingElement).on('scroll', actionsOnScroll);
+	}
 });

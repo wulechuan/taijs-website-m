@@ -2642,6 +2642,26 @@ window.webLogicControls = {};
 			});
 			if (!rootElement) return;
 
+
+			var elements = {
+				rootElement: rootElement,
+				panels: [],
+				tabList: null,
+				tabs: [],
+				tabListCurrentItemHint: null,
+
+				currentTab: null,
+				currentPanel: null
+			};
+
+			var status = {
+				// elements: elements,
+				// options: this.options,
+				currentPanelIndex: NaN
+			};
+
+
+			this.elements = elements;
 			this.options = {
 				allowToShowNone: false,
 				// shouldSkipShowHideDomsAction: false,
@@ -2664,23 +2684,6 @@ window.webLogicControls = {};
 			// for example the panel is shown via the famous Swiper.js,
 			// then we need to update tablist separately.
 			this.syncStatusToPanel = syncStatusToPanel.bind(this);
-
-			var elements = {
-				rootElement: rootElement,
-				panels: [],
-				tabList: null,
-				tabs: [],
-				tabListCurrentItemHint: null,
-
-				currentTab: null,
-				currentPanel: null
-			};
-
-			var status = {
-				// elements: elements,
-				// options: this.options,
-				currentPanelIndex: NaN
-			};
 
 			var $tabList;
 			var $tabs;
