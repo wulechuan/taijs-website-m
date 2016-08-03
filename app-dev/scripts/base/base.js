@@ -30,12 +30,13 @@
 
 
 	$('.tab-panel-set').each(function () {
-		var shouldSkipThis = !!this.getAttribute('data-do-not-auto-construct').match(/^\s*true\s*$/i);
-		if (shouldSkipThis) {
+		if (this.dataset.doNotAutoConstruct) {
 			C.l('Skipping auto constructing TabPanelSet from:', this);
 			return true;
 		}
-		new wlc.UI.TabPanelSet(this);
+		new wlc.UI.TabPanelSet(this, {
+			initTab: urlParameters.tabLabel
+		});
 	});
 
 

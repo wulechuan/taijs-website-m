@@ -775,6 +775,31 @@ window.webLogicControls = {};
 	var DOM = {};
 	this.DOM = DOM;
 	(function () { // DOM
+		this.getRole = function (dom) {
+			if (dom instanceof Node) {
+				var role = dom.getAttribute('role');
+				if (typeof role === 'string') return role.toLowerCase();
+			}
+			return '';
+		};
+
+		this.setRole = function (dom, newRole) {
+			if (!(dom instanceof Node) || !newRole || typeof newRole !== 'string') {
+				return '';
+			}
+
+			newRole = newRole.toLowerCase();
+
+			var existingRole = dom.getAttribute('role');
+			if (typeof existingRole === 'string' && existingRole.length > 0) {
+				C.w('Changing role of an element is Not recommanded by W3C.');
+			}
+
+			dom.setAttribute('role', newRole);
+
+			return newRole;
+		};
+
 		this.ANestedInB = function (A, B, considerAisBAsTrue) {
 			if (!(A instanceof Node && B instanceof Node)) return false;
 
@@ -2664,7 +2689,6 @@ window.webLogicControls = {};
 			this.elements = elements;
 			this.options = {
 				allowToShowNone: false,
-				// shouldSkipShowHideDomsAction: false,
 				selectorOfPanel: '.panel',
 				selectorOfTabList: '.tab-list',
 				selectorOfTab: '> li', // treat as under tablist, so in face this value is "rootElement .tab-list > li"
@@ -2692,14 +2716,11 @@ window.webLogicControls = {};
 			function config(options, isInitializing) {
 				var shouldWarnAllowToShowNone = false;
 				if (!options) {
-					if (!!isInitializing) {
-						shouldWarnAllowToShowNone = this.options.allowToShowNone;
-					}
+					shouldWarnAllowToShowNone = this.options.allowToShowNone && !!isInitializing;
 				} else {
 					var R1 = WCU.save.boolean(this.options, 'allowToShowNone', options);
-					// var R2 = WCU.save.boolean(this.options, 'shouldSkipShowHideDomsAction', options);
 
-					shouldWarnAllowToShowNone = R1.valueHasBeenChanged;
+					shouldWarnAllowToShowNone = (!!isInitializing || R1.valueHasBeenChanged) && this.options.allowToShowNone;
 				}
 
 				if (shouldWarnAllowToShowNone) {
@@ -2759,6 +2780,11 @@ window.webLogicControls = {};
 
 				$tabs.each(function () {
 					var myPanelId = this.getAttribute('aria-controls');
+					if (!myPanelId) {
+						C.w('Uncoupled tab met.', this);
+						return false;
+					}
+
 					var myPanel = $('#'+myPanelId)[0];
 
 					if (!myPanel) {
@@ -2788,17 +2814,19 @@ window.webLogicControls = {};
 				}
 
 
-				C.w('wwww');
-				if ($tabs.length < 1 || $panels.length === 1) {
-					this.showPanel($panels[0]);
-				} else {
-					var tabToShowAtBegining = $tabs[0];
-					if (initOptions && initOptions.initTab) {
-						var _temp = $('#panel-tab-'+initOptions.initTab).parent()[0];
-						if (_temp) tabToShowAtBegining = _temp;
+				var tabToShowAtBegining;
+				if (initOptions && initOptions.initTab) {
+					var tabOrTabLabel = $('#panel-tab-'+initOptions.initTab)[0];
+					if (tabOrTabLabel) {
+						if (wlc.DOM.getRole(tabOrTabLabel) === 'tab') {
+							tabToShowAtBegining = tabOrTabLabel;
+						} else {
+							tabToShowAtBegining = $(tabOrTabLabel).parents('[role="tab"]')[0];
+						}
 					}
-					this.showPanelViaTab(tabToShowAtBegining);
 				}
+
+				this.showPanelViaTab(tabToShowAtBegining);
 
 				return true;
 			}
@@ -2867,7 +2895,7 @@ window.webLogicControls = {};
 						inputPanelIndex = inputPanel.panelIndex;
 					} else {
 						// some nonsense object
-						C.e('Invalid object provided.', input.panelIndex, input);
+						C.e('Invalid object provided. It might be a uncoupled tab and had skipped setup.', input);
 						return false;
 					}
 				} else {
