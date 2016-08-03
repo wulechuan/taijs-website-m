@@ -879,6 +879,23 @@ label, .label {
 			margin-left: -0.5rem;
 		}
 
+	.has-border-triangle.border-triangle-size-small::before {
+		border-radius: 0;
+		width: 0.5rem;
+		height: 0.5rem;
+		}
+
+		.has-border-triangle.border-triangle-size-small.border-triangle-at-top::before,
+		.has-border-triangle.border-triangle-size-small::before {
+			margin-top: -0.2rem;
+			margin-left: -0.25rem;
+		}
+
+		.has-border-triangle.border-triangle-size-small.border-triangle-at-bottom::before {
+			margin-bottom: -0.2rem;
+			margin-left: -0.25rem;
+		}
+
 	.has-border-triangle.border-triangle-size-tiny::before {
 		border-radius: 0;
 		width: 0.25rem;

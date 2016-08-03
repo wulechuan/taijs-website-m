@@ -86,7 +86,7 @@ article.message {
 	} */
 
 	article.message .info-subject-symbol {
-		margin: 0.1rem auto 0.1rem auto;
+		margin: 2.2rem auto 0.1rem auto;
 		}
 		article.message .info-subject-symbol .iconfont,
 		article.message .info-subject-symbol {
@@ -455,7 +455,6 @@ article.message {
 		}
 
 
-
 .row.hero-content-block-call-to-action { /* homepage */
 	min-height: 1.5rem;
 	}
@@ -521,7 +520,7 @@ article.message {
 	}
 
 
-	.hero-content-block.hero-content-block-style-1 { /* homepage and trading-account-register-succeeded page */
+	.hero-content-block.hero-content-block-style-1 { /* homepage */
 		}
 		.hero-content-block.hero-content-block-style-1 h3 .subject {
 			font-size: 1rem;
@@ -532,6 +531,23 @@ article.message {
 		}
 		.hero-content-block.hero-content-block-style-1 .hero-content-features > .f-list > li {
 			margin: 0 0.8rem 0;
+		}
+
+
+	.hero-content-block.hero-content-block-style-4 { /* trading-account-register-succeeded page */
+		padding-top: 0.1rem;
+		padding-bottom: 0;
+		}
+		.hero-content-block.hero-content-block-style-4 h3 .subject {
+			font-size: 0.9rem;
+		}
+		.hero-content-block.hero-content-block-style-4 h3 .hero-word {
+			margin-top: 0.6rem;
+			font-size: 2.5rem;
+		}
+		.hero-content-block.hero-content-block-style-4 .hero-content-features > .f-list > li {
+			margin: 0 0.8rem 0;
+			width: 35%;
 		}
 
 
@@ -1708,7 +1724,6 @@ article.message {
 	}
 
 
-
 .f-block .tiles {
 	}
 	.f-block .tiles > a > .tile,
@@ -2045,6 +2060,26 @@ article.message {
 	}
 	#page-account-sign-up-sign-in .panel .f-block:first-child {
 		margin-top: 1rem;
+	}
+
+
+#page-account-sign-up-succeeded .special-button {
+	height: auto;
+	padding-left: 0;
+	padding-right: 0;
+	}
+	#page-account-sign-up-succeeded .special-button hr {
+		opacity: 0.3;
+		margin: 0.5rem 0;
+	}
+	#page-account-sign-up-succeeded .special-button .minor {
+		font-size: 0.7rem;
+		opacity: 0.8;
+		font-weight: 100;
+	}
+	#page-account-sign-up-succeeded .special-button .strong {
+		font-size: 1rem;
+		font-weight: 300;
 	}
 
 
