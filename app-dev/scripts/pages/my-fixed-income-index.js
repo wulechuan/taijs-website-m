@@ -39,7 +39,9 @@ $(function () {
 
 
 	(function _setupTabPanelSet() {
-		var tabPanelSet = new wlc.UI.TabPanelSet($page.find('.tab-panel-set')[0]);
+		var tabPanelSet = new wlc.UI.TabPanelSet($page.find('.tab-panel-set')[0], {
+			initTab: window.urlParameters.tabLabel
+		});
 		if (tabPanelSet.hasBeenDestroied) {
 			return;
 		}

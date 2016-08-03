@@ -633,13 +633,14 @@ dd {
 	display: none;
 	background-repeat: no-repeat;
 	background-position: center;
-	width: 240px;
-	height: 160px;
+	background-size: auto 4.5rem;
+	width: 100%;
+	height: 6rem;
 	position: absolute;
 	left: 0;
 	right: 0;
-	top: 40%;
-	margin: -80px auto 0 auto;
+	top: 5rem;
+	margin: 0 auto;
 	text-align: center;
 	/* font-size: 16px; */
 	line-height: 1.5;
@@ -650,6 +651,9 @@ dd {
 		left: 0;
 		right: 0;
 		top: 100%;
+	}
+	.empty-content-hint:first-child {
+		display: block;
 	}
 
 
@@ -2686,7 +2690,7 @@ dl.initially-collapsed {
 
 
 	.panel-group {
-		overflow: hidden; /* for .panel transform transitions */
+		overflow: visible; /* for Swiper, in case used */
 	}
 
 	.panel {

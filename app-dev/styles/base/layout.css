@@ -94,6 +94,23 @@ article.message {
 		}
 
 
+.empty-content-hint {
+	background-image: url(../../images/_common/empty-content-hint-money-bag-in-hand.png);
+	}
+	.empty-content-hint:after {
+		content: '犇宝宝心里空荡荡的~~';
+	}
+	.empty-content-hint.products-confirming:after {
+		content: '暂无已兑付产品';
+	}
+	/* .empty-content-hint.products-owned:after {
+		content: '犇宝宝心里空荡荡的~~';
+	} */
+	.empty-content-hint.products-payed:after {
+		content: '暂无确认中产品';
+	}
+
+
 .input-tip {
 	font-size: 0.6rem;
 	visibility: hidden;
@@ -389,9 +406,6 @@ article.message {
 		.entity-info.entity-type-fixed-income .entity-body .f-list > .cell:last-child > .content {
 			font-size: 0.75rem;
 		}
-
-
-
 
 
 .row.hero-content-block-call-to-action { /* homepage */
