@@ -207,12 +207,102 @@ article.message {
 		display: inline-block;
 		vertical-align: middle;
 		margin: 0 0.1rem;
-		border-width: 1px;
+		border-width: 0.05rem;
 		border-color: initial!important;
 		border-radius: 0.15rem;
-		padding: 0.1rem 0.2rem;
+		padding: 0.2rem 0.2rem;
 		line-height: 1;
 		font-size: 0.6rem;
+	}
+	.marker.marker-ticket-look {
+		position: relative;
+		border-radius: 0;
+		padding-left: 0.4rem;
+		padding-right: 0.4rem;
+		border-width: 0;
+	}
+	.marker.marker-ticket-look > .deco {
+		z-index: 0;
+
+		position: absolute;
+		display: block;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		border-color: inherit;
+		}
+
+		.marker.marker-ticket-look > .deco::after,
+		.marker.marker-ticket-look > .deco::before {
+			content: '';
+
+			position: absolute;
+			display: block;
+			left: 0;
+			right: 0;
+			height: 0.1rem;
+
+			border-style: solid;
+			border-width: 0.05rem;
+			border-color: inherit;
+		}
+		.marker.marker-ticket-look > .deco::before {
+			top: 0;
+			border-bottom-width: 0!important;
+		}
+		.marker.marker-ticket-look > .deco::after {
+			top:  auto;
+			border-top-width: 0!important;
+			bottom: 0;
+		}
+		.marker.marker-ticket-look > .deco .concave-semi-circles {
+			position: absolute;
+			top:  0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			overflow: hidden;
+		}
+		.marker.marker-ticket-look > .deco .concave-semi-circles::after,
+		.marker.marker-ticket-look > .deco .concave-semi-circles::before {
+			font-family: 'iconfont'!important;
+			content: '\e61e';
+			font-size: 1.6rem;
+			width: 0.5rem;
+			height: 2rem;
+			line-height: 2rem;
+			display: block;
+			position: absolute;
+			top: 50%;
+			bottom: auto;
+			margin: -1rem 0;
+			overflow: hidden;
+		}
+		.marker.marker-ticket-look > .deco .concave-semi-circles::before {
+			left: 0;
+		}
+		.marker.marker-ticket-look > .deco .concave-semi-circles::after {
+			right: 0;
+			direction: rtl;
+		}
+
+
+.markers-list {
+	position: relative;
+	padding-left: 2.5rem;
+	line-height: 1.5rem;
+	}
+	.markers-list > .label {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.markers-list .f-list > li {
+		display: inline;
+	}
+	.markers-list .f-list > li .marker {
+		margin-top: -0.2rem;
 	}
 
 
@@ -1740,6 +1830,7 @@ dl.tickets-list {
 		font-size: 0.65rem;
 		font-weight: 100;
 	}
+
 
 .concave-pies {
 	position: absolute;
