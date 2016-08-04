@@ -241,7 +241,7 @@ article.message {
 			display: block;
 			left: 0;
 			right: 0;
-			height: 0.1rem;
+			height: 0.25rem;
 
 			border-style: solid;
 			border-width: 0.05rem;
@@ -278,6 +278,8 @@ article.message {
 			bottom: auto;
 			margin: -1rem 0;
 			overflow: hidden;
+
+			text-indent: -1px;
 		}
 		.marker.marker-ticket-look > .deco .concave-semi-circles::before {
 			left: 0;
