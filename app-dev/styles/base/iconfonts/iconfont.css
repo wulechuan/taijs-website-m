@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1470270631'); /* IE9*/
-  src: url('iconfont.eot?t=1470270631#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1470270631') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1470270631') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1470270631#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1470272416'); /* IE9*/
+  src: url('iconfont.eot?t=1470272416#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1470272416') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1470272416') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1470272416#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -48,3 +48,4 @@
 .icon-geo-mark-rightwards:before { content: "\e623"; }
 .icon-concave-semi-pie-hori:before { content: "\e61c"; }
 .icon-concave-semi-pie-vert:before { content: "\e61d"; }
+.icon-concave-semi-circles-small-4-sided:before { content: "\e61e"; }

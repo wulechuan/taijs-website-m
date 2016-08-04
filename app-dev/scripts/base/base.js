@@ -682,7 +682,6 @@
 				// this.onUpdateAtHiddenState = function () {
 				// }
 			}
-
 		});
 
 

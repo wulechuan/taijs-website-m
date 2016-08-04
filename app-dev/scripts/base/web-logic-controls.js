@@ -2904,8 +2904,9 @@ window.webLogicControls = {};
 				}
 
 
-				if (initOptions && initOptions.initTab && !initOptions.doNotShowPanelAtInit) {
-					this.showPanelViaTab(initOptions.initTab);
+				if (initOptions && initOptions.doNotShowPanelAtInit) {
+				} else {
+					this.showPanelViaTab(initOptions ? initOptions.initTab : 0);
 				}
 
 
