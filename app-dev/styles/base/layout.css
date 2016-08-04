@@ -329,6 +329,28 @@ article.message {
 	}
 
 
+.poststamp {
+	background-repeat: no-repeat;
+	background-image: url(../../images/_common/poststamp-w200px.png);
+	width: 10rem;
+	height: 10rem;
+	background-size: 10rem auto;
+	}
+	.poststamp.poststamp-yi-shi-xiao { background-position: 0   0;    }
+	.poststamp.poststamp-yi-zhi-fu   { background-position: 0 -10rem; }
+	.poststamp.poststamp-yi-hui-kuan { background-position: 0 -20rem; }
+
+	.f-block-body .row.has-lead-icon .lead-icon.poststamp {
+		background-image: url(../../images/_common/poststamp-w90px.png);
+		width: 2.25rem;
+		height: 2.25rem;
+		background-size: 2.25rem auto;
+	}
+	.f-block-body .row.has-lead-icon .lead-icon.poststamp.poststamp-yi-shi-xiao { background-position: 0   0;    }
+	.f-block-body .row.has-lead-icon .lead-icon.poststamp.poststamp-yi-zhi-fu   { background-position: 0 -2.25rem; }
+	.f-block-body .row.has-lead-icon .lead-icon.poststamp.poststamp-yi-hui-kuan { background-position: 0 -4.5rem; }
+
+
 .entity-info {
 	font-size: 1rem;
 	}
@@ -1766,10 +1788,6 @@ article.message {
 			margin-left: 0.1rem;
 		}
 
-		.f-block-body .row.entity-of-bank.has-lead-icon h5 q {
-			quotes: '(' ')';
-		}
-
 		.f-block-body .row.entity-of-bank.has-lead-icon .tip {
 			margin-top: 0;
 		}
@@ -1777,6 +1795,48 @@ article.message {
 		.f-block-body .row.entity-of-bank.has-lead-icon .left {
 			width: auto;
 		}
+
+
+	.f-block-body .row.has-lead-icon.lead-icon-poststamp {
+		padding-left: 3.3rem;
+		}
+		.f-block-body .row.has-lead-icon.lead-icon-poststamp::before {
+			left: 0.8rem;
+		}
+		.f-block-body .row.has-lead-icon.lead-icon-poststamp .lead-icon {
+			left: 0.7rem;
+		}
+
+
+	.f-block-body .row.multi-lines {
+		line-height: 1.1rem;
+		}
+
+		.f-block-body .row.multi-lines h4 {
+			font-size: 0.85rem;
+			font-weight: 500;
+		}
+
+		.f-block-body .row.multi-lines h5 {
+			font-size: 0.75rem;
+			font-weight: 500;
+		}
+
+		.f-block-body .row.multi-lines .left,
+		.f-block-body .row.multi-lines .right {
+			line-height: inherit;
+			margin-top: 0.25rem;
+			margin-bottom: 0;
+		}
+
+		.f-block-body .row.multi-lines .left  * ~ p,
+		.f-block-body .row.multi-lines .left  p,
+		.f-block-body .row.multi-lines .right * ~ p,
+		.f-block-body .row.multi-lines .right p {
+			font-size: 0.65rem;
+			margin: 0.25rem 0 0;
+		}
+
 
 
 
@@ -1946,7 +2006,6 @@ dl.tickets-list {
 		left: auto;
 		right: 0;
 	}
-
 
 
 .dialog.dialog-style-card {

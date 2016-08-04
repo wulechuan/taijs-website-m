@@ -863,6 +863,18 @@ dl.tickets-list {
 		color: #4285f4;
 	}
 
+	.f-block-body .row.multi-lines h4,
+	.f-block-body .row.multi-lines h5 {
+		color: black;
+	}
+
+	.f-block-body .row.multi-lines .left  * ~ p,
+	.f-block-body .row.multi-lines .left  p,
+	.f-block-body .row.multi-lines .right * ~ p,
+	.f-block-body .row.multi-lines .right p {
+		color: #666;
+	}
+
 
 .f-block .tiles > a > .tile,
 .f-block .tiles     > .tile {

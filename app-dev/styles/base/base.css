@@ -55,8 +55,11 @@ sub {
 }
 
 
-q:before { content: open-quote; }
-q:after  { content: close-quote; }
+q {
+	quotes: '(' ')';
+	}
+	q:before { content: open-quote; }
+	q:after  { content: close-quote; }
 
 
 article {
