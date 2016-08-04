@@ -12,12 +12,12 @@
 <!-- inject:appBGLayer0:html --><!-- endinject -->
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
-<div data-app-header-title="投资确认" id="page-newbie-buying-confirm"
+<div data-app-header-title="投资确认" id="page-fixed-income-buying-confirm"
 	 class="page has-page-header fixed-page-header has-page-footer fixed-page-footer"
 	><header class="page-header">
 		<div class="row header-bar">
 			<div class="center"><h1>投资确认</h1></div>
-			<div class="left"  ><a role="button" class="nav-back" href="account-trading-account-register-step-1.html"></a></div>
+			<div class="left"  ><a role="button" class="nav-back" href="my-fixed-income-index.html"></a></div>
 			<div class="right" ><a role="button" class="nav-home" href="../index.html"></a></div>
 		</div>		
 	</header>
@@ -27,7 +27,9 @@
 		<div class="f-block snap-top">
 			<div class="f-block-body">
 				<div class="row tall caption-bar">
-					<div class="left"><h1><span class="label">产品名称</span><span class="value product-caption">新手专享</span></h1></div>
+					<div class="left">
+						<h1><span class="label">产品名称</span><span class="value product-caption">泰靠谱001号</span></h1>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -59,7 +61,23 @@
 			</div>
 
 			<div class="row dynamic-row">
-				<div class="chinese-number" for-element="newbie-buying-amount"></div>
+				<p class="chinese-number" for-element="newbie-buying-amount"></p>
+				<p class="tip" for-empty-input="newbie-buying-amount">当前剩余可投<span class="value currency">100,000.00</span>元，投资金额为100的整数倍</p>
+			</div>
+		</div>
+		<div class="f-block">
+			<div class="f-block-body">
+				<a href="#">
+				<div class="row choose-tickets">
+					<div class="left">可用券</div>
+					<div class="right">欢迎使用</div>
+				</div>
+				</a>
+
+				<div class="row">
+					<div class="left">预计收益</div>
+					<div class="right"><em><span class="value currency">0.00</span></em><sub>元</sub></div>
+				</div>
 			</div>
 
 			<div class="row">
@@ -69,7 +87,9 @@
 								 id="eula-checkbox"
 						><label for="eula-checkbox" class="deco-input"></label
 						><label for="eula-checkbox">我已阅读并同意以下协议：<br>
-							<a href="#">《产品收益转让协议》</a> <a href="#">《产品风险提示》</a>
+							<a href="#">《产品收益转让协议》</a>
+							<a href="#">《产品风险提示》</a><br>
+							<a href="#">《投资者授权承诺函》</a>
 						</label
 					></p>
 				</article>
@@ -165,9 +185,54 @@
 				</div>
 			</div>
 		</div>
+
+
+		<div role="dialog" class="popup-layer" id="pl-available-tickets-list">
+			<div class="popup-window">
+				<div class="dialog dialog-style-card">
+					<div class="deco"><div class="concave-pies pies-layout-hori"></div></div>
+					<header class="dialog-header"><h3>以下为所有可用券，请先输入金额</h3></header>
+					<div class="dialog-body">
+						<div class="content">
+							<article class="message">
+								<dl class="tickets-list">
+									<div class="row">
+										<dt>10元抵用券</dt>
+										<dd><q>投资金额≥1000，期限≥30天</q></dd>
+									</div>
+
+									<div class="row">
+										<dt>100元抵用券</dt>
+										<dd><q>投资金额≥1000，期限≥30天，满千减十</q></dd>
+									</div>
+
+									<div class="row">
+										<dt>10%加息券</dt>
+										<dd><q>投资金额≥1000，期限≥180天</q></dd>
+									</div>
+
+									<div class="row">
+										<dt>1%加息券</dt>
+										<dd><q>投资金额≥100，期限≥30天</q></dd>
+									</div>
+
+									<div class="row">
+										<dt>1000元特权本金</dt>
+										<dd><q>投资金额≥1000，期限≥30天</q></dd>
+									</div>
+								</dl>
+							</article>
+						</div>
+					</div>
+					<footer class="dialog-footer">
+						<button class="button-x" button-action="cancel"></button>
+					</footer>
+				</div>
+			</div>
+		</div>
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
-	<script src="../scripts/pages/newbie-buying-confirm.min.js"></script>
+	<script src="../scripts/pages/fixed-income-buying-confirm.min.js"></script>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 

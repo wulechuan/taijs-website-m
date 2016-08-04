@@ -633,13 +633,14 @@ dd {
 	display: none;
 	background-repeat: no-repeat;
 	background-position: center;
-	width: 240px;
-	height: 160px;
+	background-size: auto 4.5rem;
+	width: 100%;
+	height: 6rem;
 	position: absolute;
 	left: 0;
 	right: 0;
-	top: 40%;
-	margin: -80px auto 0 auto;
+	top: 5rem;
+	margin: 0 auto;
 	text-align: center;
 	/* font-size: 16px; */
 	line-height: 1.5;
@@ -650,6 +651,9 @@ dd {
 		left: 0;
 		right: 0;
 		top: 100%;
+	}
+	.empty-content-hint:first-child {
+		display: block;
 	}
 
 
@@ -873,6 +877,23 @@ label, .label {
 			bottom: 0;
 			margin-bottom: -0.33rem;
 			margin-left: -0.5rem;
+		}
+
+	.has-border-triangle.border-triangle-size-small::before {
+		border-radius: 0;
+		width: 0.5rem;
+		height: 0.5rem;
+		}
+
+		.has-border-triangle.border-triangle-size-small.border-triangle-at-top::before,
+		.has-border-triangle.border-triangle-size-small::before {
+			margin-top: -0.2rem;
+			margin-left: -0.25rem;
+		}
+
+		.has-border-triangle.border-triangle-size-small.border-triangle-at-bottom::before {
+			margin-bottom: -0.2rem;
+			margin-left: -0.25rem;
 		}
 
 	.has-border-triangle.border-triangle-size-tiny::before {
@@ -1446,6 +1467,55 @@ ol.f-list, ul.f-list { /* function list */
 	.toolbar > li:first-child:before,
 	.toolbar.has-separator > li:first-child:before {
 		content: none;
+	}
+
+
+.progress-bar {
+	display: block;
+	margin: 1rem auto;
+	}
+
+	.hero-content-block .progress-bar {
+		margin-left: -0.8rem;
+		margin-right: -0.8rem;
+	}
+
+	.progress-bar .progress-range {
+		position: relative;
+		width: 100%;
+		height: 1px;
+	}
+
+	.progress-bar .current-progress {
+		position: absolute;
+		margin: 0;
+		left: 0;
+		right: auto;
+		width: 0;
+		top: 0;
+		bottom: 0;
+		height: auto;
+	}
+
+	.progress-bar .current-progress-dot {
+		position: absolute;
+		margin: -0.2rem;
+		width: 0.4rem;
+		height: 0.4rem;
+		left: auto;
+		right: 0;
+		top: 50%;
+		bottom: auto;
+		border-radius: 1000px;
+	}
+	.progress-bar .label {
+		position: absolute;
+		right: 0;
+		bottom: 100%;
+		margin: 0.5rem 0.8rem;
+		font-size: 0.6rem;
+		font-weight: 100;
+		line-height: 1;
 	}
 
 
@@ -2078,8 +2148,6 @@ ol.f-list, ul.f-list { /* function list */
 		}
 
 
-
-
 .tiles {}
 
 	.tiles > a {
@@ -2626,9 +2694,20 @@ dl.initially-collapsed {
 			display: inline;
 		}
 
+		.tab-list.fixed {
+			z-index: 20;
+			position: fixed;
+			left: 0;
+			width: 100%;
+			top: 0;
+			right: auto;
+			bottom: auto;
+			box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+		}
+
 
 	.panel-group {
-		overflow: hidden; /* for .panel transform transitions */
+		overflow: visible; /* for Swiper, in case used */
 	}
 
 	.panel {
@@ -2638,18 +2717,22 @@ dl.initially-collapsed {
 		visibility: hidden;
 		height: 0;
 		overflow: hidden;
+		}
+		.panel.current {
+			opacity: 1;
+			height: auto;
+			overflow: initial;
+			visibility: visible;
+		}
+
+	.panel.panel-has-animation {
 		/* transition-property: visibility, opacity, transform; */
 		transition-duration: 0.38s;
 		transform: translate(-100%) scale(0.2, 0.2);
-	}
-
-	.panel.current {
-		opacity: 1;
-		height: auto;
-		overflow: initial;
-		visibility: visible;
-		transform: translate(0) scale(1, 1);
-	}
+		}
+		.panel.panel-has-animation.current {
+			transform: translate(0) scale(1, 1);
+		}
 
 
 .carousel {
@@ -2743,6 +2826,31 @@ dl.initially-collapsed {
 			background-color: black;
 			border-radius: 1000px;
 		}
+
+
+.user-guide-step {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	}
+
+	.user-guide-step .illustrate {
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+	}
+	.user-guide-step button.invisible {
+		opacity: 0!important;
+		background-color: transparent!important;
+		border-width: 0!important;
+		padding: 0!important;
+		margin: auto!important;
+		position: absolute;
+		width: 100%;
+		height: 2rem;
+	}
 
 
 @keyframes reveal-content {

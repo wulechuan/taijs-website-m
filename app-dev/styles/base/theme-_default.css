@@ -84,6 +84,7 @@ a, a:visited {
 	}
 	a:active .hero-content-block,
 	.row.menu-item:active,
+	.row.interactive:active,
 	.row.call-to-action:active,
 	a:active .row {
 		transition-property: none;
@@ -398,16 +399,9 @@ input {
 
 button.button-x {
 	background-color: transparent;
-	color: white;
+	color: #666;
 	}
 
-	button.button-x:hover {
-		background-color: transparent;
-	}
-
-	button.button-x:before {
-		background-color: white;
-	}
 
 
 button[button-action="clear-input-field"]:hover,
@@ -500,6 +494,28 @@ label.deco-input {
 	border-color: #ff291d;
 	background-color: #ff291d;
 	}
+
+
+.progress-bar {
+	}
+
+	.color-inverted .progress-bar {
+		}
+
+		.color-inverted .progress-bar .progress-range {
+			background-color: rgba(255, 255, 255, 0.3);
+		}
+
+		.color-inverted .progress-bar .current-progress {
+			background-color: #ffda10;
+		}
+
+		.color-inverted .progress-bar .current-progress-dot {
+			background-color: white;
+		}
+
+		.progress-bar .label {
+		}
 
 
 .progress-rings .ring {
@@ -666,6 +682,10 @@ label.deco-input {
 		background-color: #f60;
 	}
 
+	.progress-stops.layout-vert .progress-stop .label .minor {
+		color: #999;
+	}
+
 
 .count-down-disc {
 	color: #f60;
@@ -675,6 +695,12 @@ label.deco-input {
 		border-color: initial;
 		border-color: #f60; /* for IE 11 */
 	}
+
+	.count-down-disc.time-out {
+		color: #999;
+		border-color: #eaeaea;
+		background-color: #eaeaea;
+		}
 
 
 .f-list > li > .label {
@@ -710,20 +736,59 @@ label.deco-input {
 .dialog {
 	}
 
+	.dialog.dialog-style-card > .deco,
 	.dialog-header,
 	.dialog-footer,
 	.dialog-body {
 		background-color: white;
+	}
+
+	.dialog.dialog-style-card > .deco .concave-pies {
+		color: white;
+	}
+
+	.dialog-header {
+		color: black;
 		}
 
 	.dialog-footer {
 		border-color: #dadada;
 	}
 
+	.dialog.dialog-style-card .dialog-body > .content *,
+	.dialog.dialog-style-card .dialog-body > .content {
+		border-color: #ececec;
+	}
+
+	.dialog.dialog-style-card .dialog-body > .content article {
+		padding: 0;
+	}
+
+
+dl.tickets-list {
+	}
+
+	dl.tickets-list dt {
+		color: #333;
+	}
+	dl.tickets-list dd {
+		color: #999;
+	}
+
 
 .f-block { /* function-block */
 	color: #666;
 	}
+	.f-block .row h3,
+	.f-block .row h2,
+	.f-block .row h1 {
+		color: black;
+	}
+
+	.row.caption-bar h1 .label {
+		color: #666;
+	}
+
 	.f-block-body {
 		background-color: white;
 	}
@@ -746,6 +811,7 @@ label.deco-input {
 		color: #333;
 	}
 	a .row::after,
+	.f-block-body a .right::after,
 	  .row.call-to-action::after {
 		color: #999;
 	}
@@ -813,12 +879,26 @@ label.deco-input {
 		}
 
 
+.markers {
+
+	}
+	.marker {
+	}
+	.marker.marker-ke-zhuan-rang { color: #4285f4; }
+	.marker.marker-ke-yong-quan { color: #fb5f5f; }
+
+
+
 .entity-info {
 	}
 	.entity-info > h5 {
 		color: #999;
 	}
-
+	.entity-info.entity-time-limited.entity-out-of-time {
+		}
+		.entity-info.entity-time-limited.entity-out-of-time em {
+			color: #333;
+		}
 
 .product-abstract {
 	}
@@ -841,6 +921,11 @@ label.deco-input {
 	}
 
 
+	.product-abstract .entity-info.entity-type-fixed-income .entity-body .call-to-action {
+		color: #4285f4;
+		}
+
+
 .tab-panel-set {
 	}
 
@@ -848,10 +933,13 @@ label.deco-input {
 		background-color: #f2f2f2;
 	}
 
-	.tab-list.tabs-style-regular > li {
+	.tab-list.tabs-style-regular {
 		color: black;
 		background-color: white;
-	}
+		}
+		.tab-list.tabs-style-regular > li {
+			background-color: transparent;
+		}
 
 	.tab-list > .current-item-hint {
 		background-color: #4285f4;

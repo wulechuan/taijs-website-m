@@ -58,12 +58,14 @@ button.nav-back::before,
 	font-size: 0.5em;
 	font-weight: lighter;
 	}
-
-	.digits.percentage-value.strong {
-		display: inline-block;
-		font-weight: 400;
-		letter-spacing: 0.04em;
-		text-indent: 0.1em;
+	.suffix-percentage-value {
+		display: none;
+	}
+	.has-suffix-percentage-value .suffix-percentage-value {
+		display: inline;
+	}
+	.has-suffix-percentage-value > .percentage-value::after {
+		content: none;
 	}
 
 
@@ -84,12 +86,33 @@ article.message {
 	} */
 
 	article.message .info-subject-symbol {
-		margin: 0.1rem auto 0.1rem auto;
+		margin: 2.2rem auto 0.1rem auto;
 		}
 		article.message .info-subject-symbol .iconfont,
 		article.message .info-subject-symbol {
 			font-size: 3rem;
 		}
+
+
+.empty-content-hint {
+	position: relative;
+	top: auto;
+	margin-top: 5rem;
+	margin-bottom: 2rem;
+	background-image: url(../../images/_common/empty-content-hint-money-bag-in-hand.png);
+	}
+	.empty-content-hint:after {
+		content: '犇宝宝心里空荡荡的~~';
+	}
+	.empty-content-hint.products-confirming:after {
+		content: '暂无已兑付产品';
+	}
+	/* .empty-content-hint.products-owned:after {
+		content: '犇宝宝心里空荡荡的~~';
+	} */
+	.empty-content-hint.products-payed:after {
+		content: '暂无确认中产品';
+	}
 
 
 .input-tip {
@@ -154,6 +177,42 @@ article.message {
 		display: block;
 		margin: 0 auto;
 		font-size: 0.55rem;
+	}
+
+	.count-down-disc.time-out {}
+		.count-down-disc.time-out * {
+			display: none!important;
+		}
+		.count-down-disc.time-out::after {
+			content: '已售罄';
+			display: block;
+			width: 80%;
+			height: 1rem;
+			line-height: 1rem;
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			font-size: 0.75rem;
+			font-weight: 500;
+		}
+
+
+.markers {
+	}
+
+	.marker {
+		display: inline-block;
+		vertical-align: middle;
+		margin: 0 0.1rem;
+		border-width: 1px;
+		border-color: initial!important;
+		border-radius: 0.15rem;
+		padding: 0.1rem 0.2rem;
+		line-height: 1;
+		font-size: 0.6rem;
 	}
 
 
@@ -250,6 +309,12 @@ article.message {
 			height: 3.75rem;
 		}
 
+		.entity-buyable.entity-time-limited .entity-body .call-to-action .progress-rings-container .label em,
+		.entity-buyable.entity-time-limited .entity-body .call-to-action .progress-rings-container .label {
+			font-size: 1.4rem;
+			font-weight: 400;
+		}
+
 	.entity-body .f-list {
 		padding: 0.5rem;
 		margin: 0 -0.5rem 0;
@@ -290,17 +355,17 @@ article.message {
 				height: 1rem;
 				padding: 0.6rem 0 0 0;
 			}
+			.entity-body .f-list > a > .cell.hero > .content,
+			.entity-body .f-list     > .cell.hero > .content {
+				font-size: 1.6em;
+				padding-top: 0!important;
+				height: 1.6rem;
+			}
 			.entity-body .f-list > a > .cell > .content .digits,
 			.entity-body .f-list     > .cell > .content .digits {
 				font-weight: 300;
 			}
 
-			.entity-body .f-list > a > .cell.hero > .content,
-			.entity-body .f-list     > .cell.hero > .content {
-				font-size: 1.6em;
-				padding-top: 0;
-				height: 1.6rem;
-			}
 
 		.entity-body .f-list.labels-at-bottom > a > .cell,
 		.entity-body .f-list.labels-at-bottom     > .cell {
@@ -320,6 +385,75 @@ article.message {
 		width: 45%;
 	}
 
+	.entity-info.entity-type-fixed-income .entity-body {
+		margin: 0.3rem 0 0.2rem 0;
+		}
+
+		.entity-info.entity-type-fixed-income .entity-body .call-to-action {
+			margin-top: -0.1rem;
+			margin-bottom: -0.3rem;
+		}
+
+		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:first-child {
+			width: 70%;
+		}
+		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:last-child {
+			width: 30%;
+		}
+		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell > .content {
+			padding-top: 0.9rem;
+		}
+		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell.hero > .content {
+			font-size: 1.85em;
+			height: 1.9rem;
+		}
+		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:last-child > .content {
+			font-size: 0.75rem;
+		}
+
+
+	.product-abstract .entity-info.entity-type-fixed-income .entity-body {
+		margin: 0;
+		}
+
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .call-to-action {
+			height: 2rem;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			right: 0.8rem;
+			margin: auto 0;
+
+			font-size: 0.75rem;
+			font-weight: 400;
+			width: auto;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list {
+			padding: 0;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell {
+			margin: 0;
+			box-sizing: border-box;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell:first-child {
+			width: 46%;
+			margin-left: 8%;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell:last-child {
+			width: 46%;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell > .label {
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell > .content {
+			padding-top: 0;
+			font-size: 0.9rem;
+			height: auto;
+		}
+		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell time {
+			font-size: 0.75rem;
+			font-weight: 500;
+		}
+
 
 .row.hero-content-block-call-to-action { /* homepage */
 	min-height: 1.5rem;
@@ -332,8 +466,13 @@ article.message {
 
 	.hero-content-block {
 	position: relative;
-	margin: -0.5rem -0.8rem;
+	margin: 0 -0.8rem 0;
 	padding: 0.5rem 0.8rem;
+	}
+
+	.f-block .hero-content-block {
+		margin-top: -0.5rem;    /* because .row under .f-block has non-zero padding-top */
+		margin-bottom: -0.5rem; /* because .row under .f-block has non-zero padding-bottom */
 	}
 
 	.hero-content-block h3 {
@@ -381,7 +520,7 @@ article.message {
 	}
 
 
-	.hero-content-block.hero-content-block-style-1 { /* homepage and trading-account-register-succeeded page */
+	.hero-content-block.hero-content-block-style-1 { /* homepage */
 		}
 		.hero-content-block.hero-content-block-style-1 h3 .subject {
 			font-size: 1rem;
@@ -395,6 +534,23 @@ article.message {
 		}
 
 
+	.hero-content-block.hero-content-block-style-4 { /* trading-account-register-succeeded page */
+		padding-top: 0.1rem;
+		padding-bottom: 0;
+		}
+		.hero-content-block.hero-content-block-style-4 h3 .subject {
+			font-size: 0.9rem;
+		}
+		.hero-content-block.hero-content-block-style-4 h3 .hero-word {
+			margin-top: 0.6rem;
+			font-size: 2.5rem;
+		}
+		.hero-content-block.hero-content-block-style-4 .hero-content-features > .f-list > li {
+			margin: 0 0.8rem 0;
+			width: 35%;
+		}
+
+
 	.hero-content-block.hero-content-block-style-2 { /* in personal center page */
 		}
 		.hero-content-block.hero-content-block-style-2 h3 {
@@ -403,9 +559,6 @@ article.message {
 
 
 	.color-inverted .hero-content-block.hero-content-block-style-2 { /* in pages such as newbie-reserved-assets */
-		margin-left: -0.8rem;
-		margin-right: -0.8rem;
-		padding-top: 1rem;
 		padding-bottom: 0.6rem;
 		}
 		.color-inverted .hero-content-block.hero-content-block-style-2 h3 .hero-word {
@@ -433,8 +586,7 @@ article.message {
 
 	.hero-content-block.hero-content-block-style-3 { /* in newbie-call-to-action page */
 		margin-top: 0;
-		margin-bottom: 0;
-		padding-top: 1.25rem;
+		padding-top: 0.75rem;
 		padding-bottom: 0.25rem;
 		background-repeat: no-repeat;
 		background-position: center -2.4rem; /* offset background for page-header bg */
@@ -531,7 +683,35 @@ article.message {
 .product-abstract {
 	}
 
-	.product-abstract .abstract-title {
+	.product-abstract .f-block-body .row.abstract-title {
+		padding-top: 0;
+		padding-bottom: 0;
+		}
+		.product-abstract .f-block-body .row.abstract-title .left {
+			box-sizing: border-box;
+			display: block;
+			height: 2.4rem;
+			margin-top: 0;
+			margin-bottom: 0;
+			width: 85%;
+			margin-right: 3rem;
+			padding-top: 0.5rem;
+			padding-bottom: 0.5rem;
+			line-height: 1.4rem;
+		}
+		.product-abstract .f-block-body .row.abstract-title .right {
+			box-sizing: border-box;
+			display: block;
+			position: absolute;
+			height: 2.4rem;
+			margin: 0;
+			width: auto;
+			top: 0;
+			right: 0;
+			padding-top: 0.5rem;
+			padding-bottom: 0.5rem;
+			padding-right: 1.6rem;
+			line-height: 1.4rem;
 		}
 		.product-abstract .abstract-title h3 {
 			font-weight: normal;
@@ -541,8 +721,22 @@ article.message {
 			font-weight: normal;
 			font-size: 0.65rem;
 		}
+		.product-abstract .abstract-title a .right::after {
+			font-family: 'iconfont'!important;
+			display: block;
+			position: absolute;
+			right: 0.6rem;
+			content: '\e601';
+			text-align: right;
+			font-size: 0.8rem;
+			direction: rtl;
+			text-indent: 0;
+			height: 1.2rem;
+			line-height: 1.2rem;
+			top: 0.6rem;
+		}
 		.product-abstract .abstract-title::after {
-			transform: scale(0.75, 0.75);
+			/* transform: scale(0.75, 0.75); */
 		}
 
 	.product-abstract .row.abstract-body {
@@ -645,13 +839,24 @@ article.message {
 		width: 100%;
 		}
 
-		.tab-list.tabs-count-2 > li {
-			width: 50%;
+		.tab-list > li {
+			box-sizing: border-box;
 			text-align: center;
 			padding: 0.5rem;
-			box-sizing: border-box;
 			font-weight: 400;
 		}
+
+		.tab-list.tabs-count-2 > li {
+			width: 50%;
+		}
+
+		.tab-list.tabs-count-3 > li {
+			width: 33.3%;
+			}
+
+			.tab-list.tabs-count-3 > li:nth-child(2) {
+				width: 33.4%;
+			}
 
 		.tab-list > li > .label {
 			display: inline-block;
@@ -683,6 +888,26 @@ article.message {
 			/* transition-timing-function: cubic-bezier(.19,1.08,.63,1.36); */
 			transition-timing-function: ease-out;
 		}
+
+
+		.tab-list.tabs-with-gaps > li {
+			margin-left: 1rem;
+			margin-right: 1rem;
+			}
+
+			.tab-list.tabs-with-gaps.tabs-count-2 > li {
+				width: calc(50% - 1rem - 1rem);
+			}
+
+			.tab-list.tabs-with-gaps.tabs-count-3 > li {
+				width: calc(33.3% - 1rem - 1rem);
+			}
+
+			.tab-list.tabs-with-gaps.tabs-count-3 > li:nth-child(2) {
+				width: calc(33.4% - 1rem - 1rem);
+			}
+
+
 
 
 	.panel-group {
@@ -752,7 +977,46 @@ article.message {
 	.page-footer .row.buttons-in-single-line {
 		margin-top: 0;
 		margin-bottom: 0;
-	}
+		}
+
+		.page-footer .row.buttons-in-single-line a[role="button"],
+		.page-footer .row.buttons-in-single-line [role="button"],
+		.page-footer .row.buttons-in-single-line button {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+
+	.page-footer .row.buttons-in-single-line.columns {
+		}
+
+		.page-footer .row.buttons-in-single-line.columns .col {
+			width: 50%;
+			text-align: center;
+		}
+
+		.page-footer .row.buttons-in-single-line.columns.content-gather-together .col:first-child {
+			text-align: right;
+			padding-right: 0.65rem;
+		}
+		.page-footer .row.buttons-in-single-line.columns.content-gather-together .col:last-child {
+			text-align: left;
+			padding-left: 0.65rem;
+		}
+
+		.page-footer .row.buttons-in-single-line.columns .col a[role="button"],
+		.page-footer .row.buttons-in-single-line.columns .col [role="button"],
+		.page-footer .row.buttons-in-single-line.columns .col button {
+			padding-left: 0.25rem;
+			padding-right: 0.25rem;
+		}
+
+		.page-footer .row.buttons-in-single-line.columns .col a[role="button"].size-std-regular,
+		.page-footer .row.buttons-in-single-line.columns .col [role="button"].size-std-regular,
+		.page-footer .row.buttons-in-single-line.columns .col button.size-std-regular {
+			font-size: 0.8rem;
+			width: 6rem;
+		}
+
 
 	.row.buttons-in-single-line [role="button"],
 	.row.buttons-in-single-line button {
@@ -846,6 +1110,17 @@ article.message {
 		padding: 0.2rem 0.5rem;
 		margin: -0.2rem -0.5rem;
 	}
+
+	.row.caption-bar {
+		}
+		.row.caption-bar h1 {
+			font-size: 0.9rem;
+			font-weight: 400;
+		}
+		.row.caption-bar h1 .label {
+			margin-right: 0.75em;
+		}
+
 
 	.row .left,
 	.row .right {
@@ -1412,6 +1687,14 @@ article.message {
 			margin-top: 0.5rem;
 		}
 
+
+		.f-block > .row h3,
+		.f-block > .row h2,
+		.f-block > .row h1 {
+			font-size: 0.8rem;
+			font-weight: 500;
+		}
+
 		.f-block article {
 			padding: 0.25rem;
 			margin: -0.25rem;
@@ -1432,6 +1715,169 @@ article.message {
 			}
 
 
+dl.tickets-list {
+	text-align: left;
+	}
+
+	dl.tickets-list .row {
+		border-width: 1px 0;
+		padding: 0.8rem 0.1rem;
+		margin: 0 0 -1px 0;
+	}
+	dl.tickets-list .row:last-child {
+		border-bottom-width: 0;
+		margin-bottom: 0;
+	}
+
+	dl.tickets-list dt {
+		display: inline;
+		font-size: 0.75rem;
+		font-weight: 400;
+		margin-right: 1em;
+	}
+	dl.tickets-list dd {
+		display: inline;
+		font-size: 0.65rem;
+		font-weight: 100;
+	}
+
+.concave-pies {
+	position: absolute;
+	}
+	.concave-pies::after,
+	.concave-pies::before {
+		font-family: 'iconfont'!important;
+		display: block;
+		position: absolute;
+		color: inherit;
+	}
+	.concave-pies.pies-layout-hori::after,
+	.concave-pies.pies-layout-hori::before {
+		content: '\e61c';
+	}
+	.concave-pies.pies-layout-vert::after,
+	.concave-pies.pies-layout-vert::before {
+		content: '\e61d';
+	}
+	.concave-pies.pies-layout-hori::before {
+		left: 0;
+		right: auto;
+	}
+	.concave-pies.pies-layout-hori::after {
+		left: auto;
+		right: 0;
+	}
+
+
+
+.dialog.dialog-style-card {
+	padding: 1.25rem;
+	padding-bottom: 5.5rem;
+	border-radius: 0;
+	box-shadow: none;
+	}
+
+	.dialog.dialog-style-card > .deco {
+		z-index: 0;
+
+		position: absolute;
+		display: block;
+		left: 1.25rem;
+		right: 1.25rem;
+		top: 0;
+		bottom: 0;
+		}
+
+		.dialog.dialog-style-card > .deco::after,
+		.dialog.dialog-style-card > .deco::before {
+			content: '';
+
+			position: absolute;
+			display: block;
+			left: -1.25rem;
+			right: -1.25rem;
+
+			background-color: inherit;
+		}
+		.dialog.dialog-style-card > .deco::before {
+			top: 0;
+			margin-bottom: 1rem;
+			bottom: 65%;
+		}
+		.dialog.dialog-style-card > .deco::after {
+			top:  35%;
+			margin-top: 1rem;
+			bottom: 0;
+		}
+		.dialog.dialog-style-card > .deco .concave-pies.pies-layout-hori {
+			top:  35%;
+			left: 0;
+			right: 0;
+			margin: -1.5rem -1.25rem;
+			height: 3rem;
+			line-height: 3rem;
+		}
+		.dialog.dialog-style-card > .deco .concave-pies.pies-layout-hori::after,
+		.dialog.dialog-style-card > .deco .concave-pies.pies-layout-hori::before {
+			font-size: 2rem;
+		}
+
+
+	.dialog.dialog-style-card .dialog-header {
+		z-index: 2;
+		position: relative;
+		padding: 1rem 0.5rem 1.5rem;
+		font-weight: 400;
+		font-size: 0.85rem;
+	}
+
+	.dialog.dialog-style-card .dialog-footer {
+		z-index: 3;
+		position: absolute;
+		bottom: 0;
+		height: 5.5rem;
+		left: 0;
+		right: 0;
+		margin: 0;
+		width: auto;
+
+		}
+
+		.dialog.dialog-style-card .dialog-footer button.button-x {
+			position: absolute;
+			width: 8rem;
+			height: 4rem;
+			line-height: 4rem;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			padding: 0;
+			margin: auto;
+
+			font-size: 1.35rem;
+		}
+
+		.dialog.dialog-style-card .dialog-footer button.button-x::before {
+			content: none;
+		}
+
+		.dialog.dialog-style-card .dialog-footer button.button-x::after {
+			font-size: inherit;
+			line-height: inherit;
+			color: inherit;
+		}
+
+
+	.dialog.dialog-style-card .dialog-body > .content {
+		overflow: auto;
+	}
+
+	.dialog.dialog-style-card .dialog-body > .content article {
+		padding: 0;
+	}
+
+
 .popup-panel .f-block-body {
 	margin-bottom: -1px;
 	}
@@ -1439,7 +1885,6 @@ article.message {
 	.popup-panel-body > .row {
 		margin-bottom: 0.5rem;
 	}
-
 
 
 .f-block .tiles {
@@ -1778,6 +2223,26 @@ article.message {
 	}
 	#page-account-sign-up-sign-in .panel .f-block:first-child {
 		margin-top: 1rem;
+	}
+
+
+#page-account-sign-up-succeeded .special-button {
+	height: auto;
+	padding-left: 0;
+	padding-right: 0;
+	}
+	#page-account-sign-up-succeeded .special-button hr {
+		opacity: 0.3;
+		margin: 0.5rem 0;
+	}
+	#page-account-sign-up-succeeded .special-button .minor {
+		font-size: 0.7rem;
+		opacity: 0.8;
+		font-weight: 100;
+	}
+	#page-account-sign-up-succeeded .special-button .strong {
+		font-size: 1rem;
+		font-weight: 300;
 	}
 
 
