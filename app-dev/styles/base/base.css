@@ -689,23 +689,16 @@ dd {
 		text-indent: -0.1em;
 	}
 
+
 .currency {
 	text-align: right;
 	}
-	.currency.currency-rmb:before {
+	.currency.currency-prefix-rmb::before {
 		transition: none; /* for webkit */
 		content: '¥';
 		margin-right: 0.15em;
 	}
-	.tabular .header .currency.currency-rmb {
-		margin-left: 9px; /* for Chinese parenthese */
-		}
-		.tabular .header .currency.currency-rmb.last-cell {
-			margin-right: -9px; /* for Chinese parenthese */
-		}
-		.header .currency.currency-rmb:before {
-			content: none;
-		}
+
 
 
 label, .label {
@@ -1951,7 +1944,7 @@ ol.f-list, ul.f-list { /* function list */
 
 			left: 50%;
 			right: -50%;
-			width: 90%;
+			width: 80%;
 			margin: 0 auto;
 			}
 			.progress-stops.layout-hori .progress-stop > .label,

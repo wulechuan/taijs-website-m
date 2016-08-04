@@ -71,8 +71,9 @@
 		.user-has-logged-in               .page-header .taijs-slogan,
 		.page.page-header-in-compact-mode .page-header .taijs-slogan {
 			margin: 0;
+			visibility: hidden;
+			width: 0;
 		}
-
 
 	@media only screen and (max-width: 340px) {
 		.page.page-header-in-compact-mode .page-header .taijs-slogan {

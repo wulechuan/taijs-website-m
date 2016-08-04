@@ -73,6 +73,11 @@ em {
 	.favorite-entity-icon {
 		color: #f60;
 	}
+	.summary-row em {
+		color: #ff4200;
+	  -webkit-text-stroke-width: 0.5px;
+		text-shadow: 0 0 0.5px #ff4200;
+	}
 
 
 a, a:visited {
@@ -161,6 +166,23 @@ input {
 		color: #bdbdbd;
 		border-color: #ddd;
 		background-color: #ddd;
+	}
+
+	input[type="button"].disable-style-2:disabled:hover,
+	input[type="submit"].disable-style-2:disabled:hover,
+	input[type="reset"].disable-style-2:disabled:hover,
+	a[role="button"].disable-style-2:disabled:hover,
+	[role="button"].disable-style-2:disabled:hover,
+	button.disable-style-2:disabled:hover,
+	input[type="button"].disable-style-2:disabled,
+	input[type="submit"].disable-style-2:disabled,
+	input[type="reset"].disable-style-2:disabled,
+	a[role="button"].disable-style-2:disabled,
+	[role="button"].disable-style-2:disabled,
+	button.disable-style-2:disabled {
+		color: white;
+		border-color: #cbcbcb;
+		background-color: #cbcbcb;
 	}
 
 	input[type="reset"].color-white,
@@ -401,7 +423,6 @@ button.button-x {
 	background-color: transparent;
 	color: #666;
 	}
-
 
 
 button[button-action="clear-input-field"]:hover,

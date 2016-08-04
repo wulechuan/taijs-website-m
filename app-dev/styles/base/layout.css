@@ -31,6 +31,25 @@ button.nav-back::before,
 		content: '\e618';
 	}
 
+	input[type="button"].content-in-dual-lines,
+	input[type="submit"].content-in-dual-lines,
+	input[type="reset"].content-in-dual-lines,
+	a[role="button"].content-in-dual-lines,
+	[role="button"].content-in-dual-lines,
+	button.content-in-dual-lines {
+		padding-top: 0.2rem;
+		padding-bottom: 0.2rem;
+		}
+		.content-in-dual-lines .major {
+			display: block;
+			font-size: 0.9rem;
+		}
+		.content-in-dual-lines .minor {
+			display: block;
+			font-size: 0.55rem;
+			letter-spacing: 0;
+		}
+
 
 .favorite-entity-icon::before {
 	font-family: 'iconfont'!important;
@@ -220,6 +239,8 @@ article.message {
 		padding-left: 0.4rem;
 		padding-right: 0.4rem;
 		border-width: 0;
+		margin-left: 0.3rem;
+		margin-right: 0.3rem;
 	}
 	.marker.marker-ticket-look > .deco {
 		z-index: 0;
@@ -304,7 +325,7 @@ article.message {
 		display: inline;
 	}
 	.markers-list .f-list > li .marker {
-		margin-top: -0.2rem;
+		margin-top: -0.1rem;
 	}
 
 
@@ -716,6 +737,65 @@ article.message {
 
 		.hero-content-block.hero-content-block-style-3 .hero-content-features .f-list li .content {
 			margin: 0.5rem auto;
+		}
+
+
+	.hero-content-block.hero-content-block-style-5 { /* in newbie-call-to-action page */
+		margin-top: 0;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+		background-repeat: no-repeat;
+		background-position: center -2.4rem; /* offset background for page-header bg */
+		}
+		.hero-content-block.hero-content-block-style-5 h3 .hero-word + .label,
+		.hero-content-block.hero-content-block-style-5 .f-list .label {
+			font-size: 0.6rem;
+			font-weight: 100;
+			opacity: 0.5;
+		}
+		.hero-content-block.hero-content-block-style-5 .hero-content-features .columns > .col,
+		.hero-content-block.hero-content-block-style-5 h3 {
+			text-align: left;
+			display: inline-block;
+			width: 58%;
+			margin: 0;
+		}
+		.hero-content-block.hero-content-block-style-5 .hero-content-features .columns > .col + .col,
+		.hero-content-block.hero-content-block-style-5 h3 + h3 {
+			width: 40%;
+		}
+		.hero-content-block.hero-content-block-style-5 h3 {
+			margin-bottom: 0.85rem;
+		}
+		.hero-content-block.hero-content-block-style-5 h3 .subject {
+			font-size: 0.7rem;
+			letter-spacing: 0.05em;
+			font-weight: 200;
+		}
+		.hero-content-block.hero-content-block-style-5 h3 .hero-word {
+			margin-top: 0.5rem;
+			margin-bottom: 0.55rem;
+			font-size: 2.4rem;
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+		}
+		.hero-content-block.hero-content-block-style-5 h3 .hero-word .percentage-value::after,
+		.hero-content-block.hero-content-block-style-5 h3 .hero-word sub {
+			font-size: 0.35em;
+		}
+		.hero-content-block.hero-content-block-style-5 .hero-content-features {
+			margin: 0.25rem auto;
+			text-align: center;
+		}
+		.hero-content-block.hero-content-block-style-5 .hero-content-features .columns > .col {
+			font-weight: lighter;
+		}
+		.hero-content-block.hero-content-block-style-5 .hero-content-features .f-list li .label {
+			margin: 0.1rem auto;
+		}
+
+		.hero-content-block.hero-content-block-style-5 .hero-content-features .f-list li .content {
+			margin: 0.3rem auto;
+			font-weight: 100;
 		}
 
 
@@ -1453,6 +1533,11 @@ article.message {
 		margin-bottom: 0.5rem;
 	}
 
+	.row.summary-row {
+		font-size: 0.8rem;
+		font-weight: border;
+	}
+
 
 .row.header-bar {
 	width: 100%;
@@ -1510,12 +1595,13 @@ article.message {
 	}
 
 	.f-block > .row {
+		line-height: 1.2;
 		margin-top: 0.5rem;
-		margin-bottom: 0.5rem;
+		margin-bottom: 0.2rem;
 		}
 
 		.f-block > .row:first-child {
-			margin-top: 1.5rem;
+			margin-top: 1rem;
 		}
 
 		.f-block > .row.input-tips {
@@ -2318,6 +2404,23 @@ dl.tickets-list {
 		margin-top: 1rem;
 	}
 
+	/* hide slogan row */
+	#page-account-sign-up-sign-in .page-header {
+		height: 2.4rem;
+	}
+	#page-account-sign-up-sign-in {
+		margin-top: 2.4rem;
+	}
+	#page-account-sign-up-sign-in .page-header .taijs-slogan {
+		display: none;
+	}
+	#page-account-sign-up-sign-in .page-header .taijs-logo {
+		margin: 0.1rem auto;
+		background-position: center;
+	}
+	/* hide slogan row */
+
+
 
 #page-account-sign-up-succeeded .special-button {
 	height: auto;
@@ -2333,7 +2436,7 @@ dl.tickets-list {
 		opacity: 0.8;
 		font-weight: 100;
 	}
-	#page-account-sign-up-succeeded .special-button .strong {
+	#page-account-sign-up-succeeded .special-button .major {
 		font-size: 1rem;
 		font-weight: 300;
 	}
