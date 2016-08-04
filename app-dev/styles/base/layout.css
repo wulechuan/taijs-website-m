@@ -2287,7 +2287,6 @@ dl.tickets-list {
 		width: 100%;
 		z-index: 45;
 		height: 2.4rem;
-		overflow: hidden;
 		}
 		.page.page-header-in-compact-mode.has-page-header,
 		.page.page-header-in-compact-mode,
@@ -2320,7 +2319,7 @@ dl.tickets-list {
 		}
 		.page-header *,
 		.page-header {
-			transition-property: width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
+			transition-property: font-size, line-height, width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
 		}
 
 
