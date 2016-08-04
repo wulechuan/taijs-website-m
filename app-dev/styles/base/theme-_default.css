@@ -741,7 +741,11 @@ label.deco-input {
 	.dialog-footer,
 	.dialog-body {
 		background-color: white;
-		}
+	}
+
+	.dialog.dialog-style-card > .deco .concave-pies {
+		color: white;
+	}
 
 	.dialog-header {
 		color: black;

@@ -1741,12 +1741,40 @@ dl.tickets-list {
 		font-weight: 100;
 	}
 
+.concave-pies {
+	position: absolute;
+	}
+	.concave-pies::after,
+	.concave-pies::before {
+		font-family: 'iconfont'!important;
+		display: block;
+		position: absolute;
+		color: inherit;
+	}
+	.concave-pies.pies-layout-hori::after,
+	.concave-pies.pies-layout-hori::before {
+		content: '\e61c';
+	}
+	.concave-pies.pies-layout-vert::after,
+	.concave-pies.pies-layout-vert::before {
+		content: '\e61d';
+	}
+	.concave-pies.pies-layout-hori::before {
+		left: 0;
+		right: auto;
+	}
+	.concave-pies.pies-layout-hori::after {
+		left: auto;
+		right: 0;
+	}
+
+
 
 .dialog.dialog-style-card {
 	padding: 1.25rem;
 	padding-bottom: 5.5rem;
 	border-radius: 0;
-	/* box-shadow: none; */
+	box-shadow: none;
 	}
 
 	.dialog.dialog-style-card > .deco {
@@ -1781,6 +1809,19 @@ dl.tickets-list {
 			margin-top: 1rem;
 			bottom: 0;
 		}
+		.dialog.dialog-style-card > .deco .concave-pies.pies-layout-hori {
+			top:  35%;
+			left: 0;
+			right: 0;
+			margin: -1rem -1.25rem;
+			height: 2rem;
+			line-height: 2rem;
+		}
+		.dialog.dialog-style-card > .deco .concave-pies.pies-layout-hori::after,
+		.dialog.dialog-style-card > .deco .concave-pies.pies-layout-hori::before {
+			font-size: 2rem;
+		}
+
 
 	.dialog.dialog-style-card .dialog-header {
 		z-index: 2;
@@ -1804,9 +1845,9 @@ dl.tickets-list {
 
 		.dialog.dialog-style-card .dialog-footer button.button-x {
 			position: absolute;
-			width: 2rem;
-			height: 2rem;
-			line-height: 2rem;
+			width: 8rem;
+			height: 4rem;
+			line-height: 4rem;
 			left: 0;
 			right: 0;
 			top: 0;
