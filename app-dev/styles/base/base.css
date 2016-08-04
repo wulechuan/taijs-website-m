@@ -1614,10 +1614,10 @@ ol.f-list, ul.f-list { /* function list */
 
 	@keyframes menu-pops-up {
 		0%   { opacity: 0; transform: scale(0.7, 0.5) translate(0, -1rem); }
-		42%  { transform: scale(1.1, 1.1); }
-		56%  { opacity: 1; transform: scale(0.92, 0.9); }
-		70%  { transform: scale(1.06, 1.05); }
-		84%  { transform: scale(0.96, 0.97); }
+		42%  { transform: scale(1.05, 1.08); }
+		56%  { opacity: 1; transform: scale(0.965, 0.935); }
+		70%  { transform: scale(1.025, 1.045); }
+		84%  { transform: scale(0.985, 0.97); }
 		100% { opacity: 1; transform: scale(1, 1) translate(0, 0); }
 	}
 
