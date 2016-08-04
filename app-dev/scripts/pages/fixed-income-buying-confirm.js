@@ -6,8 +6,6 @@ $(function () { // fake logics
 	var $pl2 = $('#pl-choose-bank-card');
 
 
-	window.popupLayersManager.show('pl-available-tickets-list', event);
-
 	$('.choose-tickets').on('click', function (event) {
 		window.popupLayersManager.show('pl-available-tickets-list', event);
 	});
