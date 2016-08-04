@@ -1331,6 +1331,9 @@ article.message {
 			margin-left: -2rem;
 			margin-right: -0.5rem;
 		}
+		.row .right .menu {
+			text-align: center;
+		}
 		.row.leftside-wider .left {
 			width: 80%;
 			margin-right: -0.5rem;
@@ -1584,6 +1587,7 @@ article.message {
 		top: 0;
 		padding: 0;
 		margin: 0;
+		width: auto;
 	}
 	.row.header-bar .left {
 		left: 0;
@@ -1605,6 +1609,56 @@ article.message {
 		text-align: center;
 		background-color: transparent;
 	}
+
+	.row.header-bar .right nav {
+		margin-right: 0.15rem;
+	}
+
+	.row.header-bar .right nav .menu.level-1 {
+		width: 4.5rem;
+	}
+
+	.row.header-bar .right nav .menu.level-1 > .menu-item,
+	.row.header-bar .right nav .menu-wrap.level-2,
+	.row.header-bar .right nav .menu.level-2 {
+		width: 100%;
+	}
+
+	.row.header-bar .right nav .menu.level-2 {
+		box-sizing: border-box;
+		border-width: 1px;
+		padding: 0;
+	}
+
+	.row.header-bar .right nav .menu.level-2 > .menu-item {
+		box-sizing: border-box;
+		padding: 0.3rem 0.8rem;
+		border-color: inherit;
+	}
+
+	.row.header-bar .right nav .menu.level-2 > .menu-item::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0.8rem;
+		right: 0.8rem;
+		width: auto;
+		height: 0;
+		border-style: solid;
+		border-width: 1px 0 0 0;
+		border-color: inherit;
+	}
+
+	.row.header-bar .right nav .menu.level-2 > .menu-item:first-child::before {
+		content: none;
+	}
+
+	.row.header-bar .right nav .menu.level-2 > .menu-item > a > .label,
+	.row.header-bar .right nav .menu.level-2 > .menu-item     > .label {
+		padding: 0;
+	}
+
+
 
 
 .f-block { /* function-block */
@@ -2319,7 +2373,7 @@ dl.tickets-list {
 		}
 		.page-header *,
 		.page-header {
-			transition-property: font-size, line-height, width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
+			transition-property: font-size, line-height, transform, width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
 		}
 
 

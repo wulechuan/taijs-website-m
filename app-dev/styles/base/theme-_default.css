@@ -925,6 +925,48 @@ dl.tickets-list {
 
 
 
+.color-inverted .menu.level-1,
+.header-bar     .menu.level-1 {
+	background-color: transparent;
+	}
+	.menu-item.has-sub-menu .menu {
+		background-color: white;
+	}
+
+	.menu.layout-vert > .menu-item > a > .sub-menu-hint,
+	.menu.layout-vert > .menu-item > a > .label,
+	.menu.layout-vert > .menu-item     > .label {
+		color: #333;
+	}
+
+	.menu.layout-vert > .menu-item                > a > .label:hover,
+	.menu.layout-vert > .menu-item                    > .label:hover,
+	.menu.layout-vert > .menu-item.coupled-shown  > a > .label,
+	.menu.layout-vert > .menu-item.coupled-shown      > .label,
+	.menu.layout-vert > .menu-item.current-parent > a > .label,
+	.menu.layout-vert > .menu-item.current-parent     > .label,
+	.menu.layout-vert > .menu-item.current        > a > .label,
+	.menu.layout-vert > .menu-item.current            > .label {
+		color: #4285f4;
+	}
+
+	.menu.layout-vert > .menu-item:hover,
+	.menu.layout-vert > .menu-item:active {
+		background-color: rgba(0, 0, 0, 0.05);
+	}
+
+	/* .menu.layout-vert > .menu-item                > a > .label:hover,
+	.menu.layout-vert > .menu-item                    > .label:hover,
+	.menu.layout-vert > .menu-item                > a > .label:active,
+	.menu.layout-vert > .menu-item                    > .label:active {
+		background-color: rgba(0, 0, 0, 0.05);
+	} */
+
+	.row.header-bar .right nav .menu.level-2 {
+		border-color: #ececec;
+	}
+
+
 .entity-info {
 	}
 	.entity-info > h5 {

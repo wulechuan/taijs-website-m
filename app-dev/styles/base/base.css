@@ -17,7 +17,8 @@
 		transition-property: visibility, opacity, color, background-color, border-color, transform;
 		transition-duration: 0.33s,      0.33s,   0.20s, 0.30s,            0.30s,        0.30s;
 		transition-timing-function: ease-out;
-		animation-timing-function: cubic-bezier(.51,1.23,.87,1);
+		animation-timing-function: cubic-bezier(.29,1,.68,.99);
+		/* animation-timing-function: cubic-bezier(.51,1.23,.87,1); */
 	}
 /* ----- transitions: end ------- */
 
@@ -792,7 +793,7 @@ label, .label {
 
 
 .cast-shadow {
-	box-shadow: 3px 3px 2px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
 	}
 	.cast-inner-shadow {
 		box-shadow: inset 3px 3px 2px 0px rgba(0, 0, 0, 0.1);
@@ -1266,14 +1267,6 @@ label.deco-input {
 	}
 
 
-.search-block {
-	}
-
-	.search-block .iconfont:before {
-		content: '\e613';
-	}
-
-
 .qrcode {
 	width: 128px;
 	text-align: center;
@@ -1426,6 +1419,209 @@ ol.f-list, ul.f-list { /* function list */
 	vertical-align: top;
 	box-sizing: border-box;
 	}
+
+
+.menu {
+	display: block;
+	position: relative;
+	transform-origin: left top;
+	}
+	.menu .menu-wrap {
+		position: absolute;
+		display: none;
+		overflow: visible;
+	}
+	.menu-item {
+		margin: 0;
+		position: relative;
+		display: block;
+		font-size: 0.75rem;
+	}
+	.menu.layout-hori > .menu-item:before {
+		content: '';
+		display: inline-block;
+		vertical-align: middle;
+		font-size: 0;
+		overflow: hidden;
+		opacity: 0;
+		width: 0;
+		height: 100%;
+	}
+	.menu-item > a > .label,
+	.menu-item     > .label {
+		position: relative;
+		z-index: 5;
+
+		box-sizing: border-box;
+		display: inline-block;
+		vertical-align: middle;
+		margin: 0;
+		padding: 0.5rem 1rem;
+		line-height: 1.4rem;
+		max-height: 100%;
+		width: 100%;
+		overflow: hidden;
+	}
+
+	.menu.layout-hori > .menu-item {
+		height: 100%;
+	}
+
+	.menu.layout-hori > .menu-item > a > .label,
+	.menu.layout-hori > .menu-item     > .label {
+		text-align: center;
+	}
+
+	.menu-item > a .sub-menu-hint,
+	.menu-item     .sub-menu-hint {
+		display: none;
+	}
+
+	.menu-item.has-sub-menu > a > .sub-menu-hint,
+	.menu-item.has-sub-menu     > .sub-menu-hint,
+	.menu-item.has-sub-menu > a > .label:after,
+	.menu-item.has-sub-menu     > .label:after {
+		position: absolute;
+		left: auto;
+		top: 0;
+		bottom: 0;
+		text-align: center;
+		text-indent: 0;
+		direction: rtl;
+
+		overflow: hidden;
+		margin: auto!important;
+		width: 1rem;
+		height: 1rem;
+		line-height: 1rem;
+
+		font-size: 0.8rem;
+
+		transition-property: color, transform, opacity;
+	}
+	.menu-item.has-sub-menu > a > .sub-menu-hint,
+	.menu-item.has-sub-menu     > .sub-menu-hint {
+		right: 0.3rem;
+	}
+	.menu-item.has-sub-menu > a > .label:after,
+	.menu-item.has-sub-menu     > .label:after {
+		right: 0.2rem;
+	}
+	.menu-item.has-sub-menu > a > .sub-menu-hint,
+	.menu-item.has-sub-menu     > .sub-menu-hint {
+		display: block;
+		z-index: 9;
+	}
+	.menu-item.has-sub-menu > a > .sub-menu-hint:after,
+	.menu-item.has-sub-menu     > .sub-menu-hint:after {
+		line-height: inherit;
+	}
+	.menu-item.has-sub-menu > a > .label:before,
+	.menu-item.has-sub-menu     > .label:before {
+		content: none;
+		border-radius: 1000px;
+		z-index: 1;
+		opacity: 0;
+	}
+	.menu-item.has-sub-menu.coupled-shown > a:hover > .label:before,
+	.menu-item.has-sub-menu.coupled-shown           > .label:hover:before,
+	.menu-item.has-sub-menu               > a:hover > .label:before,
+	.menu-item.has-sub-menu                         > .label:hover:before {
+		opacity: 1;
+	}
+	.menu-item.has-sub-menu > a > .label:after,
+	.menu-item.has-sub-menu     > .label:after {
+		z-index: 2;
+	}
+
+	.menu-item.has-sub-menu > a > .sub-menu-hint:after,
+	.menu-item.has-sub-menu     > .sub-menu-hint:after,
+	.menu-item.has-sub-menu > a > .label:after,
+	.menu-item.has-sub-menu     > .label:after {
+		font-family:"iconfont"!important;
+		content: '\e61f';
+	}
+
+	.menu-item.has-sub-menu > a > .sub-menu-hint ~ .label:after,
+	.menu-item.has-sub-menu     > .sub-menu-hint ~ .label:after {
+		content: none!important;
+	}
+
+	.menu-item.has-sub-menu > a > .sub-menu-hint,
+	.menu-item.has-sub-menu     > .sub-menu-hint,
+	.menu-item.has-sub-menu > a > .label:after,
+	.menu-item.has-sub-menu     > .label:after {
+		transform: rotate(0deg);
+		-ms-transform: rotate(0deg);
+	}
+
+	.menu.layout-hori > .menu-item.has-sub-menu > a > .sub-menu-hint:after,
+	.menu.layout-hori > .menu-item.has-sub-menu     > .sub-menu-hint:after,
+	.menu.layout-hori > .menu-item.has-sub-menu > a > .label:after,
+	.menu.layout-hori > .menu-item.has-sub-menu     > .label:after {
+		content: '\e61f';
+	}
+
+	.menu.layout-hori > .menu-item.has-sub-menu.coupled-shown > a > .sub-menu-hint,
+	.menu.layout-hori > .menu-item.has-sub-menu.coupled-shown     > .sub-menu-hint,
+	.menu.layout-hori > .menu-item.has-sub-menu.coupled-shown > a > .label:after,
+	.menu.layout-hori > .menu-item.has-sub-menu.coupled-shown     > .label:after,
+	.menu.layout-hori > .menu-item.has-sub-menu.hover-to-show-coupled:hover > a > .sub-menu-hint,
+	.menu.layout-hori > .menu-item.has-sub-menu.hover-to-show-coupled:hover     > .sub-menu-hint,
+	.menu.layout-hori > .menu-item.has-sub-menu.hover-to-show-coupled:hover > a > .label:after,
+	.menu.layout-hori > .menu-item.has-sub-menu.hover-to-show-coupled:hover     > .label:after {
+		transform: rotate(180deg);
+		-ms-transform: rotate(180deg);
+	}
+
+	.menu-item.has-sub-menu.coupled-shown {
+		z-index: 9;
+	}
+
+	.menu-item:hover {
+		z-index: 10;
+	}
+
+	.menu-item.has-sub-menu > .menu-wrap,
+	.menu-item.has-sub-menu > .menu {
+		display: block;
+		visibility: hidden;
+	}
+
+	.touch-off .menu-item.has-sub-menu:hover > .menu-wrap,
+	.touch-off .menu-item.has-sub-menu:hover > .menu,
+	.menu-item.has-sub-menu.coupled-shown    > .menu-wrap,
+	.menu-item.has-sub-menu.coupled-shown    > .menu {
+		visibility: visible;
+	}
+
+	.menu-item.has-sub-menu > .menu-wrap > .menu {
+		transform-origin: top;
+		opacity: 0;
+		transform: scale(0.75, 0.5);
+		animation-duration: 0.33s;
+		transition-property: none;
+		transition-timing-function: cubic-bezier(.29,1,.68,.99);
+		animation-timing-function: linear;
+	}
+
+	.touch-off .menu-item.has-sub-menu:hover > .menu-wrap > .menu,
+	.menu-item.has-sub-menu.coupled-shown    > .menu-wrap > .menu {
+		transform: scale(1, 1);
+		opacity: 1;
+		animation-name: menu-pops-up;
+	}
+
+	@keyframes menu-pops-up {
+		0%   { opacity: 0; transform: scale(0.7, 0.5) translate(0, -1rem); }
+		42%  { transform: scale(1.1, 1.1); }
+		56%  { opacity: 1; transform: scale(0.92, 0.9); }
+		70%  { transform: scale(1.06, 1.05); }
+		84%  { transform: scale(0.96, 0.97); }
+		100% { opacity: 1; transform: scale(1, 1) translate(0, 0); }
+	}
+
+
 
 
 .toolbar {

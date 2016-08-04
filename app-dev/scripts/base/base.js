@@ -611,6 +611,40 @@
 
 
 
+	$('.menu-item.has-sub-menu').each(function () {
+		var menuItem = this;
+		var $menuItem = $(this);
+		var $subMenu = $menuItem.find('> .menu-wrap, > .menu');
+		if ($subMenu.length !== 1) {
+			return false;
+		}
+
+		$menuItem.on('click', function () {
+			showHideSubMenuUnderMenuItem(menuItem, 'toggle');
+		});
+
+		function showHideSubMenuUnderMenuItem(menuItem, action) {
+			var $subMenu = $(menuItem).find('> .menu');
+			var subMenuWasExpanded = $(menuItem).hasClass('coupled-shown');
+			var shouldTakeAction =
+				(!subMenuWasExpanded && action==='expand') ||
+				(subMenuWasExpanded && action==='collapse') ||
+				(action==='toggle')
+			;
+			if (!shouldTakeAction) {
+				return 0;
+			}
+
+			if (subMenuWasExpanded) {
+				$(menuItem).removeClass('coupled-shown');
+			} else {
+				$(menuItem).addClass('coupled-shown');
+			}
+		}
+	});
+
+
+
 	$('.progress-rings').each(function (index) {
 		var progressRings = new wlc.UI.ProgressRings(this);
 	});
