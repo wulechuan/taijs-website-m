@@ -1715,6 +1715,128 @@ article.message {
 			}
 
 
+dl.tickets-list {
+	text-align: left;
+	}
+
+	dl.tickets-list .row {
+		border-width: 1px 0;
+		padding: 0.8rem 0.1rem;
+		margin: 0 0 -1px 0;
+	}
+	dl.tickets-list .row:last-child {
+		border-bottom-width: 0;
+		margin-bottom: 0;
+	}
+
+	dl.tickets-list dt {
+		display: inline;
+		font-size: 0.75rem;
+		font-weight: 400;
+		margin-right: 1em;
+	}
+	dl.tickets-list dd {
+		display: inline;
+		font-size: 0.65rem;
+		font-weight: 100;
+	}
+
+
+.dialog.dialog-style-card {
+	padding: 1.25rem;
+	padding-bottom: 5.5rem;
+	border-radius: 0;
+	/* box-shadow: none; */
+	}
+
+	.dialog.dialog-style-card > .deco {
+		z-index: 0;
+
+		position: absolute;
+		display: block;
+		left: 1.25rem;
+		right: 1.25rem;
+		top: 0;
+		bottom: 0;
+		}
+
+		.dialog.dialog-style-card > .deco::after,
+		.dialog.dialog-style-card > .deco::before {
+			content: '';
+
+			position: absolute;
+			display: block;
+			left: -1.25rem;
+			right: -1.25rem;
+
+			background-color: inherit;
+		}
+		.dialog.dialog-style-card > .deco::before {
+			top: 0;
+			margin-bottom: 1rem;
+			bottom: 65%;
+		}
+		.dialog.dialog-style-card > .deco::after {
+			top:  35%;
+			margin-top: 1rem;
+			bottom: 0;
+		}
+
+	.dialog.dialog-style-card .dialog-header {
+		z-index: 2;
+		position: relative;
+		padding: 1rem 0.5rem 1.5rem;
+		font-weight: 400;
+		font-size: 0.85rem;
+	}
+
+	.dialog.dialog-style-card .dialog-footer {
+		z-index: 3;
+		position: absolute;
+		bottom: 0;
+		height: 5.5rem;
+		left: 0;
+		right: 0;
+		margin: 0;
+		width: auto;
+
+		}
+
+		.dialog.dialog-style-card .dialog-footer button.button-x {
+			position: absolute;
+			width: 2rem;
+			height: 2rem;
+			line-height: 2rem;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			padding: 0;
+			margin: auto;
+
+			font-size: 1.35rem;
+		}
+
+		.dialog.dialog-style-card .dialog-footer button.button-x::before {
+			content: none;
+		}
+
+		.dialog.dialog-style-card .dialog-footer button.button-x::after {
+			font-size: inherit;
+			line-height: inherit;
+			color: inherit;
+		}
+
+
+	.dialog.dialog-style-card .dialog-body > .content {
+		overflow: auto;
+	}
+
+	.dialog.dialog-style-card .dialog-body > .content article {
+		padding: 0;
+	}
+
+
 .popup-panel .f-block-body {
 	margin-bottom: -1px;
 	}

@@ -68,7 +68,7 @@
 		<div class="f-block">
 			<div class="f-block-body">
 				<a href="#">
-				<div class="row">
+				<div class="row choose-tickets">
 					<div class="left">可用券</div>
 					<div class="right">欢迎使用</div>
 				</div>
@@ -185,9 +185,54 @@
 				</div>
 			</div>
 		</div>
+
+
+		<div role="dialog" class="popup-layer" id="pl-available-tickets-list">
+			<div class="popup-window">
+				<div class="dialog dialog-style-card">
+					<div class="deco"></div>
+					<header class="dialog-header"><h3>以下为所有可用券，请先输入金额</h3></header>
+					<div class="dialog-body">
+						<div class="content">
+							<article class="message">
+								<dl class="tickets-list">
+									<div class="row">
+										<dt>10元抵用券</dt>
+										<dd><q>投资金额≥1000，期限≥30天</q></dd>
+									</div>
+
+									<div class="row">
+										<dt>100元抵用券</dt>
+										<dd><q>投资金额≥1000，期限≥30天，满千减十</q></dd>
+									</div>
+
+									<div class="row">
+										<dt>10%加息券</dt>
+										<dd><q>投资金额≥1000，期限≥180天</q></dd>
+									</div>
+
+									<div class="row">
+										<dt>1%加息券</dt>
+										<dd><q>投资金额≥100，期限≥30天</q></dd>
+									</div>
+
+									<div class="row">
+										<dt>1000元特权本金</dt>
+										<dd><q>投资金额≥1000，期限≥30天</q></dd>
+									</div>
+								</dl>
+							</article>
+						</div>
+					</div>
+					<footer class="dialog-footer">
+						<button class="button-x" button-action="cancel"></button>
+					</footer>
+				</div>
+			</div>
+		</div>
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
-	<script src="../scripts/pages/newbie-fixed-income-buying-confirm.min.js"></script>
+	<script src="../scripts/pages/fixed-income-buying-confirm.min.js"></script>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 

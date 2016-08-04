@@ -399,16 +399,9 @@ input {
 
 button.button-x {
 	background-color: transparent;
-	color: white;
+	color: #666;
 	}
 
-	button.button-x:hover {
-		background-color: transparent;
-	}
-
-	button.button-x:before {
-		background-color: white;
-	}
 
 
 button[button-action="clear-input-field"]:hover,
@@ -710,7 +703,6 @@ label.deco-input {
 		}
 
 
-
 .f-list > li > .label {
 	color: #999;
 }
@@ -744,14 +736,39 @@ label.deco-input {
 .dialog {
 	}
 
+	.dialog.dialog-style-card > .deco,
 	.dialog-header,
 	.dialog-footer,
 	.dialog-body {
 		background-color: white;
 		}
 
+	.dialog-header {
+		color: black;
+		}
+
 	.dialog-footer {
 		border-color: #dadada;
+	}
+
+	.dialog.dialog-style-card .dialog-body > .content *,
+	.dialog.dialog-style-card .dialog-body > .content {
+		border-color: #ececec;
+	}
+
+	.dialog.dialog-style-card .dialog-body > .content article {
+		padding: 0;
+	}
+
+
+dl.tickets-list {
+	}
+
+	dl.tickets-list dt {
+		color: #333;
+	}
+	dl.tickets-list dd {
+		color: #999;
 	}
 
 
