@@ -42,24 +42,6 @@ html {
 	}
 
 
-.color-positive {
-	color: #8ac45f;
-	}
-	.color-negative,
-	.input-tip.error,
-	.color-error {
-		color: #f00!important;
-	}
-	.negative-value {
-		color: #2c9b01!important;
-	}
-
-
-.minor-content,
-.tip {
-	color: #999;
-}
-
 
 .copyright p {
 	color: #999;
@@ -80,6 +62,7 @@ em {
 	}
 
 
+.color-promoted,
 a, a:visited {
 	color: #4285f4;
 	}
@@ -95,6 +78,28 @@ a, a:visited {
 		transition-property: none;
 		background-color: rgba(0, 0, 0, 0.05);
 	}
+
+
+.color-positive {
+	color: #8ac45f;
+	}
+	.color-negative,
+	.input-tip.error,
+	.color-error {
+		color: #f00!important;
+	}
+	.negative-value {
+		color: #2c9b01!important;
+	}
+	.color-promoted {
+		color: #4285f4;
+	}
+
+	.minor-content,
+	.tip {
+		color: #999;
+	}
+
 
 .color-inverted {
 	color: white;

@@ -97,7 +97,9 @@ article.message {
 		font-weight: 500;
 	}
 	article.message p {
-		font-size: 0.8rem;
+		font-size: 0.7rem;
+		line-height: 1rem;
+		font-weight: 400;
 		letter-spacing: 0.075em;
 	}
 	/* article.message p:last-child {
@@ -110,6 +112,28 @@ article.message {
 		article.message .info-subject-symbol .iconfont,
 		article.message .info-subject-symbol {
 			font-size: 3rem;
+		}
+
+	article.message p .icon {
+		font-size: 0.8rem;
+		width: 1em;
+		height: 1em;
+		line-height: inherit;
+		margin: 0 0.1rem;
+	}
+	article.message p a[role="button"].inline-clickable,
+	article.message p [role="button"].inline-clickable,
+	article.message p button.inline-clickable {
+		box-sizing: border-box;
+		padding: 1px;
+		width: 3rem;
+		height: 3rem;
+		margin: -1rem;
+		line-height: 3rem;
+		text-align: center;
+		}
+		article.message p .inline-clickable .icon {
+			display: inline;
 		}
 
 
@@ -1787,6 +1811,11 @@ article.message {
 		padding-bottom: 0.3rem;
 		}
 
+		.f-block-body .row.has-lead-icon.tall {
+			padding-top: 0.45rem;
+			padding-bottom: 0.45rem;
+		}
+
 		.f-block-body .row.has-lead-icon::before {
 			left: 3rem;
 		}
@@ -2163,10 +2192,22 @@ dl.tickets-list {
 
 	.dialog.dialog-style-card .dialog-body > .content {
 		overflow: auto;
+		min-height: 12rem;
 	}
 
 	.dialog.dialog-style-card .dialog-body > .content article {
 		padding: 0;
+		font-size: 0.7rem;
+		font-weight: 500;
+	}
+
+	.dialog.dialog-style-card .dialog-body > .content article ul > li {
+		list-style-type: square;
+		margin: 0.25rem 0;
+	}
+
+	.dialog.dialog-style-card .dialog-body > .content article ul > li {
+		list-style-type: square;
 	}
 
 

@@ -1497,6 +1497,7 @@ ol.f-list, ul.f-list { /* function list */
 
 		font-size: 0.8rem;
 
+		transition-timing-function: cubic-bezier(.29,1,.68,.99);
 		transition-property: color, transform, opacity;
 	}
 	.menu-item.has-sub-menu > a > .sub-menu-hint,
@@ -2656,6 +2657,7 @@ dl.initially-collapsed {
 	text-align: center;
 	overflow: auto;
 	white-space: nowrap;
+	perspective: 60rem;
 	}
 
 	.popup-layer::before {
@@ -2698,8 +2700,9 @@ dl.initially-collapsed {
 		min-height: 100px;
 		text-align: left;
 		white-space: normal;
-		animation-duration: 0.35s;
+		animation-duration: 0.4s;
 		animation-name: shows-up-from-bottom;
+		transform-origin: center 15%; 
 		}
 
 		.popup-window.cast-shadow {
@@ -2723,6 +2726,7 @@ dl.initially-collapsed {
 			animation-name: shows-up-from-top;
 		}
 		.popup-window.shows-up-from-bottom {
+			animation-timing-function: ease-out;
 			animation-name: shows-up-from-bottom;
 		}
 		.popup-window.shows-up-from-leftside {
@@ -2746,8 +2750,10 @@ dl.initially-collapsed {
 		}
 
 		@keyframes shows-up-from-bottom {
-			0% { opacity: 0; transform: translateY(10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateY(0)     scale(1, 1); }
+			0%  { opacity: 0; transform: translateY(36rem)   scale(0.32, 0.32) rotateX(-45deg); }
+			84% { opacity: 1; transform: translateY(-0.3rem) scale(1, 1)     rotateX(0deg); }
+			92% { transform: translateY(-0.12rem); }
+			to  { transform: translateY(0); }
 		}
 
 		@keyframes shows-up-from-rightside {

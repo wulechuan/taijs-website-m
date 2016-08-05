@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1470309093'); /* IE9*/
-  src: url('iconfont.eot?t=1470309093#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1470309093') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1470309093') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1470309093#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1470363864'); /* IE9*/
+  src: url('iconfont.eot?t=1470363864#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1470363864') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1470363864') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1470363864#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -23,6 +23,7 @@
 .icon-checked-mark:before { content: "\e605"; }
 .icon-info-tip-circled:before { content: "\e622"; }
 .icon-geo-mark-downwards:before { content: "\e61a"; }
+.icon-info-circled-2:before { content: "\e620"; }
 .icon-chevron-large-thin-right:before { content: "\e601"; }
 .icon-chevron-large-thin-down:before { content: "\e602"; }
 .icon-chevron-large-thin-left:before { content: "\e603"; }
