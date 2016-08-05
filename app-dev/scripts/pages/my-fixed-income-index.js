@@ -61,7 +61,9 @@ $(function () {
 			});
 
 			tabPanelSet.onPanelShow = function (panel) {
-				if (panel.panelIndex === 1) {
+				var itemsCount = $(panel).find('.product-abstract').length;
+				var shouldShowPageFooter = panel.panelIndex === 1 && itemsCount < 1;
+				if (shouldShowPageFooter) {
 					$pageFooter.show();
 				} else {
 					$pageFooter.hide();

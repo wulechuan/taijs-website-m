@@ -317,7 +317,6 @@
 						type = field.type.toLowerCase();
 						if (type === 'checkbox') {
 							isEmpty = !field.checked;
-							C.l('check?', isEmpty);
 						} else if (type === 'radio') {
 							C.e('Not implemented yet!');
 							isEmpty = !field.checked;

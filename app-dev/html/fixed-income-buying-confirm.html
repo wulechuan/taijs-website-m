@@ -49,7 +49,7 @@
 			<div class="f-block-body">
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="请输入投资金额，起投金额1000.00元" type="number" data-text-format="currency"
+						<input placeholder="请输入投资金额" data-placeholder-prefix="请输入投资金额，" type="number" data-text-format="currency"
 							name="amount" required
 									   id="newbie-buying-amount">
 						<label        for="newbie-buying-amount" class="input-tip default">投资金额</label>
@@ -61,8 +61,11 @@
 			</div>
 
 			<div class="row dynamic-row">
-				<p class="chinese-number" for-element="newbie-buying-amount"></p>
-				<p class="tip" for-empty-input="newbie-buying-amount">当前剩余可投<span class="value currency">100,000.00</span>元，投资金额为100的整数倍</p>
+				<p class="chinese-number tip" for-element="newbie-buying-amount"></p>
+				<p style="margin-bottom: 1rem;" 
+					>当前剩余可投<span class="value currency"
+					>100,000.00</span>元，投资金额为100的整数倍<span class="amount-input-hint"></span
+				></p>
 			</div>
 		</div>
 		<div class="f-block">

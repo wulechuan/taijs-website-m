@@ -1,6 +1,43 @@
 $(function () { // fake logics
 	var wlc = window.webLogicControls;
 
+	var amountInputHintString = '最低起投额1000.00元';
+
+	var amountInput = $('input[name="amount"]')[0];
+	var amountInputPlaceholderPrefix;
+
+	if (amountInput) {
+		amountInputPlaceholderPrefix = amountInput.getAttribute('data-placeholder-prefix') || '';
+		updateAmountInputPlaceholder(amountInputHintString);
+
+		var amountInputHint = $('.amount-input-hint')[0];
+
+		if (amountInputHint) {
+			// updateAmountInputHint();
+			$(amountInput).on('input', function () {
+				updateAmountInputHint();
+			});
+			
+			$(amountInput).on('blur', function () {
+				updateAmountInputHint();
+			});
+			// amountInput.onValueChange.push(function () {
+			// 	updateAmountInputHint();
+			// });
+		}
+
+	}
+
+	function updateAmountInputPlaceholder(hint) {
+		amountInput.placeholder = amountInputPlaceholderPrefix + hint;
+	}
+	function updateAmountInputHint() {
+		var isEmpty = !amountInput.value;
+		amountInputHint.innerHTML = isEmpty ? '' : amountInputHintString;
+	}
+
+
+
 
 	var $pl1 = $('#pl-password-input-panel-trading');
 	var $pl2 = $('#pl-choose-bank-card');
@@ -17,17 +54,21 @@ $(function () { // fake logics
 
 
 
-	$('[button-action="buy"]').on('click', function(event) {
-		var pl1 = $pl1[0];
-		window.popupLayersManager.show(pl1, event);
 
-		$pl1.on('click', function (event) {
-			var el = event.target;
-			if (el === pl1 || $(el).hasClass('button-x')) {
-				window.popupLayersManager.hide(pl1);
-			}
-		});
+	var pl1 = $pl1[0];
+
+	$('[button-action="buy"]').on('click', function(event) {
+		window.popupLayersManager.show(pl1, event);
 	});
+
+	$pl1.on('click', function (event) {
+		var el = event.target;
+		if (el === pl1 || $(el).hasClass('button-x')) {
+			window.popupLayersManager.hide(pl1);
+		}
+	});
+
+
 
 
 
@@ -39,16 +80,14 @@ $(function () { // fake logics
 		window.popupLayersManager.hide(pl2);
 	});
 
-
 	$('#fixed-income-buying-confirm-choose-bank-card').on('click', function(event) {
-		console.error('fake logic triggered.');
 		window.popupLayersManager.show(pl2, event);
+	});
 
-		$pl2.on('click', function (event) {
-			var el = event.target;
-			if (el === pl2 || $(el).hasClass('nav-back')) {
-				window.popupLayersManager.hide(pl2);
-			}
-		});
+	$pl2.on('click', function (event) {
+		var el = event.target;
+		if (el === pl2 || $(el).hasClass('nav-back')) {
+			window.popupLayersManager.hide(pl2);
+		}
 	});
 });

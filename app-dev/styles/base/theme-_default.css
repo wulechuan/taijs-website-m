@@ -988,9 +988,9 @@ dl.tickets-list {
 	.product-abstract .abstract-title h3 {
 		color: black;
 	}
-	.product-abstract .abstract-title .call-to-action-label {
+	/* .product-abstract .abstract-title .call-to-action-label {
 		color: black;
-	}
+	} */
 	.product-abstract .minor-hero-block .hero-word,
 	.product-abstract .hero-block {
 		color: black;
