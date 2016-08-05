@@ -55,9 +55,9 @@
 					<div class="left">
 						<input placeholder="请输入银行卡账号" type="text" data-text-format="bank-card"
 							name="bankcardnumber" required
-												  id="bank-card-addition-card-number">
-						<label class="input-tip" for="bank-card-addition-card-number">银行卡号</label>
-						<button 		   for-input="bank-card-addition-card-number"
+									   id="bank-card-addition-card-number">
+						<label        for="bank-card-addition-card-number" class="input-tip default">银行卡号</label>
+						<button for-input="bank-card-addition-card-number"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
@@ -81,9 +81,9 @@
 					<div class="left">
 						<input placeholder="请输入银行卡绑定的手机号" type="tel" data-text-format="mobile"
 							name="mobile" required
-												  id="bank-card-addition-mobile">
-						<label class="input-tip" for="bank-card-addition-mobile">银行卡绑定的手机号</label>
-						<button 		   for-input="bank-card-addition-mobile"
+									   id="bank-card-addition-mobile">
+						<label        for="bank-card-addition-mobile" class="input-tip default">银行卡绑定的手机号</label>
+						<button for-input="bank-card-addition-mobile"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
@@ -112,11 +112,14 @@
 			</div>
 
 			<div class="row">
-				<input type="checkbox"
-					name="eula" required
-											id="eula-checkbox"
-				><label class="deco-input" for="eula-checkbox"></label
-				><label for="eula-checkbox">我已阅读并同意<a href="#">《委托代扣授权书》</a></label>
+				<article>
+					<p class="selectable"
+						><input type="checkbox" name="eula" required checked="checked" 
+								 id="eula-checkbox"
+						><label for="eula-checkbox" class="deco-input"></label
+						><label for="eula-checkbox">我已阅读并同意<a href="#">《委托代扣授权书》</a></label
+					></p>
+				</article>
 			</div>
 		</div>
 
