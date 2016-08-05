@@ -192,11 +192,19 @@
 
 	<footer class="page-footer">
 		<div class="row buttons-in-single-line">
-			<!-- <a href="newbie-buying-confirm.html" role="button" class="rounded-corners size-std-wide">立即抢购</a> -->
-			<button class="rounded-corners size-std-wide content-in-dual-lines disable-style-2" disabled>
+			<button class="rounded-corners size-std-wide content-in-dual-lines disable-style-2" disabled
+				id="product-detail-footer-button-count-down">
 				<span class="major">即将开始</span>
 				<time class="minor">2时11分15秒</time>
 			</button>
+			<button class="rounded-corners size-std-wide disable-style-2" disabled
+				id="product-detail-footer-button-sold-out"
+				style="display: none;">
+				已售罄
+			</button>
+			<a href="newbie-buying-confirm.html" role="button" class="rounded-corners size-std-wide"
+				style="display: none;"
+				>立即抢购</a>
 		</div>
 	</footer>
 
