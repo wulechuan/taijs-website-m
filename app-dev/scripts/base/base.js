@@ -33,10 +33,10 @@
 	function PopupLayersManager() {
 		this.show = function (popupLayerIdOrDom, event) {
 			_showOrHidePopupLayer(popupLayerIdOrDom, true, event);
-		},
+		};
 		this.hide = function (popupLayerIdOrDom) {
 			_showOrHidePopupLayer(popupLayerIdOrDom);
-		}
+		};
 
 		function _showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow) {
 			if (!popupLayerIdOrDom) return false;
@@ -185,6 +185,7 @@
 
 		setupAllAutoConstructTabPanelSets($page);
 		setupPageBodyMinHeightForPage($page);
+		setupAllButtonsWithInlineClickAction($page);
 		setupAllNavBackButtons($page);
 		setupAllInputFieldsForTheirFillingStatus($page);
 		setupAllClearInputButtons($page);
@@ -192,14 +193,55 @@
 		setupAllSensitiveContentBlocks($page);
 		setupAllChineseNumbersPresenters($page);
 
+		function setupAllButtonsWithInlineClickAction($page) {
+			$page.find('[data-click-action]').each(function () {
+				var button = this;
+				var inlineActionString = this.getAttribute('data-click-action');
+				var hasValidAction = !!inlineActionString;
+
+				var actionName;
+				var actionTarget;
+				if (hasValidAction) {
+					var prefix = inlineActionString.match(/^\s*([^\:\s]+)\s*\:(.*)/);
+					if (prefix) {
+						actionName   = prefix[1];
+						actionTarget = prefix[2];
+					}
+				}
+
+				hasValidAction = false;
+				var action;
+				switch (actionName) {
+					default:
+						break;
+					case 'show-popup':
+						hasValidAction = !!actionTarget;
+						action = hasValidAction && function (event) {
+							window.window.popupLayersManager.show(actionTarget, event);
+						};
+						break;
+				}
+
+				hasValidAction = hasValidAction && typeof action === 'function';
+
+				if (!hasValidAction) {
+					C.w('Inline action is invalid:', this);
+					return false;
+				}
+
+				$(button).on('click', action);
+			});
+			// data-click-action="show-popup:pl-message-credit-limitation-introduction"
+		}
+
 		function setupAllAutoConstructTabPanelSets($page) {
-			$('.tab-panel-set').each(function () {
+			$page.find('.tab-panel-set').each(function () {
 				if (this.dataset.doNotAutoConstruct) {
 					// C.l('Skipping auto constructing TabPanelSet from:', this);
 					return true;
 				}
 				new wlc.UI.TabPanelSet(this, {
-					initTab: urlParameters.tabLabel
+					initTab: window.urlParameters.tabLabel
 				});
 			});
 		}
@@ -607,7 +649,7 @@
 
 (function () { // temp logic which are not robust or completed
 	var wlc = window.webLogicControls;
-	var WCU = wlc.CoreUtilities;
+	// var WCU = wlc.CoreUtilities;
 
 
 
@@ -624,7 +666,6 @@
 		});
 
 		function showHideSubMenuUnderMenuItem(menuItem, action) {
-			var $subMenu = $(menuItem).find('> .menu');
 			var subMenuWasExpanded = $(menuItem).hasClass('coupled-shown');
 			var shouldTakeAction =
 				(!subMenuWasExpanded && action==='expand') ||
@@ -645,8 +686,8 @@
 
 
 
-	$('.progress-rings').each(function (index) {
-		var progressRings = new wlc.UI.ProgressRings(this);
+	$('.progress-rings').each(function () {
+		new wlc.UI.ProgressRings(this);
 	});
 
 

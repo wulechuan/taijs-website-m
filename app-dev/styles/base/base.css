@@ -2827,6 +2827,17 @@ dl.initially-collapsed {
 		}
 
 
+	.popup-window.full-screen {
+		display: block;
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		max-width: 100%;
+		max-height: 100%;
+		box-shadow: none;
+		}
+
+
 .popup-panel {
 	display: block;
 	width: 100%;
