@@ -455,10 +455,10 @@ label.deco-input {
 			input[type="radio"] + label.deco-input[for]:hover::before {
 				color: #333;
 			}
-			input[type="radio"]:checked     + label.deco-input[for]::before {
+			input[type="radio"]:checked + label.deco-input[for]::before {
 				border-color: #4285f4;
 			}
-			input[type="radio"]:checked  + label.deco-input[for]::after {
+			input[type="radio"]:checked + label.deco-input[for]::after {
 				background-color: #4285f4;
 			}
 
@@ -466,14 +466,14 @@ label.deco-input {
 		input[type="checkbox"] + label.deco-input[for]::before {
 			/* border-color: #c5c5c5; */
 			}
-			input[type="checkbox"]:hover + label.deco-input[for]::before,
+			/* input[type="checkbox"]:hover + label.deco-input[for]::before,
 			input[type="checkbox"] + label.deco-input[for]:hover::before {
 				border-color: #333;
-			}
-			input[type="checkbox"]:checked  + label.deco-input[for]::before {
+			} */
+			input[type="checkbox"]:checked + label.deco-input[for]::before {
 				border-color: #4285f4;
 			}
-			input[type="checkbox"]:checked  + label.deco-input[for]::after {
+			input[type="checkbox"]:checked + label.deco-input[for]::after {
 				color: #4285f4;
 			}
 

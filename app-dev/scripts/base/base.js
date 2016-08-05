@@ -308,7 +308,24 @@
 						return false;
 					}
 
-					var isEmpty = (tnlc==='select') ? (field.selectedIndex === -1) : (!field.value);
+					var isEmpty = true;
+					var type = '';
+
+					if (tnlc==='select') {
+						isEmpty = field.selectedIndex === -1;
+					} else if (tnlc === 'input') {
+						type = field.type.toLowerCase();
+						if (type === 'checkbox') {
+							isEmpty = !field.checked;
+							C.l('check?', isEmpty);
+						} else if (type === 'radio') {
+							C.e('Not implemented yet!');
+							isEmpty = !field.checked;
+						} else {
+							isEmpty = !field.value;
+						}
+					}
+
 					if (isEmpty) {
 						$(field).removeClass('non-empty-field');
 						$(field).addClass('empty-field');
@@ -317,10 +334,10 @@
 						$(field).addClass('non-empty-field');
 					}
 
-					if (Array.isArray(field.onValueChange)) {
-						field.valueStatus.isEmpty = isEmpty;
-						field.valueStatus.isValid = true; // not implemented yet
+					field.valueStatus.isEmpty = isEmpty;
+					field.valueStatus.isValid = !isEmpty; // not implemented yet
 
+					if (Array.isArray(field.onValueChange)) {
 						for (var i = 0; i < field.onValueChange.length; i++) {
 							var callback = field.onValueChange[i];
 							if (typeof callback === 'function') callback.call(field, field.valueStatus);
@@ -546,6 +563,7 @@
 						.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})([xX0-9\*])?(.*)/, '$1$2')
 						.replace(/[\s\-]+$/, '')
 						.replace(/([\dxX\*\s\-]{21})(.*)/, '$1')
+						.toUpperCase()
 					;
 				}
 				function _formatChineseIdCardInput(text) {
@@ -559,6 +577,7 @@
 						.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})([xX0-9])?(.*)/, '$1$2')
 						.replace(/[\s\-]+$/, '')
 						.replace(/([\dxX\s\-]{21})(.*)/, '$1')
+						.toUpperCase()
 					;
 				}
 			});
@@ -573,6 +592,8 @@
 					C.e('No toggle icon found under a ".sensitive-content" block.');
 					return false;
 				}
+
+				$sensitiveContentBlock.addClass('sensitive-content-shown');
 
 				$toggleIcon.on('click', function () {
 					$sensitiveContentBlock.toggleClass('sensitive-content-shown');
@@ -715,15 +736,19 @@
 		})[0];
 
 
-		// console.log($allRequiredInputs);
-		// console.log(buttonSubmit);
+		// if (this.name === 'signup') {
+		// 	C.l(this.elements);
+		// 	// console.log($allRequiredInputs);
+		// 	console.log(buttonSubmit);
+		// }
 
 
 		var allInputsAreValid = false;
 
 		var allInputsValidation = [];
 		for (var i = 0; i < $allRequiredInputs.length; i++) {
-			allInputsValidation[i] = false;
+			var field = $allRequiredInputs[i];
+			allInputsValidation[i] = !!field.valueStatus && !!field.valueStatus.isValid;
 		}
 
 

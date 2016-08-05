@@ -38,12 +38,15 @@ input, select, option, button, [role="button"] {
 input {
 	padding: 8px 16px;
 	min-height: 22px;
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: initial!important;
 }
 input[type=text] {   
     /* Remove iOS inner shadow for input fields */
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+
 }
 input, select, option {
 	padding-left: 0.5em;

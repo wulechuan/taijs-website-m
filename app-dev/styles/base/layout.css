@@ -1332,11 +1332,11 @@ article.message {
 	.row.caption-bar {
 		}
 		.row.caption-bar h1 {
-			font-size: 0.9rem;
+			font-size: 0.75rem;
 			font-weight: 400;
 		}
 		.row.caption-bar h1 .label {
-			margin-right: 0.75em;
+			margin-right: 0.65em;
 		}
 
 
@@ -2227,6 +2227,21 @@ dl.tickets-list {
 
 		.popup-window.full-screen .dialog.dialog-style-card > .deco {
 			display: none;
+		}
+
+		.popup-window.full-screen .dialog.dialog-style-card .dialog-header,
+		.popup-window.full-screen .dialog.dialog-style-card .dialog-footer {
+			height: 5.5rem;
+		}
+
+		.popup-window.full-screen .dialog.dialog-style-card .dialog-body {
+			position: absolute;
+			width: auto;
+			height: auto;
+			left: 0;
+			right: 0;
+			top: 5.5rem;
+			bottom: 5.5rem;
 		}
 
 		.popup-window.full-screen .dialog.dialog-style-card .dialog-body > .content article {

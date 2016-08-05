@@ -1259,9 +1259,7 @@ label.deco-input {
 			border-style: none;
 			border-radius: 1000px;
 		}
-	input[type="radio"][checked]    + label.deco-input[for]::after,
 	input[type="radio"]:checked     + label.deco-input[for]::after,
-	input[type="checkbox"][checked] + label.deco-input[for]:after,
 	input[type="checkbox"]:checked  + label.deco-input[for]:after {
 		visibility: visible;
 	}
