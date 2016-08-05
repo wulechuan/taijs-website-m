@@ -2750,9 +2750,9 @@ dl.initially-collapsed {
 		}
 
 		@keyframes shows-up-from-bottom {
-			0%  { opacity: 0; transform: translateY(36rem)   scale(0.32, 0.32) rotateX(-45deg); }
-			84% { opacity: 1; transform: translateY(-0.3rem) scale(1, 1)     rotateX(0deg); }
-			92% { transform: translateY(-0.12rem); }
+			0%  { opacity: 0; transform: translateY(36rem)   scale(0.32, 0.32) rotateX(-51deg); }
+			84% { opacity: 1; transform: translateY(-0.2rem) scale(1, 1)       rotateX(0deg); }
+			92% { transform: translateY(-0.08rem); }
 			to  { transform: translateY(0); }
 		}
 
