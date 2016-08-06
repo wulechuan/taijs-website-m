@@ -27,7 +27,7 @@
 		<div class="f-block snap-top">
 			<div class="row"><p class="tip">提示：为了保障投资人的资金安全，暂不支持信用卡</p></div>
 			<div class="f-block-body">
-				<div class="row select-field">
+				<label class="row select-field">
 					<div class="left">
 						<select placeholder="请选择银行"
 							name="bankname" required id="bank-card-addition-bank-name">
@@ -49,19 +49,19 @@
 							<option value="bank-cn-bankofshanghai">上海银行</option>
 						</select>
 					</div>
-					<div class="right">请选择</div>
-				</div>
+					<label class="right" for="bank-card-addition-bank-name">请选择</label>
+				</label>
 				<div class="row input-field single-side-content">
 					<div class="left">
 						<input placeholder="请输入银行卡账号" type="text" data-text-format="bank-card"
 							name="bankcardnumber" required
-												  id="bank-card-addition-card-number">
-						<label class="input-tip" for="bank-card-addition-card-number">银行卡号</label>
-						<button 		   for-input="bank-card-addition-card-number"
+									   id="bank-card-addition-card-number">
+						<label        for="bank-card-addition-card-number" class="input-tip default">银行卡号</label>
+						<button for-input="bank-card-addition-card-number"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
-				<div class="row select-field">
+				<label class="row select-field">
 					<div class="left">
 						<select placeholder="请选择开户城市"
 							name="city" required id="bank-card-addition-city">
@@ -75,15 +75,15 @@
 							<option value="city-cn-nanchang">南昌</option>
 						</select>
 					</div>
-					<div class="right">请选择</div>
-				</div>
+					<label class="right" for="bank-card-addition-city">请选择</label>
+				</label>
 				<div class="row input-field single-side-content">
 					<div class="left">
 						<input placeholder="请输入银行卡绑定的手机号" type="tel" data-text-format="mobile"
 							name="mobile" required
-												  id="bank-card-addition-mobile">
-						<label class="input-tip" for="bank-card-addition-mobile">银行卡绑定的手机号</label>
-						<button 		   for-input="bank-card-addition-mobile"
+									   id="bank-card-addition-mobile">
+						<label        for="bank-card-addition-mobile" class="input-tip default">银行卡绑定的手机号</label>
+						<button for-input="bank-card-addition-mobile"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
@@ -112,11 +112,14 @@
 			</div>
 
 			<div class="row">
-				<input type="checkbox"
-					name="eula" required
-											id="eula-checkbox"
-				><label class="deco-input" for="eula-checkbox"></label
-				><label for="eula-checkbox">我已阅读并同意<a href="#">《委托代扣授权书》</a></label>
+				<article>
+					<p class="selectable"
+						><input type="checkbox" name="eula" required checked="checked" 
+								 id="eula-checkbox"
+						><label for="eula-checkbox" class="deco-input"></label
+						><label for="eula-checkbox">我已阅读并同意<a href="#">《委托代扣授权书》</a></label
+					></p>
+				</article>
 			</div>
 		</div>
 

@@ -1,42 +1,7 @@
 $(function () {
 	var wlc = window.webLogicControls;
 
-	var $page = $('#page-my-fixed-income-index');
-		// window.popupLayersManager.show('pl-product-terminated');
-
-
-	var isFirstTimeAccess = true;
-	if (isFirstTimeAccess) {
-		var userGuide = (function () {
-			var userGuide = {
-			};
-			userGuide.show = showUserGuide.bind(userGuide);
-			userGuide.hide = hideUserGuide.bind(userGuide);
-
-			var $plUserGuide = $('#pl-my-fixed-income-index-page-user-guide');
-			var plUserGuide = $plUserGuide[0];
-			if (!plUserGuide) return false;
-
-			var $stepButton1 = $plUserGuide.find('.user-guide-step.step-1 button');
-
-			if ($stepButton1.length < 1) $stepButton1 = $plUserGuide;
-
-			$stepButton1.on('click', hideUserGuide);
-
-			function showUserGuide() {
-				window.popupLayersManager.show(plUserGuide);
-			}
-
-			function hideUserGuide() {
-				window.popupLayersManager.hide(plUserGuide);
-			}
-
-			return userGuide;
-		})();
-
-		userGuide.show();
-	}
-
+	var $page = $('#page-my-tickets-index');
 
 
 	(function _setupTabPanelSet() {
@@ -49,29 +14,30 @@ $(function () {
 		}
 
 
-		var tabPanelSetSwiper = new window.Swiper('.swiper-container', {
-			autoHeight: true
+		var ticketsTabsSwiper = new window.Swiper('.swiper-container', {
+			slidesPerView: 'auto',
+			centeredSlides: true,
 		});
-		if (tabPanelSetSwiper) {
-			var $pageFooter = $page.find('.page-footer');
+		// if (ticketsTabsSwiper) {
+		// 	var $pageFooter = $page.find('.page-footer');
 
-			tabPanelSetSwiper.on('slideChangeStart', function (swiper) {
-				var panelIndexToShow = swiper.activeIndex;
-				tabPanelSet.syncStatusToPanel(panelIndexToShow);
-			});
+		// 	ticketsTabsSwiper.on('slideChangeStart', function (swiper) {
+		// 		var panelIndexToShow = swiper.activeIndex;
+		// 		tabPanelSet.syncStatusToPanel(panelIndexToShow);
+		// 	});
 
-			tabPanelSet.onPanelShow = function (panel) {
-				var itemsCount = $(panel).find('.product-abstract').length;
-				var shouldShowPageFooter = panel.panelIndex === 1 && itemsCount < 1;
-				if (shouldShowPageFooter) {
-					$pageFooter.show();
-				} else {
-					$pageFooter.hide();
-				}
-				// tabPanelSet.showNextPanel();
-				tabPanelSetSwiper.slideTo(panel.panelIndex);
-			};
-		}
+		// 	tabPanelSet.onPanelShow = function (panel) {
+		// 		var itemsCount = $(panel).find('.product-abstract').length;
+		// 		var shouldShowPageFooter = panel.panelIndex === 1 && itemsCount < 1;
+		// 		if (shouldShowPageFooter) {
+		// 			$pageFooter.show();
+		// 		} else {
+		// 			$pageFooter.hide();
+		// 		}
+		// 		// tabPanelSet.showNextPanel();
+		// 		ticketsTabsSwiper.slideTo(panel.panelIndex);
+		// 	};
+		// }
 
 		tabPanelSet.showPanelViaTab(window.urlParameters.tabLabel || 0);
 

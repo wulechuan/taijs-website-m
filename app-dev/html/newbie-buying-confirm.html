@@ -26,7 +26,7 @@
 		<form name="newbiebuying" action="newbie-buying-succeeded.html">
 		<div class="f-block snap-top">
 			<div class="f-block-body">
-				<div class="row tall caption-bar">
+				<div class="row caption-bar">
 					<div class="left"><h1><span class="label">产品名称</span><span class="value product-caption">新手专享</span></h1></div>
 				</div>
 			</div>
@@ -47,7 +47,8 @@
 			<div class="f-block-body">
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="请输入投资金额，起投金额1000.00元" type="number" data-text-format="currency"
+						<input placeholder="请输入投资金额"
+							data-placeholder-prefix="请输入投资金额，" type="number" data-text-format="currency"
 							name="amount" required
 									   id="newbie-buying-amount">
 						<label        for="newbie-buying-amount" class="input-tip default">投资金额</label>
@@ -59,13 +60,13 @@
 			</div>
 
 			<div class="row dynamic-row">
-				<div class="chinese-number" for-element="newbie-buying-amount"></div>
+				<div class="chinese-number tip" for-element="newbie-buying-amount"></div>
 			</div>
 
 			<div class="row">
 				<article>
 					<p class="selectable"
-						><input type="checkbox" name="eula" required
+						><input type="checkbox" name="eula" required checked="checked" 
 								 id="eula-checkbox"
 						><label for="eula-checkbox" class="deco-input"></label
 						><label for="eula-checkbox">我已阅读并同意以下协议：<br>

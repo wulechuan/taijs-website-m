@@ -26,7 +26,7 @@
 		<form name="newbiebuying" action="newbie-buying-succeeded.html">
 		<div class="f-block snap-top">
 			<div class="f-block-body">
-				<div class="row tall caption-bar">
+				<div class="row caption-bar">
 					<div class="left">
 						<h1><span class="label">产品名称</span><span class="value product-caption">泰靠谱001号</span></h1>
 					</div>
@@ -36,7 +36,7 @@
 		<div class="f-block">
 			<div class="row"><p class="tip">选择支付方式</p></div>
 			<div class="f-block-body">
-				<div class="row menu-item has-lead-icon entity-of-bank call-to-action" id="newbie-buying-confirm-choose-bank-card">
+				<div class="row menu-item has-lead-icon entity-of-bank call-to-action" id="fixed-income-buying-confirm-choose-bank-card">
 					<i class="icon lead-icon icon-size-medium icon-bank-cn-abc" ></i
 					><div class="left" data-value="农业银行">
 						<h5>农业银行<sub><q>3678</q></sub></h5>
@@ -49,7 +49,7 @@
 			<div class="f-block-body">
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="请输入投资金额，起投金额1000.00元" type="number" data-text-format="currency"
+						<input placeholder="请输入投资金额" data-placeholder-prefix="请输入投资金额，" type="number" data-text-format="currency"
 							name="amount" required
 									   id="newbie-buying-amount">
 						<label        for="newbie-buying-amount" class="input-tip default">投资金额</label>
@@ -61,8 +61,11 @@
 			</div>
 
 			<div class="row dynamic-row">
-				<p class="chinese-number" for-element="newbie-buying-amount"></p>
-				<p class="tip" for-empty-input="newbie-buying-amount">当前剩余可投<span class="value currency">100,000.00</span>元，投资金额为100的整数倍</p>
+				<p class="chinese-number tip" for-element="newbie-buying-amount"></p>
+				<p style="margin-bottom: 1rem;" 
+					>当前剩余可投<span class="value currency"
+					>100,000.00</span>元，投资金额为100的整数倍<span class="amount-input-hint"></span
+				></p>
 			</div>
 		</div>
 		<div class="f-block">
@@ -76,14 +79,22 @@
 
 				<div class="row">
 					<div class="left">预计收益</div>
-					<div class="right"><em><span class="value currency">0.00</span></em><sub>元</sub></div>
+					<div class="right"
+						><span class="minor tip">(含8.99元加息券收益)</span
+						><em><span class="value currency">0.00</span></em><sub>元</sub
+					></div>
+				</div>
+
+				<div class="row full-width single-side-content summary-row">
+					<div class="right">实付金额：<em><span class="value digits currency currency-prefix-rmb emphasis-via-size"
+						>158,000.00</span></em><sub>元</sub></div>
 				</div>
 			</div>
 
 			<div class="row">
 				<article>
 					<p class="selectable"
-						><input type="checkbox" name="eula" required
+						><input type="checkbox" name="eula" required checked="checked" 
 								 id="eula-checkbox"
 						><label for="eula-checkbox" class="deco-input"></label
 						><label for="eula-checkbox">我已阅读并同意以下协议：<br>
@@ -107,7 +118,6 @@
 	</footer>
 
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
-		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
 		<div role="dialog" class="popup-layer has-docked-panel" id="pl-choose-bank-card">
 			<div class="popup-panel">
 				<header class="popup-panel-header">
@@ -186,15 +196,14 @@
 			</div>
 		</div>
 
-
 		<div role="dialog" class="popup-layer" id="pl-available-tickets-list">
-			<div class="popup-window">
-				<div class="dialog dialog-style-card">
+			<div class="popup-window has-dialog">
+				<div class="dialog dialog-style-card has-header has-footer">
 					<div class="deco"><div class="concave-pies pies-layout-hori"></div></div>
 					<header class="dialog-header"><h3>以下为所有可用券，请先输入金额</h3></header>
 					<div class="dialog-body">
 						<div class="content">
-							<article class="message">
+							<article>
 								<dl class="tickets-list">
 									<div class="row">
 										<dt>10元抵用券</dt>

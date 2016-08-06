@@ -6,6 +6,7 @@
 			"folder_exclude_patterns": [
 				"node_modules",
 				"app-dist",
+				"app-dist-test",
 				"_temp",
 				"app-dist-cache",
 			],

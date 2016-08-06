@@ -33,10 +33,10 @@
 	function PopupLayersManager() {
 		this.show = function (popupLayerIdOrDom, event) {
 			_showOrHidePopupLayer(popupLayerIdOrDom, true, event);
-		},
+		};
 		this.hide = function (popupLayerIdOrDom) {
 			_showOrHidePopupLayer(popupLayerIdOrDom);
-		}
+		};
 
 		function _showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow) {
 			if (!popupLayerIdOrDom) return false;
@@ -185,6 +185,7 @@
 
 		setupAllAutoConstructTabPanelSets($page);
 		setupPageBodyMinHeightForPage($page);
+		setupAllButtonsWithInlineClickAction($page);
 		setupAllNavBackButtons($page);
 		setupAllInputFieldsForTheirFillingStatus($page);
 		setupAllClearInputButtons($page);
@@ -192,14 +193,55 @@
 		setupAllSensitiveContentBlocks($page);
 		setupAllChineseNumbersPresenters($page);
 
+		function setupAllButtonsWithInlineClickAction($page) {
+			$page.find('[data-click-action]').each(function () {
+				var button = this;
+				var inlineActionString = this.getAttribute('data-click-action');
+				var hasValidAction = !!inlineActionString;
+
+				var actionName;
+				var actionTarget;
+				if (hasValidAction) {
+					var prefix = inlineActionString.match(/^\s*([^\:\s]+)\s*\:(.*)/);
+					if (prefix) {
+						actionName   = prefix[1];
+						actionTarget = prefix[2];
+					}
+				}
+
+				hasValidAction = false;
+				var action;
+				switch (actionName) {
+					default:
+						break;
+					case 'show-popup':
+						hasValidAction = !!actionTarget;
+						action = hasValidAction && function (event) {
+							window.window.popupLayersManager.show(actionTarget, event);
+						};
+						break;
+				}
+
+				hasValidAction = hasValidAction && typeof action === 'function';
+
+				if (!hasValidAction) {
+					C.w('Inline action is invalid:', this);
+					return false;
+				}
+
+				$(button).on('click', action);
+			});
+			// data-click-action="show-popup:pl-message-credit-limitation-introduction"
+		}
+
 		function setupAllAutoConstructTabPanelSets($page) {
-			$('.tab-panel-set').each(function () {
+			$page.find('.tab-panel-set').each(function () {
 				if (this.dataset.doNotAutoConstruct) {
 					// C.l('Skipping auto constructing TabPanelSet from:', this);
 					return true;
 				}
 				new wlc.UI.TabPanelSet(this, {
-					initTab: urlParameters.tabLabel
+					initTab: window.urlParameters.tabLabel
 				});
 			});
 		}
@@ -210,12 +252,12 @@
 				return;
 			}
 
-			var pageHeaderHeight = $page.offset().top;
+			var pageBodyOffsetY = $page.offset().top;
 			var shouldSetBodyContent = false;
 			var pageBodyContentOffsetY = 0;
 
 			var windowInnerHeight = window.innerHeight;
-			var pageBodyMinHeight = windowInnerHeight - pageHeaderHeight;
+			var pageBodyMinHeight = windowInnerHeight - pageBodyOffsetY;
 
 			var pageHasFixedFooter = $page.hasClass('fixed-page-footer') && !!$page.find('.page-footer')[0];
 			if (pageHasFixedFooter) {
@@ -223,14 +265,14 @@
 				pageBodyMinHeight -= pageFixedFooterHeight;
 			}
 
-			var $pageBodyContent = $(pageBody).find('> .content');
+			var $pageBodyContent = $(pageBody).find('> .content-with-solid-bg');
 			var pageBodyContent = $pageBodyContent[0];
 			if (pageBodyContent) {
 				shouldSetBodyContent = true;
 				pageBodyContentOffsetY = $pageBodyContent.offset().top;
 			}
 
-			var pageBodyContentMinHeight = pageBodyMinHeight - pageBodyContentOffsetY + pageHeaderHeight;
+			var pageBodyContentMinHeight = pageBodyMinHeight - pageBodyContentOffsetY + pageBodyOffsetY;
 			// C.l(
 			// 	'fixed-page-footer?', pageHasFixedFooter,
 			//  	'\t pageBodyMinHeight', pageBodyMinHeight,
@@ -266,7 +308,23 @@
 						return false;
 					}
 
-					var isEmpty = (tnlc==='select') ? (field.selectedIndex === -1) : (!field.value);
+					var isEmpty = true;
+					var type = '';
+
+					if (tnlc==='select') {
+						isEmpty = field.selectedIndex === -1;
+					} else if (tnlc === 'input') {
+						type = field.type.toLowerCase();
+						if (type === 'checkbox') {
+							isEmpty = !field.checked;
+						} else if (type === 'radio') {
+							C.e('Not implemented yet!');
+							isEmpty = !field.checked;
+						} else {
+							isEmpty = !field.value;
+						}
+					}
+
 					if (isEmpty) {
 						$(field).removeClass('non-empty-field');
 						$(field).addClass('empty-field');
@@ -275,10 +333,10 @@
 						$(field).addClass('non-empty-field');
 					}
 
-					if (Array.isArray(field.onValueChange)) {
-						field.valueStatus.isEmpty = isEmpty;
-						field.valueStatus.isValid = true; // not implemented yet
+					field.valueStatus.isEmpty = isEmpty;
+					field.valueStatus.isValid = !isEmpty; // not implemented yet
 
+					if (Array.isArray(field.onValueChange)) {
 						for (var i = 0; i < field.onValueChange.length; i++) {
 							var callback = field.onValueChange[i];
 							if (typeof callback === 'function') callback.call(field, field.valueStatus);
@@ -504,6 +562,7 @@
 						.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})([xX0-9\*])?(.*)/, '$1$2')
 						.replace(/[\s\-]+$/, '')
 						.replace(/([\dxX\*\s\-]{21})(.*)/, '$1')
+						.toUpperCase()
 					;
 				}
 				function _formatChineseIdCardInput(text) {
@@ -517,6 +576,7 @@
 						.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})([xX0-9])?(.*)/, '$1$2')
 						.replace(/[\s\-]+$/, '')
 						.replace(/([\dxX\s\-]{21})(.*)/, '$1')
+						.toUpperCase()
 					;
 				}
 			});
@@ -531,6 +591,8 @@
 					C.e('No toggle icon found under a ".sensitive-content" block.');
 					return false;
 				}
+
+				$sensitiveContentBlock.addClass('sensitive-content-shown');
 
 				$toggleIcon.on('click', function () {
 					$sensitiveContentBlock.toggleClass('sensitive-content-shown');
@@ -607,12 +669,45 @@
 
 (function () { // temp logic which are not robust or completed
 	var wlc = window.webLogicControls;
-	var WCU = wlc.CoreUtilities;
+	// var WCU = wlc.CoreUtilities;
 
 
 
-	$('.progress-rings').each(function (index) {
-		var progressRings = new wlc.UI.ProgressRings(this);
+	$('.menu-item.has-sub-menu').each(function () {
+		var menuItem = this;
+		var $menuItem = $(this);
+		var $subMenu = $menuItem.find('> .menu-wrap, > .menu');
+		if ($subMenu.length !== 1) {
+			return false;
+		}
+
+		$menuItem.on('click', function () {
+			showHideSubMenuUnderMenuItem(menuItem, 'toggle');
+		});
+
+		function showHideSubMenuUnderMenuItem(menuItem, action) {
+			var subMenuWasExpanded = $(menuItem).hasClass('coupled-shown');
+			var shouldTakeAction =
+				(!subMenuWasExpanded && action==='expand') ||
+				(subMenuWasExpanded && action==='collapse') ||
+				(action==='toggle')
+			;
+			if (!shouldTakeAction) {
+				return 0;
+			}
+
+			if (subMenuWasExpanded) {
+				$(menuItem).removeClass('coupled-shown');
+			} else {
+				$(menuItem).addClass('coupled-shown');
+			}
+		}
+	});
+
+
+
+	$('.progress-rings').each(function () {
+		new wlc.UI.ProgressRings(this);
 	});
 
 
@@ -640,15 +735,19 @@
 		})[0];
 
 
-		// console.log($allRequiredInputs);
-		// console.log(buttonSubmit);
+		// if (this.name === 'signup') {
+		// 	C.l(this.elements);
+		// 	// console.log($allRequiredInputs);
+		// 	console.log(buttonSubmit);
+		// }
 
 
 		var allInputsAreValid = false;
 
 		var allInputsValidation = [];
 		for (var i = 0; i < $allRequiredInputs.length; i++) {
-			allInputsValidation[i] = false;
+			var field = $allRequiredInputs[i];
+			allInputsValidation[i] = !!field.valueStatus && !!field.valueStatus.isValid;
 		}
 
 
@@ -703,6 +802,24 @@
 (function () { // fake logics
 	$('a[href$="index.html"]').each(function () {
 		this.href += '?login=true';
+	});
+
+	var pls = [
+		'pl-message-credit-limitation-introduction',
+		'pl-message-intro-jia-xi-quan',
+		'pl-message-intro-te-quan-ben-jin',
+		'pl-message-intro-ti-yan-jin',
+		'pl-available-tickets-list',
+		'pl-trading-password-incorrect',
+		'pl-product-terminated',
+		'pl-input-image-vcode'
+	];
+
+	var currentPL = 0;
+	$('.page-body').on('click', function () {
+		window.popupLayersManager.show(pls[currentPL]);
+		currentPL++;
+		if (currentPL >= pls.length) currentPL -= pls.length;
 	});
 })();
 

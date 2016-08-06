@@ -38,12 +38,15 @@ input, select, option, button, [role="button"] {
 input {
 	padding: 8px 16px;
 	min-height: 22px;
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: initial!important;
 }
 input[type=text] {   
     /* Remove iOS inner shadow for input fields */
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+
 }
 input, select, option {
 	padding-left: 0.5em;
@@ -87,9 +90,15 @@ article li, .article li {
     margin: 0.75em 0;
 }
 article p, .article p {
-    padding: 0.5em;
-    margin: 0em -0.5em 0.5em;
+    padding: 0.25em 0.5em;
+    margin: 0em -0.5em -0.25em;
     line-height: 1.5;
+}
+article dl > p, .article dl > p,
+article dd > p, .article dd > p,
+article dt > p, .article dt > p,
+article li > p, .article li > p {
+	margin-right: 0;
 }
 
 blockquote, q {

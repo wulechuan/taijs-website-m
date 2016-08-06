@@ -12,10 +12,9 @@
 <!-- inject:appBGLayer0:html --><!-- endinject -->
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
-<div data-app-header-title="产品详情" id="page-newbie-call-to-action"
-	 class="page has-page-header fixed-page-header has-page-footer fixed-page-footer use-extended-bg-image"
+<div data-app-header-title="产品详情" id="page-product-detail"
+	 class="page has-page-header fixed-page-header has-page-footer fixed-page-footer has-header-bg"
 	>
-	<div class="page-header-patch-for-safari"></div>
 	<header class="page-header">
 		<div class="row header-bar">
 			<div class="center"><h1>泰靠谱002号</h1></div>
@@ -26,21 +25,24 @@
 
 	<div class="page-body">
 		<div class="row color-inverted bg-meets-page-header-container">
-			<div class="hero-content-block hero-content-block-style-4">
+			<div class="hero-content-block hero-content-block-style-5">
 				<h3>
 					<span class="hero-word"
 						><span class="value percentage-value digits">7.50</span
 					></span>
+					<span class="label">预期年化收益率</span>
 				</h3>
 				<h3>
 					<span class="hero-word"
 						><span class="value digits">90</span
+						><sub>天</sub
 					></span>
+					<span class="label">投资期限</span>
 				</h3>
 				<div class="progress-bar">
 					<div class="progress-range">
 						<div class="label">已售<span class="value">65%</span></div>
-						<div class="current-progress" style="width: 65%;">
+						<div class="current-progress" data-value="65" style="width: 65%;">
 							<div class="current-progress-dot"></div>
 						</div>
 					</div>
@@ -52,7 +54,7 @@
 							<span class="content"><span class="value duration-limitation">100,000.00</span></span>
 						</li
 						><li class="col">
-							<span class="label compensate-punctuation">剩余可投（元）</span>
+							<span class="label">剩余可投（元）</span>
 							<span class="content"><span class="value digits min-amount currency">100,863,500.00</span></span>
 						</li
 					></ul>
@@ -69,11 +71,11 @@
 							><ul class="f-list">
 								<li
 									><span class="marker marker-ticket-look marker-jia-xi"
-										><span class="label">加息</span><span class="deco"><span class="concave-semi-circles"></span></span></span
+										><span class="label">加息券</span><span class="deco"><span class="concave-semi-circles"></span></span></span
 								></li>
 								<li
 									><span class="marker marker-ticket-look marker-di-yong"
-										><span class="label">抵用</span><span class="deco"><span class="concave-semi-circles"></span></span></span
+										><span class="label">抵用券</span><span class="deco"><span class="concave-semi-circles"></span></span></span
 								></li>
 								<li
 									><span class="marker marker-ticket-look marker-te-quan-ben-jin"
@@ -189,15 +191,26 @@
 
 	<footer class="page-footer">
 		<div class="row buttons-in-single-line">
-			<a href="newbie-buying-confirm.html" 
-				role="button" class="rounded-corners size-std-wide">立即抢购</a>
+			<button class="rounded-corners size-std-wide content-in-dual-lines disable-style-2" disabled
+				id="product-detail-footer-button-count-down">
+				<span class="major">即将开始</span>
+				<time class="minor">2时11分15秒</time>
+			</button>
+			<button class="rounded-corners size-std-wide disable-style-2" disabled
+				id="product-detail-footer-button-sold-out"
+				style="display: none;">
+				已售罄
+			</button>
+			<a href="newbie-buying-confirm.html" role="button" class="rounded-corners size-std-wide"
+				style="display: none;"
+				>立即抢购</a>
 		</div>
 	</footer>
 
 	<!-- inject:popupLayersWrapBeginAAA:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEndAAA:html --><!-- endinject -->
 
-	<script src="scripts/pages/newbie-call-to-action.min.js"></script>
+	<script src="scripts/pages/product-detail.min.js"></script>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 

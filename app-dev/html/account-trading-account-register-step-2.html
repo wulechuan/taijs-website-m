@@ -33,7 +33,7 @@
 			></ul>
 			<div class="row"><p class="tip">提示：为了保障投资人的资金安全，暂不支持信用卡</p></div>
 			<div class="f-block-body">
-				<div class="row select-field">
+				<label class="row select-field">
 					<div class="left">
 						<select placeholder="请选择银行"
 							name="bankname" required id="account-trading-account-register-bank-name">
@@ -55,8 +55,8 @@
 							<option value="bank-cn-bankofshanghai">上海银行</option>
 						</select>
 					</div>
-					<div class="right">请选择</div>
-				</div>
+					<label class="right" for="account-trading-account-register-bank-name">请选择</label>
+				</label>
 				<div class="row input-field single-side-content">
 					<div class="left">
 						<input placeholder="请输入银行卡账号" type="text" data-text-format="bank-card"
@@ -68,7 +68,7 @@
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
-				<div class="row select-field">
+				<label class="row select-field">
 					<div class="left">
 						<select placeholder="请选择开户城市"
 							name="city" required id="account-trading-account-register-city">
@@ -82,8 +82,8 @@
 							<option value="city-cn-nanchang">南昌</option>
 						</select>
 					</div>
-					<div class="right">请选择</div>
-				</div>
+					<label class="right" for="account-trading-account-register-city">请选择</label>
+				</label>
 				<div class="row input-field single-side-content">
 					<div class="left">
 						<input placeholder="请输入银行卡绑定的手机号" type="tel" data-text-format="mobile"

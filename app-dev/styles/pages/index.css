@@ -1,3 +1,7 @@
+.page-body {
+	background-color: #f1f1f1;
+}
+
 .page-header .row.sign-up-sign-in-buttons {
 	z-index: 5;
 }
@@ -17,6 +21,17 @@
 
 .page-header {
 	height: 6.4rem;
+	overflow: hidden;
+	transition-duration: 0.3s; 
+	}
+	.page-header-in-compact-mode .page-header *,
+	.page-header {
+		transition-delay: 0s;
+	}
+
+	.page-header *,
+	.page-header-in-compact-mode .page-header {
+		transition-delay: 0.1s;
 	}
 	.user-has-logged-in .page-header {
 		height: 2.4rem;
@@ -24,10 +39,12 @@
 
 
 .page-header .row.taijs-brand {
-	padding-top: 0;
-	padding-bottom: 0;
-	margin-top: 1rem;
-	margin-bottom: 0;
+	position: absolute; /* for stable transitions */
+	left: 50%;
+	top: 0;
+	width: 12rem;
+	padding: 0;
+	margin: 1rem 0 0 -6rem;
 	}
 	.page-header .taijs-logo,
 	.page-header .taijs-slogan {
@@ -50,10 +67,11 @@
 
 	.user-has-logged-in               .page-header .row.taijs-brand,
 	.page.page-header-in-compact-mode .page-header .row.taijs-brand {
+		left: 6.8rem;
 		position: absolute;
-		margin-left: 0.1rem;
 		margin-top: 0.7rem;
 		margin-bottom: 0;
+		width: 4.8rem;
 		}
 
 		.user-has-logged-in               .page-header .taijs-logo,
@@ -62,7 +80,7 @@
 		.page.page-header-in-compact-mode .page-header .taijs-slogan {
 			width: 4.8rem;
 			height: 1.1rem;
-			background-position: center;
+			background-position: left;
 		}
 		.user-has-logged-in               .page-header .taijs-logo,
 		.page.page-header-in-compact-mode .page-header .taijs-logo {
@@ -71,8 +89,9 @@
 		.user-has-logged-in               .page-header .taijs-slogan,
 		.page.page-header-in-compact-mode .page-header .taijs-slogan {
 			margin: 0;
+			visibility: hidden;
+			width: 0;
 		}
-
 
 	@media only screen and (max-width: 340px) {
 		.page.page-header-in-compact-mode .page-header .taijs-slogan {
@@ -86,7 +105,8 @@
 	position: absolute;
 	box-sizing: border-box;
 	width: 100%;
-	left: auto;
+	max-width: calc(768px + 3rem);
+	left: 0;
 	right: 0;
 	top: 2.4rem;
 	margin: 0 auto;
@@ -105,7 +125,7 @@
 	.page-header .row.sign-up-sign-in-buttons button {
 		padding-top: 0;
 		padding-bottom: 0;
-		margin: 0.25rem 0.25rem;
+		margin: 0.25rem;
 		height: 2rem;
 		line-height: 1.9rem;
 		line-height: calc(2rem - 2px);
@@ -117,6 +137,7 @@
 	.page.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons {
 		box-sizing: border-box;
 		width: 100%;
+		max-width: none;
 		height: 0;
 		overflow: visible;
 		text-align: right;
@@ -137,6 +158,16 @@
 			line-height: calc(1.5rem - 2px);
 			font-size: 0.7rem;
 		}
+
+	@media only screen and (min-width: 512px) {
+		.page.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons > .content {
+			width: 15rem;
+		}
+		.page.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons [role="button"],
+		.page.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons button {
+			width: 7rem;
+		}
+	}
 
 	@media only screen and (max-width: 380px) {
 		.page.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons [role="button"],
@@ -179,9 +210,20 @@
 	height: 4rem;
 	}
 	.user-assets-abstract > .f-list {
+		display: none;
 		padding: 0;
 		margin: 0 -0.8rem;
 	}
+	.user-has-logged-in .user-assets-abstract > .f-list {
+		display: block;
+	}
+	.page .row.user-assets-abstract-row {
+		background-color: transparent;
+	}
+	.user-has-logged-in .row.user-assets-abstract-row {
+		background-color: #4285f4;
+	}
+
 	.user-assets-abstract > .f-list > a > li,
 	.user-assets-abstract > .f-list     > li {
 		position: relative;
