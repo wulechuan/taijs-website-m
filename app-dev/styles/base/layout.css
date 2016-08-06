@@ -1,8 +1,3 @@
-.bg-meets-page-header-container {
-	background-color: transparent!important;
-}
-
-
 button.nav-share::before,
 button.nav-home::before,
 button.nav-back::before,
@@ -2378,7 +2373,8 @@ dl.tickets-list {
 			background-color: transparent!important;
 		}
 
-		.page.has-header-bg .row.bg-meets-page-header-container .hero-content-block {
+		.page.has-header-bg .row.bg-meets-page-header-container .hero-content-block,
+		.page.has-header-bg .row.bg-meets-page-header-container {
 			background-color: transparent!important;
 			background-image: none!important;
 		}
@@ -2400,7 +2396,7 @@ dl.tickets-list {
 	  from effecting .page-header layout
 	*/
 	.page-body::before,
-	.page-body > .content::before,
+	.page-body > .content-with-solid-bg::before,
 	.page-header::before {
 		content: '';
 		display: block;
@@ -2435,11 +2431,11 @@ dl.tickets-list {
 		.page-body.use-content-as-main-container {
 			padding-bottom: 0;
 		}
-		.page-body.use-content-as-main-container > .content {
+		.page-body.use-content-as-main-container > .content-with-solid-bg {
 			box-sizing: border-box;
 			padding-bottom: 6rem;
 		}
-		/* .page-body > .content {
+		/* .page-body > .content-with-solid-bg {
 			position: relative;
 			z-index: 2;
 		} */

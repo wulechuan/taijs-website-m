@@ -265,7 +265,7 @@
 				pageBodyMinHeight -= pageFixedFooterHeight;
 			}
 
-			var $pageBodyContent = $(pageBody).find('> .content');
+			var $pageBodyContent = $(pageBody).find('> .content-with-solid-bg');
 			var pageBodyContent = $pageBodyContent[0];
 			if (pageBodyContent) {
 				shouldSetBodyContent = true;
@@ -273,11 +273,11 @@
 			}
 
 			var pageBodyContentMinHeight = pageBodyMinHeight - pageBodyContentOffsetY + pageBodyOffsetY;
-			// C.l(
-			// 	'fixed-page-footer?', pageHasFixedFooter,
-			//  	'\t pageBodyMinHeight', pageBodyMinHeight,
-			//  	'\t pageBodyContentMinHeight', pageBodyContentMinHeight
-			//  );
+			C.l(
+				'fixed-page-footer?', pageHasFixedFooter,
+			 	'\t pageBodyMinHeight', pageBodyMinHeight,
+			 	'\t pageBodyContentMinHeight', pageBodyContentMinHeight
+			 );
 
 			if (shouldSetBodyContent) {
 				$(pageBody).addClass('use-content-as-main-container');

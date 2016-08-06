@@ -1091,7 +1091,13 @@ dl.tickets-list {
 .page {
 	color: #666;
 	}
-	.page::before,
+	.page.has-header-bg .page-body > .content-with-solid-bg,
+	.page {
+		background-color: #f1f1f1;
+	}
+	.page.has-header-bg::after {
+		background-image: linear-gradient(to bottom, rgba(62, 90, 215, 0) 14rem, #f1f1f1 26rem);
+	}
 	.page-header {
 		color: white;
 		background-color: #4285f4;
@@ -1100,20 +1106,17 @@ dl.tickets-list {
 		border-color: #e5e5e5;
 		background-color: white;
 	}
-	.page-body.use-content-as-main-container > .content,
-	.page-body {
-		background-color: #f1f1f1;
-	}
-	.page.has-header-bg::after {
-		background-image: linear-gradient(to bottom, rgba(62, 90, 215, 0) 14rem, #f1f1f1 26rem);
-	}
-	.page-body.use-content-as-main-container {
-		background-color: transparent!important;
-	}
-	.page-body.bg-white.use-content-as-main-container > .content,
-	.page.bg-white .page-body {
+
+	.page.bg-white.has-header-bg .page-body > .content-with-solid-bg,
+	.page.bg-white {
 		background-color: white;
 	}
+	.page.bg-white.has-header-bg::after {
+		background-image: linear-gradient(to bottom, rgba(62, 90, 215, 0) 14rem, white 26rem);
+	}
 
-
+	.page::before,
+	.page.has-header-bg .page-header {
+		background-color: rgb(62, 90, 215);
+	}
 
