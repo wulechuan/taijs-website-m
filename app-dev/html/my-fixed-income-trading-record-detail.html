@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html><head>
+	<!-- inject:headBeforeTitle:html --><!-- endinject -->
+	<title>资产详情</title>
+	<!-- inject:headAfterTitle:html --><!-- endinject -->
+</head>
+<body>
+<!-- inject:bodyBegin:html --><!-- endinject -->
+
+<!-- inject:appRootWrapBegin:html --><!-- endinject -->
+
+<!-- inject:appBGLayer0:html --><!-- endinject -->
+
+<!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
+<div data-app-header-title="资产详情" id="page-my-fixed-income-trading-record-detail"
+	class="page has-page-header fixed-page-header"
+	><header class="page-header">
+		<div class="row header-bar">
+			<div class="center"><h1>资产详情</h1></div>
+			<div class="left"  ><a role="button" class="nav-back" href="account-personal-center.html"></a></div>
+			<div class="right" ><a role="button" class="nav-home" href="../index.html"></a></div>
+		</div>		
+	</header>
+
+	<div class="page-body">
+		<div class="f-block snap-top">
+			<div class="f-block-body">
+				<div class="row full-width record-detail-asset-abstract">
+					<div class="left">
+						<h4>泰靠谱30天280号 80天</h4>
+						<p class="emphasis"><span class="value digits currency">3,000,000.00</span><sub>元</sub></p>
+					</div>
+					<div class="right">
+						<p class="status color-promoted"><span class="value">还剩15天</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="f-block">
+			<div class="f-block-body">
+				<div class="row">
+					<div class="entity-info entity-type-regular">
+						<div class="entity-body">
+							<ul class="f-list columns-count-3"
+								><li class="cell">
+									<span class="label">昨日收益（元）</span>
+									<span class="content"
+										><em><span class="value digits">780.00</span></em
+									></span>
+								</li
+								><li class="cell">
+									<span class="label">累计收益（元）</span>
+									<span class="content"><span class="value digits">80.00</span></span>
+								</li
+								><li class="cell">
+									<span class="label">预计年化收益率</span>
+									<span class="content"><span class="value digits percentage-value">8</span></span>
+								</li
+							></ul>
+						</div>
+					</div>
+				</div>
+
+				<a href="#">
+				<div class="row full-width emphasise-leftside leftside-wider small-text">
+					<div class="left">还款方式：<span class="value">到期一次性还本付息</span></div>
+					<div class="right">查看原始项目</div>
+				</div>
+				</a>
+
+				<div class="row full-width" id="assest-progress-dai-que-ren" data-status="待确认">
+					<dl class="progress-stops layout-vert has-labels progress-stops-style-geo-marker"
+						data-progress-stops-count="6" data-progress-current-stop="2">
+						<div class="progress-stop">
+							<dt class="label">
+								<p>购买</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-20 13:21:25</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>待确认（确认成功后将在<time><span class="value action-timestamp">2016-03-21</span></time>开始计息）</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>开始计算收益</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>收益截止日</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>回款中</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>回款至泰金宝</p>
+								<p class="minor">预计<time><span class="value action-timestamp">2016-03-27</span（如遇节假日顺延）></time></p>
+							</dt>
+						</div>
+					</dl>
+				</div>
+
+				<div class="row full-width" id="assest-progress-que-ren-shi-bai" data-status="确认失败" style="display: none;">
+					<dl class="progress-stops layout-vert has-labels progress-stops-style-geo-marker"
+						data-progress-stops-count="3" data-progress-current-stop="2">
+						<div class="progress-stop">
+							<dt class="label">
+								<p>购买</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-20 13:21:25</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>确认失败</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-20</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>退款至支付银行卡</p>
+								<p class="minor">预计<time><span class="value action-timestamp">2016-03-27</span（如遇节假日顺延）></time></p>
+							</dt>
+						</div>
+					</dl>
+				</div>
+
+				<div class="row full-width" id="assest-progress-que-ren-cheng-gong" data-status="确认成功" style="display: none;">
+					<dl class="progress-stops layout-vert has-labels progress-stops-style-geo-marker"
+						data-progress-stops-count="6" data-progress-current-stop="2">
+						<div class="progress-stop">
+							<dt class="label">
+								<p>购买</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-20 13:21:25</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>确认成功（该笔资产将在2016-03-21开始计息）</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>开始计算收益</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>收益截止日</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>回款中</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>回款至泰金宝</p>
+								<p class="minor">预计<time><span class="value action-timestamp">2016-03-27</span（如遇节假日顺延）></time></p>
+							</dt>
+						</div>
+					</dl>
+				</div>
+
+				<div class="row full-width" id="assest-progress-ji-xi-zhong" data-status="计息中" style="display: none;">
+					<dl class="progress-stops layout-vert has-labels progress-stops-style-geo-marker"
+						data-progress-stops-count="6" data-progress-current-stop="3">
+						<div class="progress-stop">
+							<dt class="label">
+								<p>购买</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-20 13:21:25</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>确认成功</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>开始计算收益</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>收益截止日</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>回款中</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>回款至泰金宝</p>
+								<p class="minor">预计<time><span class="value action-timestamp">2016-03-27</span（如遇节假日顺延）></time></p>
+							</dt>
+						</div>
+					</dl>
+				</div>
+
+				<div class="row full-width" id="assest-progress-hui-kuang-zhong" data-status="回款中" style="display: none;">
+					<dl class="progress-stops layout-vert has-labels progress-stops-style-geo-marker"
+						data-progress-stops-count="6" data-progress-current-stop="5">
+						<div class="progress-stop">
+							<dt class="label">
+								<p>购买</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-20 13:21:25</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>确认成功</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>开始计算收益</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>收益截止日</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>回款中</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>回款至泰金宝</p>
+								<p class="minor">预计<time><span class="value action-timestamp">2016-03-27</span（如遇节假日顺延）></time></p>
+							</dt>
+						</div>
+					</dl>
+				</div>
+
+				<div class="row full-width" id="assest-progress-yi-chong-di" data-status="已冲抵" style="display: none;">
+					<dl class="progress-stops layout-vert has-labels progress-stops-style-geo-marker"
+						data-progress-stops-count="5" data-progress-current-stop="5">
+						<div class="progress-stop">
+							<dt class="label">
+								<p>购买</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-20 13:21:25</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>确认成功</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>开始计算收益</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>冲抵日（本金已用于还款）</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>回款至泰金宝（收益已回款，请注意泰金宝资产变动）</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+					</dl>
+				</div>
+
+				<div class="row full-width" id="assest-progress-yi-tui-kuan" data-status="已退款" style="display: none;">
+					<dl class="progress-stops layout-vert has-labels progress-stops-style-geo-marker"
+						data-progress-stops-count="3" data-progress-current-stop="3">
+						<div class="progress-stop">
+							<dt class="label">
+								<p>购买</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-20 13:21:25</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>确认失败</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>退款至支付银行卡（资金已退款至支付银行卡，请注意资产变动）</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+					</dl>
+				</div>
+
+				<div class="row full-width" id="assest-progress-yi-dui-fu" data-status="已兑付" style="display: none;">
+					<dl class="progress-stops layout-vert has-labels progress-stops-style-geo-marker"
+						data-progress-stops-count="5" data-progress-current-stop="5">
+						<div class="progress-stop">
+							<dt class="label">
+								<p>购买</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-20 13:21:25</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>确认成功</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>开始计算收益</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-21</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>收益截止日</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+
+						<div class="progress-stop">
+							<dt class="label">
+								<p>回款至泰金宝（收益已回款，请注意泰金宝资产变动）</p>
+								<p class="minor"><time><span class="value action-timestamp">2016-03-26</span></time></p>
+							</dt>
+						</div>
+					</dl>
+				</div>
+			</div>
+
+			<div class="row">
+				<article>
+					<p class="tip">注:目前使用1张0.5%的加息券，一张1%的加息券，预计额外收益52.82元</p>
+				</article>
+			</div>
+		</div>
+
+		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
+	</div>
+
+	<script src="../scripts/pages/my-fixed-income-trading-record-detail.min.js"></script>
+</div>
+<!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
+
+<!-- inject:globalPopupLayers:html --><!-- endinject -->
+
+<!-- inject:appRootWrapEnd:html --><!-- endinject -->
+
+<!-- inject:bodyEnd:html --><!-- endinject -->
+</body></html>

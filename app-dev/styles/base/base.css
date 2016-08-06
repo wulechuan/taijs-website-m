@@ -2092,8 +2092,8 @@ ol.f-list, ul.f-list { /* function list */
 		.progress-stops.solo-current-stop[data-progress-current-stop="3"]           > li:nth-child(3) > .label,
 		.progress-stops.solo-current-stop[data-progress-current-stop="2"] .progress-stop:nth-child(2) > .label,
 		.progress-stops.solo-current-stop[data-progress-current-stop="2"]           > li:nth-child(2) > .label,
-		.progress-stops.solo-current-stop[data-progress-current-stop="1"] .progress-stop:first-child > .label,
-		.progress-stops.solo-current-stop[data-progress-current-stop="1"]           > li:first-child > .label {
+		.progress-stops.solo-current-stop[data-progress-current-stop="1"] .progress-stop:first-child  > .label,
+		.progress-stops.solo-current-stop[data-progress-current-stop="1"]           > li:first-child  > .label {
 			display: block;
 		}
 	/* solo label mode: end */
@@ -2243,6 +2243,7 @@ ol.f-list, ul.f-list { /* function list */
 
 	.progress-stops.layout-vert {
 		padding: 0.5rem 0.5rem 0.5rem 2rem;
+		margin-right: -0.7rem;
 		text-align: left;
 		}
 
@@ -2287,14 +2288,15 @@ ol.f-list, ul.f-list { /* function list */
 		.progress-stops.layout-vert .progress-stop > .label,
 		.progress-stops.layout-vert           > li > .label {
 			padding: 0.25rem;
-			margin: -0.3rem -0.25rem 1.3rem;
+			margin: -0.5rem -0.25rem 1.5rem;
 		}
 
 		.progress-stops.layout-vert .progress-stop > .label p,
 		.progress-stops.layout-vert           > li > .label p {
 			padding: 0.25rem;
-			margin: -0.2rem;
+			margin: -0.25rem;
 			margin-bottom: 0;
+			line-height: 1.5;
 		}
 
 		.progress-stops.layout-vert .progress-stop > .label .minor,
@@ -2331,11 +2333,11 @@ ol.f-list, ul.f-list { /* function list */
 		.progress-stops.layout-vert .progress-stop:last-child::before,
 		.progress-stops.layout-vert           > li:last-child::before {
 			font-family: 'iconfont'!important;
-			content: '\e605';
-			font-size: 0.6rem;
-			line-height: 0.77rem;
-			text-indent: 0px;
-			border-width: 1px;
+			content: '\e605'!important;
+			font-size: 0.6rem!important;
+			line-height: 0.77rem!important;
+			text-indent: -1px!important;
+			border-width: 1px!important;
 		}
 
 

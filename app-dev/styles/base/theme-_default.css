@@ -886,6 +886,13 @@ dl.tickets-list {
 		color: #666;
 	}
 
+	.row.record-detail-asset-abstract .left h4 {
+		color: #666;
+	}
+	.row.record-detail-asset-abstract .left .digits {
+		color: black;
+	}
+
 
 .f-block .tiles > a > .tile,
 .f-block .tiles     > .tile {
@@ -933,7 +940,6 @@ dl.tickets-list {
 	.marker.marker-jia-xi { color: #3274e5; }
 	.marker.marker-di-yong { color: #ee3871; }
 	.marker.marker-te-quan-ben-jin { color: #8161e2; }
-
 
 
 .color-inverted .menu.level-1,
@@ -988,6 +994,7 @@ dl.tickets-list {
 		.entity-info.entity-time-limited.entity-out-of-time em {
 			color: #333;
 		}
+
 
 .product-abstract {
 	}

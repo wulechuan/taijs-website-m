@@ -532,12 +532,58 @@ article.message {
 				margin: 0 auto;
 			}
 
+
+	.entity-info.entity-type-regular .entity-body .f-list {
+		padding-bottom: 0.25rem;
+		}
+
+		.entity-info.entity-type-regular .entity-body .f-list > .cell {
+			width: 55%;
+			text-align: left;
+		}
+		.entity-info.entity-type-regular .entity-body .f-list > .cell:last-child {
+			width: 45%;
+			text-align: right;
+		}
+
+		.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:first-child {
+			width: 42%;
+		}
+		.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:nth-child(2) {
+			width: 30%;
+		}
+		.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:last-child {
+			width: 28%;
+		}
+		.entity-info.entity-type-regular .entity-body .f-list > .cell > .label {
+			margin-bottom: 0.25rem;
+		}
+		.entity-info.entity-type-regular .entity-body .f-list > .cell > .content {
+			padding-top: 0;
+			font-size: 0.75rem;
+			line-height: 1.5;
+		}
+
+		@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+			.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:first-child {
+				width: 38%;
+			}
+			.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:nth-child(2) {
+				width: 32%;
+			}
+			.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:last-child {
+				width: 30%;
+			}
+		}
+
+
 	.entity-info.entity-type-fund .entity-body .f-list > .cell:first-child {
 		width: 55%;
-	}
-	.entity-info.entity-type-fund .entity-body .f-list > .cell:last-child {
-		width: 45%;
-	}
+		}
+		.entity-info.entity-type-fund .entity-body .f-list > .cell:last-child {
+			width: 45%;
+		}
+
 
 	.entity-info.entity-type-fixed-income .entity-body {
 		margin: 0.3rem 0 0.2rem 0;
@@ -1147,7 +1193,7 @@ article.message {
 
 
 .row {
-	white-space: nowrap;
+	/* white-space: nowrap; */
 	}
 
 	.row * {
@@ -1357,12 +1403,12 @@ article.message {
 			margin-right: -0.5rem;
 		}
 		.row.leftside-wider .right {
-			width: 20%;
-			margin-left: -0.5rem;
+			width: calc(20% + 2.5rem);
+			margin-left: -3rem;
 		}
 		.row.rightside-wider .left {
-			width: 20%;
-			margin-right: -0.5rem;
+			width: calc(20% + 2.5rem);
+			margin-right: -3rem;
 		}
 		.row.rightside-wider .right {
 			width: 80%;
@@ -1392,6 +1438,17 @@ article.message {
 		.row.emphasise-rightside   .right {
 			font-size: 0.8rem;
 			font-weight: 500;
+		}
+
+		.row.small-text.emphasise-both-sides .left,
+		.row.small-text.emphasise-both-sides .right,
+		.row.small-text.emphasise-rightside .left,
+		.row.small-text.emphasise-rightside .right,
+		.row.small-text.emphasise-leftside .left,
+		.row.small-text.emphasise-leftside .right,
+		.row.small-text .left,
+		.row.small-text .right {
+			font-size: 0.6rem;
 		}
 
 		.f-block-body .row.select-field .right,
@@ -1684,6 +1741,31 @@ article.message {
 	}
 
 
+.row.record-detail-asset-abstract {
+	}
+
+	.f-block-body .row.record-detail-asset-abstract,
+	.row.record-detail-asset-abstract {
+		padding-bottom: 0.1rem;
+	}
+	.row.record-detail-asset-abstract .right,
+	.row.record-detail-asset-abstract .left p,
+	.row.record-detail-asset-abstract .left h4 {
+		font-size: 0.7rem;
+		line-height: 1.8;
+	}
+	.row.record-detail-asset-abstract .left h4 {
+		font-weight: 400;
+	}
+	.row.record-detail-asset-abstract .left p.emphasis {
+		font-size: 1.1rem;
+	}
+	.row.record-detail-asset-abstract .left p.emphasis .digits {
+		font-weight: 500;
+	}
+	.row.record-detail-asset-abstract .right .status {
+		font-weight: 400;
+	}
 
 
 .f-block { /* function-block */
@@ -1922,6 +2004,8 @@ article.message {
 		}
 
 
+	.f-block-body a .row.full-width,
+	.f-block-body   .row.full-width.call-to-action,
 	.f-block-body a .row,
 	.f-block-body   .row.call-to-action {
 		cursor: pointer;
