@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1470363864'); /* IE9*/
-  src: url('iconfont.eot?t=1470363864#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1470363864') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1470363864') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1470363864#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1470441128'); /* IE9*/
+  src: url('iconfont.eot?t=1470441128#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1470441128') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1470441128') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1470441128#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -51,3 +51,4 @@
 .icon-concave-semi-pie-hori:before { content: "\e61c"; }
 .icon-concave-semi-pie-vert:before { content: "\e61d"; }
 .icon-concave-semi-circles-small-4-sided:before { content: "\e61e"; }
+.icon-wallet-circled:before { content: "\e624"; }

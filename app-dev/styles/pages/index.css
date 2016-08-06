@@ -101,7 +101,8 @@
 	position: absolute;
 	box-sizing: border-box;
 	width: 100%;
-	left: auto;
+	max-width: calc(768px + 3rem);
+	left: 0;
 	right: 0;
 	top: 2.4rem;
 	margin: 0 auto;
@@ -120,7 +121,7 @@
 	.page-header .row.sign-up-sign-in-buttons button {
 		padding-top: 0;
 		padding-bottom: 0;
-		margin: 0.25rem 0.25rem;
+		margin: 0.25rem;
 		height: 2rem;
 		line-height: 1.9rem;
 		line-height: calc(2rem - 2px);
@@ -132,6 +133,7 @@
 	.page.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons {
 		box-sizing: border-box;
 		width: 100%;
+		max-width: none;
 		height: 0;
 		overflow: visible;
 		text-align: right;
@@ -152,6 +154,16 @@
 			line-height: calc(1.5rem - 2px);
 			font-size: 0.7rem;
 		}
+
+	@media only screen and (min-width: 512px) {
+		.page.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons > .content {
+			width: 15rem;
+		}
+		.page.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons [role="button"],
+		.page.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons button {
+			width: 7rem;
+		}
+	}
 
 	@media only screen and (max-width: 380px) {
 		.page.page-header-in-compact-mode .page-header .row.sign-up-sign-in-buttons [role="button"],
