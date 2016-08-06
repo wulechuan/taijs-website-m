@@ -773,11 +773,12 @@ label.deco-input {
 		color: white;
 	}
 
+	.dialog.dialog-style-card .dialog-header .hero-content-block,
 	.dialog-header {
 		color: black;
 		}
 
-	.dialog-footer {
+	.dialog {
 		border-color: #dadada;
 	}
 
@@ -786,8 +787,13 @@ label.deco-input {
 		border-color: #ececec;
 	}
 
+	.dialog.dialog-style-card .dialog-body > .content article ul > li *,
 	.dialog.dialog-style-card .dialog-body > .content article {
-		padding: 0;
+		color: black;
+	}
+
+	.dialog.dialog-style-card .dialog-body > .content article ul > li {
+		color: #999;
 	}
 
 

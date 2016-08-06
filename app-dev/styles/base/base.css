@@ -2432,129 +2432,6 @@ dl.initially-collapsed {
 	}
 
 
-.dialog {
-	display: block;
-	box-sizing: border-box;
-	position: relative;
-
-	border-radius: 0;
-	border-width: 1px;
-	border-style: solid;
-	overflow: visible; /* for deco borders */
-	}
-
-	.dialog-header {
-		box-sizing: border-box;
-		clear: both;
-		min-height: 2.4rem;
-		padding: 0.8rem 1rem 0.4rem 1rem;
-		font-size: 0.8rem;
-		line-height: 1.2rem;
-		text-align: center;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		}
-
-		.dialog-header h1,
-		.dialog-header h2,
-		.dialog-header h3,
-		.dialog-header h4,
-		.dialog-header h5 {
-			display: inline-block;
-			padding: 0.25rem 0.5rem;
-			margin: -0.25rem -0.5rem;
-			line-height: inherit;
-		}
-
-	.dialog-footer {
-		box-sizing: border-box;
-		clear: both;
-		padding: 0;
-		text-align: center;
-		border-width: 1px 0 0 0;
-		border-style: solid;
-		white-space: nowrap;
-		overflow: hidden;
-		font-size: 0;
-		}
-
-		.dialog-footer .col {
-			display: inline-block;
-			vertical-align: top;
-			width: 50%;
-			box-sizing: border-box;
-			text-align: center;
-			border-width: 0;
-			border-color: inherit;
-		}
-
-		.dialog-footer .col ~ .col {
-			border-left-width: 1px;
-			border-left-style: solid;
-		}
-
-		.dialog-footer input[type="reset"]:hover,
-		.dialog-footer input[type="reset"],
-		.dialog-footer input[type="button"]:hover,
-		.dialog-footer input[type="button"],
-		.dialog-footer input[type="submit"]:hover,
-		.dialog-footer input[type="submit"],
-		.dialog-footer button:hover,
-		.dialog-footer button {
-			background-color: transparent;
-			border-color: transparent;
-			display: inline-block;
-			vertical-align: top;
-			box-sizing: border-box;
-			font-size: 18px;
-			height: 2.4rem;
-			width: 100%;
-			margin: 0;
-			padding: 0;
-		}
-
-	.dialog-body {
-		box-sizing: border-box;
-		position: relative;
-		overflow-x: auto;
-		overflow-y: auto;
-		-webkit-overflow-scrolling: touch;
-		}
-
-		.dialog-body > .content {
-			box-sizing: border-box;
-			padding: 0;
-		}
-
-		.dialog-body {
-			padding: 0.25rem 0;
-		}
-
-		.dialog-body > .content {
-			}
-
-			.dialog-body > .content article {
-				padding: 0 1rem;
-			}
-
-			.dialog-body > .content article p {
-				line-height: 1.5;
-			}
-
-
-	.popup-window .dialog {
-		border-radius: 0.7rem;
-		overflow: hidden;
-		border-width: 0;
-		width: 100%;
-		height: 100%;
-		max-width: 100%;
-		max-height: 100%;
-		box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
-		transition-property: none;
-	}
-
-
 .pagination {
 	text-align: center;
 	padding: 15px 20px;
@@ -2586,6 +2463,172 @@ dl.initially-collapsed {
 		margin-left: 12px;
 		margin-right: 0;
 	}
+
+
+.dialog {
+	display: block;
+	box-sizing: border-box;
+	position: relative;
+
+	border-radius: 0;
+	border-width: 1px;
+	border-style: solid;
+	overflow: visible; /* for deco borders */
+	}
+
+	.dialog-header {
+		z-index: 2;
+		box-sizing: border-box;
+		clear: both;
+		min-height: 2.4rem;
+		padding: 0.8rem 1rem 0.4rem 1rem;
+		font-size: 0.8rem;
+		line-height: 1.2rem;
+		text-align: center;
+		white-space: normal;
+		text-overflow: ellipsis;
+		border-color: inherit;
+		}
+
+		.dialog-header h1,
+		.dialog-header h2,
+		.dialog-header h3,
+		.dialog-header h4,
+		.dialog-header h5 {
+			display: inline-block;
+			padding: 0.25rem 0.5rem;
+			margin: -0.25rem -0.5rem;
+			line-height: inherit;
+		}
+
+
+	.dialog-footer {
+		z-index: 4;
+		position: absolute;
+		width: auto;
+		margin: 0;
+
+		box-sizing: border-box;
+		clear: both;
+		padding: 0;
+		text-align: center;
+		border-width: 1px 0 0 0;
+		border-style: solid;
+		white-space: nowrap;
+		overflow: hidden;
+		font-size: 0;
+		border-color: inherit;
+		}
+
+		.dialog-footer .col {
+			display: inline-block;
+			vertical-align: top;
+			width: 50%;
+			box-sizing: border-box;
+			text-align: center;
+			border-width: 0;
+			border-color: inherit;
+		}
+
+		.dialog-footer .col ~ .col {
+			border-left-width: 1px;
+			border-left-style: solid;
+		}
+
+		.dialog-footer a[role="button"]:hover,
+		.dialog-footer a[role="button"],
+		.dialog-footer input[type="reset"]:hover,
+		.dialog-footer input[type="reset"],
+		.dialog-footer input[type="button"]:hover,
+		.dialog-footer input[type="button"],
+		.dialog-footer input[type="submit"]:hover,
+		.dialog-footer input[type="submit"],
+		.dialog-footer button:hover,
+		.dialog-footer button {
+			background-color: transparent;
+			border-color: transparent;
+			display: inline-block;
+			vertical-align: top;
+			box-sizing: border-box;
+			font-size: 18px;
+			height: 2.4rem;
+			border-width: 0;
+			line-height: 2.4rem;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+
+	.dialog-body {
+		box-sizing: border-box;
+		position: relative;
+		overflow-x: auto;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+		max-height: none;
+		}
+
+		.dialog-body > .content {
+			box-sizing: border-box;
+			padding: 0;
+		}
+
+		.dialog-body {
+			padding: 0;
+		}
+
+		.dialog-body > .content {
+			}
+
+			.dialog-body > .content article {
+				padding: 1.5rem;
+			}
+
+			.dialog-header ~ .dialog-body > .content article {
+				padding-top: 0.5rem;
+			}
+
+			.dialog-body > .content article p {
+				line-height: 1.5;
+			}
+
+
+	.popup-window.has-dialog .dialog {
+		overflow: hidden;
+		border-radius: 0.7rem;
+		border-width: 0;
+		width: 100%;
+		height: 100%;
+		max-width: 100%;
+		max-height: 100%;
+		box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+		transition-property: none;
+		}
+
+		.popup-window.has-dialog .dialog.has-header {
+			padding-top: 2.4rem;
+		}
+
+		.popup-window.has-dialog .dialog.has-footer {
+			padding-bottom: calc(2.4rem + 1px);
+		}
+
+		.popup-window.has-dialog .dialog.has-header .dialog-header {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			height: 2.4rem;
+		}
+
+		.popup-window.has-dialog .dialog.has-footer .dialog-footer {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: auto;
+			bottom: 0;
+		}
 
 
 .popup-layers {
@@ -2662,7 +2705,7 @@ dl.initially-collapsed {
 		content: '';
 		display: inline-block;
 		width: 0;
-		height: 95%;
+		height: calc(100% - 1rem);
 		vertical-align: middle;
 	}
 
@@ -2711,14 +2754,22 @@ dl.initially-collapsed {
 			overflow: hidden;
 		}
 
+		.popup-window .dialog {
+			display: none;
+			overflow: auto;
+		}
+
 		.popup-window.has-dialog {
 			min-width: 300px; /* global default value */
+		}
+
+		.popup-window.has-dialog .dialog {
+			display: block;
 		}
 
 		:root .popup-window.has-dialog {
 			max-width: none \0; /* ie9 randomly redraw "inline-block" popup-window, using the max-width as the actual width of the popup-window */
 		}
-
 
 		.popup-window.shows-up-from-top {
 			animation-name: shows-up-from-top;
@@ -2748,7 +2799,7 @@ dl.initially-collapsed {
 		}
 
 		@keyframes shows-up-from-bottom {
-			0%  { opacity: 0; transform: translateY(36rem)   scale(0.32, 0.32) rotateX(-51deg); }
+			0%  { opacity: 0; transform: translateY(40rem)   scale(0.32, 0.32) rotateX(-51deg); }
 			84% { opacity: 1; transform: translateY(-0.2rem) scale(1, 1)       rotateX(0deg); }
 			92% { transform: translateY(-0.08rem); }
 			to  { transform: translateY(0); }

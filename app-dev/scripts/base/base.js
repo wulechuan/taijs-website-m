@@ -273,11 +273,11 @@
 			}
 
 			var pageBodyContentMinHeight = pageBodyMinHeight - pageBodyContentOffsetY + pageBodyOffsetY;
-			C.l(
-				'fixed-page-footer?', pageHasFixedFooter,
-			 	'\t pageBodyMinHeight', pageBodyMinHeight,
-			 	'\t pageBodyContentMinHeight', pageBodyContentMinHeight
-			 );
+			// C.l(
+			// 	'fixed-page-footer?', pageHasFixedFooter,
+			//  	'\t pageBodyMinHeight', pageBodyMinHeight,
+			//  	'\t pageBodyContentMinHeight', pageBodyContentMinHeight
+			//  );
 
 			if (shouldSetBodyContent) {
 				$(pageBody).addClass('use-content-as-main-container');
@@ -803,6 +803,21 @@
 	$('a[href$="index.html"]').each(function () {
 		this.href += '?login=true';
 	});
+
+	// var pls = [
+	// 	'pl-available-tickets-list',
+	// 	'pl-message-income-received',
+	// 	'pl-trading-password-incorrect',
+	// 	'pl-product-terminated',
+	// 	'pl-input-image-vcode'
+	// ];
+
+	// var currentPL = 0;
+	// $('.page-body').on('click', function () {
+	// 	window.popupLayersManager.show(pls[currentPL]);
+	// 	currentPL++;
+	// 	if (currentPL >= pls.length) currentPL -= pls.length;
+	// });
 })();
 
 
