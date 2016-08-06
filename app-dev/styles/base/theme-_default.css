@@ -1100,10 +1100,12 @@ dl.tickets-list {
 		border-color: #e5e5e5;
 		background-color: white;
 	}
-	.page::after,
 	.page-body.use-content-as-main-container > .content,
 	.page-body {
 		background-color: #f1f1f1;
+	}
+	.page.has-header-bg::after {
+		background-image: linear-gradient(to bottom, rgba(62, 90, 215, 0) 14rem, #f1f1f1 26rem);
 	}
 	.page-body.use-content-as-main-container {
 		background-color: transparent!important;

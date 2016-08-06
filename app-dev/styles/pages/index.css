@@ -1,3 +1,7 @@
+.page-body {
+	background-color: #f1f1f1;
+}
+
 .page-header .row.sign-up-sign-in-buttons {
 	z-index: 5;
 }
@@ -212,6 +216,12 @@
 	}
 	.user-has-logged-in .user-assets-abstract > .f-list {
 		display: block;
+	}
+	.page .row.user-assets-abstract-row {
+		background-color: transparent;
+	}
+	.user-has-logged-in .row.user-assets-abstract-row {
+		background-color: #4285f4;
 	}
 
 	.user-assets-abstract > .f-list > a > li,

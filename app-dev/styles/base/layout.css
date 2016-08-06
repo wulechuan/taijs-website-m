@@ -2338,12 +2338,11 @@ dl.tickets-list {
 	.page {
 		margin: auto;
 		max-width: 768px;
-	}
-
-	.page::before { /* page-header patch for iOS Safari momentum scrolling */
-		content: '';
 		}
-		.page::before {
+
+	.page.has-header-bg {
+		}
+		.page.has-header-bg::before { /* page-header patch for iOS Safari momentum scrolling */
 			content: '';
 			position: fixed;
 			display: block;
@@ -2356,7 +2355,7 @@ dl.tickets-list {
 			background-position: center top;
 			z-index: 1;
 		}
-		.page::after {
+		.page.has-header-bg::after {
 			content: '';
 			position: fixed;
 			display: block;
@@ -2367,19 +2366,23 @@ dl.tickets-list {
 			bottom: 0;
 			z-index: 1;
 			background-color: transparent!important;
-			background-image: linear-gradient(to bottom, transparent 14rem, #f1f1f1 26rem);
+			/* background-image: linear-gradient(to bottom, rgba(62, 90, 215, 0) 14rem, #f1f1f1 26rem); */
 		}
 
-		.page::before,
-		.page .page-header {
+		.page.has-header-bg::before,
+		.page.has-header-bg .page-header {
 			background-size: auto 26rem;
 		}
 
-		.page .row.bg-meets-page-header-container .hero-content-block {
+		.page.has-header-bg .page-header {
+			background-color: transparent!important;
+		}
+
+		.page.has-header-bg .row.bg-meets-page-header-container .hero-content-block {
 			background-color: transparent!important;
 			background-image: none!important;
 		}
-		.page .row.bg-meets-page-header-container .hero-content-block h3 .hero-word {
+		.page.has-header-bg .row.bg-meets-page-header-container .hero-content-block h3 .hero-word {
 			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
 		}
 		.page.has-header-bg::before,
@@ -2454,7 +2457,13 @@ dl.tickets-list {
 		.page.page-header-in-compact-mode,
 		.page.fixed-page-header.has-page-header,
 		.page.fixed-page-header {
-			margin-top: 2.4rem;
+			/* margin-top: 2.4rem; */
+		}
+		.page.page-header-in-compact-mode.has-page-header .page-body,
+		.page.page-header-in-compact-mode .page-body,
+		.page.fixed-page-header.has-page-header .page-body,
+		.page.fixed-page-header .page-body {
+			padding-top: 2.4rem;
 		}
 
 
@@ -2604,8 +2613,8 @@ dl.tickets-list {
 #page-account-sign-up-sign-in .page-header {
 	height: 5rem;
 	}
-	#page-account-sign-up-sign-in {
-		margin-top: 5rem;
+	#page-account-sign-up-sign-in .page-body {
+		padding-top: 5rem;
 	}
 	#page-account-sign-up-sign-in .page-header .taijs-logo {
 		margin: 0.5rem auto 0.25rem auto;
@@ -2628,8 +2637,8 @@ dl.tickets-list {
 	#page-account-sign-up-sign-in .page-header {
 		height: 2.4rem;
 	}
-	#page-account-sign-up-sign-in {
-		margin-top: 2.4rem;
+	#page-account-sign-up-sign-in .page-body {
+		padding-top: 2.4rem;
 	}
 	#page-account-sign-up-sign-in .page-header .taijs-slogan {
 		display: none;

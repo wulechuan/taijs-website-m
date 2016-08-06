@@ -252,12 +252,12 @@
 				return;
 			}
 
-			var pageHeaderHeight = $page.offset().top;
+			var pageBodyOffsetY = $page.offset().top;
 			var shouldSetBodyContent = false;
 			var pageBodyContentOffsetY = 0;
 
 			var windowInnerHeight = window.innerHeight;
-			var pageBodyMinHeight = windowInnerHeight - pageHeaderHeight;
+			var pageBodyMinHeight = windowInnerHeight - pageBodyOffsetY;
 
 			var pageHasFixedFooter = $page.hasClass('fixed-page-footer') && !!$page.find('.page-footer')[0];
 			if (pageHasFixedFooter) {
@@ -272,7 +272,7 @@
 				pageBodyContentOffsetY = $pageBodyContent.offset().top;
 			}
 
-			var pageBodyContentMinHeight = pageBodyMinHeight - pageBodyContentOffsetY + pageHeaderHeight;
+			var pageBodyContentMinHeight = pageBodyMinHeight - pageBodyContentOffsetY + pageBodyOffsetY;
 			// C.l(
 			// 	'fixed-page-footer?', pageHasFixedFooter,
 			//  	'\t pageBodyMinHeight', pageBodyMinHeight,
