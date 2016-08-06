@@ -13,27 +13,24 @@ $(function () { // fake logics
 		var amountInputHint = $('.amount-input-hint')[0];
 
 		if (amountInputHint) {
-			// updateAmountInputHint();
-			$(amountInput).on('input', function () {
-				updateAmountInputHint();
-			});
-			
-			$(amountInput).on('blur', function () {
-				updateAmountInputHint();
-			});
-			// amountInput.onValueChange.push(function () {
-			// 	updateAmountInputHint();
-			// });
-		}
+			updateAmountInputHint(true);
 
+			$(amountInput).on('focus', function () {
+				updateAmountInputHint();
+			});
+
+			$(amountInput).on('blur', function () {
+				updateAmountInputHint(true);
+			});
+		}
 	}
 
 	function updateAmountInputPlaceholder(hint) {
 		amountInput.placeholder = amountInputPlaceholderPrefix + hint;
 	}
-	function updateAmountInputHint() {
+	function updateAmountInputHint(isBlur) {
 		var isEmpty = !amountInput.value;
-		amountInputHint.innerHTML = isEmpty ? '' : amountInputHintString;
+		amountInputHint.innerHTML = (!!isBlur && isEmpty) ? '' : ('，'+amountInputHintString);
 	}
 
 
