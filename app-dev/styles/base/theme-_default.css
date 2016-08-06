@@ -899,10 +899,12 @@ dl.tickets-list {
 	color: #666;
 	border-color: #e5e5e5;
 	}
-
-	.f-block .tiles > a > .tile .icon,
-	.f-block .tiles     > .tile .icon {
-		background-color: #e5e5e5; /* simply a default value */
+	.f-block .tiles.gold-list .tile .label.user-name {
+		color: #ffad2c;
+	}
+	.f-block .tiles.gold-list .tile .label.amount {
+		color: white;
+		background-color: #ffad2c;
 	}
 
 
@@ -981,6 +983,20 @@ dl.tickets-list {
 
 	.row.header-bar .right nav .menu.level-2 {
 		border-color: #ececec;
+	}
+
+
+.tabular {
+	color: #333;
+	}
+	.tabular > .header {
+		color: #999;
+	}
+	.tabular > .f-list > li .cell.first-cell {
+		color: black;
+	}
+	.tabular > .f-list > li .cell.timestamp {
+		color: #999;
 	}
 
 

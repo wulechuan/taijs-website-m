@@ -351,10 +351,10 @@ dd {
 	line-height: 1rem;
 	font-size: 1rem;
 	font-weight: normal!important;
+	background-repeat: no-repeat;
 	}
 
 	.icon.icon-in-bg {
-		background-repeat: no-repeat;
 	}
 	.icon.animation,
 	.icon.transition {

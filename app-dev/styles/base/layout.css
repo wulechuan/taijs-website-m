@@ -51,6 +51,14 @@ button.add-entity::before,
 			letter-spacing: 0;
 		}
 
+		.icon-medal {
+			background-size: 100% auto;
+			background-image: url(../../images/_common/medals.png);
+			}
+			.icon-medal.icon-medal-gold   { background-position: 0 0; }
+			.icon-medal.icon-medal-silver { background-position: 0 50%; }
+			.icon-medal.icon-medal-bronze { background-position: 0 100%; }
+
 
 .favorite-entity-icon::before {
 	font-family: 'iconfont'!important;
@@ -1774,6 +1782,29 @@ article.message {
 	}
 
 
+.tabular {
+	font-weight: 400;
+	}
+	.tabular > .header {
+		font-size: 0.7rem;
+	}
+	.tabular > .f-list > li .cell.first-cell {
+		font-size: 0.8rem;
+		font-weight: 500;
+		text-align: left;
+	}
+	.tabular > .f-list > li .cell.timestamp {
+		font-size: 0.6rem;
+	}
+	.tabular > .f-list > li .cell.last-cell {
+		width: auto;
+		position: absolute;
+		right: 0;
+		left: auto;
+		text-align: right;
+	}
+
+
 .f-block { /* function-block */
 	font-size: 0.7rem;
 	font-weight: normal;
@@ -2480,6 +2511,31 @@ dl.tickets-list {
 		display: block;
 		margin: 0.4rem auto 0.4rem auto;
 	}
+
+	.f-block .tiles.gold-list {}
+
+		.f-block .tiles.columns-count-3.gold-list > .tile:nth-child(3n+2) {
+			border-width: 0;
+		}
+
+		.f-block .tiles.gold-list > .tile .icon {
+			width: 3.4rem;
+			height: 3.4rem;
+			border-radius: 0;
+			margin-top: 0.75rem;
+			margin-bottom: -0.25rem;
+		}
+		.f-block .tiles.gold-list > .tile .label.user-name {
+			margin: 0 0.5rem;
+			padding: 0;
+			line-height: 1rem;
+		}
+		.f-block .tiles.gold-list > .tile .label.amount {
+			border-radius: 0.65rem;
+			margin: 0.9rem 1rem 1.3rem;
+			padding: 0.15rem 0.5rem;
+			line-height: 1rem;
+		}
 
 
 .app-bg-layer {
