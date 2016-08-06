@@ -1,9 +1,11 @@
 button.nav-share::before,
 button.nav-home::before,
 button.nav-back::before,
+button.add-entity::before,
 [role="button"].nav-home::before,
 [role="button"].nav-share::before,
-[role="button"].nav-back::before {
+[role="button"].nav-back::before,
+[role="button"].add-entity::before {
 	font-family: 'iconfont'!important;
 	font-size: 20px;
 	font-style: normal!important;
@@ -24,6 +26,10 @@ button.nav-back::before,
 	button.nav-share::before,
 	[role="button"].nav-share::before {
 		content: '\e618';
+	}
+	button.add-entity::before,
+	[role="button"].add-entity::before {
+		content: '\e625';
 	}
 
 	input[type="button"].content-in-dual-lines,
