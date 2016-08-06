@@ -822,7 +822,6 @@ article.message {
 			margin-top: 0.5rem;
 			margin-bottom: 0.55rem;
 			font-size: 2.4rem;
-			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
 		}
 		.hero-content-block.hero-content-block-style-5 h3 .hero-word .percentage-value::after,
 		.hero-content-block.hero-content-block-style-5 h3 .hero-word sub {
@@ -2344,15 +2343,14 @@ dl.tickets-list {
 	.page::before { /* page-header patch for iOS Safari momentum scrolling */
 		content: '';
 		}
-		.page .page-header-patch-for-safari, /* Windows Phone IE fail to render background image in ::before pseudo element */
 		.page::before {
 			content: '';
 			position: fixed;
+			display: block;
 			left: 0;
 			top: 0;
-			display: block;
 			width: 100%;
-			height: 100%;
+			height: 26rem;
 
 			background-repeat: no-repeat;
 			background-position: center top;
@@ -2360,15 +2358,36 @@ dl.tickets-list {
 		}
 		.page::after {
 			content: '';
-			display: block;
-			width: 100%;
-			height: 25%;
 			position: fixed;
+			display: block;
 			left: 0;
-			top: auto;
+			top: 0;
+			width: 100%;
+			height: 100%;
 			bottom: 0;
 			z-index: 1;
+			background-color: transparent!important;
+			background-image: linear-gradient(to bottom, transparent 14rem, #f1f1f1 26rem);
 		}
+
+		.page::before,
+		.page .page-header {
+			background-size: auto 26rem;
+		}
+
+		.page .row.bg-meets-page-header-container .hero-content-block {
+			background-color: transparent!important;
+			background-image: none!important;
+		}
+		.page .row.bg-meets-page-header-container .hero-content-block h3 .hero-word {
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+		}
+		.page.has-header-bg::before,
+		.page.has-header-bg .page-header {
+			background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-extended.jpg);
+		}
+
+
 
 	/*
 	  .page-body::before is for preventing first f-block margin-top
@@ -2640,63 +2659,4 @@ dl.tickets-list {
 	#page-account-sign-up-succeeded .special-button .major {
 		font-size: 1rem;
 		font-weight: 300;
-	}
-
-
-#page-newbie-call-to-action {
-	}
-
-	#page-newbie-call-to-action::before,
-	#page-newbie-call-to-action .page-header-patch-for-safari,
-	#page-newbie-call-to-action .page-header,
-	#page-newbie-call-to-action .hero-content-block.hero-content-block-style-3 {
-		background-size: auto 13.5rem;
-	}
-	#page-newbie-call-to-action::after {
-		height: calc(100% - 13rem);
-	}
-
-	#page-newbie-call-to-action::before,
-	#page-newbie-call-to-action .page-header-patch-for-safari,
-	#page-newbie-call-to-action .page-header {
-		background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg.png);
-	}
-
-	#page-newbie-call-to-action .hero-content-block.hero-content-block-style-3 {
-		background-image: none!important;
-	}
-
-	#page-newbie-call-to-action .hero-content-block.hero-content-block-style-3 {
-		background-color: transparent!important;
-		/* background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-fading-top.png); */
-	}
-
-	#page-newbie-call-to-action.use-extended-bg-image::before,
-	#page-newbie-call-to-action.use-extended-bg-image .page-header-patch-for-safari,
-	#page-newbie-call-to-action.use-extended-bg-image .page-header,
-	#page-newbie-call-to-action.use-extended-bg-image .hero-content-block.hero-content-block-style-3 {
-		background-size: auto 26rem;
-	}
-	#page-newbie-call-to-action.use-extended-bg-image::after {
-		/* height: -webkit-calc(100% - 25.5rem); */
-		height: calc(100% - 25.5rem);
-	}
-
-	#page-newbie-call-to-action.use-extended-bg-image::before,
-	#page-newbie-call-to-action.use-extended-bg-image .page-header-patch-for-safari,
-	#page-newbie-call-to-action.use-extended-bg-image .page-header {
-		background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-extended.jpg);
-	}
-
-	#page-newbie-call-to-action.use-extended-bg-image .hero-content-block.hero-content-block-style-3 {
-		/* background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-extended-fading-top.png); */
-	}
-
-	@media only screen and (min-width: 760px) { /* iPad */
-		#page-newbie-call-to-action.use-extended-bg-image::before,
-		#page-newbie-call-to-action.use-extended-bg-image .page-header-patch-for-safari,
-		#page-newbie-call-to-action.use-extended-bg-image .page-header,
-		#page-newbie-call-to-action.use-extended-bg-image .hero-content-block.hero-content-block-style-3 {
-			background-size: auto 32rem;
-		}
 	}

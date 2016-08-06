@@ -1091,7 +1091,6 @@ dl.tickets-list {
 .page {
 	color: #666;
 	}
-	.page .page-header-patch-for-safari,
 	.page::before,
 	.page-header {
 		color: white;
