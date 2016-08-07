@@ -992,7 +992,7 @@ dl.tickets-list {
 	.tabular > .header {
 		color: #999;
 	}
-	.tabular > .f-list > li .cell.first-cell {
+	.tabular > .f-list > li .cell.caption-cell {
 		color: black;
 	}
 	.tabular > .f-list > li .cell.timestamp {
