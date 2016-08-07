@@ -1656,6 +1656,17 @@ article.message {
 	padding: 0.5rem 0;
 	}
 
+	.row.header-bar > nav,
+	.row.header-bar .center {
+		z-index: 1;
+	}
+	.row.header-bar .left {
+		z-index: 3;
+	}
+	.row.header-bar .right {
+		z-index: 3;
+	}
+
 	.row.header-bar .center {
 		display: block;
 		padding: 0;
@@ -1694,6 +1705,43 @@ article.message {
 		text-align: center;
 		background-color: transparent;
 	}
+
+	.row.header-bar * nav {
+		display: inline-block;
+	}
+
+	.row.header-bar > nav {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		height: 100%;
+		bottom: auto;
+		margin: 0;
+		}
+
+		.row.header-bar > nav .menu-item {
+			font-size: inherit;
+		}
+
+		.row.header-bar > nav .menu.level-1 > li,
+		.row.header-bar > nav .menu.level-1 {
+			width: 100%;
+		}
+
+		.row.header-bar > nav .menu.level-1 > li > .label {
+			width: auto;
+		}
+
+		.row.header-bar > nav .menu-wrap.level-2 {
+			width: 100%;
+		}
+		.row.header-bar > nav .menu.level-2 > li {
+			border-width: 1px 0;
+			border-style: solid;
+			margin-top: -1px;
+		}
+
 
 	.row.header-bar .right nav {
 		margin-right: 0.15rem;
