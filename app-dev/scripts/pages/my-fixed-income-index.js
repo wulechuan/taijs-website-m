@@ -1,8 +1,9 @@
 $(function () {
 	var wlc = window.webLogicControls;
+	var UI = wlc.UI;
 
 	var $page = $('#page-my-fixed-income-index');
-		// window.popupLayersManager.show('pl-product-terminated');
+		// UI.popupLayersManager.show('pl-product-terminated');
 
 
 	var isFirstTimeAccess = true;
@@ -24,11 +25,11 @@ $(function () {
 			$stepButton1.on('click', hideUserGuide);
 
 			function showUserGuide() {
-				window.popupLayersManager.show(plUserGuide);
+				UI.popupLayersManager.show(plUserGuide);
 			}
 
 			function hideUserGuide() {
-				window.popupLayersManager.hide(plUserGuide);
+				UI.popupLayersManager.hide(plUserGuide);
 			}
 
 			return userGuide;

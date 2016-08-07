@@ -1,9 +1,20 @@
 $(function () {
-	var pl1 = $('#pl-info-too-many-vcodes-today')[0];
-	var pl2 = $('#pl-input-image-vcode')[0];
+	var wlc = window.webLogicControls;
+	var UI = wlc.UI;
 
+	var pl1 = '#pl-input-image-vcode';
+	var pl2 = '#pl-info-too-many-vcodes-today';
+
+	var vcodeCountThresholdForImageVCode = 0;
+	var vcodeCountLimit = 4;
+
+	var usedVcodeCount = 0;
 	$('[button-action="fetch-sms-vcode"]').on('click', function(event) {
-		console.error('fake logic triggered.');
-		window.popupLayersManager.show(pl1, event);
+		usedVcodeCount++;
+		if (usedVcodeCount > vcodeCountLimit) {
+			UI.popupLayersManager.show(pl2, event);
+		} else if (usedVcodeCount > vcodeCountThresholdForImageVCode) {
+			UI.popupLayersManager.show(pl1, event);
+		}
 	});
 });
