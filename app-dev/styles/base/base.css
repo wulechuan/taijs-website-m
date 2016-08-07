@@ -2669,6 +2669,29 @@ dl.initially-collapsed {
 		z-index: 1;
 
 		background-color: rgba(0, 0, 0, 0.8);
+		background-repeat: no-repeat;
+		background-position: center;
+
+		opacity: 1;
+
+		transition-property: none;
+		animation-name: popup-layer-back-plate-shows-up;
+		animation-duration: 0.4s;
+		animation-fill-mode: both;
+	}
+	.popup-layer-back-plate-leaving {
+		animation-name: popup-layer-back-plate-leaves;
+		animation-delay: 0.25s;
+		animation-duration: 0.5s;
+	}
+
+	@keyframes popup-layer-back-plate-shows-up {
+		0% { opacity: 0; }
+		to { opacity: 1; }
+	}
+	@keyframes popup-layer-back-plate-leaves {
+		0% { opacity: 1; }
+		to { opacity: 0; }
 	}
 
 	.popup-layers-container {
@@ -2701,6 +2724,7 @@ dl.initially-collapsed {
 	overflow: auto;
 	white-space: nowrap;
 	perspective: 60rem;
+	transform-style: preserve-3d;
 	}
 
 	.popup-layer::before {
@@ -2744,7 +2768,9 @@ dl.initially-collapsed {
 		text-align: left;
 		white-space: normal;
 		animation-duration: 0.4s;
-		animation-name: shows-up-from-bottom;
+		animation-delay: 0.1s; /* for black back plate showing up first */
+		animation-fill-mode: both;
+		/* animation-name: shows-up-from-bottom; */
 		transform-origin: center 15%; 
 		}
 
@@ -2800,9 +2826,31 @@ dl.initially-collapsed {
 			animation-name: shows-up-from-bottom-right;
 		}
 
+		.popup-window.tall-window-leave-from-above {
+			animation: tall-popup-window-leave-from-above 0.66s ease-in;
+		}
+
+		.popup-window.tiny-window-leave-from-above {
+			animation: tiny-popup-window-leave-from-above 0.66s ease-in;
+		}
+
+		@keyframes tall-popup-window-leave-from-above {
+			0%   {             transform-origin: center 40%; transform:                                rotateX(-3deg); }
+			18%  {                                           transform:                                rotateX( 1.5deg); }
+			66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
+			100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
+		}
+
+		@keyframes tiny-popup-window-leave-from-above {
+			0%   {             transform-origin: center 40%; transform:                                rotateX(-8deg); }
+			18%  {                                           transform:                                rotateX( 4deg); }
+			66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
+			100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
+		}
+
 		@keyframes shows-up-from-bottom {
 			0%  { opacity: 0; transform: translateY(40rem)   scale(0.32, 0.32) rotateX(-51deg); }
-			84% { opacity: 1; transform: translateY(-0.2rem) scale(1, 1)       rotateX(0deg); }
+			84% { opacity: 1; transform: translateY(-0.2rem) scale(1   , 1   ) rotateX(0deg); }
 			92% { transform: translateY(-0.08rem); }
 			to  { transform: translateY(0); }
 		}
@@ -2870,7 +2918,7 @@ dl.initially-collapsed {
 			padding: 0.15rem 0.15rem;
 		}
 		.popup-layer.polite-message .popup-window p {
-			margin: -0.5em;
+			margin: -0.25em;
 		}
 		@keyframes polite-message-shows-up-from-bottom {
 			0% { opacity: 0; transform: translateY(6rem); }

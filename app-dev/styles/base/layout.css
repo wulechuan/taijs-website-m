@@ -1567,7 +1567,7 @@ article.message {
 		}
 		.row.input-field.input-verification-code .right {
 			padding: 0;
-			margin: 0.725rem 0;
+			margin: 0.725rem -0.25rem;
 			width: 6rem;
 			height: 1.75rem;
 			line-height: 1.75rem;
@@ -2125,9 +2125,6 @@ article.message {
 			/* margin-top: 1rem; */
 			top: 1rem;
 		}
-		.f-block-body .row.input-field.input-verification-code .right {
-			margin: 0.725rem 0;
-		}
 
 		.f-block-body .row .left p ~ p,
 		.f-block-body .row .right p ~ p {
@@ -2219,8 +2216,12 @@ dl.tickets-list {
 
 .dialog.dialog-style-card {
 	padding: 0 1.5rem;
-	border-radius: 0!important;
-	box-shadow: none;
+	}
+
+	.popup-window.has-dialog .dialog.dialog-style-card,
+	.dialog.dialog-style-card {
+		border-radius: 0!important;
+		box-shadow: none;
 	}
 
 	.dialog.dialog-style-card > .deco {
@@ -2455,6 +2456,7 @@ dl.tickets-list {
 			right: 0;
 			top: 5.5rem;
 			bottom: 5.5rem;
+			max-height: none;
 		}
 
 		.popup-window.full-screen .dialog.dialog-style-card .dialog-body > .content article {
