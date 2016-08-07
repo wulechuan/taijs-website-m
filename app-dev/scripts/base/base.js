@@ -1,4 +1,4 @@
-(function () { // temp logic which are not robust or completed
+(function () { // logics which are not robust or completed
 	function processParametersPassedIn() {
 		var qString = location.href.match(/\?[^#]*/);
 		if (qString) qString = qString[0].slice(1);
@@ -42,16 +42,22 @@
 	function commonSetupAciontsForOnePage(page) {
 		var $page = $(page);
 
+		setupPageBodyMinHeightForPage($page);
+
 		setupAllPopupLayers(page);
 		setupAllAutoConstructTabPanelSets($page);
-		setupPageBodyMinHeightForPage($page);
-		setupAllButtonsWithInlineClickAction($page);
 		setupAllNavBackButtons($page);
+		setupAllButtonsWithInlineClickAction($page);
+		setupAllStaticProgressRings($page);
 		setupAllInputFieldsForTheirFillingStatus($page);
 		setupAllClearInputButtons($page);
 		setupAllContentsWithDesiredStringFormat($page);
 		setupAllSensitiveContentBlocks($page);
 		setupAllChineseNumbersPresenters($page);
+		setupAllMenuItemsThatHasSubMenu($page);
+
+
+
 
 		function setupAllPopupLayers(page) {
 			UI.popupLayersManager.processAllUnder(page);
@@ -157,6 +163,13 @@
 				event.preventDefault();
 				event.stopPropagation();
 				history.back();
+			});
+		}
+
+		function setupAllStaticProgressRings($page) {
+			$page.find('.progress-rings').each(function () {
+				if (this.getAttribute('data-dynamic')) return;
+				new wlc.UI.ProgressRings(this);
 			});
 		}
 
@@ -526,57 +539,45 @@
 				}
 			});
 		}
+
+		function setupAllMenuItemsThatHasSubMenu($page) {
+			$page.find('.menu-item.has-sub-menu').each(function () {
+				var menuItem = this;
+				var $menuItem = $(this);
+				var $subMenu = $menuItem.find('> .menu-wrap, > .menu');
+				if ($subMenu.length !== 1) {
+					return false;
+				}
+
+				$menuItem.on('click', function () {
+					showHideSubMenuUnderMenuItem(menuItem, 'toggle');
+				});
+
+				function showHideSubMenuUnderMenuItem(menuItem, action) {
+					var subMenuWasExpanded = $(menuItem).hasClass('coupled-shown');
+					var shouldTakeAction =
+						(!subMenuWasExpanded && action==='expand') ||
+						(subMenuWasExpanded && action==='collapse') ||
+						(action==='toggle')
+					;
+					if (!shouldTakeAction) {
+						return 0;
+					}
+
+					if (subMenuWasExpanded) {
+						$(menuItem).removeClass('coupled-shown');
+					} else {
+						$(menuItem).addClass('coupled-shown');
+					}
+				}
+			});
+		}
 	}
 })();
 
 
 
-(function () { // temp logic which are not robust or completed
-	var wlc = window.webLogicControls;
-	var UI = wlc.UI;
-	// var WCU = wlc.CoreUtilities;
-
-
-
-	$('.menu-item.has-sub-menu').each(function () {
-		var menuItem = this;
-		var $menuItem = $(this);
-		var $subMenu = $menuItem.find('> .menu-wrap, > .menu');
-		if ($subMenu.length !== 1) {
-			return false;
-		}
-
-		$menuItem.on('click', function () {
-			showHideSubMenuUnderMenuItem(menuItem, 'toggle');
-		});
-
-		function showHideSubMenuUnderMenuItem(menuItem, action) {
-			var subMenuWasExpanded = $(menuItem).hasClass('coupled-shown');
-			var shouldTakeAction =
-				(!subMenuWasExpanded && action==='expand') ||
-				(subMenuWasExpanded && action==='collapse') ||
-				(action==='toggle')
-			;
-			if (!shouldTakeAction) {
-				return 0;
-			}
-
-			if (subMenuWasExpanded) {
-				$(menuItem).removeClass('coupled-shown');
-			} else {
-				$(menuItem).addClass('coupled-shown');
-			}
-		}
-	});
-
-
-
-	$('.progress-rings').each(function () {
-		new wlc.UI.ProgressRings(this);
-	});
-
-
-
+(function () { // logics which are not robust or completed
 	$('form').filter(function (index, form) {
 		return !form.hasAttribute('novalidate');
 	}).each(function () {
@@ -600,13 +601,6 @@
 		})[0];
 
 
-		// if (this.name === 'signup') {
-		// 	C.l(this.elements);
-		// 	// console.log($allRequiredInputs);
-		// 	console.log(buttonSubmit);
-		// }
-
-
 		var allInputsAreValid = false;
 
 		var allInputsValidation = [];
@@ -623,7 +617,7 @@
 			var tnlc = this.tagName.toLowerCase();
 
 			function validatorForInputOrTextarea() {
-				allInputsValidation[index] = !!this.value.replace(/^\s+/, '').replace(/\s+$/, '').length;
+				allInputsValidation[index] = this.value.replace(/^\s+/, '').replace(/\s+$/, '').length > 0;
 				_validateAllRequiredInputs();
 			}
 
