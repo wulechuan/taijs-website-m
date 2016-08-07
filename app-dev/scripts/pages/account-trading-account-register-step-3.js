@@ -1,10 +1,12 @@
 $(function () {
 	var wlc = window.webLogicControls;
+	var UI = wlc.UI;
+
 
 	var $plpm1 = $('#plpm-trading-account-register-passwords-mismatch');
 	function showPoliteMessagePasswordsMismatch() {
 		var plpm1 = $plpm1[0];
-		window.popupLayersManager.show(plpm1);
+		UI.popupLayersManager.show(plpm1);
 	}
 
 	var $passwordPass1Container = $('.password-pass-1');

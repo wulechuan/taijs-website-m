@@ -987,6 +987,263 @@ window.webLogicControls = {};
 			// }
 		// };
 
+
+		this.PopupLayersManager = function PopupLayersManager() {
+			var thisController = this;
+
+			var status = {};
+
+			var elements = {
+				$popupLayersContainersUnderApp: $('.app > .popup-layers')
+			};
+
+			this.show = function (popupLayerIdOrDom, event) {
+				_showOrHidePopupLayer(popupLayerIdOrDom, true, event);
+			};
+			this.hide = function (popupLayerIdOrDom) {
+				_showOrHidePopupLayer(popupLayerIdOrDom);
+			};
+
+			this.processAllUnder = _processAllUnder.bind(this);
+
+			(function _init () {
+				this.processAllUnder('app');
+			}).call(this);
+
+			function _processAllUnder(appOrPageOrPLContainer) {
+				var $plContainers;
+				if (appOrPageOrPLContainer === 'app') {
+					$plContainers = elements.$popupLayersContainersUnderApp;
+				} else if ($(appOrPageOrPLContainer).hasClass('.popup-layers')) {
+					$plContainers = $(appOrPageOrPLContainer);
+				} else if ($(appOrPageOrPLContainer).hasClass('page')) {
+					$plContainers = $(appOrPageOrPLContainer).find('.popup-layers');
+				} else {
+					return false;
+				}
+
+				if ($plContainers.length < 1) {
+					return false;
+				}
+
+				$plContainers.each(function () {
+					var plContainer = this;
+					var $plContainer = $(plContainer);
+
+					var $bp = $plContainer.find('.popup-layers-back-plate');
+					if ($bp.length < 1) {
+						C.w('Back plate not found under ', plContainer);
+					}
+
+					$plContainer.find('.popup-layer').each(function () {
+						var pl = this;
+						if (!!pl.status && (pl.status.popupLayerHasBeenProcessed === true)) {
+							C.l('Skipped popup-layer "'+pl.id+'", which has already been processed.');
+							return true;
+						}
+
+						if (typeof pl.elements !== 'object') pl.elements = {};
+
+						pl.elements.popupLayersBackPlate = $bp[0];
+						// C.l(pl.id, pl.elements.popupLayersBackPlate);
+
+						var $pl = $(pl);
+
+						$pl.find('[button-action="confirm"], [button-action="cancel"]').on('click', function() {
+							thisController.hide(pl);
+						});
+
+						var $pw = $pl.find('.popup-window');
+						_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+						_clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw);
+
+						if (typeof pl.status !== 'object') pl.status = {};
+						pl.status.popupLayerHasBeenProcessed = true;
+					});
+				});
+			};
+
+			function _clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw) {
+				$pw
+					.removeClass([
+						'shows-up-from-center',
+						'shows-up-from-top',
+						'shows-up-from-top-left',
+						'shows-up-from-top-right',
+						'shows-up-from-bottom',
+						'shows-up-from-bottom-left',
+						'shows-up-from-bottom-right',
+						'shows-up-from-leftside',
+						'shows-up-from-rightside'
+					].join(' '))
+				;
+			}
+
+			function _clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw) {
+				$pw
+					.removeClass([
+						'tiny-window-leave-from-above',
+						'tall-window-leave-from-above'
+					].join(' '))
+				;
+			}
+
+			function _showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow) {
+				if (!popupLayerIdOrDom) return false;
+
+				var plId, pl;
+				if (typeof popupLayerIdOrDom === 'string') {
+					plId = '#'+popupLayerIdOrDom.replace(/^\s*#?/, '').replace(/\s*$/, '');
+					pl = $(plId)[0];
+				} else {
+					pl = popupLayerIdOrDom;
+					plId = pl.id;
+				}
+
+				if (!pl) {
+					C.e('Cannot find popup layer with id "'+plId+'".');
+					return false;			
+				}
+
+
+				var bp = null;
+				if (!pl.elements) {
+					C.w('Popup layer with id "'+plId+'" might not be initialized.');
+				} else {
+					bp = pl.elements.popupLayersBackPlate;
+				}
+
+				var $bp = $(bp);
+					$bp.removeClass('popup-layer-back-plate-leaving'); // just for safety
+
+				var $pl = $(pl);
+				var $pw = $pl.find('.popup-window');
+
+				var isPoliteMessage = $pl.hasClass('polite-message');
+				var isPopupPanel = $pl.hasClass('has-docked-panel');
+				var hasPopupWindowOrDialog = !$pl.hasClass('has-no-popup-window');
+
+				if (!isToShow) {
+					var needToPlayLeavingAnimation = $pw.length > 0 && !isPopupPanel && !isPoliteMessage && hasPopupWindowOrDialog;
+					var needToHideBackPlate = !!bp && !isPoliteMessage;
+
+					if (needToPlayLeavingAnimation) {
+						$pw.one('animationend', function () {
+							$pl.hide();
+							_clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw);
+						});
+						_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+						var pwHeight = $pw.outerHeight();
+						var chosenCssClassNameForLeavingAnimation = 'tall-window-leave-from-above';
+						if (pwHeight <= (window.innerHeight * 0.25)) {
+							chosenCssClassNameForLeavingAnimation = 'tiny-window-leave-from-above';
+						}
+						// C.l(pwHeight, window.innerHeight, window.innerHeight * 0.25, chosenCssClassNameForLeavingAnimation);
+						$pw.addClass(chosenCssClassNameForLeavingAnimation);
+					} else {
+						if (isPoliteMessage) {
+							$pl.fadeOut();
+						} else {
+							$pl.hide();					
+						}
+						_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+					}
+
+					if (needToHideBackPlate) {
+						$bp.one('animationend', function () {
+							$bp.hide();
+							$bp.removeClass('popup-layer-back-plate-leaving');
+						});
+						$bp.addClass('popup-layer-back-plate-leaving');
+					}
+				} else {
+					var needToShowBackPlate = !!bp && !isPoliteMessage;
+					if (needToShowBackPlate) $bp.show();
+
+					_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+					var chosenCssClassNameForShowingAnimation = 'shows-up-from-bottom';
+
+					var needToDecideShowingUpDirection = $pw.length > 0 && !isPopupPanel && !isPoliteMessage && hasPopupWindowOrDialog;
+					if (needToDecideShowingUpDirection) {
+						chosenCssClassNameForShowingAnimation = _decideShowingUpSourceDirection(eventOfShow);
+					}
+					$pw.addClass(chosenCssClassNameForShowingAnimation);
+
+					$pw.one('animationend', function () {
+						_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+					});
+
+					if (!!eventOfShow && eventOfShow.target instanceof Node) {
+						eventOfShow.target.blur();
+					}
+					$pl.show(function () {
+						if (isPoliteMessage) return true;
+
+						var firstFocusable = $pl.find('input, textarea, [contentEditable="true"], button, a')[0];
+						if (firstFocusable) firstFocusable.focus();
+					});
+
+
+					var shouldHideAutomatically = isPoliteMessage;
+					if (shouldHideAutomatically) {
+						var durationBeforeAutoHide = 3000;
+						var _temp = parseFloat(pl.getAttribute('data-showing-duration-in-seconds'));
+						if (!isNaN(_temp) && _temp > 1) durationBeforeAutoHide = _temp * 1000;
+
+						setTimeout(function () {
+							thisController.hide($pl[0]);
+						}, durationBeforeAutoHide);
+					}
+				}
+			}
+
+			function _decideShowingUpSourceDirection(event) {
+				var cssClass = 'shows-up-from-center';
+
+				if (typeof event !== 'object' || typeof event.pageX !== 'number' || typeof event.pageY !== 'number') {
+					return cssClass;
+				}
+
+				var w = window.innerWidth;
+				var h = window.innerHeight;
+				var x = event.pageX;
+				var y = event.pageY;
+				var ratioX = 0.33;
+				var ratioY = 0.4;
+
+				var isLeft = x <= w * ratioX;
+				var isRight = x >= w * (1 - ratioX);
+				var isAbove = y <= h * ratioY;
+				var isBelow = y >= h * (1 - ratioY);
+
+				if (isAbove) {
+					cssClass = 'shows-up-from-top';
+					if (isLeft) {
+						cssClass = 'shows-up-from-top-left';
+					} else if (isRight) {
+						cssClass = 'shows-up-from-top-right';
+					}
+				} else if (isBelow) {
+					cssClass = 'shows-up-from-bottom';
+					if (isLeft) {
+						cssClass = 'shows-up-from-bottom-left';
+					} else if (isRight) {
+						cssClass = 'shows-up-from-bottom-right';
+					}
+				} else {
+					if (isLeft) {
+						cssClass = 'shows-up-from-leftside';
+					} else if (isRight) {
+						cssClass = 'shows-up-from-rightside';
+					}
+				}
+
+				return cssClass;
+			}
+		};
+		this.popupLayersManager = new this.PopupLayersManager();
+
+
 		this.DraggingController = function DraggingController(rootElement, initOptions) {
 			/*
 				require:

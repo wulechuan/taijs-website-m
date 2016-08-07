@@ -1,9 +1,11 @@
 $(function () {
-	var plpm1 = $('#plpm-modification-succeeded')[0];
+	var wlc = window.webLogicControls;
+	var UI = wlc.UI;
+
+	var plpm1 = '#plpm-modification-succeeded';
 
 	$('[button-action="submit"]').on('click', function(event) {
-		console.error('fake logic triggered.');
 		event.preventDefault();
-		window.popupLayersManager.show(plpm1, event);
+		UI.popupLayersManager.show(plpm1, event);
 	});
 });

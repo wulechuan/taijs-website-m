@@ -1,5 +1,6 @@
 $(function () { // fake logics
 	var wlc = window.webLogicControls;
+	var UI = wlc.UI;
 
 
 	var $pl1 = $('#pl-password-input-panel-trading');
@@ -20,12 +21,12 @@ $(function () { // fake logics
 	$('[button-action="buy"]').on('click', function(event) {
 		console.error('fake logic triggered.');
 		var pl1 = $pl1[0];
-		window.popupLayersManager.show(pl1, event);
+		UI.popupLayersManager.show(pl1, event);
 
 		$pl1.on('click', function (event) {
 			var el = event.target;
 			if (el === pl1 || $(el).hasClass('button-x')) {
-				window.popupLayersManager.hide(pl1);
+				UI.popupLayersManager.hide(pl1);
 			}
 		});
 	});
@@ -37,18 +38,18 @@ $(function () { // fake logics
 	var $chosenValuePresentor = $('#fixed-income-buying-confirm-choose-bank-card');
 	$('.popup-panel-body .menu-item').on('click', function () {
 		$chosenValuePresentor.html(this.innerHTML);
-		window.popupLayersManager.hide(pl2);
+		UI.popupLayersManager.hide(pl2);
 	});
 
 
 	$('#fixed-income-buying-confirm-choose-bank-card').on('click', function(event) {
 		console.error('fake logic triggered.');
-		window.popupLayersManager.show(pl2, event);
+		UI.popupLayersManager.show(pl2, event);
 
 		$pl2.on('click', function (event) {
 			var el = event.target;
 			if (el === pl2 || $(el).hasClass('nav-back')) {
-				window.popupLayersManager.hide(pl2);
+				UI.popupLayersManager.hide(pl2);
 			}
 		});
 	});
