@@ -2780,10 +2780,10 @@ dl.initially-collapsed {
 
 	transition-property: none;
 
-	animation-duration: 0.5s;
+	animation-duration: 0.38s;
 	animation-delay: 0.1s; /* for black back plate showing up first */
 	animation-fill-mode: both;
-	/* animation-name: popup-window-shows-up-from-bottom; */
+	animation-name: popup-window-shows-up-from-bottom;
 	transform-origin: center 15%;
 	}
 
@@ -2839,6 +2839,10 @@ dl.initially-collapsed {
 		animation-name: popup-window-shows-up-from-bottom-right;
 	}
 
+	.popup-window.regular-window-leave-from-above {
+		animation: regular-popup-window-leave-from-above 0.66s ease-in;
+	}
+
 	.popup-window.tall-window-leave-from-above {
 		animation: tall-popup-window-leave-from-above 0.66s ease-in;
 	}
@@ -2847,9 +2851,16 @@ dl.initially-collapsed {
 		animation: tiny-popup-window-leave-from-above 0.66s ease-in;
 	}
 
+	@keyframes regular-popup-window-leave-from-above {
+		0%   {             transform-origin: center 40%; transform:                                rotateX(-3.6deg); }
+		18%  {                                           transform:                                rotateX( 2deg); }
+		66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
+		100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
+	}
+
 	@keyframes tall-popup-window-leave-from-above {
-		0%   {             transform-origin: center 40%; transform:                                rotateX(-3deg); }
-		18%  {                                           transform:                                rotateX( 1.5deg); }
+		0%   {             transform-origin: center 40%; transform:                                rotateX(-7deg); }
+		18%  {                                           transform:                                rotateX(-2deg); }
 		66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
 		100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
 	}
@@ -2889,8 +2900,8 @@ dl.initially-collapsed {
 	}
 
 	@keyframes popup-window-shows-up-from-top-right {
-		0% { opacity: 0; transform: translate3d(7rem, -10rem, 0) scale(0.51, 0.51); }
-		to { opacity: 1; transform: translate3d(0,      0,    0) scale(1   , 1   ); }
+		0% { opacity: 0; transform: translate(7rem, -10rem) scale(0.51, 0.51); }
+		to { opacity: 1; transform: translate(0,      0   ) scale(1   , 1   ); }
 	}
 
 	@keyframes popup-window-shows-up-from-bottom-left {

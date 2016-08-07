@@ -1,3 +1,11 @@
+/*! modernizr 3.3.1 (Custom Build) | MIT *
+ * https://modernizr.com/download/?-cssanimations !*/
+!function(e,n,t){function r(e,n){return typeof e===n}function o(){var e,n,t,o,i,s,a;for(var l in v)if(v.hasOwnProperty(l)){if(e=[],n=v[l],n.name&&(e.push(n.name.toLowerCase()),n.options&&n.options.aliases&&n.options.aliases.length))for(t=0;t<n.options.aliases.length;t++)e.push(n.options.aliases[t].toLowerCase());for(o=r(n.fn,"function")?n.fn():n.fn,i=0;i<e.length;i++)s=e[i],a=s.split("."),1===a.length?Modernizr[a[0]]=o:(!Modernizr[a[0]]||Modernizr[a[0]]instanceof Boolean||(Modernizr[a[0]]=new Boolean(Modernizr[a[0]])),Modernizr[a[0]][a[1]]=o),C.push((o?"":"no-")+a.join("-"))}}function i(e,n){return!!~(""+e).indexOf(n)}function s(e){return e.replace(/([a-z])-([a-z])/g,function(e,n,t){return n+t.toUpperCase()}).replace(/^-/,"")}function a(e,n){return function(){return e.apply(n,arguments)}}function l(e,n,t){var o;for(var i in e)if(e[i]in n)return t===!1?e[i]:(o=n[e[i]],r(o,"function")?a(o,t||n):o);return!1}function f(e){return e.replace(/([A-Z])/g,function(e,n){return"-"+n.toLowerCase()}).replace(/^ms-/,"-ms-")}function u(){return"function"!=typeof n.createElement?n.createElement(arguments[0]):z?n.createElementNS.call(n,"http://www.w3.org/2000/svg",arguments[0]):n.createElement.apply(n,arguments)}function d(){var e=n.body;return e||(e=u(z?"svg":"body"),e.fake=!0),e}function p(e,t,r,o){var i,s,a,l,f="modernizr",p=u("div"),c=d();if(parseInt(r,10))for(;r--;)a=u("div"),a.id=o?o[r]:f+(r+1),p.appendChild(a);return i=u("style"),i.type="text/css",i.id="s"+f,(c.fake?c:p).appendChild(i),c.appendChild(p),i.styleSheet?i.styleSheet.cssText=e:i.appendChild(n.createTextNode(e)),p.id=f,c.fake&&(c.style.background="",c.style.overflow="hidden",l=x.style.overflow,x.style.overflow="hidden",x.appendChild(c)),s=t(p,e),c.fake?(c.parentNode.removeChild(c),x.style.overflow=l,x.offsetHeight):p.parentNode.removeChild(p),!!s}function c(n,r){var o=n.length;if("CSS"in e&&"supports"in e.CSS){for(;o--;)if(e.CSS.supports(f(n[o]),r))return!0;return!1}if("CSSSupportsRule"in e){for(var i=[];o--;)i.push("("+f(n[o])+":"+r+")");return i=i.join(" or "),p("@supports ("+i+") { #modernizr { position: absolute; } }",function(e){return"absolute"==getComputedStyle(e,null).position})}return t}function m(e,n,o,a){function l(){d&&(delete P.style,delete P.modElem)}if(a=r(a,"undefined")?!1:a,!r(o,"undefined")){var f=c(e,o);if(!r(f,"undefined"))return f}for(var d,p,m,h,y,v=["modernizr","tspan","samp"];!P.style&&v.length;)d=!0,P.modElem=u(v.shift()),P.style=P.modElem.style;for(m=e.length,p=0;m>p;p++)if(h=e[p],y=P.style[h],i(h,"-")&&(h=s(h)),P.style[h]!==t){if(a||r(o,"undefined"))return l(),"pfx"==n?h:!0;try{P.style[h]=o}catch(g){}if(P.style[h]!=y)return l(),"pfx"==n?h:!0}return l(),!1}function h(e,n,t,o,i){var s=e.charAt(0).toUpperCase()+e.slice(1),a=(e+" "+S.join(s+" ")+s).split(" ");return r(n,"string")||r(n,"undefined")?m(a,n,o,i):(a=(e+" "+_.join(s+" ")+s).split(" "),l(a,n,t))}function y(e,n,r){return h(e,t,t,n,r)}var v=[],g={_version:"3.3.1",_config:{classPrefix:"",enableClasses:!0,enableJSClass:!0,usePrefixes:!0},_q:[],on:function(e,n){var t=this;setTimeout(function(){n(t[e])},0)},addTest:function(e,n,t){v.push({name:e,fn:n,options:t})},addAsyncTest:function(e){v.push({name:null,fn:e})}},Modernizr=function(){};Modernizr.prototype=g,Modernizr=new Modernizr;var C=[],w="Moz O ms Webkit",S=g._config.usePrefixes?w.split(" "):[];g._cssomPrefixes=S;var _=g._config.usePrefixes?w.toLowerCase().split(" "):[];g._domPrefixes=_;var x=n.documentElement,z="svg"===x.nodeName.toLowerCase(),E={elem:u("modernizr")};Modernizr._q.push(function(){delete E.elem});var P={style:E.elem.style};Modernizr._q.unshift(function(){delete P.style}),g.testAllProps=h,g.testAllProps=y,Modernizr.addTest("cssanimations",y("animationName","a",!0)),o(),delete g.addTest,delete g.addAsyncTest;for(var b=0;b<Modernizr._q.length;b++)Modernizr._q[b]();e.Modernizr=Modernizr}(window,document);
+
+
+
+
+
 window.webLogicControls = {};
 
 (function () {
@@ -994,7 +1002,7 @@ window.webLogicControls = {};
 			var status = {};
 
 			var options = {
-				cssAnimationSupported: true
+				cssAnimationSupported: window.Modernizr.cssanimations
 			};
 
 			var elements = {
@@ -1086,6 +1094,7 @@ window.webLogicControls = {};
 			function _clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw) {
 				$pw
 					.removeClass([
+						'regular-window-leave-from-above',
 						'tiny-window-leave-from-above',
 						'tall-window-leave-from-above'
 					].join(' '))
@@ -1134,18 +1143,20 @@ window.webLogicControls = {};
 					;
 					var needToHideBackPlate = !!bp && !isPoliteMessage;
 						
-					_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+					// _clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
 
 					if (needToPlayLeavingAnimation) {
 						$pw.one('animationend', function () {
 							$pl.hide();
 							_clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw);
 						});
-						// _clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+						_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
 						var pwHeight = $pw.outerHeight();
-						var chosenCssClassNameForLeavingAnimation = 'tall-window-leave-from-above';
+						var chosenCssClassNameForLeavingAnimation = 'regular-window-leave-from-above';
 						if (pwHeight <= (window.innerHeight * 0.25)) {
 							chosenCssClassNameForLeavingAnimation = 'tiny-window-leave-from-above';
+						} else if (pwHeight > (window.innerHeight * 0.79)) {
+							chosenCssClassNameForLeavingAnimation = 'tall-window-leave-from-above';
 						}
 						// C.l(pwHeight, window.innerHeight, window.innerHeight * 0.25, chosenCssClassNameForLeavingAnimation);
 						$pw.addClass(chosenCssClassNameForLeavingAnimation);
@@ -1184,20 +1195,20 @@ window.webLogicControls = {};
 					if (needToPlayShowingAnimation) { // prepare for animation
 						var needToAssignCssClassNameForAnimation = !isPoliteMessage;
 
-						var chosenCssClassNameForShowingAnimation = 'shows-up-from-bottom';
+						var chosenCssClassNameForShowingAnimation; // at present, the default animation is built-in via css
 
 						var needToDecideShowingUpDirection = needToAssignCssClassNameForAnimation;
 						if (needToDecideShowingUpDirection) {
 							chosenCssClassNameForShowingAnimation = _decideShowingUpSourceDirection(eventOfShow);
 						}
 
-						if (needToAssignCssClassNameForAnimation) {
+						if (needToAssignCssClassNameForAnimation && chosenCssClassNameForShowingAnimation) {
 							$pw.addClass(chosenCssClassNameForShowingAnimation);
 						}
 
-						$pw.one('animationend', function () {
-							_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
-						});
+						// $pw.one('animationend', function () {
+						// 	_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+						// });
 					} else {
 						// nothing to prepare for
 					}
@@ -1206,12 +1217,18 @@ window.webLogicControls = {};
 						eventOfShow.target.blur();
 					}
 
-					$pl.show(function () {
+					$pl.show();
+					// do NOT use jquery show(complete) callback.
+					// other wise the process will effect css animation of popup window under the popup layer.
+
+					setTimeout(tryToFocusSomething, 100);
+
+					function tryToFocusSomething() {
 						if (isPoliteMessage) return true;
 
 						var firstFocusable = $pl.find('input, textarea, [contentEditable="true"], button, a')[0];
 						if (firstFocusable) firstFocusable.focus();
-					});
+					}
 
 
 					var shouldHideAutomatically = isPoliteMessage;
