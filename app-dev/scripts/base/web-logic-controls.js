@@ -993,6 +993,10 @@ window.webLogicControls = {};
 
 			var status = {};
 
+			var options = {
+				cssAnimationSupported: true
+			};
+
 			var elements = {
 				$popupLayersContainersUnderApp: $('.app > .popup-layers')
 			};
@@ -1124,15 +1128,20 @@ window.webLogicControls = {};
 				var hasPopupWindowOrDialog = !$pl.hasClass('has-no-popup-window');
 
 				if (!isToShow) {
-					var needToPlayLeavingAnimation = $pw.length > 0 && !isPopupPanel && !isPoliteMessage && hasPopupWindowOrDialog;
+					var needToPlayLeavingAnimation = options.cssAnimationSupported &&
+						$pw.length > 0 && hasPopupWindowOrDialog &&
+						!isPopupPanel && !isPoliteMessage
+					;
 					var needToHideBackPlate = !!bp && !isPoliteMessage;
+						
+					_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
 
 					if (needToPlayLeavingAnimation) {
 						$pw.one('animationend', function () {
 							$pl.hide();
 							_clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw);
 						});
-						_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+						// _clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
 						var pwHeight = $pw.outerHeight();
 						var chosenCssClassNameForLeavingAnimation = 'tall-window-leave-from-above';
 						if (pwHeight <= (window.innerHeight * 0.25)) {
@@ -1146,36 +1155,57 @@ window.webLogicControls = {};
 						} else {
 							$pl.hide();					
 						}
-						_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+						// _clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
 					}
 
 					if (needToHideBackPlate) {
-						$bp.one('animationend', function () {
+						var needToHideBackPlateAfterAnimation = options.cssAnimationSupported;
+						if (needToHideBackPlateAfterAnimation) {
+							$bp.one('animationend', function () {
+								$bp.hide();
+								$bp.removeClass('popup-layer-back-plate-leaving');
+							});
+							$bp.addClass('popup-layer-back-plate-leaving');
+						} else {
 							$bp.hide();
-							$bp.removeClass('popup-layer-back-plate-leaving');
-						});
-						$bp.addClass('popup-layer-back-plate-leaving');
+						}
 					}
 				} else {
 					var needToShowBackPlate = !!bp && !isPoliteMessage;
 					if (needToShowBackPlate) $bp.show();
 
-					_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
-					var chosenCssClassNameForShowingAnimation = 'shows-up-from-bottom';
+					// _clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
 
-					var needToDecideShowingUpDirection = $pw.length > 0 && !isPopupPanel && !isPoliteMessage && hasPopupWindowOrDialog;
-					if (needToDecideShowingUpDirection) {
-						chosenCssClassNameForShowingAnimation = _decideShowingUpSourceDirection(eventOfShow);
+					var needToPlayShowingAnimation = options.cssAnimationSupported &&
+						$pw.length > 0 && hasPopupWindowOrDialog &&
+						!isPopupPanel
+					;
+
+					if (needToPlayShowingAnimation) { // prepare for animation
+						var needToAssignCssClassNameForAnimation = !isPoliteMessage;
+
+						var chosenCssClassNameForShowingAnimation = 'shows-up-from-bottom';
+
+						var needToDecideShowingUpDirection = needToAssignCssClassNameForAnimation;
+						if (needToDecideShowingUpDirection) {
+							chosenCssClassNameForShowingAnimation = _decideShowingUpSourceDirection(eventOfShow);
+						}
+
+						if (needToAssignCssClassNameForAnimation) {
+							$pw.addClass(chosenCssClassNameForShowingAnimation);
+						}
+
+						$pw.one('animationend', function () {
+							_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+						});
+					} else {
+						// nothing to prepare for
 					}
-					$pw.addClass(chosenCssClassNameForShowingAnimation);
-
-					$pw.one('animationend', function () {
-						_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
-					});
 
 					if (!!eventOfShow && eventOfShow.target instanceof Node) {
 						eventOfShow.target.blur();
 					}
+
 					$pl.show(function () {
 						if (isPoliteMessage) return true;
 
@@ -1237,6 +1267,8 @@ window.webLogicControls = {};
 						cssClass = 'shows-up-from-rightside';
 					}
 				}
+
+				// C.l(w, h, x, y, cssClass);
 
 				return cssClass;
 			}

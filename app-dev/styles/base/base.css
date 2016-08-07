@@ -2604,7 +2604,7 @@ dl.initially-collapsed {
 		height: 100%;
 		max-width: 100%;
 		max-height: 100%;
-		box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+		box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
 		transition-property: none;
 		}
 
@@ -2752,145 +2752,6 @@ dl.initially-collapsed {
 		z-index: 5;
 	}
 
-	.popup-window {
-		display: inline-block;
-		vertical-align: middle;
-		position: relative;
-		margin: 0;
-		padding: 0;
-		border: 0;
-		left: 0;
-		top: 0;
-		max-width: 90%;
-		max-height: 90%;
-		min-width: 100px;
-		min-height: 100px;
-		text-align: left;
-		white-space: normal;
-		animation-duration: 0.4s;
-		animation-delay: 0.1s; /* for black back plate showing up first */
-		animation-fill-mode: both;
-		/* animation-name: shows-up-from-bottom; */
-		transform-origin: center 15%; 
-		}
-
-		.popup-window.cast-shadow {
-			box-shadow: 0px 0px 1rem 0px rgba(0, 0, 0, 1);
-		}
-
-		.popup-window > .content {
-			overflow: hidden;
-		}
-
-		.popup-window .dialog {
-			display: none;
-			overflow: auto;
-		}
-
-		.popup-window.has-dialog {
-			min-width: 300px; /* global default value */
-		}
-
-		.popup-window.has-dialog .dialog {
-			display: block;
-		}
-
-		:root .popup-window.has-dialog {
-			max-width: none \0; /* ie9 randomly redraw "inline-block" popup-window, using the max-width as the actual width of the popup-window */
-		}
-
-		.popup-window.shows-up-from-top {
-			animation-name: shows-up-from-top;
-		}
-		.popup-window.shows-up-from-bottom {
-			animation-timing-function: ease-out;
-			animation-name: shows-up-from-bottom;
-		}
-		.popup-window.shows-up-from-leftside {
-			animation-name: shows-up-from-leftside;
-		}
-		.popup-window.shows-up-from-rightside {
-			animation-name: shows-up-from-rightside;
-		}
-
-		.popup-window.shows-up-from-top-left {
-			animation-name: shows-up-from-top-left;
-		}
-		.popup-window.shows-up-from-top-right {
-			animation-name: shows-up-from-top-right;
-		}
-		.popup-window.shows-up-from-bottom-left {
-			animation-name: shows-up-from-bottom-left;
-		}
-		.popup-window.shows-up-from-bottom-right {
-			animation-name: shows-up-from-bottom-right;
-		}
-
-		.popup-window.tall-window-leave-from-above {
-			animation: tall-popup-window-leave-from-above 0.66s ease-in;
-		}
-
-		.popup-window.tiny-window-leave-from-above {
-			animation: tiny-popup-window-leave-from-above 0.66s ease-in;
-		}
-
-		@keyframes tall-popup-window-leave-from-above {
-			0%   {             transform-origin: center 40%; transform:                                rotateX(-3deg); }
-			18%  {                                           transform:                                rotateX( 1.5deg); }
-			66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
-			100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
-		}
-
-		@keyframes tiny-popup-window-leave-from-above {
-			0%   {             transform-origin: center 40%; transform:                                rotateX(-8deg); }
-			18%  {                                           transform:                                rotateX( 4deg); }
-			66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
-			100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
-		}
-
-		@keyframes shows-up-from-bottom {
-			0%  { opacity: 0; transform: translateY(40rem)   scale(0.32, 0.32) rotateX(-51deg); }
-			84% { opacity: 1; transform: translateY(-0.2rem) scale(1   , 1   ) rotateX(0deg); }
-			92% { transform: translateY(-0.08rem); }
-			to  { transform: translateY(0); }
-		}
-
-		@keyframes shows-up-from-rightside {
-			0% { opacity: 0; transform: translateX(7rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateX(0)    scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-leftside {
-			0% { opacity: 0; transform: translateX(-7rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateX(0)     scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-top {
-			0% { opacity: 0; transform: translateY(-10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translateY(0)      scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-top-left {
-			0% { opacity: 0; transform: translate(-7rem, -10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translate(0, 0)          scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-top-right {
-			0% { opacity: 0; transform: translate(7rem, -10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translate(0, 0)         scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-bottom-left {
-			0% { opacity: 0; transform: translate(-7rem, 10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translate(0, 0)         scale(1, 1); }
-		}
-
-		@keyframes shows-up-from-bottom-right {
-			0% { opacity: 0; transform: translate(7rem, 10rem) scale(0.75, 0.75); }
-			to { opacity: 1; transform: translate(0, 0)        scale(1, 1); }
-		}
-
-
 	.popup-layer.polite-message {
 		width: 100%;
 		height: 0!important;
@@ -2899,20 +2760,163 @@ dl.initially-collapsed {
 		top: auto;
 		bottom: 3rem;
 		}
-		.popup-layer.polite-message .popup-window {
-			margin: auto;
-			box-sizing: border-box;
-			width: auto;
-			height: auto;
-			padding: 0.25rem 1rem;
-			min-width: 7.5em;
-			max-width: 85%;
-			min-height: 2rem;
-			max-height: none;
-			border-radius: 1rem;
-			text-align: center;
-			transform: translateY(-100%);
-			animation-name: polite-message-shows-up-from-bottom;
+
+
+.popup-window {
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	left: 0;
+	top: 0;
+	max-width: 90%;
+	max-height: 90%;
+	min-width: 100px;
+	min-height: 100px;
+	text-align: left;
+	white-space: normal;
+
+	transition-property: none;
+
+	animation-duration: 0.5s;
+	animation-delay: 0.1s; /* for black back plate showing up first */
+	animation-fill-mode: both;
+	/* animation-name: popup-window-shows-up-from-bottom; */
+	transform-origin: center 15%;
+	}
+
+	.popup-window.cast-shadow {
+		box-shadow: 0px 0px 1rem 0px rgba(0, 0, 0, 1);
+	}
+
+	.popup-window > .content {
+		overflow: hidden;
+	}
+
+	.popup-window .dialog {
+		display: none;
+		overflow: auto;
+	}
+
+	.popup-window.has-dialog {
+		min-width: 300px; /* global default value */
+	}
+
+	.popup-window.has-dialog .dialog {
+		display: block;
+	}
+
+	:root .popup-window.has-dialog {
+		max-width: none \0; /* ie9 randomly redraw "inline-block" popup-window, using the max-width as the actual width of the popup-window */
+	}
+
+	.popup-window.shows-up-from-top {
+		animation-name: popup-window-shows-up-from-top;
+	}
+	.popup-window.shows-up-from-bottom {
+		animation-timing-function: ease-out;
+		animation-name: popup-window-shows-up-from-bottom;
+	}
+	.popup-window.shows-up-from-leftside {
+		animation-name: popup-window-shows-up-from-leftside;
+	}
+	.popup-window.shows-up-from-rightside {
+		animation-name: popup-window-shows-up-from-rightside;
+	}
+
+	.popup-window.shows-up-from-top-left {
+		animation-name: popup-window-shows-up-from-top-left;
+	}
+	.popup-window.shows-up-from-top-right {
+		animation-name: popup-window-shows-up-from-top-right;
+	}
+	.popup-window.shows-up-from-bottom-left {
+		animation-name: popup-window-shows-up-from-bottom-left;
+	}
+	.popup-window.shows-up-from-bottom-right {
+		animation-name: popup-window-shows-up-from-bottom-right;
+	}
+
+	.popup-window.tall-window-leave-from-above {
+		animation: tall-popup-window-leave-from-above 0.66s ease-in;
+	}
+
+	.popup-window.tiny-window-leave-from-above {
+		animation: tiny-popup-window-leave-from-above 0.66s ease-in;
+	}
+
+	@keyframes tall-popup-window-leave-from-above {
+		0%   {             transform-origin: center 40%; transform:                                rotateX(-3deg); }
+		18%  {                                           transform:                                rotateX( 1.5deg); }
+		66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
+		100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
+	}
+
+	@keyframes tiny-popup-window-leave-from-above {
+		0%   {             transform-origin: center 40%; transform:                                rotateX(-8deg); }
+		18%  {                                           transform:                                rotateX( 4deg); }
+		66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
+		100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
+	}
+
+	@keyframes popup-window-shows-up-from-bottom {
+		0%  { opacity: 0; transform: translateY(40rem)   scale(0.32, 0.32) rotateX(-51deg); }
+		84% { opacity: 1; transform: translateY(-0.2rem) scale(1   , 1   ) rotateX(0deg); }
+		92% { transform: translateY(-0.08rem); }
+		to  { transform: translateY(0); }
+	}
+
+	@keyframes popup-window-shows-up-from-rightside {
+		0% { opacity: 0; transform: translateX(7rem) scale(0.51, 0.51); }
+		to { opacity: 1; transform: translateX(0)    scale(1   , 1   ); }
+	}
+
+	@keyframes popup-window-shows-up-from-leftside {
+		0% { opacity: 0; transform: translateX(-7rem) scale(0.51, 0.51); }
+		to { opacity: 1; transform: translateX(0)     scale(1   , 1   ); }
+	}
+
+	@keyframes popup-window-shows-up-from-top {
+		0% { opacity: 0; transform: translateY(-10rem) scale(0.51, 0.51); }
+		to { opacity: 1; transform: translateY(0)      scale(1   , 1   ); }
+	}
+
+	@keyframes popup-window-shows-up-from-top-left {
+		0% { opacity: 0; transform: translate(-7rem, -10rem) scale(0.51, 0.51); }
+		to { opacity: 1; transform: translate(0, 0)          scale(1   , 1   ); }
+	}
+
+	@keyframes popup-window-shows-up-from-top-right {
+		0% { opacity: 0; transform: translate3d(7rem, -10rem, 0) scale(0.51, 0.51); }
+		to { opacity: 1; transform: translate3d(0,      0,    0) scale(1   , 1   ); }
+	}
+
+	@keyframes popup-window-shows-up-from-bottom-left {
+		0% { opacity: 0; transform: translate(-7rem, 10rem) scale(0.51, 0.51); }
+		to { opacity: 1; transform: translate(0, 0)         scale(1   , 1   ); }
+	}
+
+	@keyframes popup-window-shows-up-from-bottom-right {
+		0% { opacity: 0; transform: translate(7rem, 10rem) scale(0.51, 0.51); }
+		to { opacity: 1; transform: translate(0, 0)        scale(1   , 1   ); }
+	}
+
+	.popup-layer.polite-message .popup-window {
+		margin: auto;
+		box-sizing: border-box;
+		width: auto;
+		height: auto;
+		padding: 0.25rem 1rem;
+		min-width: 7.5em;
+		max-width: 85%;
+		min-height: 2rem;
+		max-height: none;
+		border-radius: 1rem;
+		text-align: center;
+		transform: translateY(-100%);
+		animation-name: popup-polite-message-shows-up-from-bottom;
 		}
 		.popup-layer.polite-message .popup-window article {
 			padding: 0.15rem 0.15rem;
@@ -2920,7 +2924,7 @@ dl.initially-collapsed {
 		.popup-layer.polite-message .popup-window p {
 			margin: -0.25em;
 		}
-		@keyframes polite-message-shows-up-from-bottom {
+		@keyframes popup-polite-message-shows-up-from-bottom {
 			0% { opacity: 0; transform: translateY(6rem); }
 			to { opacity: 1; transform: translateY(-100%); }
 		}
@@ -2934,7 +2938,7 @@ dl.initially-collapsed {
 		max-width: 100%;
 		max-height: 100%;
 		box-shadow: none;
-		}
+	}
 
 
 .popup-panel {
@@ -3158,11 +3162,4 @@ dl.initially-collapsed {
 		position: absolute;
 		width: 100%;
 		height: 2rem;
-	}
-
-
-@keyframes reveal-content {
-	0%   { opacity: 0; }
-	50%  { opacity: 0; }
-	100% { opacity: 1; }
 	}
