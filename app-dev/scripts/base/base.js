@@ -31,12 +31,102 @@
 	window.popupLayersManager = popupLayersManager;
 
 	function PopupLayersManager() {
+		var thisController = this;
+
+		var status = {};
+
+		var elements = {
+			$popupLayersContainersUnderApp: $('.app > .popup-layers')
+		};
+
 		this.show = function (popupLayerIdOrDom, event) {
 			_showOrHidePopupLayer(popupLayerIdOrDom, true, event);
 		};
 		this.hide = function (popupLayerIdOrDom) {
 			_showOrHidePopupLayer(popupLayerIdOrDom);
 		};
+
+		this.processAllUnder = _processAllUnder.bind(this);
+
+		(function _init () {
+			this.processAllUnder();
+		}).call(this);
+
+		function _processAllUnder(appOrPageOrPLContainer) {
+			var $plContainers;
+			if ($(appOrPageOrPLContainer).hasClass('.popup-layers')) {
+				$plContainers = $(appOrPageOrPLContainer);
+			} else if ($(appOrPageOrPLContainer).hasClass('page')) {
+				$plContainers = $(appOrPageOrPLContainer).find('.popup-layers');
+			} else {
+				$plContainers = elements.$popupLayersContainersUnderApp;
+			}
+
+			if ($plContainers.length < 1) {
+				return false;
+			}
+
+			$plContainers.each(function () {
+				var plContainer = this;
+				var $plContainer = $(plContainer);
+
+				var $bp = $plContainer.find('.popup-layers-back-plate');
+				if ($bp.length < 1) {
+					C.w('Back plate not found under ', plContainer);
+				}
+
+				$plContainer.find('.popup-layer').each(function () {
+					var pl = this;
+					if (!!pl.status && (pl.status.popupLayerHasBeenProcessed === true)) {
+						C.l('Skipped popup-layer "'+pl.id+'", which has already been processed.');
+						return true;
+					}
+
+					if (typeof pl.elements !== 'object') pl.elements = {};
+
+					pl.elements.popupLayersBackPlate = $bp[0];
+					// C.l(pl.id, pl.elements.popupLayersBackPlate);
+
+					var $pl = $(pl);
+
+					$pl.find('[button-action="confirm"], [button-action="cancel"]').on('click', function() {
+						popupLayersManager.hide(pl);
+					});
+
+					var $pw = $pl.find('.popup-window');
+					_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+					_clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw);
+
+					if (typeof pl.status !== 'object') pl.status = {};
+					pl.status.popupLayerHasBeenProcessed = true;
+				});
+			});
+		};
+
+		function _clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw) {
+			$pw
+				.removeClass([
+					'shows-up-from-center',
+					'shows-up-from-top',
+					'shows-up-from-top-left',
+					'shows-up-from-top-right',
+					'shows-up-from-bottom',
+					'shows-up-from-bottom-left',
+					'shows-up-from-bottom-right',
+					'shows-up-from-leftside',
+					'shows-up-from-rightside'
+				].join(' '))
+			;
+		}
+
+		function _clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw) {
+			$pw
+				.removeClass([
+					'tiny-window-leave-from-above',
+					'tall-window-leave-from-above'
+				].join(' '))
+			;
+		}
 
 		function _showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow) {
 			if (!popupLayerIdOrDom) return false;
@@ -50,53 +140,93 @@
 				plId = pl.id;
 			}
 
-			if (!pl || !pl.elements) {
+			if (!pl) {
 				C.e('Cannot find popup layer with id "'+plId+'".');
 				return false;			
 			}
 
-			var $bp = pl.elements.$popupLayersBackPlate;
+
+			var bp = null;
+			if (!pl.elements) {
+				C.w('Popup layer with id "'+plId+'" might not be initialized.');
+			} else {
+				bp = pl.elements.popupLayersBackPlate;
+			}
+
+			var $bp = $(bp);
+				$bp.removeClass('popup-layer-back-plate-leaving'); // just for safety
+
+			var $pl = $(pl);
+			var $pw = $pl.find('.popup-window');
+
+			var isPoliteMessage = $pl.hasClass('polite-message');
+			var isPopupPanel = $pl.hasClass('has-docked-panel');
+			var hasPopupWindowOrDialog = !$pl.hasClass('has-no-popup-window');
 
 			if (!isToShow) {
-				$bp.hide();
-				$(pl).hide();
-				// _clearCssClassNamesAboutShowingUp(pl);
-			} else {
-				var $pl = $(pl);
-				var isPoliteMessage = $pl.hasClass('polite-message');
-				var isPopupPanel = $pl.hasClass('has-docked-panel');
-				var hasPopupWindowOrDialog = !$pl.hasClass('has-no-popup-window');
+				var needToPlayLeavingAnimation = $pw.length > 0 && !isPopupPanel && !isPoliteMessage && hasPopupWindowOrDialog;
+				var needToHideBackPlate = !!bp && !isPoliteMessage;
 
-				var needToDecideShowingUpDirection = !isPopupPanel && !isPoliteMessage && !hasPopupWindowOrDialog;
-
-				if (needToDecideShowingUpDirection) {
-					var $pw = $pl.find('.popup-window');
-					_clearCssClassNamesAboutShowingUp($pw);
-					var cssClass = _decideShowingUpSourceDirection(eventOfShow);
-					$pw.addClass(cssClass);
+				if (needToPlayLeavingAnimation) {
+					$pw.one('animationend', function () {
+						$pl.hide();
+						_clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw);
+					});
+					_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+					var pwHeight = $pw.outerHeight();
+					var chosenCssClassNameForLeavingAnimation = 'tall-window-leave-from-above';
+					if (pwHeight <= (window.innerHeight * 0.25)) {
+						chosenCssClassNameForLeavingAnimation = 'tiny-window-leave-from-above';
+					}
+					// C.l(pwHeight, window.innerHeight, window.innerHeight * 0.25, chosenCssClassNameForLeavingAnimation);
+					$pw.addClass(chosenCssClassNameForLeavingAnimation);
+				} else {
+					if (isPoliteMessage) {
+						$pl.fadeOut();
+					} else {
+						$pl.hide();					
+					}
+					_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
 				}
 
-
-
-				var needToShowBackPlate = !isPoliteMessage;
+				if (needToHideBackPlate) {
+					$bp.one('animationend', function () {
+						$bp.hide();
+						$bp.removeClass('popup-layer-back-plate-leaving');
+					});
+					$bp.addClass('popup-layer-back-plate-leaving');
+				}
+			} else {
+				var needToShowBackPlate = !!bp && !isPoliteMessage;
 				if (needToShowBackPlate) $bp.show();
+
+				_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+				var chosenCssClassNameForShowingAnimation = 'shows-up-from-bottom';
+
+				var needToDecideShowingUpDirection = $pw.length > 0 && !isPopupPanel && !isPoliteMessage && hasPopupWindowOrDialog;
+				if (needToDecideShowingUpDirection) {
+					chosenCssClassNameForShowingAnimation = _decideShowingUpSourceDirection(eventOfShow);
+				}
+				$pw.addClass(chosenCssClassNameForShowingAnimation);
+
+				$pw.one('animationend', function () {
+					_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+				});
+
 				$pl.show();
 
-				if (isPoliteMessage) {
+
+				var shouldHideAutomatically = isPoliteMessage;
+				if (shouldHideAutomatically) {
 					var durationBeforeAutoHide = 3000;
 					var _temp = parseFloat(pl.getAttribute('data-showing-duration-in-seconds'));
 					if (!isNaN(_temp) && _temp > 1) durationBeforeAutoHide = _temp * 1000;
 
 					setTimeout(function () {
-						$pl.fadeOut();
+						thisController.hide($pl[0]);
 					}, durationBeforeAutoHide);
 				}
 			}
-		}
-
-		function _clearCssClassNamesAboutShowingUp($pw) {
-			$pw
-				.removeClass('shows-up-from-center shows-up-from-top shows-up-from-top-left shows-up-from-top-right shows-up-from-bottom shows-up-from-bottom-left shows-up-from-bottom-right shows-up-from-leftside shows-up-from-rightside');
 		}
 
 		function _decideShowingUpSourceDirection(event) {
@@ -143,29 +273,6 @@
 			return cssClass;
 		}
 	}
-
-
-	$('.app > .popup-layers, .page .popup-layers').each(function () {
-		var $plContainer = $(this);
-		var $bp = $plContainer.find('.popup-layers-back-plate');
-
-		$plContainer.find('.popup-layer').each(function () {
-			if (this.hasBeenProcessed) return true;
-
-			this.elements = {
-				$popupLayersBackPlate: $bp
-			};
-			// C.l(this.id, this.elements.$popupLayersBackPlate[0]);
-
-			var pl = this;
-			var $pl = $(pl);
-			$pl.find('[button-action="confirm"], [button-action="cancel"]').on('click', function() {
-				popupLayersManager.hide(pl);
-			});
-
-			this.hasBeenProcessed = true;
-		});
-	});
 })();
 
 
@@ -183,6 +290,7 @@
 	function commonSetupAciontsForOnePage(page) {
 		var $page = $(page);
 
+		setupAllPopupLayers(page);
 		setupAllAutoConstructTabPanelSets($page);
 		setupPageBodyMinHeightForPage($page);
 		setupAllButtonsWithInlineClickAction($page);
@@ -192,6 +300,10 @@
 		setupAllContentsWithDesiredStringFormat($page);
 		setupAllSensitiveContentBlocks($page);
 		setupAllChineseNumbersPresenters($page);
+
+		function setupAllPopupLayers(page) {
+			window.popupLayersManager.processAllUnder(page);
+		}
 
 		function setupAllButtonsWithInlineClickAction($page) {
 			$page.find('[data-click-action]').each(function () {
@@ -805,14 +917,15 @@
 	});
 
 	var pls = [
-		'pl-message-credit-limitation-introduction',
-		'pl-message-intro-jia-xi-quan',
-		'pl-message-intro-te-quan-ben-jin',
-		'pl-message-intro-ti-yan-jin',
-		'pl-available-tickets-list',
-		'pl-trading-password-incorrect',
-		'pl-product-terminated',
-		'pl-input-image-vcode'
+		// 'pl-message-credit-limitation-introduction',
+		// 'plpm-modification-succeeded',
+		// 'pl-message-intro-jia-xi-quan',
+		// 'pl-message-intro-te-quan-ben-jin',
+		// 'pl-message-intro-ti-yan-jin',
+		// 'pl-available-tickets-list',
+		// 'pl-trading-password-incorrect',
+		// 'pl-product-terminated',
+		// 'pl-input-image-vcode'
 	];
 
 	var currentPL = 0;
