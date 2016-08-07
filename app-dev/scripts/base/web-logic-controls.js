@@ -1251,12 +1251,14 @@ window.webLogicControls = {};
 							$pw.addClass(chosenCssClassNameForShowingAnimation);
 						}
 
-
-						pw.__ShowingAnimationNotEndedEitherWay = true;
-						pw.addEventListener('animationend', __popupWindowOnShowingAnimationEnd);
-						setTimeout(function () {
-							__popupWindowOnShowingAnimationEnd(null, true);
-						}, options.secondsToWaitPopupWindowShowingAniamtionEnd * 1000);
+						var shouldHandleAnimationEndToDoSometing = !isPoliteMessage;
+						if (shouldHandleAnimationEndToDoSometing) {
+							pw.__ShowingAnimationNotEndedEitherWay = true;
+							pw.addEventListener('animationend', __popupWindowOnShowingAnimationEnd);
+							setTimeout(function () {
+								__popupWindowOnShowingAnimationEnd(null, true);
+							}, options.secondsToWaitPopupWindowShowingAniamtionEnd * 1000);
+						}
 					} else {
 						// nothing to prepare for
 					}

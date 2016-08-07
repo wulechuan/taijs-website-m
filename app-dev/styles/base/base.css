@@ -56,6 +56,10 @@ sub {
 }
 
 
+time + time {
+	margin-left: 0.5em;
+}
+
 q {
 	quotes: '(' ')';
 	}
@@ -92,6 +96,27 @@ article {
 	}
 	article h6 {
 		font-size: 0.8rem;
+	}
+
+	article .subject-symbol {
+		margin: 2.2rem auto 0.1rem auto;
+		}
+		article .subject-symbol .iconfont,
+		article .subject-symbol {
+			font-size: 2.8rem;
+		}
+
+		article .subject-symbol .icon {
+			/* width: 3rem; */
+			display: block;
+			margin: auto;
+		}
+
+	.dialog-body article h4,
+	.dialog-body article h3,
+	.dialog-body article h2,
+	.dialog-body article h1 {
+		text-align: center;
 	}
 
 
@@ -793,7 +818,7 @@ label, .label {
 
 
 .cast-shadow {
-	box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.2);
 	}
 	.cast-inner-shadow {
 		box-shadow: inset 3px 3px 2px 0px rgba(0, 0, 0, 0.1);
@@ -1587,40 +1612,53 @@ ol.f-list, ul.f-list { /* function list */
 		visibility: hidden;
 	}
 
-	.touch-off .menu-item.has-sub-menu:hover > .menu-wrap,
-	.touch-off .menu-item.has-sub-menu:hover > .menu,
-	.menu-item.has-sub-menu.coupled-shown    > .menu-wrap,
-	.menu-item.has-sub-menu.coupled-shown    > .menu {
+	.menu-item.has-sub-menu.coupled-shown > .menu-wrap,
+	.menu-item.has-sub-menu.coupled-shown > .menu {
 		visibility: visible;
 	}
 
 	.menu-item.has-sub-menu > .menu-wrap > .menu {
 		transform-origin: top;
 		opacity: 0;
-		transform: scale(0.75, 0.5);
-		animation-duration: 0.33s;
+	}
+
+	.menu-item.has-sub-menu.coupled-shown > .menu-wrap > .menu {
+		opacity: 1;
+	}
+
+	.has-popup-animation .menu-item.has-sub-menu.coupled-shown > .menu-wrap,
+	                     .menu-item.has-sub-menu.coupled-shown > .menu-wrap.has-popup-animation {
+	    perspective: 60rem;
+	}
+
+	.has-popup-animation .menu-item.has-sub-menu.coupled-shown > .menu-wrap                     > .menu,
+	                     .menu-item.has-sub-menu.coupled-shown > .menu-wrap.has-popup-animation > .menu {
 		transition-property: none;
-		transition-timing-function: cubic-bezier(.29,1,.68,.99);
+		animation-duration: 0.51s;
+		animation-name: menu-slides-down;
+	}
+
+	.has-popup-animation.animation-type-shaking .menu-item.has-sub-menu.coupled-shown > .menu-wrap                                            > .menu,
+	                                            .menu-item.has-sub-menu.coupled-shown > .menu-wrap.has-popup-animation.animation-type-shaking > .menu {
+		animation-duration: 0.48s;
+		animation-name: menu-pops-up-shaking;
 		animation-timing-function: linear;
 	}
 
-	.touch-off .menu-item.has-sub-menu:hover > .menu-wrap > .menu,
-	.menu-item.has-sub-menu.coupled-shown    > .menu-wrap > .menu {
-		transform: scale(1, 1);
-		opacity: 1;
-		animation-name: menu-pops-up;
+	@keyframes menu-slides-down {
+		0%   { opacity: 0; transform: scale(0.79, 0.19) rotateX(38deg); }
+		50%  { opacity: 1; transform: scale(1.02, 1.09) rotateX(-2deg); }
+		100% {             transform: scale(1, 1) rotateX(0deg); }
 	}
 
-	@keyframes menu-pops-up {
+	@keyframes menu-pops-up-shaking {
 		0%   { opacity: 0; transform: scale(0.7, 0.5) translate(0, -1rem); }
-		42%  { transform: scale(1.05, 1.08); }
-		56%  { opacity: 1; transform: scale(0.965, 0.935); }
-		70%  { transform: scale(1.025, 1.045); }
-		84%  { transform: scale(0.985, 0.97); }
+		24%  { transform: scale(1.05, 1.08); }
+		43%  { opacity: 1; transform: scale(0.965, 0.935); }
+		62%  { transform: scale(1.025, 1.045); }
+		81%  { transform: scale(0.985, 0.97); }
 		100% { opacity: 1; transform: scale(1, 1) translate(0, 0); }
 	}
-
-
 
 
 .toolbar {
@@ -2944,10 +2982,15 @@ dl.initially-collapsed {
 	.popup-window.full-screen {
 		display: block;
 		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
 		width: 100%;
 		height: 100%;
-		max-width: 100%;
+		max-width: 768px;
 		max-height: 100%;
+		margin: 0 auto;
 		box-shadow: none;
 	}
 

@@ -105,8 +105,9 @@ a, a:visited {
 	color: white;
 	background-color: #4285f4;
 	}
-	.color-inverted.row  sub,
-	.color-inverted .row sub,
+	.color-inverted.row  *,
+	.color-inverted .row *,
+	.color-inverted .row,
 	.color-inverted .f-list > a > li .label,
 	.color-inverted .f-list     > li .label,
 	.color-inverted .f-list > a > li,
@@ -915,19 +916,19 @@ dl.tickets-list {
 		color: #333;
 	}
 	.color-inverted .hero-content-block,
-	.page-header .hero-content-block {
+	.page-header    .hero-content-block {
 		color: white;
 		}
 		.color-inverted .hero-content-block .subject,
-		.page-header .hero-content-block .subject {
+		.page-header    .hero-content-block .subject {
 			color: white;
 		}
 		.color-inverted .hero-content-block .digits,
-		.page-header .hero-content-block .digits {
+		.page-header    .hero-content-block .digits {
 			color: white;
 		}
 		.color-inverted .hero-content-block em,
-		.page-header .hero-content-block em {
+		.page-header    .hero-content-block em {
 			color: white;
 		}
 
@@ -981,7 +982,7 @@ dl.tickets-list {
 		background-color: rgba(0, 0, 0, 0.05);
 	} */
 
-	.row.header-bar .right nav .menu.level-2 {
+	.menu.level-2 > li {
 		border-color: #ececec;
 	}
 
@@ -992,7 +993,7 @@ dl.tickets-list {
 	.tabular > .header {
 		color: #999;
 	}
-	.tabular > .f-list > li .cell.first-cell {
+	.tabular > .f-list > li .cell.caption-cell {
 		color: black;
 	}
 	.tabular > .f-list > li .cell.timestamp {
@@ -1128,8 +1129,12 @@ dl.tickets-list {
 		background-image: linear-gradient(to bottom, rgba(62, 90, 215, 0) 14rem, #f1f1f1 26rem);
 	}
 	.page-header {
-		color: white;
 		background-color: #4285f4;
+	}
+	.page-header .row *,
+	.page-header .row,
+	.page-header {
+		color: white;
 	}
 	.page-footer {
 		border-color: #e5e5e5;
