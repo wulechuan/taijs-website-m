@@ -94,6 +94,27 @@ article {
 		font-size: 0.8rem;
 	}
 
+	article .subject-symbol {
+		margin: 2.2rem auto 0.1rem auto;
+		}
+		article .subject-symbol .iconfont,
+		article .subject-symbol {
+			font-size: 2.8rem;
+		}
+
+		article .subject-symbol .icon {
+			/* width: 3rem; */
+			display: block;
+			margin: auto;
+		}
+
+	.dialog-body article h4,
+	.dialog-body article h3,
+	.dialog-body article h2,
+	.dialog-body article h1 {
+		text-align: center;
+	}
+
 
 .compensate-punctuation {
 	text-indent: 0.6em;
