@@ -673,8 +673,8 @@
 	});
 
 	var pls = [
-		// 'pl-message-credit-limitation-introduction',
-		// 'plpm-modification-succeeded',
+		'pl-message-credit-limitation-introduction',
+		'plpm-modification-succeeded',
 		// 'pl-message-intro-jia-xi-quan',
 		// 'pl-message-intro-te-quan-ben-jin',
 		// 'pl-message-intro-ti-yan-jin',
@@ -691,6 +691,3 @@
 		if (currentPL >= pls.length) currentPL -= pls.length;
 	});
 })();
-
-
-
