@@ -2783,7 +2783,7 @@ dl.initially-collapsed {
 	animation-duration: 0.38s;
 	animation-delay: 0.1s; /* for black back plate showing up first */
 	animation-fill-mode: both;
-	animation-name: popup-window-shows-up-from-bottom;
+	/* animation-name: popup-window-shows-up-from-bottom; */
 	transform-origin: center 15%;
 	}
 
@@ -2840,34 +2840,34 @@ dl.initially-collapsed {
 	}
 
 	.popup-window.regular-window-leave-from-above {
-		animation: regular-popup-window-leave-from-above 0.66s ease-in;
+		animation: regular-popup-window-leave-from-above 0.6s ease-in;
 	}
 
 	.popup-window.tall-window-leave-from-above {
-		animation: tall-popup-window-leave-from-above 0.66s ease-in;
+		animation: tall-popup-window-leave-from-above 0.6s ease-in;
 	}
 
 	.popup-window.tiny-window-leave-from-above {
-		animation: tiny-popup-window-leave-from-above 0.66s ease-in;
+		animation: tiny-popup-window-leave-from-above 0.6s ease-in;
 	}
 
 	@keyframes regular-popup-window-leave-from-above {
 		0%   {             transform-origin: center 40%; transform:                                rotateX(-3.6deg); }
-		18%  {                                           transform:                                rotateX( 2deg); }
+		20%  {                                           transform:                                rotateX( 2deg); }
 		66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
 		100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
 	}
 
 	@keyframes tall-popup-window-leave-from-above {
 		0%   {             transform-origin: center 40%; transform:                                rotateX(-7deg); }
-		18%  {                                           transform:                                rotateX(-2deg); }
+		20%  {                                           transform:                                rotateX(-5deg); }
 		66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
 		100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
 	}
 
 	@keyframes tiny-popup-window-leave-from-above {
 		0%   {             transform-origin: center 40%; transform:                                rotateX(-8deg); }
-		18%  {                                           transform:                                rotateX( 4deg); }
+		20%  {                                           transform:                                rotateX( 4deg); }
 		66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
 		100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
 	}

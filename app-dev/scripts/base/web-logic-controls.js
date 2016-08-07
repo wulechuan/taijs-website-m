@@ -1002,6 +1002,9 @@ window.webLogicControls = {};
 			var status = {};
 
 			var options = {
+				secondsToWaitBackPlateLeavingAniamtionEnd: 1.2,
+				secondsToWaitPopupWindowShowingAniamtionEnd: 0.7,
+				secondsToWaitPopupWindowLeavingAniamtionEnd: 0.9,
 				cssAnimationSupported: window.Modernizr.cssanimations
 			};
 
@@ -1066,7 +1069,7 @@ window.webLogicControls = {};
 						});
 
 						var $pw = $pl.find('.popup-window');
-						_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+						_clearCssClassNamesAboutShowingAnimationsForPopupWindow($pw);
 						_clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw);
 
 						if (typeof pl.status !== 'object') pl.status = {};
@@ -1075,7 +1078,7 @@ window.webLogicControls = {};
 				});
 			};
 
-			function _clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw) {
+			function _clearCssClassNamesAboutShowingAnimationsForPopupWindow($pw) {
 				$pw
 					.removeClass([
 						'shows-up-from-center',
@@ -1102,6 +1105,47 @@ window.webLogicControls = {};
 			}
 
 			function _showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow) {
+				function __backPlateOnLeavingAnimationEnd(event, invokedViaTimer) {
+					if (!bp.__LeavingAnimationNotEndedEitherWay) {
+						return true;
+					}
+
+					if (invokedViaTimer === true) C.w('Timer ends waiting of "leaving" animation end for ', bp);
+					bp.removeEventListener('animationend', __backPlateOnLeavingAnimationEnd);
+					$bp.hide();
+					$bp.removeClass('popup-layer-back-plate-leaving');
+
+					delete bp.__LeavingAnimationNotEndedEitherWay;
+				}
+
+				function __popupWindowOnLeavingAnimationEnd(event, invokedViaTimer) {
+					if (!pw.__LeavingAnimationNotEndedEitherWay) {
+						return true;
+					}
+
+					if (invokedViaTimer === true) C.w('Timer ends waiting of "leaving" animation end for ', pw);
+					pw.removeEventListener('animationend', __popupWindowOnLeavingAnimationEnd);
+					$pl.hide();
+					_clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw);
+
+					delete pw.__LeavingAnimationNotEndedEitherWay;
+				}
+
+				function __popupWindowOnShowingAnimationEnd(event, invokedViaTimer) {
+					if (!pw.__ShowingAnimationNotEndedEitherWay) {
+						return true;
+					}
+
+					if (invokedViaTimer === true) C.w('Timer ends waiting of "showing" animation end for ', pw);
+					pw.removeEventListener('animationend', __popupWindowOnShowingAnimationEnd);
+					_clearCssClassNamesAboutShowingAnimationsForPopupWindow($pw);
+
+					delete pw.__ShowingAnimationNotEndedEitherWay;
+				}
+
+
+
+
 				if (!popupLayerIdOrDom) return false;
 
 				var plId, pl;
@@ -1131,6 +1175,7 @@ window.webLogicControls = {};
 
 				var $pl = $(pl);
 				var $pw = $pl.find('.popup-window');
+				var pw = $pw[0];
 
 				var isPoliteMessage = $pl.hasClass('polite-message');
 				var isPopupPanel = $pl.hasClass('has-docked-panel');
@@ -1138,19 +1183,18 @@ window.webLogicControls = {};
 
 				if (!isToShow) {
 					var needToPlayLeavingAnimation = options.cssAnimationSupported &&
-						$pw.length > 0 && hasPopupWindowOrDialog &&
+						!!pw && hasPopupWindowOrDialog &&
 						!isPopupPanel && !isPoliteMessage
 					;
 					var needToHideBackPlate = !!bp && !isPoliteMessage;
 						
-					// _clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
-
 					if (needToPlayLeavingAnimation) {
-						$pw.one('animationend', function () {
-							$pl.hide();
-							_clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw);
-						});
-						_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
+						pw.__LeavingAnimationNotEndedEitherWay = true;
+						pw.addEventListener('animationend', __popupWindowOnLeavingAnimationEnd);
+						setTimeout(function () {
+							__popupWindowOnLeavingAnimationEnd(null, true);
+						}, options.secondsToWaitPopupWindowLeavingAniamtionEnd * 1000);
+
 						var pwHeight = $pw.outerHeight();
 						var chosenCssClassNameForLeavingAnimation = 'regular-window-leave-from-above';
 						if (pwHeight <= (window.innerHeight * 0.25)) {
@@ -1159,6 +1203,8 @@ window.webLogicControls = {};
 							chosenCssClassNameForLeavingAnimation = 'tall-window-leave-from-above';
 						}
 						// C.l(pwHeight, window.innerHeight, window.innerHeight * 0.25, chosenCssClassNameForLeavingAnimation);
+
+						// _clearCssClassNamesAboutShowingAnimationsForPopupWindow($pw);
 						$pw.addClass(chosenCssClassNameForLeavingAnimation);
 					} else {
 						if (isPoliteMessage) {
@@ -1166,16 +1212,17 @@ window.webLogicControls = {};
 						} else {
 							$pl.hide();					
 						}
-						// _clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
 					}
 
 					if (needToHideBackPlate) {
 						var needToHideBackPlateAfterAnimation = options.cssAnimationSupported;
 						if (needToHideBackPlateAfterAnimation) {
-							$bp.one('animationend', function () {
-								$bp.hide();
-								$bp.removeClass('popup-layer-back-plate-leaving');
-							});
+							bp.__LeavingAnimationNotEndedEitherWay = true;
+							bp.addEventListener('animationend', __backPlateOnLeavingAnimationEnd);
+							setTimeout(function () {
+								__backPlateOnLeavingAnimationEnd(null, true);
+							}, options.secondsToWaitBackPlateLeavingAniamtionEnd * 1000);
+
 							$bp.addClass('popup-layer-back-plate-leaving');
 						} else {
 							$bp.hide();
@@ -1185,19 +1232,17 @@ window.webLogicControls = {};
 					var needToShowBackPlate = !!bp && !isPoliteMessage;
 					if (needToShowBackPlate) $bp.show();
 
-					// _clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
-
 					var needToPlayShowingAnimation = options.cssAnimationSupported &&
-						$pw.length > 0 && hasPopupWindowOrDialog &&
+						!!pw && hasPopupWindowOrDialog &&
 						!isPopupPanel
 					;
 
 					if (needToPlayShowingAnimation) { // prepare for animation
 						var needToAssignCssClassNameForAnimation = !isPoliteMessage;
 
-						var chosenCssClassNameForShowingAnimation; // at present, the default animation is built-in via css
+						var chosenCssClassNameForShowingAnimation;
 
-						var needToDecideShowingUpDirection = needToAssignCssClassNameForAnimation;
+						var needToDecideShowingUpDirection = needToAssignCssClassNameForAnimation && true; // always do this
 						if (needToDecideShowingUpDirection) {
 							chosenCssClassNameForShowingAnimation = _decideShowingUpSourceDirection(eventOfShow);
 						}
@@ -1206,9 +1251,12 @@ window.webLogicControls = {};
 							$pw.addClass(chosenCssClassNameForShowingAnimation);
 						}
 
-						// $pw.one('animationend', function () {
-						// 	_clearCssClassNamesAboutShowingUpAnimationsForPopupWindow($pw);
-						// });
+
+						pw.__ShowingAnimationNotEndedEitherWay = true;
+						pw.addEventListener('animationend', __popupWindowOnShowingAnimationEnd);
+						setTimeout(function () {
+							__popupWindowOnShowingAnimationEnd(null, true);
+						}, options.secondsToWaitPopupWindowShowingAniamtionEnd * 1000);
 					} else {
 						// nothing to prepare for
 					}
@@ -1245,7 +1293,7 @@ window.webLogicControls = {};
 			}
 
 			function _decideShowingUpSourceDirection(event) {
-				var cssClass = 'shows-up-from-center';
+				var cssClass = 'shows-up-from-bottom';
 
 				if (typeof event !== 'object' || typeof event.pageX !== 'number' || typeof event.pageY !== 'number') {
 					return cssClass;
