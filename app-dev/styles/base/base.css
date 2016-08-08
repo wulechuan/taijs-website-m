@@ -2083,7 +2083,6 @@ ol.f-list, ul.f-list { /* function list */
 		}
 
 	.progress-stops.progress-stops-style-decimal {
-		font-size: 0.7rem;
 		counter-reset: progressIndex;
 		}
 		.progress-stops.progress-stops-style-decimal .progress-stop,
@@ -2094,10 +2093,11 @@ ol.f-list, ul.f-list { /* function list */
 		.progress-stops.progress-stops-style-decimal           > li::before {
 			content: counter(progressIndex);
 			border-width: 1px;
-			width: 0.76rem;
-			height: 0.76rem;
-			line-height: normal;
-			margin: -0.38rem;
+			font-size: 0.76rem;
+			line-height: 1;
+			width: 1em;
+			height: 1em;
+			margin: -0.5em;
 			background-color: transparent!important;
 			border-color: initial;
 		}

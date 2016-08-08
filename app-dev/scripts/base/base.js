@@ -17,39 +17,46 @@
 	UI.popupLayersManager = wlc.UI.popupLayersManager;
 
 	$('.page').each(function () {
-		commonSetupAciontsForOnePage(this);
+		var page = this;
+		commonSetupAciontsForOnePage(page);
+		setTimeout(function () {
+			commonSetupAciontsForOnePage(page); // twice to ensure everything get initialized
+		}, 600);
 	});
 
 
 	function commonSetupAciontsForOnePage(page) {
 		if (!(page instanceof Node)) return false;
 
-		if (!!page.status && page.status.commonSetupHasBeenRun === true) return true;
+		var isFirstTime = true;
+		if (!!page.status && page.status.commonSetupHasBeenRun === true) isFirstTime = false;
 
 		if (typeof page.status !== 'object') page.status = {};
 
 		var $page = $(page);
 
-		setupPageBodyMinHeightForPage($page);
+		setupPageBodyMinHeightForPage($page, isFirstTime);
 		setupAllPopupLayers(page);
-		setupAllAutoConstructTabPanelSets($page);
-		setupAllNavBackButtons($page);
-		setupAllButtonsWithInlineClickAction($page);
-		setupAllStaticProgressRings($page);
-		setupAllInputFieldsForTheirFillingStatus($page);
-		setupAllClearInputButtons($page);
-		setupAllContentsWithDesiredStringFormat($page);
-		setupAllSensitiveContentBlocks($page);
-		setupAllChineseNumbersPresenters($page);
-		setupAllMenuItemsThatHasSubMenu($page);
+		setupAllAutoConstructTabPanelSets($page, isFirstTime);
+		setupAllNavBackButtons($page, isFirstTime);
+		setupAllButtonsWithInlineClickAction($page, isFirstTime);
+		setupAllStaticProgressRings($page, isFirstTime);
+		setupAllInputFieldsForTheirFillingStatus($page, isFirstTime);
+		setupAllClearInputButtons($page, isFirstTime);
+		setupAllContentsWithDesiredStringFormat($page, isFirstTime);
+		setupAllChineseNumbersPresenters($page, isFirstTime);
+		setupAllMenuItemsThatHasSubMenu($page, isFirstTime);
+		setupAllSensitiveContentBlocks($page, isFirstTime);
 
-		page.status.commonSetupHasBeenRun = true;
+		page.status.commonSetupHasBeenRun = true; // always update this status
 
-		function setupPageBodyMinHeightForPage($page) {
+		function setupPageBodyMinHeightForPage($page, isFirstTime) {
 			var pageBody = $page.find('.page-body')[0];
 			if (!page || !pageBody) {
 				return;
 			}
+
+			if (!isFirstTime) return true;
 
 			var pageBodyOffsetY = $page.offset().top;
 			var shouldSetBodyContent = false;
@@ -87,11 +94,13 @@
 			}
 		}
 
-		function setupAllPopupLayers(page) {
+		function setupAllPopupLayers(page, isFirstTime) {
 			UI.popupLayersManager.processAllUnder(page);
 		}
 
-		function setupAllAutoConstructTabPanelSets($page) {
+		function setupAllAutoConstructTabPanelSets($page, isFirstTime) {
+			if (!isFirstTime) return true;
+
 			$page.find('.tab-panel-set').each(function () {
 				if (this.dataset.doNotAutoConstruct) {
 					// C.l('Skipping auto constructing TabPanelSet from:', this);
@@ -103,7 +112,9 @@
 			});
 		}
 
-		function setupAllNavBackButtons($page) {
+		function setupAllNavBackButtons($page, isFirstTime) {
+			if (!isFirstTime) return true;
+
 			$page.find('.nav-back[data-back-target="history"]').on('click', function (event) {
 				event.preventDefault();
 				event.stopPropagation();
@@ -111,7 +122,9 @@
 			});
 		}
 
-		function setupAllButtonsWithInlineClickAction($page) {
+		function setupAllButtonsWithInlineClickAction($page, isFirstTime) {
+			if (!isFirstTime) return true;
+
 			$page.find('[data-click-action]').each(function () {
 				var button = this;
 				var inlineActionString = this.getAttribute('data-click-action');
@@ -153,13 +166,17 @@
 		}
 
 		function setupAllStaticProgressRings($page) {
+			if (!isFirstTime) return true;
+
 			$page.find('.progress-rings').each(function () {
 				if (this.getAttribute('data-dynamic')) return;
 				new wlc.UI.ProgressRings(this);
 			});
 		}
 
-		function setupAllInputFieldsForTheirFillingStatus($page) {
+		function setupAllInputFieldsForTheirFillingStatus($page, isFirstTime) {
+			if (!isFirstTime) return true;
+
 			$page.find('input, textarea, select').each(function () {
 				function _updateInputValueStatus(field) {
 					if (!field) {
@@ -221,7 +238,9 @@
 			});
 		}
 
-		function setupAllClearInputButtons($page) {
+		function setupAllClearInputButtons($page, isFirstTime) {
+			if (!isFirstTime) return true;
+
 			$page.find('button[button-action="clear-input-field"][for-input]').each(function () {
 				function updateClearButtonStatusForInputField($clearButton, valueStatus) {
 					valueStatus = valueStatus || { isValid: true };
@@ -287,7 +306,9 @@
 			});
 		}
 
-		function setupAllContentsWithDesiredStringFormat($page) {
+		function setupAllContentsWithDesiredStringFormat($page, isFirstTime) {
+			if (!isFirstTime) return true;
+
 			$page.find('[data-text-format]').each(function () {
 				var tnlc = this.tagName.toLowerCase();
 				var contentIsFromUserInput = false;
@@ -445,25 +466,9 @@
 			});
 		}
 
-		function setupAllSensitiveContentBlocks($page) {
-			$page.find('.sensitive-content').each(function () {
-				var $sensitiveContentBlock = $(this);
+		function setupAllChineseNumbersPresenters($page, isFirstTime) {
+			if (!isFirstTime) return true;
 
-				var $toggleIcon = $sensitiveContentBlock.find('.sensitive-content-status-icon');
-				if ($toggleIcon.length < 1) {
-					C.e('No toggle icon found under a ".sensitive-content" block.');
-					return false;
-				}
-
-				$sensitiveContentBlock.addClass('sensitive-content-shown');
-
-				$toggleIcon.on('click', function () {
-					$sensitiveContentBlock.toggleClass('sensitive-content-shown');
-				});
-			});
-		}
-
-		function setupAllChineseNumbersPresenters($page) {
 			$page.find('.chinese-number[for-element]').each(function () {
 				var servedElementId = this.getAttribute('for-element');
 				if (!servedElementId) return false;
@@ -526,7 +531,9 @@
 			});
 		}
 
-		function setupAllMenuItemsThatHasSubMenu($page) {
+		function setupAllMenuItemsThatHasSubMenu($page, isFirstTime) {
+			if (!isFirstTime) return true;
+
 			$page.find('.menu-item.has-sub-menu').each(function () {
 				var menuItem = this;
 				var $menuItem = $(this);
@@ -555,6 +562,25 @@
 					} else {
 						$(menuItem).addClass('coupled-shown');
 					}
+				}
+			});
+		}
+
+		function setupAllSensitiveContentBlocks($page, isFirstTime) {
+			$page.find('.sensitive-content').each(function () {
+				var $sensitiveContentBlock = $(this);
+
+				var $toggleIcon = $sensitiveContentBlock.find('.sensitive-content-status-icon');
+				if ($toggleIcon.length < 1) {
+					C.e('No toggle icon found under a ".sensitive-content" block.');
+					return false;
+				}
+
+				$sensitiveContentBlock.addClass('sensitive-content-shown');
+				if (isFirstTime === true) {
+					$toggleIcon.on('click', function () {
+						$sensitiveContentBlock.toggleClass('sensitive-content-shown');
+					});
 				}
 			});
 		}
