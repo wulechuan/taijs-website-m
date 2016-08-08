@@ -2290,7 +2290,7 @@ window.webLogicControls = {};
 
 
 				var R = WCU.save.method(status, 'scanForTips', options, false);
-				if (R.valueHasBeenChanged) {
+				if (isFirstTime || R.valueHasBeenChanged) {
 					this.scanForTips();
 					this.elements.tips = {
 						default: elements.tips.default,
@@ -2624,18 +2624,18 @@ window.webLogicControls = {};
 
 			}
 
-			function showOrHideInputTip(inputTip, isDefaultTip, isToShow) {
+			function showOrHideInputTip(tipElement, isDefaultTip, isToShow) {
 				if (!!isToShow) {
 					if (!!isDefaultTip) {
-						$(inputTip).removeClass('hidden');
+						$(tipElement).removeClass('hidden');
 					} else {
-						$(inputTip).addClass('shown');
+						$(tipElement).addClass('shown');
 					}
 				} else {
 					if (!!isDefaultTip) {
-						$(inputTip).addClass('hidden');
+						$(tipElement).addClass('hidden');
 					} else {
-						$(inputTip).removeClass('shown');
+						$(tipElement).removeClass('shown');
 					}
 				}
 			}
