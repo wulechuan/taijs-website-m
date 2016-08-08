@@ -43,12 +43,12 @@ $(function () { // fake logics
 	var $pl2 = $('#pl-choose-bank-card');
 
 
-
 	new wlc.UI.SingleCharacterInputsSet($pl1.find('.single-char-inputs-set')[0], {
 		onAllInputsValid: function (aggregatedValue, status, isCheckingOnLoad) {
-			console.log('AWESOME! final value:', aggregatedValue);
-			if (isCheckingOnLoad) console.log('What\'s better, we did nothing to get this!');
-			location.assign('product-buying-succeeded.html');
+			UI.popupLayersManager.show('plpm-trading-password-verified');
+			setTimeout(function () {
+				location.assign('product-buying-succeeded.html');
+			}, 1500);
 		}
 	});
 

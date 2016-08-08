@@ -163,6 +163,10 @@ article.message {
 	transition-property: visibility, opacity;
 	transition-duration: 0.30s;
 	}
+	.input-tip.shown {
+		visibility: visible;
+		opacity: 1;
+		}
 
 
 .single-char-inputs-set {
@@ -1349,9 +1353,16 @@ article.message {
 				opacity: 1;
 			}
 
-			.row.input-field input.value-invalid:focus ~ .input-tip.default {
-				opacity: 0!important;
+			.row.input-field input:focus           ~ .input-tip.default.hidden,
+			.row.input-field input.non-empty-field ~ .input-tip.default.hidden {
+				visibility: hidden;
+				opacity: 0;
 			}
+
+			/* .row.input-field input.value-invalid:focus ~ .input-tip.default {
+				visibility: hidden;
+				opacity: 0!important;
+			} */
 
 
 	.row .left,

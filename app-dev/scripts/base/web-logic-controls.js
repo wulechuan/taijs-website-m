@@ -1184,8 +1184,6 @@ window.webLogicControls = {};
 				}
 
 
-
-
 				if (!popupLayerIdOrDom) return false;
 
 				var plId, pl;
@@ -1780,7 +1778,7 @@ window.webLogicControls = {};
 			var $allInputs;
 
 			this.options = {
-
+				shouldHandleCaret: false
 			};
 
 			this.validatorsForEachInput = [];
@@ -1908,13 +1906,17 @@ window.webLogicControls = {};
 			function inputOnFocus(event) {
 				var input = event.target;
 				// var inputIndex = parseInt(input.dataset.inputIndex);
-				updateCaretPositionForInput.call(this, input);
+				if (this.options.shouldHandleCaret) {
+					updateCaretPositionForInput.call(this, input);
+				}
 			}
 
 			function inputOnBlur(event) {
 				var input = event.target;
 				// var inputIndex = parseInt(input.dataset.inputIndex);
-				clearCaretPositionForInput(input);
+				if (this.options.shouldHandleCaret) {
+					clearCaretPositionForInput(input);
+				}
 			}
 
 			function inputOnKeyDown(event) {

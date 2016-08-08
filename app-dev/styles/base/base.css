@@ -2779,6 +2779,13 @@ dl.initially-collapsed {
 		white-space: normal;
 	}
 
+	.popup-layer.has-docked-panel {
+		z-index: 10;
+	}
+	.popup-layer.polite-message {
+		z-index: 20;
+	}
+
 	.popup-layer.has-docked-panel::before,
 	.popup-layer.polite-message::before,
 	.popup-layer.has-no-popup-window::before {

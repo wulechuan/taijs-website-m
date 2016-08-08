@@ -3,18 +3,69 @@
 	var WCU = wlc.CoreUtilities;
 	var UI = wlc.UI;
 
-	var app = new (function () {
+	function Application() {
 		this.data = {
 			URIParameters: wlc.generalTools.URI.evaluateParameters()
 		};
-	})();
 
+		this.input = {
+			validator: {
+				fixedIncomeInvestmentAmount: function () {
+					var value = parseFloat(this.value);
+					var valueString = value+'';
+					var errorInfoElement;
+
+					// C.w('Getting criteria from HTML is NOT safe!');
+					var min = parseFloat(this.getAttribute('data-value-min'));
+					var max = parseFloat(this.getAttribute('data-value-max'));
+					if (isNaN(value)) return false;
+
+					var isInteger = !valueString.match(/\./);
+
+					var isWhole100 = isInteger && !!valueString.match(/\d+00$/);
+
+					if (!isNaN(min) && !isNaN(max)) {
+						var low = Math.min(min, max);
+						var high = Math.max(min, max);
+						min = low;
+						max = high;
+					}
+
+					// C.l(value, min, max);
+
+					var isValid = isWhole100;
+
+					if (!isNaN(min)) {
+						if (value < min) {
+							isValid = false;
+						} else {
+						}
+					}
+
+					if (!isNaN(max)) {
+						if (value > max) {
+							errorInfoElement = $('.input-tip.error[data-subject="amount-too-high"]')[0];
+							isValid = false;
+						}
+					}
+
+					return {
+						isValid: isValid,
+						errorInfoElement: errorInfoElement
+					};
+				}
+			}
+		};
+	}
+
+	var app = new Application();
 	if (typeof window.taijs !== 'object') window.taijs = {};
 	var taijs = window.taijs;
 	taijs.app = app;
+	// C.l(taijs.app);
 
 
-	UI.popupLayersManager = wlc.UI.popupLayersManager;
+
 
 	$('.page').each(function () {
 		var page = this;
@@ -23,8 +74,6 @@
 			commonSetupAciontsForOnePage(page); // twice to ensure everything get initialized
 		}, 600);
 	});
-
-
 	function commonSetupAciontsForOnePage(page) {
 		if (!(page instanceof Node)) return false;
 
@@ -97,7 +146,7 @@
 			}
 		}
 
-		function setupAllPopupLayers(page, isFirstTime) {
+		function setupAllPopupLayers(page/*, isFirstTime*/) {
 			UI.popupLayersManager.processAllUnder(page);
 		}
 
@@ -593,6 +642,8 @@
 
 
 (function () { // logics which are not robust or completed
+	var app = window.taijs.app;
+
 	$('form').filter(function (index, form) {
 		return !form.hasAttribute('novalidate');
 	}).each(function () {
@@ -609,11 +660,12 @@
 			return (ce === 'true') && el.hasAttribute('required');
 		});
 
-		var buttonSubmit =$(this.elements).filter(function (index, el) {
+		var $submitButtons =$(this.elements).filter(function (index, el) {
 			var attr =  el.getAttribute('button-action');
 			if (attr) attr = attr.toLowerCase();
 			return attr==='submit';
-		})[0];
+		});
+		// C.l($submitButtons);
 
 
 		var allInputsAreValid = false;
@@ -629,31 +681,143 @@
 
 
 		$allRequiredInputs.each(function (index) {
-			var tnlc = this.tagName.toLowerCase();
+			function evaluateValidatorFunctionFromHTMLAttribute(element) {
+				if (!(element instanceof Node)) return;
 
-			function validatorForInputOrTextarea() {
-				allInputsValidation[index] = this.value.replace(/^\s+/, '').replace(/\s+$/, '').length > 0;
-				_validateAllRequiredInputs();
+				var setup = element.getAttribute('data-validator');
+				if (typeof setup !== 'string' || setup.length < 3) return;
+
+				var validPathSoFar = '';
+				var failedToFound = false;
+
+				var keys = setup.split('.');
+
+				var validator = {};
+				validator[keys[0]] = keys[0];
+
+				if (keys[0] === 'app') {
+					validator[keys[0]] = app;
+				}
+
+				var key;
+				for (var i = 0; i < keys.length; i++) {
+					key = keys[i];
+					validator = validator[key];
+					// C.l('['+i+'] "'+validPathSoFar+'"', typeof validator);
+					if ((i < (keys.length - 1)) && typeof validator !== 'object') {
+						failedToFound = true;
+						break;
+					}
+					validPathSoFar += (i===0 ? '' : '.') + key;
+				}
+
+				failedToFound = failedToFound || (typeof validator !== 'function');
+				if (failedToFound) {
+					C.e('Fail to found function "'+setup+'" ('+validPathSoFar+' has no property named "'+key+'")');
+					return;
+				}
+
+				// C.l('Evaluated validator function:', validator);
+				return validator;
 			}
 
+			function textInputFieldDefaultValidator() {
+				return this.value.replace(/^\s+/, '').replace(/\s+$/, '').length > 0;
+			}
+
+			function validateInputOfIndex(index, input, validator) {
+				var validateState = {
+					isValid: true,
+					errorInfoElement: null
+				};
+
+				if (typeof validator === 'function') {
+					var result = validator.call(input);
+					if (typeof result === 'boolean') {
+						validateState.isValid = result;
+					} else if (typeof result !== 'object' || !result || typeof result.isValid !== 'boolean') {
+						C.e('Invalid return value of a input value validator. The return MUST be either a boolean or an object which contains a boolean property with property name "isValid".');
+					} else {
+						validateState.isValid = result.isValid;
+						if (result.errorInfoElement instanceof Node) validateState.errorInfoElement = result.errorInfoElement;
+					}
+				}
+
+				allInputsValidation[index] = validateState.isValid;
+				if (!validateState.isValid) {
+					$(input).addClass('value-invalid');
+				} else {
+					$(input).removeClass('value-invalid');
+				}
+
+				// C.l(validateState);
+
+				var $defaultInputTip = $(input.parentNode).find('.input-tip.default[for="'+input.id+'"]');
+				if (!validateState.isValid && validateState.errorInfoElement) {
+					showOrHideInputTip($defaultInputTip, true, false);
+					showOrHideInputTip(validateState.errorInfoElement, false, true);
+				} else {
+					showOrHideInputTip($defaultInputTip, true, true);
+					showOrHideInputTip($(input.parentNode).find('.input-tip.error[for="'+input.id+'"]'), false, false);
+				}
+
+				_validateAllRequiredInputs();
+
+				function showOrHideInputTip(inputTip, isDefaultTip, isToShow) {
+					if (!!isToShow) {
+						if (!!isDefaultTip) {
+							$(inputTip).removeClass('hidden');
+						} else {
+							$(inputTip).addClass('shown');
+						}
+					} else {
+						if (!!isDefaultTip) {
+							$(inputTip).addClass('hidden');
+						} else {
+							$(inputTip).removeClass('shown');
+						}
+					}
+				}
+			}
+
+			function textInputFieldOnValueChange(index/*, event*/) {
+				validateInputOfIndex(index, this, specifiedValidator);
+			}
+
+
+
+
+			var specifiedValidator = evaluateValidatorFunctionFromHTMLAttribute(this);
+
+			var tnlc = this.tagName.toLowerCase();
+			var isTextInputField = true;
 			if (tnlc === 'input') {
 				var type = this.type.toLowerCase();
 				if (type === 'checkbox') {
+					isTextInputField = false;
 					$(this).on('change', function () {
 						allInputsValidation[index] = this.checked;
 						_validateAllRequiredInputs();
 					});
+				} else if (type === 'radio') {
+					isTextInputField = false;
+					C.e('Radio validation NOT handled!');
+					allInputsValidation[index] = true;
+					_validateAllRequiredInputs();
 				} else {
-					$(this).on('input', validatorForInputOrTextarea.bind(this));
-					this.onUpdateAtHiddenState = validatorForInputOrTextarea.bind(this);
 				}
 			} else if (tnlc === 'textarea') {
-				$(this).on('input', validatorForInputOrTextarea.bind(this));
-				this.onUpdateAtHiddenState = validatorForInputOrTextarea.bind(this);
-			} else {
+			} else { // contentEditable
 				// $(this).on('input', validatorForContentEditableElement.bind(this));
 				// this.onUpdateAtHiddenState = function () {
 				// }
+			}
+
+			if (isTextInputField) {
+				if (typeof specifiedValidator !== 'function') specifiedValidator = textInputFieldDefaultValidator;
+
+				$(this).on('input', textInputFieldOnValueChange.bind(this, index));
+				this.onUpdateAtHiddenState = textInputFieldOnValueChange.bind(this, index);
 			}
 		});
 
@@ -666,7 +830,9 @@
 				allInputsAreValid = allInputsAreValid && allInputsValidation[i];
 			}
 
-			if (buttonSubmit) buttonSubmit.disabled = !allInputsAreValid;
+			$submitButtons.each(function () {
+				this.disabled = !allInputsAreValid;
+			});
 		}
 	});
 })();
@@ -674,33 +840,33 @@
 
 
 (function () { // fake logics
-	var wlc = window.webLogicControls;
-	var UI = wlc.UI;
-
 	$('a[href$="index.html"]').each(function () {
 		this.href += '?login=true';
 	});
 
+	// var wlc = window.webLogicControls;
+	// var UI = wlc.UI;
+
 	// popupSomeWindowForTest();
 
-	function popupSomeWindowForTest() {
-		var pls = [
-			'pl-message-credit-limitation-introduction',
-			'plpm-modification-succeeded',
-			// 'pl-message-intro-jia-xi-quan',
-			// 'pl-message-intro-te-quan-ben-jin',
-			// 'pl-message-intro-ti-yan-jin',
-			// 'pl-available-tickets-list',
-			// 'pl-trading-password-incorrect',
-			// 'pl-product-terminated',
-			// 'pl-input-image-vcode'
-		];
+	// function popupSomeWindowForTest() {
+	// 	var pls = [
+	// 		'pl-message-credit-limitation-introduction',
+	// 		'plpm-modification-succeeded',
+	// 		// 'pl-message-intro-jia-xi-quan',
+	// 		// 'pl-message-intro-te-quan-ben-jin',
+	// 		// 'pl-message-intro-ti-yan-jin',
+	// 		// 'pl-available-tickets-list',
+	// 		// 'pl-trading-password-incorrect',
+	// 		// 'pl-product-terminated',
+	// 		// 'pl-input-image-vcode'
+	// 	];
 
-		var currentPL = 0;
-		$('.page-body').on('click', function () {
-			UI.popupLayersManager.show(pls[currentPL]);
-			currentPL++;
-			if (currentPL >= pls.length) currentPL -= pls.length;
-		});
-	}
+	// 	var currentPL = 0;
+	// 	$('.page-body').on('click', function () {
+	// 		UI.popupLayersManager.show(pls[currentPL]);
+	// 		currentPL++;
+	// 		if (currentPL >= pls.length) currentPL -= pls.length;
+	// 	});
+	// }
 })();

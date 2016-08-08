@@ -22,8 +22,8 @@
 		</div>		
 	</header>
 
+	<form name="newbiebuying" action="newbie-buying-succeeded.html">
 	<div class="page-body">
-		<form name="newbiebuying" action="newbie-buying-succeeded.html">
 		<div class="f-block snap-top">
 			<div class="f-block-body">
 				<div class="row caption-bar">
@@ -50,9 +50,10 @@
 						<input placeholder="请输入投资金额"
 							data-placeholder-prefix="请输入投资金额，" type="number" data-text-format="currency"
 							name="amount" required
+							data-validator="app.input.validator.fixedIncomeInvestmentAmount" data-value-min="1000" data-value-max="150000"
 									   id="newbie-buying-amount">
 						<label        for="newbie-buying-amount" class="input-tip default">投资金额</label>
-						<label        for="newbie-buying-amount" class="input-tip error" data-subject="bank-card-number-invalid">最高投资金额150,000.00元</label>
+						<label        for="newbie-buying-amount" class="input-tip error" data-subject="amount-too-high">最高投资金额150,000.00元</label>
 						<button for-input="newbie-buying-amount"
 							button-action="clear-input-field" type="button"></button>
 					</div>
@@ -80,16 +81,16 @@
 				</article>
 			</div>
 		</div>
-		</form>
 
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
 
 	<footer class="page-footer">
 		<div class="row buttons-in-single-line">
-			<button class="rounded-corners size-std-wide" button-action="buy">购买</button>
+			<button class="rounded-corners size-std-wide" button-action="submit">购买</button>
 		</div>
 	</footer>
+	</form>
 
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
 		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
