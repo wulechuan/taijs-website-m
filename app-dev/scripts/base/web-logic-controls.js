@@ -865,6 +865,54 @@ window.webLogicControls = {};
 	}).call(DOM);
 
 
+	var generalTools = {};
+	this.generalTools = generalTools;
+	(function () {
+		this.URI = {
+			evaluateParameters: function () {
+				var h = window.location.href;
+				var p; // fisrt position of '?' and then parameters sub string
+				var s; // position of '#'
+				var urlP = {};
+				var i, pair;
+
+				p = h.indexOf('\?');
+				if (p<0) return urlP;
+
+				s = h.indexOf('#');
+				if (s<p) s = h.length; // in case '#' comes before '?', which is illegal, but we are still trying to handle that
+
+				p = h.slice(p+1,s);
+				p = p.split('&');
+				for (i = 0; i < p.length; i++) {
+					pair = p[i].split('=');
+					if (pair[0].length===0) continue;
+					if (pair.length===1) pair.push('');
+					urlP[pair[0]] = decodeURIComponent(pair[1]);
+				};
+
+				return urlP;
+			},
+
+			generateURIComponentFromObject: function(parameters) {
+				parameters = parameters || {};
+
+				var parametersURI = '';
+				var i=0;
+
+				for (var key in parameters) {
+					parametersURI += key + '=' + parameters[key] + '&'
+					i++;
+				}
+
+				parametersURI = encodeURIComponent(parametersURI.slice(0,-1));
+				if (i>0) parametersURI = '?' + parametersURI;
+				return parametersURI;
+			}
+		};
+	}).call(generalTools);
+
+
 	var UI = {};
 	this.UI = UI;
 	(function () { // UI

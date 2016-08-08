@@ -84,8 +84,8 @@ $(function () { // fake logic
 		};
 	}
 
-	var urlParameters = processParametersPassedIn();
-	if (urlParameters.login) {
+	var URIParameters = processParametersPassedIn();
+	if (URIParameters.login) {
 		$('body').addClass('user-has-logged-in');
 	} else {
 		$('body').removeClass('user-has-logged-in');

@@ -1,36 +1,18 @@
-(function () { // logics which are not robust or completed
-	function processParametersPassedIn() {
-		var qString = location.href.match(/\?[^#]*/);
-		if (qString) qString = qString[0].slice(1);
-
-		var qKVPairs = [];
-		if (qString) {
-			qKVPairs = qString.split('&');
-		}
-
-		var tabLabel; // id of tabLabel to show if any
-
-		for (var i in qKVPairs){
-			var kvpString = qKVPairs[i];
-			var kvp = kvpString.split('=');
-			if (kvp[0] === 'tabLabel') tabLabel = kvp[1];
-		}
-
-		return {
-			tabLabel: tabLabel
-		};
-	}
-
-	var urlParameters = processParametersPassedIn();
-	window.urlParameters = urlParameters;
-})();
-
-
-
-(function () { // permanent logics
+f(function () { // permanent logics
 	var wlc = window.webLogicControls;
 	var WCU = wlc.CoreUtilities;
 	var UI = wlc.UI;
+
+	var app = new (function () {
+		this.data = {
+			URIParameters: wlc.generalTools.URI.evaluateParameters()
+		};
+	})();
+
+	if (typeof window.taijs !== 'object') window.taijs = {};
+	var taijs = window.taijs;
+	taijs.app = app;
+
 
 	UI.popupLayersManager = wlc.UI.popupLayersManager;
 
@@ -111,7 +93,7 @@
 					return true;
 				}
 				new wlc.UI.TabPanelSet(this, {
-					initTab: window.urlParameters.tabLabel
+					initTab: app.data.URIParameters.tabLabel
 				});
 			});
 		}

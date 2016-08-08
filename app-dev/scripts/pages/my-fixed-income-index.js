@@ -1,4 +1,5 @@
 $(function () {
+	var app = taijs.app;
 	var wlc = window.webLogicControls;
 	var UI = wlc.UI;
 
@@ -43,7 +44,7 @@ $(function () {
 	(function _setupTabPanelSet() {
 		var tabPanelSet = new wlc.UI.TabPanelSet($page.find('.tab-panel-set')[0], {
 			doNotShowPanelAtInit: true,
-			// initTab: window.urlParameters.tabLabel
+			// initTab: app.data.URIParameters.tabLabel
 		});
 		if (tabPanelSet.hasBeenDestroied) {
 			return;
@@ -74,7 +75,7 @@ $(function () {
 			};
 		}
 
-		tabPanelSet.showPanelViaTab(window.urlParameters.tabLabel || 0);
+		tabPanelSet.showPanelViaTab(app.data.URIParameters.tabLabel || 0);
 
 
 
