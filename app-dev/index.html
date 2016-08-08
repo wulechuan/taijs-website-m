@@ -22,10 +22,30 @@
 			height: 3.9rem;
 		}
 
-		.banner .carousel .carousel-slides > li:nth-child(1) .carousel-bg {
+		.banner .carousel .swiper-slide .content{
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+		.banner .carousel .swiper-slide .content .carousel-fg {
+			position: absolute;
+			left: 0;
+			top: 0;
+			height: 100%;
+			width: 100%;
+			z-index: 10;
+
+			background-repeat: no-repeat;
+			background-size: auto 100%;
+			background-position: 5% -2%;
+		}
+		.banner .carousel .carousel-slides > li .carousel-bg {
+			background-repeat: no-repeat;
 			background-size: auto 100%;
 			background-position: right center;
-			}
+		}
+
+
 			.banner .carousel .carousel-slides > li:nth-child(1) > .content article {
 				font-family: 'Microsoft Yahei UI';
 				font-size: 0.65rem;
@@ -43,12 +63,7 @@
 				color: #fc272b;
 			}
 
-		.banner .carousel .carousel-slides > li:nth-child(2) .carousel-bg {
-			background-size: auto 100%;
-			background-position: right center;
-			}
-			.banner .carousel .carousel-slides > li:nth-child(2) > .content article h1 {
-			}
+
 
 		.promotion-bar {
 			font-size: 0.7rem;
@@ -133,7 +148,7 @@
 			<div class="carousel swiper-container">
 				<ul class="swiper-wrapper carousel-slides">
 					<li class="swiper-slide">
-						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-1.png);"></div>
+						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-1-right.png);"></div>
 						<div class="content">
 							<article>
 								<h1>1-100元 <em>现金红包</em></h1>
@@ -142,28 +157,23 @@
 						</div>
 					</li>
 					<li class="swiper-slide">
-						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-2.png);"></div>
-						<div class="content"></div>
+						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-2-right.jpg);"></div>
+						<div class="content"><div class="carousel-fg" style="background-image: url(images/pages/index/carousel-2-left.png);"></div></div>
 					</li>
 					<li class="swiper-slide">
-						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-3.png);"></div>
-						<div class="content"></div>
+						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-3-right.png);"></div>
+						<div class="content"><div class="carousel-fg" style="background-image: url(images/pages/index/carousel-3-left.png);"></div></div>
 					</li>
 					<li class="swiper-slide">
-						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-4.png);"></div>
-						<div class="content"></div>
+						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-4-right.png);"></div>
+						<div class="content"><div class="carousel-fg" style="background-image: url(images/pages/index/carousel-4-left.png);"></div></div>
 					</li>
 					<li class="swiper-slide">
-						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-5.png);"></div>
-						<div class="content"></div>
-					</li>
-					<li class="swiper-slide">
-						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-6.png);"></div>
-						<div class="content"></div>
+						<div class="carousel-bg" style="background-image: url(images/pages/index/carousel-5-right.png);"></div>
+						<div class="content"><div class="carousel-fg" style="background-image: url(images/pages/index/carousel-5-left.png);"></div></div>
 					</li>
 				</ul>
 				<div class="carousel-nav swiper-pagination"
-					><button></button
 					><button></button
 					><button></button
 					><button></button
@@ -239,7 +249,7 @@
 				</div>
 				<div class="row full-width buttons-in-single-line hero-content-block-call-to-action">
 					<a href="html/newbie-call-to-action.html"
-						role="button" class="size-std-wide simple-look"><em>立即购买</em></a>
+						role="button" class="size-std-wide simple-look"><em>立即抢购</em></a>
 				</div>
 			</div>
 		</div>

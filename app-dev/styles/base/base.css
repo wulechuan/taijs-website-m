@@ -3122,12 +3122,12 @@ dl.initially-collapsed {
 		margin: 0;
 		padding: 0;
 		border: 0;
-		overflow: hidden;
+		overflow: visible; /* for Swiper.js */
 
 		}
 		.carousel-slides > li {
 			list-style: none;
-			position: absolute;
+			/* position: absolute; */
 			display: block;
 			box-sizing: border-box;
 			width: 100%;
