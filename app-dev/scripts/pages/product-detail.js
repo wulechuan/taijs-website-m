@@ -3,7 +3,12 @@ $(function () {
 	var wlc = window.webLogicControls;
 	var UI = wlc.UI;
 
-	var productStatus = app.data.URIParameters.productStatus;
+	var URIProductCaption = app.data.URIParameters.productCaption;
+	if (typeof URIProductCaption === 'string') {
+		URIProductCaption = URIProductCaption.replace(/^\s*['"']\s*/, '').replace(/\s*['"']\s*$/, '');
+	}
+	var URIProductStatus = app.data.URIParameters.productStatus;
+	C.l(URIProductCaption, URIProductStatus);
 
 	var buttonIds = [
 		'#product-detail-footer-button-count-down',
@@ -12,7 +17,7 @@ $(function () {
 	];
 	var buttonIdToShow;
 
-	switch (productStatus) {
+	switch (URIProductStatus) {
 		case 'comingSoon':
 			buttonIdToShow = buttonIds[0];
 			break;
@@ -35,4 +40,18 @@ $(function () {
 			$(this).hide();
 		}
 	});
+
+
+
+
+	if (URIProductCaption) {
+		C.l(URIProductCaption);
+		$('.page-header .header-bar h1').html(URIProductCaption);
+		$('a').each(function () {
+			var href = this.href;
+			if (href.match('fixed-income-buying-confirm.html')) {
+				this.href += '?productCaption='+URIProductCaption;
+			}
+		});
+	}
 });

@@ -1,4 +1,6 @@
 $(function () { // fake logics
+	var app = taijs.app;
+	var URIParameters = taijs.app.data.URIParameters;
 	var wlc = window.webLogicControls;
 	var UI = wlc.UI;
 
@@ -88,4 +90,9 @@ $(function () { // fake logics
 			UI.popupLayersManager.hide(pl2);
 		}
 	});
+
+
+	if (URIParameters.productCaption) {
+		$('.product-caption').html(URIParameters.productCaption);
+	}
 });

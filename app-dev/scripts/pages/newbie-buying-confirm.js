@@ -67,9 +67,6 @@ $(function () { // fake logics
 	});
 
 
-
-
-
 	var pl2 = $pl2[0];
 
 	var $chosenValuePresentor = $('#newbie-buying-confirm-choose-bank-card');
