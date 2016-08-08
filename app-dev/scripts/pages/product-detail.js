@@ -8,7 +8,7 @@ $(function () {
 		URIProductCaption = URIProductCaption.replace(/^\s*['"']\s*/, '').replace(/\s*['"']\s*$/, '');
 	}
 	var URIProductStatus = app.data.URIParameters.productStatus;
-	C.l(URIProductCaption, URIProductStatus);
+	// C.l(URIProductCaption, URIProductStatus);
 
 	var buttonIds = [
 		'#product-detail-footer-button-count-down',
@@ -45,7 +45,6 @@ $(function () {
 
 
 	if (URIProductCaption) {
-		C.l(URIProductCaption);
 		$('.page-header .header-bar h1').html(URIProductCaption);
 		$('a').each(function () {
 			var href = this.href;
