@@ -324,6 +324,101 @@ window.webLogicControls = {};
 
 				return obj;
 			};
+
+			this.evaluateDotNotationChain = function (rootObject, dotNotationString, desiredType) {
+				if (typeof dotNotationString !== 'string' || dotNotationString.length < 3) return;
+
+				dotNotationString = dotNotationString
+					.replace(/^[\.\s]+/, '')
+					.replace(/[\.\s]+$/, '')
+					.replace(/\s*\.\s*/, '.')
+				;
+
+				var validPathSoFar;
+				if (rootObject === undefined || rootObject === null) {
+					rootObject = window;
+					validPathSoFar = 'window';
+				} else {
+					validPathSoFar = '['+typeof rootObject+']';
+				}
+				var dotNotationStringLog = validPathSoFar + '.' + dotNotationString;
+
+				var failedToFound = false;
+				var typeIncorrect = false;
+
+				var keys = dotNotationString.split('.');
+
+				var resultProperty = rootObject;
+				var key;
+				for (var i = 0; i < keys.length; i++) {
+					key = keys[i];
+					resultProperty = resultProperty[key];
+					// C.l('['+i+'] "'+validPathSoFar+'"', typeof resultProperty);
+
+					if (resultProperty === undefined || resultProperty === null) {
+						failedToFound = true;
+						break;
+					}
+
+					validPathSoFar += '.' + key;
+				}
+
+
+
+
+				var desiredTypeProvided = false;
+				if (typeof desiredType === 'string') desiredType = desiredType.toLowerCase();
+				switch (desiredType) {
+					case 'boolean':
+					case 'number':
+					case 'object':
+					case 'function':
+					case 'string':
+						desiredTypeProvided = true;
+						break;
+					default:
+				}
+
+				var foundType; 
+				if (!failedToFound && desiredTypeProvided) {
+					foundType = typeof resultProperty;
+					typeIncorrect = foundType !== desiredType;
+				}
+
+
+
+
+				var resultInvalid = failedToFound || typeIncorrect;
+
+				if (resultInvalid) {
+					if (failedToFound) {
+						C.e(
+							'Fail to found desired property via string "'+dotNotationStringLog+'".',
+							'\n\t'+validPathSoFar+' has no property named "'+key+'"'
+						);
+					} else if (typeIncorrect) {
+						C.e(
+							'Found property via "'+dotNotationStringLog+'",',
+							'\n\tbut in type of'+foundType+' insead of "'+desiredType+'"'
+						);
+					}
+					return;
+				}
+
+				// C.l('Evaluated resultProperty function:', resultProperty);
+				return resultProperty;
+			};
+
+			this.evaluateDotNotationChainViaHTMLAttribute = function(element, attributeName) {
+				if (!(element instanceof Node)) return false;
+				var dotNotationString = element.getAttribute(attributeName);
+				if (!dotNotationString) return;
+
+				var replacedArguments = Array.prototype.slice.apply(arguments);
+				replacedArguments[0] = window;
+				replacedArguments[1] = dotNotationString;
+				return this.evaluateDotNotationChain.apply(this, replacedArguments);
+			};
 		}).call(objectToolkit);
 
 
@@ -861,20 +956,21 @@ window.webLogicControls = {};
 	this.generalTools = generalTools;
 	(function () {
 		this.URI = {
-			evaluateParameters: function () {
-				var h = window.location.href;
+			evaluateParameters: function (URIString) {
+				if (typeof URIString !== 'string') URIString = window.location.href;
 				var p; // fisrt position of '?' and then parameters sub string
 				var s; // position of '#'
 				var urlP = {};
 				var i, pair;
 
-				p = h.indexOf('\?');
+				p = URIString.indexOf('\?');
 				if (p<0) return urlP;
 
-				s = h.indexOf('#');
-				if (s<p) s = h.length; // in case '#' comes before '?', which is illegal, but we are still trying to handle that
+				s = URIString.indexOf('#');
+				if (s<p) s = URIString.length; // in case '#' comes before '?', which is illegal, but we are still trying to handle that
 
-				p = h.slice(p+1,s);
+				p = URIString.slice(p+1,s);
+
 				p = p.split('&');
 				for (i = 0; i < p.length; i++) {
 					pair = p[i].split('=');
@@ -886,19 +982,33 @@ window.webLogicControls = {};
 				return urlP;
 			},
 
-			generateURIComponentFromObject: function(parameters) {
+			generateURIComponentFromObject: function(parameters, URIToAppendTo) {
 				parameters = parameters || {};
 
 				var parametersURI = '';
 				var i=0;
 
 				for (var key in parameters) {
-					parametersURI += key + '=' + parameters[key] + '&';
+					parametersURI += '&' + key + '=' + encodeURIComponent(parameters[key]);
 					i++;
 				}
 
-				parametersURI = encodeURIComponent(parametersURI.slice(0,-1));
-				if (i>0) parametersURI = '?' + parametersURI;
+				var alreadyHasQuestionMark = false;
+				if (typeof URIToAppendTo === 'string' && URIToAppendTo.length > 0) {
+					alreadyHasQuestionMark = !!URIToAppendTo.match(/\?/);
+				} else {
+					if (i > 0) {
+						URIToAppendTo = '?';
+					}
+				}
+
+				var questionMarkIsAtEnd = URIToAppendTo.slice(-1) === '?';
+				if (questionMarkIsAtEnd) {
+					parametersURI = parametersURI.slice(1);
+				}
+				
+				parametersURI = URIToAppendTo + parametersURI;
+
 				return parametersURI;
 			}
 		};
@@ -1778,7 +1888,8 @@ window.webLogicControls = {};
 			var $allInputs;
 
 			this.options = {
-				shouldHandleCaret: false
+				shouldHandleCaret: false,
+				shouldHanleNavKeys: false
 			};
 
 			this.validatorsForEachInput = [];
@@ -1932,7 +2043,9 @@ window.webLogicControls = {};
 				input.newValueIsValid = false;
 				input.onInputEventDispatched = false;
 
-				updateCaretPositionForInput.call(this, input);
+				if (this.options.shouldHandleCaret) {
+					updateCaretPositionForInput.call(this, input);
+				}
 
 				if (k === 8) { // baskspace
 					input.keyBackspaceWasDown = true;
@@ -1960,7 +2073,7 @@ window.webLogicControls = {};
 				// console.log('inputOnInput:', '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
 
 				if (input.value.length > 1) {
-					if (input.caretStatus.isAtLeftEnd) {
+					if (this.options.shouldHandleCaret && input.caretStatus.isAtLeftEnd) {
 						input.value = input.value.slice(0, 1);
 					} else {
 						input.value = input.value.slice(-1);
@@ -2009,27 +2122,29 @@ window.webLogicControls = {};
 				// console.log('empty?', valueIsEmpty, '\tshould nex?', input.shouldChangeFocusToNextInput,
 				// 	'\npos:', input.caretStatus.pos, '\t left?', input.caretStatus.isAtLeftEnd, '\t right?', input.caretStatus.isAtRightEnd);
 
-				if (k === 36) { // home key
-					focusMovingDirectionIsLeft = true;
-					inputToChangeFocusOn = getFirstInput.call(this);
-				}
-
-				if (k === 35) { // end key
-					focusMovingDirectionIsLeft = false;
-					inputToChangeFocusOn = getLastInput.call(this);
-				}
-
-				if (k === 37) { // left arrow key
-					focusMovingDirectionIsLeft = true;
-					if (valueIsEmpty || input.caretStatus.isAtLeftEnd) {
-						inputToChangeFocusOn = getPrevInputOf.call(this, input);
+				if (this.options.shouldHanleNavKeys) {
+					if (k === 36) { // home key
+						focusMovingDirectionIsLeft = true;
+						inputToChangeFocusOn = getFirstInput.call(this);
 					}
-				}
 
-				if (k === 39) { // right arrow key
-					focusMovingDirectionIsLeft = false;
-					if (valueIsEmpty || input.caretStatus.isAtRightEnd) {
-						inputToChangeFocusOn = getNextInputOf.call(this, input);
+					if (k === 35) { // end key
+						focusMovingDirectionIsLeft = false;
+						inputToChangeFocusOn = getLastInput.call(this);
+					}
+
+					if (k === 37) { // left arrow key
+						focusMovingDirectionIsLeft = true;
+						if (valueIsEmpty || input.caretStatus.isAtLeftEnd) {
+							inputToChangeFocusOn = getPrevInputOf.call(this, input);
+						}
+					}
+
+					if (k === 39) { // right arrow key
+						focusMovingDirectionIsLeft = false;
+						if (valueIsEmpty || input.caretStatus.isAtRightEnd) {
+							inputToChangeFocusOn = getNextInputOf.call(this, input);
+						}
 					}
 				}
 
@@ -2040,7 +2155,9 @@ window.webLogicControls = {};
 
 				if (inputToChangeFocusOn !== input) {
 					focusInput.call(this, inputToChangeFocusOn);
-					setCaretPosition(inputToChangeFocusOn, (focusMovingDirectionIsLeft || k === 35) ? 'end' : 0);
+					if (this.options.shouldHandleCaret) {
+						setCaretPosition(inputToChangeFocusOn, (focusMovingDirectionIsLeft || k === 35) ? 'end' : 0);
+					}
 				}
 			}
 
@@ -2200,7 +2317,7 @@ window.webLogicControls = {};
 							if (type !== 'checkbox' && type !== 'raido') {
 								inputForAggregation = options.inputForAggregation;
 								_el.type = status.inputsAreForPassword ? 'hidden' : 'hidden';
-								inputForAggregation.readOnly = false; // important
+								inputForAggregation.readOnly = false; // important for iOS Safari, maybe others as well
 								inputForAggregation.disabled = false; // in case it is associated with a form
 							}
 						}
@@ -2266,7 +2383,9 @@ window.webLogicControls = {};
 				$allInputs.each(function (index) {
 					this.autocomplete = 'off';
 					this.dataset.inputIndex = index;
-					this.type = status.inputsAreForPassword ? 'password' : 'text';
+					if (status.inputsAreForPassword) {
+						this.type = 'password';
+					}
 					status.allInputsValue[index] = this.value;
 					status.allInputsFilling[index] = this.value.length > 0;
 					validateOneInput.call(thisController, this);

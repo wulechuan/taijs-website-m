@@ -56,7 +56,8 @@ $(function () { // fake logics
 
 	var pl1 = $pl1[0];
 
-	$('[button-action="buy"]').on('click', function(event) {
+	$('[button-action="submit"]').on('click', function(event) {
+		if (event && typeof event.preventDefault === 'function') event.preventDefault();
 		UI.popupLayersManager.show(pl1, event);
 	});
 

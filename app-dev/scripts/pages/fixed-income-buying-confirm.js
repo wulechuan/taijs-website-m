@@ -1,6 +1,6 @@
 $(function () { // fake logics
 	var app = taijs.app;
-	var URIParameters = taijs.app.data.URIParameters;
+	var URIParameters = window.taijs.app.data.URIParameters;
 	var wlc = window.webLogicControls;
 	var UI = wlc.UI;
 
@@ -57,7 +57,8 @@ $(function () { // fake logics
 
 	var pl1 = $pl1[0];
 
-	$('[button-action="buy"]').on('click', function(event) {
+	$('[button-action="submit"]').on('click', function(event) {
+		if (event && typeof event.preventDefault === 'function') event.preventDefault();
 		UI.popupLayersManager.show(pl1, event);
 	});
 
