@@ -767,6 +767,7 @@ article.message {
 
 	.color-inverted .hero-content-block.hero-content-block-style-2 { /* in pages such as newbie-reserved-assets */
 		padding-bottom: 0.6rem;
+		margin-bottom: 0;
 		}
 		.color-inverted .hero-content-block.hero-content-block-style-2 h3 .hero-word {
 			margin-top: 0.6rem;

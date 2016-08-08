@@ -44,8 +44,9 @@ $(function () {
 
 
 
+	var $productCaptionElement = $('.page-header .header-bar h1');
 	if (URIProductCaption) {
-		$('.page-header .header-bar h1').html(URIProductCaption);
+		$productCaptionElement.html(URIProductCaption);
 		$('a').each(function () {
 			var href = this.href;
 			if (href.match('fixed-income-buying-confirm.html')) {
@@ -53,4 +54,5 @@ $(function () {
 			}
 		});
 	}
+	$productCaptionElement.show();
 });
