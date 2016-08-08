@@ -49,7 +49,7 @@
 						}
 					}
 
-					C.t(value, min, max, isValid);
+					// C.t(value, min, max, isValid);
 
 					return {
 						isValid: isValid,
@@ -95,8 +95,6 @@
 		setupAllNavBackButtons($page, isFirstTime);
 		setupAllButtonsWithInlineClickAction($page, isFirstTime);
 		setupAllStaticProgressRings($page, isFirstTime);
-		// setupAllInputFieldsForTheirFillingStatus($page, isFirstTime);
-		// setupAllClearInputButtons($page, isFirstTime);
 		setupAllContentsWithDesiredStringFormat($page, isFirstTime);
 		setupAllChineseNumbersPresenters($page, isFirstTime);
 		setupAllMenuItemsThatHasSubMenu($page, isFirstTime);
@@ -227,138 +225,6 @@
 				new wlc.UI.ProgressRings(this);
 			});
 		}
-
-		// function setupAllInputFieldsForTheirFillingStatus($page, isFirstTime) {
-		// 	if (!isFirstTime) return true;
-
-		// 	$page.find('input, textarea, select').each(function () {
-		// 		function _updateInputValueStatus(field) {
-		// 			if (!field) {
-		// 				return false;
-		// 			}
-
-		// 			var tnlc = field.tagName.toLowerCase();
-		// 			if (tnlc !== 'input' && tnlc !== 'textarea' && tnlc !== 'select') {
-		// 				return false;
-		// 			}
-
-		// 			var isEmpty = true;
-		// 			var type = '';
-
-		// 			if (tnlc==='select') {
-		// 				isEmpty = field.selectedIndex === -1;
-		// 			} else if (tnlc === 'input') {
-		// 				type = field.type.toLowerCase();
-		// 				if (type === 'checkbox') {
-		// 					isEmpty = !field.checked;
-		// 				} else if (type === 'radio') {
-		// 					C.e('Not implemented yet!');
-		// 					isEmpty = !field.checked;
-		// 				} else {
-		// 					isEmpty = !field.value;
-		// 				}
-		// 			}
-
-		// 			if (isEmpty) {
-		// 				$(field).removeClass('non-empty-field');
-		// 				$(field).addClass('empty-field');
-		// 			} else {
-		// 				$(field).removeClass('empty-field');
-		// 				$(field).addClass('non-empty-field');
-		// 			}
-
-		// 			field.valueStatus.isEmpty = isEmpty;
-		// 			field.valueStatus.isValid = !isEmpty; // not implemented yet
-
-		// 			if (Array.isArray(field.onValueChange)) {
-		// 				for (var i = 0; i < field.onValueChange.length; i++) {
-		// 					var callback = field.onValueChange[i];
-		// 					if (typeof callback === 'function') callback.call(field, field.valueStatus);
-		// 				}
-		// 			}
-		// 		}
-
-		// 		this.onValueChange = [];
-		// 		this.valueStatus = {
-		// 			isEmpty: true,
-		// 			isValid: false
-		// 		};
-
-		// 		_updateInputValueStatus(this);
-
-		// 		$(this).on('input', function () {
-		// 			_updateInputValueStatus(this);
-		// 		});
-		// 	});
-		// }
-
-		// function setupAllClearInputButtons($page, isFirstTime) {
-		// 	if (!isFirstTime) return true;
-
-		// 	$page.find('button[button-action="clear-input-field"][for-input]').each(function () {
-		// 		function updateClearButtonStatusForInputField($clearButton, valueStatus) {
-		// 			valueStatus = valueStatus || { isValid: true };
-		// 			if (valueStatus.isEmpty) {
-		// 				$clearButton.hide();
-		// 			} else {
-		// 				$clearButton.show();
-		// 			}
-		// 		}
-
-		// 		var $clearButton = $(this);
-		// 		this.setAttribute('type', 'button'); // prevent this from submitting <form>
-
-		// 		var controlledInputId = this.getAttribute('for-input');
-		// 		if (controlledInputId) controlledInputId = '#'+controlledInputId;
-
-		// 		var controlledInput = $(controlledInputId)[0];
-
-		// 		var inputIsValid = false;
-		// 		if (controlledInput) {
-		// 			var tnlc = controlledInput.tagName.toLowerCase();
-		// 			if (tnlc === 'input') {
-		// 				var inputType = controlledInput.type.toLowerCase();
-		// 				inputIsValid = (inputType !== 'checkbox') && (inputType !== 'radio');
-		// 			} else if (tnlc === 'textarea') {
-		// 				inputIsValid = true;
-		// 			} else {
-		// 				inputIsValid = true;
-		// 			}
-		// 		}
-
-		// 		if (inputIsValid) {
-		// 			setTimeout(function () {
-		// 				updateClearButtonStatusForInputField($clearButton, controlledInput.valueStatus);
-		// 			}, 100);
-
-		// 			controlledInput.onValueChange.push(function (valueStatus) {
-		// 				updateClearButtonStatusForInputField($clearButton, valueStatus);
-		// 			});
-
-		// 			$clearButton.on('click', function (event) {
-		// 				if (event) {
-		// 					event.preventDefault();
-		// 					event.stopPropagation();
-		// 				}
-
-		// 				controlledInput.value = '';
-		// 				$(controlledInput).removeClass('non-empty-field');
-		// 				$(controlledInput).removeClass('Invalid');
-		// 				this.style.display = 'none';
-		// 				if (typeof controlledInput.elements === 'object') {
-		// 					var el = controlledInput.elements;
-		// 					if (el.coupledChineseNumbers) {
-		// 						el.coupledChineseNumbers.innerHTML = '';
-		// 					}
-		// 				}
-
-		// 				setTimeout(function () {
-		// 					controlledInput.focus();
-		// 				}, 0);
-		// 			});
-		// 		}
-		// 	});
-		// }
 
 		function setupAllContentsWithDesiredStringFormat($page, isFirstTime) {
 			if (!isFirstTime) return true;
@@ -885,7 +751,7 @@
 				publicStatus.allFieldsValidation[index] = isValid;
 			}
 
-			C.l('\t ==> CHECKING on VirtualField Callback...');
+			// C.l('\t ==> CHECKING on VirtualField Callback...');
 			this.checkValidation();
 		}
 	}
@@ -914,6 +780,7 @@
 		var publicStatus = {};
 
 		var elements = {
+			clearButtons: [],
 			field: fieldElement,
 			tips: {
 				// default: null,
@@ -927,6 +794,7 @@
 
 		this.scanForTips = scanForTipsDefaultMethod.bind(this);
 		this.validate = validate.bind(this);
+		this.clearValue = clearValue.bind(this);
 		this.rebuild = function (options) {
 			C.l('Rebuilding an existing {'+this.constructor.name+'}...');
 			build.call(this, options);
@@ -970,18 +838,17 @@
 
 			if (isFirstTime) {
 				status.onFieldChangeEventHandler = (function (event) {
+					// C.l('\t Bound Event Handler invoked for ', fieldElement.tagName, fieldElement.type);
+
 					for (var i = 0; i < status.onValueChange.length; i++) {
 						var callback = status.onValueChange[i];
 						if (typeof callback === 'function') {
 							callback.call(this, event);
 						}
 					}
+
+					this.validate();
 				}).bind(this);
-
-
-				status.onValueChange.push((function (event) {
-					C.l('first', event);
-				}).bind(this));
 			}
 
 
@@ -1058,7 +925,7 @@
 
 
 			if (isFirstTime) {
-				setupClearInputButton.call(this);
+				setupClearInputButton.call(this, null, isFirstTime);
 			}
 
 
@@ -1145,10 +1012,7 @@
 			var boundEventHandler;
 			var handlers = status.registeredEventHandlers;
 
-			boundEventHandler = (function () {
-				C.l('\t boundEventHandler for ', fieldElement.tagName, fieldElement.type);
-				this.validate();
-			}).bind(this);
+			boundEventHandler = status.onFieldChangeEventHandler.bind(this);
 			handlers.push(boundEventHandler);
 
 
@@ -1162,66 +1026,61 @@
 			fieldElement.onUpdateAtHiddenState = boundEventHandler;
 		}
 
-		function setupClearInputButton(scanRootElement) {
-			if (!(scanRootElement instanceof Node)) scanRootElement = $(fieldElement).parents('.page');
-			// C.l(scanRootElement);
+		function setupClearInputButton(scanRootElement, isFirstTime) {
+			if (!isFirstTime) return;
+
 			var id = fieldElement.id;
 			if (!id) return;
 			if (!status.isText) return;
 
-			var $buttons = $(scanRootElement).find('button[button-action="clear-input-field"][for-input="'+id+'"]');
-			$buttons.each(function () {
-				function updateClearButtonStatusForInputField() {
-					if (status.valueIsEmpty) {
-						$clearButton.hide();
-					} else {
-						$clearButton.show();
-					}
-					C.l(status);
-				}
 
-				var $clearButton = $(this);
+			if (!(scanRootElement instanceof Node)) {
+				scanRootElement = $(fieldElement).parents('.page');
+			}
+			// C.l(scanRootElement);
+
+			var $buttons = $(scanRootElement).find('button[button-action="clear-input-field"][for-input="'+id+'"]');
+
+			elements.clearButtons = Array.prototype.slice.apply($buttons);
+			var thisVirtualField = this;
+
+			$buttons.each(function () {
 				this.setAttribute('type', 'button'); // prevent this from submitting <form>
 
-				// setTimeout(function () {
-				// 	updateClearButtonStatusForInputField();
-				// }, 100);
-
-				status.onValueChange.push(function () {
-					updateClearButtonStatusForInputField($clearButton);
-				});
-
-				$clearButton.on('click', function (event) {
+				$(this).on('click', function (event) {
 					if (event) {
 						event.preventDefault();
 						event.stopPropagation();
 					}
 
-					fieldElement.value = '';
-					$(fieldElement).removeClass('non-empty-field');
-					$(fieldElement).removeClass('Invalid');
+					thisVirtualField.clearValue();
 
-					$clearButton.hide();
+					setTimeout(function () {
+						fieldElement.focus();
+					}, 0);
 
+
+					C.w('Ugly codes below.');
 					if (typeof fieldElement.elements === 'object') {
 						var el = fieldElement.elements;
 						if (el.coupledChineseNumbers) {
 							el.coupledChineseNumbers.innerHTML = '';
 						}
 					}
-
-					setTimeout(function () {
-						fieldElement.focus();
-					}, 0);
 				});
 			});
 		}
 
 		function scanForTipsDefaultMethod(scanRootElement) {
-			if (!(scanRootElement instanceof Node)) scanRootElement = $(fieldElement).parents('.page');
-			// C.l(scanRootElement);
 			var id = fieldElement.id;
 			if (!id) return;
+
+
+			if (!(scanRootElement instanceof Node)) {
+				scanRootElement = $(fieldElement).parents('.page');
+			}
+			// C.l(scanRootElement);
+
 
 			elements.tips.default = $(scanRootElement).find('.input-tip.default[for="'+id+'"]')[0];
 			elements.tips.errors = Array.prototype.slice.apply(
@@ -1229,10 +1088,15 @@
 			);
 		}
 
+		function clearValue() {
+			fieldElement.value = '';
+			this.validate();
+		}
+
 		function updateStatus() {
 			var isEmpty = true;
 			if (status.isText) {
-				isEmpty = !fieldElement.value;
+				isEmpty = fieldElement.value.length < 1;
 			} else if (status.isCheckbox) {
 				isEmpty = !fieldElement.checked;
 			} else if (status.isRadio) {
@@ -1243,6 +1107,9 @@
 			}
 
 			status.valueIsEmpty = isEmpty;
+			// C.l('updateStatus, value='+fieldElement.value, '\t isText?', status.isText, '\t isEmpty?', status.valueIsEmpty);
+
+			updateClearTextFieldButtons.call(this);
 		}
 
 		function updateCssClasses() {
@@ -1263,6 +1130,14 @@
 				$(fieldElement).removeClass('value-invalid');
 			} else {
 				$(fieldElement)   .addClass('value-invalid');
+			}
+		}
+
+		function updateClearTextFieldButtons() {
+			if (status.valueIsEmpty) {
+				$(elements.clearButtons).hide();
+			} else {
+				$(elements.clearButtons).show();
 			}
 		}
 
@@ -1320,8 +1195,8 @@
 
 			status.valueIsValid = validateResult.isValid;
 
-			C.l('\t --> Validating virtualField ['+status.indexInVirtualForm+']', fieldElement.tagName, fieldElement.type);
-			C.l('\t\t isEmpty?', status.valueIsEmpty, '\t isValid?', status.valueIsValid);
+			// C.l('\t --> Validating virtualField ['+status.indexInVirtualForm+']', fieldElement.tagName, fieldElement.type);
+			// C.l('\t\t isEmpty?', status.valueIsEmpty, '\t isValid?', status.valueIsValid);
 
 			if (status.virtualForm) {
 				 status.virtualForm.setFieldValidationByIndex(status.indexInVirtualForm, status.valueIsValid);
