@@ -101,6 +101,27 @@
 
 		$('form').each(function () { new wlc.UI.VirtualForm(this); });
 
+		$('a').each(function () {
+			var anchor = this;
+			var $children = $(this).find('> *');
+			$children.each(function () {
+				this.style.transitionProperty = 'none';
+			});
+
+			$(this)
+				.on('mousedown', function () {
+					$children.each(function () {
+						this.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
+					});
+				})
+				.on('mouseup', function () {
+					$children.each(function () {
+						this.style.backgroundColor = '';
+					});
+				})
+			;
+		});
+
 		page.status.commonSetupHasBeenRun = true; // always update this status
 
 		function setupPageBodyMinHeightForPage($page, isFirstTime) {
