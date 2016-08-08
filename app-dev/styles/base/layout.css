@@ -1684,6 +1684,12 @@ article.message {
 		padding: 0;
 		margin: 0;
 		width: auto;
+		font-size: 0.7rem;
+	}
+	.row.header-bar .left a,
+	.row.header-bar .right a {
+		margin: 0 0.8rem;
+		line-height: 2.4rem;
 	}
 	.row.header-bar .left {
 		left: 0;
@@ -1695,13 +1701,15 @@ article.message {
 	.row.header-bar .right * {
 		margin: 0;
 	}
-	.row.header-bar button,
-	.row.header-bar [role="button"] {
+	.row.header-bar a[role="button"],
+	.row.header-bar [role="button"],
+	.row.header-bar button {
 		border-width: 0;
 		width: 2.4rem;
 		height: 2.4rem;
 		line-height: 2.4rem;
 		padding: 0;
+		margin: 0;
 		text-align: center;
 		background-color: transparent;
 	}

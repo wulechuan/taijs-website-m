@@ -29,7 +29,10 @@
 		if (!(page instanceof Node)) return false;
 
 		var isFirstTime = true;
-		if (!!page.status && page.status.commonSetupHasBeenRun === true) isFirstTime = false;
+		if (!!page.status && page.status.commonSetupHasBeenRun === true) {
+			isFirstTime = false;
+			C.l('Setup page common behaviours a second time.');
+		}
 
 		if (typeof page.status !== 'object') page.status = {};
 
