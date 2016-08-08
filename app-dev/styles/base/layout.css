@@ -2953,7 +2953,21 @@ dl.tickets-list {
 		font-weight: normal;
 		font-size: 1rem;
 		line-height: 1;
-		letter-spacing: 0.15em;
+		letter-spacing: 0.1em;
+	}
+
+	@media only screen and (max-width: 360px) { /* Galaxy S5 */
+		.slot.slot-bank-card .bank-card-number {
+			font-size: 1rem;
+			letter-spacing: 0.04em;
+		}
+	}
+
+	@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+		.slot.slot-bank-card .bank-card-number {
+			font-size: 0.9rem;
+			letter-spacing: 0.04em;
+		}
 	}
 
 

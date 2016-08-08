@@ -1,4 +1,4 @@
-f(function () { // permanent logics
+(function () { // permanent logics
 	var wlc = window.webLogicControls;
 	var WCU = wlc.CoreUtilities;
 	var UI = wlc.UI;
@@ -22,10 +22,15 @@ f(function () { // permanent logics
 
 
 	function commonSetupAciontsForOnePage(page) {
+		if (!(page instanceof Node)) return false;
+
+		if (!!page.status && page.status.commonSetupHasBeenRun === true) return true;
+
+		if (typeof page.status !== 'object') page.status = {};
+
 		var $page = $(page);
 
 		setupPageBodyMinHeightForPage($page);
-
 		setupAllPopupLayers(page);
 		setupAllAutoConstructTabPanelSets($page);
 		setupAllNavBackButtons($page);
@@ -38,65 +43,7 @@ f(function () { // permanent logics
 		setupAllChineseNumbersPresenters($page);
 		setupAllMenuItemsThatHasSubMenu($page);
 
-
-
-
-		function setupAllPopupLayers(page) {
-			UI.popupLayersManager.processAllUnder(page);
-		}
-
-		function setupAllButtonsWithInlineClickAction($page) {
-			$page.find('[data-click-action]').each(function () {
-				var button = this;
-				var inlineActionString = this.getAttribute('data-click-action');
-				var hasValidAction = !!inlineActionString;
-
-				var actionName;
-				var actionTarget;
-				if (hasValidAction) {
-					var prefix = inlineActionString.match(/^\s*([^\:\s]+)\s*\:(.*)/);
-					if (prefix) {
-						actionName   = prefix[1];
-						actionTarget = prefix[2];
-					}
-				}
-
-				hasValidAction = false;
-				var action;
-				switch (actionName) {
-					default:
-						break;
-					case 'show-popup':
-						hasValidAction = !!actionTarget;
-						action = hasValidAction && function (event) {
-							UI.popupLayersManager.show(actionTarget, event);
-						};
-						break;
-				}
-
-				hasValidAction = hasValidAction && typeof action === 'function';
-
-				if (!hasValidAction) {
-					C.w('Inline action is invalid:', this);
-					return false;
-				}
-
-				$(button).on('click', action);
-			});
-			// data-click-action="show-popup:pl-message-credit-limitation-introduction"
-		}
-
-		function setupAllAutoConstructTabPanelSets($page) {
-			$page.find('.tab-panel-set').each(function () {
-				if (this.dataset.doNotAutoConstruct) {
-					// C.l('Skipping auto constructing TabPanelSet from:', this);
-					return true;
-				}
-				new wlc.UI.TabPanelSet(this, {
-					initTab: app.data.URIParameters.tabLabel
-				});
-			});
-		}
+		page.status.commonSetupHasBeenRun = true;
 
 		function setupPageBodyMinHeightForPage($page) {
 			var pageBody = $page.find('.page-body')[0];
@@ -140,12 +87,69 @@ f(function () { // permanent logics
 			}
 		}
 
+		function setupAllPopupLayers(page) {
+			UI.popupLayersManager.processAllUnder(page);
+		}
+
+		function setupAllAutoConstructTabPanelSets($page) {
+			$page.find('.tab-panel-set').each(function () {
+				if (this.dataset.doNotAutoConstruct) {
+					// C.l('Skipping auto constructing TabPanelSet from:', this);
+					return true;
+				}
+				new wlc.UI.TabPanelSet(this, {
+					initTab: app.data.URIParameters.tabLabel
+				});
+			});
+		}
+
 		function setupAllNavBackButtons($page) {
 			$page.find('.nav-back[data-back-target="history"]').on('click', function (event) {
 				event.preventDefault();
 				event.stopPropagation();
 				history.back();
 			});
+		}
+
+		function setupAllButtonsWithInlineClickAction($page) {
+			$page.find('[data-click-action]').each(function () {
+				var button = this;
+				var inlineActionString = this.getAttribute('data-click-action');
+				var hasValidAction = !!inlineActionString;
+
+				var actionName;
+				var actionTarget;
+				if (hasValidAction) {
+					var prefix = inlineActionString.match(/^\s*([^\:\s]+)\s*\:(.*)/);
+					if (prefix) {
+						actionName   = prefix[1];
+						actionTarget = prefix[2];
+					}
+				}
+
+				hasValidAction = false;
+				var action;
+				switch (actionName) {
+					default:
+						break;
+					case 'show-popup':
+						hasValidAction = !!actionTarget;
+						action = hasValidAction && function (event) {
+							UI.popupLayersManager.show(actionTarget, event);
+						};
+						break;
+				}
+
+				hasValidAction = hasValidAction && typeof action === 'function';
+
+				if (!hasValidAction) {
+					C.w('Inline action is invalid:', this);
+					return false;
+				}
+
+				$(button).on('click', action);
+			});
+			// data-click-action="show-popup:pl-message-credit-limitation-introduction"
 		}
 
 		function setupAllStaticProgressRings($page) {
