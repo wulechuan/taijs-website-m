@@ -17,13 +17,13 @@
 	><header class="page-header">
 		<div class="row header-bar">
 			<div class="center"><h1>投资确认</h1></div>
-			<div class="left"  ><a role="button" class="nav-back" href="my-fixed-income-index.html"></a></div>
+			<div class="left"  ><a role="button" class="nav-back" href="product-detail.html?productStatus=available"></a></div>
 			<div class="right" ><a role="button" class="nav-home" href="../index.html"></a></div>
 		</div>		
 	</header>
 
+	<form name="fixedincomebuying" action="product-buying-succeeded.html">
 	<div class="page-body">
-		<form name="newbiebuying" action="newbie-buying-succeeded.html">
 		<div class="f-block snap-top">
 			<div class="f-block-body">
 				<div class="row caption-bar">
@@ -50,18 +50,19 @@
 				<div class="row input-field single-side-content">
 					<div class="left">
 						<input placeholder="请输入投资金额" data-placeholder-prefix="请输入投资金额，" type="number" data-text-format="currency"
-							name="amount" required
-									   id="newbie-buying-amount">
-						<label        for="newbie-buying-amount" class="input-tip default">投资金额</label>
-						<label        for="newbie-buying-amount" class="input-tip error" data-subject="bank-card-number-invalid">最高投资金额150,000.00元</label>
-						<button for-input="newbie-buying-amount"
+							name="amount" required 
+							data-validator="taijs.app.input.validator.fixedIncomeInvestmentAmount" data-value-min="1000" data-value-max="150000"
+									   id="fixed-income-buying-amount">
+						<label        for="fixed-income-buying-amount" class="input-tip default">投资金额</label>
+						<label        for="fixed-income-buying-amount" class="input-tip error" data-subject="amount-too-high">最高投资金额150,000.00元</label>
+						<button for-input="fixed-income-buying-amount"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
 			</div>
 
 			<div class="row dynamic-row">
-				<p class="chinese-number tip" for-element="newbie-buying-amount"></p>
+				<p class="chinese-number tip" for-element="fixed-income-buying-amount"></p>
 				<p style="margin-bottom: 1rem;" 
 					>当前剩余可投<span class="value currency"
 					>100,000.00</span>元，投资金额为100的整数倍<span class="amount-input-hint"></span
@@ -70,7 +71,7 @@
 		</div>
 		<div class="f-block">
 			<div class="f-block-body">
-				<a href="#">
+				<a href="my-tickets-choose.html">
 				<div class="row choose-tickets">
 					<div class="left">可用券</div>
 					<div class="right">欢迎使用</div>
@@ -106,16 +107,16 @@
 				</article>
 			</div>
 		</div>
-		</form>
 
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
 
 	<footer class="page-footer">
 		<div class="row buttons-in-single-line">
-			<button class="rounded-corners size-std-wide" button-action="buy">购买</button>
+			<button class="rounded-corners size-std-wide" button-action="submit">购买</button>
 		</div>
 	</footer>
+	</form>
 
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
 		<div role="dialog" class="popup-layer has-docked-panel" id="pl-choose-bank-card">

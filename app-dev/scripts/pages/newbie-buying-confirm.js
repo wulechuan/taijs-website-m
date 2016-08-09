@@ -44,9 +44,10 @@ $(function () { // fake logics
 
 	new wlc.UI.SingleCharacterInputsSet($pl1.find('.single-char-inputs-set')[0], {
 		onAllInputsValid: function (aggregatedValue, status, isCheckingOnLoad) {
-			console.log('AWESOME! final value:', aggregatedValue);
-			if (isCheckingOnLoad) console.log('What\'s better, we did nothing to get this!');
-			location.assign('newbie-buying-succeeded.html');
+			UI.popupLayersManager.show('plpm-trading-password-verified');
+			setTimeout(function () {
+				location.assign('newbie-buying-succeeded.html');
+			}, 1500);
 		}
 	});
 
@@ -55,7 +56,8 @@ $(function () { // fake logics
 
 	var pl1 = $pl1[0];
 
-	$('[button-action="buy"]').on('click', function(event) {
+	$('[button-action="submit"]').on('click', function(event) {
+		if (event && typeof event.preventDefault === 'function') event.preventDefault();
 		UI.popupLayersManager.show(pl1, event);
 	});
 
@@ -65,9 +67,6 @@ $(function () { // fake logics
 			UI.popupLayersManager.hide(pl1);
 		}
 	});
-
-
-
 
 
 	var pl2 = $pl2[0];

@@ -1,11 +1,3 @@
-/*! modernizr 3.3.1 (Custom Build) | MIT *
- * https://modernizr.com/download/?-cssanimations !*/
-!function(e,n,t){function r(e,n){return typeof e===n}function o(){var e,n,t,o,i,s,a;for(var l in v)if(v.hasOwnProperty(l)){if(e=[],n=v[l],n.name&&(e.push(n.name.toLowerCase()),n.options&&n.options.aliases&&n.options.aliases.length))for(t=0;t<n.options.aliases.length;t++)e.push(n.options.aliases[t].toLowerCase());for(o=r(n.fn,"function")?n.fn():n.fn,i=0;i<e.length;i++)s=e[i],a=s.split("."),1===a.length?Modernizr[a[0]]=o:(!Modernizr[a[0]]||Modernizr[a[0]]instanceof Boolean||(Modernizr[a[0]]=new Boolean(Modernizr[a[0]])),Modernizr[a[0]][a[1]]=o),C.push((o?"":"no-")+a.join("-"))}}function i(e,n){return!!~(""+e).indexOf(n)}function s(e){return e.replace(/([a-z])-([a-z])/g,function(e,n,t){return n+t.toUpperCase()}).replace(/^-/,"")}function a(e,n){return function(){return e.apply(n,arguments)}}function l(e,n,t){var o;for(var i in e)if(e[i]in n)return t===!1?e[i]:(o=n[e[i]],r(o,"function")?a(o,t||n):o);return!1}function f(e){return e.replace(/([A-Z])/g,function(e,n){return"-"+n.toLowerCase()}).replace(/^ms-/,"-ms-")}function u(){return"function"!=typeof n.createElement?n.createElement(arguments[0]):z?n.createElementNS.call(n,"http://www.w3.org/2000/svg",arguments[0]):n.createElement.apply(n,arguments)}function d(){var e=n.body;return e||(e=u(z?"svg":"body"),e.fake=!0),e}function p(e,t,r,o){var i,s,a,l,f="modernizr",p=u("div"),c=d();if(parseInt(r,10))for(;r--;)a=u("div"),a.id=o?o[r]:f+(r+1),p.appendChild(a);return i=u("style"),i.type="text/css",i.id="s"+f,(c.fake?c:p).appendChild(i),c.appendChild(p),i.styleSheet?i.styleSheet.cssText=e:i.appendChild(n.createTextNode(e)),p.id=f,c.fake&&(c.style.background="",c.style.overflow="hidden",l=x.style.overflow,x.style.overflow="hidden",x.appendChild(c)),s=t(p,e),c.fake?(c.parentNode.removeChild(c),x.style.overflow=l,x.offsetHeight):p.parentNode.removeChild(p),!!s}function c(n,r){var o=n.length;if("CSS"in e&&"supports"in e.CSS){for(;o--;)if(e.CSS.supports(f(n[o]),r))return!0;return!1}if("CSSSupportsRule"in e){for(var i=[];o--;)i.push("("+f(n[o])+":"+r+")");return i=i.join(" or "),p("@supports ("+i+") { #modernizr { position: absolute; } }",function(e){return"absolute"==getComputedStyle(e,null).position})}return t}function m(e,n,o,a){function l(){d&&(delete P.style,delete P.modElem)}if(a=r(a,"undefined")?!1:a,!r(o,"undefined")){var f=c(e,o);if(!r(f,"undefined"))return f}for(var d,p,m,h,y,v=["modernizr","tspan","samp"];!P.style&&v.length;)d=!0,P.modElem=u(v.shift()),P.style=P.modElem.style;for(m=e.length,p=0;m>p;p++)if(h=e[p],y=P.style[h],i(h,"-")&&(h=s(h)),P.style[h]!==t){if(a||r(o,"undefined"))return l(),"pfx"==n?h:!0;try{P.style[h]=o}catch(g){}if(P.style[h]!=y)return l(),"pfx"==n?h:!0}return l(),!1}function h(e,n,t,o,i){var s=e.charAt(0).toUpperCase()+e.slice(1),a=(e+" "+S.join(s+" ")+s).split(" ");return r(n,"string")||r(n,"undefined")?m(a,n,o,i):(a=(e+" "+_.join(s+" ")+s).split(" "),l(a,n,t))}function y(e,n,r){return h(e,t,t,n,r)}var v=[],g={_version:"3.3.1",_config:{classPrefix:"",enableClasses:!0,enableJSClass:!0,usePrefixes:!0},_q:[],on:function(e,n){var t=this;setTimeout(function(){n(t[e])},0)},addTest:function(e,n,t){v.push({name:e,fn:n,options:t})},addAsyncTest:function(e){v.push({name:null,fn:e})}},Modernizr=function(){};Modernizr.prototype=g,Modernizr=new Modernizr;var C=[],w="Moz O ms Webkit",S=g._config.usePrefixes?w.split(" "):[];g._cssomPrefixes=S;var _=g._config.usePrefixes?w.toLowerCase().split(" "):[];g._domPrefixes=_;var x=n.documentElement,z="svg"===x.nodeName.toLowerCase(),E={elem:u("modernizr")};Modernizr._q.push(function(){delete E.elem});var P={style:E.elem.style};Modernizr._q.unshift(function(){delete P.style}),g.testAllProps=h,g.testAllProps=y,Modernizr.addTest("cssanimations",y("animationName","a",!0)),o(),delete g.addTest,delete g.addAsyncTest;for(var b=0;b<Modernizr._q.length;b++)Modernizr._q[b]();e.Modernizr=Modernizr}(window,document);
-
-
-
-
-
 window.webLogicControls = {};
 
 (function () {
@@ -322,7 +314,11 @@ window.webLogicControls = {};
 		this.objectToolkit = objectToolkit;
 		(function () {
 			this.destroyInstanceObject = function (obj) {
-				if (typeof obj === 'object') {
+				if (obj === window) {
+					C.w('Cannot destroy window.');
+				} else if (obj instanceof Node) {
+					C.w('Cannot destroy DOM node.');
+				} else if (typeof obj === 'object') {
 					for (var p in obj) {
 						delete obj[p];
 					}
@@ -332,12 +328,250 @@ window.webLogicControls = {};
 
 				return obj;
 			};
+
+			this.evaluateDotNotationChain = function (rootObject, dotNotationString, desiredType) {
+				if (typeof dotNotationString !== 'string' || dotNotationString.length < 3) return;
+
+				dotNotationString = dotNotationString
+					.replace(/^[\.\s]+/, '')
+					.replace(/[\.\s]+$/, '')
+					.replace(/\s*\.\s*/, '.')
+				;
+
+				var validPathSoFar;
+				if (rootObject === undefined || rootObject === null) {
+					rootObject = window;
+					validPathSoFar = 'window';
+				} else {
+					validPathSoFar = '['+typeof rootObject+']';
+				}
+				var dotNotationStringLog = validPathSoFar + '.' + dotNotationString;
+
+				var failedToFound = false;
+				var typeIncorrect = false;
+
+				var keys = dotNotationString.split('.');
+
+				var resultProperty = rootObject;
+				var key;
+				for (var i = 0; i < keys.length; i++) {
+					key = keys[i];
+					resultProperty = resultProperty[key];
+					// C.l('['+i+'] "'+validPathSoFar+'"', typeof resultProperty);
+
+					if (resultProperty === undefined || resultProperty === null) {
+						failedToFound = true;
+						break;
+					}
+
+					validPathSoFar += '.' + key;
+				}
+
+
+
+
+				var desiredTypeProvided = false;
+				if (typeof desiredType === 'string') desiredType = desiredType.toLowerCase();
+				switch (desiredType) {
+					case 'boolean':
+					case 'number':
+					case 'object':
+					case 'function':
+					case 'string':
+						desiredTypeProvided = true;
+						break;
+					default:
+				}
+
+				var foundType; 
+				if (!failedToFound && desiredTypeProvided) {
+					foundType = typeof resultProperty;
+					typeIncorrect = foundType !== desiredType;
+				}
+
+
+
+
+				var resultInvalid = failedToFound || typeIncorrect;
+
+				if (resultInvalid) {
+					if (failedToFound) {
+						C.e(
+							'Fail to found desired property via string "'+dotNotationStringLog+'".',
+							'\n\t'+validPathSoFar+' has no property named "'+key+'"'
+						);
+					} else if (typeIncorrect) {
+						C.e(
+							'Found property via "'+dotNotationStringLog+'",',
+							'\n\tbut in type of'+foundType+' insead of "'+desiredType+'"'
+						);
+					}
+					return;
+				}
+
+				// C.l('Evaluated resultProperty function:', resultProperty);
+				return resultProperty;
+			};
+
+			this.evaluateDotNotationChainViaHTMLAttribute = function(element, attributeName) {
+				if (!(element instanceof Node)) return false;
+				var dotNotationString = element.getAttribute(attributeName);
+				if (!dotNotationString) return;
+
+				var replacedArguments = Array.prototype.slice.apply(arguments);
+				replacedArguments[0] = window;
+				replacedArguments[1] = dotNotationString;
+				return this.evaluateDotNotationChain.apply(this, replacedArguments);
+			};
 		}).call(objectToolkit);
 
 
 		var stringFormatters = {};
 		this.stringFormatters = stringFormatters;
 		(function () {
+			this.format = function (text, formatType, isInputField) {
+				if (!text || typeof text !== 'string') return text;
+				var formatter = this.evaluateFormatterFromType(formatType);
+				if (!formatter) return text;
+				return formatter(text);
+			};
+			this.evaluateFormatterFromType = function(builtInFormatType, isInputField/*, options*/) {
+				if (typeof builtInFormatType !== 'string') return;
+
+				var builtInFormatters = WCU.stringFormatters; // alias for minifiying
+
+				var formatterFound = false;
+				var formatter;
+				switch (builtInFormatType) {
+					case 'chinese-id-card':
+					case 'chinese-id-number':
+						if (isInputField) {
+							formatter = builtInFormatters.chineseIDNumberInput;
+						} else {
+							formatter = builtInFormatters.chineseIDNumber;
+						}
+						formatterFound = true;
+						break;
+
+					case 'mobile':
+					case 'cellphone':
+						if (isInputField) {
+							formatter = builtInFormatters.mobileInput;
+						} else {
+							formatter = builtInFormatters.mobile;
+						}
+						formatterFound = true;
+						break;
+
+					case 'bank':
+					case 'bank-card':
+					case 'chinese-bank':
+					case 'chinese-bank-card':
+						if (isInputField) {
+							formatter = builtInFormatters.chineseBankCardInput;
+						} else {
+							formatter = builtInFormatters.chineseBankCard;
+						}
+						formatterFound = true;
+						break;
+
+					default:
+				}
+				if (!formatterFound) {
+					C.w('No built-in formatter for "'+builtInFormatType+'" type.');
+				}
+
+				return formatter;
+			};
+			this.chineseIDNumber = function(text) {
+				// asterisk (*) is allowed
+				var divider = ' ';
+				return text
+					.replace(/[^xX\s0-9\*]/g, '')
+					.replace(/([\d\*]{6})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{6}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3}.)(.*)/, '$1')
+					.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})([xX0-9\*])?(.*)/, '$1$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\dxX\*\s\-]{21})(.*)/, '$1')
+					.toUpperCase()
+				;
+			};
+			this.chineseIDNumberInput = function (text) {
+				// asterisk (*) is NOT allowed
+				var divider = ' ';
+				return text
+					.replace(/[^xX\s0-9]/g, '')
+					.replace(/(\d{6})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{6}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3}.)(.*)/, '$1')
+					.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})([xX0-9])?(.*)/, '$1$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\dxX\s\-]{21})(.*)/, '$1')
+					.toUpperCase()
+				;
+			};
+			this.mobile = function(text) {
+				// asterisk (*) is allowed
+				var divider = ' ';
+				return text
+					.replace(/^\-/, '')
+					.replace(/[^\-\+\*\d]/g, '')
+					.replace(/(\s|.)\+/g, '$1')
+					.replace(/([\d\*]{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{3}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{3}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\d\*\s\-]{18})(.*)/, '$1')
+				;
+			};
+			this.mobileInput = function(text) {
+				// asterisk (*) is NOT allowed
+				var divider = ' ';
+				return text
+					.replace(/^\-/, '')
+					.replace(/[^\-\+\d]/g, '')
+					.replace(/(\s|.)\+/g, '$1')
+					.replace(/(\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{3}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{3}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\d\s\-]{18})(.*)/, '$1')
+				;
+			};
+			this.chineseBankCard = function(text) {
+				// C.l('format bank', text);
+				// asterisk (*) is allowed
+				var divider = ' ';
+				return text
+					.replace(/[^\d\*]/g, '')
+					.replace(/([\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\d\*\s\-]{35})(.*)/, '$1')
+				;
+			};
+			this.chineseBankCardInput = function(text) {
+				// asterisk (*) is NOT allowed
+				var divider = ' ';
+				return text
+					.replace(/[^0-9]/g, '')
+					.replace(/(\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\d\s\-]{35})(.*)/, '$1')
+				;
+			};
+
+
 			this.DecimalToChineseNumbers = function DecimalToChineseNumbers(initOptions) {
 				var c0s = '〇';
 				var c1s = '一';
@@ -865,6 +1099,69 @@ window.webLogicControls = {};
 	}).call(DOM);
 
 
+	var generalTools = {};
+	this.generalTools = generalTools;
+	(function () {
+		this.URI = {
+			evaluateParameters: function (URIString) {
+				if (typeof URIString !== 'string') URIString = window.location.href;
+				var p; // fisrt position of '?' and then parameters sub string
+				var s; // position of '#'
+				var urlP = {};
+				var i, pair;
+
+				p = URIString.indexOf('\?');
+				if (p<0) return urlP;
+
+				s = URIString.indexOf('#');
+				if (s<p) s = URIString.length; // in case '#' comes before '?', which is illegal, but we are still trying to handle that
+
+				p = URIString.slice(p+1,s);
+
+				p = p.split('&');
+				for (i = 0; i < p.length; i++) {
+					pair = p[i].split('=');
+					if (pair[0].length===0) continue;
+					if (pair.length===1) pair.push('');
+					urlP[pair[0]] = decodeURIComponent(pair[1]);
+				}
+
+				return urlP;
+			},
+
+			generateURIComponentFromObject: function(parameters, URIToAppendTo) {
+				parameters = parameters || {};
+
+				var parametersURI = '';
+				var i=0;
+
+				for (var key in parameters) {
+					parametersURI += '&' + key + '=' + encodeURIComponent(parameters[key]);
+					i++;
+				}
+
+				var alreadyHasQuestionMark = false;
+				if (typeof URIToAppendTo === 'string' && URIToAppendTo.length > 0) {
+					alreadyHasQuestionMark = !!URIToAppendTo.match(/\?/);
+				} else {
+					if (i > 0) {
+						URIToAppendTo = '?';
+					}
+				}
+
+				var questionMarkIsAtEnd = URIToAppendTo.slice(-1) === '?';
+				if (questionMarkIsAtEnd) {
+					parametersURI = parametersURI.slice(1);
+				}
+				
+				parametersURI = URIToAppendTo + parametersURI;
+
+				return parametersURI;
+			}
+		};
+	}).call(generalTools);
+
+
 	var UI = {};
 	this.UI = UI;
 	(function () { // UI
@@ -995,17 +1292,16 @@ window.webLogicControls = {};
 			// }
 		// };
 
-
-		this.PopupLayersManager = function PopupLayersManager() {
+		this.PopupLayersManager = function () {
 			var thisController = this;
 
-			var status = {};
+			// var status = {};
 
 			var options = {
 				secondsToWaitBackPlateLeavingAniamtionEnd: 1.2,
 				secondsToWaitPopupWindowShowingAniamtionEnd: 0.7,
 				secondsToWaitPopupWindowLeavingAniamtionEnd: 0.9,
-				cssAnimationSupported: window.Modernizr.cssanimations
+				cssAnimationSupported: window.Modernizr ? window.Modernizr.cssanimations : true
 			};
 
 			var elements = {
@@ -1076,7 +1372,7 @@ window.webLogicControls = {};
 						pl.status.popupLayerHasBeenProcessed = true;
 					});
 				});
-			};
+			}
 
 			function _clearCssClassNamesAboutShowingAnimationsForPopupWindow($pw) {
 				$pw
@@ -1142,8 +1438,6 @@ window.webLogicControls = {};
 
 					delete pw.__ShowingAnimationNotEndedEitherWay;
 				}
-
-
 
 
 				if (!popupLayerIdOrDom) return false;
@@ -1271,14 +1565,12 @@ window.webLogicControls = {};
 					// do NOT use jquery show(complete) callback.
 					// other wise the process will effect css animation of popup window under the popup layer.
 
-					setTimeout(tryToFocusSomething, 100);
-
-					function tryToFocusSomething() {
-						if (isPoliteMessage) return true;
-
-						var firstFocusable = $pl.find('input, textarea, [contentEditable="true"], button, a')[0];
-						if (firstFocusable) firstFocusable.focus();
+					if (!isPoliteMessage) {
+						setTimeout(function () {
+							tryToFocusSomething($pl);
+						}, 100);
 					}
+
 
 
 					var shouldHideAutomatically = isPoliteMessage;
@@ -1292,6 +1584,11 @@ window.webLogicControls = {};
 						}, durationBeforeAutoHide);
 					}
 				}
+			}
+
+			function tryToFocusSomething($pl) {
+				var firstFocusable = $pl.find('input, textarea, [contentEditable="true"], button, a')[0];
+				if (firstFocusable) firstFocusable.focus();
 			}
 
 			function _decideShowingUpSourceDirection(event) {
@@ -1342,8 +1639,7 @@ window.webLogicControls = {};
 		};
 		this.popupLayersManager = new this.PopupLayersManager();
 
-
-		this.DraggingController = function DraggingController(rootElement, initOptions) {
+		this.DraggingController = function (rootElement, initOptions) {
 			/*
 				require:
 					ANestedInB()
@@ -1731,12 +2027,783 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.SingleCharacterInputsSet = function SingleCharacterInputsSet(rootElement, initOptions) {
+		this.VirtualForm = function (rootElement) {
+			rootElement = wlc.DOM.validateRootElement(rootElement, this, {
+				allowBody: true
+			});
+			if (!rootElement) rootElement = document.body;
+
+			var status = {
+				rootElementIsAForm: rootElement.tagName.toLowerCase() === 'form',
+				hasNoValidationAttributeAtBeginning: false,
+			};
+
+
+			if (status.rootElementIsAForm) {
+				status.hasNoValidationAttributeAtBeginning = !rootElement.hasAttribute('novalidate');
+			}
+
+			var publicStatus = {
+				allFieldsValidation: []
+			};
+
+			var elements = {
+				root: rootElement,
+				requiredFields: [],
+				buttonsForSubmission: []
+			};
+
+			this.elements = {};
+			this.status = publicStatus;
+			this.checkValidation = checkValidation.bind(this);
+			this.validate = validate.bind(this);
+			this.getField = getField.bind(this);
+			this.getVirtualField = getVirtualField.bind(this);
+			this.validateFieldByIndex = validateFieldByIndex.bind(this);
+			this.setFieldValidationByIndex = setFieldValidationByIndex.bind(this);
+			this.rebuild = function () {
+				console.log('Rebuilding an existing {'+this.constructor.name+'}...');
+				build.call(this);
+			};
+
+
+			init.call(this);
+			if (status.isInitializing) {
+				C.e('Fail to construct <'+this.constructor.name+'>.');
+				simpleDestroy(this);
+				return;
+			}
+
+			rootElement.virtualForm = this;
+
+			function simpleDestroy(obj) {
+				WCU.objectToolkit.destroyInstanceObject(obj);
+			}
+
+			function init() {
+				status.isInitializing = true;
+
+				if (rootElement.virtualForm instanceof UI.VirtualForm) {
+					rootElement.virtualForm.rebuild();
+					delete status.isInitializing;
+					simpleDestroy(this);
+					return;
+				}
+
+				if (!build.call(this)) return;
+
+				delete status.isInitializing;
+			}
+
+			function build() {
+				var isFirstTime = !!status.isInitializing;
+
+				var oldRequiredFields = elements.requiredFields;
+				// var oldButtonsForSubmission = this.elements.buttonsForSubmission;
+
+				// requiredFieldsChanged does not mean the value of these elements changed, but addition or deletion of them instead
+				var requiredFieldsChanged = oldRequiredFields.length !== elements.requiredFields.length; // fake implementation
+
+				collectElements.call(this);
+
+
+				if (isFirstTime && elements.requiredFields.length < 1) return false;
+
+
+				if (isFirstTime || requiredFieldsChanged) {
+					this.elements.root = rootElement; // just for safety
+					this.elements.requiredFields       = [].concat(elements.requiredFields);
+					this.elements.buttonsForSubmission = [].concat(elements.buttonsForSubmission);
+
+					buildAllVirtualFieldsAsNeeded.call(this);
+				}
+
+				return true;
+			}
+
+			function collectElements() {
+				var $allInvolvedElements;
+
+				if (status.rootElementIsAForm) {
+					$allInvolvedElements = $(rootElement.elements); // in case some fields/buttons NOT nested under <form> but has an attribute named "form"
+				} else {
+					$allInvolvedElements = $(rootElement).find('input, textarea, select, [contentEditable="true"]');
+				}
+
+				var $allRequiredInputs = $allInvolvedElements.filter(function (index, el) {
+					var tnlc = el.tagName.toLowerCase();
+
+					if (tnlc === 'input' || tnlc === 'textarea' || tnlc === 'select') {
+						return el.hasAttribute('required');
+					}
+
+					var ce = el.getAttribute('contentEditable');
+					if (typeof ce === 'string') ce = ce.toLowerCase();
+
+					return (ce === 'true') && el.hasAttribute('required');
+				});
+
+
+				var $buttonsForSubmission = $allInvolvedElements.filter(function (index, el) {
+					var attr =  el.getAttribute('button-action');
+					if (attr) attr = attr.toLowerCase();
+					return attr==='submit';
+				});
+
+				elements.requiredFields       = Array.prototype.slice.apply($allRequiredInputs);
+				elements.buttonsForSubmission = Array.prototype.slice.apply($buttonsForSubmission);
+			}
+
+			function buildAllVirtualFieldsAsNeeded() {
+				var i;
+				var atLeastOneNewVirtualFieldCreated = false;
+				for (i = 0; i < elements.requiredFields.length; i++) {
+					var thisOneCreated = createNewVirtualFieldAsNeeded.call(this, i);
+					atLeastOneNewVirtualFieldCreated = atLeastOneNewVirtualFieldCreated || thisOneCreated;
+				}
+
+				if (atLeastOneNewVirtualFieldCreated) {
+					// C.t('validating virtualForm after building virtualFields...');
+					this.validate();
+				}
+			}
+
+			function createNewVirtualFieldAsNeeded(index) {
+				// index = parseInt(index);
+				// if (isNaN(index) || index <0 || index >= elements.requiredFields.length) return false;
+				var field = elements.requiredFields[index];
+				// if (!(field instanceof Node)) return;
+				var virtualField = new UI.VirtualField(field, {
+					virtualForm: this,
+					indexInVirtualForm: index
+				});
+				return !virtualField.hasBeenDestroied;
+			}
+
+			function getField(index) {
+				index = parseInt(index);
+				if (isNaN(index) || index < 0 || index >= elements.requiredFields.length) {
+					C.e('Invalid index provided.');
+					return;
+				}
+				var field = elements.requiredFields[index];
+				if (!field || !(field.virtualField instanceof UI.VirtualField)) return null;
+
+				return field;
+			}
+
+			function getVirtualField(index) {
+				var field = this.getField(index);
+				if (field) {
+					return field.virtualField;
+				}
+
+				return;
+			}
+
+			function validate() {
+				// C.t('validating virtualForm');
+				for (var i = 0; i < elements.requiredFields.length; i++) {
+					validateFieldByIndex.call(this, i);
+				}
+
+				// C.t('CHECKING AFTER VALIDATING VIRTUALFORM...');
+				// this.checkValidation();
+			}
+
+			function checkValidation(options) {
+				var allInputsAreValid = true;
+				if (status.rootElementIsAForm && rootElement.hasAttribute('novalidate')) {
+					if (status.hasNoValidationAttributeAtBeginning) {
+						C.w('form has been added "novalidate" attribute later.');
+					}
+				} else {
+					// C.l('updating virtualForm validation status');
+
+					options = options || {};
+					options.shouldSkipDisabledInputs = !!options.shouldSkipDisabledInputs; // not implemented yet
+					options.shouldSkipReadOnlyInputs = !!options.shouldSkipReadOnlyInputs; // not implemented yet
+
+					for (var i = 0; i < publicStatus.allFieldsValidation.length; i++) {
+						if (!publicStatus.allFieldsValidation[i]) {
+							allInputsAreValid = false;
+							break;
+						}
+					}
+					// C.l('\t allInputsAreValid?', allInputsAreValid);
+				}
+
+				elements.buttonsForSubmission.forEach(function (button) {
+					button.disabled = !allInputsAreValid;
+				});
+
+				return allInputsAreValid;
+			}
+
+			function validateFieldByIndex(index) {
+				var field = this.getField(index);
+				if (field) {
+					field.virtualField.validate();
+				}
+			}
+
+			function setFieldValidationByIndex(index, isValid) {
+				// C.l('recieving field status: ', index, isValid);
+				var field = this.getField(index);
+				if (field && typeof isValid === 'boolean') {
+					publicStatus.allFieldsValidation[index] = isValid;
+				}
+
+				// C.l('\t ==> CHECKING on VirtualField Callback...');
+				this.checkValidation();
+			}
+		};
+
+		this.VirtualField = function (fieldElement, initOptions) {
+			if (!(fieldElement instanceof Node)) return;
+
+			var status = {
+				virtualForm: undefined,
+				indexInVirtualForm: NaN,
+
+				isSelect: false,
+				isCheckbox: false,
+				isRadio: false,
+				isText: false,
+				isPassword: false,
+
+				valueIsEmpty: true,
+				valueIsValid: false,
+				validator: null,
+				formatter: null,
+				onFieldChangeEventHandler: undefined,
+				onValueChange: [],
+				registeredEventHandlers: []
+			};
+
+			var publicStatus = {};
+
+			var elements = {
+				clearButtons: [],
+				field: fieldElement,
+				tips: {
+					// default: null,
+					// error: {}
+				}
+			};
+
+
+			this.elements = {};
+			this.status = publicStatus;
+
+			this.format = format.bind(this);
+			this.validate = validate.bind(this);
+			this.clearValue = clearValue.bind(this);
+
+			this.scanForTips = scanForTipsDefaultMethod.bind(this);
+			this.rebuild = function (options) {
+				// C.l('Rebuilding an existing {'+this.constructor.name+'}...');
+				build.call(this, options);
+			};
+
+
+			init.call(this);
+			if (status.isInitializing) {
+				C.e('Fail to construct <'+this.constructor.name+'>.');
+				simpleDestroy(this);
+				return;
+			}
+
+			fieldElement.virtualField = this;
+
+			function simpleDestroy(obj) {
+				WCU.objectToolkit.destroyInstanceObject(obj);
+			}
+
+			function init() {
+				status.isInitializing = true;
+
+				if (fieldElement.virtualField instanceof UI.VirtualField) {
+					fieldElement.virtualField.rebuild();
+					delete status.isInitializing;
+					simpleDestroy(this);
+					return;
+				}
+
+				if (!build.call(this, initOptions)) return;
+
+				delete status.isInitializing;
+			}
+
+			function build(options) {
+				var isFirstTime = !!status.isInitializing;
+
+				this.elements.field = fieldElement; // just for safety
+
+
+				if (isFirstTime) {
+					status.onFieldChangeEventHandler = (function (event) {
+						// C.l('\t Bound Event Handler invoked for ', fieldElement.tagName, fieldElement.type);
+
+						for (var i = 0; i < status.onValueChange.length; i++) {
+							var callback = status.onValueChange[i];
+							if (typeof callback === 'function') {
+								callback.call(this, event);
+							}
+						}
+
+						this.format();
+					}).bind(this);
+				}
+
+
+
+				var virtualFormOptionsAreValid = 
+					(options.virtualForm instanceof UI.VirtualForm) &&
+					typeof options.indexInVirtualForm === 'number' &&
+					!!options.virtualForm.elements &&
+					!!options.virtualForm.elements.requiredFields &&
+					options.indexInVirtualForm >= 0 &&
+					options.indexInVirtualForm < options.virtualForm.elements.requiredFields.length
+				;
+				// C.l(
+				// 	'\n',(options.virtualForm instanceof UI.VirtualForm),
+				// 	'\n',typeof options.indexInVirtualForm === 'number',
+				// 	'\n',!!options.virtualForm.elements,
+				// 	'\n',!!options.virtualForm.elements.requiredFields,
+				// 	'\n',options.indexInVirtualForm >= 0,
+				// 	'\n',options.indexInVirtualForm < options.virtualForm.elements.requiredFields.length
+				// );
+
+				var virtualFormSetupChanged = false;
+				if (virtualFormOptionsAreValid) {
+					if (status.virtualForm === options.virtualForm && status.indexInVirtualForm === options.indexInVirtualForm) {
+					} else {
+						virtualFormSetupChanged = true;
+						status.virtualForm = options.virtualForm;
+						status.indexInVirtualForm = options.indexInVirtualForm;
+					}
+				}
+
+				if (virtualFormSetupChanged) {
+					// do something as needed
+				}
+
+
+				if (isFirstTime) { // The type of an input field is changable! But why would we do that!
+					var tnlc = fieldElement.tagName.toLowerCase();
+
+					status.isSelect = false;
+					status.isCheckbox = false;
+					status.isRadio = false;
+					status.isText = false;
+					status.isPassword = false;
+
+					if (tnlc === 'input') {
+						status.isSelect = false;
+
+						var type = fieldElement.type.toLowerCase();
+						if (type === 'checkbox') {
+							status.isCheckbox = true;
+
+						} else if (type === 'radio') {
+							status.isText = false;
+							status.isRadio = true;
+						} else {
+							status.isText = true;
+							status.isPassword = type === 'password';
+						}
+					} else if (tnlc === 'textarea') {
+							status.isText = true;
+					} else if (tnlc === 'select') {
+							status.isSelect = true;
+					} else { // contentEditable
+						status.isText = true;
+					}
+				}
+
+
+
+
+				setupValidator.call(this, options, isFirstTime);
+				setupFormatter.call(this, options, isFirstTime);
+				setupEventHandlers.call(this, isFirstTime);
+
+
+				if (isFirstTime) {
+					setupClearInputButton.call(this, null, isFirstTime);
+				}
+
+
+				var R = WCU.save.method(status, 'scanForTips', options, false);
+				if (isFirstTime || R.valueHasBeenChanged) {
+					this.scanForTips();
+					this.elements.tips = {
+						default: elements.tips.default,
+						errors:  elements.tips.errors // reference instead of duplication
+					};
+				}
+
+
+
+
+
+				var shouldValidateNow = true;
+				if (virtualFormOptionsAreValid && status.virtualForm) {
+					shouldValidateNow = false; // wait for virtualForm batch action
+				} else {
+					if (isFirstTime) {
+					} else {
+						// shouldValidateNow = false;
+					}
+				}
+
+				if (shouldValidateNow) {
+					this.validate();
+				}
+
+
+				return true;
+			}
+
+			function setupFormatter(options, isFirstTime) {
+				if (!isFirstTime && !!status.formatter) return;
+
+				if (!status.isText) return;
+
+
+				options = options || {};
+
+
+				var formatter;
+				var formatterIsSpecified;
+
+				if (typeof options.formatter === 'function') { // override HTML's setup with options argument's
+					formatter = options.formatter;
+					formatterIsSpecified = true;
+				}
+				
+
+				if (!formatterIsSpecified) {
+					formatter = WCU.objectToolkit.evaluateDotNotationChainViaHTMLAttribute(
+						fieldElement, 'data-formatter'
+					);
+					formatterIsSpecified = typeof formatter === 'function';
+				}
+
+				if (!formatterIsSpecified) {
+					formatter = WCU.stringFormatters.evaluateFormatterFromType(
+						fieldElement.getAttribute('data-text-format'), true
+					);
+					formatterIsSpecified = typeof formatter === 'function';
+				}
+
+				if (
+					(!formatterIsSpecified && typeof status.formatter === 'function') ||
+					( formatterIsSpecified && formatter === status.formatter)
+				) {
+					// do nothing
+				} else {
+					if (formatterIsSpecified) {
+						status.formatter = formatter;
+					}
+				}
+
+
+				if (!status.formatter) { // using default formatters
+					if (status.isPassword) {
+						// status.validator = defaultFormatterForTextInputField;
+					} else {
+						// status.validator = defaultFormatterForTextInputField;
+					}
+				}
+			}
+
+			function setupValidator(options, isFirstTime) {
+				if (!isFirstTime && !!status.validator) return;
+
+
+				options = options || {};
+
+
+				var validator = WCU.objectToolkit.evaluateDotNotationChainViaHTMLAttribute(fieldElement, 'data-validator');
+				var validatorIsSpecified = typeof validator === 'function';
+
+				if (typeof options.validator === 'function') { // override HTML's setup with options argument's
+					validator = options.validator;
+					validatorIsSpecified = true;
+				}
+
+
+				if (
+					(!validatorIsSpecified && typeof status.validator === 'function') ||
+					( validatorIsSpecified && validator === status.validator)
+				) {
+				} else {
+					if (validatorIsSpecified) {
+						status.validator = validator;
+					}
+				}
+
+
+
+				if (!status.validator) {
+					if (status.isPassword) {
+						status.validator = defaultValidatorForTextInputField;
+					} else if (status.isText) {
+						status.validator = defaultValidatorForTextInputField;
+					} else if (status.isCheckbox) {
+						status.validator = defaultValidatorForCheckbox;
+					} else if (status.isRadio) {
+						status.validator = defaultValidatorForRadio;
+					} else if (status.isSelect) {
+						status.validator = defaultValidatorForSelect;
+					} else {
+						// hopefully impossible
+					}
+				}
+			}
+
+			function setupEventHandlers(isFirstTime) {
+				if (!isFirstTime) return;
+
+
+				var boundEventHandler;
+				var handlers = status.registeredEventHandlers;
+
+				boundEventHandler = status.onFieldChangeEventHandler.bind(this);
+				handlers.push(boundEventHandler);
+
+
+				if (status.isText) {
+					$(fieldElement).on('input', boundEventHandler);
+				} else if (status.isCheckbox || status.isRadio || status.isSelect) {
+					$(fieldElement).on('change', boundEventHandler);
+				}
+
+
+				fieldElement.onUpdateAtHiddenState = boundEventHandler;
+			}
+
+			function setupClearInputButton(scanRootElement, isFirstTime) {
+				if (!isFirstTime) return;
+
+				var id = fieldElement.id;
+				if (!id) return;
+				if (!status.isText) return;
+
+
+				if (!(scanRootElement instanceof Node)) {
+					scanRootElement = $(fieldElement).parents('.page');
+				}
+				// C.l(scanRootElement);
+
+				var $buttons = $(scanRootElement).find('button[button-action="clear-input-field"][for-input="'+id+'"]');
+
+				elements.clearButtons = Array.prototype.slice.apply($buttons);
+				var thisVirtualField = this;
+
+				$buttons.each(function () {
+					this.setAttribute('type', 'button'); // prevent this from submitting <form>
+
+					$(this).on('click', function (event) {
+						if (event) {
+							event.preventDefault();
+							event.stopPropagation();
+						}
+
+						thisVirtualField.clearValue();
+
+						setTimeout(function () {
+							fieldElement.focus();
+						}, 0);
+
+
+						C.w('Ugly codes below.');
+						if (typeof fieldElement.elements === 'object') {
+							var el = fieldElement.elements;
+							if (el.coupledChineseNumbers) {
+								el.coupledChineseNumbers.innerHTML = '';
+							}
+						}
+					});
+				});
+			}
+
+			function scanForTipsDefaultMethod(scanRootElement) {
+				var id = fieldElement.id;
+				if (!id) return;
+
+
+				if (!(scanRootElement instanceof Node)) {
+					scanRootElement = $(fieldElement).parents('.page');
+				}
+				// C.l(scanRootElement);
+
+
+				elements.tips.default = $(scanRootElement).find('.input-tip.default[for="'+id+'"]')[0];
+				elements.tips.errors = Array.prototype.slice.apply(
+					$(scanRootElement).find('.input-tip.error[for="'+id+'"]')
+				);
+			}
+
+			function clearValue() {
+				fieldElement.value = '';
+				this.validate();
+			}
+
+			function format() {
+				var fomattedValue = fieldElement.value;
+				if (typeof status.formatter === 'function') {
+					fomattedValue = status.formatter.call(this, fomattedValue);
+				}
+
+				if (fieldElement.value !== fomattedValue) {
+					fieldElement.value = fomattedValue;
+				}
+
+				this.validate();
+			}
+
+			function defaultValidatorForTextInputField() {
+				return fieldElement.value.replace(/^\s+/, '').replace(/\s+$/, '').length > 0;
+			}
+			function defaultValidatorForCheckbox() {
+				return fieldElement.checked;
+			}
+			function defaultValidatorForRadio() {
+				C.e('Radio validator not implemented!');
+				return true;
+			}
+			function defaultValidatorForSelect() {
+				return fieldElement.value !== -1;
+			}
+
+			function validate() {
+				updateStatus.call(this);
+
+				var validator = status.validator;
+
+				var validateResult = {
+					isValid: true,
+					errorInfoElement: null
+				};
+
+				if (typeof validator === 'function') {
+					var rawResult = validator.call(this);
+					if (typeof rawResult === 'boolean') {
+						validateResult.isValid = rawResult;
+					} else if (!rawResult || typeof rawResult !== 'object' || typeof rawResult.isValid !== 'boolean') {
+						C.e('Invalid return value of a input value validator. The return MUST be either a boolean or an object which contains a boolean property with property name "isValid".');
+						validateResult.isValid = false;
+					} else {
+						validateResult.isValid = rawResult.isValid;
+						if (rawResult.errorInfoElement instanceof Node) {
+							validateResult.errorInfoElement = rawResult.errorInfoElement;
+						}
+					}
+				}
+
+				status.valueIsValid = validateResult.isValid;
+
+				// C.l('\t --> Validating virtualField ['+status.indexInVirtualForm+']', fieldElement.tagName, fieldElement.type);
+				// C.l('\t\t isEmpty?', status.valueIsEmpty, '\t isValid?', status.valueIsValid);
+
+				if (status.virtualForm) {
+					 status.virtualForm.setFieldValidationByIndex(status.indexInVirtualForm, status.valueIsValid);
+				}
+
+				updateCssClasses.call(this);
+				updateInfoTips.call(this, validateResult);
+			}
+
+			function updateStatus() {
+				var isEmpty = true;
+				if (status.isText) {
+					isEmpty = fieldElement.value.length < 1;
+				} else if (status.isCheckbox) {
+					isEmpty = !fieldElement.checked;
+				} else if (status.isRadio) {
+					C.e('Radio not implemented yet!');
+					isEmpty = !fieldElement.checked;
+				} else if (status.isSelect) {
+					isEmpty = fieldElement.selectedIndex === -1;
+				}
+
+				status.valueIsEmpty = isEmpty;
+				// C.l('updateStatus, value='+fieldElement.value, '\t isText?', status.isText, '\t isEmpty?', status.valueIsEmpty);
+
+				updateClearTextFieldButtons.call(this);
+			}
+
+			function updateClearTextFieldButtons() {
+				if (status.valueIsEmpty) {
+					$(elements.clearButtons).hide();
+				} else {
+					$(elements.clearButtons).show();
+				}
+			}
+
+			function updateCssClasses() {
+				if (status.valueIsEmpty) {
+					$(fieldElement)
+						.removeClass('non-empty-field')
+						   .addClass('empty-field')
+					;
+				} else {
+					$(fieldElement)
+						.removeClass('empty-field')
+						   .addClass('non-empty-field')
+					;
+				}
+
+
+				if (status.valueIsValid) {
+					$(fieldElement).removeClass('value-invalid');
+				} else {
+					$(fieldElement)   .addClass('value-invalid');
+				}
+			}
+
+			function updateInfoTips(validateResult) {
+				var defaultTip = elements.tips.default;
+				var errorTip   = validateResult.errorInfoElement;
+				if (!validateResult.isValid && !!errorTip) {
+					showOrHideInputTip(defaultTip, true, false);
+					showOrHideInputTip(errorTip, false, true);
+				} else {
+					showOrHideInputTip(defaultTip, true, true);
+					showOrHideInputTip(elements.tips.errors, false, false); // hide all errors
+				}
+
+			}
+
+			function showOrHideInputTip(tipElement, isDefaultTip, isToShow) {
+				if (!!isToShow) {
+					if (!!isDefaultTip) {
+						$(tipElement).removeClass('hidden');
+					} else {
+						$(tipElement).addClass('shown');
+					}
+				} else {
+					if (!!isDefaultTip) {
+						$(tipElement).addClass('hidden');
+					} else {
+						$(tipElement).removeClass('shown');
+					}
+				}
+			}
+		};
+
+		this.SingleCharacterInputsSet = function (rootElement, initOptions) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			var $allInputs;
 
-			this.options = {};
+			this.options = {
+				shouldHandleCaret: false,
+				shouldHanleNavKeys: false
+			};
 
 			this.validatorsForEachInput = [];
 
@@ -1863,13 +2930,17 @@ window.webLogicControls = {};
 			function inputOnFocus(event) {
 				var input = event.target;
 				// var inputIndex = parseInt(input.dataset.inputIndex);
-				updateCaretPositionForInput.call(this, input);
+				if (this.options.shouldHandleCaret) {
+					updateCaretPositionForInput.call(this, input);
+				}
 			}
 
 			function inputOnBlur(event) {
 				var input = event.target;
 				// var inputIndex = parseInt(input.dataset.inputIndex);
-				clearCaretPositionForInput(input);
+				if (this.options.shouldHandleCaret) {
+					clearCaretPositionForInput(input);
+				}
 			}
 
 			function inputOnKeyDown(event) {
@@ -1885,7 +2956,9 @@ window.webLogicControls = {};
 				input.newValueIsValid = false;
 				input.onInputEventDispatched = false;
 
-				updateCaretPositionForInput.call(this, input);
+				if (this.options.shouldHandleCaret) {
+					updateCaretPositionForInput.call(this, input);
+				}
 
 				if (k === 8) { // baskspace
 					input.keyBackspaceWasDown = true;
@@ -1913,7 +2986,7 @@ window.webLogicControls = {};
 				// console.log('inputOnInput:', '\n\tinput['+input.dataset.inputIndex+']', '\tvalue="'+input.value+'"');
 
 				if (input.value.length > 1) {
-					if (input.caretStatus.isAtLeftEnd) {
+					if (this.options.shouldHandleCaret && input.caretStatus.isAtLeftEnd) {
 						input.value = input.value.slice(0, 1);
 					} else {
 						input.value = input.value.slice(-1);
@@ -1962,27 +3035,29 @@ window.webLogicControls = {};
 				// console.log('empty?', valueIsEmpty, '\tshould nex?', input.shouldChangeFocusToNextInput,
 				// 	'\npos:', input.caretStatus.pos, '\t left?', input.caretStatus.isAtLeftEnd, '\t right?', input.caretStatus.isAtRightEnd);
 
-				if (k === 36) { // home key
-					focusMovingDirectionIsLeft = true;
-					inputToChangeFocusOn = getFirstInput.call(this);
-				}
-
-				if (k === 35) { // end key
-					focusMovingDirectionIsLeft = false;
-					inputToChangeFocusOn = getLastInput.call(this);
-				}
-
-				if (k === 37) { // left arrow key
-					focusMovingDirectionIsLeft = true;
-					if (valueIsEmpty || input.caretStatus.isAtLeftEnd) {
-						inputToChangeFocusOn = getPrevInputOf.call(this, input);
+				if (this.options.shouldHanleNavKeys) {
+					if (k === 36) { // home key
+						focusMovingDirectionIsLeft = true;
+						inputToChangeFocusOn = getFirstInput.call(this);
 					}
-				}
 
-				if (k === 39) { // right arrow key
-					focusMovingDirectionIsLeft = false;
-					if (valueIsEmpty || input.caretStatus.isAtRightEnd) {
-						inputToChangeFocusOn = getNextInputOf.call(this, input);
+					if (k === 35) { // end key
+						focusMovingDirectionIsLeft = false;
+						inputToChangeFocusOn = getLastInput.call(this);
+					}
+
+					if (k === 37) { // left arrow key
+						focusMovingDirectionIsLeft = true;
+						if (valueIsEmpty || input.caretStatus.isAtLeftEnd) {
+							inputToChangeFocusOn = getPrevInputOf.call(this, input);
+						}
+					}
+
+					if (k === 39) { // right arrow key
+						focusMovingDirectionIsLeft = false;
+						if (valueIsEmpty || input.caretStatus.isAtRightEnd) {
+							inputToChangeFocusOn = getNextInputOf.call(this, input);
+						}
 					}
 				}
 
@@ -1993,7 +3068,9 @@ window.webLogicControls = {};
 
 				if (inputToChangeFocusOn !== input) {
 					focusInput.call(this, inputToChangeFocusOn);
-					setCaretPosition(inputToChangeFocusOn, (focusMovingDirectionIsLeft || k === 35) ? 'end' : 0);
+					if (this.options.shouldHandleCaret) {
+						setCaretPosition(inputToChangeFocusOn, (focusMovingDirectionIsLeft || k === 35) ? 'end' : 0);
+					}
 				}
 			}
 
@@ -2153,7 +3230,7 @@ window.webLogicControls = {};
 							if (type !== 'checkbox' && type !== 'raido') {
 								inputForAggregation = options.inputForAggregation;
 								_el.type = status.inputsAreForPassword ? 'hidden' : 'hidden';
-								inputForAggregation.readOnly = false; // important
+								inputForAggregation.readOnly = false; // important for iOS Safari, maybe others as well
 								inputForAggregation.disabled = false; // in case it is associated with a form
 							}
 						}
@@ -2219,7 +3296,9 @@ window.webLogicControls = {};
 				$allInputs.each(function (index) {
 					this.autocomplete = 'off';
 					this.dataset.inputIndex = index;
-					this.type = status.inputsAreForPassword ? 'password' : 'text';
+					if (status.inputsAreForPassword) {
+						this.type = 'password';
+					}
 					status.allInputsValue[index] = this.value;
 					status.allInputsFilling[index] = this.value.length > 0;
 					validateOneInput.call(thisController, this);
@@ -2250,7 +3329,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.ProgressRing = function ProgressRing(rootElement, initOptions) {
+		this.ProgressRing = function (rootElement, initOptions) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			this.options = {
@@ -2835,7 +3914,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.ProgressRings = function ProgressRings(rootElement, initOptions) {
+		this.ProgressRings = function (rootElement, initOptions) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			this.options = {
@@ -3100,7 +4179,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.TabPanelSet = function TabPanelSet(rootElement, initOptions) {
+		this.TabPanelSet = function (rootElement, initOptions) {
 			var thisController = this;
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 

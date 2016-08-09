@@ -1,4 +1,6 @@
 $(function () {
+	var app = window.taijs.app;
+
 	var wlc = window.webLogicControls;
 	var UI = wlc.UI;
 
@@ -6,7 +8,26 @@ $(function () {
 		// UI.popupLayersManager.show('pl-product-terminated');
 
 
-	var isFirstTimeAccess = true;
+
+	$page.find('.abstract-title').each(function () {
+		var productCaption = $(this).find('.left h3').html();
+
+		if (!productCaption) return;
+
+		var anchor1 = $(this).parent()[0];
+		if (anchor1 && anchor1.tagName.toLowerCase() === 'a' && anchor1.href.length > 2) {
+			anchor1.href += '?productCaption='+productCaption;
+		}
+
+		var anchor2 = $(this).parents('.f-block-body').find('.abstract-body').parent()[0];
+		if (anchor2 && anchor2.tagName.toLowerCase() === 'a' && anchor2.href.length > 2) {
+			anchor2.href += '&productCaption='+productCaption;
+		}
+	});
+
+
+
+	var isFirstTimeAccess = app.data.URIParameters.firstTime==='true';
 	if (isFirstTimeAccess) {
 		var userGuide = (function () {
 			var userGuide = {
@@ -43,7 +64,7 @@ $(function () {
 	(function _setupTabPanelSet() {
 		var tabPanelSet = new wlc.UI.TabPanelSet($page.find('.tab-panel-set')[0], {
 			doNotShowPanelAtInit: true,
-			// initTab: window.urlParameters.tabLabel
+			// initTab: app.data.URIParameters.tabLabel
 		});
 		if (tabPanelSet.hasBeenDestroied) {
 			return;
@@ -74,7 +95,7 @@ $(function () {
 			};
 		}
 
-		tabPanelSet.showPanelViaTab(window.urlParameters.tabLabel || 0);
+		tabPanelSet.showPanelViaTab(app.data.URIParameters.tabLabel || 0);
 
 
 
