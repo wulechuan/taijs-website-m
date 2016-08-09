@@ -314,7 +314,11 @@ window.webLogicControls = {};
 		this.objectToolkit = objectToolkit;
 		(function () {
 			this.destroyInstanceObject = function (obj) {
-				if (typeof obj === 'object') {
+				if (obj === window) {
+					C.w('Cannot destroy window.');
+				} else if (obj instanceof Node) {
+					C.w('Cannot destroy DOM node.');
+				} else if (typeof obj === 'object') {
 					for (var p in obj) {
 						delete obj[p];
 					}
@@ -425,6 +429,59 @@ window.webLogicControls = {};
 		var stringFormatters = {};
 		this.stringFormatters = stringFormatters;
 		(function () {
+			this.evaluateFormatterFromType = function(builtInFormatType, isInputField) {
+				if (typeof builtInFormatType !== 'string') return;
+
+				var formatterFound = false;
+				var formatter;
+				switch (builtInFormatType) {
+					case 'chinese-id-card':
+					case 'chinese-id-number':
+						if (isInputField) {
+							formatter = WCU.stringFormatters.chineseIDNumberInput;
+						} else {
+							formatter = WCU.stringFormatters.chineseIDNumber;
+						}
+						formatterFound = true;
+						break;
+					default:
+				}
+				if (!formatterFound) {
+					C.w('No built-in formatter for "'+builtInFormatType+'" type.');
+				}
+
+				return formatter;
+			};
+			this.chineseIDNumber = function(text) {
+				// asterisk (*) is allowed
+				var divider = ' ';
+				return text
+					.replace(/[^xX\s0-9\*]/g, '')
+					.replace(/([\d\*]{6})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{6}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3}.)(.*)/, '$1')
+					.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})([xX0-9\*])?(.*)/, '$1$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\dxX\*\s\-]{21})(.*)/, '$1')
+					.toUpperCase()
+				;
+			};
+			this.chineseIDNumberInput = function (text) {
+				// asterisk (*) is NOT allowed
+				var divider = ' ';
+				return text
+					.replace(/[^xX\s0-9]/g, '')
+					.replace(/(\d{6})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{6}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3}.)(.*)/, '$1')
+					.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})([xX0-9])?(.*)/, '$1$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\dxX\s\-]{21})(.*)/, '$1')
+					.toUpperCase()
+				;
+			};
 			this.DecimalToChineseNumbers = function DecimalToChineseNumbers(initOptions) {
 				var c0s = '〇';
 				var c1s = '一';
@@ -1145,8 +1202,7 @@ window.webLogicControls = {};
 			// }
 		// };
 
-
-		this.PopupLayersManager = function PopupLayersManager() {
+		this.PopupLayersManager = function () {
 			var thisController = this;
 
 			// var status = {};
@@ -1493,8 +1549,7 @@ window.webLogicControls = {};
 		};
 		this.popupLayersManager = new this.PopupLayersManager();
 
-
-		this.DraggingController = function DraggingController(rootElement, initOptions) {
+		this.DraggingController = function (rootElement, initOptions) {
 			/*
 				require:
 					ANestedInB()
@@ -1882,9 +1937,11 @@ window.webLogicControls = {};
 			}
 		};
 
-
-		this.VirtualForm = function VirtualForm2(rootElement) {
-			if (!(rootElement instanceof Node)) rootElement = document.body;
+		this.VirtualForm = function (rootElement) {
+			rootElement = wlc.DOM.validateRootElement(rootElement, this, {
+				allowBody: true
+			});
+			if (!rootElement) rootElement = document.body;
 
 			var status = {
 				rootElementIsAForm: rootElement.tagName.toLowerCase() === 'form',
@@ -2112,7 +2169,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.VirtualField = function VirtualField(fieldElement, initOptions) {
+		this.VirtualField = function (fieldElement, initOptions) {
 			if (!(fieldElement instanceof Node)) return;
 
 			var status = {
@@ -2176,7 +2233,7 @@ window.webLogicControls = {};
 			function init() {
 				status.isInitializing = true;
 
-				if (fieldElement.virtualField instanceof VirtualField) {
+				if (fieldElement.virtualField instanceof UI.VirtualField) {
 					fieldElement.virtualField.rebuild();
 					delete status.isInitializing;
 					simpleDestroy(this);
@@ -2187,7 +2244,6 @@ window.webLogicControls = {};
 
 				delete status.isInitializing;
 			}
-
 
 			function build(options) {
 				var isFirstTime = !!status.isInitializing;
@@ -2221,7 +2277,7 @@ window.webLogicControls = {};
 					options.indexInVirtualForm < options.virtualForm.elements.requiredFields.length
 				;
 				// C.l(
-				// 	'\n',(options.virtualForm instanceof VirtualForm),
+				// 	'\n',(options.virtualForm instanceof UI.VirtualForm),
 				// 	'\n',typeof options.indexInVirtualForm === 'number',
 				// 	'\n',!!options.virtualForm.elements,
 				// 	'\n',!!options.virtualForm.elements.requiredFields,
@@ -2329,25 +2385,34 @@ window.webLogicControls = {};
 				options = options || {};
 
 
-				var formatter = WCU.objectToolkit.evaluateDotNotationChainViaHTMLAttribute(fieldElement, 'data-formatter');
-				var formatterIsSpecified = typeof formatter === 'function';
-
-				var formatPattern = fieldElement.getAttribute('data-text-format');
-				if (formatPattern) {
-					C.w('Formatter for {'+this.constructor.name+'} is not implemented yet. Desired format="'+formatPattern+'".');
-					// formatter = evaluatedFomatterViaPattern(formatPattern);
-				}
+				var formatter;
+				var formatterIsSpecified;
 
 				if (typeof options.formatter === 'function') { // override HTML's setup with options argument's
 					formatter = options.formatter;
 					formatterIsSpecified = true;
 				}
+				
 
+				if (!formatterIsSpecified) {
+					formatter = WCU.objectToolkit.evaluateDotNotationChainViaHTMLAttribute(
+						fieldElement, 'data-formatter'
+					);
+					formatterIsSpecified = typeof formatter === 'function';
+				}
+
+				if (!formatterIsSpecified) {
+					formatter = WCU.stringFormatters.evaluateFormatterFromType(
+						fieldElement.getAttribute('data-text-format'), true
+					);
+					formatterIsSpecified = typeof formatter === 'function';
+				}
 
 				if (
 					(!formatterIsSpecified && typeof status.formatter === 'function') ||
 					( formatterIsSpecified && formatter === status.formatter)
 				) {
+					// do nothing
 				} else {
 					if (formatterIsSpecified) {
 						status.formatter = formatter;
@@ -2355,8 +2420,7 @@ window.webLogicControls = {};
 				}
 
 
-
-				if (!status.validator) {
+				if (!status.formatter) { // using default formatters
 					if (status.isPassword) {
 						// status.validator = defaultFormatterForTextInputField;
 					} else {
@@ -2501,7 +2565,7 @@ window.webLogicControls = {};
 			function format() {
 				var fomattedValue = fieldElement.value;
 				if (typeof status.formatter === 'function') {
-					fomattedValue = status.formatter.call(this);
+					fomattedValue = status.formatter.call(this, fomattedValue);
 				}
 
 				if (fieldElement.value !== fomattedValue) {
@@ -2641,8 +2705,7 @@ window.webLogicControls = {};
 			}
 		};
 
-
-		this.SingleCharacterInputsSet = function SingleCharacterInputsSet(rootElement, initOptions) {
+		this.SingleCharacterInputsSet = function (rootElement, initOptions) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			var $allInputs;
@@ -3176,7 +3239,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.ProgressRing = function ProgressRing(rootElement, initOptions) {
+		this.ProgressRing = function (rootElement, initOptions) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			this.options = {
@@ -3761,7 +3824,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.ProgressRings = function ProgressRings(rootElement, initOptions) {
+		this.ProgressRings = function (rootElement, initOptions) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			this.options = {
@@ -4026,7 +4089,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.TabPanelSet = function TabPanelSet(rootElement, initOptions) {
+		this.TabPanelSet = function (rootElement, initOptions) {
 			var thisController = this;
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
