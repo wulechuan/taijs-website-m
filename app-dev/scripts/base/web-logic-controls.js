@@ -429,8 +429,16 @@ window.webLogicControls = {};
 		var stringFormatters = {};
 		this.stringFormatters = stringFormatters;
 		(function () {
-			this.evaluateFormatterFromType = function(builtInFormatType, isInputField) {
+			this.format = function (text, formatType, isInputField) {
+				if (!text || typeof text !== 'string') return text;
+				var formatter = this.evaluateFormatterFromType(formatType);
+				if (!formatter) return text;
+				return formatter(text);
+			};
+			this.evaluateFormatterFromType = function(builtInFormatType, isInputField/*, options*/) {
 				if (typeof builtInFormatType !== 'string') return;
+
+				var builtInFormatters = WCU.stringFormatters; // alias for minifiying
 
 				var formatterFound = false;
 				var formatter;
@@ -438,12 +446,35 @@ window.webLogicControls = {};
 					case 'chinese-id-card':
 					case 'chinese-id-number':
 						if (isInputField) {
-							formatter = WCU.stringFormatters.chineseIDNumberInput;
+							formatter = builtInFormatters.chineseIDNumberInput;
 						} else {
-							formatter = WCU.stringFormatters.chineseIDNumber;
+							formatter = builtInFormatters.chineseIDNumber;
 						}
 						formatterFound = true;
 						break;
+
+					case 'mobile':
+					case 'cellphone':
+						if (isInputField) {
+							formatter = builtInFormatters.mobileInput;
+						} else {
+							formatter = builtInFormatters.mobile;
+						}
+						formatterFound = true;
+						break;
+
+					case 'bank':
+					case 'bank-card':
+					case 'chinese-bank':
+					case 'chinese-bank-card':
+						if (isInputField) {
+							formatter = builtInFormatters.chineseBankCardInput;
+						} else {
+							formatter = builtInFormatters.chineseBankCard;
+						}
+						formatterFound = true;
+						break;
+
 					default:
 				}
 				if (!formatterFound) {
@@ -482,6 +513,65 @@ window.webLogicControls = {};
 					.toUpperCase()
 				;
 			};
+			this.mobile = function(text) {
+				// asterisk (*) is allowed
+				var divider = ' ';
+				return text
+					.replace(/^\-/, '')
+					.replace(/[^\-\+\*\d]/g, '')
+					.replace(/(\s|.)\+/g, '$1')
+					.replace(/([\d\*]{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{3}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{3}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\d\*\s\-]{18})(.*)/, '$1')
+				;
+			};
+			this.mobileInput = function(text) {
+				// asterisk (*) is NOT allowed
+				var divider = ' ';
+				return text
+					.replace(/^\-/, '')
+					.replace(/[^\-\+\d]/g, '')
+					.replace(/(\s|.)\+/g, '$1')
+					.replace(/(\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{3}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{3}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\d\s\-]{18})(.*)/, '$1')
+				;
+			};
+			this.chineseBankCard = function(text) {
+				// C.l('format bank', text);
+				// asterisk (*) is allowed
+				var divider = ' ';
+				return text
+					.replace(/[^\d\*]/g, '')
+					.replace(/([\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\d\*\s\-]{35})(.*)/, '$1')
+				;
+			};
+			this.chineseBankCardInput = function(text) {
+				// asterisk (*) is NOT allowed
+				var divider = ' ';
+				return text
+					.replace(/[^0-9]/g, '')
+					.replace(/(\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
+					.replace(/[\s\-]+$/, '')
+					.replace(/([\d\s\-]{35})(.*)/, '$1')
+				;
+			};
+
+
 			this.DecimalToChineseNumbers = function DecimalToChineseNumbers(initOptions) {
 				var c0s = '〇';
 				var c1s = '一';

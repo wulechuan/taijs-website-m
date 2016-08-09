@@ -284,162 +284,21 @@
 		}
 
 		function setupAllContentsWithDesiredStringFormat($page, isFirstTime) {
-			if (!isFirstTime) return true;
+			// if (!isFirstTime) return true;
 
 			$page.find('[data-text-format]').each(function () {
 				var tnlc = this.tagName.toLowerCase();
-				var contentIsFromUserInput = false;
-				var propertyToFormat = 'textContent';
-				var elementIsValid = true;
-
-				if (tnlc === 'input') {
-					if (this.type === 'checkbox' || this.type === 'radio') {
-						elementIsValid = false;
-					} else {
-						contentIsFromUserInput = true;
-						propertyToFormat = 'value';
-					}
-				} else if (tnlc === 'textarea') {
-					contentIsFromUserInput = true;
-					propertyToFormat = 'value';
+				if (tnlc === 'input' || tnlc === 'textarea' || tnlc==='select') {
+					return;
 				} else if (this.getAttribute('contentEditable') && this.getAttribute('contentEditable').toLowerCase() === 'true') {
-					contentIsFromUserInput = true;
+					return;
 				}
 
-				if (!elementIsValid) return;
-
-				_formatText(this);
-
-				if (contentIsFromUserInput) {
-					$(this).on('input', function () {
-						_formatText(this);
-					});
-				}
-
-
-
-				function _formatText(el, textFormat) {
-					if (!textFormat) {
-						textFormat = el.dataset.textFormat;
-					}
-					// console.log(textFormat);
-
-					var text = el[propertyToFormat];
-					// console.log('old text:', text);
-
-					switch (textFormat) {
-						case 'mobile':
-							if (contentIsFromUserInput) {
-								text = _formatMobileInput(text);
-							} else {
-								text = _formatMobile(text);
-							}
-							break;
-
-						case 'bank-card':
-							if (contentIsFromUserInput) {
-								text = _formatBankCardInput(text);
-							} else {
-								text = _formatBankCard(text);
-							}
-							break;
-
-						case 'chinese-id-card':
-							if (contentIsFromUserInput) {
-								text = _formatChineseIdCardInput(text);
-							} else {
-								text = _formatChineseIdCard(text);
-							}
-							break;
-
-						default:
-							break;
-					}
-
-					// console.log('new text:', text);
-					el[propertyToFormat] = text;
-				}
-
-				function _formatMobile(text) {
-					var divider = ' ';
-					return text
-						.replace(/^\-/, '')
-						.replace(/[^\-\+\*\d]/g, '')
-						.replace(/(\s|.)\+/g, '$1')
-						.replace(/([\d\*]{3})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/([\d\*]{3}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/([\d\*]{3}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/[\s\-]+$/, '')
-						.replace(/([\d\*\s\-]{18})(.*)/, '$1')
-					;
-				}
-				function _formatMobileInput(text) {
-					var divider = ' ';
-					return text
-						.replace(/^\-/, '')
-						.replace(/[^\-\+\d]/g, '')
-						.replace(/(\s|.)\+/g, '$1')
-						.replace(/(\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/(\d{3}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/(\d{3}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/[\s\-]+$/, '')
-						.replace(/([\d\s\-]{18})(.*)/, '$1')
-					;
-				}
-				function _formatBankCard(text) {
-					var divider = ' ';
-					return text
-						.replace(/[^\d\*]/g, '')
-						.replace(/([\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/([\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/([\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/[\s\-]+$/, '')
-						.replace(/([\d\*\s\-]{35})(.*)/, '$1')
-					;
-				}
-				function _formatBankCardInput(text) {
-					var divider = ' ';
-					return text
-						.replace(/[^0-9]/g, '')
-						.replace(/(\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/(\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/(\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/[\s\-]+$/, '')
-						.replace(/([\d\s\-]{35})(.*)/, '$1')
-					;
-				}
-				function _formatChineseIdCard(text) {
-					var divider = ' ';
-					return text
-						.replace(/[^xX\s0-9\*]/g, '')
-						.replace(/([\d\*]{6})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/([\d\*]{6}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3}.)(.*)/, '$1')
-						.replace(/([\d\*]{6}[\s\-][\d\*]{4}[\s\-][\d\*]{4}[\s\-][\d\*]{3})([xX0-9\*])?(.*)/, '$1$2')
-						.replace(/[\s\-]+$/, '')
-						.replace(/([\dxX\*\s\-]{21})(.*)/, '$1')
-						.toUpperCase()
-					;
-				}
-				function _formatChineseIdCardInput(text) {
-					var divider = ' ';
-					return text
-						.replace(/[^xX\s0-9]/g, '')
-						.replace(/(\d{6})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/(\d{6}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4})[\s\-]*(.*)/, '$1'+divider+'$2')
-						.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3}.)(.*)/, '$1')
-						.replace(/(\d{6}[\s\-]\d{4}[\s\-]\d{4}[\s\-]\d{3})([xX0-9])?(.*)/, '$1$2')
-						.replace(/[\s\-]+$/, '')
-						.replace(/([\dxX\s\-]{21})(.*)/, '$1')
-						.toUpperCase()
-					;
-				}
+				this.textContent = WCU.stringFormatters.format(
+					this.textContent,
+					this.dataset.textFormat,
+					false
+				);
 			});
 		}
 
