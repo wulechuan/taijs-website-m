@@ -429,9 +429,9 @@ window.webLogicControls = {};
 		var stringFormatters = {};
 		this.stringFormatters = stringFormatters;
 		(function () {
-			this.format = function (text, formatType, isInputField) {
+			this.format = function (text, formatType, isInputField, options) {
 				if (!text || typeof text !== 'string') return text;
-				var formatter = this.evaluateFormatterFromType(formatType);
+				var formatter = this.evaluateFormatterFromType(formatType, isInputField, options);
 				if (!formatter) return text;
 				return formatter(text);
 			};
@@ -1020,6 +1020,61 @@ window.webLogicControls = {};
 				return formatter;
 			}).call(this);
 		}).call(stringFormatters);
+
+
+		this.invoke = function () {
+			var iterationDepth = 0;
+			var maxIterationDepth = 1;
+			return iterate.apply(null, arguments);
+
+			function iterate() {
+				iterationDepth++;
+
+				if (arguments.length < 1) return;
+
+				var args = Array.prototype.slice.apply(arguments);
+				var func;
+
+				var owners = args[0];
+
+				if (typeof owners === 'function') {
+					func = owners;
+					owners = window;
+					args = args.slice(1);
+				} else {
+					func = args[1];
+
+					if (!(typeof func === 'function' || (typeof func === 'string' && func.length > 0))) return;
+
+					if (owners === undefined || owners === null) {
+						// null, omitted owners
+						owners = window;
+					}
+
+					args = args.slice(2);
+				}
+
+				if (Array.isArray(owners)) {
+					var results = [];
+					if (iterationDepth <= maxIterationDepth) {
+						for (var i = 0; i < owners.length; i++) {
+							results.push(
+								iterate.apply(null, [owners[i], func].concat(args))
+							);
+						}
+					}
+
+					return results; // might limited by maxIterationDepth
+				} else {
+					if (typeof func === 'string') func = owners[func];
+					if (typeof func !== 'function') {
+						return;
+					}
+
+					return func.apply(owners, args);
+				}
+			}
+		};
 	}).call(WCU);
 
 
@@ -1292,7 +1347,7 @@ window.webLogicControls = {};
 			// }
 		// };
 
-		this.PopupLayersManager = function () {
+		this.PopupLayersManager = function PopupLayersManager() {
 			var thisController = this;
 
 			// var status = {};
@@ -2027,7 +2082,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.VirtualForm = function (rootElement) {
+		this.VirtualForm = function VirtualForm(rootElement) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this, {
 				allowBody: true
 			});
@@ -2259,7 +2314,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.VirtualField = function (fieldElement, initOptions) {
+		this.VirtualField = function VirtualField(fieldElement, initOptions) {
 			if (!(fieldElement instanceof Node)) return;
 
 			var status = {
@@ -2379,7 +2434,9 @@ window.webLogicControls = {};
 				if (virtualFormOptionsAreValid) {
 					if (status.virtualForm === options.virtualForm && status.indexInVirtualForm === options.indexInVirtualForm) {
 					} else {
-						C.l('Adding existing {'+this.constructor.name+'} to {'+status.virtualForm.constructor.name+'}...');
+						if (!isFirstTime) {
+							C.l('Adding existing {'+this.constructor.name+'} to {'+options.virtualForm.constructor.name+'}...');
+						}
 						virtualFormSetupChanged = true;
 						status.virtualForm = options.virtualForm;
 						status.indexInVirtualForm = options.indexInVirtualForm;
@@ -2716,6 +2773,9 @@ window.webLogicControls = {};
 
 				updateCssClasses.call(this);
 				updateInfoTips.call(this, validateResult);
+
+
+				return status.valueIsValid;
 			}
 
 			function updateStatus() {
@@ -2796,7 +2856,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.SingleCharacterInputsSet = function (rootElement, initOptions) {
+		this.SingleCharacterInputsSet = function SingleCharacterInputsSet(rootElement, initOptions) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			var $allInputs;
@@ -3330,7 +3390,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.ProgressRing = function (rootElement, initOptions) {
+		this.ProgressRing = function ProgressRing(rootElement, initOptions) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			this.options = {
@@ -3915,7 +3975,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.ProgressRings = function (rootElement, initOptions) {
+		this.ProgressRings = function ProgressRings(rootElement, initOptions) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			this.options = {
@@ -4180,7 +4240,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.TabPanelSet = function (rootElement, initOptions) {
+		this.TabPanelSet = function TabPanelSet(rootElement, initOptions) {
 			var thisController = this;
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 

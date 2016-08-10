@@ -4,33 +4,34 @@ $(function () {
 
 
 	var FixedCountCharsInput = function (rootElement, initOptions) {
+		// '\u25fc' 实心圆圈
+		// '\u2022' 加重号
+
 		rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 		var inputElement;
-
-		this.onFill = []; // on full length filled
-		this.onClear = [];
-		this.onInput = [];
-		this.onEnable = [];
-		this.onDisable = [];
+		var decoGrids = [];
 
 		this.config = function (options) {
 			config.call(this, options);
 		};
 		this.getValue = function () {
-			return status.aggregatedValue;
+			return inputElement.value;
+		};
+		this.setValue = function (newValue) {
+			inputElement.value = newValue;
 		};
 		this.clear = function () {
 			inputElement.value = '';
-			WCU.callCallbacks.call(this, 'onClear');
+			WCU.invoke(status, 'onClear');
 		};
 		this.enable = function() {
 			inputElement.disabled = false;
-			WCU.callCallbacks.call(this, 'onEnable');
+			WCU.invoke(status, 'onEnable');
 		};
 		this.disable = function() {
 			inputElement.disabled = true;
-			WCU.callCallbacks.call(this, 'onDisable');
+			WCU.invoke(status, 'onDisable');
 		};
 		this.focus = function() {
 			inputElement.focus();
@@ -41,84 +42,61 @@ $(function () {
 
 
 		var status = {
+			charsCount: NaN,
 			isDisabled: false,
 			isPassword: false,
+
+			onInput: [],
+			onClear: [],
+			onFill: [], // on full length filled
+			onValid: [],
+			onInvalid: [],
+			onEnable: [],
+			onDisable: []
 		};
 
 		function inputOnInput(event, inputWasValid) {
 			// console.log('inputOnInput');
-			var input = event.target;
-			var inputIndex = parseInt(input.dataset.inputIndex);
-			var inputIsValid = status.allInputsValidation[inputIndex];
 
-			var isFilled = true;
-			if (isFilled) {
-				WCU.callCallbacks.call(this, 'onFill');
+			var value = inputElement.value;
+			var inputIsFilled = false;
+			if (inputElement.value.length < 1) {
+				WCU.invoke(status, 'onClear');
 			}
 
-			if (this.onOneInputFill) this.onOneInputFill(event, status);
-
-
-			if (inputIsValid) {
-				if (this.onOneInputValid) this.onOneInputValid(event, status);
-			} else {
-				if (this.onOneInputInvalid) this.onOneInputInvalid(event, status);
+			if (status.charsCount && value.length >= status.charsCount) {
+				inputIsFilled = true;
+				if (value.length > status.charsCount) {
+					inputElement.value = value.slice(0, charsCount);
+				}
 			}
 
+
+			if (inputIsFilled) {
+				WCU.invoke(status, 'onFill');
+			}
+
+
+			var inputIsValid = inputIsFilled && virtualField.validate();
 
 			if (!inputWasValid && inputIsValid) {
-				if (this.onOneInputCorrected) this.onOneInputCorrected(event, status);
+				WCU.invoke(status, 'onValid');
 			}
 
 			if (inputWasValid && !inputIsValid) {
-				if (this.onOneInputGoWrong) this.onOneInputGoWrong(event, status);
+				WCU.invoke(status, 'onInvalid');
 			}
 		}
 
 		function config(options) {
 			options = options || {};
-
-			if (options.hasOwnProperty('inputForAggregation')) {
-				if (options.inputForAggregation instanceof Node) {
-					var _el = options.inputForAggregation;
-					var tnlc = _el.tagName.toLowerCase();
-					if (tnlc === 'input') {
-						var type = _el.type.toLowerCase();
-						if (type !== 'checkbox' && type !== 'raido') {
-							inputForAggregation = options.inputForAggregation;
-							_el.type = status.isPassword ? 'hidden' : 'hidden';
-							inputForAggregation.readOnly = false; // important for iOS Safari, maybe others as well
-							inputForAggregation.disabled = false; // in case it is associated with a form
-						}
-					}
-				} else {
-					inputForAggregation = null;
-				}
-			}
-
-			if (options.hasOwnProperty('defaultValidator')) {
-				defaultValidator = (typeof options.defaultValidator === 'function') ? options.defaultValidator : undefined;
-			}
-
-			if (status.inputsTypeIsNumber && !defaultValidator) defaultValidator = defaultValidatorForNumber;
-
-			if (Array.isArray(options.validatorsForEachInput)) {
-				for (var i = 0; i < options.validatorsForEachInput.length; i++) {
-				 var validator = options.validatorsForEachInput[i];
-				 if (typeof validator === 'function') this.validatorsForEachInput[i] = validator;
-				 else if (typeof validator === null) this.validatorsForEachInput[i] = undefined;
-				}
-			}
-
-			if (typeof options.onOneInputClear     === 'function') this.onOneInputClear     = options.onOneInputClear;
-			if (typeof options.onOneInputFill      === 'function') this.onOneInputFill      = options.onOneInputFill;
-			if (typeof options.onOneInputInvalid   === 'function') this.onOneInputInvalid   = options.onOneInputInvalid;
-			if (typeof options.onOneInputValid     === 'function') this.onOneInputValid     = options.onOneInputValid;
-			if (typeof options.onOneInputCorrected === 'function') this.onOneInputCorrected = options.onOneInputCorrected;
-			if (typeof options.onOneInputGoWrong   === 'function') this.onOneInputGoWrong   = options.onOneInputGoWrong;
-			if (typeof options.onClear    === 'function') this.onClear    = options.onClear;
-			if (typeof options.onInput     === 'function') this.onInput     = options.onInput;
-			if (typeof options.onValid    === 'function') this.onValid    = options.onValid;
+			if (typeof options.onInput   === 'function') status.onInput  .push(options.onInput);
+			if (typeof options.onClear   === 'function') status.onClear  .push(options.onClear);
+			if (typeof options.onFill    === 'function') status.onFill   .push(options.onFill);
+			if (typeof options.onValid   === 'function') status.onValid  .push(options.onValid);
+			if (typeof options.onInvalid === 'function') status.onInvalid.push(options.onInvalid);
+			if (typeof options.onEnable  === 'function') status.onEnable .push(options.onEnable);
+			if (typeof options.onDisable === 'function') status.onDisable.push(options.onDisable);
 		}
 
 		function init () {
@@ -126,7 +104,13 @@ $(function () {
 
 			if (!rootElement) return false;
 
-			inputElement = $(rootElement).find('input.single-char-input').filter(function (index, input) {
+
+			inputElement = $(rootElement).find('input.fixed-count-chars-input').filter(function (index, input) {
+				var type = input.type.toLowerCase();
+				return type !== 'checkbox' && type !== 'radio';
+			});
+
+			inputElement = $(rootElement).find('input.fixed-count-chars-input').filter(function (index, input) {
 				var type = input.type.toLowerCase();
 				return type !== 'checkbox' && type !== 'radio';
 			});
