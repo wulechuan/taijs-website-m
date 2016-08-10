@@ -175,7 +175,7 @@ article.message {
 	.row > .single-char-inputs-set {
 		padding: 0;
 	}
-	.single-char-inputs-set input.single-char-input {
+	.single-char-inputs-set input.single-char-input-result {
 		margin: 0;
 		padding: 0;
 		width: 2.5rem;
@@ -186,14 +186,28 @@ article.message {
 		box-sizing: border-box;
 		border-radius: 0; /* for Safari */
 	}
-	.single-char-inputs-set input.single-char-input ~ input.single-char-input {
+	.single-char-inputs-set input.single-char-input-result ~ input.single-char-input-result {
 		border-left-width: 0;
 	}
-	.single-char-inputs-set input.single-char-input:first-child {
+	.single-char-inputs-set input.single-char-input-result:first-child {
 		border-radius: 0.2rem 0 0 0.2rem;
 	}
-	.single-char-inputs-set input.single-char-input:last-child {
+	.single-char-inputs-set input.single-char-input-result:last-child {
 		border-radius: 0 0.2rem 0.2rem 0;
+	}
+
+	.single-char-inputs-set input.single-char-input {
+		margin: 0;
+		padding: 0;
+		width: 2.5rem;
+		height: 2.5rem;
+		line-height: 2.4rem;
+		font-size: 1.5rem;
+		text-align: center;
+		box-sizing: border-box;
+		border-radius: 0; /* for Safari */
+
+		opacity: 0;
 	}
 
 	.single-char-inputs-set.inputs-distribution-full-width {
@@ -201,9 +215,25 @@ article.message {
 		margin-left: auto;
 		margin-right: auto;
 		}
-		.single-char-inputs-set.inputs-distribution-full-width input.single-char-input {
+		.single-char-inputs-set.inputs-distribution-full-width input.single-char-input,
+		.single-char-inputs-set.inputs-distribution-full-width input.single-char-input-result {
 			width: 16.666%;
 		}
+
+	input.single-char-input-password {
+		font-family: 'iconfont'!important;
+		margin: 0;
+		border-width: 0;
+		padding: 0;
+		font-size: 2rem;
+		width: 100%;
+		height: 2.5rem;
+		line-height: 2.5rem;
+		letter-spacing: calc((414px - 6 * 0.66em)/ 6);
+		text-indent: calc((414px - 6 * 0.66em)/12);
+
+		text-align: left;
+	}
 
 
 .count-down-disc {
