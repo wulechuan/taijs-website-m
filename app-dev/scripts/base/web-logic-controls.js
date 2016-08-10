@@ -2827,8 +2827,8 @@ window.webLogicControls = {};
 					this.value = '';
 					status.allInputsValue[index] = '';
 					status.allInputsFilling[index] = false;
-					status.allInputsValidation[index] = false;
-					// status.allInputsValidation[index] = validateOneInput.call(thisController, this);
+					status.allInputsValidity[index] = false;
+					// status.allInputsValidity[index] = validateOneInput.call(thisController, this);
 				});
 				aggregateAllInputsValue.call(this);
 				aggregateAllInputsStatus.call(this);
@@ -2861,7 +2861,7 @@ window.webLogicControls = {};
 				aggregatedValue: '',
 				allInputsValue: [],
 				allInputsFilling: [],
-				allInputsValidation: []
+				allInputsValidity: []
 			};
 
 			function getCaretPosition(ctrl) {
@@ -3085,7 +3085,7 @@ window.webLogicControls = {};
 
 				var inputIsValid = !!input.newValueIsValid;
 
-				var inputWasValid = status.allInputsValidation[inputIndex];
+				var inputWasValid = status.allInputsValidity[inputIndex];
 				var inputWasFilled = status.allInputsFilling[inputIndex];
 				var inputIsFinallyFilled = input.value.length > 0;
 				// console.log('\t inputWasFilled:', inputWasFilled, '\t inputIsFinallyFilled:', inputIsFinallyFilled);
@@ -3096,7 +3096,7 @@ window.webLogicControls = {};
 				aggregateAllInputsValue.call(this);
 
 				status.allInputsFilling[inputIndex]    = inputIsFinallyFilled;
-				status.allInputsValidation[inputIndex] = inputIsValid;
+				status.allInputsValidity[inputIndex] = inputIsValid;
 				aggregateAllInputsStatus.call(this);
 
 
@@ -3125,7 +3125,7 @@ window.webLogicControls = {};
 				// console.log('inputOnFill');
 				var input = event.target;
 				var inputIndex = parseInt(input.dataset.inputIndex);
-				var inputIsValid = status.allInputsValidation[inputIndex];
+				var inputIsValid = status.allInputsValidity[inputIndex];
 
 
 				if (this.onOneInputFill) this.onOneInputFill(event, status);
@@ -3181,7 +3181,7 @@ window.webLogicControls = {};
 				status.allInputsAreCleared = true;
 				for (var i = 0; i < $allInputs.length; i++) {
 					var inputIsFilled = status.allInputsFilling[i];
-					var inputIsValid  = status.allInputsValidation[i];
+					var inputIsValid  = status.allInputsValidity[i];
 
 					if (!inputIsFilled) status.allInputsAreFilled  = false;
 					if (inputIsFilled)  status.allInputsAreCleared = false;
