@@ -2324,7 +2324,7 @@ window.webLogicControls = {};
 				status.isInitializing = true;
 
 				if (fieldElement.virtualField instanceof UI.VirtualField) {
-					fieldElement.virtualField.rebuild();
+					fieldElement.virtualField.rebuild(initOptions);
 					delete status.isInitializing;
 					simpleDestroy(this);
 					return;
@@ -2379,6 +2379,7 @@ window.webLogicControls = {};
 				if (virtualFormOptionsAreValid) {
 					if (status.virtualForm === options.virtualForm && status.indexInVirtualForm === options.indexInVirtualForm) {
 					} else {
+						C.l('Adding existing {'+this.constructor.name+'} to {'+status.virtualForm.constructor.name+'}...');
 						virtualFormSetupChanged = true;
 						status.virtualForm = options.virtualForm;
 						status.indexInVirtualForm = options.indexInVirtualForm;
