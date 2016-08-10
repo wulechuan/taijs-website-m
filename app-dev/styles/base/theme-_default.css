@@ -516,6 +516,21 @@ label.deco-input {
 	}
 
 
+.fixed-count-chars-input-block {
+	}
+	.fixed-count-chars-input-block .width-wrapper {
+		color: black;
+		border-color: #d9d9d9;
+		background-color: white;
+	}
+	.fixed-count-chars-input-block .deco-grid.focus {
+		background-color: #cfc;
+	}
+	.fixed-count-chars-input-block .deco-grid.value-invalid {
+		background-color: #fcc;
+	}
+
+
 .corner-marker {
 	color: white;
 	border-color: #ff291d;
