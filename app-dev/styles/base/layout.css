@@ -220,18 +220,18 @@ article.message {
 			width: 16.666%;
 		}
 
+	.single-char-input-password-tester,
 	input.single-char-input-password {
 		font-family: 'iconfont'!important;
+		font-size: 2rem!important;
+	}
+	input.single-char-input-password {
 		margin: 0;
 		border-width: 0;
 		padding: 0;
-		font-size: 2rem;
 		width: 100%;
 		height: 2.5rem;
 		line-height: 2.5rem;
-		letter-spacing: calc((414px - 6 * 0.66em)/ 6);
-		text-indent: calc((414px - 6 * 0.66em)/12);
-
 		text-align: left;
 	}
 
