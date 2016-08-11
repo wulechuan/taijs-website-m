@@ -328,6 +328,38 @@ window.webLogicControls = {};
 
 				return obj;
 			};
+			this.destroyInstanceIfInitFailed = function(status, actionOnSuccess) {
+				if (typeof status !== 'object') {
+					throw 'Wrong way to utilize afterInit tool. The "status" object is NOT found within scope.';
+				}
+
+				if (status.isInitializing) {
+					if (status.noNeedToReconstruct) {
+						delete status.noNeedToReconstruct;
+						return;
+					} else {
+						C.e('Fail to construct <'+this.constructor.name+'>.');
+						objectToolkit.destroyInstanceObject(this);
+					}
+					return;
+				}
+
+				WCU.invoke(this, actionOnSuccess);
+			};
+			this.invokeCallbacks = function (callbacksArray) {
+				if (typeof callbacksArray === 'function') {
+					callbacksArray = [callbacksArray];
+				}
+
+				if (!Array.isArray(callbacksArray)) return;
+
+				var args = Array.prototype.slice.apply(arguments);
+				args = args.slice(1);
+				for (var i = 0; i < callbacksArray.length; i++) {
+					var callback = callbacksArray[i];
+					if (typeof callback === 'function') callback.apply(this, args);
+				}
+			};
 
 			this.evaluateDotNotationChain = function (rootObject, dotNotationString, desiredType) {
 				if (typeof dotNotationString !== 'string' || dotNotationString.length < 3) return;
@@ -645,8 +677,10 @@ window.webLogicControls = {};
 
 				function init() {
 					status.isInitializing = true;
+					status.noNeedToReconstruct = false;
 					this.config(initOptions, this.options);
 					delete status.isInitializing;
+					delete status.noNeedToReconstruct;
 				}
 
 				function config(newOptions, targetOptions) {
@@ -2109,6 +2143,7 @@ window.webLogicControls = {};
 
 			function init () {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 
 				this.config(initOptions);
 
@@ -2122,6 +2157,7 @@ window.webLogicControls = {};
 				clearStatus();
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 			}
 
 			init.call(this);
@@ -2138,6 +2174,7 @@ window.webLogicControls = {};
 			});
 			if (!rootElement) rootElement = document.body;
 
+			var OT = WCU.objectToolkit;
 			var status = {
 				rootElementIsAForm: rootElement.tagName.toLowerCase() === 'form',
 				hasNoValidationAttributeAtBeginning: false,
@@ -2173,28 +2210,26 @@ window.webLogicControls = {};
 
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				WCU.objectToolkit.destroyInstanceObject(this);
-				return;
-			}
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				rootElement.virtualForm = this;
+			});
 
-			rootElement.virtualForm = this;
 
 
 			function init() {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 
 				if (rootElement.virtualForm instanceof UI.VirtualForm) {
 					rootElement.virtualForm.rebuild();
-					delete status.isInitializing;
-					WCU.objectToolkit.destroyInstanceObject(this);
+					status.noNeedToReconstruct = true;
 					return;
 				}
 
 				if (!config.call(this)) return;
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 			}
 
 			function config() {
@@ -2364,6 +2399,7 @@ window.webLogicControls = {};
 		this.VirtualField = function VirtualField(fieldElement, initOptions) {
 			if (!(fieldElement instanceof Node)) return;
 
+			var OT = WCU.objectToolkit;
 			var status = {
 				virtualForm: undefined,
 				indexInVirtualForm: NaN,
@@ -2410,28 +2446,25 @@ window.webLogicControls = {};
 
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				WCU.objectToolkit.destroyInstanceObject(this);
-				return;
-			}
-
-			fieldElement.virtualField = this;
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				fieldElement.virtualField = this;
+			});
 
 
 			function init() {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 
 				if (fieldElement.virtualField instanceof UI.VirtualField) {
 					fieldElement.virtualField.config(initOptions);
-					delete status.isInitializing;
-					WCU.objectToolkit.destroyInstanceObject(this);
+					status.noNeedToReconstruct = true;
 					return;
 				}
 
 				if (!config.call(this, initOptions)) return;
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 			}
 
 			function config(options) {
@@ -3371,6 +3404,7 @@ window.webLogicControls = {};
 
 			function init () {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 
 				if (!rootElement) return false;
 
@@ -3424,14 +3458,13 @@ window.webLogicControls = {};
 				this.enable();
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 			}
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				WCU.objectToolkit.destroyInstanceObject(this);
-				return;
-			}
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				rootElement.singleCharacterInputsSet = this;
+			});
 		};
 
 		this.ProgressRing = function ProgressRing(rootElement, initOptions) {
@@ -3459,6 +3492,7 @@ window.webLogicControls = {};
 
 
 
+			var OT = WCU.objectToolkit;
 
 			var eChartRing;
 			var eChartRingItemStyle = {
@@ -3493,15 +3527,14 @@ window.webLogicControls = {};
 			var half2DegreeMeansHidden = 180;
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				WCU.objectToolkit.destroyInstanceObject(this);
-				return;
-			}
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				rootElement.progressRing = this;
+			});
 
 
 			function init() {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 				if (!rootElement) return false;
 
 				this.config(initOptions);
@@ -3516,6 +3549,7 @@ window.webLogicControls = {};
 				}
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 				return true;
 			}
 
@@ -4046,18 +4080,18 @@ window.webLogicControls = {};
 			this.setDegrees = setDegrees.bind(this);
 			this.setPercentages = setPercentages.bind(this);
 
+			var OT = WCU.objectToolkit;
 			var status = {};
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				WCU.objectToolkit.destroyInstanceObject(this);
-				return;
-			}
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				rootElement.progressRings = this;
+			});
 
 
 			function init() {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 				this.config(initOptions);
 
 				if (!rootElement) return false;
@@ -4073,6 +4107,7 @@ window.webLogicControls = {};
 				}
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 			}
 
 			function getDegree(index) {
@@ -4300,6 +4335,7 @@ window.webLogicControls = {};
 				currentPanel: null
 			};
 
+			var OT = WCU.objectToolkit;
 			var status = {
 				isOnAction: false
 			};
@@ -4364,6 +4400,8 @@ window.webLogicControls = {};
 
 			function init() {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
+
 				if (!rootElement) return;
 
 				this.config(initOptions);
@@ -4451,15 +4489,14 @@ window.webLogicControls = {};
 
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 				return true;
 			}
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				WCU.objectToolkit.destroyInstanceObject(this);
-				return;
-			}
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				rootElement.tabPanelSet = this;
+			});
 
 			function slideTabCurrentItemHintTo(theTab) {
 				if (!tabListCurrentItemHint || !tabListCurrentItemHint.style) return false;

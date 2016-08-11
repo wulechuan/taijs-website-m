@@ -1,18 +1,21 @@
 $(function () {
 	var wlc = window.webLogicControls;
+	var WCU = wlc.CoreUtilities;
 	var UI = wlc.UI;
 
 
-	var FixedCountCharsInput = function (rootElement, initOptions) {
+	var FixedCharsCountInput = function (rootElement, initOptions) {
 		// '\u25fc' 实心圆圈
 		// '\u2022' 加重号
 
+		var OT = WCU.objectToolkit;
 		rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 		var inputElement;
 		var decoGrids = [];
 
 		this.config = function (options) {
+			// C.l('Rebuilding an existing {'+this.constructor.name+'}...');
 			config.call(this, options);
 		};
 		this.getValue = function () {
@@ -23,15 +26,15 @@ $(function () {
 		};
 		this.clear = function () {
 			inputElement.value = '';
-			WCU.invoke(status, 'onClear');
+			runCallbacks(status.onClear);
 		};
 		this.enable = function() {
 			inputElement.disabled = false;
-			WCU.invoke(status, 'onEnable');
+			runCallbacks(status.onEnable);
 		};
 		this.disable = function() {
 			inputElement.disabled = true;
-			WCU.invoke(status, 'onDisable');
+			runCallbacks(status.onDisable);
 		};
 		this.focus = function() {
 			inputElement.focus();
@@ -55,17 +58,27 @@ $(function () {
 			onDisable: []
 		};
 
+		var runCallbacks = (OT.invokeCallbacks).bind(this);
+
 		init.call(this);
-		if (status.isInitializing) {
-			C.e('Fail to construct <'+this.constructor.name+'>.');
-			WCU.objectToolkit.destroyInstanceObject(this);
-			return;
-		}
+		OT.destroyInstanceIfInitFailed.call(this, status, function () {
+			rootElement.fixedCharsCountInput = this;
+		});
+
+
 
 		function init () {
 			status.isInitializing = true;
+			status.noNeedToReconstruct = false;
 
 			if (!rootElement) return false;
+
+			if (rootElement.fixedCharsCountInput instanceof FixedCharsCountInput) {
+				rootElement.fixedCharsCountInput.config(initOptions);
+				status.noNeedToReconstruct = true;
+				return;
+			}
+
 
 			var $inputElements = $(rootElement).find('input.fixed-count-chars-input');
 			if ($inputElements.length > 1) {
@@ -84,20 +97,15 @@ $(function () {
 				return false;
 			}
 
-			inputElement.on('input', inputOnInput.bind(thisController));
+			$(inputElement).on('input', inputOnInput.bind(this));
 
 			this.config(initOptions);
 
-			this.enable();
-
 			delete status.isInitializing;
+			delete status.noNeedToReconstruct;
 		}
 
 		function config(options) {
-			inputElement.readOnly = true;
-			inputElement.autocomplete = 'off';
-			// inputElement.type = 'text';
-
 			options = options || {};
 			if (typeof options.onInput   === 'function') status.onInput  .push(options.onInput);
 			if (typeof options.onClear   === 'function') status.onClear  .push(options.onClear);
@@ -107,10 +115,42 @@ $(function () {
 			if (typeof options.onEnable  === 'function') status.onEnable .push(options.onEnable);
 			if (typeof options.onDisable === 'function') status.onDisable.push(options.onDisable);
 
-			status.isPassword = $(rootElement).hasClass('input-password');
-			buildDomsOnCharsCountChange.call(this);
+			detectCharsCount.call(this);
+			detectPasswordSwitch.call(this);
+
+			inputElement.readOnly = true;
+			inputElement.autocomplete = 'off';
+			// inputElement.type = 'text';
+
+			this.enable();
 		}
 
+		function detectCharsCount() {
+			var charsCountSpecified = parseInt(rootElement.getAttribute('data-chars-count'));
+			var existingDecoGrids = $(rootElement).find('.deco-grid');
+			if (!charsCountSpecified || charsCountSpecified < 1) {
+				charsCountSpecified = existingDecoGrids.length;
+			} else {
+				var i, decoGridElement;
+				var tagName = (existingDecoGrids.length < 1) ? 'span' : existingDecoGrids[0].tagName;
+				var decoGridsGroupElement = (existingDecoGrids.length < 1) ? $(rootElement).find('.deco-grids-group')[0] : existingDecoGrids[0].parentNode;
+				C.l(tagName, decoGridsGroupElement);
+				for (i = existingDecoGrids.length; i < charsCountSpecified; i++) {
+					decoGridElement = document.createElement(tagName);
+					decoGridElement.className = 'deco-grid';
+					decoGridsGroupElement.appendChild(decoGridElement);
+				}
+				for (i = charsCountSpecified; i < existingDecoGrids.length-1; i++) {
+					decoGridElement = existingDecoGrids[i];
+					decoGridElement.parentNode.removeChild(decoGridElement);
+				}
+			}
+			C.l(charsCountSpecified);
+			// buildDomsOnCharsCountChange.call(this);
+		}
+		function detectPasswordSwitch() {
+			var isPassword = $(rootElement).hasClass('input-password');
+		}
 		function buildDomsOnCharsCountChange() {
 			var charsCountSpecified = parseInt(rootElement.getAttribute('data-chars-count'));
 			var existingDecoGrids = $(rootElement).find('.deco-grid');
@@ -140,7 +180,7 @@ $(function () {
 			var value = inputElement.value;
 			var inputIsFilled = false;
 			if (inputElement.value.length < 1) {
-				WCU.invoke(status, 'onClear');
+				runCallbacks(status.onClear);
 			}
 
 			if (status.charsCount && value.length >= status.charsCount) {
@@ -151,24 +191,26 @@ $(function () {
 			}
 
 			if (inputIsFilled) {
-				WCU.invoke(status, 'onFill');
+				runCallbacks(status.onFill);
 			}
 
 			var inputIsValid = inputIsFilled && virtualField.validate();
 
 			if (!inputWasValid && inputIsValid) {
-				WCU.invoke(status, 'onValid');
+				runCallbacks(status.onValid);
 			}
 
 			if (inputWasValid && !inputIsValid) {
-				WCU.invoke(status, 'onInvalid');
+				runCallbacks(status.onInvalid);
 			}
 		}
 	};
 
+	new FixedCharsCountInput($('.fixed-count-chars-input-block')[0]);
 
 	var test = true;
 	if (test) {
+
 		var $result = $('.test-block .result');
 		$('.test-block .single-char-input').on('input', function () {
 			$result.html(this.value);
