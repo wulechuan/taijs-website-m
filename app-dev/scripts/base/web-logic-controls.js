@@ -1092,7 +1092,13 @@ window.webLogicControls = {};
 				if (theOwnerDecided) {
 					if (typeof func === 'string') {
 						if (typeof owners[func] !== 'function') {
-							C.e('Function/method not found via string "'+func+'".');
+							if (typeof owners === 'object' && !Array.isArray(owners)) {
+								C.e('Function/method not found via string "'+func+'" for', owners);
+							} else {
+								C.e('Function/method not found via string "'+func+'" for '+
+									(Array.isArray(owners) ? 'an <array>' : ('a <' + typeof owners+'>'))+'.'
+								);
+							}
 							return;
 						}
 						func = owners[func];
