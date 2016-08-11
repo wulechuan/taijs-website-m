@@ -1428,10 +1428,12 @@ window.webLogicControls = {};
 				var $plContainers;
 				if (appOrPageOrPLContainer === 'app') {
 					$plContainers = elements.$popupLayersContainersUnderApp;
-				} else if ($(appOrPageOrPLContainer).hasClass('.popup-layers')) {
-					$plContainers = $(appOrPageOrPLContainer);
+				} else if (appOrPageOrPLContainer === 'all-pages') {
+					$plContainers = $('.page .popup-layers');
 				} else if ($(appOrPageOrPLContainer).hasClass('page')) {
 					$plContainers = $(appOrPageOrPLContainer).find('.popup-layers');
+				} else if ($(appOrPageOrPLContainer).hasClass('.popup-layers')) {
+					$plContainers = $(appOrPageOrPLContainer);
 				} else {
 					return false;
 				}
