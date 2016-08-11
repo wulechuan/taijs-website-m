@@ -55,6 +55,85 @@ $(function () {
 			onDisable: []
 		};
 
+		init.call(this);
+		if (status.isInitializing) {
+			C.e('Fail to construct <'+this.constructor.name+'>.');
+			WCU.objectToolkit.destroyInstanceObject(this);
+			return;
+		}
+
+		function init () {
+			status.isInitializing = true;
+
+			if (!rootElement) return false;
+
+			var $inputElements = $(rootElement).find('input.fixed-count-chars-input');
+			if ($inputElements.length > 1) {
+				C.e('Too many input fields not found when constructing a '+this.constructor.name+'.');
+				return false;
+			} else if ($inputElements.length < 1) {
+				C.e('Input field not found when constructing a '+this.constructor.name+'.');
+				return false;
+			}
+
+			inputElement = $inputElements[0];
+
+			var type = inputElement.type.toLowerCase();
+			if (type === 'checkbox' || type === 'radio' || type === 'hidden') {
+				C.e('Invalid input type encounted when constructing a '+this.constructor.name+'.');
+				return false;
+			}
+
+			inputElement.on('input', inputOnInput.bind(thisController));
+
+			this.config(initOptions);
+
+			this.enable();
+
+			delete status.isInitializing;
+		}
+
+		function config(options) {
+			inputElement.readOnly = true;
+			inputElement.autocomplete = 'off';
+			// inputElement.type = 'text';
+
+			options = options || {};
+			if (typeof options.onInput   === 'function') status.onInput  .push(options.onInput);
+			if (typeof options.onClear   === 'function') status.onClear  .push(options.onClear);
+			if (typeof options.onFill    === 'function') status.onFill   .push(options.onFill);
+			if (typeof options.onValid   === 'function') status.onValid  .push(options.onValid);
+			if (typeof options.onInvalid === 'function') status.onInvalid.push(options.onInvalid);
+			if (typeof options.onEnable  === 'function') status.onEnable .push(options.onEnable);
+			if (typeof options.onDisable === 'function') status.onDisable.push(options.onDisable);
+
+			status.isPassword = $(rootElement).hasClass('input-password');
+			buildDomsOnCharsCountChange.call(this);
+		}
+
+		function buildDomsOnCharsCountChange() {
+			var charsCountSpecified = parseInt(rootElement.getAttribute('data-chars-count'));
+			var existingDecoGrids = $(rootElement).find('.deco-grid');
+			if (!charsCountSpecified || charsCountSpecified < 1) {
+				charsCountSpecified = existingDecoGrids.length;
+			} else {
+				var i, decoGridElement;
+				var tagName = (existingDecoGrids.length < 1) ? 'span' : existingDecoGrids[0].tagName;
+				var decoGridsGroupElement = (existingDecoGrids.length < 1) ? $(rootElement).find('.deco-grids-group')[0] : existingDecoGrids[0].parentNode;
+				C.l(tagName, decoGridsGroupElement);
+				for (i = existingDecoGrids.length; i < charsCountSpecified; i++) {
+					decoGridElement = document.createElement(tagName);
+					decoGridElement.className = 'deco-grid';
+					decoGridsGroupElement.appendChild(decoGridElement);
+				}
+				for (i = charsCountSpecified; i < existingDecoGrids.length-1; i++) {
+					decoGridElement = existingDecoGrids[i];
+					decoGridElement.parentNode.removeChild(decoGridElement);
+				}
+			}
+			C.l(charsCountSpecified);
+		}
+
 		function inputOnInput(event, inputWasValid) {
 			// console.log('inputOnInput');
 
@@ -71,11 +150,9 @@ $(function () {
 				}
 			}
 
-
 			if (inputIsFilled) {
 				WCU.invoke(status, 'onFill');
 			}
-
 
 			var inputIsValid = inputIsFilled && virtualField.validate();
 
@@ -86,87 +163,6 @@ $(function () {
 			if (inputWasValid && !inputIsValid) {
 				WCU.invoke(status, 'onInvalid');
 			}
-		}
-
-		function config(options) {
-			options = options || {};
-			if (typeof options.onInput   === 'function') status.onInput  .push(options.onInput);
-			if (typeof options.onClear   === 'function') status.onClear  .push(options.onClear);
-			if (typeof options.onFill    === 'function') status.onFill   .push(options.onFill);
-			if (typeof options.onValid   === 'function') status.onValid  .push(options.onValid);
-			if (typeof options.onInvalid === 'function') status.onInvalid.push(options.onInvalid);
-			if (typeof options.onEnable  === 'function') status.onEnable .push(options.onEnable);
-			if (typeof options.onDisable === 'function') status.onDisable.push(options.onDisable);
-		}
-
-		function init () {
-			status.isInitializing = true;
-
-			if (!rootElement) return false;
-
-
-			inputElement = $(rootElement).find('input.fixed-count-chars-input').filter(function (index, input) {
-				var type = input.type.toLowerCase();
-				return type !== 'checkbox' && type !== 'radio';
-			});
-
-			inputElement = $(rootElement).find('input.fixed-count-chars-input').filter(function (index, input) {
-				var type = input.type.toLowerCase();
-				return type !== 'checkbox' && type !== 'radio';
-			});
-
-			if (inputElement.length < 1) {
-				C.e('Too few input fields for constructing a '+this.constructor.name+'.');
-				return false;
-			}
-
-
-			var thisController = this;
-			var $_r = $(rootElement);
-
-			status.inputsTypeIsNumber   = $_r.hasClass('input-only-digits');
-			status.isPassword = $_r.hasClass('input-password');
-
-			var inputForAggregation = $_r.find('input.single-char-inputs-aggregator')[0];
-			if (inputForAggregation) this.config({
-				inputForAggregation: inputForAggregation // might be overrided by initOptions
-			});
-
-			this.config(initOptions);
-
-			inputElement.each(function (index) {
-				this.autocomplete = 'off';
-				this.dataset.inputIndex = index;
-				if (status.isPassword) {
-					this.type = 'password';
-				}
-				status.inputValue[index] = this.value;
-				status.allInputsFilling[index] = this.value.length > 0;
-				validateOneInput.call(thisController, this);
-			});
-
-			aggregateAllInputsStatus.call(this, true);
-			dispatchEventsThatObservingAllInputs.call(this, true);
-
-			// make sure basic setup executed BEFORE binding event listeners
-			inputElement
-				.on('focus',    inputOnFocus   .bind(thisController))
-				.on('blur',     inputOnBlur    .bind(thisController))
-				.on('keydown',  inputOnKeyDown .bind(thisController))
-				.on('input',    inputOnInput   .bind(thisController))
-				.on('keyup',    inputOnKeyUp   .bind(thisController))
-			;
-
-			this.enable();
-
-			delete status.isInitializing;
-		}
-
-		init.call(this);
-		if (status.isInitializing) {
-			C.e('Fail to construct <'+this.constructor.name+'>.');
-			WCU.objectToolkit.destroyInstanceObject(this);
-			return;
 		}
 	};
 

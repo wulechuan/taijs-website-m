@@ -260,11 +260,15 @@ article.message {
 		margin-right: auto;
 	}
 
-	.fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
-	.fixed-count-chars-input-tester,
 	.fixed-count-chars-input-block .deco-grid {
 		font-family: 'iconfont'!important;
 		font-size: 1.5rem!important;
+		font-kerning: none!important;
+	}
+	.fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
+	.fixed-count-chars-input-tester {
+		font-family: 'iconfont'!important;
+		font-size: 0.01rem!important;
 		font-kerning: none!important;
 	}
 
@@ -291,10 +295,10 @@ article.message {
 	the content of the input might be shift leftwards */
 
 	.fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input {
+		font-size: 0.01rem!important;
 		font-kerning: none!important;
 		text-indent: 0;
-		text-indent: calc((382px - 6em) / 12 + 0.1em);
-		letter-spacing: calc((382px - 6em) / 6 + 0.38em);
+		letter-spacing: calc(100% / 6);
 		box-sizing: border-box;
 		position: absolute;
 		left: 0.1em; /* temp value */
@@ -308,7 +312,7 @@ article.message {
 		/* background-image: none!important; */
 		background-color: transparent!important;
 		margin: 0;
-		opacity: 0;
+		opacity: 0.6;
 		text-align: left;
 		-webkit-box-shadow: none!important;
 		box-shadow: none!important;

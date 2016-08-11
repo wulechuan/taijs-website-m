@@ -2168,22 +2168,19 @@ window.webLogicControls = {};
 			this.setFieldValidationByIndex = setFieldValidationByIndex.bind(this);
 			this.rebuild = function () {
 				console.log('Rebuilding an existing {'+this.constructor.name+'}...');
-				build.call(this);
+				config.call(this);
 			};
 
 
 			init.call(this);
 			if (status.isInitializing) {
 				C.e('Fail to construct <'+this.constructor.name+'>.');
-				simpleDestroy(this);
+				WCU.objectToolkit.destroyInstanceObject(this);
 				return;
 			}
 
 			rootElement.virtualForm = this;
 
-			function simpleDestroy(obj) {
-				WCU.objectToolkit.destroyInstanceObject(obj);
-			}
 
 			function init() {
 				status.isInitializing = true;
@@ -2191,16 +2188,16 @@ window.webLogicControls = {};
 				if (rootElement.virtualForm instanceof UI.VirtualForm) {
 					rootElement.virtualForm.rebuild();
 					delete status.isInitializing;
-					simpleDestroy(this);
+					WCU.objectToolkit.destroyInstanceObject(this);
 					return;
 				}
 
-				if (!build.call(this)) return;
+				if (!config.call(this)) return;
 
 				delete status.isInitializing;
 			}
 
-			function build() {
+			function config() {
 				var isFirstTime = !!status.isInitializing;
 
 				var oldRequiredFields = elements.requiredFields;
@@ -2406,41 +2403,38 @@ window.webLogicControls = {};
 			this.clearValue = clearValue.bind(this);
 
 			this.scanForTips = scanForTipsDefaultMethod.bind(this);
-			this.rebuild = function (options) {
+			this.config = function (options) {
 				// C.l('Rebuilding an existing {'+this.constructor.name+'}...');
-				build.call(this, options);
+				config.call(this, options);
 			};
 
 
 			init.call(this);
 			if (status.isInitializing) {
 				C.e('Fail to construct <'+this.constructor.name+'>.');
-				simpleDestroy(this);
+				WCU.objectToolkit.destroyInstanceObject(this);
 				return;
 			}
 
 			fieldElement.virtualField = this;
 
-			function simpleDestroy(obj) {
-				WCU.objectToolkit.destroyInstanceObject(obj);
-			}
 
 			function init() {
 				status.isInitializing = true;
 
 				if (fieldElement.virtualField instanceof UI.VirtualField) {
-					fieldElement.virtualField.rebuild(initOptions);
+					fieldElement.virtualField.config(initOptions);
 					delete status.isInitializing;
-					simpleDestroy(this);
+					WCU.objectToolkit.destroyInstanceObject(this);
 					return;
 				}
 
-				if (!build.call(this, initOptions)) return;
+				if (!config.call(this, initOptions)) return;
 
 				delete status.isInitializing;
 			}
 
-			function build(options) {
+			function config(options) {
 				var isFirstTime = !!status.isInitializing;
 
 				this.elements.field = fieldElement; // just for safety
