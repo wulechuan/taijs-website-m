@@ -1233,6 +1233,59 @@ window.webLogicControls = {};
 
 			return dom;
 		};
+
+		// this.makeSureParentNodeHasChildren = function (parentNode, desiredCount, className, desiredTagName) {
+		// 	if (!parentNode) return false;
+
+		// 	desiredCount = parseInt(desiredCount);
+		// 	if (isNaN(desiredCount) || desiredCount < 1) return false;
+
+		// 	if (!className || typeof className === 'string') {
+		// 		return false;
+		// 	}
+
+		// 	if (!desiredTagName || typeof desiredTagName === 'string') {
+		// 		if (!/(\w+)|(\w+[\w\-]*\w+)/.test(desiredTagName)) {
+		// 			return false;
+		// 		}
+		// 		desiredTagName = '';
+		// 	}
+
+		// 	var $foundChildren = $(parentNode).find(desiredTagName+'.'+className);
+
+		// 	var i, child;
+
+		// 	var tagName;
+		// 	if (!desiredTagName && $foundChildren.length > 0) {
+		// 		tagName = $foundChildren[0].tagName;
+		// 	} else {
+		// 		tagName = desiredTagName || 'div';
+		// 	}
+
+
+		// 	for (i = $foundChildren.length; i < desiredCount; i++) {
+		// 		child = document.createElement(tagName);
+		// 		$(child).addClass(className);
+		// 		parentNode.appendChild(child);
+		// 	}
+		// 	for (i = desiredCount; i < $foundChildren.length; i++) {
+		// 		child = $foundChildren[i];
+		// 		child.parentNode.removeChild(child);
+		// 	}
+
+		// 	var finalChildren = Array.prototype.slice.apply(
+		// 		$(parentNode).find(tagName+'.'+className)
+		// 	);
+
+		// 	for (i = 0; i < finalChildren.length; i++) {
+		// 		child = finalChildren[i];
+		// 		if (child.parentNode !== parentNode) {
+		// 			parentNode.appendChild(child);
+		// 		}
+		// 	}
+
+		// 	return (finalChildren.length > 1) ? finalChildren : finalChildren[0];
+		// };
 	}).call(DOM);
 
 
@@ -2186,7 +2239,7 @@ window.webLogicControls = {};
 			}
 
 			var publicStatus = {
-				allFieldsValidation: []
+				allFieldsValidities: []
 			};
 
 			var elements = {
@@ -2197,12 +2250,10 @@ window.webLogicControls = {};
 
 			this.elements = {};
 			this.status = publicStatus;
-			this.checkValidation = checkValidation.bind(this);
 			this.validate = validate.bind(this);
-			this.getField = getField.bind(this);
-			this.getVirtualField = getVirtualField.bind(this);
-			this.validateFieldByIndex = validateFieldByIndex.bind(this);
-			this.setFieldValidationByIndex = setFieldValidationByIndex.bind(this);
+			// this.getField = getField.bind(this);
+			// this.getVirtualField = getVirtualField.bind(this);
+			this.setFieldValidityByIndex = setFieldValidityByIndex.bind(this);
 			this.rebuild = function () {
 				console.log('Rebuilding an existing {'+this.constructor.name+'}...');
 				config.call(this);
@@ -2299,10 +2350,10 @@ window.webLogicControls = {};
 					atLeastOneNewVirtualFieldCreated = atLeastOneNewVirtualFieldCreated || thisOneCreated;
 				}
 
-				if (atLeastOneNewVirtualFieldCreated) {
-					// C.t('validating virtualForm after building virtualFields...');
-					this.validate();
-				}
+				// if (atLeastOneNewVirtualFieldCreated) {
+				// 	C.t('validating virtualForm after building virtualFields...');
+				// 	this.validate();
+				// }
 			}
 
 			function createNewVirtualFieldAsNeeded(index) {
@@ -2329,14 +2380,14 @@ window.webLogicControls = {};
 				return field;
 			}
 
-			function getVirtualField(index) {
-				var field = this.getField(index);
-				if (field) {
-					return field.virtualField;
-				}
+			// function getVirtualField(index) {
+			// 	var field = getField.call(this, index);
+			// 	if (field) {
+			// 		return field.virtualField;
+			// 	}
 
-				return;
-			}
+			// 	return;
+			// }
 
 			function validate() {
 				// C.t('validating virtualForm');
@@ -2345,10 +2396,10 @@ window.webLogicControls = {};
 				}
 
 				// C.t('CHECKING AFTER VALIDATING VIRTUALFORM...');
-				// this.checkValidation();
+				checkValidities.call(this);
 			}
 
-			function checkValidation(options) {
+			function checkValidities(options) {
 				var allInputsAreValid = true;
 				if (status.rootElementIsAForm && rootElement.hasAttribute('novalidate')) {
 					if (status.hasNoValidationAttributeAtBeginning) {
@@ -2361,8 +2412,8 @@ window.webLogicControls = {};
 					options.shouldSkipDisabledInputs = !!options.shouldSkipDisabledInputs; // not implemented yet
 					options.shouldSkipReadOnlyInputs = !!options.shouldSkipReadOnlyInputs; // not implemented yet
 
-					for (var i = 0; i < publicStatus.allFieldsValidation.length; i++) {
-						if (!publicStatus.allFieldsValidation[i]) {
+					for (var i = 0; i < publicStatus.allFieldsValidities.length; i++) {
+						if (!publicStatus.allFieldsValidities[i]) {
 							allInputsAreValid = false;
 							break;
 						}
@@ -2378,21 +2429,24 @@ window.webLogicControls = {};
 			}
 
 			function validateFieldByIndex(index) {
-				var field = this.getField(index);
+				var field = getField.call(this, index);
 				if (field) {
-					field.virtualField.validate();
+					field.virtualField.validate(true);
 				}
 			}
 
-			function setFieldValidationByIndex(index, isValid) {
+			function setFieldValidityByIndex(index, isValid, holdOnCheckingFormOverallValidities) {
 				// C.l('recieving field status: ', index, isValid);
-				var field = this.getField(index);
+				var field = getField.call(this, index);
 				if (field && typeof isValid === 'boolean') {
-					publicStatus.allFieldsValidation[index] = isValid;
+					publicStatus.allFieldsValidities[index] = isValid;
+
+					if (!holdOnCheckingFormOverallValidities) {
+						// C.l('\t ==> CHECKING on VirtualField Callback...');
+						checkValidities.call(this);
+					}
 				}
 
-				// C.l('\t ==> CHECKING on VirtualField Callback...');
-				this.checkValidation();
 			}
 		};
 
@@ -2434,7 +2488,7 @@ window.webLogicControls = {};
 			this.elements = {};
 			this.status = publicStatus;
 
-			this.format = format.bind(this);
+			this.processCurrentValue = processCurrentValue.bind(this);
 			this.validate = validate.bind(this);
 			this.clearValue = clearValue.bind(this);
 
@@ -2473,9 +2527,13 @@ window.webLogicControls = {};
 				this.elements.field = fieldElement; // just for safety
 
 
+				if (typeof options.onValueChange === 'function') status.onValueChange.push(options.onValueChange);
+
+
 				if (isFirstTime) {
 					status.onFieldChangeEventHandler = (function (event) {
 						// C.l('\t Bound Event Handler invoked for ', fieldElement.tagName, fieldElement.type);
+						this.processCurrentValue();
 
 						for (var i = 0; i < status.onValueChange.length; i++) {
 							var callback = status.onValueChange[i];
@@ -2483,8 +2541,6 @@ window.webLogicControls = {};
 								callback.call(this, event);
 							}
 						}
-
-						this.format();
 					}).bind(this);
 				}
 
@@ -2520,9 +2576,6 @@ window.webLogicControls = {};
 					}
 				}
 
-				if (virtualFormSetupChanged) {
-					// do something as needed
-				}
 
 
 				if (isFirstTime) { // The type of an input field is changable! But why would we do that!
@@ -2581,21 +2634,7 @@ window.webLogicControls = {};
 
 
 
-
-
-				var shouldValidateNow = true;
-				if (virtualFormOptionsAreValid && status.virtualForm) {
-					shouldValidateNow = false; // wait for virtualForm batch action
-				} else {
-					if (isFirstTime) {
-					} else {
-						// shouldValidateNow = false;
-					}
-				}
-
-				if (shouldValidateNow) {
-					this.validate();
-				}
+				this.processCurrentValue();
 
 
 				return true;
@@ -2784,7 +2823,12 @@ window.webLogicControls = {};
 
 			function clearValue() {
 				fieldElement.value = '';
-				this.validate();
+				validate.call(this, false);
+			}
+
+			function processCurrentValue() {
+				format.call(this);
+				validate.call(this, false);
 			}
 
 			function format() {
@@ -2796,8 +2840,6 @@ window.webLogicControls = {};
 				if (fieldElement.value !== fomattedValue) {
 					fieldElement.value = fomattedValue;
 				}
-
-				this.validate();
 			}
 
 			function defaultValidatorForTextInputField() {
@@ -2814,7 +2856,7 @@ window.webLogicControls = {};
 				return fieldElement.value !== -1;
 			}
 
-			function validate() {
+			function validate(ownerVirtualFormItselfCallThisProactively) {
 				updateStatus.call(this);
 
 				var validator = status.validator;
@@ -2845,7 +2887,11 @@ window.webLogicControls = {};
 				// C.l('\t\t isEmpty?', status.valueIsEmpty, '\t isValid?', status.valueIsValid);
 
 				if (status.virtualForm) {
-					 status.virtualForm.setFieldValidationByIndex(status.indexInVirtualForm, status.valueIsValid);
+					 status.virtualForm.setFieldValidityByIndex(
+					 	status.indexInVirtualForm,
+					 	status.valueIsValid,
+					 	ownerVirtualFormItselfCallThisProactively
+					 );
 				}
 
 				updateCssClasses.call(this);
@@ -2929,6 +2975,407 @@ window.webLogicControls = {};
 					} else {
 						$(tipElement).removeClass('shown');
 					}
+				}
+			}
+		};
+
+		this.FixedCharsCountInput = function FixedCharsCountInput(rootElement, initOptions) {
+			// '\u25fc' 实心圆圈
+			// '\u2022' 加重号
+
+			var OT = WCU.objectToolkit;
+			rootElement = wlc.DOM.validateRootElement(rootElement, this);
+
+			var options = {
+				defaultCharsCountIfOmitted: 6,
+				rootClassName:  'fixed-count-chars-input-block',
+				inputClassName: 'fixed-count-chars-input',
+
+				widthWrapperClassName:   'width-wrapper',
+				decoGridsGroupClassName: 'deco-grids-group',
+				decoGridClassName:       'deco-grid',
+				inputWrapperClassName:   'input-wrapper',
+
+				decoGridStatusFilledClassName: 'filled'
+			};
+			var inputElement;
+			var widthWrapperElement;
+			var elements = {
+				decoGridsElements: []
+			};
+
+			this.config = function (options) {
+				// C.l('Rebuilding an existing {'+this.constructor.name+'}...');
+				config.call(this, options);
+			};
+			this.getValue = function () {
+				return inputElement.value;
+			};
+			this.setValue = function (newValue) {
+				inputElement.value = newValue;
+			};
+			this.clear = function () {
+				inputElement.value = '';
+				runCallbacks(status.onClear);
+			};
+			this.enable = function() {
+				inputElement.disabled = false;
+				runCallbacks(status.onEnable);
+			};
+			this.disable = function() {
+				inputElement.disabled = true;
+				runCallbacks(status.onDisable);
+			};
+			this.focus = function() {
+				inputElement.focus();
+			};
+			this.blur = function() {
+				inputElement.blur();
+			};
+
+
+			var status = {
+				charsCount: NaN,
+				isDisabled: false,
+				isPassword: false,
+
+				isEmpty: true,
+				isFilled: false,
+				isValid: false,
+
+				virtualField: undefined,
+
+				onInput: [],
+				onClear: [],
+				onFill: [], // on full length filled
+				onValid: [],
+				onInvalid: [],
+				onEnable: [],
+				onDisable: []
+			};
+
+			var runCallbacks = (OT.invokeCallbacks).bind(this);
+
+			init.call(this);
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				$(rootElement).addClass(options.rootClassName);
+				rootElement.fixedCharsCountInput = this;
+			});
+
+
+
+			function init () {
+				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
+
+				if (!rootElement) return false;
+
+				if (rootElement.fixedCharsCountInput instanceof FixedCharsCountInput) {
+					rootElement.fixedCharsCountInput.config(initOptions);
+					status.noNeedToReconstruct = true;
+					return;
+				}
+
+
+				var $inputElements = $(rootElement).find('input.'+options.inputClassName);
+				if ($inputElements.length > 1) {
+					C.e('Too many input fields not found when constructing a '+this.constructor.name+'.');
+					return false;
+				} else if ($inputElements.length < 1) {
+					$inputElements = $(rootElement).find('input');
+					if ($inputElements.length === 1) {
+						inputElement = $inputElements[0];
+					} else {
+						// C.e('Input field not found when constructing a '+this.constructor.name+'.');
+						// return false;
+					}
+				} else {
+					inputElement = $inputElements[0];
+				}
+
+
+				if (inputElement) {
+					var type = inputElement.type.toLowerCase();
+					if (type === 'checkbox' || type === 'radio' || type === 'hidden') {
+						if ($(inputElement).hasClass(options.inputClassName)) {
+							C.e('Invalid input type encounted when constructing a '+this.constructor.name+'.');
+							return false;
+						} else {
+							inputElement = undefined;
+						}
+					}
+				}
+
+
+				this.config(initOptions);
+
+
+				// hopefully after configuration, inputElement is available
+				$(inputElement).addClass(options.inputClassName);
+
+				status.boundOnInputEventHandler = inputOnInput.bind(this);
+				if (typeof UI.VirtualField === 'function') {
+					status.virtualField = new UI.VirtualField(inputElement, {
+						onValueChange: status.boundOnInputEventHandler
+					});
+				} else {
+					$(inputElement).on('input', status.boundOnInputEventHandler);
+				}
+
+
+				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
+			}
+
+			function config(options) {
+				// options:
+					// inputName:
+					//     <string>, empty string is allowed,
+					//     and this will overrite HTML inline setting
+					//
+					// typeForChoosingKeyboard:
+					//     <string>, empty string is allowed,
+					//     and this will overrite HTML inline setting
+					//
+					// isPassword:
+					//     <boolean>,
+					//     and this will override HTML inline setting
+					//
+
+				options = options || {};
+				if (typeof options.onInput   === 'function') status.onInput  .push(options.onInput);
+				if (typeof options.onClear   === 'function') status.onClear  .push(options.onClear);
+				if (typeof options.onFill    === 'function') status.onFill   .push(options.onFill);
+				if (typeof options.onValid   === 'function') status.onValid  .push(options.onValid);
+				if (typeof options.onInvalid === 'function') status.onInvalid.push(options.onInvalid);
+				if (typeof options.onEnable  === 'function') status.onEnable .push(options.onEnable);
+				if (typeof options.onDisable === 'function') status.onDisable.push(options.onDisable);
+
+				detectCharsCount.call(this);
+				detectPasswordSwitch.call(this, options);
+
+				// hopefully after detectCharsCount, inputElement is available
+				inputElement.readOnly = false;
+				inputElement.autocomplete = 'off';
+
+				if (typeof options.typeForChoosingKeyboard === 'string') {
+					inputElement.type = options.typeForChoosingKeyboard;
+				}
+
+				if (typeof options.inputName === 'string') {
+					inputElement.name = options.inputName;
+				}
+
+				this.enable();
+			}
+
+			function detectCharsCount() {
+				var isFirstTime = !!status.isInitializing;
+
+				var charsCountSpecified = parseInt(rootElement.getAttribute('data-chars-count'));
+				var $existingDecoGrids = $(rootElement).find('.'+options.decoGridClassName);
+
+				if (!charsCountSpecified || charsCountSpecified < 1) {
+					if (isFirstTime) {
+						charsCountSpecified = $existingDecoGrids.length;
+					} else {
+						// nothing to do
+					}
+				}
+
+				if (charsCountSpecified < 1) {
+					C.w('Neither chars-count nor deco-grid detected. Default value "'+options.defaultCharsCountIfOmitted+'" is used.');
+					charsCountSpecified = options.defaultCharsCountIfOmitted;
+				}
+
+				if (charsCountSpecified !== status.charsCount) {
+					status.charsCount = charsCountSpecified;
+					updateDomsOnCharsCountChange.call(this, $existingDecoGrids);
+				}
+
+				C.l(charsCountSpecified);
+			}
+			function updateDomsOnCharsCountChange($existingDecoGrids) {
+				var isFirstTime = !!status.isInitializing;
+
+
+				if (isFirstTime && !inputElement) {
+					inputElement = document.createElement('input');
+					// inputElement.className = options.inputClassName;
+				}
+
+
+				rootElement.getAttribute('data-chars-count', status.charsCount);
+				inputElement.setAttribute('maxlength', status.charsCount);
+
+				var $r = $(rootElement);
+
+				var i, removeThereElements, $tempElements, tempElement;
+
+
+				if (isFirstTime) {
+					$tempElements = $r.find('.'+options.widthWrapperClassName);
+					if ($tempElements.length > 0) {
+						widthWrapperElement = $tempElements[0];
+
+						if (widthWrapperElement.tagName.toLowerCase() !== 'label') {
+							removeThereElements = $tempElements;
+							widthWrapperElement = undefined;
+						} else {
+							removeThereElements = $tempElements.slice(1);
+						}
+
+						for (i = 0; i < removeThereElements.length; i++) {
+							tempElement = removeThereElements[i];
+							tempElement.parentNode.removeChild(tempElement);
+						}
+					}
+
+					if (!widthWrapperElement) {
+						widthWrapperElement = document.createElement('label');
+						widthWrapperElement.className = options.widthWrapperClassName;
+						rootElement.appendChild(widthWrapperElement);
+					}
+				}
+
+
+
+				var inputWrapperElement;
+				if (isFirstTime) {
+					$tempElements = $r.find('.'+options.inputWrapperClassName);
+					if ($tempElements.length > 0) {
+						inputWrapperElement = $tempElements[0];
+						removeThereElements = $tempElements.slice(1);
+
+						for (i = 0; i < removeThereElements.length; i++) {
+							tempElement = removeThereElements[i];
+							tempElement.parentNode.removeChild(tempElement);
+						}
+					}
+
+					if (!inputWrapperElement) {
+						inputWrapperElement = document.createElement('div');
+						inputWrapperElement.className = options.inputWrapperClassName;
+						widthWrapperElement.appendChild(inputWrapperElement);
+					} else {
+						if (inputWrapperElement.parentNode !== widthWrapperElement) {
+							widthWrapperElement.appendChild(inputWrapperElement);
+						}
+					}
+
+					if (inputElement.parentNode !== inputWrapperElement) {
+						inputWrapperElement.appendChild(inputElement);
+					}
+				}
+
+
+
+				var decoGridsGroupElement;
+				if (isFirstTime) {
+					$tempElements = $r.find('.'+options.decoGridsGroupClassName);
+					if ($tempElements.length > 0) {
+						decoGridsGroupElement = $tempElements[0];
+						removeThereElements = $tempElements.slice(1);
+
+						for (i = 0; i < removeThereElements.length; i++) {
+							tempElement = removeThereElements[i];
+							tempElement.parentNode.removeChild(tempElement);
+						}
+					}
+
+					if (!decoGridsGroupElement) {
+						decoGridsGroupElement = document.createElement('div');
+						decoGridsGroupElement.className = options.decoGridsGroupClassName;
+						widthWrapperElement.insertBefore(decoGridsGroupElement, inputWrapperElement);
+					} else {
+						if (decoGridsGroupElement.parentNode !== widthWrapperElement) {
+							widthWrapperElement.appendChild(decoGridsGroupElement);
+						}
+					}
+				}
+
+				var tagName = 'span';
+				if (!isFirstTime || $existingDecoGrids.length > 0) {
+					tagName = $existingDecoGrids[0].tagName;
+				}
+
+				C.l(tagName, decoGridsGroupElement);
+				var decoGridElement;
+				for (i = $existingDecoGrids.length; i < status.charsCount; i++) {
+					decoGridElement = document.createElement(tagName);
+					decoGridElement.className = options.decoGridClassName;
+					decoGridsGroupElement.appendChild(decoGridElement);
+				}
+				for (i = status.charsCount; i < $existingDecoGrids.length; i++) {
+					decoGridElement = $existingDecoGrids[i];
+					decoGridElement.parentNode.removeChild(decoGridElement);
+				}
+
+				var decoGridsElements = Array.prototype.slice.apply(
+					$(rootElement).find('.'+options.decoGridClassName)
+				);
+				elements.decoGridsElements = decoGridsElements;
+				for (i = 0; i < decoGridsElements.length; i++) {
+					decoGridElement = decoGridsElements[i];
+					decoGridElement.style.width = (100 / status.charsCount) + '%';
+					if (decoGridElement.parentNode !== decoGridsGroupElement) {
+						decoGridsGroupElement.appendChild(decoGridElement);
+					}
+				}
+			}
+
+			function detectPasswordSwitch(options) {
+				var isFirstTime = !!status.isInitializing;
+
+				var isPassword = $(rootElement).hasClass('input-password');
+				if (options.isPassword !== undefined) isPassword = !!options.isPassword;
+
+				var R = WCU.save.boolean(status, 'isPassword', isPassword);
+
+				var shouldUpdate = false;
+				if (isFirstTime) {
+					shouldUpdate = options.isPassword || R.valueHasBeenChanged;
+				} else {
+					shouldUpdate = R.valueHasBeenChanged;
+				}
+
+				if (shouldUpdate) {
+					updateDomsOnPasswordSwitchToggled.call(this);
+				}
+			}
+			function updateDomsOnPasswordSwitchToggled() {
+				inputElement.value = '';
+				$(elements.decoGridsElements).removeClass(options.decoGridStatusFilledClassName);
+			}
+
+			function inputOnInput(event) {
+				console.log('inputOnInput');
+
+				var value = inputElement.value;
+				var inputIsFilled = false;
+				if (inputElement.value.length < 1) {
+					runCallbacks(status.onClear);
+				}
+
+				if (status.charsCount && value.length >= status.charsCount) {
+					inputIsFilled = true;
+					if (value.length > status.charsCount) {
+						inputElement.value = value.slice(0, charsCount);
+					}
+				}
+
+				if (inputIsFilled) {
+					runCallbacks(status.onFill);
+				}
+
+				var inputIsValid = inputIsFilled && virtualField.validate();
+
+				if (!inputWasValid && inputIsValid) {
+					runCallbacks(status.onValid);
+				}
+
+				if (inputWasValid && !inputIsValid) {
+					runCallbacks(status.onInvalid);
 				}
 			}
 		};
