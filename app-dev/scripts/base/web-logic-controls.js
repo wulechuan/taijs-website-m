@@ -1023,14 +1023,37 @@ window.webLogicControls = {};
 
 
 		this.invoke = function () {
+			// Possible arguments sequences:
+			//     1) array, true, <function or functionNameString> [, actual arguments ...],
+			//        This treats array as a single owner/this object,
+			//        and obviously the function should be a method of an array
+			//
+			//        Note:
+			//            For conveniences, "array, false, function" is NOT valid.
+			//            Otherwise every time we'd like to do batch work,
+			//            we have to provide a false at arguments[1]
+			//
+			//     2) array, <function or functionNameString> [, actual arguments ...]
+			//        This dives in the the array, recursively run invoke for each member of the array
+			//
+			//     3) <non-function, non-array value>, <function or functionNameString> [, actual arguments ...]
+			//        This treats the first argument as owner/this object of the function in arguments[1].
+			//
+			//     4) <function or functionNameString> [, actual arguments ...]
+			//        This treats the omitted owner/this object being window.
+
+
 			var iterationDepth = 0;
 			var maxIterationDepth = 1;
 			return iterate.apply(null, arguments);
+
 
 			function iterate() {
 				iterationDepth++;
 
 				if (arguments.length < 1) return;
+
+				var theOwnerDecided = false;
 
 				var args = Array.prototype.slice.apply(arguments);
 				var func;
@@ -1040,38 +1063,57 @@ window.webLogicControls = {};
 				if (typeof owners === 'function') {
 					func = owners;
 					owners = window;
+					theOwnerDecided = true;
 					args = args.slice(1);
 				} else {
-					func = args[1];
+					if (Array.isArray(owners) && args[1] === true) {
+						theOwnerDecided = true;
+						func = args[2];
+						args = args.slice(3);
+					} else {
+						theOwnerDecided = !Array.isArray(owners);
 
-					if (!(typeof func === 'function' || (typeof func === 'string' && func.length > 0))) return;
+						if (owners === undefined || owners === null) {
+							// null, omitted owners
+							owners = window;
+						}
 
-					if (owners === undefined || owners === null) {
-						// null, omitted owners
-						owners = window;
+						func = args[1];
+
+						args = args.slice(2);
 					}
 
-					args = args.slice(2);
+					if (!(typeof func === 'function' || (typeof func === 'string' && func.length > 0))) {
+						C.e('Function/method not provided.');
+						return;
+					}
 				}
 
-				if (Array.isArray(owners)) {
-					var results = [];
-					if (iterationDepth <= maxIterationDepth) {
-						for (var i = 0; i < owners.length; i++) {
-							results.push(
-								iterate.apply(null, [owners[i], func].concat(args))
-							);
+				if (theOwnerDecided) {
+					if (typeof func === 'string') {
+						if (typeof owners[func] !== 'function') {
+							C.e('Function/method not found via string "'+func+'".');
+							return;
 						}
-					}
-
-					return results; // might limited by maxIterationDepth
-				} else {
-					if (typeof func === 'string') func = owners[func];
-					if (typeof func !== 'function') {
-						return;
+						func = owners[func];
 					}
 
 					return func.apply(owners, args);
+				} else {
+					if (Array.isArray(owners)) {
+						var results = [];
+						if (iterationDepth <= maxIterationDepth) {
+							for (var i = 0; i < owners.length; i++) {
+								results.push(
+									iterate.apply(null, [owners[i], func].concat(args))
+								);
+							}
+						}
+
+						return results; // might limited by maxIterationDepth
+					} else {
+						// hopefully impossible
+					}
 				}
 			}
 		};
