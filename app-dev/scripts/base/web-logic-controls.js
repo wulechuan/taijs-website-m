@@ -3088,6 +3088,8 @@ window.webLogicControls = {};
 			};
 
 			var status = {
+				shouldEvaluateCharWidthOnFocus: true,
+
 				charsCountLimitation: NaN,
 				isPassword: false,
 				isPureDigits: false,
@@ -3141,11 +3143,7 @@ window.webLogicControls = {};
 			// 	}
 			// };
 			this.clear = function () {
-				if (inputElement.value.length > 0) {
-					inputElement.value = '';
-					inputOnInput.call(this, null);
-					_runCallbacks(status.onClear, value);
-				}
+				clearInput.call(this);
 			};
 			this.enable = function () {
 				enableInput.call(this);
@@ -3328,7 +3326,11 @@ window.webLogicControls = {};
 					status.pureDigitsSwitchChanged ||
 					status.passwordSwitchChanged
 				) {
-					detectCharWidthOfInput();
+					evaluateCharWidthOfInput.call(this, null, true);
+
+					// input might be HIDDEN(Display: none or parents Display: none),
+					// so the charWidth revaluated here might NOT be correct
+					status.shouldEvaluateCharWidthOnFocus = true;
 				}
 
 				if (!status.passwordSwitchChanged) {
@@ -3627,8 +3629,36 @@ window.webLogicControls = {};
 				}
 			}
 
+			function clearInput() {
+				if (inputElement.value.length > 0) {
+					inputElement.value = '';
+					inputOnInput.call(this, null);
+					_runCallbacks(status.onClear, this.status);
+				}
+			}
+
+			function inputOnFocus() {
+				// C.l('inputOnFocus');
+				status.isFocused = true;
+
+				if (status.shouldEvaluateCharWidthOnFocus) {
+					evaluateCharWidthOfInput.call(this, null, false);
+				}
+				status.shouldEvaluateCharWidthOnFocus = false;
+
+				updateDecoGrids.call(this);
+				_runCallbacks(status.onFocus, this.status, event);
+			}
+
+			function inputOnBlur() {
+				// C.l('inputOnBlur');
+				status.isFocused = false;
+				updateDecoGrids.call(this);
+				_runCallbacks(status.onBlur, this.status, event);
+			}
+
 			function inputOnInput(event) {
-				// C.t('inputOnInput, disabled?', inputElement.disabled);
+				C.l('inputOnInput, disabled?', inputElement.disabled);
 				if (inputElement.disabled) return;
 
 				var value = inputElement.value;
@@ -3688,20 +3718,6 @@ window.webLogicControls = {};
 				updateDecoGrids.call(this);
 			}
 
-			function inputOnFocus() {
-				// C.l('inputOnFocus');
-				status.isFocused = true;
-				updateDecoGrids.call(this);
-				_runCallbacks(status.onFocus, this.status, event);
-			}
-
-			function inputOnBlur() {
-				// C.l('inputOnBlur');
-				status.isFocused = false;
-				updateDecoGrids.call(this);
-				_runCallbacks(status.onBlur, this.status, event);
-			}
-
 			function updateDecoGrids() {
 				var value = inputElement.value;
 				var shownCount = value.length;
@@ -3729,31 +3745,31 @@ window.webLogicControls = {};
 				}
 			}
 
-			function detectCharWidthOfInput(testChar, shouldLog) {
+			function evaluateCharWidthOfInput(testChar, shouldLog) {
 				var parentNode = rootElement;
 				var testSpansWrapper;
 				var spans = [];
 				var htmlLog;
-				if (shouldLog) {
-					htmlLog = document.createElement('P');
-					document.body.appendChild(htmlLog);
-				}
+				// if (shouldLog) {
+				// 	htmlLog = document.createElement('P');
+				// 	document.body.appendChild(htmlLog);
+				// }
 
-				_setup(4);
+				_setup();
+				var thisController = this;
 				setTimeout(function () {
-					updateInputElementMeasurement( _evaluate(), shouldLog, htmlLog );
+					updateInputElementMeasurement.call(thisController, _evaluate(), shouldLog, htmlLog );
 				}, 79);
 
 
-				function _setup(testSpansCount) {
+				function _setup() {
 					if (typeof testChar !== 'string' || testChar.length < 1) {
 						testChar = '\u2022';
 					} else {
 						testChar = testChar.charAt(0);
 					}
 
-					testSpansCount = parseInt(testSpansCount);
-					if (isNaN(testSpansCount) || testSpansCount < 3) testSpansCount = 3;
+					var testSpansCount = status.charsCountLimitation + 1;
 
 					var innerHTML = testChar;
 					var i;
@@ -3816,6 +3832,7 @@ window.webLogicControls = {};
 				}
 			}
 			function updateInputElementMeasurement(charWidth, shouldLog, htmlLog) {
+				C.t('updateInputElementMeasurement', this);
 				charWidth = parseFloat(charWidth);
 				if (isNaN(charWidth) || charWidth < 2.19) return;
 
