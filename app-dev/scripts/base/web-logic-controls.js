@@ -33,6 +33,109 @@ window.webLogicControls = {};
 		})();
 
 
+		this.invoke = function () {
+			// Possible arguments sequences:
+			//     1) array, true, <function or functionNameString> [, actual arguments ...],
+			//        This treats array as a single owner/this object,
+			//        and obviously the function should be a method of an array
+			//
+			//        Note:
+			//            For conveniences, "array, false, function" is NOT valid.
+			//            Otherwise every time we'd like to do batch work,
+			//            we have to provide a false at arguments[1]
+			//
+			//     2) array, <function or functionNameString> [, actual arguments ...]
+			//        This dives in the the array, recursively run invoke for each member of the array
+			//
+			//     3) <non-function, non-array value>, <function or functionNameString> [, actual arguments ...]
+			//        This treats the first argument as owner/this object of the function in arguments[1].
+			//
+			//     4) <function or functionNameString> [, actual arguments ...]
+			//        This treats the omitted owner/this object being window.
+
+
+			var iterationDepth = 0;
+			var maxIterationDepth = 1;
+			return iterate.apply(null, arguments);
+
+
+			function iterate() {
+				iterationDepth++;
+
+				if (arguments.length < 1) return;
+
+				var theOwnerDecided = false;
+
+				var args = Array.prototype.slice.apply(arguments);
+				var func;
+
+				var owners = args[0];
+
+				if (typeof owners === 'function') {
+					func = owners;
+					owners = window;
+					theOwnerDecided = true;
+					args = args.slice(1);
+				} else {
+					if (Array.isArray(owners) && args[1] === true) {
+						theOwnerDecided = true;
+						func = args[2];
+						args = args.slice(3);
+					} else {
+						theOwnerDecided = !Array.isArray(owners);
+
+						if (owners === undefined || owners === null) {
+							// null, omitted owners
+							owners = window;
+						}
+
+						func = args[1];
+
+						args = args.slice(2);
+					}
+
+					if (!(typeof func === 'function' || (typeof func === 'string' && func.length > 0))) {
+						C.e('Function/method not provided.');
+						return;
+					}
+				}
+
+				if (theOwnerDecided) {
+					if (typeof func === 'string') {
+						if (typeof owners[func] !== 'function') {
+							if (typeof owners === 'object' && !Array.isArray(owners)) {
+								C.e('Function/method not found via string "'+func+'" for', owners);
+							} else {
+								C.e('Function/method not found via string "'+func+'" for '+
+									(Array.isArray(owners) ? 'an <array>' : ('a <' + typeof owners+'>'))+'.'
+								);
+							}
+							return;
+						}
+						func = owners[func];
+					}
+
+					return func.apply(owners, args);
+				} else {
+					if (Array.isArray(owners)) {
+						var results = [];
+						if (iterationDepth <= maxIterationDepth) {
+							for (var i = 0; i < owners.length; i++) {
+								results.push(
+									iterate.apply(null, [owners[i], func].concat(args))
+								);
+							}
+						}
+
+						return results; // might limited by maxIterationDepth
+					} else {
+						// hopefully impossible
+					}
+				}
+			}
+		};
+
+
 		var save = {};
 		this.save = save;
 		(function () {
@@ -514,6 +617,9 @@ window.webLogicControls = {};
 				}
 
 				return formatter;
+			};
+			this.pureDigits = function(text) {
+				return text.replace(/[^0-9]/g, '');
 			};
 			this.chineseIDNumber = function(text) {
 				// asterisk (*) is allowed
@@ -1056,107 +1162,19 @@ window.webLogicControls = {};
 		}).call(stringFormatters);
 
 
-		this.invoke = function () {
-			// Possible arguments sequences:
-			//     1) array, true, <function or functionNameString> [, actual arguments ...],
-			//        This treats array as a single owner/this object,
-			//        and obviously the function should be a method of an array
-			//
-			//        Note:
-			//            For conveniences, "array, false, function" is NOT valid.
-			//            Otherwise every time we'd like to do batch work,
-			//            we have to provide a false at arguments[1]
-			//
-			//     2) array, <function or functionNameString> [, actual arguments ...]
-			//        This dives in the the array, recursively run invoke for each member of the array
-			//
-			//     3) <non-function, non-array value>, <function or functionNameString> [, actual arguments ...]
-			//        This treats the first argument as owner/this object of the function in arguments[1].
-			//
-			//     4) <function or functionNameString> [, actual arguments ...]
-			//        This treats the omitted owner/this object being window.
-
-
-			var iterationDepth = 0;
-			var maxIterationDepth = 1;
-			return iterate.apply(null, arguments);
-
-
-			function iterate() {
-				iterationDepth++;
-
-				if (arguments.length < 1) return;
-
-				var theOwnerDecided = false;
-
-				var args = Array.prototype.slice.apply(arguments);
-				var func;
-
-				var owners = args[0];
-
-				if (typeof owners === 'function') {
-					func = owners;
-					owners = window;
-					theOwnerDecided = true;
-					args = args.slice(1);
-				} else {
-					if (Array.isArray(owners) && args[1] === true) {
-						theOwnerDecided = true;
-						func = args[2];
-						args = args.slice(3);
-					} else {
-						theOwnerDecided = !Array.isArray(owners);
-
-						if (owners === undefined || owners === null) {
-							// null, omitted owners
-							owners = window;
-						}
-
-						func = args[1];
-
-						args = args.slice(2);
-					}
-
-					if (!(typeof func === 'function' || (typeof func === 'string' && func.length > 0))) {
-						C.e('Function/method not provided.');
-						return;
-					}
-				}
-
-				if (theOwnerDecided) {
-					if (typeof func === 'string') {
-						if (typeof owners[func] !== 'function') {
-							if (typeof owners === 'object' && !Array.isArray(owners)) {
-								C.e('Function/method not found via string "'+func+'" for', owners);
-							} else {
-								C.e('Function/method not found via string "'+func+'" for '+
-									(Array.isArray(owners) ? 'an <array>' : ('a <' + typeof owners+'>'))+'.'
-								);
-							}
-							return;
-						}
-						func = owners[func];
-					}
-
-					return func.apply(owners, args);
-				} else {
-					if (Array.isArray(owners)) {
-						var results = [];
-						if (iterationDepth <= maxIterationDepth) {
-							for (var i = 0; i < owners.length; i++) {
-								results.push(
-									iterate.apply(null, [owners[i], func].concat(args))
-								);
-							}
-						}
-
-						return results; // might limited by maxIterationDepth
-					} else {
-						// hopefully impossible
-					}
-				}
+		var validateString = {};
+		this.validateString = validateString;
+		(function () {
+			function getNonEmptyString(value) {
+				if (value && typeof value === 'string') return value;
+				return '';
 			}
-		};
+			this.toBe = this;
+			this.being = this;
+			this.digitsOnly = function (value) {
+				return /\d+/.test(getNonEmptyString(value));
+			};
+		}).call(validateString);
 	}).call(WCU);
 
 
@@ -2493,9 +2511,16 @@ window.webLogicControls = {};
 			this.clearValue = clearValue.bind(this);
 
 			this.scanForTips = scanForTipsDefaultMethod.bind(this);
-			this.config = function (options) {
-				// C.l('Rebuilding an existing {'+this.constructor.name+'}...');
-				config.call(this, options);
+			this.config = config.bind(this);
+			this.setFormatter = function (formatter) {
+				this.config({
+					formatter: formatter
+				});
+			};
+			this.setValidator = function (validator) {
+				this.config({
+					validator: validator
+				});
 			};
 
 
@@ -2641,7 +2666,7 @@ window.webLogicControls = {};
 			}
 
 			function setupFormatter(options, isFirstTime) {
-				if (!isFirstTime && !!status.formatter) return;
+				// if (!isFirstTime && !!status.formatter) return;
 
 				if (!status.isText) return;
 
@@ -2651,50 +2676,73 @@ window.webLogicControls = {};
 
 				var formatter;
 				var formatterIsSpecified;
+				var formatterChanged = false;
+				var formatterRemoved = false;
 
 				if (typeof options.formatter === 'function') { // override HTML's setup with options argument's
-					formatter = options.formatter;
 					formatterIsSpecified = true;
+					formatter = options.formatter;
+				} else if (typeof options.formatter === null) {
+					formatterRemoved = true;
+					formatterChanged = !!status.formatter;
+					status.formatter = null;
 				}
 				
+				if (formatterRemoved) {
+					if (!isFirstTime && formatterChanged) {
 
-				if (!formatterIsSpecified) {
-					formatter = WCU.objectToolkit.evaluateDotNotationChainViaHTMLAttribute(
-						fieldElement, 'data-formatter'
-					);
-					formatterIsSpecified = typeof formatter === 'function';
-				}
-
-				if (!formatterIsSpecified) {
-					formatter = WCU.stringFormatters.evaluateFormatterFromType(
-						fieldElement.getAttribute('data-text-format'), true
-					);
-					formatterIsSpecified = typeof formatter === 'function';
-				}
-
-				if (
-					(!formatterIsSpecified && typeof status.formatter === 'function') ||
-					( formatterIsSpecified && formatter === status.formatter)
-				) {
-					// do nothing
-				} else {
-					if (formatterIsSpecified) {
-						status.formatter = formatter;
 					}
-				}
+				} else {
+					if (!formatterIsSpecified) {
+						formatter = WCU.objectToolkit.evaluateDotNotationChainViaHTMLAttribute(
+							fieldElement, 'data-formatter'
+						);
+						formatterIsSpecified = typeof formatter === 'function';
+					}
 
+					if (!formatterIsSpecified) {
+						formatter = WCU.stringFormatters.evaluateFormatterFromType(
+							fieldElement.getAttribute('data-text-format'), true
+						);
+						formatterIsSpecified = typeof formatter === 'function';
+					}
 
-				if (!status.formatter) { // using default formatters
-					if (status.isPassword) {
-						// status.validator = defaultFormatterForTextInputField;
+					if (
+						(!formatterIsSpecified && typeof status.formatter === 'function') ||
+						( formatterIsSpecified && formatter === status.formatter)
+					) {
+						// do nothing
 					} else {
-						// status.validator = defaultFormatterForTextInputField;
+						if (formatterIsSpecified) {
+							status.formatter = formatter;
+							formatterChanged = true;
+						}
+					}
+
+
+
+					if (!status.formatter) { // using default formatters
+						if (status.isPassword) {
+							// status.validator = defaultFormatterForTextInputField;
+						} else {
+							// status.validator = defaultFormatterForTextInputField;
+						}
+
+						formatterChanged = !!status.formatter
+					}
+
+
+					if (!isFirstTime && formatterChanged) {
+						onFormatterChange.call(this);
 					}
 				}
 			}
+			function onFormatterChange() {
+				processCurrentValue.call(this);
+			}
 
 			function setupValidator(options, isFirstTime) {
-				if (!isFirstTime && !!status.validator) return;
+				// if (!isFirstTime && !!status.validator) return;
 
 
 				options = options || {};
@@ -2702,40 +2750,64 @@ window.webLogicControls = {};
 
 				var validator = WCU.objectToolkit.evaluateDotNotationChainViaHTMLAttribute(fieldElement, 'data-validator');
 				var validatorIsSpecified = typeof validator === 'function';
+				var validatorChanged = false;
+				var validatorRemoved = false;
 
 				if (typeof options.validator === 'function') { // override HTML's setup with options argument's
 					validator = options.validator;
 					validatorIsSpecified = true;
+				} else if (typeof options.validator === null) {
+					validatorRemoved = true;
+					validatorChanged = !!status.validator;
+					status.validator = null;
 				}
 
 
-				if (
-					(!validatorIsSpecified && typeof status.validator === 'function') ||
-					( validatorIsSpecified && validator === status.validator)
-				) {
+				if (validatorRemoved) {
+					if (!isFirstTime && validatorChanged) {
+
+					}
 				} else {
-					if (validatorIsSpecified) {
-						status.validator = validator;
-					}
-				}
-
-
-
-				if (!status.validator) {
-					if (status.isPassword) {
-						status.validator = defaultValidatorForTextInputField;
-					} else if (status.isText) {
-						status.validator = defaultValidatorForTextInputField;
-					} else if (status.isCheckbox) {
-						status.validator = defaultValidatorForCheckbox;
-					} else if (status.isRadio) {
-						status.validator = defaultValidatorForRadio;
-					} else if (status.isSelect) {
-						status.validator = defaultValidatorForSelect;
+					if (
+						(!validatorIsSpecified && typeof status.validator === 'function') ||
+						( validatorIsSpecified && validator === status.validator)
+					) {
 					} else {
-						// hopefully impossible
+						if (validatorIsSpecified) {
+							status.validator = validator;
+							validatorChanged = true;
+						}
+					}
+
+
+
+					if (!status.validator) {
+						if (status.isPassword) {
+							status.validator = defaultValidatorForTextInputField;
+						} else if (status.isText) {
+							status.validator = defaultValidatorForTextInputField;
+						} else if (status.isCheckbox) {
+							status.validator = defaultValidatorForCheckbox;
+						} else if (status.isRadio) {
+							status.validator = defaultValidatorForRadio;
+						} else if (status.isSelect) {
+							status.validator = defaultValidatorForSelect;
+						} else {
+							// hopefully impossible
+						}
+
+						validatorChanged = !!status.validator;
+					}
+
+
+
+					if (!isFirstTime && validatorChanged) {
+						onValidatorChange.call(this);
 					}
 				}
+			}
+			function onValidatorChange() {
+				processCurrentValue.call(this);
 			}
 
 			function setupEventHandlers(isFirstTime) {
@@ -2823,15 +2895,19 @@ window.webLogicControls = {};
 
 			function clearValue() {
 				fieldElement.value = '';
-				validate.call(this, false);
+				processCurrentValue.call(this);
 			}
 
 			function processCurrentValue() {
 				format.call(this);
 				validate.call(this, false);
+
+				publicStatus.isEmpty = status.valueIsEmpty;
+				publicStatus.isValid = status.valueIsValid;
 			}
 
 			function format() {
+				C.l(status.formatter);
 				var fomattedValue = fieldElement.value;
 				if (typeof status.formatter === 'function') {
 					fomattedValue = status.formatter.call(this, fomattedValue);
@@ -2986,7 +3062,7 @@ window.webLogicControls = {};
 			var OT = WCU.objectToolkit;
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
-			var options = {
+			var privateOptions = {
 				defaultCharsCountIfOmitted: 6,
 				rootClassName:  'fixed-count-chars-input-block',
 				inputClassName: 'fixed-count-chars-input',
@@ -2996,48 +3072,23 @@ window.webLogicControls = {};
 				decoGridClassName:       'deco-grid',
 				inputWrapperClassName:   'input-wrapper',
 
-				decoGridStatusFilledClassName: 'filled'
+				decoGridStatusFilledClassName: 'filled',
+
+				testerClassName: 'fixed-count-chars-input-tester'
 			};
+
 			var inputElement;
 			var widthWrapperElement;
 			var elements = {
-				decoGridsElements: []
+				decoGridsElements: [],
+				$decoGridsElements: null
 			};
-
-			this.config = function (options) {
-				// C.l('Rebuilding an existing {'+this.constructor.name+'}...');
-				config.call(this, options);
-			};
-			this.getValue = function () {
-				return inputElement.value;
-			};
-			this.setValue = function (newValue) {
-				inputElement.value = newValue;
-			};
-			this.clear = function () {
-				inputElement.value = '';
-				runCallbacks(status.onClear);
-			};
-			this.enable = function() {
-				inputElement.disabled = false;
-				runCallbacks(status.onEnable);
-			};
-			this.disable = function() {
-				inputElement.disabled = true;
-				runCallbacks(status.onDisable);
-			};
-			this.focus = function() {
-				inputElement.focus();
-			};
-			this.blur = function() {
-				inputElement.blur();
-			};
-
 
 			var status = {
 				charsCount: NaN,
 				isDisabled: false,
 				isPassword: false,
+				isPureDigits: false,
 
 				isEmpty: true,
 				isFilled: false,
@@ -3054,19 +3105,62 @@ window.webLogicControls = {};
 				onDisable: []
 			};
 
-			var runCallbacks = (OT.invokeCallbacks).bind(this);
+			var _runCallbacks = (OT.invokeCallbacks).bind(this);
+
+
+			this.config = config.bind(this);
+			this.getValue = function () {
+				return inputElement.value;
+			};
+			// this.setValue = function (newValue) {
+			// 	if (newValue !== inputElement.value) {
+			// 		inputElement.value = newValue;
+			// 		inputElement.virtualField.processCurrentValue();
+			// 		inputOnInput.call(this, null);
+			// 	}
+			// };
+			this.clear = function () {
+				if (inputElement.value.length > 0) {
+					inputElement.value = '';
+					inputOnInput.call(this, null);
+					_runCallbacks(status.onClear);
+				}
+			};
+			this.enable = function () {
+				if (inputElement.disabled) {
+					inputElement.disabled = false;
+					inputElement.virtualField.processCurrentValue();
+					inputOnInput.call(this, null);
+					_runCallbacks(status.onEnable);
+				}
+			};
+			this.disable = function () {
+				if (!inputElement.disabled) {
+					inputElement.disabled = true;
+					_runCallbacks(status.onDisable);
+				}
+			};
+			this.focus = function () {
+				inputElement.focus();
+			};
+			this.blur = function () {
+				inputElement.blur();
+			};
+
+
 
 			init.call(this);
 			OT.destroyInstanceIfInitFailed.call(this, status, function () {
-				$(rootElement).addClass(options.rootClassName);
+				$(rootElement).addClass(privateOptions.rootClassName);
 				rootElement.fixedCharsCountInput = this;
 			});
 
 
 
-			function init () {
+			function init() {
 				status.isInitializing = true;
 				status.noNeedToReconstruct = false;
+
 
 				if (!rootElement) return false;
 
@@ -3077,7 +3171,7 @@ window.webLogicControls = {};
 				}
 
 
-				var $inputElements = $(rootElement).find('input.'+options.inputClassName);
+				var $inputElements = $(rootElement).find('input.'+privateOptions.inputClassName);
 				if ($inputElements.length > 1) {
 					C.e('Too many input fields not found when constructing a '+this.constructor.name+'.');
 					return false;
@@ -3096,8 +3190,8 @@ window.webLogicControls = {};
 
 				if (inputElement) {
 					var type = inputElement.type.toLowerCase();
-					if (type === 'checkbox' || type === 'radio' || type === 'hidden') {
-						if ($(inputElement).hasClass(options.inputClassName)) {
+					if (type === 'checkbox' || type === 'radio' || type === 'hidden' || type === 'submit' || type === 'button' || type === 'image') {
+						if ($(inputElement).hasClass(privateOptions.inputClassName)) {
 							C.e('Invalid input type encounted when constructing a '+this.constructor.name+'.');
 							return false;
 						} else {
@@ -3107,19 +3201,9 @@ window.webLogicControls = {};
 				}
 
 
-				this.config(initOptions);
-
-
-				// hopefully after configuration, inputElement is available
-				$(inputElement).addClass(options.inputClassName);
-
-				status.boundOnInputEventHandler = inputOnInput.bind(this);
-				if (typeof UI.VirtualField === 'function') {
-					status.virtualField = new UI.VirtualField(inputElement, {
-						onValueChange: status.boundOnInputEventHandler
-					});
-				} else {
-					$(inputElement).on('input', status.boundOnInputEventHandler);
+				if (!config.call(this, initOptions)) {
+					C.e('Initial configuration failed.');
+					return;
 				}
 
 
@@ -3130,19 +3214,29 @@ window.webLogicControls = {};
 			function config(options) {
 				// options:
 					// inputName:
-					//     <string>, empty string is allowed,
+					//     <string:''>, empty string is allowed,
 					//     and this will overrite HTML inline setting
 					//
 					// typeForChoosingKeyboard:
-					//     <string>, empty string is allowed,
+					//     <string:''>, empty string is allowed,
+					//     'submit', 'button', 'checkbox', 'raido', 'image' and 'hidden' are NOT allowed
 					//     and this will overrite HTML inline setting
 					//
 					// isPassword:
-					//     <boolean>,
+					//     <boolean:false>,
+					//     and this will override HTML inline setting
+					//
+					//
+					// isPureDigits:
+					//     <boolean:true>,
 					//     and this will override HTML inline setting
 					//
 
+				var isFirstTime = !!status.isInitializing;
+
+
 				options = options || {};
+
 				if (typeof options.onInput   === 'function') status.onInput  .push(options.onInput);
 				if (typeof options.onClear   === 'function') status.onClear  .push(options.onClear);
 				if (typeof options.onFill    === 'function') status.onFill   .push(options.onFill);
@@ -3151,29 +3245,86 @@ window.webLogicControls = {};
 				if (typeof options.onEnable  === 'function') status.onEnable .push(options.onEnable);
 				if (typeof options.onDisable === 'function') status.onDisable.push(options.onDisable);
 
-				detectCharsCount.call(this);
-				detectPasswordSwitch.call(this, options);
 
+
+				detectCharsCount.call(this);
 				// hopefully after detectCharsCount, inputElement is available
+
+
+
+				if (isFirstTime) {
+					$(inputElement).addClass(privateOptions.inputClassName);
+					status.boundOnInputEventHandler = inputOnInput.bind(this);
+					status.virtualField = new UI.VirtualField(inputElement, {
+						onValueChange: status.boundOnInputEventHandler
+					});
+					cacheVirtualFieldStatus.call(this);
+				}
+
+
+
+
 				inputElement.readOnly = false;
 				inputElement.autocomplete = 'off';
 
 				if (typeof options.typeForChoosingKeyboard === 'string') {
-					inputElement.type = options.typeForChoosingKeyboard;
+					var _type = options.typeForChoosingKeyboard;
+					if (!_type) {
+						inputElement.type = '';
+					} else {
+						_type = _type.replace(/^\s+/, '').replace(/\s+$/, '').toLowerCase();
+						switch (_type) {
+							case 'submit':
+							case 'button':
+							case 'checkbox':
+							case 'raido':
+							case 'hidden':
+							case 'image':
+								_type = '';
+								break;
+						}
+						inputElement.type = _type;
+					}
 				}
 
 				if (typeof options.inputName === 'string') {
 					inputElement.name = options.inputName;
 				}
 
+
+
+				detectPureDigitsSwith.call(this, options);
+				detectPasswordSwitch.call(this, options);
+
+
+
 				this.enable();
+
+
+				if (isFirstTime ||
+					status.charsCountChanged ||
+					status.pureDigitsSwitchChanged ||
+					status.passwordSwitchChanged
+				) {
+					detectCharWidthOfInput();
+				}
+
+
+
+				delete status.charsCountChanged;
+				delete status.pureDigitsSwitchChanged;
+				delete status.passwordSwitchChanged;
+
+
+
+				return true;
 			}
 
 			function detectCharsCount() {
 				var isFirstTime = !!status.isInitializing;
 
 				var charsCountSpecified = parseInt(rootElement.getAttribute('data-chars-count'));
-				var $existingDecoGrids = $(rootElement).find('.'+options.decoGridClassName);
+				var $existingDecoGrids = $(rootElement).find('.'+privateOptions.decoGridClassName);
 
 				if (!charsCountSpecified || charsCountSpecified < 1) {
 					if (isFirstTime) {
@@ -3184,16 +3335,15 @@ window.webLogicControls = {};
 				}
 
 				if (charsCountSpecified < 1) {
-					C.w('Neither chars-count nor deco-grid detected. Default value "'+options.defaultCharsCountIfOmitted+'" is used.');
-					charsCountSpecified = options.defaultCharsCountIfOmitted;
+					C.w('Neither chars-count nor deco-grid detected. Default value "'+privateOptions.defaultCharsCountIfOmitted+'" is used.');
+					charsCountSpecified = privateOptions.defaultCharsCountIfOmitted;
 				}
 
 				if (charsCountSpecified !== status.charsCount) {
 					status.charsCount = charsCountSpecified;
+					status.charsCountChanged = true;
 					updateDomsOnCharsCountChange.call(this, $existingDecoGrids);
 				}
-
-				C.l(charsCountSpecified);
 			}
 			function updateDomsOnCharsCountChange($existingDecoGrids) {
 				var isFirstTime = !!status.isInitializing;
@@ -3201,12 +3351,11 @@ window.webLogicControls = {};
 
 				if (isFirstTime && !inputElement) {
 					inputElement = document.createElement('input');
-					// inputElement.className = options.inputClassName;
+					// inputElement.className = privateOptions.inputClassName;
 				}
 
-
-				rootElement.getAttribute('data-chars-count', status.charsCount);
-				inputElement.setAttribute('maxlength', status.charsCount);
+				rootElement .setAttribute('data-chars-count', status.charsCount);
+				inputElement.setAttribute('maxlength',        status.charsCount);
 
 				var $r = $(rootElement);
 
@@ -3214,7 +3363,7 @@ window.webLogicControls = {};
 
 
 				if (isFirstTime) {
-					$tempElements = $r.find('.'+options.widthWrapperClassName);
+					$tempElements = $r.find('.'+privateOptions.widthWrapperClassName);
 					if ($tempElements.length > 0) {
 						widthWrapperElement = $tempElements[0];
 
@@ -3233,7 +3382,7 @@ window.webLogicControls = {};
 
 					if (!widthWrapperElement) {
 						widthWrapperElement = document.createElement('label');
-						widthWrapperElement.className = options.widthWrapperClassName;
+						widthWrapperElement.className = privateOptions.widthWrapperClassName;
 						rootElement.appendChild(widthWrapperElement);
 					}
 				}
@@ -3242,7 +3391,7 @@ window.webLogicControls = {};
 
 				var inputWrapperElement;
 				if (isFirstTime) {
-					$tempElements = $r.find('.'+options.inputWrapperClassName);
+					$tempElements = $r.find('.'+privateOptions.inputWrapperClassName);
 					if ($tempElements.length > 0) {
 						inputWrapperElement = $tempElements[0];
 						removeThereElements = $tempElements.slice(1);
@@ -3255,7 +3404,7 @@ window.webLogicControls = {};
 
 					if (!inputWrapperElement) {
 						inputWrapperElement = document.createElement('div');
-						inputWrapperElement.className = options.inputWrapperClassName;
+						inputWrapperElement.className = privateOptions.inputWrapperClassName;
 						widthWrapperElement.appendChild(inputWrapperElement);
 					} else {
 						if (inputWrapperElement.parentNode !== widthWrapperElement) {
@@ -3272,7 +3421,7 @@ window.webLogicControls = {};
 
 				var decoGridsGroupElement;
 				if (isFirstTime) {
-					$tempElements = $r.find('.'+options.decoGridsGroupClassName);
+					$tempElements = $r.find('.'+privateOptions.decoGridsGroupClassName);
 					if ($tempElements.length > 0) {
 						decoGridsGroupElement = $tempElements[0];
 						removeThereElements = $tempElements.slice(1);
@@ -3285,7 +3434,7 @@ window.webLogicControls = {};
 
 					if (!decoGridsGroupElement) {
 						decoGridsGroupElement = document.createElement('div');
-						decoGridsGroupElement.className = options.decoGridsGroupClassName;
+						decoGridsGroupElement.className = privateOptions.decoGridsGroupClassName;
 						widthWrapperElement.insertBefore(decoGridsGroupElement, inputWrapperElement);
 					} else {
 						if (decoGridsGroupElement.parentNode !== widthWrapperElement) {
@@ -3295,15 +3444,14 @@ window.webLogicControls = {};
 				}
 
 				var tagName = 'span';
-				if (!isFirstTime || $existingDecoGrids.length > 0) {
+				if (!isFirstTime || ($existingDecoGrids && $existingDecoGrids.length > 0)) {
 					tagName = $existingDecoGrids[0].tagName;
 				}
 
-				C.l(tagName, decoGridsGroupElement);
 				var decoGridElement;
 				for (i = $existingDecoGrids.length; i < status.charsCount; i++) {
 					decoGridElement = document.createElement(tagName);
-					decoGridElement.className = options.decoGridClassName;
+					decoGridElement.className = privateOptions.decoGridClassName;
 					decoGridsGroupElement.appendChild(decoGridElement);
 				}
 				for (i = status.charsCount; i < $existingDecoGrids.length; i++) {
@@ -3312,11 +3460,13 @@ window.webLogicControls = {};
 				}
 
 				var decoGridsElements = Array.prototype.slice.apply(
-					$(rootElement).find('.'+options.decoGridClassName)
+					$(rootElement).find('.'+privateOptions.decoGridClassName)
 				);
 				elements.decoGridsElements = decoGridsElements;
+				elements.$decoGridsElements = [];
 				for (i = 0; i < decoGridsElements.length; i++) {
 					decoGridElement = decoGridsElements[i];
+					elements.$decoGridsElements[i] = $(decoGridElement);
 					decoGridElement.style.width = (100 / status.charsCount) + '%';
 					if (decoGridElement.parentNode !== decoGridsGroupElement) {
 						decoGridsGroupElement.appendChild(decoGridElement);
@@ -3324,59 +3474,254 @@ window.webLogicControls = {};
 				}
 			}
 
+			function detectPureDigitsSwith(options) {
+				var isFirstTime = !!status.isInitializing;
+
+				var isPureDigits;
+				if (options.isPureDigits !== undefined) {
+					isPureDigits = !!options.isPureDigits;
+				} else {
+					isPureDigits = $(rootElement).hasClass('input-pure-digits');
+				}
+
+				var R = WCU.save.boolean(status, 'isPureDigits', isPureDigits);
+
+				var shouldUpdate = false;
+				if (isFirstTime) {
+					shouldUpdate = status.isPureDigits || R.valueHasBeenChanged;
+				} else {
+					shouldUpdate = R.valueHasBeenChanged;
+				}
+
+				status.pureDigitsSwitchChanged = R.valueHasBeenChanged;
+
+				if (shouldUpdate) {
+					updateDomsOnPureDigitsSwithToggled.call(this);
+				}
+			}
+			function updateDomsOnPureDigitsSwithToggled() {
+				C.t(status);
+				if (status.isPureDigits) {
+					inputElement.virtualField.setFormatter(WCU.stringFormatters.pureDigits);
+				} else {
+					inputElement.virtualField.setFormatter(null);
+				}
+			}
+
 			function detectPasswordSwitch(options) {
 				var isFirstTime = !!status.isInitializing;
 
-				var isPassword = $(rootElement).hasClass('input-password');
-				if (options.isPassword !== undefined) isPassword = !!options.isPassword;
+
+				var isPassword;
+				if (options.isPassword !== undefined) {
+					isPassword = !!options.isPassword;
+				} else {
+					isPassword = $(rootElement).hasClass('input-is-password');
+				}
 
 				var R = WCU.save.boolean(status, 'isPassword', isPassword);
 
 				var shouldUpdate = false;
 				if (isFirstTime) {
-					shouldUpdate = options.isPassword || R.valueHasBeenChanged;
+					shouldUpdate = status.isPassword || R.valueHasBeenChanged;
 				} else {
 					shouldUpdate = R.valueHasBeenChanged;
 				}
+
+				status.passwordSwitchChanged = R.valueHasBeenChanged;
 
 				if (shouldUpdate) {
 					updateDomsOnPasswordSwitchToggled.call(this);
 				}
 			}
 			function updateDomsOnPasswordSwitchToggled() {
-				inputElement.value = '';
-				$(elements.decoGridsElements).removeClass(options.decoGridStatusFilledClassName);
+				this.clear();
+			}
+
+			function cacheVirtualFieldStatus() {
+				var VF = inputElement.virtualField;
+				status.isEmpty = VF.isEmpty;
+				status.isValid = VF.isValid;
 			}
 
 			function inputOnInput(event) {
-				console.log('inputOnInput');
-
 				var value = inputElement.value;
-				var inputIsFilled = false;
-				if (inputElement.value.length < 1) {
-					runCallbacks(status.onClear);
+				var valueLength = value.length;
+				var charsCountLimit = status.charsCount;
+				var virtualField = inputElement.virtualField;
+
+				_runCallbacks(status.onInput, event, virtualField.status);
+
+
+
+				var isEmpty = valueLength < 1; // virtualField.status.isEmpty
+				if (isEmpty && !status.isEmpty) {
+					_runCallbacks(status.onClear, event, virtualField.status);
+				}
+				status.isEmpty = isEmpty;
+
+
+
+				var isFilled = charsCountLimit && valueLength >= charsCountLimit;
+				if (isFilled) {
+					if (valueLength > charsCountLimit) {
+						value = value.slice(0, charsCountLimit);
+						inputElement.value = value;
+					}
+					valueLength = charsCountLimit;
+				}
+				if (isFilled && !status.isFilled) {
+					_runCallbacks(status.onFill, event, virtualField.status);
+				}
+				status.isFilled = isFilled;
+
+
+
+				var isValid = isFilled && virtualField.status.isValid;
+
+				if (isValid && !status.isValid) {
+					_runCallbacks(status.onValid, event, virtualField.status);
 				}
 
-				if (status.charsCount && value.length >= status.charsCount) {
-					inputIsFilled = true;
-					if (value.length > status.charsCount) {
-						inputElement.value = value.slice(0, charsCount);
+				if (!isValid && status.isValid) {
+					_runCallbacks(status.onInvalid, event, virtualField.status);
+				}
+
+				status.isValid = isValid;
+				// cacheVirtualFieldStatus.call(this);
+
+				C.l(value);
+				updateDecoGrids.call(this, valueLength);
+			}
+
+			function updateDecoGrids(shownCount) {
+				var $grid = elements.$decoGridsElements;
+				for (var i = 0; i < $grid.length; i++) {
+					if (i < shownCount) {
+						$grid[i].addClass(privateOptions.decoGridStatusFilledClassName);
+					} else {
+						$grid[i].removeClass(privateOptions.decoGridStatusFilledClassName);
 					}
 				}
+			}
 
-				if (inputIsFilled) {
-					runCallbacks(status.onFill);
+			function detectCharWidthOfInput(testChar, shouldLog) {
+				var parentNode = rootElement;
+				var testSpansWrapper;
+				var spans = [];
+				var htmlLog;
+				if (shouldLog) {
+					var htmlLog = document.createElement('P');
+					document.body.appendChild(htmlLog);
 				}
 
-				var inputIsValid = inputIsFilled && virtualField.validate();
+				_setup(4);
+				setTimeout(function () {
+					updateInputElementMeasurement( _evaluate(), shouldLog, htmlLog );
+				}, 79);
 
-				if (!inputWasValid && inputIsValid) {
-					runCallbacks(status.onValid);
+
+				function _setup(testSpansCount) {
+					if (typeof testChar !== 'string' || testChar.length < 1) {
+						testChar = '\u2022';
+					} else {
+						testChar = testChar.charAt(0);
+					}
+
+					testSpansCount = parseInt(testSpansCount);
+					if (isNaN(testSpansCount) || testSpansCount < 3) testSpansCount = 3;
+
+					var innerHTML = testChar;
+					var i;
+
+					testSpansWrapper = document.createElement('SPAN');
+
+					for (i = 0; i < testSpansCount; i++) {
+						var span = document.createElement('SPAN');
+						span.innerHTML = innerHTML;
+						span.className = privateOptions.testerClassName;
+						span.style.position = 'absolute';
+						testSpansWrapper.appendChild(span);
+						spans.push(span);
+
+						innerHTML += testChar;
+					}
+
+					parentNode.appendChild(testSpansWrapper);
 				}
 
-				if (inputWasValid && !inputIsValid) {
-					runCallbacks(status.onInvalid);
+				function _evaluate() {
+					var spanWidths = [];
+					var charWidths = [];
+					var lastSpanWidth = 0;
+
+					var log = [];
+					var i;
+					for (i = 0; i < spans.length; i++) {
+						spanWidths[i] = $(spans[i]).outerWidth();
+						charWidths[i] = spanWidths[i] - lastSpanWidth;
+						lastSpanWidth = spanWidths[i];
+						if (shouldLog) {
+							log.push('width['+i+']: ' + charWidths[i] + ' ' + spanWidths[i]);
+						}
+					}
+
+					var charWidthBiases = [];
+					var maxBias = 0;
+					for (i = 1; i < spans.length; i++) {
+						charWidthBiases[i] = charWidths[i] - charWidths[i-1];
+						maxBias = Math.max(charWidthBiases[i], maxBias);
+					}
+					log.push('maxBias: ' + maxBias);
+
+
+					if (shouldLog) {
+						var logC = log.join('\n');
+						var logH = log.join('<br>\n');
+
+						C.l(logC);
+						if (htmlLog) htmlLog.innerHTML += logH;
+					}
+
+					var charWidth = charWidths[0];
+					if (maxBias > 2) charWidth = NaN;
+
+					parentNode.removeChild(testSpansWrapper);
+
+					return charWidth;
 				}
+			}
+			function updateInputElementMeasurement(charWidth, shouldLog, htmlLog) {
+				charWidth = parseFloat(charWidth);
+				if (isNaN(charWidth) || charWidth < 2.19) return;
+
+				// inputElement often need to be wider than desired width limitation,
+				// otherwise when the caret moves to the end of the input,
+				// the content of the input might be shift leftwards
+
+				var charsCount = status.charsCount;
+
+				var moduleWidth = $(widthWrapperElement).outerWidth();
+				var letterSpacing = (moduleWidth - charWidth * charsCount) / charsCount;
+				var textOffset = letterSpacing / 2;
+
+				if (shouldLog) {
+					var log = [
+						'total width: '+   moduleWidth,
+						'charWidth: '+     charWidth,
+						'charsCount: '+    charsCount,
+						'letterSpacing: '+ letterSpacing,
+						'textOffset: '+    textOffset
+					];
+					var logC = log.join('\t ');
+					var logH = log.join('<br>\n');
+
+					C.l(logC);
+					if (htmlLog) htmlLog.innerHTML += logH;
+				}
+
+				inputElement.style.letterSpacing = letterSpacing + 'px';
+				inputElement.style.left = textOffset + 'px';
 			}
 		};
 
@@ -3870,7 +4215,7 @@ window.webLogicControls = {};
 				var $_r = $(rootElement);
 
 				status.inputsTypeIsNumber   = $_r.hasClass('input-only-digits');
-				status.inputsAreForPassword = $_r.hasClass('input-password');
+				status.inputsAreForPassword = $_r.hasClass('input-is-password');
 
 				var inputForAggregation = $_r.find('input.single-char-inputs-aggregator')[0];
 				if (inputForAggregation) this.config({

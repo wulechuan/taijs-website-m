@@ -268,8 +268,12 @@ article.message {
 	.fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
 	.fixed-count-chars-input-tester {
 		font-family: 'iconfont'!important;
-		font-size: 0.01rem!important;
+		font-size: 1rem!important;
 		font-kerning: none!important;
+	}
+
+	.fixed-count-chars-input-tester {
+		opacity: 0!important;
 	}
 
 	.fixed-count-chars-input-block .width-wrapper .input-wrapper,
@@ -291,12 +295,10 @@ article.message {
 	}
 
 	/* inputElement often need to be wider than desired width limitation,
-	otherwise when the caret moves to the end of the input,
-	the content of the input might be shift leftwards */
+		otherwise when the caret moves to the end of the input,
+		the content of the input might be shift leftwards */
 
 	.fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input {
-		font-size: 0.01rem!important;
-		font-kerning: none!important;
 		text-indent: 0;
 		letter-spacing: calc(100% / 6);
 		box-sizing: border-box;
