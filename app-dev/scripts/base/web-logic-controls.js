@@ -3146,9 +3146,11 @@ window.webLogicControls = {};
 			};
 			this.focus = function () {
 				inputElement.focus();
+				onFocus.call(this);
 			};
 			this.blur = function () {
 				inputElement.blur();
+				onBlur.call(this);
 			};
 
 
@@ -3266,8 +3268,8 @@ window.webLogicControls = {};
 						onValueChange: status.boundOnInputEventHandler
 					});
 					cacheVirtualFieldStatus.call(this);
-					status.boundOnFocusEventHandler = focus.bind(this);
-					status.boundOnBlurEventHandler  = blur.bind(this);
+					status.boundOnFocusEventHandler = onFocus.bind(this);
+					status.boundOnBlurEventHandler  = onBlur.bind(this);
 					$(inputElement).on('focus', status.boundOnFocusEventHandler);
 					$(inputElement).on('focus', status.boundOnBlurEventHandler);
 				}
@@ -3642,30 +3644,33 @@ window.webLogicControls = {};
 				status.isValid = isValid;
 				// cacheVirtualFieldStatus.call(this);
 
-				updateDecoGrids.call(this, value);
+				updateDecoGrids.call(this);
 			}
 
-			function focus() {
-				status.isFocused = false;
-				updateDecoGrids.call(this, inputElement.value);
-			}
-
-			function blur() {
+			function onFocus() {
 				status.isFocused = true;
-				updateDecoGrids.call(this, inputElement.value);
+				updateDecoGrids.call(this);
 			}
 
-			function updateDecoGrids(value) {
+			function onBlur() {
+				status.isFocused = false;
+				updateDecoGrids.call(this);
+			}
+
+			function updateDecoGrids() {
+				var value = inputElement.value;
 				var shownCount = value.length;
 				var $grids = elements.$decoGridsElements;
+				// C.t('status.isFocused', status.isFocused, '\t\tvalue="'+value+'"');
 				for (var i = 0; i < $grids.length; i++) {
 					var $grid = $grids[i];
-
 					if (status.isFocused &&
-						(i === value.length || (i=== value.length-1 && value.length === status.charsCount))
+						(i === shownCount || (i === shownCount-1 && shownCount === status.charsCount))
 					) {
+						// C.l(true, '['+i+']', $grid);
 						$grid.addClass(privateOptions.focusedClassName);
 					} else {
+						// C.l(false, '['+i+']', $grid);
 						$grid.removeClass(privateOptions.focusedClassName);
 					}
 
