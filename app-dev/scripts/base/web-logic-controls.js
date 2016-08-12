@@ -2728,7 +2728,7 @@ window.webLogicControls = {};
 							// status.validator = defaultFormatterForTextInputField;
 						}
 
-						formatterChanged = !!status.formatter
+						formatterChanged = !!status.formatter;
 					}
 
 
@@ -2907,7 +2907,6 @@ window.webLogicControls = {};
 			}
 
 			function format() {
-				C.l(status.formatter);
 				var fomattedValue = fieldElement.value;
 				if (typeof status.formatter === 'function') {
 					fomattedValue = status.formatter.call(this, fomattedValue);
@@ -3074,6 +3073,10 @@ window.webLogicControls = {};
 
 				decoGridStatusFilledClassName: 'filled',
 
+				focusedClassName: 'focus',
+				isPureDigitsClassName: 'input-only-digits',
+				isPasswordClassName: 'input-is-password',
+
 				testerClassName: 'fixed-count-chars-input-tester'
 			};
 
@@ -3093,6 +3096,7 @@ window.webLogicControls = {};
 				isEmpty: true,
 				isFilled: false,
 				isValid: false,
+				isFocused: false,
 
 				virtualField: undefined,
 
@@ -3190,7 +3194,10 @@ window.webLogicControls = {};
 
 				if (inputElement) {
 					var type = inputElement.type.toLowerCase();
-					if (type === 'checkbox' || type === 'radio' || type === 'hidden' || type === 'submit' || type === 'button' || type === 'image') {
+					if (
+						type === 'checkbox' || type === 'radio'  || type === 'hidden' ||
+					    type === 'submit'   || type === 'button' || type === 'image'
+					) {
 						if ($(inputElement).hasClass(privateOptions.inputClassName)) {
 							C.e('Invalid input type encounted when constructing a '+this.constructor.name+'.');
 							return false;
@@ -3247,7 +3254,7 @@ window.webLogicControls = {};
 
 
 
-				detectCharsCount.call(this);
+				detectCharsCount.call(this, options);
 				// hopefully after detectCharsCount, inputElement is available
 
 
@@ -3259,6 +3266,10 @@ window.webLogicControls = {};
 						onValueChange: status.boundOnInputEventHandler
 					});
 					cacheVirtualFieldStatus.call(this);
+					status.boundOnFocusEventHandler = focus.bind(this);
+					status.boundOnBlurEventHandler  = blur.bind(this);
+					$(inputElement).on('focus', status.boundOnFocusEventHandler);
+					$(inputElement).on('focus', status.boundOnBlurEventHandler);
 				}
 
 
@@ -3294,7 +3305,7 @@ window.webLogicControls = {};
 
 
 				detectPureDigitsSwith.call(this, options);
-				detectPasswordSwitch.call(this, options);
+				detectPasswordSwitch .call(this, options);
 
 
 
@@ -3309,6 +3320,11 @@ window.webLogicControls = {};
 					detectCharWidthOfInput();
 				}
 
+				if (!status.passwordSwitchChanged) {
+					if (isFirstTime || status.charsCountChanged || status.pureDigitsSwitchChanged) {
+						inputOnInput.call(this);
+					}
+				}
 
 
 				delete status.charsCountChanged;
@@ -3320,32 +3336,59 @@ window.webLogicControls = {};
 				return true;
 			}
 
-			function detectCharsCount() {
+			function detectCharsCount(options) {
 				var isFirstTime = !!status.isInitializing;
 
-				var charsCountSpecified = parseInt(rootElement.getAttribute('data-chars-count'));
+				var minCount = 1;
+				var charsCount = NaN;
+				var charsCountIsSpecified = false;
+
+				if (options.hasOwnProperty('charsCount')) {
+					charsCount = parseInt(options.charsCount);
+					charsCountIsSpecified = !!charsCount && charsCount >= minCount;
+				}
+
+				if (!charsCountIsSpecified) {
+					charsCount = parseInt(rootElement.getAttribute('data-chars-count'))
+					charsCountIsSpecified = !!charsCount && charsCount >= minCount;
+				}
+
+				var tagName, i;
 				var $existingDecoGrids = $(rootElement).find('.'+privateOptions.decoGridClassName);
 
-				if (!charsCountSpecified || charsCountSpecified < 1) {
-					if (isFirstTime) {
-						charsCountSpecified = $existingDecoGrids.length;
+				var invalidGrids = [];
+				var validGrids = [];
+				for (i = 0; i < $existingDecoGrids.length; i++) {
+					tagName = $existingDecoGrids[i].tagName.toLowerCase();
+					if (tagName === 'input' || tagName === 'textarea') {
+						invalidGrids.push($existingDecoGrids[i]);
 					} else {
-						// nothing to do
+						validGrids  .push($existingDecoGrids[i]);
 					}
 				}
 
-				if (charsCountSpecified < 1) {
-					C.w('Neither chars-count nor deco-grid detected. Default value "'+privateOptions.defaultCharsCountIfOmitted+'" is used.');
-					charsCountSpecified = privateOptions.defaultCharsCountIfOmitted;
+				for (i = 0; i < invalidGrids.length; i++) {
+					var tempElement = invalidGrids[i];
+					tempElement.parentNode.removeChild(tempElement);
 				}
 
-				if (charsCountSpecified !== status.charsCount) {
-					status.charsCount = charsCountSpecified;
+				if (isFirstTime && !charsCountIsSpecified) {
+					// charsCount = validGrids.length;
+					charsCount = $existingDecoGrids.length;
+				}
+
+				if (!charsCount || charsCount < minCount) {
+					C.w('Neither chars-count nor deco-grid detected. Default value "'+privateOptions.defaultCharsCountIfOmitted+'" is used.');
+					charsCount = privateOptions.defaultCharsCountIfOmitted;
+				}
+
+				if (charsCount !== status.charsCount) {
+					status.charsCount = charsCount;
 					status.charsCountChanged = true;
-					updateDomsOnCharsCountChange.call(this, $existingDecoGrids);
+					updateDomsOnCharsCountChange.call(this, validGrids);
 				}
 			}
-			function updateDomsOnCharsCountChange($existingDecoGrids) {
+			function updateDomsOnCharsCountChange(existingDecoGrids) {
 				var isFirstTime = !!status.isInitializing;
 
 
@@ -3444,18 +3487,18 @@ window.webLogicControls = {};
 				}
 
 				var tagName = 'span';
-				if (!isFirstTime || ($existingDecoGrids && $existingDecoGrids.length > 0)) {
-					tagName = $existingDecoGrids[0].tagName;
+				if (!isFirstTime || (existingDecoGrids && existingDecoGrids.length > 0)) {
+					tagName = existingDecoGrids[0].tagName.toLowerCase();
 				}
 
 				var decoGridElement;
-				for (i = $existingDecoGrids.length; i < status.charsCount; i++) {
+				for (i = existingDecoGrids.length; i < status.charsCount; i++) {
 					decoGridElement = document.createElement(tagName);
 					decoGridElement.className = privateOptions.decoGridClassName;
 					decoGridsGroupElement.appendChild(decoGridElement);
 				}
-				for (i = status.charsCount; i < $existingDecoGrids.length; i++) {
-					decoGridElement = $existingDecoGrids[i];
+				for (i = status.charsCount; i < existingDecoGrids.length; i++) {
+					decoGridElement = existingDecoGrids[i];
 					decoGridElement.parentNode.removeChild(decoGridElement);
 				}
 
@@ -3481,7 +3524,7 @@ window.webLogicControls = {};
 				if (options.isPureDigits !== undefined) {
 					isPureDigits = !!options.isPureDigits;
 				} else {
-					isPureDigits = $(rootElement).hasClass('input-pure-digits');
+					isPureDigits = $(rootElement).hasClass(privateOptions.isPureDigitsClassName);
 				}
 
 				var R = WCU.save.boolean(status, 'isPureDigits', isPureDigits);
@@ -3500,10 +3543,11 @@ window.webLogicControls = {};
 				}
 			}
 			function updateDomsOnPureDigitsSwithToggled() {
-				C.t(status);
 				if (status.isPureDigits) {
+					$(inputElement).addClass(privateOptions.isPureDigitsClassName);
 					inputElement.virtualField.setFormatter(WCU.stringFormatters.pureDigits);
 				} else {
+					$(inputElement).removeCalss(privateOptions.isPureDigitsClassName);
 					inputElement.virtualField.setFormatter(null);
 				}
 			}
@@ -3535,6 +3579,11 @@ window.webLogicControls = {};
 				}
 			}
 			function updateDomsOnPasswordSwitchToggled() {
+				if (status.isPassword) {
+					$(inputElement).addClass(privateOptions.isPasswordClassName);
+				} else {
+					$(inputElement).removeCalss(privateOptions.isPasswordClassName);
+				}
 				this.clear();
 			}
 
@@ -3545,6 +3594,9 @@ window.webLogicControls = {};
 			}
 
 			function inputOnInput(event) {
+				// C.t('inputOnInput, disabled?', inputElement.disabled);
+				if (inputElement.disabled) return;
+
 				var value = inputElement.value;
 				var valueLength = value.length;
 				var charsCountLimit = status.charsCount;
@@ -3590,17 +3642,39 @@ window.webLogicControls = {};
 				status.isValid = isValid;
 				// cacheVirtualFieldStatus.call(this);
 
-				C.l(value);
-				updateDecoGrids.call(this, valueLength);
+				updateDecoGrids.call(this, value);
 			}
 
-			function updateDecoGrids(shownCount) {
-				var $grid = elements.$decoGridsElements;
-				for (var i = 0; i < $grid.length; i++) {
-					if (i < shownCount) {
-						$grid[i].addClass(privateOptions.decoGridStatusFilledClassName);
+			function focus() {
+				status.isFocused = false;
+				updateDecoGrids.call(this, inputElement.value);
+			}
+
+			function blur() {
+				status.isFocused = true;
+				updateDecoGrids.call(this, inputElement.value);
+			}
+
+			function updateDecoGrids(value) {
+				var shownCount = value.length;
+				var $grids = elements.$decoGridsElements;
+				for (var i = 0; i < $grids.length; i++) {
+					var $grid = $grids[i];
+
+					if (status.isFocused &&
+						(i === value.length || (i=== value.length-1 && value.length === status.charsCount))
+					) {
+						$grid.addClass(privateOptions.focusedClassName);
 					} else {
-						$grid[i].removeClass(privateOptions.decoGridStatusFilledClassName);
+						$grid.removeClass(privateOptions.focusedClassName);
+					}
+
+					if (i < shownCount) {
+						$grid.addClass(privateOptions.decoGridStatusFilledClassName);
+						if (!status.isPassword) $grid.html(value.charAt(i));
+					} else {
+						$grid.removeClass(privateOptions.decoGridStatusFilledClassName);
+						if (!status.isPassword) $grid.html('');
 					}
 				}
 			}
@@ -3611,7 +3685,7 @@ window.webLogicControls = {};
 				var spans = [];
 				var htmlLog;
 				if (shouldLog) {
-					var htmlLog = document.createElement('P');
+					htmlLog = document.createElement('P');
 					document.body.appendChild(htmlLog);
 				}
 
@@ -3726,6 +3800,7 @@ window.webLogicControls = {};
 		};
 
 		this.SingleCharacterInputsSet = function SingleCharacterInputsSet(rootElement, initOptions) {
+			var OT = WCU.objectToolkit;
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			var $allInputs;

@@ -523,6 +523,9 @@ label.deco-input {
 		border-color: #d9d9d9;
 		background-color: white;
 	}
+	.fixed-count-chars-input-block.has-fake-caret .deco-grid.focus::after {
+		background-color: black;
+	}
 	.fixed-count-chars-input-block .deco-grid.focus {
 		background-color: #cfc;
 	}

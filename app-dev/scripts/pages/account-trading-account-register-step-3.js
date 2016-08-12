@@ -9,10 +9,6 @@ $(function () {
 			C.l('valid! ', this.getValue());
 		}
 	});
-	setTimeout(function () {
-		C.l(FCCI.getValue());
-		FCCI.clear();
-	}, 1000);
 
 	// var $plpm1 = $('#plpm-trading-account-register-passwords-mismatch');
 	// function showPoliteMessagePasswordsMismatch() {
