@@ -58,6 +58,16 @@
 				}
 			}
 		};
+
+		(function setupEnv() {
+			var ua = navigator.userAgent;
+
+			var isAndroid = /Android/.test(ua);
+			var isChrome = /Chrome/.test(ua);
+			var isSafari = /Safari/.test(ua) && !isChrome && !isAndroid;
+
+			if (isSafari) $(document.body).addClass('safari');
+		})();
 	}
 
 	var app = new Application();

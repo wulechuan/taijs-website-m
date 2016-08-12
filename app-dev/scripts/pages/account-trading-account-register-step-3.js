@@ -9,7 +9,7 @@ $(function () {
 
 	var FCCI1 = new UI.FixedCharsCountInput($('.password-pass-1 .fixed-count-chars-input-block')[0], {
 		onValid: function () {
-			switchToPane(2);
+			// switchToPane(2);
 		}
 	});
 

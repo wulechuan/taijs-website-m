@@ -3326,7 +3326,7 @@ window.webLogicControls = {};
 					status.pureDigitsSwitchChanged ||
 					status.passwordSwitchChanged
 				) {
-					evaluateCharWidthOfInput.call(this, null, true);
+					evaluateCharWidthOfInput.call(this, null, false);
 
 					// input might be HIDDEN(Display: none or parents Display: none),
 					// so the charWidth revaluated here might NOT be correct
@@ -3746,6 +3746,7 @@ window.webLogicControls = {};
 			}
 
 			function evaluateCharWidthOfInput(testChar, shouldLog) {
+				return false;
 				var parentNode = rootElement;
 				var testSpansWrapper;
 				var spans = [];
@@ -3756,9 +3757,12 @@ window.webLogicControls = {};
 				// }
 
 				_setup();
-				var thisController = this;
 				setTimeout(function () {
-					updateInputElementMeasurement.call(thisController, _evaluate(), shouldLog, htmlLog );
+					updateInputElementMeasurement(
+						_evaluate(),
+						shouldLog,
+						htmlLog
+					);
 				}, 79);
 
 
@@ -3775,6 +3779,7 @@ window.webLogicControls = {};
 					var i;
 
 					testSpansWrapper = document.createElement('SPAN');
+					testSpansWrapper.style.textAlign = 'left';
 
 					for (i = 0; i < testSpansCount; i++) {
 						var span = document.createElement('SPAN');
@@ -3826,15 +3831,17 @@ window.webLogicControls = {};
 					var charWidth = charWidths[0];
 					if (maxBias > 2) charWidth = NaN;
 
-					parentNode.removeChild(testSpansWrapper);
+					// parentNode.removeChild(testSpansWrapper);
 
 					return charWidth;
 				}
 			}
 			function updateInputElementMeasurement(charWidth, shouldLog, htmlLog) {
-				C.t('updateInputElementMeasurement', this);
 				charWidth = parseFloat(charWidth);
-				if (isNaN(charWidth) || charWidth < 2.19) return;
+				if (isNaN(charWidth) || charWidth < 0) return;
+
+				// C.l('updateInputElementMeasurement', charWidth, shouldLog);
+
 
 				// inputElement often need to be wider than desired width limitation,
 				// otherwise when the caret moves to the end of the input,
@@ -3843,8 +3850,8 @@ window.webLogicControls = {};
 				var charsCount = status.charsCountLimitation;
 
 				var moduleWidth = $(widthWrapperElement).outerWidth();
-				var letterSpacing = (moduleWidth - charWidth * charsCount) / charsCount;
-				var textOffset = letterSpacing / 2;
+				var letterSpacing = (moduleWidth - charWidth * 1.5 * charsCount) / charsCount;
+				var textOffset = 0; // letterSpacing / 2;
 
 				if (shouldLog) {
 					var log = [
