@@ -3146,11 +3146,9 @@ window.webLogicControls = {};
 			};
 			this.focus = function () {
 				inputElement.focus();
-				onFocus.call(this);
 			};
 			this.blur = function () {
 				inputElement.blur();
-				onBlur.call(this);
 			};
 
 
@@ -3271,7 +3269,7 @@ window.webLogicControls = {};
 					status.boundOnFocusEventHandler = onFocus.bind(this);
 					status.boundOnBlurEventHandler  = onBlur.bind(this);
 					$(inputElement).on('focus', status.boundOnFocusEventHandler);
-					$(inputElement).on('focus', status.boundOnBlurEventHandler);
+					$(inputElement).on('blur',  status.boundOnBlurEventHandler);
 				}
 
 
@@ -3648,11 +3646,13 @@ window.webLogicControls = {};
 			}
 
 			function onFocus() {
+				// C.l('onFocus');
 				status.isFocused = true;
 				updateDecoGrids.call(this);
 			}
 
 			function onBlur() {
+				// C.l('onBlur');
 				status.isFocused = false;
 				updateDecoGrids.call(this);
 			}
