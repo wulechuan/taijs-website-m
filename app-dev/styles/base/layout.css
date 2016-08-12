@@ -239,6 +239,9 @@ article.message {
 	.row > .fixed-count-chars-input-block {
 		padding: 0;
 	}
+	.fixed-count-chars-input-block input {
+		border-color: transparent!important;
+	}
 	.fixed-count-chars-input-block .width-wrapper {
 		display: block;
 		padding: 0;
@@ -277,17 +280,6 @@ article.message {
 			/* font-size cannot be zero,
 				otherwise at least webkit(both android and windows) would NOT allow us to input */
 			font-size: 0.01rem!important;
-		}
-
-		.safari .fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
-		.safari .fixed-count-chars-input-tester,
-		.fixed-count-chars-input-block.safari .width-wrapper .input-wrapper input.fixed-count-chars-input,
-		.fixed-count-chars-input-tester.safari {
-			/* font-family: 'iconfont'!important; */
-
-			/* font-size cannot be zero,
-				otherwise at least webkit(both android and windows) would NOT allow us to input */
-			font-size: 0rem!important;
 		}
 
 	.fixed-count-chars-input-tester {
@@ -335,9 +327,17 @@ article.message {
 		-webkit-box-shadow: none!important;
 		box-shadow: none!important;
 	}
-	.safari .fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input {
-		opacity: 0.5;
-	}
+
+
+	.safari .fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
+	.safari .fixed-count-chars-input-tester,
+	.fixed-count-chars-input-block.safari .width-wrapper .input-wrapper input.fixed-count-chars-input,
+	.fixed-count-chars-input-tester.safari {
+		font-size: 0.01rem!important;
+		}
+		.safari .fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input {
+			opacity: 0.5;
+		}
 
 	.fixed-count-chars-input-block .deco-grid {
 		position: relative; /* for caret */
