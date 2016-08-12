@@ -3088,14 +3088,15 @@ window.webLogicControls = {};
 			};
 
 			var status = {
-				charsCount: NaN,
-				isDisabled: false,
+				charsCountLimitation: NaN,
 				isPassword: false,
 				isPureDigits: false,
 
 				isEmpty: true,
 				isFilled: false,
 				isValid: false,
+
+				isDisabled: false,
 				isFocused: false,
 
 				virtualField: undefined,
@@ -3106,7 +3107,23 @@ window.webLogicControls = {};
 				onValid: [],
 				onInvalid: [],
 				onEnable: [],
-				onDisable: []
+				onDisable: [],
+				onFocus: [],
+				onBlur: []
+			};
+
+			this.status = {
+				value: '',
+				charsCountLimitation: NaN,
+				isPassword: false,
+				isPureDigits: false,
+
+				isEmpty: true,
+				isFilled: false,
+				isValid: false,
+
+				isDisabled: false,
+				isFocused: false
 			};
 
 			var _runCallbacks = (OT.invokeCallbacks).bind(this);
@@ -3127,22 +3144,14 @@ window.webLogicControls = {};
 				if (inputElement.value.length > 0) {
 					inputElement.value = '';
 					inputOnInput.call(this, null);
-					_runCallbacks(status.onClear);
+					_runCallbacks(status.onClear, value);
 				}
 			};
 			this.enable = function () {
-				if (inputElement.disabled) {
-					inputElement.disabled = false;
-					inputElement.virtualField.processCurrentValue();
-					inputOnInput.call(this, null);
-					_runCallbacks(status.onEnable);
-				}
+				enableInput.call(this);
 			};
 			this.disable = function () {
-				if (!inputElement.disabled) {
-					inputElement.disabled = true;
-					_runCallbacks(status.onDisable);
-				}
+				disableInput.call(this);
 			};
 			this.focus = function () {
 				inputElement.focus();
@@ -3251,6 +3260,8 @@ window.webLogicControls = {};
 				if (typeof options.onInvalid === 'function') status.onInvalid.push(options.onInvalid);
 				if (typeof options.onEnable  === 'function') status.onEnable .push(options.onEnable);
 				if (typeof options.onDisable === 'function') status.onDisable.push(options.onDisable);
+				if (typeof options.onFocus   === 'function') status.onFocus  .push(options.onFocus);
+				if (typeof options.onBlur    === 'function') status.onBlur   .push(options.onBlur);
 
 
 
@@ -3266,8 +3277,8 @@ window.webLogicControls = {};
 						onValueChange: status.boundOnInputEventHandler
 					});
 					cacheVirtualFieldStatus.call(this);
-					status.boundOnFocusEventHandler = onFocus.bind(this);
-					status.boundOnBlurEventHandler  = onBlur.bind(this);
+					status.boundOnFocusEventHandler = inputOnFocus.bind(this);
+					status.boundOnBlurEventHandler  = inputOnBlur .bind(this);
 					$(inputElement).on('focus', status.boundOnFocusEventHandler);
 					$(inputElement).on('blur',  status.boundOnBlurEventHandler);
 				}
@@ -3382,13 +3393,16 @@ window.webLogicControls = {};
 					charsCount = privateOptions.defaultCharsCountIfOmitted;
 				}
 
-				if (charsCount !== status.charsCount) {
-					status.charsCount = charsCount;
+				if (charsCount !== status.charsCountLimitation) {
+					status.charsCountLimitation = charsCount;
 					status.charsCountChanged = true;
 					updateDomsOnCharsCountChange.call(this, validGrids);
 				}
 			}
 			function updateDomsOnCharsCountChange(existingDecoGrids) {
+				this.status.charsCountLimitation = status.charsCountLimitation;
+
+
 				var isFirstTime = !!status.isInitializing;
 
 
@@ -3397,8 +3411,8 @@ window.webLogicControls = {};
 					// inputElement.className = privateOptions.inputClassName;
 				}
 
-				rootElement .setAttribute('data-chars-count', status.charsCount);
-				inputElement.setAttribute('maxlength',        status.charsCount);
+				rootElement .setAttribute('data-chars-count', status.charsCountLimitation);
+				inputElement.setAttribute('maxlength',        status.charsCountLimitation);
 
 				var $r = $(rootElement);
 
@@ -3492,12 +3506,12 @@ window.webLogicControls = {};
 				}
 
 				var decoGridElement;
-				for (i = existingDecoGrids.length; i < status.charsCount; i++) {
+				for (i = existingDecoGrids.length; i < status.charsCountLimitation; i++) {
 					decoGridElement = document.createElement(tagName);
 					decoGridElement.className = privateOptions.decoGridClassName;
 					decoGridsGroupElement.appendChild(decoGridElement);
 				}
-				for (i = status.charsCount; i < existingDecoGrids.length; i++) {
+				for (i = status.charsCountLimitation; i < existingDecoGrids.length; i++) {
 					decoGridElement = existingDecoGrids[i];
 					decoGridElement.parentNode.removeChild(decoGridElement);
 				}
@@ -3510,7 +3524,7 @@ window.webLogicControls = {};
 				for (i = 0; i < decoGridsElements.length; i++) {
 					decoGridElement = decoGridsElements[i];
 					elements.$decoGridsElements[i] = $(decoGridElement);
-					decoGridElement.style.width = (100 / status.charsCount) + '%';
+					decoGridElement.style.width = (100 / status.charsCountLimitation) + '%';
 					if (decoGridElement.parentNode !== decoGridsGroupElement) {
 						decoGridsGroupElement.appendChild(decoGridElement);
 					}
@@ -3543,6 +3557,8 @@ window.webLogicControls = {};
 				}
 			}
 			function updateDomsOnPureDigitsSwithToggled() {
+				this.status.isPureDigits = status.isPureDigits;
+
 				if (status.isPureDigits) {
 					$(inputElement).addClass(privateOptions.isPureDigitsClassName);
 					inputElement.virtualField.setFormatter(WCU.stringFormatters.pureDigits);
@@ -3579,6 +3595,8 @@ window.webLogicControls = {};
 				}
 			}
 			function updateDomsOnPasswordSwitchToggled() {
+				this.status.isPassword = status.isPassword;
+
 				if (status.isPassword) {
 					$(inputElement).addClass(privateOptions.isPasswordClassName);
 				} else {
@@ -3593,23 +3611,34 @@ window.webLogicControls = {};
 				status.isValid = VF.isValid;
 			}
 
+			function enableInput() {
+				if (inputElement.disabled) {
+					inputElement.disabled = false;
+					inputElement.virtualField.processCurrentValue();
+					_runCallbacks(status.onEnable, this.status);
+					inputOnInput.call(this, null);
+				}
+			}
+
+			function disableInput() {
+				if (!inputElement.disabled) {
+					inputElement.disabled = true;
+					_runCallbacks(status.onDisable, this.status);
+				}
+			}
+
 			function inputOnInput(event) {
 				// C.t('inputOnInput, disabled?', inputElement.disabled);
 				if (inputElement.disabled) return;
 
 				var value = inputElement.value;
 				var valueLength = value.length;
-				var charsCountLimit = status.charsCount;
+				var charsCountLimit = status.charsCountLimitation;
 				var virtualField = inputElement.virtualField;
-
-				_runCallbacks(status.onInput, event, virtualField.status);
-
 
 
 				var isEmpty = valueLength < 1; // virtualField.status.isEmpty
-				if (isEmpty && !status.isEmpty) {
-					_runCallbacks(status.onClear, event, virtualField.status);
-				}
+				var shouldRunOnEmptyCallbacks = isEmpty && !status.isEmpty;
 				status.isEmpty = isEmpty;
 
 
@@ -3622,39 +3651,55 @@ window.webLogicControls = {};
 					}
 					valueLength = charsCountLimit;
 				}
-				if (isFilled && !status.isFilled) {
-					_runCallbacks(status.onFill, event, virtualField.status);
-				}
+				var shouldRunOnFilledCallbacks = isFilled && !status.isFilled;
 				status.isFilled = isFilled;
 
 
 
 				var isValid = isFilled && virtualField.status.isValid;
-
-				if (isValid && !status.isValid) {
-					_runCallbacks(status.onValid, event, virtualField.status);
-				}
-
-				if (!isValid && status.isValid) {
-					_runCallbacks(status.onInvalid, event, virtualField.status);
-				}
+				var shouldRunOnValidCallbacks   =  isValid && !status.isValid;
+				var shouldRunOnInvalidCallbacks = !isValid &&  status.isValid;
 
 				status.isValid = isValid;
 				// cacheVirtualFieldStatus.call(this);
 
+
+				this.status.value = value;
+				this.status.isEmpty = isEmpty;
+				this.status.isFilled = isFilled;
+				this.status.isValid = isValid;
+
+				_runCallbacks(status.onInput, this.status, event);
+
+				if (shouldRunOnEmptyCallbacks) {
+					_runCallbacks(status.onClear, this.status, event);
+				}
+				if (shouldRunOnFilledCallbacks) {
+					_runCallbacks(status.onFill, this.status, event);
+				}
+				if (shouldRunOnValidCallbacks) {
+					_runCallbacks(status.onValid, this.status, event);
+				}
+				if (shouldRunOnInvalidCallbacks) {
+					_runCallbacks(status.onInvalid, this.status, event);
+				}
+
+
 				updateDecoGrids.call(this);
 			}
 
-			function onFocus() {
-				// C.l('onFocus');
+			function inputOnFocus() {
+				// C.l('inputOnFocus');
 				status.isFocused = true;
 				updateDecoGrids.call(this);
+				_runCallbacks(status.onFocus, this.status, event);
 			}
 
-			function onBlur() {
-				// C.l('onBlur');
+			function inputOnBlur() {
+				// C.l('inputOnBlur');
 				status.isFocused = false;
 				updateDecoGrids.call(this);
+				_runCallbacks(status.onBlur, this.status, event);
 			}
 
 			function updateDecoGrids() {
@@ -3665,7 +3710,7 @@ window.webLogicControls = {};
 				for (var i = 0; i < $grids.length; i++) {
 					var $grid = $grids[i];
 					if (status.isFocused &&
-						(i === shownCount || (i === shownCount-1 && shownCount === status.charsCount))
+						(i === shownCount || (i === shownCount-1 && shownCount === status.charsCountLimitation))
 					) {
 						// C.l(true, '['+i+']', $grid);
 						$grid.addClass(privateOptions.focusedClassName);
@@ -3778,7 +3823,7 @@ window.webLogicControls = {};
 				// otherwise when the caret moves to the end of the input,
 				// the content of the input might be shift leftwards
 
-				var charsCount = status.charsCount;
+				var charsCount = status.charsCountLimitation;
 
 				var moduleWidth = $(widthWrapperElement).outerWidth();
 				var letterSpacing = (moduleWidth - charWidth * charsCount) / charsCount;
