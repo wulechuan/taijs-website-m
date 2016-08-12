@@ -9,14 +9,12 @@ $(function () {
 
 	var FCCI1 = new UI.FixedCharsCountInput($('.password-pass-1 .fixed-count-chars-input-block')[0], {
 		onValid: function () {
-			C.l(arguments);
 			switchToPane(2);
 		}
 	});
 
 	var FCCI2 = new UI.FixedCharsCountInput($('.password-pass-2 .fixed-count-chars-input-block')[0], {
 		onValid: function () {
-			C.l(arguments);
 			onBothPasswordsFilled();
 		}
 	});
