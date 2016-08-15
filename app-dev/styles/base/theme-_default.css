@@ -527,10 +527,16 @@ label.deco-input {
 		background-color: black;
 	}
 	.fixed-count-chars-input-block .deco-grid.focus {
-		background-color: #cfc;
+		/* background-color: #cfc; */
 	}
 	.fixed-count-chars-input-block .deco-grid.value-invalid {
 		background-color: #fcc;
+	}
+	.fixed-count-chars-input-block.disabled .deco-grid.focus,
+	.fixed-count-chars-input-block.disabled .deco-grid.value-invalid,
+	.fixed-count-chars-input-block.disabled .deco-grid {
+		color: #999;
+		background-color: #f1f1f1;
 	}
 
 

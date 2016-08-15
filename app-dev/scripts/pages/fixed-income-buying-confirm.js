@@ -46,6 +46,7 @@ $(function () { // fake logics
 
 	new UI.FixedCharsCountInput($pl1.find('.fixed-count-chars-input-block')[0], {
 		onValid: function () {
+			this.disable();
 			UI.popupLayersManager.show('plpm-trading-password-verified');
 			setTimeout(function () {
 				location.assign('newbie-buying-succeeded.html');
@@ -60,6 +61,8 @@ $(function () { // fake logics
 
 	$('[button-action="submit"]').on('click', function(event) {
 		if (event && typeof event.preventDefault === 'function') event.preventDefault();
+		FCCI.clear();
+		FCCI.enable();
 		UI.popupLayersManager.show(pl1, event);
 	});
 

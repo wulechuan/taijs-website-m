@@ -263,27 +263,17 @@ article.message {
 		margin-right: auto;
 	}
 
-	.fixed-count-chars-input-block .deco-grid,
-	.fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
-	.fixed-count-chars-input-tester {
+	.fixed-count-chars-input-block .deco-grid {
 		/* font-family: 'iconfont'!important; */
-		font-kerning: none!important;
-		}
-		.fixed-count-chars-input-block .deco-grid {
-			/* font-family: 'iconfont'!important; */
-			font-size: 1.5rem!important;
-		}
-		.fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
-		.fixed-count-chars-input-tester {
-			/* font-family: 'iconfont'!important; */
+		font-size: 1.5rem!important;
+	}
+	.fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
+	.fixed-count-chars-input-block .fixed-count-chars-input-tester {
+		font-family: monospace!important;
 
-			/* font-size cannot be zero or too small,
-				otherwise webkit(iOS, android and windows) would NOT allow us to input */
-			font-size: 1.5rem!important;
-		}
-
-	.fixed-count-chars-input-tester {
-		opacity: 0!important;
+		/* font-size cannot be zero or too small,
+			otherwise webkit(iOS, android and windows) would NOT allow us to input */
+		font-size: 1.5rem;
 	}
 
 	.fixed-count-chars-input-block .width-wrapper .input-wrapper,
@@ -313,7 +303,7 @@ article.message {
 		text-indent: 0;
 
 		top: 0;
-		width: 100%;
+		width: 120%;
 		height: 100%;
 		padding: 0.2rem 0;
 		line-height: 1;
@@ -327,10 +317,8 @@ article.message {
 		-webkit-box-shadow: none!important;
 		box-shadow: none!important;
 	}
-
-	.fixed-count-chars-input-block.testing .width-wrapper .input-wrapper input.fixed-count-chars-input {
-		background-color: pink!important;
-		opacity: 0.4;
+	.fixed-count-chars-input-block.non-empty-field .width-wrapper .input-wrapper input.fixed-count-chars-input {
+		margin-left: 0rem!important;
 	}
 
 
@@ -401,6 +389,35 @@ article.message {
 	.safari .fixed-count-chars-input-block.has-fake-caret .deco-grid.focus::after,
 	.fixed-count-chars-input-block.safari.has-fake-caret  .deco-grid.focus::after {
 		content: none;
+		}
+
+
+	.fixed-count-chars-input-block.testing .width-wrapper .input-wrapper input.fixed-count-chars-input {
+		background-color: pink!important;
+		opacity: 0.4;
+	}
+	.fixed-count-chars-input-tester-wrapper {
+		text-align: left;
+		position: absolute;
+		left: 0;
+		right: 0;
+		margin: auto;
+		width: 100%;
+		height: 0.5rem;
+		overflow: hidden;
+		}
+		.fixed-count-chars-input-tester {
+			transition-property: none!important;
+			transition-duration: 0s!important;
+			display: block;
+			position: absolute;
+			left: 0;
+			top: 0;
+			opacity: 0!important;
+		}
+		.fixed-count-chars-input-block.testing .fixed-count-chars-input-tester.width-detector {
+			background-color: red;
+			opacity: 0.2!important;
 		}
 
 

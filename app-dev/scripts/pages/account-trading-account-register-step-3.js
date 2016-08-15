@@ -8,13 +8,16 @@ $(function () {
 	var $passwordPane2 = $('.password-pass-2');
 
 	var FCCI1 = new UI.FixedCharsCountInput($('.password-pass-1 .fixed-count-chars-input-block')[0], {
+		// isTesting: true,
 		onValid: function () {
-			switchToPane(2);
+			this.disable();
+			delaySwitchToPane(2);
 		}
 	});
 
 	var FCCI2 = new UI.FixedCharsCountInput($('.password-pass-2 .fixed-count-chars-input-block')[0], {
 		onValid: function () {
+			this.disable();
 			onBothPasswordsFilled();
 		}
 	});
@@ -23,6 +26,11 @@ $(function () {
 
 
 
+	function delaySwitchToPane(index) {
+		setTimeout(function () {
+			switchToPane(index);
+		}, 1000);
+	}
 
 	function switchToPane(index) {
 		var $paneToShow = (index===1) ? $passwordPane1 : $passwordPane2;
@@ -38,6 +46,7 @@ $(function () {
 
 		$paneToShow.show();
 		$paneToHide.hide();
+		FCCIToFocus.enable();
 
 		setTimeout(function () {
 			FCCIToFocus.focus();
@@ -51,7 +60,7 @@ $(function () {
 		} else {
 			// if (buttonConfirm) buttonConfirm.disabled = true;
 			showOrHideMismatchMessage(true);
-			switchToPane(1);
+			delaySwitchToPane(1);
 		}
 	}
 

@@ -3154,9 +3154,11 @@ window.webLogicControls = {};
 				clearInput.call(this);
 			};
 			this.enable = function () {
+				$(rootElement).removeClass('disabled');
 				enableInput.call(this);
 			};
 			this.disable = function () {
+				$(rootElement).addClass('disabled');
 				disableInput.call(this);
 			};
 			this.focus = function () {
@@ -3490,6 +3492,10 @@ window.webLogicControls = {};
 
 
 
+				inputElement.style.marginLeft = 'calc('+ (100 / status.charsCountLimitation) + '% - 0.5em)';
+
+
+
 				var decoGridsGroupElement;
 				if (isFirstTime) {
 					$tempElements = $r.find('.'+privateOptions.decoGridsGroupClassName);
@@ -3654,11 +3660,7 @@ window.webLogicControls = {};
 				status.isFocused = true;
 
 				if (status.shouldEvaluateCharWidthOnFocus) {
-					var that = this;
-					// evaluateCharWidthOfInput.call(that, null, true);
-					setTimeout(function () {
-						evaluateCharWidthOfInput.call(that, null, !!initOptions.isTesting)
-					}, 200);
+					evaluateCharWidthOfInput.call(this, null, !!initOptions.isTesting);
 				}
 				status.shouldEvaluateCharWidthOnFocus = false;
 
@@ -3674,7 +3676,7 @@ window.webLogicControls = {};
 			}
 
 			function inputOnInput(event) {
-				C.l('inputOnInput, disabled?', inputElement.disabled);
+				// C.l('inputOnInput, disabled?', inputElement.disabled);
 				if (inputElement.disabled) return;
 
 				var value = inputElement.value;
@@ -3759,27 +3761,52 @@ window.webLogicControls = {};
 						if (!status.isPassword) $grid.html('');
 					}
 				}
+
+				if (this.status.isEmpty) {
+					$(rootElement).addClass('empty-field');
+					$(rootElement).removeClass('non-empty-field');
+				} else {
+					$(rootElement).addClass('non-empty-field');
+					$(rootElement).removeClass('empty-field');
+				}
 			}
 
 			function evaluateCharWidthOfInput(testChar, shouldLog) {
-				var parentNode = rootElement;
+				var parentNode = widthWrapperElement;
+				var charsCount = status.charsCountLimitation;
+				var moduleWidth = $(widthWrapperElement).outerWidth();
+
+				var HTMLLogElement;
+				var log = [];
+				var logTemp;
+				if (shouldLog) {
+					HTMLLogElement = document.createElement('P');
+					HTMLLogElement.style.textAlign = 'left';
+					rootElement.appendChild(HTMLLogElement);
+				}
+
 				var testSpansWrapper;
 				var spans = [];
-				var htmlLog;
-				if (shouldLog) {
-					htmlLog = document.createElement('P');
-					rootElement.appendChild(htmlLog);
-				}
+				var charWidth = NaN;
+				var letterSpacing = NaN;
 
 				_setup();
 				setTimeout(function () {
-					updateInputElementMeasurement(
-						_evaluate(),
-						shouldLog,
-						htmlLog
-					);
+					// _evaluateCharWidth(false);
+					_evaluateLetterSpacing(shouldLog);
 				}, 79);
 
+
+				function _onDetectionDone() {
+					if (shouldLog) {
+						if (HTMLLogElement) {
+							HTMLLogElement.innerHTML = log.join('<br>\n');
+						}
+						C.l('Clearing test doms...', parentNode, testSpansWrapper);
+					} else {
+						parentNode.removeChild(testSpansWrapper);
+					}
+				}
 
 				function _setup() {
 					if (typeof testChar !== 'string' || testChar.length < 1) {
@@ -3788,29 +3815,28 @@ window.webLogicControls = {};
 						testChar = testChar.charAt(0);
 					}
 
-					var testSpansCount = status.charsCountLimitation + 1;
+					var testSpansCount = status.charsCountLimitation;
 
 					var innerHTML = testChar;
 					var i;
 
 					testSpansWrapper = document.createElement('SPAN');
-					testSpansWrapper.style.textAlign = 'left';
+					testSpansWrapper.className = 'fixed-count-chars-input-tester-wrapper';
 
 					for (i = 0; i < testSpansCount; i++) {
 						var span = document.createElement('SPAN');
 						span.innerHTML = innerHTML;
 						span.className = privateOptions.testerClassName;
-						span.style.position = 'absolute';
 						testSpansWrapper.appendChild(span);
 						spans.push(span);
 
 						innerHTML += testChar;
 					}
 
-					parentNode.appendChild(testSpansWrapper);
+					widthWrapperElement.appendChild(testSpansWrapper);
 				}
 
-				function _evaluate() {
+				function _evaluateCharWidth(shouldLog) {
 					var spanWidths = [];
 					var charWidths = [];
 					var lastSpanWidth = 0;
@@ -3840,52 +3866,108 @@ window.webLogicControls = {};
 						var logH = log.join('<br>\n');
 
 						C.l(logC);
-						if (htmlLog) htmlLog.innerHTML += logH;
+						if (HTMLLogElement) HTMLLogElement.innerHTML += logH;
 					}
 
-					var charWidth = charWidths[0];
+					charWidth = charWidths[0];
 					if (maxBias > 2) charWidth = NaN;
-
-					// parentNode.removeChild(testSpansWrapper);
-
-					return charWidth;
-				}
-			}
-			function updateInputElementMeasurement(charWidth, shouldLog, htmlLog) {
-				charWidth = parseFloat(charWidth);
-				if (isNaN(charWidth) || charWidth < 0) return;
-
-				// C.l('updateInputElementMeasurement', charWidth, shouldLog);
-
-
-				// inputElement often need to be wider than desired width limitation,
-				// otherwise when the caret moves to the end of the input,
-				// the content of the input might be shift leftwards
-
-				var charsCount = status.charsCountLimitation;
-
-				var moduleWidth = $(widthWrapperElement).outerWidth();
-				var magicRatio = 1.5; // F*ck
-				var letterSpacing = (moduleWidth - charWidth * magicRatio * charsCount) / charsCount;
-				var textOffset = (charWidth + letterSpacing) * -0.5; // letterSpacing / 2;
-
-				if (shouldLog) {
-					var log = [
-						'total width: '+   moduleWidth,
-						'charWidth: '+     charWidth,
-						'charsCount: '+    charsCount,
-						'letterSpacing: '+ letterSpacing,
-						'textOffset: '+    textOffset
-					];
-					var logC = log.join('\t ');
-					var logH = log.join('<br>\n');
-
-					C.l(logC);
-					if (htmlLog) htmlLog.innerHTML += logH;
 				}
 
-				inputElement.style.letterSpacing = letterSpacing + 'px';
-				inputElement.style.left = textOffset + 'px';
+				function _evaluateLetterSpacing(shouldLog) {
+					var _timeGapMS = 87;
+					var _maxTryingPassCount = 6;
+					var _fullWidthIncludsLastLetterSpacing = true;
+					var theTestSpan = spans[charsCount-1];
+					// C.l(theTestSpan);
+
+					var $theTestSpan = $(theTestSpan);
+					if (shouldLog) {
+						$theTestSpan.addClass('width-detector');
+					}
+
+					var _gapsCount = _fullWidthIncludsLastLetterSpacing ? charsCount : (charsCount-1);
+
+
+					var _spanWidth = $theTestSpan.outerWidth();
+					var _widthDiff = moduleWidth - _spanWidth;
+
+					letterSpacing = _widthDiff / _gapsCount;
+
+					var executionTime = 0;
+					var resultEvaluated = false;
+
+					__checkSpanNewWidthAndAdjsutLetterSpacing();
+					for (var i = 0; i < _maxTryingPassCount; i++) {
+						setTimeout((function (i) {
+							__iterate(i);
+						}).bind(this, i), _timeGapMS*(i+1));
+					}
+
+					function __checkSpanNewWidthAndAdjsutLetterSpacing() {
+						_spanWidth = $(theTestSpan).outerWidth();
+						_widthDiff = moduleWidth - _spanWidth;
+						letterSpacing += _widthDiff / _gapsCount;
+						theTestSpan.style.letterSpacing = letterSpacing+'px';
+
+						if (shouldLog) {
+							logTemp = [
+								'checking ['+executionTime+']...',
+								'\tspanWith:' + _spanWidth,
+								'\tdiff:' + _widthDiff,
+								'\tletterSpacing:' + letterSpacing
+							];
+							C.l(logTemp.join('\n'));
+							log.push(logTemp.join('<br>\n')+'<br>\n');
+						}
+					}
+
+					function __iterate(i) {
+						executionTime++;
+
+						if (shouldLog) {
+							C.l(
+								'pass '+executionTime+'('+i+'/'+_maxTryingPassCount+')',
+								'\tresult:', resultEvaluated
+							);
+						}
+
+						if (resultEvaluated) return;
+
+						if (Math.abs(_widthDiff) <= 2) resultEvaluated = true;
+
+						if (executionTime >= _maxTryingPassCount ||resultEvaluated) {
+							_onResultEvaluated();
+						} else {
+							__checkSpanNewWidthAndAdjsutLetterSpacing();
+						}
+					}
+				}
+
+				function _onResultEvaluated() {
+					_updateInputElementMeasurement();
+				}
+				function _updateInputElementMeasurement() {
+					var textOffset = letterSpacing * -0.5;
+
+					if (shouldLog) {
+						logTemp = [
+							'total width: '+   moduleWidth,
+							// 'charWidth: '+     charWidth,
+							'charsCount: '+    charsCount,
+							'letterSpacing: '+ letterSpacing,
+							'textOffset: '+    textOffset,
+							''
+						];
+						log.push(logTemp.join('<br>\n'));
+
+						C.l(logTemp.join('\t '));
+					}
+
+					inputElement.style.letterSpacing = letterSpacing + 'px';
+					inputElement.style.left = textOffset + 'px';
+
+					_onDetectionDone();
+				}
 			}
 		};
 
