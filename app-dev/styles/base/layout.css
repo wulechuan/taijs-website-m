@@ -196,6 +196,20 @@ article.message {
 		border-radius: 0 0.2rem 0.2rem 0;
 	}
 
+	.single-char-inputs-set input.single-char-input {
+		margin: 0;
+		padding: 0;
+		width: 2.5rem;
+		height: 2.5rem;
+		line-height: 2.4rem;
+		font-size: 1.5rem;
+		text-align: center;
+		box-sizing: border-box;
+		border-radius: 0; /* for Safari */
+
+		opacity: 0;
+	}
+
 	.single-char-inputs-set.inputs-distribution-full-width {
 		max-width: 512px;
 		margin-left: auto;
@@ -204,6 +218,188 @@ article.message {
 		.single-char-inputs-set.inputs-distribution-full-width input.single-char-input {
 			width: 16.666%;
 		}
+
+	input.single-char-input {
+		font-family: 'iconfont'!important;
+		font-size: 2rem!important;
+		font-kerning: none!important;
+		margin: 0;
+		border-width: 0;
+		padding: 0;
+		width: 100%;
+		height: 2.5rem;
+		line-height: 2.5rem;
+		text-align: left;
+	}
+
+
+.fixed-count-chars-input-block {
+	text-align: center;
+	}
+	.row > .fixed-count-chars-input-block {
+		padding: 0;
+	}
+	.fixed-count-chars-input-block input {
+		border-color: transparent!important;
+	}
+	.fixed-count-chars-input-block .width-wrapper {
+		display: block;
+		padding: 0;
+		border-width: 0;
+		position: relative;
+		overflow: hidden;
+		width: calc(2.5rem * 6);
+		height: 2.5rem;
+		line-height: 2.5rem;
+
+		border-width: 1px;
+		border-style: solid;
+		border-radius: 0.2rem;
+	}
+	.fixed-count-chars-input-block.full-width .width-wrapper {
+		width: 100%;
+		max-width: 512px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.fixed-count-chars-input-block .deco-grid,
+	.fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
+	.fixed-count-chars-input-tester {
+		/* font-family: 'iconfont'!important; */
+		font-kerning: none!important;
+		}
+		.fixed-count-chars-input-block .deco-grid {
+			/* font-family: 'iconfont'!important; */
+			font-size: 1.5rem!important;
+		}
+		.fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
+		.fixed-count-chars-input-tester {
+			/* font-family: 'iconfont'!important; */
+
+			/* font-size cannot be zero,
+				otherwise at least webkit(both android and windows) would NOT allow us to input */
+			font-size: 0.01rem!important;
+		}
+
+	.fixed-count-chars-input-tester {
+		opacity: 0!important;
+	}
+
+	.fixed-count-chars-input-block .width-wrapper .input-wrapper,
+	.fixed-count-chars-input-block .deco-grids-group {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		padding: 0;
+		border-width: 0;
+		margin: 0;
+		border-color: inherit;
+	}
+
+
+	/* inputElement often need to be wider than desired width limitation,
+		otherwise when the caret moves to the end of the input,
+		the content of the input might be shift leftwards */
+
+	.fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input {
+		box-sizing: border-box;
+		position: absolute;
+
+		letter-spacing: 1em; /* temp value */
+		left: 0.5em; /* temp value */
+		text-indent: 0;
+
+		top: 0;
+		width: 100%;
+		height: 100%;
+		padding: 0.2rem 0;
+		line-height: 1;
+		padding: 0!important;
+		border-width: 0!important;
+		/* background-image: none!important; */
+		background-color: transparent!important;
+		margin: 0;
+		opacity: 0;
+		text-align: left;
+		-webkit-box-shadow: none!important;
+		box-shadow: none!important;
+	}
+
+
+	.safari .fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
+	.safari .fixed-count-chars-input-tester,
+	.fixed-count-chars-input-block.safari .width-wrapper .input-wrapper input.fixed-count-chars-input,
+	.fixed-count-chars-input-tester.safari {
+		font-size: 0.01rem!important;
+		}
+		.safari .fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input {
+			opacity: 0.5;
+		}
+
+	.fixed-count-chars-input-block .deco-grid {
+		position: relative; /* for caret */
+		display: inline-block;
+		vertical-align: top;
+		margin: 0;
+		padding: 0;
+		border-width: 0;
+		border-style: solid;
+		border-color: inherit;
+		box-sizing: border-box;
+		width: 16.666%; /* temp value */
+		height: 100%;
+		text-align: center;
+		border-radius: 0; /* for Safari */
+		}
+		.fixed-count-chars-input-block.input-is-password .deco-grid::before {
+			content: '\2022';
+			display: block;
+			transform: translate(0, 110%);
+			transition-property: color, transform;
+			transition-duration: 0.2s;
+		}
+		.fixed-count-chars-input-block.input-is-password .deco-grid.filled::before {
+			transform: translate(0, 0);
+			transition-property: color, transform;
+		}
+		.fixed-count-chars-input-block.has-fake-caret .deco-grid.focus::after {
+			content: none;
+			display: block;
+			width: 0.1rem;
+			height: 1em;
+			padding: 0;
+			border-width: 0;
+
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+
+			background-color: black;
+
+			animation: caret-flashing 0.79s infinite;
+		}
+		.fixed-count-chars-input-block.has-fake-caret .deco-grid.filled.focus::after {
+			left: 1em;
+		}
+		.fixed-count-chars-input-block.has-fake-caret .deco-grid.focus::after {
+			content: '';
+		}
+
+		@keyframes caret-flashing {
+			0%  { opacity: 0; }
+			50% { opacity: 1; }
+			to  { opacity: 0; }
+		}
+
+	.fixed-count-chars-input-block .deco-grid ~ .deco-grid {
+		border-left-width: 1px;
+	}
 
 
 .count-down-disc {

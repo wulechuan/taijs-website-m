@@ -3,48 +3,66 @@ $(function () {
 	var UI = wlc.UI;
 
 
-	var $plpm1 = $('#plpm-trading-account-register-passwords-mismatch');
-	function showPoliteMessagePasswordsMismatch() {
-		var plpm1 = $plpm1[0];
-		UI.popupLayersManager.show(plpm1);
+	// var buttonConfirm = $('[button-action="submit"]')[0];
+	var $passwordPane1 = $('.password-pass-1');
+	var $passwordPane2 = $('.password-pass-2');
+
+	var FCCI1 = new UI.FixedCharsCountInput($('.password-pass-1 .fixed-count-chars-input-block')[0], {
+		onValid: function () {
+			switchToPane(2);
+		}
+	});
+
+	var FCCI2 = new UI.FixedCharsCountInput($('.password-pass-2 .fixed-count-chars-input-block')[0], {
+		onValid: function () {
+			onBothPasswordsFilled();
+		}
+	});
+
+	switchToPane(1);
+
+
+
+
+	function switchToPane(index) {
+		var $paneToShow = (index===1) ? $passwordPane1 : $passwordPane2;
+		var $paneToHide = (index===1) ? $passwordPane2 : $passwordPane1;
+		var FCCIToFocus = (index===1) ? FCCI1 : FCCI2;
+
+		if (index===1) {
+			FCCI1.clear();
+			FCCI2.clear();
+		} else {
+			showOrHideMismatchMessage(false);
+		}
+
+		$paneToShow.show();
+		$paneToHide.hide();
+
+		setTimeout(function () {
+			FCCIToFocus.focus();
+		}, 0);
 	}
 
-	var $passwordPass1Container = $('.password-pass-1');
-	var $passwordPass2Container = $('.password-pass-2');
-	var passwordInput1 = $('.password-pass-1 .single-char-inputs-set .single-char-inputs-aggregator')[0];
-	var passwordInput2 = $('.password-pass-2 .single-char-inputs-set .single-char-inputs-aggregator')[0];
-	// var buttonConfirm = $('[button-action="submit"]')[0];
-
-	var singleCharInputsSet1 = new wlc.UI.SingleCharacterInputsSet($('.password-pass-1 .single-char-inputs-set')[0], {
-		onAllInputsValid: function (aggregatedValue, isCheckingOnLoad) {
-			$passwordPass1Container.hide();
-			$passwordPass2Container.show();
-			setTimeout(function () {
-				singleCharInputsSet2.focus();
-			}, 0);
-			$plpm1.hide();
+	function onBothPasswordsFilled() {
+		if ((FCCI1.getValue() === FCCI2.getValue()) && FCCI1.getValue().length > 0) {
+			// if (buttonConfirm) buttonConfirm.disabled = false;
+			location.assign('account-trading-account-register-succeeded.html');
+		} else {
+			// if (buttonConfirm) buttonConfirm.disabled = true;
+			showOrHideMismatchMessage(true);
+			switchToPane(1);
 		}
-	});
+	}
 
-	var singleCharInputsSet2 = new wlc.UI.SingleCharacterInputsSet($('.password-pass-2 .single-char-inputs-set')[0], {
-		onAllInputsValid: function (aggregatedValue, isCheckingOnLoad) {
-			if ((passwordInput1.value === passwordInput2.value) && passwordInput1.value.length) {
-				// if (buttonConfirm) buttonConfirm.disabled = false;
-				location.assign('account-trading-account-register-succeeded.html');
-			} else {
-				// if (buttonConfirm) buttonConfirm.disabled = true;
-				singleCharInputsSet1.clear();
-				singleCharInputsSet2.clear();
-				$passwordPass1Container.show();
-				$passwordPass2Container.hide();
-				setTimeout(function () {
-					singleCharInputsSet1.focus();
-				}, 0);
-				// $('.row.error-tip').show();
-				showPoliteMessagePasswordsMismatch();
-			}
+	function showOrHideMismatchMessage(isToShow) {
+		var plpm1 = '#plpm-trading-account-register-passwords-mismatch';
+		if (isToShow) {
+			// $('.row.error-tip').show();
+			UI.popupLayersManager.show(plpm1);
+		} else {
+			// $('.row.error-tip').hide();
+			UI.popupLayersManager.hide(plpm1);
 		}
-	});
-
-
+	}
 });

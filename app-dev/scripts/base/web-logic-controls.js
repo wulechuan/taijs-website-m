@@ -33,6 +33,109 @@ window.webLogicControls = {};
 		})();
 
 
+		this.invoke = function () {
+			// Possible arguments sequences:
+			//     1) array, true, <function or functionNameString> [, actual arguments ...],
+			//        This treats array as a single owner/this object,
+			//        and obviously the function should be a method of an array
+			//
+			//        Note:
+			//            For conveniences, "array, false, function" is NOT valid.
+			//            Otherwise every time we'd like to do batch work,
+			//            we have to provide a false at arguments[1]
+			//
+			//     2) array, <function or functionNameString> [, actual arguments ...]
+			//        This dives in the the array, recursively run invoke for each member of the array
+			//
+			//     3) <non-function, non-array value>, <function or functionNameString> [, actual arguments ...]
+			//        This treats the first argument as owner/this object of the function in arguments[1].
+			//
+			//     4) <function or functionNameString> [, actual arguments ...]
+			//        This treats the omitted owner/this object being window.
+
+
+			var iterationDepth = 0;
+			var maxIterationDepth = 1;
+			return iterate.apply(null, arguments);
+
+
+			function iterate() {
+				iterationDepth++;
+
+				if (arguments.length < 1) return;
+
+				var theOwnerDecided = false;
+
+				var args = Array.prototype.slice.apply(arguments);
+				var func;
+
+				var owners = args[0];
+
+				if (typeof owners === 'function') {
+					func = owners;
+					owners = window;
+					theOwnerDecided = true;
+					args = args.slice(1);
+				} else {
+					if (Array.isArray(owners) && args[1] === true) {
+						theOwnerDecided = true;
+						func = args[2];
+						args = args.slice(3);
+					} else {
+						theOwnerDecided = !Array.isArray(owners);
+
+						if (owners === undefined || owners === null) {
+							// null, omitted owners
+							owners = window;
+						}
+
+						func = args[1];
+
+						args = args.slice(2);
+					}
+
+					if (!(typeof func === 'function' || (typeof func === 'string' && func.length > 0))) {
+						C.e('Function/method not provided.');
+						return;
+					}
+				}
+
+				if (theOwnerDecided) {
+					if (typeof func === 'string') {
+						if (typeof owners[func] !== 'function') {
+							if (typeof owners === 'object' && !Array.isArray(owners)) {
+								C.e('Function/method not found via string "'+func+'" for', owners);
+							} else {
+								C.e('Function/method not found via string "'+func+'" for '+
+									(Array.isArray(owners) ? 'an <array>' : ('a <' + typeof owners+'>'))+'.'
+								);
+							}
+							return;
+						}
+						func = owners[func];
+					}
+
+					return func.apply(owners, args);
+				} else {
+					if (Array.isArray(owners)) {
+						var results = [];
+						if (iterationDepth <= maxIterationDepth) {
+							for (var i = 0; i < owners.length; i++) {
+								results.push(
+									iterate.apply(null, [owners[i], func].concat(args))
+								);
+							}
+						}
+
+						return results; // might limited by maxIterationDepth
+					} else {
+						// hopefully impossible
+					}
+				}
+			}
+		};
+
+
 		var save = {};
 		this.save = save;
 		(function () {
@@ -328,6 +431,38 @@ window.webLogicControls = {};
 
 				return obj;
 			};
+			this.destroyInstanceIfInitFailed = function(status, actionOnSuccess) {
+				if (typeof status !== 'object') {
+					throw 'Wrong way to utilize afterInit tool. The "status" object is NOT found within scope.';
+				}
+
+				if (status.isInitializing) {
+					if (status.noNeedToReconstruct) {
+						delete status.noNeedToReconstruct;
+						return;
+					} else {
+						C.e('Fail to construct <'+this.constructor.name+'>.');
+						objectToolkit.destroyInstanceObject(this);
+					}
+					return;
+				}
+
+				WCU.invoke(this, actionOnSuccess);
+			};
+			this.invokeCallbacks = function (callbacksArray) {
+				if (typeof callbacksArray === 'function') {
+					callbacksArray = [callbacksArray];
+				}
+
+				if (!Array.isArray(callbacksArray)) return;
+
+				var args = Array.prototype.slice.apply(arguments);
+				args = args.slice(1);
+				for (var i = 0; i < callbacksArray.length; i++) {
+					var callback = callbacksArray[i];
+					if (typeof callback === 'function') callback.apply(this, args);
+				}
+			};
 
 			this.evaluateDotNotationChain = function (rootObject, dotNotationString, desiredType) {
 				if (typeof dotNotationString !== 'string' || dotNotationString.length < 3) return;
@@ -429,9 +564,9 @@ window.webLogicControls = {};
 		var stringFormatters = {};
 		this.stringFormatters = stringFormatters;
 		(function () {
-			this.format = function (text, formatType, isInputField) {
+			this.format = function (text, formatType, isInputField, options) {
 				if (!text || typeof text !== 'string') return text;
-				var formatter = this.evaluateFormatterFromType(formatType);
+				var formatter = this.evaluateFormatterFromType(formatType, isInputField, options);
 				if (!formatter) return text;
 				return formatter(text);
 			};
@@ -482,6 +617,9 @@ window.webLogicControls = {};
 				}
 
 				return formatter;
+			};
+			this.pureDigits = function(text) {
+				return text.replace(/[^0-9]/g, '');
 			};
 			this.chineseIDNumber = function(text) {
 				// asterisk (*) is allowed
@@ -645,8 +783,10 @@ window.webLogicControls = {};
 
 				function init() {
 					status.isInitializing = true;
+					status.noNeedToReconstruct = false;
 					this.config(initOptions, this.options);
 					delete status.isInitializing;
+					delete status.noNeedToReconstruct;
 				}
 
 				function config(newOptions, targetOptions) {
@@ -1020,6 +1160,21 @@ window.webLogicControls = {};
 				return formatter;
 			}).call(this);
 		}).call(stringFormatters);
+
+
+		var validateString = {};
+		this.validateString = validateString;
+		(function () {
+			function getNonEmptyString(value) {
+				if (value && typeof value === 'string') return value;
+				return '';
+			}
+			this.toBe = this;
+			this.being = this;
+			this.digitsOnly = function (value) {
+				return /\d+/.test(getNonEmptyString(value));
+			};
+		}).call(validateString);
 	}).call(WCU);
 
 
@@ -1096,6 +1251,59 @@ window.webLogicControls = {};
 
 			return dom;
 		};
+
+		// this.makeSureParentNodeHasChildren = function (parentNode, desiredCount, className, desiredTagName) {
+		// 	if (!parentNode) return false;
+
+		// 	desiredCount = parseInt(desiredCount);
+		// 	if (isNaN(desiredCount) || desiredCount < 1) return false;
+
+		// 	if (!className || typeof className === 'string') {
+		// 		return false;
+		// 	}
+
+		// 	if (!desiredTagName || typeof desiredTagName === 'string') {
+		// 		if (!/(\w+)|(\w+[\w\-]*\w+)/.test(desiredTagName)) {
+		// 			return false;
+		// 		}
+		// 		desiredTagName = '';
+		// 	}
+
+		// 	var $foundChildren = $(parentNode).find(desiredTagName+'.'+className);
+
+		// 	var i, child;
+
+		// 	var tagName;
+		// 	if (!desiredTagName && $foundChildren.length > 0) {
+		// 		tagName = $foundChildren[0].tagName;
+		// 	} else {
+		// 		tagName = desiredTagName || 'div';
+		// 	}
+
+
+		// 	for (i = $foundChildren.length; i < desiredCount; i++) {
+		// 		child = document.createElement(tagName);
+		// 		$(child).addClass(className);
+		// 		parentNode.appendChild(child);
+		// 	}
+		// 	for (i = desiredCount; i < $foundChildren.length; i++) {
+		// 		child = $foundChildren[i];
+		// 		child.parentNode.removeChild(child);
+		// 	}
+
+		// 	var finalChildren = Array.prototype.slice.apply(
+		// 		$(parentNode).find(tagName+'.'+className)
+		// 	);
+
+		// 	for (i = 0; i < finalChildren.length; i++) {
+		// 		child = finalChildren[i];
+		// 		if (child.parentNode !== parentNode) {
+		// 			parentNode.appendChild(child);
+		// 		}
+		// 	}
+
+		// 	return (finalChildren.length > 1) ? finalChildren : finalChildren[0];
+		// };
 	}).call(DOM);
 
 
@@ -1292,7 +1500,7 @@ window.webLogicControls = {};
 			// }
 		// };
 
-		this.PopupLayersManager = function () {
+		this.PopupLayersManager = function PopupLayersManager() {
 			var thisController = this;
 
 			// var status = {};
@@ -1325,10 +1533,12 @@ window.webLogicControls = {};
 				var $plContainers;
 				if (appOrPageOrPLContainer === 'app') {
 					$plContainers = elements.$popupLayersContainersUnderApp;
-				} else if ($(appOrPageOrPLContainer).hasClass('.popup-layers')) {
-					$plContainers = $(appOrPageOrPLContainer);
+				} else if (appOrPageOrPLContainer === 'all-pages') {
+					$plContainers = $('.page .popup-layers');
 				} else if ($(appOrPageOrPLContainer).hasClass('page')) {
 					$plContainers = $(appOrPageOrPLContainer).find('.popup-layers');
+				} else if ($(appOrPageOrPLContainer).hasClass('.popup-layers')) {
+					$plContainers = $(appOrPageOrPLContainer);
 				} else {
 					return false;
 				}
@@ -2004,6 +2214,7 @@ window.webLogicControls = {};
 
 			function init () {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 
 				this.config(initOptions);
 
@@ -2017,6 +2228,7 @@ window.webLogicControls = {};
 				clearStatus();
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 			}
 
 			init.call(this);
@@ -2027,12 +2239,13 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.VirtualForm = function (rootElement) {
+		this.VirtualForm = function VirtualForm(rootElement) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this, {
 				allowBody: true
 			});
 			if (!rootElement) rootElement = document.body;
 
+			var OT = WCU.objectToolkit;
 			var status = {
 				rootElementIsAForm: rootElement.tagName.toLowerCase() === 'form',
 				hasNoValidationAttributeAtBeginning: false,
@@ -2044,7 +2257,7 @@ window.webLogicControls = {};
 			}
 
 			var publicStatus = {
-				allFieldsValidation: []
+				allFieldsValidities: []
 			};
 
 			var elements = {
@@ -2055,47 +2268,40 @@ window.webLogicControls = {};
 
 			this.elements = {};
 			this.status = publicStatus;
-			this.checkValidation = checkValidation.bind(this);
 			this.validate = validate.bind(this);
-			this.getField = getField.bind(this);
-			this.getVirtualField = getVirtualField.bind(this);
-			this.validateFieldByIndex = validateFieldByIndex.bind(this);
-			this.setFieldValidationByIndex = setFieldValidationByIndex.bind(this);
+			// this.getField = getField.bind(this);
+			// this.getVirtualField = getVirtualField.bind(this);
+			this.setFieldValidityByIndex = setFieldValidityByIndex.bind(this);
 			this.rebuild = function () {
 				console.log('Rebuilding an existing {'+this.constructor.name+'}...');
-				build.call(this);
+				config.call(this);
 			};
 
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				simpleDestroy(this);
-				return;
-			}
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				rootElement.virtualForm = this;
+			});
 
-			rootElement.virtualForm = this;
 
-			function simpleDestroy(obj) {
-				WCU.objectToolkit.destroyInstanceObject(obj);
-			}
 
 			function init() {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 
 				if (rootElement.virtualForm instanceof UI.VirtualForm) {
 					rootElement.virtualForm.rebuild();
-					delete status.isInitializing;
-					simpleDestroy(this);
+					status.noNeedToReconstruct = true;
 					return;
 				}
 
-				if (!build.call(this)) return;
+				if (!config.call(this)) return;
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 			}
 
-			function build() {
+			function config() {
 				var isFirstTime = !!status.isInitializing;
 
 				var oldRequiredFields = elements.requiredFields;
@@ -2162,10 +2368,10 @@ window.webLogicControls = {};
 					atLeastOneNewVirtualFieldCreated = atLeastOneNewVirtualFieldCreated || thisOneCreated;
 				}
 
-				if (atLeastOneNewVirtualFieldCreated) {
-					// C.t('validating virtualForm after building virtualFields...');
-					this.validate();
-				}
+				// if (atLeastOneNewVirtualFieldCreated) {
+				// 	C.t('validating virtualForm after building virtualFields...');
+				// 	this.validate();
+				// }
 			}
 
 			function createNewVirtualFieldAsNeeded(index) {
@@ -2192,14 +2398,14 @@ window.webLogicControls = {};
 				return field;
 			}
 
-			function getVirtualField(index) {
-				var field = this.getField(index);
-				if (field) {
-					return field.virtualField;
-				}
+			// function getVirtualField(index) {
+			// 	var field = getField.call(this, index);
+			// 	if (field) {
+			// 		return field.virtualField;
+			// 	}
 
-				return;
-			}
+			// 	return;
+			// }
 
 			function validate() {
 				// C.t('validating virtualForm');
@@ -2208,10 +2414,10 @@ window.webLogicControls = {};
 				}
 
 				// C.t('CHECKING AFTER VALIDATING VIRTUALFORM...');
-				// this.checkValidation();
+				checkValidities.call(this);
 			}
 
-			function checkValidation(options) {
+			function checkValidities(options) {
 				var allInputsAreValid = true;
 				if (status.rootElementIsAForm && rootElement.hasAttribute('novalidate')) {
 					if (status.hasNoValidationAttributeAtBeginning) {
@@ -2224,8 +2430,8 @@ window.webLogicControls = {};
 					options.shouldSkipDisabledInputs = !!options.shouldSkipDisabledInputs; // not implemented yet
 					options.shouldSkipReadOnlyInputs = !!options.shouldSkipReadOnlyInputs; // not implemented yet
 
-					for (var i = 0; i < publicStatus.allFieldsValidation.length; i++) {
-						if (!publicStatus.allFieldsValidation[i]) {
+					for (var i = 0; i < publicStatus.allFieldsValidities.length; i++) {
+						if (!publicStatus.allFieldsValidities[i]) {
 							allInputsAreValid = false;
 							break;
 						}
@@ -2241,27 +2447,31 @@ window.webLogicControls = {};
 			}
 
 			function validateFieldByIndex(index) {
-				var field = this.getField(index);
+				var field = getField.call(this, index);
 				if (field) {
-					field.virtualField.validate();
+					field.virtualField.validate(true);
 				}
 			}
 
-			function setFieldValidationByIndex(index, isValid) {
+			function setFieldValidityByIndex(index, isValid, holdOnCheckingFormOverallValidities) {
 				// C.l('recieving field status: ', index, isValid);
-				var field = this.getField(index);
+				var field = getField.call(this, index);
 				if (field && typeof isValid === 'boolean') {
-					publicStatus.allFieldsValidation[index] = isValid;
+					publicStatus.allFieldsValidities[index] = isValid;
+
+					if (!holdOnCheckingFormOverallValidities) {
+						// C.l('\t ==> CHECKING on VirtualField Callback...');
+						checkValidities.call(this);
+					}
 				}
 
-				// C.l('\t ==> CHECKING on VirtualField Callback...');
-				this.checkValidation();
 			}
 		};
 
-		this.VirtualField = function (fieldElement, initOptions) {
+		this.VirtualField = function VirtualField(fieldElement, initOptions) {
 			if (!(fieldElement instanceof Node)) return;
 
+			var OT = WCU.objectToolkit;
 			var status = {
 				virtualForm: undefined,
 				indexInVirtualForm: NaN,
@@ -2296,54 +2506,59 @@ window.webLogicControls = {};
 			this.elements = {};
 			this.status = publicStatus;
 
-			this.format = format.bind(this);
+			this.processCurrentValue = processCurrentValue.bind(this);
 			this.validate = validate.bind(this);
 			this.clearValue = clearValue.bind(this);
 
 			this.scanForTips = scanForTipsDefaultMethod.bind(this);
-			this.rebuild = function (options) {
-				// C.l('Rebuilding an existing {'+this.constructor.name+'}...');
-				build.call(this, options);
+			this.config = config.bind(this);
+			this.setFormatter = function (formatter) {
+				this.config({
+					formatter: formatter
+				});
+			};
+			this.setValidator = function (validator) {
+				this.config({
+					validator: validator
+				});
 			};
 
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				simpleDestroy(this);
-				return;
-			}
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				fieldElement.virtualField = this;
+			});
 
-			fieldElement.virtualField = this;
-
-			function simpleDestroy(obj) {
-				WCU.objectToolkit.destroyInstanceObject(obj);
-			}
 
 			function init() {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 
 				if (fieldElement.virtualField instanceof UI.VirtualField) {
-					fieldElement.virtualField.rebuild();
-					delete status.isInitializing;
-					simpleDestroy(this);
+					fieldElement.virtualField.config(initOptions);
+					status.noNeedToReconstruct = true;
 					return;
 				}
 
-				if (!build.call(this, initOptions)) return;
+				if (!config.call(this, initOptions)) return;
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 			}
 
-			function build(options) {
+			function config(options) {
 				var isFirstTime = !!status.isInitializing;
 
 				this.elements.field = fieldElement; // just for safety
 
 
+				if (typeof options.onValueChange === 'function') status.onValueChange.push(options.onValueChange);
+
+
 				if (isFirstTime) {
 					status.onFieldChangeEventHandler = (function (event) {
 						// C.l('\t Bound Event Handler invoked for ', fieldElement.tagName, fieldElement.type);
+						this.processCurrentValue();
 
 						for (var i = 0; i < status.onValueChange.length; i++) {
 							var callback = status.onValueChange[i];
@@ -2351,8 +2566,6 @@ window.webLogicControls = {};
 								callback.call(this, event);
 							}
 						}
-
-						this.format();
 					}).bind(this);
 				}
 
@@ -2379,15 +2592,15 @@ window.webLogicControls = {};
 				if (virtualFormOptionsAreValid) {
 					if (status.virtualForm === options.virtualForm && status.indexInVirtualForm === options.indexInVirtualForm) {
 					} else {
+						if (!isFirstTime) {
+							C.l('Adding existing {'+this.constructor.name+'} to {'+options.virtualForm.constructor.name+'}...');
+						}
 						virtualFormSetupChanged = true;
 						status.virtualForm = options.virtualForm;
 						status.indexInVirtualForm = options.indexInVirtualForm;
 					}
 				}
 
-				if (virtualFormSetupChanged) {
-					// do something as needed
-				}
 
 
 				if (isFirstTime) { // The type of an input field is changable! But why would we do that!
@@ -2446,28 +2659,14 @@ window.webLogicControls = {};
 
 
 
-
-
-				var shouldValidateNow = true;
-				if (virtualFormOptionsAreValid && status.virtualForm) {
-					shouldValidateNow = false; // wait for virtualForm batch action
-				} else {
-					if (isFirstTime) {
-					} else {
-						// shouldValidateNow = false;
-					}
-				}
-
-				if (shouldValidateNow) {
-					this.validate();
-				}
+				this.processCurrentValue();
 
 
 				return true;
 			}
 
 			function setupFormatter(options, isFirstTime) {
-				if (!isFirstTime && !!status.formatter) return;
+				// if (!isFirstTime && !!status.formatter) return;
 
 				if (!status.isText) return;
 
@@ -2477,50 +2676,73 @@ window.webLogicControls = {};
 
 				var formatter;
 				var formatterIsSpecified;
+				var formatterChanged = false;
+				var formatterRemoved = false;
 
 				if (typeof options.formatter === 'function') { // override HTML's setup with options argument's
-					formatter = options.formatter;
 					formatterIsSpecified = true;
+					formatter = options.formatter;
+				} else if (typeof options.formatter === null) {
+					formatterRemoved = true;
+					formatterChanged = !!status.formatter;
+					status.formatter = null;
 				}
 				
+				if (formatterRemoved) {
+					if (!isFirstTime && formatterChanged) {
 
-				if (!formatterIsSpecified) {
-					formatter = WCU.objectToolkit.evaluateDotNotationChainViaHTMLAttribute(
-						fieldElement, 'data-formatter'
-					);
-					formatterIsSpecified = typeof formatter === 'function';
-				}
-
-				if (!formatterIsSpecified) {
-					formatter = WCU.stringFormatters.evaluateFormatterFromType(
-						fieldElement.getAttribute('data-text-format'), true
-					);
-					formatterIsSpecified = typeof formatter === 'function';
-				}
-
-				if (
-					(!formatterIsSpecified && typeof status.formatter === 'function') ||
-					( formatterIsSpecified && formatter === status.formatter)
-				) {
-					// do nothing
-				} else {
-					if (formatterIsSpecified) {
-						status.formatter = formatter;
 					}
-				}
+				} else {
+					if (!formatterIsSpecified) {
+						formatter = WCU.objectToolkit.evaluateDotNotationChainViaHTMLAttribute(
+							fieldElement, 'data-formatter'
+						);
+						formatterIsSpecified = typeof formatter === 'function';
+					}
 
+					if (!formatterIsSpecified) {
+						formatter = WCU.stringFormatters.evaluateFormatterFromType(
+							fieldElement.getAttribute('data-text-format'), true
+						);
+						formatterIsSpecified = typeof formatter === 'function';
+					}
 
-				if (!status.formatter) { // using default formatters
-					if (status.isPassword) {
-						// status.validator = defaultFormatterForTextInputField;
+					if (
+						(!formatterIsSpecified && typeof status.formatter === 'function') ||
+						( formatterIsSpecified && formatter === status.formatter)
+					) {
+						// do nothing
 					} else {
-						// status.validator = defaultFormatterForTextInputField;
+						if (formatterIsSpecified) {
+							status.formatter = formatter;
+							formatterChanged = true;
+						}
+					}
+
+
+
+					if (!status.formatter) { // using default formatters
+						if (status.isPassword) {
+							// status.validator = defaultFormatterForTextInputField;
+						} else {
+							// status.validator = defaultFormatterForTextInputField;
+						}
+
+						formatterChanged = !!status.formatter;
+					}
+
+
+					if (!isFirstTime && formatterChanged) {
+						onFormatterChange.call(this);
 					}
 				}
 			}
+			function onFormatterChange() {
+				processCurrentValue.call(this);
+			}
 
 			function setupValidator(options, isFirstTime) {
-				if (!isFirstTime && !!status.validator) return;
+				// if (!isFirstTime && !!status.validator) return;
 
 
 				options = options || {};
@@ -2528,40 +2750,64 @@ window.webLogicControls = {};
 
 				var validator = WCU.objectToolkit.evaluateDotNotationChainViaHTMLAttribute(fieldElement, 'data-validator');
 				var validatorIsSpecified = typeof validator === 'function';
+				var validatorChanged = false;
+				var validatorRemoved = false;
 
 				if (typeof options.validator === 'function') { // override HTML's setup with options argument's
 					validator = options.validator;
 					validatorIsSpecified = true;
+				} else if (typeof options.validator === null) {
+					validatorRemoved = true;
+					validatorChanged = !!status.validator;
+					status.validator = null;
 				}
 
 
-				if (
-					(!validatorIsSpecified && typeof status.validator === 'function') ||
-					( validatorIsSpecified && validator === status.validator)
-				) {
+				if (validatorRemoved) {
+					if (!isFirstTime && validatorChanged) {
+
+					}
 				} else {
-					if (validatorIsSpecified) {
-						status.validator = validator;
-					}
-				}
-
-
-
-				if (!status.validator) {
-					if (status.isPassword) {
-						status.validator = defaultValidatorForTextInputField;
-					} else if (status.isText) {
-						status.validator = defaultValidatorForTextInputField;
-					} else if (status.isCheckbox) {
-						status.validator = defaultValidatorForCheckbox;
-					} else if (status.isRadio) {
-						status.validator = defaultValidatorForRadio;
-					} else if (status.isSelect) {
-						status.validator = defaultValidatorForSelect;
+					if (
+						(!validatorIsSpecified && typeof status.validator === 'function') ||
+						( validatorIsSpecified && validator === status.validator)
+					) {
 					} else {
-						// hopefully impossible
+						if (validatorIsSpecified) {
+							status.validator = validator;
+							validatorChanged = true;
+						}
+					}
+
+
+
+					if (!status.validator) {
+						if (status.isPassword) {
+							status.validator = defaultValidatorForTextInputField;
+						} else if (status.isText) {
+							status.validator = defaultValidatorForTextInputField;
+						} else if (status.isCheckbox) {
+							status.validator = defaultValidatorForCheckbox;
+						} else if (status.isRadio) {
+							status.validator = defaultValidatorForRadio;
+						} else if (status.isSelect) {
+							status.validator = defaultValidatorForSelect;
+						} else {
+							// hopefully impossible
+						}
+
+						validatorChanged = !!status.validator;
+					}
+
+
+
+					if (!isFirstTime && validatorChanged) {
+						onValidatorChange.call(this);
 					}
 				}
+			}
+			function onValidatorChange() {
+				processCurrentValue.call(this);
 			}
 
 			function setupEventHandlers(isFirstTime) {
@@ -2649,7 +2895,15 @@ window.webLogicControls = {};
 
 			function clearValue() {
 				fieldElement.value = '';
-				this.validate();
+				processCurrentValue.call(this);
+			}
+
+			function processCurrentValue() {
+				format.call(this);
+				validate.call(this, false);
+
+				publicStatus.isEmpty = status.valueIsEmpty;
+				publicStatus.isValid = status.valueIsValid;
 			}
 
 			function format() {
@@ -2661,8 +2915,6 @@ window.webLogicControls = {};
 				if (fieldElement.value !== fomattedValue) {
 					fieldElement.value = fomattedValue;
 				}
-
-				this.validate();
 			}
 
 			function defaultValidatorForTextInputField() {
@@ -2679,7 +2931,7 @@ window.webLogicControls = {};
 				return fieldElement.value !== -1;
 			}
 
-			function validate() {
+			function validate(ownerVirtualFormItselfCallThisProactively) {
 				updateStatus.call(this);
 
 				var validator = status.validator;
@@ -2710,11 +2962,18 @@ window.webLogicControls = {};
 				// C.l('\t\t isEmpty?', status.valueIsEmpty, '\t isValid?', status.valueIsValid);
 
 				if (status.virtualForm) {
-					 status.virtualForm.setFieldValidationByIndex(status.indexInVirtualForm, status.valueIsValid);
+					 status.virtualForm.setFieldValidityByIndex(
+					 	status.indexInVirtualForm,
+					 	status.valueIsValid,
+					 	ownerVirtualFormItselfCallThisProactively
+					 );
 				}
 
 				updateCssClasses.call(this);
 				updateInfoTips.call(this, validateResult);
+
+
+				return status.valueIsValid;
 			}
 
 			function updateStatus() {
@@ -2795,7 +3054,827 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.SingleCharacterInputsSet = function (rootElement, initOptions) {
+		this.FixedCharsCountInput = function FixedCharsCountInput(rootElement, initOptions) {
+			// '\u25fc' 实心圆圈
+			// '\u2022' 加重号
+
+			var OT = WCU.objectToolkit;
+			rootElement = wlc.DOM.validateRootElement(rootElement, this);
+
+			var privateOptions = {
+				defaultCharsCountIfOmitted: 6,
+				rootClassName:  'fixed-count-chars-input-block',
+				inputClassName: 'fixed-count-chars-input',
+
+				widthWrapperClassName:   'width-wrapper',
+				decoGridsGroupClassName: 'deco-grids-group',
+				decoGridClassName:       'deco-grid',
+				inputWrapperClassName:   'input-wrapper',
+
+				decoGridStatusFilledClassName: 'filled',
+
+				focusedClassName: 'focus',
+				isPureDigitsClassName: 'input-only-digits',
+				isPasswordClassName: 'input-is-password',
+
+				testerClassName: 'fixed-count-chars-input-tester'
+			};
+
+			var inputElement;
+			var widthWrapperElement;
+			var elements = {
+				decoGridsElements: [],
+				$decoGridsElements: null
+			};
+
+			var status = {
+				shouldEvaluateCharWidthOnFocus: true,
+
+				charsCountLimitation: NaN,
+				isPassword: false,
+				isPureDigits: false,
+
+				isEmpty: true,
+				isFilled: false,
+				isValid: false,
+
+				isDisabled: false,
+				isFocused: false,
+
+				virtualField: undefined,
+
+				onInput: [],
+				onClear: [],
+				onFill: [], // on full length filled
+				onValid: [],
+				onInvalid: [],
+				onEnable: [],
+				onDisable: [],
+				onFocus: [],
+				onBlur: []
+			};
+
+			this.status = {
+				value: '',
+				charsCountLimitation: NaN,
+				isPassword: false,
+				isPureDigits: false,
+
+				isEmpty: true,
+				isFilled: false,
+				isValid: false,
+
+				isDisabled: false,
+				isFocused: false
+			};
+
+			var _runCallbacks = (OT.invokeCallbacks).bind(this);
+
+
+			this.config = config.bind(this);
+			this.getValue = function () {
+				return inputElement.value;
+			};
+			// this.setValue = function (newValue) {
+			// 	if (newValue !== inputElement.value) {
+			// 		inputElement.value = newValue;
+			// 		inputElement.virtualField.processCurrentValue();
+			// 		inputOnInput.call(this, null);
+			// 	}
+			// };
+			this.clear = function () {
+				clearInput.call(this);
+			};
+			this.enable = function () {
+				enableInput.call(this);
+			};
+			this.disable = function () {
+				disableInput.call(this);
+			};
+			this.focus = function () {
+				inputElement.focus();
+			};
+			this.blur = function () {
+				inputElement.blur();
+			};
+
+
+
+			init.call(this);
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				$(rootElement).addClass(privateOptions.rootClassName);
+				rootElement.fixedCharsCountInput = this;
+			});
+
+
+
+			function init() {
+				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
+
+
+				if (!rootElement) return false;
+
+				if (rootElement.fixedCharsCountInput instanceof FixedCharsCountInput) {
+					rootElement.fixedCharsCountInput.config(initOptions);
+					status.noNeedToReconstruct = true;
+					return;
+				}
+
+
+				var $inputElements = $(rootElement).find('input.'+privateOptions.inputClassName);
+				if ($inputElements.length > 1) {
+					C.e('Too many input fields not found when constructing a '+this.constructor.name+'.');
+					return false;
+				} else if ($inputElements.length < 1) {
+					$inputElements = $(rootElement).find('input');
+					if ($inputElements.length === 1) {
+						inputElement = $inputElements[0];
+					} else {
+						// C.e('Input field not found when constructing a '+this.constructor.name+'.');
+						// return false;
+					}
+				} else {
+					inputElement = $inputElements[0];
+				}
+
+
+				if (inputElement) {
+					var type = inputElement.type.toLowerCase();
+					if (
+						type === 'checkbox' || type === 'radio'  || type === 'hidden' ||
+					    type === 'submit'   || type === 'button' || type === 'image'
+					) {
+						if ($(inputElement).hasClass(privateOptions.inputClassName)) {
+							C.e('Invalid input type encounted when constructing a '+this.constructor.name+'.');
+							return false;
+						} else {
+							inputElement = undefined;
+						}
+					}
+				}
+
+
+				if (!config.call(this, initOptions)) {
+					C.e('Initial configuration failed.');
+					return;
+				}
+
+
+				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
+			}
+
+			function config(options) {
+				// options:
+					// inputName:
+					//     <string:''>, empty string is allowed,
+					//     and this will overrite HTML inline setting
+					//
+					// typeForChoosingKeyboard:
+					//     <string:''>, empty string is allowed,
+					//     'submit', 'button', 'checkbox', 'raido', 'image' and 'hidden' are NOT allowed
+					//     and this will overrite HTML inline setting
+					//
+					// isPassword:
+					//     <boolean:false>,
+					//     and this will override HTML inline setting
+					//
+					//
+					// isPureDigits:
+					//     <boolean:true>,
+					//     and this will override HTML inline setting
+					//
+
+				var isFirstTime = !!status.isInitializing;
+
+
+				options = options || {};
+
+				if (typeof options.onInput   === 'function') status.onInput  .push(options.onInput);
+				if (typeof options.onClear   === 'function') status.onClear  .push(options.onClear);
+				if (typeof options.onFill    === 'function') status.onFill   .push(options.onFill);
+				if (typeof options.onValid   === 'function') status.onValid  .push(options.onValid);
+				if (typeof options.onInvalid === 'function') status.onInvalid.push(options.onInvalid);
+				if (typeof options.onEnable  === 'function') status.onEnable .push(options.onEnable);
+				if (typeof options.onDisable === 'function') status.onDisable.push(options.onDisable);
+				if (typeof options.onFocus   === 'function') status.onFocus  .push(options.onFocus);
+				if (typeof options.onBlur    === 'function') status.onBlur   .push(options.onBlur);
+
+
+
+				detectCharsCount.call(this, options);
+				// hopefully after detectCharsCount, inputElement is available
+
+
+
+				if (isFirstTime) {
+					$(inputElement).addClass(privateOptions.inputClassName);
+					status.boundOnInputEventHandler = inputOnInput.bind(this);
+					status.virtualField = new UI.VirtualField(inputElement, {
+						onValueChange: status.boundOnInputEventHandler
+					});
+					cacheVirtualFieldStatus.call(this);
+					status.boundOnFocusEventHandler = inputOnFocus.bind(this);
+					status.boundOnBlurEventHandler  = inputOnBlur .bind(this);
+					$(inputElement).on('focus', status.boundOnFocusEventHandler);
+					$(inputElement).on('blur',  status.boundOnBlurEventHandler);
+				}
+
+
+
+
+				inputElement.readOnly = false;
+				inputElement.autocomplete = 'off';
+
+				if (typeof options.typeForChoosingKeyboard === 'string') {
+					var _type = options.typeForChoosingKeyboard;
+					if (!_type) {
+						inputElement.type = '';
+					} else {
+						_type = _type.replace(/^\s+/, '').replace(/\s+$/, '').toLowerCase();
+						switch (_type) {
+							case 'submit':
+							case 'button':
+							case 'checkbox':
+							case 'raido':
+							case 'hidden':
+							case 'image':
+								_type = '';
+								break;
+						}
+						inputElement.type = _type;
+					}
+				}
+
+				if (typeof options.inputName === 'string') {
+					inputElement.name = options.inputName;
+				}
+
+
+
+				detectPureDigitsSwith.call(this, options);
+				detectPasswordSwitch .call(this, options);
+
+
+
+				this.enable();
+
+
+				if (isFirstTime ||
+					status.charsCountChanged ||
+					status.pureDigitsSwitchChanged ||
+					status.passwordSwitchChanged
+				) {
+					evaluateCharWidthOfInput.call(this, null, false);
+
+					// input might be HIDDEN(Display: none or parents Display: none),
+					// so the charWidth revaluated here might NOT be correct
+					status.shouldEvaluateCharWidthOnFocus = true;
+				}
+
+				if (!status.passwordSwitchChanged) {
+					if (isFirstTime || status.charsCountChanged || status.pureDigitsSwitchChanged) {
+						inputOnInput.call(this);
+					}
+				}
+
+
+				delete status.charsCountChanged;
+				delete status.pureDigitsSwitchChanged;
+				delete status.passwordSwitchChanged;
+
+
+
+				return true;
+			}
+
+			function detectCharsCount(options) {
+				var isFirstTime = !!status.isInitializing;
+
+				var minCount = 1;
+				var charsCount = NaN;
+				var charsCountIsSpecified = false;
+
+				if (options.hasOwnProperty('charsCount')) {
+					charsCount = parseInt(options.charsCount);
+					charsCountIsSpecified = !!charsCount && charsCount >= minCount;
+				}
+
+				if (!charsCountIsSpecified) {
+					charsCount = parseInt(rootElement.getAttribute('data-chars-count'))
+					charsCountIsSpecified = !!charsCount && charsCount >= minCount;
+				}
+
+				var tagName, i;
+				var $existingDecoGrids = $(rootElement).find('.'+privateOptions.decoGridClassName);
+
+				var invalidGrids = [];
+				var validGrids = [];
+				for (i = 0; i < $existingDecoGrids.length; i++) {
+					tagName = $existingDecoGrids[i].tagName.toLowerCase();
+					if (tagName === 'input' || tagName === 'textarea') {
+						invalidGrids.push($existingDecoGrids[i]);
+					} else {
+						validGrids  .push($existingDecoGrids[i]);
+					}
+				}
+
+				for (i = 0; i < invalidGrids.length; i++) {
+					var tempElement = invalidGrids[i];
+					tempElement.parentNode.removeChild(tempElement);
+				}
+
+				if (isFirstTime && !charsCountIsSpecified) {
+					// charsCount = validGrids.length;
+					charsCount = $existingDecoGrids.length;
+				}
+
+				if (!charsCount || charsCount < minCount) {
+					C.w('Neither chars-count nor deco-grid detected. Default value "'+privateOptions.defaultCharsCountIfOmitted+'" is used.');
+					charsCount = privateOptions.defaultCharsCountIfOmitted;
+				}
+
+				if (charsCount !== status.charsCountLimitation) {
+					status.charsCountLimitation = charsCount;
+					status.charsCountChanged = true;
+					updateDomsOnCharsCountChange.call(this, validGrids);
+				}
+			}
+			function updateDomsOnCharsCountChange(existingDecoGrids) {
+				this.status.charsCountLimitation = status.charsCountLimitation;
+
+
+				var isFirstTime = !!status.isInitializing;
+
+
+				if (isFirstTime && !inputElement) {
+					inputElement = document.createElement('input');
+					// inputElement.className = privateOptions.inputClassName;
+				}
+
+				rootElement .setAttribute('data-chars-count', status.charsCountLimitation);
+				inputElement.setAttribute('maxlength',        status.charsCountLimitation);
+
+				var $r = $(rootElement);
+
+				var i, removeThereElements, $tempElements, tempElement;
+
+
+				if (isFirstTime) {
+					$tempElements = $r.find('.'+privateOptions.widthWrapperClassName);
+					if ($tempElements.length > 0) {
+						widthWrapperElement = $tempElements[0];
+
+						if (widthWrapperElement.tagName.toLowerCase() !== 'label') {
+							removeThereElements = $tempElements;
+							widthWrapperElement = undefined;
+						} else {
+							removeThereElements = $tempElements.slice(1);
+						}
+
+						for (i = 0; i < removeThereElements.length; i++) {
+							tempElement = removeThereElements[i];
+							tempElement.parentNode.removeChild(tempElement);
+						}
+					}
+
+					if (!widthWrapperElement) {
+						widthWrapperElement = document.createElement('label');
+						widthWrapperElement.className = privateOptions.widthWrapperClassName;
+						rootElement.appendChild(widthWrapperElement);
+					}
+				}
+
+
+
+				var inputWrapperElement;
+				if (isFirstTime) {
+					$tempElements = $r.find('.'+privateOptions.inputWrapperClassName);
+					if ($tempElements.length > 0) {
+						inputWrapperElement = $tempElements[0];
+						removeThereElements = $tempElements.slice(1);
+
+						for (i = 0; i < removeThereElements.length; i++) {
+							tempElement = removeThereElements[i];
+							tempElement.parentNode.removeChild(tempElement);
+						}
+					}
+
+					if (!inputWrapperElement) {
+						inputWrapperElement = document.createElement('div');
+						inputWrapperElement.className = privateOptions.inputWrapperClassName;
+						widthWrapperElement.appendChild(inputWrapperElement);
+					} else {
+						if (inputWrapperElement.parentNode !== widthWrapperElement) {
+							widthWrapperElement.appendChild(inputWrapperElement);
+						}
+					}
+
+					if (inputElement.parentNode !== inputWrapperElement) {
+						inputWrapperElement.appendChild(inputElement);
+					}
+				}
+
+
+
+				var decoGridsGroupElement;
+				if (isFirstTime) {
+					$tempElements = $r.find('.'+privateOptions.decoGridsGroupClassName);
+					if ($tempElements.length > 0) {
+						decoGridsGroupElement = $tempElements[0];
+						removeThereElements = $tempElements.slice(1);
+
+						for (i = 0; i < removeThereElements.length; i++) {
+							tempElement = removeThereElements[i];
+							tempElement.parentNode.removeChild(tempElement);
+						}
+					}
+
+					if (!decoGridsGroupElement) {
+						decoGridsGroupElement = document.createElement('div');
+						decoGridsGroupElement.className = privateOptions.decoGridsGroupClassName;
+						widthWrapperElement.insertBefore(decoGridsGroupElement, inputWrapperElement);
+					} else {
+						if (decoGridsGroupElement.parentNode !== widthWrapperElement) {
+							widthWrapperElement.appendChild(decoGridsGroupElement);
+						}
+					}
+				}
+
+				var tagName = 'span';
+				if (!isFirstTime || (existingDecoGrids && existingDecoGrids.length > 0)) {
+					tagName = existingDecoGrids[0].tagName.toLowerCase();
+				}
+
+				var decoGridElement;
+				for (i = existingDecoGrids.length; i < status.charsCountLimitation; i++) {
+					decoGridElement = document.createElement(tagName);
+					decoGridElement.className = privateOptions.decoGridClassName;
+					decoGridsGroupElement.appendChild(decoGridElement);
+				}
+				for (i = status.charsCountLimitation; i < existingDecoGrids.length; i++) {
+					decoGridElement = existingDecoGrids[i];
+					decoGridElement.parentNode.removeChild(decoGridElement);
+				}
+
+				var decoGridsElements = Array.prototype.slice.apply(
+					$(rootElement).find('.'+privateOptions.decoGridClassName)
+				);
+				elements.decoGridsElements = decoGridsElements;
+				elements.$decoGridsElements = [];
+				for (i = 0; i < decoGridsElements.length; i++) {
+					decoGridElement = decoGridsElements[i];
+					elements.$decoGridsElements[i] = $(decoGridElement);
+					decoGridElement.style.width = (100 / status.charsCountLimitation) + '%';
+					if (decoGridElement.parentNode !== decoGridsGroupElement) {
+						decoGridsGroupElement.appendChild(decoGridElement);
+					}
+				}
+			}
+
+			function detectPureDigitsSwith(options) {
+				var isFirstTime = !!status.isInitializing;
+
+				var isPureDigits;
+				if (options.isPureDigits !== undefined) {
+					isPureDigits = !!options.isPureDigits;
+				} else {
+					isPureDigits = $(rootElement).hasClass(privateOptions.isPureDigitsClassName);
+				}
+
+				var R = WCU.save.boolean(status, 'isPureDigits', isPureDigits);
+
+				var shouldUpdate = false;
+				if (isFirstTime) {
+					shouldUpdate = status.isPureDigits || R.valueHasBeenChanged;
+				} else {
+					shouldUpdate = R.valueHasBeenChanged;
+				}
+
+				status.pureDigitsSwitchChanged = R.valueHasBeenChanged;
+
+				if (shouldUpdate) {
+					updateDomsOnPureDigitsSwithToggled.call(this);
+				}
+			}
+			function updateDomsOnPureDigitsSwithToggled() {
+				this.status.isPureDigits = status.isPureDigits;
+
+				if (status.isPureDigits) {
+					$(inputElement).addClass(privateOptions.isPureDigitsClassName);
+					inputElement.virtualField.setFormatter(WCU.stringFormatters.pureDigits);
+				} else {
+					$(inputElement).removeCalss(privateOptions.isPureDigitsClassName);
+					inputElement.virtualField.setFormatter(null);
+				}
+			}
+
+			function detectPasswordSwitch(options) {
+				var isFirstTime = !!status.isInitializing;
+
+
+				var isPassword;
+				if (options.isPassword !== undefined) {
+					isPassword = !!options.isPassword;
+				} else {
+					isPassword = $(rootElement).hasClass('input-is-password');
+				}
+
+				var R = WCU.save.boolean(status, 'isPassword', isPassword);
+
+				var shouldUpdate = false;
+				if (isFirstTime) {
+					shouldUpdate = status.isPassword || R.valueHasBeenChanged;
+				} else {
+					shouldUpdate = R.valueHasBeenChanged;
+				}
+
+				status.passwordSwitchChanged = R.valueHasBeenChanged;
+
+				if (shouldUpdate) {
+					updateDomsOnPasswordSwitchToggled.call(this);
+				}
+			}
+			function updateDomsOnPasswordSwitchToggled() {
+				this.status.isPassword = status.isPassword;
+
+				if (status.isPassword) {
+					$(inputElement).addClass(privateOptions.isPasswordClassName);
+				} else {
+					$(inputElement).removeCalss(privateOptions.isPasswordClassName);
+				}
+				this.clear();
+			}
+
+			function cacheVirtualFieldStatus() {
+				var VF = inputElement.virtualField;
+				status.isEmpty = VF.isEmpty;
+				status.isValid = VF.isValid;
+			}
+
+			function enableInput() {
+				if (inputElement.disabled) {
+					inputElement.disabled = false;
+					inputElement.virtualField.processCurrentValue();
+					_runCallbacks(status.onEnable, this.status);
+					inputOnInput.call(this, null);
+				}
+			}
+
+			function disableInput() {
+				if (!inputElement.disabled) {
+					inputElement.disabled = true;
+					_runCallbacks(status.onDisable, this.status);
+				}
+			}
+
+			function clearInput() {
+				if (inputElement.value.length > 0) {
+					inputElement.value = '';
+					inputOnInput.call(this, null);
+					_runCallbacks(status.onClear, this.status);
+				}
+			}
+
+			function inputOnFocus() {
+				// C.l('inputOnFocus');
+				status.isFocused = true;
+
+				if (status.shouldEvaluateCharWidthOnFocus) {
+					evaluateCharWidthOfInput.call(this, null, false);
+				}
+				status.shouldEvaluateCharWidthOnFocus = false;
+
+				updateDecoGrids.call(this);
+				_runCallbacks(status.onFocus, this.status, event);
+			}
+
+			function inputOnBlur() {
+				// C.l('inputOnBlur');
+				status.isFocused = false;
+				updateDecoGrids.call(this);
+				_runCallbacks(status.onBlur, this.status, event);
+			}
+
+			function inputOnInput(event) {
+				C.l('inputOnInput, disabled?', inputElement.disabled);
+				if (inputElement.disabled) return;
+
+				var value = inputElement.value;
+				var valueLength = value.length;
+				var charsCountLimit = status.charsCountLimitation;
+				var virtualField = inputElement.virtualField;
+
+
+				var isEmpty = valueLength < 1; // virtualField.status.isEmpty
+				var shouldRunOnEmptyCallbacks = isEmpty && !status.isEmpty;
+				status.isEmpty = isEmpty;
+
+
+
+				var isFilled = charsCountLimit && valueLength >= charsCountLimit;
+				if (isFilled) {
+					if (valueLength > charsCountLimit) {
+						value = value.slice(0, charsCountLimit);
+						inputElement.value = value;
+					}
+					valueLength = charsCountLimit;
+				}
+				var shouldRunOnFilledCallbacks = isFilled && !status.isFilled;
+				status.isFilled = isFilled;
+
+
+
+				var isValid = isFilled && virtualField.status.isValid;
+				var shouldRunOnValidCallbacks   =  isValid && !status.isValid;
+				var shouldRunOnInvalidCallbacks = !isValid &&  status.isValid;
+
+				status.isValid = isValid;
+				// cacheVirtualFieldStatus.call(this);
+
+
+				this.status.value = value;
+				this.status.isEmpty = isEmpty;
+				this.status.isFilled = isFilled;
+				this.status.isValid = isValid;
+
+				_runCallbacks(status.onInput, this.status, event);
+
+				if (shouldRunOnEmptyCallbacks) {
+					_runCallbacks(status.onClear, this.status, event);
+				}
+				if (shouldRunOnFilledCallbacks) {
+					_runCallbacks(status.onFill, this.status, event);
+				}
+				if (shouldRunOnValidCallbacks) {
+					_runCallbacks(status.onValid, this.status, event);
+				}
+				if (shouldRunOnInvalidCallbacks) {
+					_runCallbacks(status.onInvalid, this.status, event);
+				}
+
+
+				updateDecoGrids.call(this);
+			}
+
+			function updateDecoGrids() {
+				var value = inputElement.value;
+				var shownCount = value.length;
+				var $grids = elements.$decoGridsElements;
+				// C.t('status.isFocused', status.isFocused, '\t\tvalue="'+value+'"');
+				for (var i = 0; i < $grids.length; i++) {
+					var $grid = $grids[i];
+					if (status.isFocused &&
+						(i === shownCount || (i === shownCount-1 && shownCount === status.charsCountLimitation))
+					) {
+						// C.l(true, '['+i+']', $grid);
+						$grid.addClass(privateOptions.focusedClassName);
+					} else {
+						// C.l(false, '['+i+']', $grid);
+						$grid.removeClass(privateOptions.focusedClassName);
+					}
+
+					if (i < shownCount) {
+						$grid.addClass(privateOptions.decoGridStatusFilledClassName);
+						if (!status.isPassword) $grid.html(value.charAt(i));
+					} else {
+						$grid.removeClass(privateOptions.decoGridStatusFilledClassName);
+						if (!status.isPassword) $grid.html('');
+					}
+				}
+			}
+
+			function evaluateCharWidthOfInput(testChar, shouldLog) {
+				return false;
+				var parentNode = rootElement;
+				var testSpansWrapper;
+				var spans = [];
+				var htmlLog;
+				// if (shouldLog) {
+				// 	htmlLog = document.createElement('P');
+				// 	document.body.appendChild(htmlLog);
+				// }
+
+				_setup();
+				setTimeout(function () {
+					updateInputElementMeasurement(
+						_evaluate(),
+						shouldLog,
+						htmlLog
+					);
+				}, 79);
+
+
+				function _setup() {
+					if (typeof testChar !== 'string' || testChar.length < 1) {
+						testChar = '\u2022';
+					} else {
+						testChar = testChar.charAt(0);
+					}
+
+					var testSpansCount = status.charsCountLimitation + 1;
+
+					var innerHTML = testChar;
+					var i;
+
+					testSpansWrapper = document.createElement('SPAN');
+					testSpansWrapper.style.textAlign = 'left';
+
+					for (i = 0; i < testSpansCount; i++) {
+						var span = document.createElement('SPAN');
+						span.innerHTML = innerHTML;
+						span.className = privateOptions.testerClassName;
+						span.style.position = 'absolute';
+						testSpansWrapper.appendChild(span);
+						spans.push(span);
+
+						innerHTML += testChar;
+					}
+
+					parentNode.appendChild(testSpansWrapper);
+				}
+
+				function _evaluate() {
+					var spanWidths = [];
+					var charWidths = [];
+					var lastSpanWidth = 0;
+
+					var log = [];
+					var i;
+					for (i = 0; i < spans.length; i++) {
+						spanWidths[i] = $(spans[i]).outerWidth();
+						charWidths[i] = spanWidths[i] - lastSpanWidth;
+						lastSpanWidth = spanWidths[i];
+						if (shouldLog) {
+							log.push('width['+i+']: ' + charWidths[i] + ' ' + spanWidths[i]);
+						}
+					}
+
+					var charWidthBiases = [];
+					var maxBias = 0;
+					for (i = 1; i < spans.length; i++) {
+						charWidthBiases[i] = charWidths[i] - charWidths[i-1];
+						maxBias = Math.max(charWidthBiases[i], maxBias);
+					}
+					log.push('maxBias: ' + maxBias);
+
+
+					if (shouldLog) {
+						var logC = log.join('\n');
+						var logH = log.join('<br>\n');
+
+						C.l(logC);
+						if (htmlLog) htmlLog.innerHTML += logH;
+					}
+
+					var charWidth = charWidths[0];
+					if (maxBias > 2) charWidth = NaN;
+
+					// parentNode.removeChild(testSpansWrapper);
+
+					return charWidth;
+				}
+			}
+			function updateInputElementMeasurement(charWidth, shouldLog, htmlLog) {
+				charWidth = parseFloat(charWidth);
+				if (isNaN(charWidth) || charWidth < 0) return;
+
+				// C.l('updateInputElementMeasurement', charWidth, shouldLog);
+
+
+				// inputElement often need to be wider than desired width limitation,
+				// otherwise when the caret moves to the end of the input,
+				// the content of the input might be shift leftwards
+
+				var charsCount = status.charsCountLimitation;
+
+				var moduleWidth = $(widthWrapperElement).outerWidth();
+				var letterSpacing = (moduleWidth - charWidth * 1.5 * charsCount) / charsCount;
+				var textOffset = 0; // letterSpacing / 2;
+
+				if (shouldLog) {
+					var log = [
+						'total width: '+   moduleWidth,
+						'charWidth: '+     charWidth,
+						'charsCount: '+    charsCount,
+						'letterSpacing: '+ letterSpacing,
+						'textOffset: '+    textOffset
+					];
+					var logC = log.join('\t ');
+					var logH = log.join('<br>\n');
+
+					C.l(logC);
+					if (htmlLog) htmlLog.innerHTML += logH;
+				}
+
+				inputElement.style.letterSpacing = letterSpacing + 'px';
+				inputElement.style.left = textOffset + 'px';
+			}
+		};
+
+		this.SingleCharacterInputsSet = function SingleCharacterInputsSet(rootElement, initOptions) {
+			var OT = WCU.objectToolkit;
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			var $allInputs;
@@ -2827,8 +3906,8 @@ window.webLogicControls = {};
 					this.value = '';
 					status.allInputsValue[index] = '';
 					status.allInputsFilling[index] = false;
-					status.allInputsValidation[index] = false;
-					// status.allInputsValidation[index] = validateOneInput.call(thisController, this);
+					status.allInputsValidity[index] = false;
+					// status.allInputsValidity[index] = validateOneInput.call(thisController, this);
 				});
 				aggregateAllInputsValue.call(this);
 				aggregateAllInputsStatus.call(this);
@@ -2861,7 +3940,7 @@ window.webLogicControls = {};
 				aggregatedValue: '',
 				allInputsValue: [],
 				allInputsFilling: [],
-				allInputsValidation: []
+				allInputsValidity: []
 			};
 
 			function getCaretPosition(ctrl) {
@@ -3085,7 +4164,7 @@ window.webLogicControls = {};
 
 				var inputIsValid = !!input.newValueIsValid;
 
-				var inputWasValid = status.allInputsValidation[inputIndex];
+				var inputWasValid = status.allInputsValidity[inputIndex];
 				var inputWasFilled = status.allInputsFilling[inputIndex];
 				var inputIsFinallyFilled = input.value.length > 0;
 				// console.log('\t inputWasFilled:', inputWasFilled, '\t inputIsFinallyFilled:', inputIsFinallyFilled);
@@ -3096,7 +4175,7 @@ window.webLogicControls = {};
 				aggregateAllInputsValue.call(this);
 
 				status.allInputsFilling[inputIndex]    = inputIsFinallyFilled;
-				status.allInputsValidation[inputIndex] = inputIsValid;
+				status.allInputsValidity[inputIndex] = inputIsValid;
 				aggregateAllInputsStatus.call(this);
 
 
@@ -3125,7 +4204,7 @@ window.webLogicControls = {};
 				// console.log('inputOnFill');
 				var input = event.target;
 				var inputIndex = parseInt(input.dataset.inputIndex);
-				var inputIsValid = status.allInputsValidation[inputIndex];
+				var inputIsValid = status.allInputsValidity[inputIndex];
 
 
 				if (this.onOneInputFill) this.onOneInputFill(event, status);
@@ -3181,7 +4260,7 @@ window.webLogicControls = {};
 				status.allInputsAreCleared = true;
 				for (var i = 0; i < $allInputs.length; i++) {
 					var inputIsFilled = status.allInputsFilling[i];
-					var inputIsValid  = status.allInputsValidation[i];
+					var inputIsValid  = status.allInputsValidity[i];
 
 					if (!inputIsFilled) status.allInputsAreFilled  = false;
 					if (inputIsFilled)  status.allInputsAreCleared = false;
@@ -3266,6 +4345,7 @@ window.webLogicControls = {};
 
 			function init () {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 
 				if (!rootElement) return false;
 
@@ -3284,7 +4364,7 @@ window.webLogicControls = {};
 				var $_r = $(rootElement);
 
 				status.inputsTypeIsNumber   = $_r.hasClass('input-only-digits');
-				status.inputsAreForPassword = $_r.hasClass('input-password');
+				status.inputsAreForPassword = $_r.hasClass('input-is-password');
 
 				var inputForAggregation = $_r.find('input.single-char-inputs-aggregator')[0];
 				if (inputForAggregation) this.config({
@@ -3319,17 +4399,16 @@ window.webLogicControls = {};
 				this.enable();
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 			}
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				WCU.objectToolkit.destroyInstanceObject(this);
-				return;
-			}
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				rootElement.singleCharacterInputsSet = this;
+			});
 		};
 
-		this.ProgressRing = function (rootElement, initOptions) {
+		this.ProgressRing = function ProgressRing(rootElement, initOptions) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			this.options = {
@@ -3354,6 +4433,7 @@ window.webLogicControls = {};
 
 
 
+			var OT = WCU.objectToolkit;
 
 			var eChartRing;
 			var eChartRingItemStyle = {
@@ -3388,15 +4468,14 @@ window.webLogicControls = {};
 			var half2DegreeMeansHidden = 180;
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				WCU.objectToolkit.destroyInstanceObject(this);
-				return;
-			}
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				rootElement.progressRing = this;
+			});
 
 
 			function init() {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 				if (!rootElement) return false;
 
 				this.config(initOptions);
@@ -3411,6 +4490,7 @@ window.webLogicControls = {};
 				}
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 				return true;
 			}
 
@@ -3914,7 +4994,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.ProgressRings = function (rootElement, initOptions) {
+		this.ProgressRings = function ProgressRings(rootElement, initOptions) {
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
 			this.options = {
@@ -3941,18 +5021,18 @@ window.webLogicControls = {};
 			this.setDegrees = setDegrees.bind(this);
 			this.setPercentages = setPercentages.bind(this);
 
+			var OT = WCU.objectToolkit;
 			var status = {};
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				WCU.objectToolkit.destroyInstanceObject(this);
-				return;
-			}
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				rootElement.progressRings = this;
+			});
 
 
 			function init() {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
 				this.config(initOptions);
 
 				if (!rootElement) return false;
@@ -3968,6 +5048,7 @@ window.webLogicControls = {};
 				}
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 			}
 
 			function getDegree(index) {
@@ -4179,7 +5260,7 @@ window.webLogicControls = {};
 			}
 		};
 
-		this.TabPanelSet = function (rootElement, initOptions) {
+		this.TabPanelSet = function TabPanelSet(rootElement, initOptions) {
 			var thisController = this;
 			rootElement = wlc.DOM.validateRootElement(rootElement, this);
 
@@ -4195,6 +5276,7 @@ window.webLogicControls = {};
 				currentPanel: null
 			};
 
+			var OT = WCU.objectToolkit;
 			var status = {
 				isOnAction: false
 			};
@@ -4259,6 +5341,8 @@ window.webLogicControls = {};
 
 			function init() {
 				status.isInitializing = true;
+				status.noNeedToReconstruct = false;
+
 				if (!rootElement) return;
 
 				this.config(initOptions);
@@ -4346,15 +5430,14 @@ window.webLogicControls = {};
 
 
 				delete status.isInitializing;
+				delete status.noNeedToReconstruct;
 				return true;
 			}
 
 			init.call(this);
-			if (status.isInitializing) {
-				C.e('Fail to construct <'+this.constructor.name+'>.');
-				WCU.objectToolkit.destroyInstanceObject(this);
-				return;
-			}
+			OT.destroyInstanceIfInitFailed.call(this, status, function () {
+				rootElement.tabPanelSet = this;
+			});
 
 			function slideTabCurrentItemHintTo(theTab) {
 				if (!tabListCurrentItemHint || !tabListCurrentItemHint.style) return false;
