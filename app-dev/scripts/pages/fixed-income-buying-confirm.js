@@ -63,7 +63,10 @@ $(function () { // fake logics
 		if (event && typeof event.preventDefault === 'function') event.preventDefault();
 		FCCI.clear();
 		FCCI.enable();
-		UI.popupLayersManager.show(pl1, event);
+		UI.popupLayersManager.show(pl1, event, {
+			shouldNotAutoFocusAnything: true
+		});
+		FCCI.focus();
 	});
 
 	$pl1.on('click', function (event) {

@@ -1521,11 +1521,11 @@ window.webLogicControls = {};
 				$popupLayersContainersUnderApp: $('.app > .popup-layers')
 			};
 
-			this.show = function (popupLayerIdOrDom, event) {
-				_showOrHidePopupLayer(popupLayerIdOrDom, true, event);
+			this.show = function (popupLayerIdOrDom, event, options) {
+				_showOrHidePopupLayer(popupLayerIdOrDom, true, event, options);
 			};
-			this.hide = function (popupLayerIdOrDom) {
-				_showOrHidePopupLayer(popupLayerIdOrDom);
+			this.hide = function (popupLayerIdOrDom, options) {
+				_showOrHidePopupLayer(popupLayerIdOrDom, options);
 			};
 
 			this.processAllUnder = _processAllUnder.bind(this);
@@ -1615,7 +1615,7 @@ window.webLogicControls = {};
 				;
 			}
 
-			function _showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow) {
+			function _showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow, options) {
 				function __backPlateOnLeavingAnimationEnd(event, invokedViaTimer) {
 					if (!bp.__LeavingAnimationNotEndedEitherWay) {
 						return true;
@@ -1656,6 +1656,8 @@ window.webLogicControls = {};
 
 
 				if (!popupLayerIdOrDom) return false;
+
+				options = options || {};
 
 				var plId, pl;
 				if (typeof popupLayerIdOrDom === 'string') {
@@ -1780,9 +1782,9 @@ window.webLogicControls = {};
 					// do NOT use jquery show(complete) callback.
 					// other wise the process will effect css animation of popup window under the popup layer.
 
-					if (!isPoliteMessage) {
+					if (!isPoliteMessage && (!options.shouldNotAutoFocusAnything || options.focusingObject)) {
 						setTimeout(function () {
-							tryToFocusSomething($pl);
+							tryToFocusSomething($pl, options.focusingObject);
 						}, 100);
 					}
 
@@ -1801,9 +1803,23 @@ window.webLogicControls = {};
 				}
 			}
 
-			function tryToFocusSomething($pl) {
-				var firstFocusable = $pl.find('input, textarea, [contentEditable="true"], button, a')[0];
-				if (firstFocusable) firstFocusable.focus();
+			function tryToFocusSomething($pl, focusingObject) {
+				C.l(focusingObject);
+				if (focusingObject && typeof focusingObject.focus === 'function') {
+					focusingObject.focus();
+				} else {
+					var focusableElements1 =  Array.prototype.slice.apply($pl.find('input, textarea, [contentEditable="true"]'));
+					var focusableElements2 =  Array.prototype.slice.apply($pl.find('button'));
+					var focusableElements3 =  Array.prototype.slice.apply($pl.find('a'));
+
+					var focusableElements = focusableElements1
+						.concat(focusableElements2)
+						.concat(focusableElements3)
+					;
+
+					var firstFocusable = focusableElements[0];
+					if (firstFocusable) firstFocusable.focus();
+				}
 			}
 
 			function _decideShowingUpSourceDirection(event) {
@@ -3669,7 +3685,7 @@ window.webLogicControls = {};
 			}
 
 			function inputOnBlur() {
-				// C.l('inputOnBlur');
+				// C.t('inputOnBlur');
 				status.isFocused = false;
 				updateDecoGrids.call(this);
 				_runCallbacks(status.onBlur, this.status, event);
