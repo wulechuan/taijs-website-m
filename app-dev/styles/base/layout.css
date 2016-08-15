@@ -277,9 +277,9 @@ article.message {
 		.fixed-count-chars-input-tester {
 			/* font-family: 'iconfont'!important; */
 
-			/* font-size cannot be zero,
-				otherwise at least webkit(both android and windows) would NOT allow us to input */
-			font-size: 0.01rem!important;
+			/* font-size cannot be zero or too small,
+				otherwise webkit(iOS, android and windows) would NOT allow us to input */
+			font-size: 1.5rem!important;
 		}
 
 	.fixed-count-chars-input-tester {
@@ -326,6 +326,11 @@ article.message {
 		text-align: left;
 		-webkit-box-shadow: none!important;
 		box-shadow: none!important;
+	}
+
+	.fixed-count-chars-input-block.testing .width-wrapper .input-wrapper input.fixed-count-chars-input {
+		background-color: pink!important;
+		opacity: 0.4;
 	}
 
 

@@ -42,7 +42,8 @@ $(function () { // fake logics
 
 
 
-	new UI.FixedCharsCountInput($pl1.find('.fixed-count-chars-input-block')[0], {
+	var FCCI = new UI.FixedCharsCountInput($pl1.find('.fixed-count-chars-input-block')[0], {
+		// isTesting: true,
 		onValid: function () {
 			UI.popupLayersManager.show('plpm-trading-password-verified');
 			setTimeout(function () {
@@ -58,6 +59,7 @@ $(function () { // fake logics
 
 	$('[button-action="submit"]').on('click', function(event) {
 		if (event && typeof event.preventDefault === 'function') event.preventDefault();
+		FCCI.clear();
 		UI.popupLayersManager.show(pl1, event);
 	});
 

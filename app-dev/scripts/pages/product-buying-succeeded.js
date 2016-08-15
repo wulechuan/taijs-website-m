@@ -7,17 +7,6 @@ $(function () { // fake logics
 	var $pl2 = $('#pl-choose-bank-card');
 
 
-
-	new wlc.UI.SingleCharacterInputsSet($pl1.find('.single-char-inputs-set')[0], {
-		onAllInputsValid: function (aggregatedValue, status, isCheckingOnLoad) {
-			console.log('AWESOME! final value:', aggregatedValue);
-			if (isCheckingOnLoad) console.log('What\'s better, we did nothing to get this!');
-			location.assign('newbie-buying-succeeded.html');
-		}
-	});
-
-
-
 	$('[button-action="buy"]').on('click', function(event) {
 		console.error('fake logic triggered.');
 		var pl1 = $pl1[0];

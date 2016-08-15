@@ -66,7 +66,9 @@
 			var isChrome = /Chrome/.test(ua);
 			var isSafari = /Safari/.test(ua) && !isChrome && !isAndroid;
 
-			if (isSafari) $(document.body).addClass('safari');
+			if (isSafari) {
+				$(document.body).addClass('safari');
+			}
 		})();
 	}
 
