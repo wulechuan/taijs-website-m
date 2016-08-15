@@ -58,6 +58,18 @@
 				}
 			}
 		};
+
+		(function setupEnv() {
+			var ua = navigator.userAgent;
+
+			var isAndroid = /Android/.test(ua);
+			var isChrome = /Chrome/.test(ua);
+			var isSafari = /Safari/.test(ua) && !isChrome && !isAndroid;
+
+			if (isSafari) {
+				$(document.body).addClass('safari');
+			}
+		})();
 	}
 
 	var app = new Application();
@@ -401,9 +413,9 @@
 	// function popupSomeWindowForTest() {
 	// 	var pls = [
 	// 		'pl-message-credit-limitation-introduction',
-	// 		'plpm-modification-succeeded',
+	// 		// 'plpm-modification-succeeded',
 	// 		// 'pl-message-intro-jia-xi-quan',
-	// 		// 'pl-message-intro-te-quan-ben-jin',
+	// 		'pl-message-intro-te-quan-ben-jin',
 	// 		// 'pl-message-intro-ti-yan-jin',
 	// 		// 'pl-available-tickets-list',
 	// 		// 'pl-trading-password-incorrect',
