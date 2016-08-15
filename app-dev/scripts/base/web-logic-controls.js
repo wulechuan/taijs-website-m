@@ -437,7 +437,12 @@ window.webLogicControls = {};
 				}
 
 				if (status.isInitializing) {
-					if (status.noNeedToReconstruct) {
+					if (status.noNeedToConstruct) {
+						delete status.noNeedToConstruct;
+						C.l('No need to construct <'+this.constructor.name+'>.');
+						objectToolkit.destroyInstanceObject(this);
+						return;
+					} else if (status.noNeedToReconstruct) {
 						delete status.noNeedToReconstruct;
 						return;
 					} else {
@@ -2313,7 +2318,10 @@ window.webLogicControls = {};
 				collectElements.call(this);
 
 
-				if (isFirstTime && elements.requiredFields.length < 1) return false;
+				if (isFirstTime && elements.requiredFields.length < 1) {
+					status.noNeedToConstruct = true;
+					return false;
+				}
 
 
 				if (isFirstTime || requiredFieldsChanged) {

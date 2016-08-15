@@ -329,16 +329,6 @@ article.message {
 	}
 
 
-	.safari .fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input,
-	.safari .fixed-count-chars-input-tester,
-	.fixed-count-chars-input-block.safari .width-wrapper .input-wrapper input.fixed-count-chars-input,
-	.fixed-count-chars-input-tester.safari {
-		font-size: 0.01rem!important;
-		}
-		.safari .fixed-count-chars-input-block .width-wrapper .input-wrapper input.fixed-count-chars-input {
-			opacity: 0.5;
-		}
-
 	.fixed-count-chars-input-block .deco-grid {
 		position: relative; /* for caret */
 		display: inline-block;
@@ -354,6 +344,11 @@ article.message {
 		text-align: center;
 		border-radius: 0; /* for Safari */
 		}
+
+		.fixed-count-chars-input-block .deco-grid ~ .deco-grid {
+			border-left-width: 1px;
+		}
+
 		.fixed-count-chars-input-block.input-is-password .deco-grid::before {
 			content: '\2022';
 			display: block;
@@ -397,9 +392,11 @@ article.message {
 			to  { opacity: 0; }
 		}
 
-	.fixed-count-chars-input-block .deco-grid ~ .deco-grid {
-		border-left-width: 1px;
-	}
+
+	.safari .fixed-count-chars-input-block.has-fake-caret .deco-grid.focus::after,
+	.fixed-count-chars-input-block.safari.has-fake-caret  .deco-grid.focus::after {
+		content: none;
+		}
 
 
 .count-down-disc {
