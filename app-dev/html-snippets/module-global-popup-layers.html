@@ -113,18 +113,10 @@
 					<form method="POST" id="form-submit-trading-password" name="tradingpassword"
 						action="#"></form>
 					<div class="row">
-						<div class="single-char-inputs-set inputs-distribution-full-width input-is-password input-only-digits"
-							id="account-trading-account-register-password-inputs" 
-							><input form="form-submit-trading-password" class="single-char-inputs-aggregator" name="tradingpassword" required="required" type="hidden" 
-							><div class="single-char-inputs-group" 
-								><input class="single-char-input" type="number" 
-								><input class="single-char-input" type="number" 
-								><input class="single-char-input" type="number" 
-								><input class="single-char-input" type="number" 
-								><input class="single-char-input" type="number" 
-								><input class="single-char-input" type="number" 
-							></div
-						></div>
+						<div class="fixed-count-chars-input-block full-width input-is-password input-only-digits has-fake-caret"
+							data-chars-count="6">
+							<input type="tel" id="trading-password-input-in-panel">
+						</div>
 					</div>
 					<div class="row single-side-content">
 						<div class="right tip"

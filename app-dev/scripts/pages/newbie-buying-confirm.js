@@ -42,8 +42,8 @@ $(function () { // fake logics
 
 
 
-	new wlc.UI.SingleCharacterInputsSet($pl1.find('.single-char-inputs-set')[0], {
-		onAllInputsValid: function (aggregatedValue, status, isCheckingOnLoad) {
+	new UI.FixedCharsCountInput($pl1.find('.fixed-count-chars-input-block')[0], {
+		onValid: function () {
 			UI.popupLayersManager.show('plpm-trading-password-verified');
 			setTimeout(function () {
 				location.assign('newbie-buying-succeeded.html');
