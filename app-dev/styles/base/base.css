@@ -67,6 +67,13 @@ q {
 	q:after  { content: close-quote; }
 
 
+.helvetica-digits strong .digits,
+strong span,
+strong {
+	font-weight: 500;
+}
+
+
 article {
 	padding: 0.5rem;
 	}
@@ -191,6 +198,12 @@ a, a:link {
 
 	a[role="button"], a[role="button"]:hover {
 		text-decoration: none;
+	}
+
+	a.call-to-action::after {
+		font-family: 'iconfont'!important;
+		content: '\e601';
+		margin-left: 0.5em;
 	}
 
 
@@ -727,7 +740,6 @@ dd {
 		content: '¥';
 		margin-right: 0.15em;
 	}
-
 
 
 label, .label {
@@ -1469,6 +1481,9 @@ ol.f-list, ul.f-list { /* function list */
 		opacity: 0;
 		width: 0;
 		height: 100%;
+	}
+	.menu-item > a {
+		margin: 0;
 	}
 	.menu-item > a > .label,
 	.menu-item     > .label {
@@ -2825,11 +2840,10 @@ dl.initially-collapsed {
 
 	transition-property: none;
 
-	animation-duration: 0.38s;
-	animation-delay: 0.1s; /* for black back plate showing up first */
+	animation-duration: 0.45s;
 	animation-fill-mode: both;
 	/* animation-name: popup-window-shows-up-from-bottom; */
-	transform-origin: center 15%;
+	transform-origin: center 30%;
 	}
 
 	.popup-window.cast-shadow {
@@ -2861,8 +2875,10 @@ dl.initially-collapsed {
 		animation-name: popup-window-shows-up-from-top;
 	}
 	.popup-window.shows-up-from-bottom {
-		animation-timing-function: ease-out;
-		animation-name: popup-window-shows-up-from-bottom;
+		animation-name: regular-popup-window-shows-up-from-bottom;
+	}
+	.popup-window.tall-window-shows-up-from-bottom {
+		animation-name: tall-popup-window-shows-up-from-bottom;
 	}
 	.popup-window.shows-up-from-leftside {
 		animation-name: popup-window-shows-up-from-leftside;
@@ -2897,32 +2913,39 @@ dl.initially-collapsed {
 	}
 
 	@keyframes regular-popup-window-leave-from-above {
-		0%   {             transform-origin: center 40%; transform:                                rotateX(-3.6deg); }
-		20%  {                                           transform:                                rotateX( 2deg); }
-		66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
-		100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
-	}
+		0%   {             transform-origin: center 40%; transform:                                 rotateX( 0deg); }
+		10%  {                                           transform: translate3d(0,    0rem,  -1rem) rotateX(-6deg); }
+		60%  { opacity: 1;                               transform: translate3d(0,    0rem, -15rem) rotateX( 0deg); }
+		100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -15rem); }
+		}
 
-	@keyframes tall-popup-window-leave-from-above {
-		0%   {             transform-origin: center 40%; transform:                                rotateX(-7deg); }
-		20%  {                                           transform:                                rotateX(-5deg); }
-		66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
-		100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
-	}
+		@keyframes tall-popup-window-leave-from-above {
+			0%   {             transform-origin: center 40%; transform:                                   rotateX(  0deg); }
+			15%  {                                           transform: translate3d(0,    0rem,  -2.5rem) rotateX(-10deg); }
+			65%  { opacity: 1;                               transform: translate3d(0,    0rem, -15rem)   rotateX(  0deg); }
+			100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -15rem); }
+		}
 
-	@keyframes tiny-popup-window-leave-from-above {
-		0%   {             transform-origin: center 40%; transform:                                rotateX(-8deg); }
-		20%  {                                           transform:                                rotateX( 4deg); }
-		66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
-		100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
-	}
+		@keyframes tiny-popup-window-leave-from-above {
+			0%   {             transform-origin: center 40%; transform:                                rotateX(-8deg); }
+			20%  {                                           transform:                                rotateX( 4deg); }
+			66%  { opacity: 1;                               transform: translate3d(0,    0rem, -8rem);                }
+			100% { opacity: 0; transform-origin: center 40%; transform: translate3d(0,  -79rem, -8rem) rotateX( 0deg); }
+		}
 
-	@keyframes popup-window-shows-up-from-bottom {
+	@keyframes regular-popup-window-shows-up-from-bottom {
 		0%  { opacity: 0; transform: translateY(40rem)   scale(0.32, 0.32) rotateX(-51deg); }
-		84% { opacity: 1; transform: translateY(-0.2rem) scale(1   , 1   ) rotateX(0deg); }
-		92% { transform: translateY(-0.08rem); }
-		to  { transform: translateY(0); }
-	}
+		84% { opacity: 1; transform: translateY(-0.2rem) scale(1   , 1   ) rotateX(  0deg); }
+		92% {             transform: translateY(-0.08rem); }
+		to  {             transform: translateY( 0); }
+		}
+
+		@keyframes tall-popup-window-shows-up-from-bottom {
+			0%  { opacity: 0; transform: translateY(40rem)    scale(0.32, 0.32) rotateX(-51deg); }
+			84% { opacity: 1; transform: translateY(-0.15rem) scale(1   , 1   ) rotateX(  0deg); }
+			92% {             transform: translateY(-0.05rem); }
+			to  {             transform: translateY( 0); }
+		}
 
 	@keyframes popup-window-shows-up-from-rightside {
 		0% { opacity: 0; transform: translateX(7rem) scale(0.51, 0.51); }
