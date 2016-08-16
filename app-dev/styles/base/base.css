@@ -193,6 +193,12 @@ a, a:link {
 		text-decoration: none;
 	}
 
+	a.call-to-action::after {
+		font-family: 'iconfont'!important;
+		content: '\e601';
+		margin-left: 0.5em;
+	}
+
 
 select,
 input[type="button"],

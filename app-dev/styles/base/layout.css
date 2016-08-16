@@ -780,6 +780,38 @@ article.message {
 			}
 
 
+		.entity-body .f-list.compact-lines {
+			}
+			.entity-body .f-list.compact-lines > a > .cell > .label,
+			.entity-body .f-list.compact-lines     > .cell > .label {
+				padding: 0;
+				margin: 0 0 0.5rem 0;
+				line-height: 1;
+			}
+			.entity-body .f-list.compact-lines > a > .cell > .content,
+			.entity-body .f-list.compact-lines     > .cell > .content {
+				padding: 0;
+				margin: 0;
+				line-height: 1.2;
+			}
+
+
+		.entity-body .f-list.columns-3-justify {
+			}
+			.entity-body .f-list.columns-3-justify > a:first-child  > .cell,
+			.entity-body .f-list.columns-3-justify                  > .cell:first-child {
+				text-align: left;
+			}
+			.entity-body .f-list.columns-3-justify > a:nth-child(2) > .cell,
+			.entity-body .f-list.columns-3-justify                  > .cell:nth-child(2) {
+				text-align: center;
+			}
+			.entity-body .f-list.columns-3-justify > a:last-child   > .cell,
+			.entity-body .f-list.columns-3-justify                  > .cell:last-child {
+				text-align: right;
+			}
+
+
 	.entity-info.entity-type-regular .entity-body .f-list {
 		padding-bottom: 0.25rem;
 		}
@@ -1230,8 +1262,15 @@ article.message {
 			line-height: 1.4rem;
 		}
 		.product-abstract .abstract-title h3 {
-			font-weight: normal;
 			font-size: 0.8rem;
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.product-abstract .abstract-title h4 {
+			font-size: 0.7rem;
+			display: inline-block;
+			vertical-align: middle;
+			margin-left: 0.25em;
 		}
 		.product-abstract .abstract-title .call-to-action-label {
 			font-weight: normal;
@@ -1259,6 +1298,9 @@ article.message {
 		}
 		.product-abstract a > .row.abstract-body::after {
 			content: none;
+		}
+		.product-abstract .f-block-body a > .row.abstract-body {
+			padding-right: 0.8rem;
 		}
 
 		.product-abstract .col {
