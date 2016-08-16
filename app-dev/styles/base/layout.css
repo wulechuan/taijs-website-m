@@ -2928,6 +2928,24 @@ dl.tickets-list {
 		margin: 0.4rem auto 0.4rem auto;
 	}
 
+
+	#page-my-po-index .f-block .tiles > a > .tile .icon,
+	#page-my-po-index .f-block .tiles     > .tile .icon {
+		font-size: 2rem;
+		width: 2.7rem;
+		height: 2.7rem;
+		line-height: 2.8rem;
+		}
+		#page-my-po-index .f-block .tiles > a > .tile .label,
+		#page-my-po-index .f-block .tiles     > .tile .label {
+		}
+
+		#page-my-po-index .f-block .tiles.columns-count-3 > a:nth-child(3n+2) > .tile,
+		#page-my-po-index .f-block .tiles.columns-count-3 > .tile:nth-child(3n+2) {
+			border-width: 0;
+		}
+
+
 	.f-block .tiles.gold-list {}
 
 		.f-block .tiles.columns-count-3.gold-list > .tile:nth-child(3n+2) {
