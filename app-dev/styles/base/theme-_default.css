@@ -60,6 +60,9 @@ em {
 	  -webkit-text-stroke-width: 0.5px;
 		text-shadow: 0 0 0.5px #ff4200;
 	}
+	strong {
+		color: #4285f4;
+	}
 
 
 .color-promoted,

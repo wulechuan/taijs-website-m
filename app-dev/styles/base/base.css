@@ -67,6 +67,13 @@ q {
 	q:after  { content: close-quote; }
 
 
+.helvetica-digits strong .digits,
+strong span,
+strong {
+	font-weight: 500;
+}
+
+
 article {
 	padding: 0.5rem;
 	}

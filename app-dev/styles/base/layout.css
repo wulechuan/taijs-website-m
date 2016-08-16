@@ -944,6 +944,26 @@ article.message {
 		}
 
 
+.info-row > .content {
+	padding: 0.5rem 0.8rem 0.5rem 2.1rem;
+	}
+
+	.info-row > .content > .icon {
+		position: absolute;
+		left: 0.8rem;
+		top: 0.5rem;
+		margin: 0;
+	}
+
+	.info-row > .content > article {
+		font-size: 0.8rem;
+	}
+
+	.info-row > .content > article p {
+		line-height: 1rem;
+	}
+
+
 .row.hero-content-block-call-to-action { /* homepage */
 	min-height: 1.5rem;
 	}
@@ -1688,6 +1708,12 @@ article.message {
 		.row.caption-bar h1 .label {
 			margin-right: 0.65em;
 		}
+
+
+	.f-block .row.info,
+	.row.info {
+		padding: 0;
+	}
 
 
 	.row .left,
