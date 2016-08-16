@@ -94,7 +94,7 @@ gulp.task('styles-base', ['before-everything'], () => {
   return gulp.src(baseCssGlobs)
     .pipe(sourcemaps.init())
       .pipe(concat('base.min.css')) // 这些css我要合并成单一文件
-      .pipe(cssmin())
+      // .pipe(cssmin())
     .pipe(sourcemaps.write('.'))
 
     .pipe(gulp.dest(pathNewDistCacheRoot+'/styles/base/')) // 将文件写入指定文件夹
@@ -126,7 +126,7 @@ gulp.task('styles-specific', ['before-everything'], () => {
   )
     .pipe(sourcemaps.init())
       // .pipe(concat('main.min.css')) // 这些css我不打算合并
-      .pipe(cssmin())
+      // .pipe(cssmin())
       .pipe(rename((fullPathName) => {
         fullPathName.basename += '.min';
         return fullPathName;

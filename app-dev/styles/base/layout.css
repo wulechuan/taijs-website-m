@@ -755,6 +755,31 @@ article.message {
 			}
 
 
+		.entity-body .f-list.labels-at-left {
+			padding: 0.5rem;
+			margin: -0.5rem;
+			}
+			.entity-body .f-list.labels-at-left > a > .cell,
+			.entity-body .f-list.labels-at-left     > .cell {
+				width: 100%;
+				display: block;
+				line-height: 1;
+			}
+			.entity-body .f-list.labels-at-left > a > .cell > .label,
+			.entity-body .f-list.labels-at-left > a > .cell > .content,
+			.entity-body .f-list.labels-at-left     > .cell > .label,
+			.entity-body .f-list.labels-at-left     > .cell > .content {
+				display: inline-block;
+				vertical-align: middle;
+				padding: 0;
+				margin: 0;
+			}
+			.entity-body .f-list.labels-at-left > a > .cell > .label,
+			.entity-body .f-list.labels-at-left     > .cell > .label {
+				width: 3rem;
+			}
+
+
 	.entity-info.entity-type-regular .entity-body .f-list {
 		padding-bottom: 0.25rem;
 		}
@@ -874,6 +899,16 @@ article.message {
 		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell time {
 			font-size: 0.75rem;
 			font-weight: 500;
+		}
+
+
+	.entity-info.entity-type-po-history .entity-body {
+		margin: 0.25rem 0 0 0;
+		}
+
+		.entity-info.entity-type-po-history .entity-body .call-to-action {
+			height: 2rem;
+			margin-top: -1.25rem;
 		}
 
 

@@ -88,8 +88,12 @@ a, a:visited {
 	.color-error {
 		color: #f00!important;
 	}
+	.positive-value {
+		color: #f60!important;
+	}
 	.negative-value {
-		color: #2c9b01!important;
+		/* color: #2c9b01!important; */
+		color: #00bb4b!important;
 	}
 	.color-promoted {
 		color: #4285f4;
@@ -160,14 +164,14 @@ input {
 	input[type="button"]:disabled:hover,
 	input[type="submit"]:disabled:hover,
 	input[type="reset"]:disabled:hover,
-	a[role="button"]:disabled:hover,
-	[role="button"]:disabled:hover,
+	a[role="button"][disabled]:hover,
+	[role="button"][disabled]:hover,
 	button:disabled:hover,
 	input[type="button"]:disabled,
 	input[type="submit"]:disabled,
 	input[type="reset"]:disabled,
-	a[role="button"]:disabled,
-	[role="button"]:disabled,
+	a[role="button"][disabled],
+	[role="button"][disabled],
 	button:disabled {
 		color: #bdbdbd;
 		border-color: #ddd;
@@ -177,14 +181,14 @@ input {
 	input[type="button"].disable-style-2:disabled:hover,
 	input[type="submit"].disable-style-2:disabled:hover,
 	input[type="reset"].disable-style-2:disabled:hover,
-	a[role="button"].disable-style-2:disabled:hover,
-	[role="button"].disable-style-2:disabled:hover,
+	a[role="button"].disable-style-2[disabled]:hover,
+	[role="button"].disable-style-2[disabled]:hover,
 	button.disable-style-2:disabled:hover,
 	input[type="button"].disable-style-2:disabled,
 	input[type="submit"].disable-style-2:disabled,
 	input[type="reset"].disable-style-2:disabled,
-	a[role="button"].disable-style-2:disabled,
-	[role="button"].disable-style-2:disabled,
+	a[role="button"].disable-style-2[disabled],
+	[role="button"].disable-style-2[disabled],
 	button.disable-style-2:disabled {
 		color: white;
 		border-color: #cbcbcb;
