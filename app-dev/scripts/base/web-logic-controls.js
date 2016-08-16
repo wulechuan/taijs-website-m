@@ -1510,11 +1510,11 @@ window.webLogicControls = {};
 
 			// var status = {};
 
-			var options = {
+			var privateOptions = {
 				secondsToWaitBackPlateLeavingAniamtionEnd: 1.2,
 				secondsToWaitPopupWindowShowingAniamtionEnd: 0.7,
 				secondsToWaitPopupWindowLeavingAniamtionEnd: 0.9,
-				cssAnimationSupported: window.Modernizr ? window.Modernizr.cssanimations : true
+				cssAnimationSupported: true
 			};
 
 			var elements = {
@@ -1531,6 +1531,10 @@ window.webLogicControls = {};
 			this.processAllUnder = _processAllUnder.bind(this);
 
 			(function _init () {
+				if (!!window.Modernizr && typeof window.Modernizr.cssanimations === 'boolean') {
+					privateOptions.cssAnimationSupported = window.Modernizr.cssanimations;
+				}
+
 				this.processAllUnder('app');
 			}).call(this);
 
@@ -1693,7 +1697,7 @@ window.webLogicControls = {};
 				var hasPopupWindowOrDialog = !$pl.hasClass('has-no-popup-window');
 
 				if (!isToShow) {
-					var needToPlayLeavingAnimation = options.cssAnimationSupported &&
+					var needToPlayLeavingAnimation = privateOptions.cssAnimationSupported &&
 						!!pw && hasPopupWindowOrDialog &&
 						!isPopupPanel && !isPoliteMessage
 					;
@@ -1704,7 +1708,7 @@ window.webLogicControls = {};
 						pw.addEventListener('animationend', __popupWindowOnLeavingAnimationEnd);
 						setTimeout(function () {
 							__popupWindowOnLeavingAnimationEnd(null, true);
-						}, options.secondsToWaitPopupWindowLeavingAniamtionEnd * 1000);
+						}, privateOptions.secondsToWaitPopupWindowLeavingAniamtionEnd * 1000);
 
 						var pwHeight = $pw.outerHeight();
 						var chosenCssClassNameForLeavingAnimation = 'regular-window-leave-from-above';
@@ -1726,13 +1730,13 @@ window.webLogicControls = {};
 					}
 
 					if (needToHideBackPlate) {
-						var needToHideBackPlateAfterAnimation = options.cssAnimationSupported;
+						var needToHideBackPlateAfterAnimation = privateOptions.cssAnimationSupported;
 						if (needToHideBackPlateAfterAnimation) {
 							bp.__LeavingAnimationNotEndedEitherWay = true;
 							bp.addEventListener('animationend', __backPlateOnLeavingAnimationEnd);
 							setTimeout(function () {
 								__backPlateOnLeavingAnimationEnd(null, true);
-							}, options.secondsToWaitBackPlateLeavingAniamtionEnd * 1000);
+							}, privateOptions.secondsToWaitBackPlateLeavingAniamtionEnd * 1000);
 
 							$bp.addClass('popup-layer-back-plate-leaving');
 						} else {
@@ -1743,7 +1747,7 @@ window.webLogicControls = {};
 					var needToShowBackPlate = !!bp && !isPoliteMessage;
 					if (needToShowBackPlate) $bp.show();
 
-					var needToPlayShowingAnimation = options.cssAnimationSupported &&
+					var needToPlayShowingAnimation = privateOptions.cssAnimationSupported &&
 						!!pw && hasPopupWindowOrDialog &&
 						!isPopupPanel
 					;
@@ -1768,7 +1772,7 @@ window.webLogicControls = {};
 							pw.addEventListener('animationend', __popupWindowOnShowingAnimationEnd);
 							setTimeout(function () {
 								__popupWindowOnShowingAnimationEnd(null, true);
-							}, options.secondsToWaitPopupWindowShowingAniamtionEnd * 1000);
+							}, privateOptions.secondsToWaitPopupWindowShowingAniamtionEnd * 1000);
 						}
 					} else {
 						// nothing to prepare for
@@ -1804,7 +1808,6 @@ window.webLogicControls = {};
 			}
 
 			function tryToFocusSomething($pl, focusingObject) {
-				C.l(focusingObject);
 				if (focusingObject && typeof focusingObject.focus === 'function') {
 					focusingObject.focus();
 				} else {
