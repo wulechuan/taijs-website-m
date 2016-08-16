@@ -1511,9 +1511,10 @@ window.webLogicControls = {};
 			// var status = {};
 
 			var privateOptions = {
+				shouldNotWaitForAnimationEndForEver: true,
 				secondsToWaitBackPlateLeavingAniamtionEnd: 1.2,
-				secondsToWaitPopupWindowShowingAniamtionEnd: 0.7,
-				secondsToWaitPopupWindowLeavingAniamtionEnd: 0.9,
+				secondsToWaitPopupWindowShowingAniamtionEnd: 0.8,
+				secondsToWaitPopupWindowLeavingAniamtionEnd: 1.0,
 				cssAnimationSupported: true
 			};
 
@@ -1696,6 +1697,8 @@ window.webLogicControls = {};
 				var isPopupPanel = $pl.hasClass('has-docked-panel');
 				var hasPopupWindowOrDialog = !$pl.hasClass('has-no-popup-window');
 
+				var pwHeightCategory = 'regular';
+
 				if (!isToShow) {
 					var needToPlayLeavingAnimation = privateOptions.cssAnimationSupported &&
 						!!pw && hasPopupWindowOrDialog &&
@@ -1706,21 +1709,21 @@ window.webLogicControls = {};
 					if (needToPlayLeavingAnimation) {
 						pw.__LeavingAnimationNotEndedEitherWay = true;
 						pw.addEventListener('animationend', __popupWindowOnLeavingAnimationEnd);
-						setTimeout(function () {
-							__popupWindowOnLeavingAnimationEnd(null, true);
-						}, privateOptions.secondsToWaitPopupWindowLeavingAniamtionEnd * 1000);
+						if (privateOptions.shouldNotWaitForAnimationEndForEver) {
+							setTimeout(function () {
+								__popupWindowOnLeavingAnimationEnd(null, true);
+							}, privateOptions.secondsToWaitPopupWindowLeavingAniamtionEnd * 1000);
+						}
 
 						var pwHeight = $pw.outerHeight();
-						var chosenCssClassNameForLeavingAnimation = 'regular-window-leave-from-above';
 						if (pwHeight <= (window.innerHeight * 0.25)) {
-							chosenCssClassNameForLeavingAnimation = 'tiny-window-leave-from-above';
+							pwHeightCategory = 'tiny';
 						} else if (pwHeight > (window.innerHeight * 0.79)) {
-							chosenCssClassNameForLeavingAnimation = 'tall-window-leave-from-above';
+							pwHeightCategory = 'tall';
 						}
-						// C.l(pwHeight, window.innerHeight, window.innerHeight * 0.25, chosenCssClassNameForLeavingAnimation);
 
 						// _clearCssClassNamesAboutShowingAnimationsForPopupWindow($pw);
-						$pw.addClass(chosenCssClassNameForLeavingAnimation);
+						$pw.addClass(pwHeightCategory+'-window-leave-from-above');
 					} else {
 						if (isPoliteMessage) {
 							$pl.fadeOut();
@@ -1734,10 +1737,11 @@ window.webLogicControls = {};
 						if (needToHideBackPlateAfterAnimation) {
 							bp.__LeavingAnimationNotEndedEitherWay = true;
 							bp.addEventListener('animationend', __backPlateOnLeavingAnimationEnd);
-							setTimeout(function () {
-								__backPlateOnLeavingAnimationEnd(null, true);
-							}, privateOptions.secondsToWaitBackPlateLeavingAniamtionEnd * 1000);
-
+							if (privateOptions.shouldNotWaitForAnimationEndForEver) {
+								setTimeout(function () {
+									__backPlateOnLeavingAnimationEnd(null, true);
+								}, privateOptions.secondsToWaitBackPlateLeavingAniamtionEnd * 1000);
+							}
 							$bp.addClass('popup-layer-back-plate-leaving');
 						} else {
 							$bp.hide();
@@ -1755,11 +1759,20 @@ window.webLogicControls = {};
 					if (needToPlayShowingAnimation) { // prepare for animation
 						var needToAssignCssClassNameForAnimation = !isPoliteMessage;
 
+
+
+						// Height of popup window NOT available yet!
+						if ($pw.hasClass('full-screen')) {
+							pwHeightCategory = 'tall';
+						}
+
+
+
 						var chosenCssClassNameForShowingAnimation;
 
 						var needToDecideShowingUpDirection = needToAssignCssClassNameForAnimation && true; // always do this
 						if (needToDecideShowingUpDirection) {
-							chosenCssClassNameForShowingAnimation = _decideShowingUpSourceDirection(eventOfShow);
+							chosenCssClassNameForShowingAnimation = _decideShowingUpSourceDirection(eventOfShow, pwHeightCategory);
 						}
 
 						if (needToAssignCssClassNameForAnimation && chosenCssClassNameForShowingAnimation) {
@@ -1770,21 +1783,29 @@ window.webLogicControls = {};
 						if (shouldHandleAnimationEndToDoSomething) {
 							pw.__ShowingAnimationNotEndedEitherWay = true;
 							pw.addEventListener('animationend', __popupWindowOnShowingAnimationEnd);
-							setTimeout(function () {
-								__popupWindowOnShowingAnimationEnd(null, true);
-							}, privateOptions.secondsToWaitPopupWindowShowingAniamtionEnd * 1000);
+							if (privateOptions.shouldNotWaitForAnimationEndForEver) {
+								setTimeout(function () {
+									__popupWindowOnShowingAnimationEnd(null, true);
+								}, privateOptions.secondsToWaitPopupWindowShowingAniamtionEnd * 1000);
+							}
 						}
 					} else {
 						// nothing to prepare for
 					}
 
-					if (!!eventOfShow && eventOfShow.target instanceof Node) {
+					if (!!eventOfShow && eventOfShow.target instanceof Node && typeof eventOfShow.target.blur === 'function') {
 						eventOfShow.target.blur();
 					}
 
-					$pl.show();
-					// do NOT use jquery show(complete) callback.
-					// other wise the process will effect css animation of popup window under the popup layer.
+					setTimeout(function () {
+						// css animation-delay does not work very well, so we use timer here
+						// plus we have to wait for PopupLayer ::before pseudo element to be ready
+
+						$pl.show(
+							// do NOT use jquery.show(complete) callback.
+							// otherwise the process will effect css animation of popup window under the popup layer.
+						);
+					}, 100);
 
 					if (!isPoliteMessage && (!options.shouldNotAutoFocusAnything || options.focusingObject)) {
 						setTimeout(function () {
@@ -1825,8 +1846,14 @@ window.webLogicControls = {};
 				}
 			}
 
-			function _decideShowingUpSourceDirection(event) {
+			function _decideShowingUpSourceDirection(event, pwHeightCategory) {
 				var cssClass = 'shows-up-from-bottom';
+
+				if (pwHeightCategory === 'tall') {
+					cssClass = pwHeightCategory+'-window-shows-up-from-bottom';
+				}
+
+
 
 				if (typeof event !== 'object' || typeof event.pageX !== 'number' || typeof event.pageY !== 'number') {
 					return cssClass;
@@ -1852,7 +1879,6 @@ window.webLogicControls = {};
 						cssClass = 'shows-up-from-top-right';
 					}
 				} else if (isBelow) {
-					cssClass = 'shows-up-from-bottom';
 					if (isLeft) {
 						cssClass = 'shows-up-from-bottom-left';
 					} else if (isRight) {
