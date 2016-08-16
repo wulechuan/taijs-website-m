@@ -1010,7 +1010,7 @@ dl.tickets-list {
 		background-color: rgba(0, 0, 0, 0.05);
 	} */
 
-	.menu.level-2 > li {
+	.row.header-bar .menu.level-2 {
 		border-color: #ececec;
 	}
 

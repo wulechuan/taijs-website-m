@@ -1979,6 +1979,13 @@ article.message {
 		background-color: transparent;
 	}
 
+	.row.header-bar .left   .menu-item > a,
+	.row.header-bar .center .menu-item > a,
+	.row.header-bar .right  .menu-item > a {
+		margin: 0;
+		line-height: 1;
+	}
+
 	.row.header-bar * nav {
 		display: inline-block;
 	}
@@ -2012,6 +2019,7 @@ article.message {
 		.row.header-bar > nav .menu.level-2 > li {
 			border-width: 1px 0;
 			border-style: solid;
+			border-color: inherit;
 			margin-top: -1px;
 		}
 

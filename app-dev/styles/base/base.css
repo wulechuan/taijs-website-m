@@ -729,7 +729,6 @@ dd {
 	}
 
 
-
 label, .label {
 	/* cursor: pointer; */
 	}
@@ -1469,6 +1468,9 @@ ol.f-list, ul.f-list { /* function list */
 		opacity: 0;
 		width: 0;
 		height: 100%;
+	}
+	.menu-item > a {
+		margin: 0;
 	}
 	.menu-item > a > .label,
 	.menu-item     > .label {
