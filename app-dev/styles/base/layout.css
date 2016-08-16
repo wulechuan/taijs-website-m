@@ -2412,13 +2412,24 @@ article.message {
 		}
 
 		.f-block-body .row.multi-lines h4 {
+			line-height: 1rem;
 			font-size: 0.85rem;
 			font-weight: 500;
+			margin-bottom: 0.5rem;
 		}
 
 		.f-block-body .row.multi-lines h5 {
+			line-height: 1rem;
 			font-size: 0.75rem;
 			font-weight: 500;
+			margin-bottom: 0.5rem;
+		}
+
+		.f-block-body .row.multi-lines h6 {
+			font-size: 0.6rem;
+			font-weight: 500;
+			margin-top: -0.25rem;
+			margin-bottom: 0.25rem;
 		}
 
 		.f-block-body .row.multi-lines .left,
@@ -2432,8 +2443,15 @@ article.message {
 		.f-block-body .row.multi-lines .left  p,
 		.f-block-body .row.multi-lines .right * ~ p,
 		.f-block-body .row.multi-lines .right p {
+			line-height: 1.33;
 			font-size: 0.65rem;
-			margin: 0.25rem 0 0;
+			margin: 0;
+		}
+		.f-block-body .row.multi-lines.entity-type-fixed-income-history .status {
+			position: absolute;
+			right: 0.8rem;
+			bottom: 0.7rem;
+			text-align: right;
 		}
 
 
