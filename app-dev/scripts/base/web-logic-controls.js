@@ -1766,8 +1766,8 @@ window.webLogicControls = {};
 							$pw.addClass(chosenCssClassNameForShowingAnimation);
 						}
 
-						var shouldHandleAnimationEndToDoSometing = !isPoliteMessage;
-						if (shouldHandleAnimationEndToDoSometing) {
+						var shouldHandleAnimationEndToDoSomething = !isPoliteMessage;
+						if (shouldHandleAnimationEndToDoSomething) {
 							pw.__ShowingAnimationNotEndedEitherWay = true;
 							pw.addEventListener('animationend', __popupWindowOnShowingAnimationEnd);
 							setTimeout(function () {
@@ -1789,7 +1789,7 @@ window.webLogicControls = {};
 					if (!isPoliteMessage && (!options.shouldNotAutoFocusAnything || options.focusingObject)) {
 						setTimeout(function () {
 							tryToFocusSomething($pl, options.focusingObject);
-						}, 100);
+						}, 10);
 					}
 
 
@@ -1798,7 +1798,7 @@ window.webLogicControls = {};
 					if (shouldHideAutomatically) {
 						var durationBeforeAutoHide = 3000;
 						var _temp = parseFloat(pl.getAttribute('data-showing-duration-in-seconds'));
-						if (!isNaN(_temp) && _temp > 1) durationBeforeAutoHide = _temp * 1000;
+						if (!isNaN(_temp) && _temp > 2) durationBeforeAutoHide = _temp * 1000;
 
 						setTimeout(function () {
 							thisController.hide($pl[0]);
