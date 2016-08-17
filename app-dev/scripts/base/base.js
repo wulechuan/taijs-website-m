@@ -100,7 +100,7 @@
 
 		var $page = $(page);
 
-		setupPageBodyMinHeightForPage($page, isFirstTime);
+		setupPageBodiesMinHeightForPage($page, isFirstTime);
 		setupAllPopupLayers(page);
 		setupAllAutoConstructTabPanelSets($page, isFirstTime);
 		setupAllMenuItemsThatHasSubMenu($page, isFirstTime);
@@ -110,35 +110,40 @@
 		setupAllContentsWithDesiredStringFormat($page, isFirstTime);
 		setupAllChineseNumbersPresenters($page, isFirstTime);
 		setupAllSensitiveContentBlocks($page, isFirstTime);
+		setupSearchBlockIfAny($page, isFirstTime);
 
 		$('form').each(function () { new wlc.UI.VirtualForm(this); });
 
-		$('a').each(function () {
-			var anchor = this;
-			var $children = $(this).find('> *');
-			$children.each(function () {
-				this.style.transitionProperty = 'none';
-			});
+		// $('a').each(function () {
+		// 	var anchor = this;
+		// 	var $children = $(this).find('> *');
+		// 	$children.each(function () {
+		// 		this.style.transitionProperty = 'none';
+		// 	});
 
-			$(this)
-				.on('mousedown', function () {
-					$children.each(function () {
-						this.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
-					});
-				})
-				.on('mouseup', function () {
-					$children.each(function () {
-						this.style.backgroundColor = '';
-					});
-				})
-			;
-		});
+		// 	$(this)
+		// 		.on('mousedown', function () {
+		// 			$children.each(function () {
+		// 				this.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
+		// 			});
+		// 		})
+		// 		.on('mouseup', function () {
+		// 			$children.each(function () {
+		// 				this.style.backgroundColor = '';
+		// 			});
+		// 		})
+		// 	;
+		// });
 
 		page.status.commonSetupHasBeenRun = true; // always update this status
 
-		function setupPageBodyMinHeightForPage($page, isFirstTime) {
-			var pageBody = $page.find('.page-body')[0];
-			if (!page || !pageBody) {
+		function setupPageBodiesMinHeightForPage($page, isFirstTime) {
+			$page.find('.page-body').each(function () {
+				_setupPageBodyMinHeightForPage($page, this, isFirstTime);
+			});
+		}
+		function _setupPageBodyMinHeightForPage($page, pageBody, isFirstTime) {
+			if (!$page[0] || !pageBody) {
 				return;
 			}
 
@@ -295,7 +300,7 @@
 			});
 		}
 
-		function setupAllContentsWithDesiredStringFormat($page, isFirstTime) {
+		function setupAllContentsWithDesiredStringFormat($page/*, isFirstTime*/) {
 			// if (!isFirstTime) return true;
 
 			$page.find('[data-text-format]').each(function () {
@@ -394,6 +399,45 @@
 					$toggleIcon.on('click', function () {
 						$sensitiveContentBlock.toggleClass('sensitive-content-shown');
 					});
+				}
+			});
+		}
+
+		function setupSearchBlockIfAny($page, isFirstTime) {
+			$('.search-block').each(function () {
+				var $searchBlock = $(this);
+
+				var searchInput = $searchBlock.find('.search-box input')[0];
+				var $cancelButton = $searchBlock.find('.search-box ~ button[type="reset"]');
+
+				var coupledPanel = this.getAttribute('data-coupled-search-panel');
+				if (coupledPanel) {
+					coupledPanel = $('#'+coupledPanel)[0];
+				}
+
+				var $coupledPanel = $(coupledPanel);
+				var coupledPanelHasBeenShow = false;
+
+
+
+				_exitSearchingMode();
+				if (isFirstTime) {
+					$(searchInput).on('focus', _enterSearchingMode);
+					$cancelButton.on('click', _exitSearchingMode);
+				}
+
+
+
+				function _enterSearchingMode() {
+					if (coupledPanelHasBeenShow) return true;
+					$searchBlock.addClass('focus');
+					$coupledPanel.show();
+				}
+
+				function _exitSearchingMode() {
+					$searchBlock.removeClass('focus');
+					$coupledPanel.hide();
+					coupledPanelHasBeenShow = false;
 				}
 			});
 		}
