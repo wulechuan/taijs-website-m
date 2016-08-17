@@ -506,23 +506,6 @@ label.deco-input {
 		}
 
 
-.single-char-inputs-set {
-	}
-	.single-char-inputs-set input.single-char-input {
-		/* color: #959595; */
-		color: black;
-		border-color: #d9d9d9;
-		background-color: white;
-	}
-	.single-char-inputs-set input.single-char-input:focus {
-		background-color: #cfc;
-	}
-	.single-char-inputs-set input.single-char-input.invalid,
-	.single-char-inputs-set input.single-char-input:invalid {
-		background-color: #fcc;
-	}
-
-
 .fixed-count-chars-input-block {
 	}
 	.fixed-count-chars-input-block .width-wrapper {
@@ -1042,6 +1025,11 @@ dl.tickets-list {
 		.entity-info.entity-time-limited.entity-out-of-time em {
 			color: #333;
 		}
+
+
+.info-row {
+	background-color: #f1f1f1;
+	}
 
 
 .product-abstract {
