@@ -3058,7 +3058,7 @@ dl.tickets-list {
 		}
 		.page.has-header-bg::before,
 		.page.has-header-bg .page-header {
-			background-image: url(../../images/pages/newbie/newbie-call-to-action-header-bg-extended.jpg);
+			background-image: url(../../images/_common/page-header-bg-extended.jpg);
 		}
 
 
