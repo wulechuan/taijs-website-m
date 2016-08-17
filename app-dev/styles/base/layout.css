@@ -972,6 +972,11 @@ article.message {
 		display: block;
 		font-size: 1rem;
 	}
+	.hero-content-block .hero-content-features > .f-list > li ~ hr.vert {
+		height: 2rem;
+		margin-top: 0.1rem;
+		opacity: 0.1;
+	}
 
 
 	.hero-content-block.hero-content-block-style-1 { /* homepage */
@@ -1032,6 +1037,10 @@ article.message {
 			text-align: right;
 		}
 
+		.color-inverted .hero-content-block.hero-content-block-style-2 .hero-content-features > .f-list.columns-count-2 > li {
+			width: 40%;
+		}
+
 
 	.hero-content-block.hero-content-block-style-3 { /* in newbie-call-to-action page */
 		margin-top: 0;
@@ -1061,10 +1070,9 @@ article.message {
 			font-weight: lighter;
 			width: 45%;
 		}
-		.hero-content-block.hero-content-block-style-3 .hero-content-features .columns > hr.vert {
+		.hero-content-block.hero-content-block-style-3 .hero-content-features > .f-list > li ~ hr.vert {
 			height: 2.7rem;
 			margin-top: 0.2rem;
-			opacity: 0.1;
 		}
 
 		.hero-content-block.hero-content-block-style-3 .hero-content-features .f-list li .label {
