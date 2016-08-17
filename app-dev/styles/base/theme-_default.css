@@ -1013,6 +1013,9 @@ dl.tickets-list {
 	.tabular > .f-list > li .cell.timestamp {
 		color: #999;
 	}
+	.tabular.search-panel-owned-po-list .caption-cell h4 {
+		color: #999;
+	}
 
 
 .entity-info {

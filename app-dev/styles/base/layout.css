@@ -2151,6 +2151,9 @@ article.message {
 			line-height: 21px;
 			min-height: 21px;
 		}
+		.tabular > .header {
+			margin-top: -1px;
+		}
 
 
 		.tabular > .header        .cell,
@@ -2212,6 +2215,54 @@ article.message {
 			.tabular .cell.timestamp time {
 				display: block;
 			}
+		}
+
+		.tabular.search-panel-owned-po-list .f-list > li {
+			padding-top: 1rem;
+			font-size: 0.8rem;
+		}
+
+		.tabular.search-panel-owned-po-list .first-cell {
+			width: 8rem;
+		}
+
+		.tabular.search-panel-owned-po-list .caption-cell h4 {
+			font-size: 0.6rem;
+			line-height: 1.2;
+		}
+
+		.tabular.search-panel-owned-po-list .cell.amount {
+			min-width: 0;
+			width: 3rem;
+			text-align: left;
+		}
+
+		.tabular.search-panel-owned-po-list .cell.last-year-variance {
+			width: 4rem;
+			text-align: left;
+		}
+
+		.tabular.search-panel-owned-po-list .cell.call-to-action {
+			height: 100%;
+			padding: 0;
+			margin: 0;
+			text-align: right;
+		}
+
+		.tabular.search-panel-owned-po-list .cell.call-to-action button,
+		.tabular.search-panel-owned-po-list .cell.call-to-action a[role="button"] {
+			position: absolute;
+			margin: auto 0;
+			height: 1rem;
+			right: 0;
+			top: 0;
+			bottom: 0.3rem;
+			line-height: 1rem;
+			padding: 0.1rem 0.6rem;
+			width: 1.5rem;
+			min-height: 0;
+			border-radius: 0.15rem;
+			font-size: 0.7rem;
 		}
 
 
@@ -3070,8 +3121,6 @@ dl.tickets-list {
 			bottom: 0;
 			margin: 0 auto;
 			text-align: left;
-
-			opacity: 0.5;
 		}
 
 		.search-block.focus .search-box               .search-input-fake-placeholder,
@@ -3090,7 +3139,12 @@ dl.tickets-list {
 			margin: -0.25rem;
 			padding: 0.25rem;
 			font-size: 0.7rem;
+			opacity: 0.5;
 		}
+		.search-box input.non-empty-field ~ .search-input-fake-placeholder p {
+			opacity: 0;
+		}
+
 
 		.search-block button.simple-look {
 			position: absolute;
