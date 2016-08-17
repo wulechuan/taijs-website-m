@@ -412,9 +412,9 @@
 
 	function popupSomeWindowForTest() {
 		var pls = [
-			// 'pl-message-credit-limitation-introduction',
+			'pl-message-credit-limitation-introduction',
 			// 'plpm-modification-succeeded',
-			// 'pl-message-intro-jia-xi-quan',
+			'pl-message-intro-jia-xi-quan',
 			// 'pl-message-intro-te-quan-ben-jin',
 			// 'pl-message-intro-ti-yan-jin',
 			// 'pl-available-tickets-list',
