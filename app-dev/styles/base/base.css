@@ -271,8 +271,8 @@ button {
 		font-size: inherit;
 		line-height: inherit;
 		color: inherit;
-		padding: 8px;
-		margin: -8px 0;
+		padding: 0.5rem;
+		margin: -0.5rem 0;
 		border: none;
 		background: none;
 		background-color: transparent;
@@ -1087,7 +1087,7 @@ button[button-action="clear-input-field"] {
 		content: '\e606';
 		position: relative;
 		display: block;
-		transform: scale(0.85, 0.85);
+		transform: scale(0.75, 0.75);
 	}
 
 	@keyframes scales-up {

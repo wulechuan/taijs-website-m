@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1471333381'); /* IE9*/
-  src: url('iconfont.eot?t=1471333381#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1471333381') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1471333381') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1471333381#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1471428286'); /* IE9*/
+  src: url('iconfont.eot?t=1471428286#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1471428286') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1471428286') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1471428286#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -58,3 +58,4 @@
 .icon-folder-with-x-sign:before { content: "\e626"; }
 .icon-sale-board:before { content: "\e627"; }
 .icon-cart:before { content: "\e628"; }
+.icon-wall-clock-solid-3-oclock:before { content: "\e629"; }

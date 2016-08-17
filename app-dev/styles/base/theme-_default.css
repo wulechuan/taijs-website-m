@@ -448,6 +448,10 @@ button[button-action="clear-input-field"] {
 		background-color: #adadad;
 	}
 
+	.search-block button[button-action="clear-input-field"]::before {
+		background-color: transparent;
+	}
+
 
 label.deco-input {
 	}
@@ -504,23 +508,6 @@ label.deco-input {
 		.selected input[type="checkbox"] + label.deco-input[for]:after {
 			color: white;
 		}
-
-
-.single-char-inputs-set {
-	}
-	.single-char-inputs-set input.single-char-input {
-		/* color: #959595; */
-		color: black;
-		border-color: #d9d9d9;
-		background-color: white;
-	}
-	.single-char-inputs-set input.single-char-input:focus {
-		background-color: #cfc;
-	}
-	.single-char-inputs-set input.single-char-input.invalid,
-	.single-char-inputs-set input.single-char-input:invalid {
-		background-color: #fcc;
-	}
 
 
 .fixed-count-chars-input-block {
@@ -976,6 +963,12 @@ dl.tickets-list {
 	.marker.marker-te-quan-ben-jin { color: #8161e2; }
 
 
+.keyword {
+	color: #333;
+	border-color: #e0e0e0;
+}
+
+
 .color-inverted .menu.level-1,
 .header-bar     .menu.level-1 {
 	background-color: transparent;
@@ -1030,6 +1023,9 @@ dl.tickets-list {
 	.tabular > .f-list > li .cell.timestamp {
 		color: #999;
 	}
+	.tabular.search-panel-owned-po-list .caption-cell h4 {
+		color: #999;
+	}
 
 
 .entity-info {
@@ -1042,6 +1038,11 @@ dl.tickets-list {
 		.entity-info.entity-time-limited.entity-out-of-time em {
 			color: #333;
 		}
+
+
+.info-row {
+	background-color: #f1f1f1;
+	}
 
 
 .product-abstract {
@@ -1153,12 +1154,14 @@ dl.tickets-list {
 	color: #666;
 	}
 	.page.has-header-bg .page-body > .content-with-solid-bg,
+	.page .page-body.covering-layer,
 	.page {
 		background-color: #f1f1f1;
 	}
 	.page.has-header-bg::after {
 		background-image: linear-gradient(to bottom, rgba(62, 90, 215, 0) 14rem, #f1f1f1 26rem);
 	}
+	.page-header .search-block,
 	.page-header {
 		background-color: #4285f4;
 	}
@@ -1166,6 +1169,9 @@ dl.tickets-list {
 	.page-header .row,
 	.page-header {
 		color: white;
+	}
+	.page-header input {
+		background-color: rgba(255, 255, 255, 0.2);
 	}
 	.page-footer {
 		border-color: #e5e5e5;
@@ -1185,3 +1191,16 @@ dl.tickets-list {
 		background-color: rgb(62, 90, 215);
 	}
 
+
+.search-content-panel {
+	}
+	.search-content-panel .search-history-record > li,
+	.search-content-panel .row {
+		border-color: #e0e0e0;
+	}
+	.search-content-panel .row.section-title h3 {
+		color: #666;
+	}
+	.search-content-panel .row.section-title h3 .iconfont {
+		color: #999;
+	}

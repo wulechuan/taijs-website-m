@@ -13,7 +13,7 @@
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="公募基金" id="page-my-po-index"
-	 class="page has-page-header fixed-page-header"
+	 class="page has-page-header fixed-page-header has-header-bg"
 	>
 	<link rel="stylesheet" type="text/css" href="../scripts/vendors/swiper-3.3.1/css/swiper.min.css">
 	<script type="text/javascript" src="../scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
@@ -24,7 +24,7 @@
 					><li role="menuitem" aria-haspopup="true"
 						class="menu-item has-sub-menu"
 					            aria-labelledby="menu-nav-products-current-value" 
-						><span class="label" id="menu-nav-products-current-value">固收理财</span
+						><span class="label" id="menu-nav-products-current-value">公募基金</span
 
 						><div class="menu-wrap level-2 has-popup-animation"
 							><ul class="menu level-2 layout-vert cast-shadow"
@@ -63,7 +63,7 @@
 	</header>
 
 	<div class="page-body">
-		<div class="row color-inverted bg-meets-page-header-container content-above-tab-panel-set">
+		<div class="row color-inverted bg-meets-page-header-container">
 			<div class="hero-content-block hero-content-block-style-2">
 				<h3 class="sensitive-content">
 					<span class="subject">总资产(元)<i class="sensitive-content-status-icon"></i></span>
@@ -77,18 +77,15 @@
 					></span>
 				</h3>
 				<div class="hero-content-features">
-					<ul class="f-list columns columns-count-3"
+					<ul class="f-list columns columns-count-2"
 						><li class="col">
 							<span class="label compensate-punctuation">昨日收益(元)</span>
 							<span class="content"><span class="value currency digits digits-with-sign yesterday-income">+26.35</span></span>
 						</li
+						><hr class="vert" 
 						><li class="col">
-							<span class="label compensate-punctuation">起投金额(元)</span>
-							<span class="content"><span class="value currency digits accumulative-income">269,826.35</span></span>
-						</li
-						><li class="col">
-							<span class="label compensate-punctuation">预计收益(元)</span>
-							<span class="content"><span class="value currency digits digits-with-sign forecast-income">+3,596.62</span></span>
+							<span class="label compensate-punctuation">累计收益(元)</span>
+							<span class="content"><span class="value currency digits accumulative-income">+500.00</span></span>
 						</li
 					></ul>
 				</div>
@@ -110,7 +107,7 @@
 				<div class="f-block-body">
 					<ul class="tiles columns-count-3">
 						<a class="icon-hover-trigger"
-							href="po-entities-list.html">
+							href="po-search.html">
 							<li class="tile">
 			                    <i class="icon icons-in-elements" style="color: white; background-color: #ff9d5c;">
 			                        <i class="icon-face-1 iconfont icon-cart" style="font-size: 1.5rem;"></i>
@@ -140,91 +137,251 @@
 				</div>
 			</div>
 
-			<div class="f-block" style="margin-top: 1rem;">
-				<a href="my-fixed-income-trading-record-detail.html?tradingStatus=dai-que-ren">
-				<div class="row abstract-title full-width">
-					<div class="left">
-						<h3>持仓基金</h3>
+			<div class="po-products-owned">
+				<div class="f-block product-abstract">
+					<div class="row">
+						<div class="left">
+							<h3>持仓基金</h3>
+						</div>
+						<div class="right"><a href="my-po-trading-history.html" class="call-to-action">历史投资</a></div>
 					</div>
-					<div class="right"><a href="my-po-trading-history.html" class="call-to-action">历史投资</a></div>
 				</div>
-				</a>
+
+				<div class="f-block product-abstract large-gap">
+					<a href="my-po-trading-record-detail.html">
+					<div class="f-block-body">
+						<div class="row abstract-title call-to-action">
+							<div class="left">
+								<h3>国泰金龙行业混合</h3><h4>(420102)</h4>
+							</div>
+						</div>
+						<div class="row full-width abstract-body">
+							<div class="entity-info entity-type-po-owned">
+								<div class="entity-body">
+									<ul class="f-list columns-3-justify compact-lines"
+										><li class="cell">
+											<span class="label">资产<sub>(元)</sub></span>
+											<span class="content"><span class="value digits currency">1,200.00</span></span>
+										</li
+										><li class="cell">
+											<span class="label">昨日收益<sub>(元)</sub></span>
+											<span class="content"><span class="value digits currency positive-value">+10.00</span></span>
+										</li
+										><li class="cell">
+											<span class="label">累计收益<sub>(元)</sub></span>
+											<span class="content"><span class="value digits currency positive-value">+400.00</span></span>
+										</li
+									></ul>
+									<div class="call-to-action">待确认</div>
+								</div>
+							</div>
+						</div>
+						<div class="row info">
+							<div class="info-row has-border-triangle">
+								<div class="content">
+									<i class="icon iconfont icon-info-circled-2 color-promoted"></i>
+									<article>
+										<p><strong><span class="value digits">1</span></strong>笔交易确认中</p>
+									</article>
+								</div>
+							</div>
+						</div>
+					</div>
+					</a>
+				</div>
+
+				<div class="f-block product-abstract large-gap">
+					<a href="my-po-trading-record-detail.html">
+					<div class="f-block-body">
+						<div class="row abstract-title call-to-action">
+							<div class="left">
+								<h3>天弘永利债券B</h3><h4>(420102)</h4>
+							</div>
+						</div>
+						<div class="row full-width abstract-body">
+							<div class="entity-info entity-type-po-owned">
+								<div class="entity-body">
+									<ul class="f-list columns-3-justify compact-lines"
+										><li class="cell">
+											<span class="label">资产<sub>(元)</sub></span>
+											<span class="content"><span class="value digits currency">1,200.00</span></span>
+										</li
+										><li class="cell">
+											<span class="label">昨日收益<sub>(元)</sub></span>
+											<span class="content"><span class="value digits currency positive-value">+10.00</span></span>
+										</li
+										><li class="cell">
+											<span class="label">累计收益<sub>(元)</sub></span>
+											<span class="content"><span class="value digits currency positive-value">+400.00</span></span>
+										</li
+									></ul>
+									<div class="call-to-action">待确认</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</a>
+				</div>
+
+				<div class="f-block product-abstract large-gap">
+					<a href="my-po-trading-record-detail.html">
+					<div class="f-block-body">
+						<div class="row abstract-title call-to-action">
+							<div class="left">
+								<h3>天弘安康养老</h3><h4>(420102)</h4>
+							</div>
+						</div>
+						<div class="row full-width abstract-body">
+							<div class="entity-info entity-type-po-owned">
+								<div class="entity-body">
+									<ul class="f-list columns-3-justify compact-lines"
+										><li class="cell">
+											<span class="label">资产<sub>(元)</sub></span>
+											<span class="content"><span class="value digits currency">1,200.00</span></span>
+										</li
+										><li class="cell">
+											<span class="label">昨日收益<sub>(元)</sub></span>
+											<span class="content"><span class="value digits currency negative-value">-0.04</span></span>
+										</li
+										><li class="cell">
+											<span class="label">累计收益<sub>(元)</sub></span>
+											<span class="content"><span class="value digits currency positive-value">+400.00</span></span>
+										</li
+									></ul>
+									<div class="call-to-action">待确认</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</a>
+				</div>
 			</div>
 
-			<div class="f-block product-abstract large-gap">
-				<a href="my-po-trading-record-detail.html">
-				<div class="f-block-body">
-					<div class="row abstract-title call-to-action">
+			<div class="po-products-recommanded">
+				<div class="f-block product-abstract">
+					<div class="row">
 						<div class="left">
-							<h3>国泰金龙行业混合</h3><h4>(420102)</h4>
+							<h3>推荐基金</h3>
 						</div>
-					</div>
-					<div class="row full-width abstract-body">
-						<div class="entity-info entity-type-po">
-							<div class="entity-body">
-								<ul class="f-list columns-3-justify compact-lines"
-									><li class="cell">
-										<span class="label">资产<sub>(元)</sub></span>
-										<span class="content"><span class="value digits currency">1,200.00</span></span>
-									</li
-									><li class="cell">
-										<span class="label">昨日收益<sub>(元)</sub></span>
-										<span class="content"><span class="value digits currency positive-value">+10.00</span></span>
-									</li
-									><li class="cell">
-										<span class="label">累计收益<sub>(元)</sub></span>
-										<span class="content"><span class="value digits currency positive-value">+400.00</span></span>
-									</li
-								></ul>
-								<div class="call-to-action">待确认</div>
-							</div>
-						</div>
-					</div>
-					<div class="row info">
-						<div class="info-row has-border-triangle">
-							<div class="content">
-								<i class="icon iconfont icon-info-circled-2 color-promoted"></i>
-								<article>
-									<p><strong><span class="value digits">1</span></strong>笔交易确认中</p>
-								</article>
-							</div>
-						</div>
+						<div class="right"><a href="my-po-trading-history.html" class="call-to-action">历史投资</a></div>
 					</div>
 				</div>
-				</a>
-			</div>
 
-			<div class="f-block product-abstract large-gap">
-				<a href="my-po-trading-record-detail.html">
-				<div class="f-block-body">
-					<div class="row abstract-title call-to-action">
-						<div class="left">
-							<h3>天弘永利债券B</h3><h4>(420102)</h4>
-						</div>
-					</div>
-					<div class="row full-width abstract-body">
-						<div class="entity-info entity-type-po">
-							<div class="entity-body">
-								<ul class="f-list columns-3-justify compact-lines"
-									><li class="cell">
-										<span class="label">资产<sub>(元)</sub></span>
-										<span class="content"><span class="value digits currency">1,200.00</span></span>
-									</li
-									><li class="cell">
-										<span class="label">昨日收益<sub>(元)</sub></span>
-										<span class="content"><span class="value digits currency positive-value">+10.00</span></span>
-									</li
-									><li class="cell">
-										<span class="label">累计收益<sub>(元)</sub></span>
-										<span class="content"><span class="value digits currency positive-value">+400.00</span></span>
-									</li
-								></ul>
-								<div class="call-to-action">待确认</div>
+				<div class="f-block large-gap">
+					<div class="f-block-body">
+						<div class="row">
+							<div class="entity-info entity-buyable entity-time-limited entity-type-fund">
+								<h4>汇添富深圳300交易型开放式</h4>
+								<h5>(470068)股票型</h5>
+								<div class="entity-body">
+									<ul class="f-list labels-at-bottom"
+										><li class="cell hero">
+											<span class="label">近一年涨幅</span>
+											<span class="content"
+												><em><span class="value digits percentage-value positive-value">+7.51</span></em
+											></span>
+										</li
+										><li class="cell">
+											<span class="label">最新净值</span>
+											<span class="content"><span class="value digits">0.8870</span></span>
+										</li
+									></ul>
+									<!-- <div class="call-to-action">
+										<a href="#" 
+											role="button" button-action="call-to-action" class="rounded-corners">购买</a>
+									</div> -->
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				</a>
+
+				<div class="f-block large-gap">
+					<div class="f-block-body">
+						<div class="row">
+							<div class="entity-info entity-buyable entity-time-limited entity-type-fund">
+								<h4>光大保德瑞鑫混合A</h4>
+								<h5>(001132)混合型</h5>
+								<div class="entity-body">
+									<ul class="f-list labels-at-bottom"
+										><li class="cell hero">
+											<span class="label">近一年涨幅</span>
+											<span class="content"
+												><em><span class="value digits percentage-value positive-value">+29.51</span></em
+											></span>
+										</li
+										><li class="cell">
+											<span class="label">最新净值</span>
+											<span class="content"><span class="value digits">0.8870</span></span>
+										</li
+									></ul>
+									<!-- <div class="call-to-action">
+										<a href="#" 
+											role="button" button-action="call-to-action" class="rounded-corners">购买</a>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="f-block large-gap">
+					<div class="f-block-body">
+						<div class="row">
+							<div class="entity-info entity-buyable entity-time-limited entity-type-fund">
+								<h4>诺安全球黄金(QDll-FOF)</h4>
+								<h5>(470068)股票型</h5>
+								<div class="entity-body">
+									<ul class="f-list labels-at-bottom"
+										><li class="cell hero">
+											<span class="label">近一年涨幅</span>
+											<span class="content"
+												><em><span class="value digits percentage-value negative-value">-0.08</span></em
+											></span>
+										</li
+										><li class="cell">
+											<span class="label">最新净值</span>
+											<span class="content"><span class="value digits">8.350</span></span>
+										</li
+									></ul>
+									<!-- <div class="call-to-action">
+										<a href="#" 
+											role="button" button-action="call-to-action" class="rounded-corners">购买</a>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="f-block large-gap">
+					<div class="f-block-body">
+						<div class="row">
+							<div class="entity-info entity-buyable entity-time-limited entity-type-fund">
+								<h4>光大保德瑞鑫混合A</h4>
+								<h5>(001132)混合型</h5>
+								<div class="entity-body">
+									<ul class="f-list labels-at-bottom"
+										><li class="cell hero">
+											<span class="label">近一年涨幅</span>
+											<span class="content"
+												><em><span class="value digits percentage-value positive-value">+29.51</span></em
+											></span>
+										</li
+										><li class="cell">
+											<span class="label">最新净值</span>
+											<span class="content"><span class="value digits">1.3457</span></span>
+										</li
+									></ul>
+									<!-- <div class="call-to-action">
+										<a href="#" 
+											role="button" button-action="call-to-action" class="rounded-corners">购买</a>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<div class="empty-content-hint products-confirming"></div>
