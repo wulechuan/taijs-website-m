@@ -1031,12 +1031,6 @@ article.message {
 		.color-inverted .hero-content-block.hero-content-block-style-2 .hero-content-features > .f-list > li.col-3 {
 			text-align: right;
 		}
-		.color-inverted .hero-content-block.hero-content-block-style-2 .hero-content-features > .f-list > li.col-1 > .label {
-			text-indent: 0;
-		}
-		.color-inverted .hero-content-block.hero-content-block-style-2 .hero-content-features > .f-list > li.col-3 > .label {
-			margin-right: -0.7em;
-		}
 
 
 	.hero-content-block.hero-content-block-style-3 { /* in newbie-call-to-action page */
