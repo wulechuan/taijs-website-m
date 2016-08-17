@@ -408,7 +408,7 @@
 	var wlc = window.webLogicControls;
 	var UI = wlc.UI;
 
-	popupSomeWindowForTest();
+	// popupSomeWindowForTest();
 
 	function popupSomeWindowForTest() {
 		var pls = [
