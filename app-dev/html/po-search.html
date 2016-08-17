@@ -20,7 +20,7 @@
 	<header class="page-header">
 		<div class="row header-bar">
 			<div class="left" ><a role="button" class="nav-back" href="account-personal-center.html"></button></div>
-			<div class="search-block" data-coupled-search-panel="search-content-panel">
+			<div class="search-block" data-coupled-search-panel="search-content-layer">
 				<form name="search">
 				<div class="search-box">
 					<input type="search" name="search" required id="header-search-input">
@@ -218,34 +218,39 @@
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
 
-	<div class="page-body covering-layer" id="search-content-panel">
-		<div class="f-block">
-			<div class="row">
-				<div class="left"><h3>热门基金</h3></div>
-			</div>
+	<div class="page-body covering-layer" id="search-content-layer">
+		<div class="search-content-panel">
+			<div class="f-block">
+				<div class="row section-title">
+					<div class="left"><h3>热门基金</h3></div>
+				</div>
 
-			<div class="row">
-				<div class="search-keywords-promoted">
-					<ul class="f-list keywords">
-						<li>华安易副黄金</li>
-						<li>中有战略</li>
-						<li>长信量化</li>
-						<li>中欧盛世</li>
-						<li>华安媒体</li>
-						<li>广发聚财</li>
-					</ul>
+				<div class="row">
+					<div class="search-keywords-promoted">
+						<ul class="f-list keywords"
+							><li><span class="keyword">华安易副黄金</span></li
+							><li><span class="keyword">中有战略</span></li
+							><li><span class="keyword">长信量化</span></li
+							><li><span class="keyword">中欧盛世</span></li
+							><li><span class="keyword">华安媒体</span></li
+							><li><span class="keyword">广发聚财</span></li
+						></ul>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="f-block">
-			<div class="row">
-				<div class="left"><h3>热门基金</h3></div>
-			</div>
+			<div class="f-block">
+				<div class="row section-title">
+					<div class="left">
+						<h3
+							><i class="iconfont icon-wall-clock-solid-3-oclock"></i
+							>搜索历史</h3>
+					</div>
+					<div class="right"><button class="simple-look">清除搜索历史</button></div>
+				</div>
 
-			<div class="row">
-				<div class="search-keywords-promoted">
-					<ul class="f-list search-history-record">
+				<div class="row snap-top">
+					<ul class="f-list search-keywords-promoted search-history-record">
 						<li>国联</li>
 						<li>建信</li>
 					</ul>

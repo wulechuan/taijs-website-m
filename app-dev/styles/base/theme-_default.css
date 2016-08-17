@@ -963,6 +963,12 @@ dl.tickets-list {
 	.marker.marker-te-quan-ben-jin { color: #8161e2; }
 
 
+.keyword {
+	color: #333;
+	border-color: #e0e0e0;
+}
+
+
 .color-inverted .menu.level-1,
 .header-bar     .menu.level-1 {
 	background-color: transparent;
@@ -1185,3 +1191,16 @@ dl.tickets-list {
 		background-color: rgb(62, 90, 215);
 	}
 
+
+.search-content-panel {
+	}
+	.search-content-panel .search-history-record > li,
+	.search-content-panel .row {
+		border-color: #e0e0e0;
+	}
+	.search-content-panel .row.section-title h3 {
+		color: #666;
+	}
+	.search-content-panel .row.section-title h3 .iconfont {
+		color: #999;
+	}

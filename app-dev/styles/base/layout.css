@@ -506,6 +506,26 @@ article.message {
 	}
 
 
+.f-list.keywords {
+	margin-right: -0.3rem;
+	}
+	.f-list.keywords > li {
+		display: inline-block;
+		box-sizing: border-box;
+		width: 33.33%;
+	}
+	.f-list.keywords     > li .keyword {
+		display: block;
+		margin: 0 0.8rem 0.8rem 0;
+		border-style: solid;
+		border-width: 1px;
+		padding: 0.5rem 0;
+		line-height: 1rem;
+		text-align: center;
+		font-size: 0.75rem;
+	}
+
+
 .poststamp {
 	background-repeat: no-repeat;
 	background-image: url(../../images/_common/poststamp-w200px.png);
@@ -1475,7 +1495,20 @@ article.message {
 	.row em sub {
 		color: inherit;
 	}
-
+	.row::before {
+		content: none;
+		position: absolute;
+		display: block;
+		left: 0.8rem;
+		right: 0;
+		top: auto;
+		bottom: -1px;
+		width: auto;
+		height: 0;
+		border-style: inherit;
+		border-width: 1px 0 0 0;
+		border-color: inherit;
+	}
 	.hide-borders > .row,
 	.row.hide-borders {
 		border-style: none;
@@ -2357,17 +2390,6 @@ article.message {
 
 	.f-block-body .row::before {
 		content: '';
-		position: absolute;
-		display: block;
-		left: 0.8rem;
-		right: 0;
-		top: auto;
-		bottom: -1px;
-		width: auto;
-		height: 0;
-		border-style: inherit;
-		border-width: 1px 0 0 0;
-		border-color: inherit;
 	}
 
 	.f-block-body .row.last-shown-in-set,
@@ -3173,6 +3195,36 @@ dl.tickets-list {
 		}
 
 
+.search-content-panel {
+	}
+	.search-content-panel .row.section-title {
+		padding-bottom: 0.3rem;
+		margin-bottom: 0;
+	}
+	.search-content-panel .row.section-title::before {
+		content: '';
+	}
+	.search-content-panel .row.section-title h3 .iconfont {
+		margin-left: 0;
+	}
+	.search-content-panel .row.section-title .right .simple-look {
+		margin-right: -0.5rem;
+	}
+	.search-content-panel .f-list.search-history-record {
+		margin-right: -0.8rem;
+		}
+		.search-content-panel .f-list.search-history-record > li {
+			padding: 0.5rem 0;
+			line-height: 1rem;
+			border-style: solid;
+			border-width: 1px 0;
+			margin: 0 0 -1px 0;
+		}
+		.search-content-panel .f-list.search-history-record > li:first-of-type {
+			border-top-color: transparent;
+		}
+
+
 .page {
 	box-sizing: border-box;
 	height: 100%;
@@ -3520,7 +3572,6 @@ dl.tickets-list {
 		background-position: center;
 	}
 	/* hide slogan row */
-
 
 
 #page-account-sign-up-succeeded .special-button {
