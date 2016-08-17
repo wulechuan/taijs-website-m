@@ -1087,7 +1087,7 @@ button[button-action="clear-input-field"] {
 		content: '\e606';
 		position: relative;
 		display: block;
-		transform: scale(0.85, 0.85);
+		transform: scale(0.75, 0.75);
 	}
 
 	@keyframes scales-up {

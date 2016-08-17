@@ -448,6 +448,10 @@ button[button-action="clear-input-field"] {
 		background-color: #adadad;
 	}
 
+	.search-block button[button-action="clear-input-field"]::before {
+		background-color: transparent;
+	}
+
 
 label.deco-input {
 	}

@@ -2313,6 +2313,7 @@ window.webLogicControls = {};
 
 			var elements = {
 				root: rootElement,
+				allFields: [],
 				requiredFields: [],
 				buttonsForSubmission: []
 			};
@@ -2372,10 +2373,21 @@ window.webLogicControls = {};
 
 				if (isFirstTime || requiredFieldsChanged) {
 					this.elements.root = rootElement; // just for safety
+					this.elements.allFields            = [].concat(elements.allFields);
 					this.elements.requiredFields       = [].concat(elements.requiredFields);
 					this.elements.buttonsForSubmission = [].concat(elements.buttonsForSubmission);
 
 					buildAllVirtualFieldsAsNeeded.call(this);
+
+					if (status.rootElementIsAForm) {
+						$(rootElement).on('reset', function (/*event*/) {
+							// event.preventDefault();
+							var fields = elements.allFields;
+							for (var i = 0; i < fields.length; i++) {
+								fields[i].virtualField.clearValue();
+							}
+						});
+					}
 				}
 
 				return true;
@@ -2390,17 +2402,21 @@ window.webLogicControls = {};
 					$allInvolvedElements = $(rootElement).find('input, textarea, select, [contentEditable="true"]');
 				}
 
-				var $allRequiredInputs = $allInvolvedElements.filter(function (index, el) {
+				var $allInputs = $allInvolvedElements.filter(function (index, el) {
 					var tnlc = el.tagName.toLowerCase();
 
 					if (tnlc === 'input' || tnlc === 'textarea' || tnlc === 'select') {
-						return el.hasAttribute('required');
+						return true;
 					}
 
 					var ce = el.getAttribute('contentEditable');
 					if (typeof ce === 'string') ce = ce.toLowerCase();
 
-					return (ce === 'true') && el.hasAttribute('required');
+					return ce === 'true';
+				});
+
+				var $allRequiredInputs = $allInputs.filter(function (index, el) {
+					return el.hasAttribute('required');
 				});
 
 
@@ -2410,6 +2426,7 @@ window.webLogicControls = {};
 					return attr==='submit';
 				});
 
+				elements.allFields            = Array.prototype.slice.apply($allInputs);
 				elements.requiredFields       = Array.prototype.slice.apply($allRequiredInputs);
 				elements.buttonsForSubmission = Array.prototype.slice.apply($buttonsForSubmission);
 			}
@@ -2417,7 +2434,8 @@ window.webLogicControls = {};
 			function buildAllVirtualFieldsAsNeeded() {
 				var i;
 				var atLeastOneNewVirtualFieldCreated = false;
-				for (i = 0; i < elements.requiredFields.length; i++) {
+				var fieldElements = elements.allFields;
+				for (i = 0; i < fieldElements.length; i++) {
 					var thisOneCreated = createNewVirtualFieldAsNeeded.call(this, i);
 					atLeastOneNewVirtualFieldCreated = atLeastOneNewVirtualFieldCreated || thisOneCreated;
 				}
@@ -2621,6 +2639,8 @@ window.webLogicControls = {};
 							}
 						}
 					}).bind(this);
+
+					$(fieldElement).on('blur', onBlur.bind(this));
 				}
 
 
@@ -2896,7 +2916,6 @@ window.webLogicControls = {};
 				if (!(scanRootElement instanceof Node)) {
 					scanRootElement = $(fieldElement).parents('.page');
 				}
-				// C.l(scanRootElement);
 
 				var $buttons = $(scanRootElement).find('button[button-action="clear-input-field"][for-input="'+id+'"]');
 
@@ -2904,7 +2923,10 @@ window.webLogicControls = {};
 				var thisVirtualField = this;
 
 				$buttons.each(function () {
-					this.setAttribute('type', 'button'); // prevent this from submitting <form>
+					var type = this.getAttribute('type');
+					if (!type || type.length < 1 || type==='submit') {
+						this.setAttribute('type', 'button'); // prevent this from submitting <form>
+					}
 
 					$(this).on('click', function (event) {
 						if (event) {
@@ -2945,6 +2967,10 @@ window.webLogicControls = {};
 				elements.tips.errors = Array.prototype.slice.apply(
 					$(scanRootElement).find('.input-tip.error[for="'+id+'"]')
 				);
+			}
+
+			function onBlur() {
+				updateCssClasses.call(this);
 			}
 
 			function clearValue() {
@@ -3422,7 +3448,7 @@ window.webLogicControls = {};
 				}
 
 				if (!charsCountIsSpecified) {
-					charsCount = parseInt(rootElement.getAttribute('data-chars-count'))
+					charsCount = parseInt(rootElement.getAttribute('data-chars-count'));
 					charsCountIsSpecified = !!charsCount && charsCount >= minCount;
 				}
 
@@ -3833,7 +3859,7 @@ window.webLogicControls = {};
 
 				var testSpansWrapper;
 				var spans = [];
-				var charWidth = NaN;
+				// var charWidth = NaN;
 				var letterSpacing = NaN;
 
 				_setup();
@@ -3882,42 +3908,42 @@ window.webLogicControls = {};
 					widthWrapperElement.appendChild(testSpansWrapper);
 				}
 
-				function _evaluateCharWidth(shouldLog) {
-					var spanWidths = [];
-					var charWidths = [];
-					var lastSpanWidth = 0;
+				// function _evaluateCharWidth(shouldLog) {
+				// 	var spanWidths = [];
+				// 	var charWidths = [];
+				// 	var lastSpanWidth = 0;
 
-					var log = [];
-					var i;
-					for (i = 0; i < spans.length; i++) {
-						spanWidths[i] = $(spans[i]).outerWidth();
-						charWidths[i] = spanWidths[i] - lastSpanWidth;
-						lastSpanWidth = spanWidths[i];
-						if (shouldLog) {
-							log.push('width['+i+']: ' + charWidths[i] + ' ' + spanWidths[i]);
-						}
-					}
+				// 	var log = [];
+				// 	var i;
+				// 	for (i = 0; i < spans.length; i++) {
+				// 		spanWidths[i] = $(spans[i]).outerWidth();
+				// 		charWidths[i] = spanWidths[i] - lastSpanWidth;
+				// 		lastSpanWidth = spanWidths[i];
+				// 		if (shouldLog) {
+				// 			log.push('width['+i+']: ' + charWidths[i] + ' ' + spanWidths[i]);
+				// 		}
+				// 	}
 
-					var charWidthBiases = [];
-					var maxBias = 0;
-					for (i = 1; i < spans.length; i++) {
-						charWidthBiases[i] = charWidths[i] - charWidths[i-1];
-						maxBias = Math.max(charWidthBiases[i], maxBias);
-					}
-					log.push('maxBias: ' + maxBias);
+				// 	var charWidthBiases = [];
+				// 	var maxBias = 0;
+				// 	for (i = 1; i < spans.length; i++) {
+				// 		charWidthBiases[i] = charWidths[i] - charWidths[i-1];
+				// 		maxBias = Math.max(charWidthBiases[i], maxBias);
+				// 	}
+				// 	log.push('maxBias: ' + maxBias);
 
 
-					if (shouldLog) {
-						var logC = log.join('\n');
-						var logH = log.join('<br>\n');
+				// 	if (shouldLog) {
+				// 		var logC = log.join('\n');
+				// 		var logH = log.join('<br>\n');
 
-						C.l(logC);
-						if (HTMLLogElement) HTMLLogElement.innerHTML += logH;
-					}
+				// 		C.l(logC);
+				// 		if (HTMLLogElement) HTMLLogElement.innerHTML += logH;
+				// 	}
 
-					charWidth = charWidths[0];
-					if (maxBias > 2) charWidth = NaN;
-				}
+				// 	charWidth = charWidths[0];
+				// 	if (maxBias > 2) charWidth = NaN;
+				// }
 
 				function _evaluateLetterSpacing(shouldLog) {
 					var _timeGapMS = 87;
@@ -3944,9 +3970,7 @@ window.webLogicControls = {};
 
 					__checkSpanNewWidthAndAdjsutLetterSpacing();
 					for (var i = 0; i < _maxTryingPassCount; i++) {
-						setTimeout((function (i) {
-							__iterate(i);
-						}).bind(this, i), _timeGapMS*(i+1));
+						setTimeout(__iterate.bind(this, i), _timeGapMS*(i+1));
 					}
 
 					function __checkSpanNewWidthAndAdjsutLetterSpacing() {

@@ -3094,7 +3094,7 @@ dl.tickets-list {
 		.search-box .search-input-fake-placeholder,
 		.search-box input {
 			box-sizing: border-box;
-			padding: 0.25rem 1rem 0.25rem 1.8rem;
+			padding: 0.25rem 1.4rem 0.25rem 1.8rem;
 			line-height: 0.9rem;
 			min-width: 0;
 			min-height: 0;
@@ -3119,7 +3119,7 @@ dl.tickets-list {
 			width: 10rem;
 			top: 0;
 			bottom: 0;
-			margin: 0 auto;
+			margin: 0;
 			text-align: left;
 		}
 
@@ -3145,7 +3145,6 @@ dl.tickets-list {
 			opacity: 0;
 		}
 
-
 		.search-block button.simple-look {
 			position: absolute;
 			right: 0.8rem;
@@ -3163,6 +3162,15 @@ dl.tickets-list {
 				visibility: visible;
 				opacity: 1;
 			}
+
+		.row.header-bar .search-box button[for-input="header-search-input"] {
+			z-index: 6;
+			display: block;
+			width: 1.4rem;
+			height: 1.4rem;
+			line-height: 1.4rem;
+			margin-right: 0.16rem;
+		}
 
 
 .page {

@@ -408,6 +408,9 @@
 				var $searchBlock = $(this);
 
 				var searchInput = $searchBlock.find('.search-box input')[0];
+
+				if (!searchInput) return false;
+
 				var $cancelButton = $searchBlock.find('.search-box ~ button[type="reset"]');
 
 				var coupledPanel = this.getAttribute('data-coupled-search-panel');
@@ -449,29 +452,29 @@
 		this.href += '?login=true';
 	});
 
-	var wlc = window.webLogicControls;
-	var UI = wlc.UI;
+	// var wlc = window.webLogicControls;
+	// var UI = wlc.UI;
 
 	// popupSomeWindowForTest();
 
-	function popupSomeWindowForTest() {
-		var pls = [
-			'pl-message-credit-limitation-introduction',
-			// 'plpm-modification-succeeded',
-			'pl-message-intro-jia-xi-quan',
-			// 'pl-message-intro-te-quan-ben-jin',
-			// 'pl-message-intro-ti-yan-jin',
-			// 'pl-available-tickets-list',
-			// 'pl-trading-password-incorrect',
-			// 'pl-product-terminated',
-			// 'pl-input-image-vcode'
-		];
+	// function popupSomeWindowForTest() {
+	// 	var pls = [
+	// 		'pl-message-credit-limitation-introduction',
+	// 		// 'plpm-modification-succeeded',
+	// 		'pl-message-intro-jia-xi-quan',
+	// 		// 'pl-message-intro-te-quan-ben-jin',
+	// 		// 'pl-message-intro-ti-yan-jin',
+	// 		// 'pl-available-tickets-list',
+	// 		// 'pl-trading-password-incorrect',
+	// 		// 'pl-product-terminated',
+	// 		// 'pl-input-image-vcode'
+	// 	];
 
-		var currentPL = 0;
-		$('.page-body').on('click', function () {
-			UI.popupLayersManager.show(pls[currentPL]);
-			currentPL++;
-			if (currentPL >= pls.length) currentPL -= pls.length;
-		});
-	}
+	// 	var currentPL = 0;
+	// 	$('.page-body').on('click', function () {
+	// 		UI.popupLayersManager.show(pls[currentPL]);
+	// 		currentPL++;
+	// 		if (currentPL >= pls.length) currentPL -= pls.length;
+	// 	});
+	// }
 })();

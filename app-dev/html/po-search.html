@@ -23,11 +23,13 @@
 			<div class="search-block" data-coupled-search-panel="search-content-panel">
 				<form name="search">
 				<div class="search-box">
-					<input type="search" name="search" required>
+					<input type="search" name="search" required id="header-search-input">
 					<div class="search-input-fake-placeholder">
 						<i class="iconfont icon-magnifier"></i>
 						<p>输入基金名称或代码</p>
 					</div>
+					<button for-input="header-search-input"
+						button-action="clear-input-field" type="button"></button>
 				</div>
 				<button class="simple-look" type="reset">取消</button>
 				</form>
