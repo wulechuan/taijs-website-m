@@ -3237,12 +3237,17 @@ dl.tickets-list {
 
 .search-content-panel {
 	}
+	.search-content-panel .row {
+		margin-top: 0.8rem;
+	}
 	.search-content-panel .row.section-title {
 		padding-bottom: 0.3rem;
 		margin-bottom: 0;
 	}
 	.search-content-panel .row.section-title::before {
 		content: '';
+		top: auto;
+		bottom: 0px;
 	}
 	.search-content-panel .row.section-title h3 .iconfont {
 		margin-left: 0;
