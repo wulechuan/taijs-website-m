@@ -38,7 +38,20 @@
 	</header>
 
 	<div class="page-body">
-		<div class="f-block snap-top filters-block children-pinned">
+		<style type="text/css">
+			.filters-block.children-pinned {
+				height: 4rem;
+				}
+				.filters-block.children-pinned .pinned {
+					position: fixed;
+					left: 0;
+					right: 0;
+					margin: 0;
+					top: 2.4rem;
+					z-index: 10;
+				}
+		</style>
+		<div class="f-block snap-top large-gap filters-block children-pinned">
 			<div class="f-block-body pinned">
 				<div class="row filters">
 					<h4 class="filters-label">股票</h4>
@@ -63,7 +76,7 @@
 			</div>
 		</div>
 
-		<div class="po-products-recommanded helvetica-digits">
+		<div class="fund-products-recommanded helvetica-digits">
 			<!-- <div class="f-block product-abstract">
 				<div class="row">
 					<div class="left">
@@ -148,6 +161,35 @@
 									><li class="cell">
 										<span class="label">最新净值</span>
 										<span class="content"><span class="value digits">8.350</span></span>
+									</li
+								></ul>
+								<div class="call-to-action">
+									<a href="#" 
+										role="button" button-action="call-to-action" class="rounded-corners">购买</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="f-block large-gap">
+				<div class="f-block-body">
+					<div class="row">
+						<div class="entity-info entity-buyable entity-time-limited entity-type-fund">
+							<h4>光大保德瑞鑫混合A</h4>
+							<h5>(001132)混合型</h5>
+							<div class="entity-body">
+								<ul class="f-list labels-at-bottom"
+									><li class="cell hero">
+										<span class="label">近一年涨幅</span>
+										<span class="content"
+											><em><span class="value digits percentage-value positive-value">+29.51</span></em
+										></span>
+									</li
+									><li class="cell">
+										<span class="label">最新净值</span>
+										<span class="content"><span class="value digits">1.3457</span></span>
 									</li
 								></ul>
 								<div class="call-to-action">
