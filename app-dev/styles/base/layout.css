@@ -3236,6 +3236,10 @@ dl.tickets-list {
 
 
 .search-content-panel {
+	animation-delay: 0.2s;
+	animation-duration: 0.3s;
+	animation-name: covering-layer-content-shows-up;
+	animation-fill-mode: backwards;
 	}
 	.search-content-panel .row {
 		margin-top: 0.8rem;
@@ -3268,6 +3272,13 @@ dl.tickets-list {
 		.search-content-panel .f-list.search-history-record > li:first-of-type {
 			border-top-color: transparent;
 		}
+
+	@keyframes covering-layer-content-shows-up {
+		 0% { opacity: 0; transform: scale(0.08, 0.16); }
+		45% { opacity: 1; transform: scale(1.19, 0.19); }
+		90% {             transform: scale(1.02, 1.03); }
+		to  {             transform: scale(1   , 1   ); }
+	}
 
 
 .page {
@@ -3393,6 +3404,9 @@ dl.tickets-list {
 		right: 0;
 		top: 0;
 		bottom: 0;
+		animation-duration: 0.2s;
+		animation-name: fade-in;
+		overflow: hidden; /* for content animations */
 	}
 
 	.page.page-header-in-compact-mode .page-header,
