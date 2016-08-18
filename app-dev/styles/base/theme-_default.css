@@ -1215,3 +1215,6 @@ dl.tickets-list {
 	.search-result em {
 		color: #4285f4;
 	}
+	.search-result {
+		border-color: #f1f1f1;
+	}
