@@ -404,7 +404,7 @@
 		}
 
 		function setupSearchBlockIfAny($page, isFirstTime) {
-			$('.search-block').each(function () {
+			$page.find('.search-block').each(function () {
 				var $searchBlock = $(this);
 
 				var searchInput = $searchBlock.find('.search-box input')[0];
@@ -430,7 +430,6 @@
 				}
 
 
-
 				function _enterSearchingMode() {
 					if (coupledPanelHasBeenShow) return true;
 					$searchBlock.addClass('focus');
@@ -443,6 +442,431 @@
 					coupledPanelHasBeenShow = false;
 				}
 			});
+
+			setupSearchResultsListIfAny($page, isFirstTime);
+
+			function setupSearchResultsListIfAny($page, isFirstTime) {
+				var promotedKeywordsLayer = $page.find('#search-promoted-keywords-layer')[0];
+				var resultRecordsLayer = $page.find('#search-result-records-layer')[0];
+				var $resultRecordsLayer = $(resultRecordsLayer);
+
+
+				// temp snippet starts -------------------
+					var tempStatus = {
+						recordsSet1HaveBeenShown: false,
+						recordsSet2HaveBeenShown: false
+					};
+					var fakeRecordsSet = Array.prototype.slice.apply($('li.search-result'));
+					var firstSetRecordsCount = 5;
+					var fakeRecordsSet1 = fakeRecordsSet.slice(0, firstSetRecordsCount);
+					var fakeRecordsSet2 = fakeRecordsSet.slice(firstSetRecordsCount);
+					$(fakeRecordsSet1).hide();
+					$(fakeRecordsSet2).hide();
+				// temp snippet ends -------------------
+
+
+				if (isFirstTime) {
+					var searchInput = $page.find('.search-block .search-box input')[0];
+					if (searchInput) {
+						new wlc.UI.VirtualField(searchInput);
+						searchInput.virtualField.config({
+							onValueChange: function (status, event) {
+								// temp snippet starts -------------------
+									if (this.status.isEmpty) {
+										// if (tempStatus.recordsSet2HaveBeenShown) {
+										// 	_removeRecord(fakeRecordsSet1.concat(fakeRecordsSet2));
+										// 	tempStatus.recordsSet1HaveBeenShown = false;
+										// 	tempStatus.recordsSet2HaveBeenShown = false;
+										// } else {
+										// 	_removeRecord(fakeRecordsSet1);
+										// 	tempStatus.recordsSet1HaveBeenShown = false;
+										// }
+
+										var shouldShowPromotedKeywordsLayer = !(event && (event.type === 'reset'));
+										if (shouldShowPromotedKeywordsLayer) {
+											$(promotedKeywordsLayer).show();
+										}
+
+										$resultRecordsLayer.hide();
+										$(fakeRecordsSet1).hide();
+										$(fakeRecordsSet2).hide();
+										tempStatus.recordsSet1HaveBeenShown = false;
+										tempStatus.recordsSet2HaveBeenShown = false;
+									} else {
+										if (!tempStatus.recordsSet1HaveBeenShown) {
+											$(fakeRecordsSet1).hide();
+											$resultRecordsLayer.show();
+											_addRecords(fakeRecordsSet1);
+											tempStatus.recordsSet1HaveBeenShown = true;
+											$(promotedKeywordsLayer).hide();
+										}
+									}
+
+									if (this.status.value.length > 1) {
+										if (!tempStatus.recordsSet2HaveBeenShown) {
+											$(fakeRecordsSet2).hide();
+											// $resultRecordsLayer.show();
+											_addRecords(fakeRecordsSet2);
+											tempStatus.recordsSet2HaveBeenShown = true;
+										}
+									} else if (this.status.value.length === 1) {
+										if (tempStatus.recordsSet2HaveBeenShown) {
+											_removeRecord(fakeRecordsSet2, true);
+											tempStatus.recordsSet2HaveBeenShown = false;
+										}
+									}
+
+								// temp snippet ends -------------------
+							}
+						});
+					}
+
+
+					$('.search-result').each(function () {
+						var $searchResultRecord = $(this);
+						var $buttonToggleFavorite = $(this).find('button.call-to-action');
+						$buttonToggleFavorite.on('click', function () {
+							$searchResultRecord.toggleClass('is-in-my-favorites');
+						});
+					});
+				}
+
+
+				function _addRecords(records) {
+					applyAnimationsViaAnimationName(records, 'search-result-record-shows-up', {
+						showBeforeAnimating: true,
+						firstDelay: 0.2,
+						delayA: 0.09,
+						delayB: 0.219,
+						durationA: 0.28,
+						durationB: 0.32
+					});
+				}
+
+
+				function _removeRecord(records, hasRestRecords) {
+					applyAnimationsViaAnimationName(records, 'search-result-record-goes-away', {
+						firstDelay: 0,
+						delayA: 0.04,
+						delayB: 0.16,
+						durationA: 0.24,
+						durationB: 0.29,
+						actionAfterPlayingAnimation: 'none',
+						onEachAnimationEnd: function () {
+							this.style.opacity = 0;
+						},
+						onAllAnimationsEnd: function () {
+							if (!hasRestRecords) {
+								$resultRecordsLayer.hide();
+								$(promotedKeywordsLayer).show();
+							}
+							$(records).hide().css('opacity', '');
+						}
+					});
+				}
+			}
+
+
+
+
+
+			function applyAnimationsViaAnimationName(targets, animationNameString, options) {
+				var privateOptions = {
+					playOneAfterOne: false,
+					firstDelay: 0,
+					delayA: 0.12,
+					delayB: 0.319,
+					durationA: 0.27,
+					durationB: 0.32
+				};
+
+				var privateStatus = {
+					onEachAnimationEnd: [],
+					onAllAnimationsEnd: []
+				};
+
+				WCU.save.boolean(privateOptions, 'playOneAfterOne', options);
+
+				WCU.save.number(privateOptions, 'firstDelay', options);
+				WCU.save.number(privateOptions, 'delayA', options);
+				WCU.save.number(privateOptions, 'delayB', options);
+
+				WCU.save.numberNonNegative(privateOptions, 'durationA', options);
+				WCU.save.numberNonNegative(privateOptions, 'durationB', options);
+
+
+				delete options.playOneAfterOne;
+				delete options.firstDelay;
+				delete options.delayA;
+				delete options.delayB;
+				delete options.durationA;
+				delete options.durationB;
+
+
+				var i, callBack;
+
+				if (options.hasOwnProperty('onEachAnimationEnd')) {
+					if (!Array.isArray(options.onEachAnimationEnd)) {
+						options.onEachAnimationEnd = [options.onEachAnimationEnd];
+					}
+
+					for (i = 0; i < options.onEachAnimationEnd.length; i++) {
+						callBack = options.onEachAnimationEnd[i];
+						if (typeof callBack === 'function') {
+							privateStatus.onEachAnimationEnd.push(callBack);
+						}
+					}
+					delete options.onEachAnimationEnd;
+				}
+
+				options.onAnimationEnd = _onEachAnimationEnd;
+
+
+				if (options.hasOwnProperty('onAllAnimationsEnd')) {
+					if (!Array.isArray(options.onAllAnimationsEnd)) {
+						options.onAllAnimationsEnd = [options.onAllAnimationsEnd];
+					}
+
+					for (i = 0; i < options.onAllAnimationsEnd.length; i++) {
+						callBack = options.onAllAnimationsEnd[i];
+						if (typeof callBack === 'function') {
+							privateStatus.onAllAnimationsEnd.push(callBack);
+						}
+					}
+					delete options.onAllAnimationsEnd;
+				}
+
+
+				options.animationDefinitionSuffix = 'both';
+
+
+				// var delays = [];
+				// var durations = [];
+				// var delaysPlusDurations = [];
+				var maxDelay = -100000;
+				var maxDuration = 0;
+				var maxDelayPlusDuration = 0;
+
+
+				var _O = privateOptions;
+
+				var targetOfMaxDelay;
+				var targetOfMaxDuration;
+				var targetOfMaxDelayPlusDuration;
+				var delay = _O.firstDelay;
+				var duration;
+
+				for (i = 0; i < targets.length; i++) {
+					var target = targets[i];
+
+					if (delay > maxDelay) {
+						maxDelay = delay;
+						targetOfMaxDelay = target;
+					}
+
+					duration = _randomBetween(_O.durationA, _O.durationB);
+					if (duration > maxDuration) {
+						maxDuration = duration;
+						targetOfMaxDuration = target;
+					}
+
+					var delayPlusDuration = delay + duration;
+					if (delayPlusDuration > maxDelayPlusDuration) {
+						maxDelayPlusDuration = delayPlusDuration;
+						targetOfMaxDelayPlusDuration = target;
+					}
+
+					// delays[i] = delay;
+					// durations[i] = duration;
+					// delaysPlusDurations[i] = delayPlusDuration;
+
+					options.delay = delay;
+					options.duration = duration;
+					options.secondsToWaitForAnimationEnd = delayPlusDuration;
+
+					applyAnimationNameTo(targets[i], animationNameString, options);
+
+
+					var offset = _randomBetween(_O.delayA, _O.delayB);
+					if (_O.playOneAfterOne) {
+						delay += offset + duration;
+					} else {
+						delay += offset;
+					}
+				}
+
+
+				function _randomBetween(a, b) {
+					return b + (a-b) * Math.random();
+				}
+
+				function _onEachAnimationEnd() {
+					var calbacks = privateStatus.onEachAnimationEnd;
+					for (var i = 0; i < calbacks.length; i++) {
+						var callBack = calbacks[i];
+						if (typeof callBack === 'function') {
+							callBack.apply(this, arguments);
+						}
+					}
+
+					if (this === targetOfMaxDelayPlusDuration) {
+						_onAllAnimationsEnd.apply(null, arguments);
+					}
+				}
+
+				function _onAllAnimationsEnd() {
+					var calbacks = privateStatus.onAllAnimationsEnd;
+					for (var i = 0; i < calbacks.length; i++) {
+						var callBack = calbacks[i];
+						if (typeof callBack === 'function') {
+							callBack.apply(null, arguments);
+						}
+					}
+				}
+			}
+
+
+			// function applyAnimationViaCssClassNameTo(target, cssClassName, options) {
+			// 	applyAnimationTo(target, doApplyAnimation, doRemoveAnimation, options);
+
+			// 	function doApplyAnimation(target/*, options*/) {
+			// 		$(target).addClass(cssClassName);
+			// 		return true;
+			// 	}
+
+			// 	function doRemoveAnimation() {
+			// 		$(target).removeClass(cssClassName);
+			// 	}
+			// }
+
+
+			function applyAnimationNameTo(target, animationNameString, options) {
+				applyAnimationTo(target, doApplyAnimation, doRemoveAnimation, options);
+
+				function doApplyAnimation(target, options) {
+					var duration = ' '+options.duration+'s';
+					var delay    = (options.delay)    ? (' '+options.delay+'s') : '';
+					var suffix   = (options.animationDefinitionSuffix) ? (' '+options.animationDefinitionSuffix) : '';
+
+
+					var animationDefinition = animationNameString + duration + delay + suffix;
+					target.style.animation = animationDefinition;
+
+					return true;
+				}
+
+				function doRemoveAnimation() {
+					// C.t('remove ani from', this);
+					this.style.animationName = '';
+					this.style.animation = '';
+				}
+			}
+
+
+			function applyAnimationTo(target, doApplyAnimation, doRemoveAnimation, options) {
+				var privateOptions = {
+					showBeforeAnimating: false,
+					allowedMinDuration: 0.2,
+					duration: 0.3,
+					actionAfterPlayingAnimation: null,
+					shouldNotWaitForAnimationEndForEver: true,
+					secondsToWaitForAnimationEnd: 0.4
+				};
+
+				var privateStatus = {
+					animationNotEndedEitherWay: true,
+					onAnimationEnd: []
+				};
+
+				WCU.save.boolean(privateOptions, 'showBeforeAnimating', options);
+				WCU.save.boolean(privateOptions, 'shouldNotWaitForAnimationEndForEver', options);
+
+				var R1 = WCU.save.numberNoLessThan(privateOptions, 'duration', options, false, privateOptions.allowedMinDuration);
+				var R2 = WCU.save.numberNoLessThan(privateOptions, 'secondsToWaitForAnimationEnd', options, false, privateOptions.duration);
+				if (R1.valueHasBeenChanged && !R2.valueHasBeenChanged) {
+					privateOptions.secondsToWaitForAnimationEnd = Math.max(privateOptions.secondsToWaitForAnimationEnd, privateOptions.duration);
+				}
+
+				if (options.actionAfterPlayingAnimation === 'hide') {
+					privateOptions.actionAfterPlayingAnimation = 'hide';
+				} else if (
+					options.actionAfterPlayingAnimation === 'nothing' ||
+					options.actionAfterPlayingAnimation === 'none' ||
+					options.actionAfterPlayingAnimation === 'null' ||
+					options.actionAfterPlayingAnimation === null
+				) {
+					privateOptions.actionAfterPlayingAnimation = null;
+				} else if (
+					options.actionAfterPlayingAnimation === 'remove' ||
+					options.actionAfterPlayingAnimation === 'delete' ||
+					options.actionAfterPlayingAnimation === 'del' ||
+					options.actionAfterPlayingAnimation === 'destroy'
+				) {
+					privateOptions.actionAfterPlayingAnimation = 'remove';
+				}
+
+
+				options.duration = privateOptions.duration; // for "doApplyAnimation"
+
+
+				if (options.hasOwnProperty('onAnimationEnd')) {
+					if (!Array.isArray(options.onAnimationEnd)) {
+						options.onAnimationEnd = [options.onAnimationEnd];
+					}
+
+					for (var i = 0; i < options.onAnimationEnd.length; i++) {
+						var callBack = options.onAnimationEnd[i];
+						if (typeof callBack === 'function') {
+							privateStatus.onAnimationEnd.push(callBack);
+						}
+					}
+				}
+
+
+				var succeeded = doApplyAnimation(target, options);
+
+				if (succeeded) {
+					// C.l('applied!', options);
+					if (privateOptions.showBeforeAnimating) {
+						$(target).show();
+					}
+
+					target.addEventListener('animationend', _onAnimationEnd);
+					if (privateOptions.shouldNotWaitForAnimationEndForEver) {
+						setTimeout(function () {
+							_onAnimationEnd(null, true);
+						}, privateOptions.secondsToWaitForAnimationEnd * 1000);
+					}
+				}
+
+				function _onAnimationEnd(event, invokedViaTimer) {
+					if (!privateStatus.animationNotEndedEitherWay) {
+						return true;
+					}
+					privateStatus.animationNotEndedEitherWay = false;
+
+					if (invokedViaTimer === true) {
+						// C.w('Timer ends waiting of animation for ', target);
+					}
+					target.removeEventListener('animationend', _onAnimationEnd);
+
+					if (typeof doRemoveAnimation === 'function') doRemoveAnimation.apply(target, arguments);
+
+					for (var i = 0; i < options.onAnimationEnd.length; i++) {
+						var callBack = options.onAnimationEnd[i];
+						if (typeof callBack === 'function') {
+							callBack.apply(target, arguments);
+						}
+					}
+
+
+					if (privateOptions.actionAfterPlayingAnimation === 'hide') {
+						$(target).hide();
+					} else if (privateOptions.actionAfterPlayingAnimation === 'remove') {
+						target.parentNode.removeChild(target);
+					}
+				}
+			}
 		}
 	}
 })();

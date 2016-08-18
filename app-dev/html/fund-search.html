@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html><head>
 	<!-- inject:headBeforeTitle:html --><!-- endinject -->
-	<title>公募基金搜索</title>
+	<title>基金搜索</title>
 	<!-- inject:headAfterTitle:html --><!-- endinject -->
 </head>
 <body class="user-has-logged-in">
@@ -12,7 +12,7 @@
 <!-- inject:appBGLayer0:html --><!-- endinject -->
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
-<div data-app-header-title="公募基金搜索" id="page-po-search"
+<div data-app-header-title="基金搜索" id="page-fund-search"
 	 class="page has-page-header fixed-page-header"
 	>
 	<link rel="stylesheet" type="text/css" href="../scripts/vendors/swiper-3.3.1/css/swiper.min.css">
@@ -38,63 +38,53 @@
 	</header>
 
 	<div class="page-body">
-		<div class="po-products-owned">
-			<div class="f-block">
-				<div class="row">
-					<div class="left">
-						<h3>我的已购基金</h3>
-					</div>
+		<style type="text/css">
+			.filters-block.children-pinned {
+				height: 4rem;
+				}
+				.filters-block.children-pinned .pinned {
+					position: fixed;
+					left: 0;
+					right: 0;
+					margin: 0;
+					top: 2.4rem;
+					z-index: 10;
+				}
+		</style>
+		<div class="f-block snap-top large-gap filters-block children-pinned">
+			<div class="f-block-body pinned">
+				<div class="row filters">
+					<h4 class="filters-label">股票</h4>
+					<ul class="f-list">
+						<li class="filter">混合</li>
+						<li class="filter">指数</li>
+						<li class="filter">QDII</li>
+						<li class="filter">债券</li>
+						<li class="filter">保本</li>
+						<li class="filter">理财</li>
+						<li class="filter">货币</li>
+					</ul>
 				</div>
-				<div class="f-block-body">
-					<div class="tabular search-panel-owned-po-list">
-						<div class="header">
-							<h3>
-								<span class="cell first-cell product-caption">基金名称</span>
-								<span class="cell currency amount">净值</span>
-								<span class="cell last-year-variance">近一年</span>
-							</h3>
-						</div>
-						<ul class="f-list">
-							<li class="row">
-								<span class="cell first-cell caption-cell product-caption">
-									<h3>南方通利债券A</h3>
-									<h4>000563</h4>
-								</span>
-								<span class="cell currency amount">1.0440</span>
-								<span class="cell last-year-variance digits percentage-value positive-value">+10.95</span>
-								<span class="cell last-cell call-to-action">
-									<a role="button" class="rounded-corners" 
-										href="#">购买</a>
-								</span>
-							</li>
-							<li class="row">
-								<span class="cell first-cell caption-cell product-caption">
-									<h3>华安易富黄金</h3>
-									<h4>000123</h4>
-								</span>
-								<span class="cell currency amount">1.0768</span>
-								<span class="cell last-year-variance digits percentage-value positive-value">+13.16</span>
-								<span class="cell last-cell call-to-action">
-									<a role="button" class="rounded-corners" 
-										href="#">购买</a>
-								</span>
-							</li>
-						</ul>
-					</div>
+				<div class="row filters">
+					<h4 class="filters-label">全部</h4>
+					<ul class="f-list">
+						<li class="filter">低风险</li>
+						<li class="filter">中风险</li>
+						<li class="filter">高风险</li>
+					</ul>
 				</div>
 			</div>
 		</div>
 
-
-		<div class="po-products-recommanded helvetica-digits">
-			<div class="f-block product-abstract">
+		<div class="fund-products-recommanded helvetica-digits">
+			<!-- <div class="f-block product-abstract">
 				<div class="row">
 					<div class="left">
 						<h3>热门基金</h3>
 					</div>
-					<!-- <div class="right"><a href="my-po-trading-history.html" class="call-to-action">历史投资</a></div> -->
+					<div class="right"><a href="my-po-trading-history.html" class="call-to-action">历史投资</a></div>
 				</div>
-			</div>
+			</div> -->
 
 			<div class="f-block large-gap">
 				<div class="f-block-body">
@@ -115,10 +105,10 @@
 										<span class="content"><span class="value digits">0.8870</span></span>
 									</li
 								></ul>
-								<!-- <div class="call-to-action">
+								<div class="call-to-action">
 									<a href="#" 
 										role="button" button-action="call-to-action" class="rounded-corners">购买</a>
-								</div> -->
+								</div>
 							</div>
 						</div>
 					</div>
@@ -144,10 +134,10 @@
 										<span class="content"><span class="value digits">0.8870</span></span>
 									</li
 								></ul>
-								<!-- <div class="call-to-action">
+								<div class="call-to-action">
 									<a href="#" 
 										role="button" button-action="call-to-action" class="rounded-corners">购买</a>
-								</div> -->
+								</div>
 							</div>
 						</div>
 					</div>
@@ -173,10 +163,10 @@
 										<span class="content"><span class="value digits">8.350</span></span>
 									</li
 								></ul>
-								<!-- <div class="call-to-action">
+								<div class="call-to-action">
 									<a href="#" 
 										role="button" button-action="call-to-action" class="rounded-corners">购买</a>
-								</div> -->
+								</div>
 							</div>
 						</div>
 					</div>
@@ -202,10 +192,39 @@
 										<span class="content"><span class="value digits">1.3457</span></span>
 									</li
 								></ul>
-								<!-- <div class="call-to-action">
+								<div class="call-to-action">
 									<a href="#" 
 										role="button" button-action="call-to-action" class="rounded-corners">购买</a>
-								</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="f-block large-gap">
+				<div class="f-block-body">
+					<div class="row">
+						<div class="entity-info entity-buyable entity-time-limited entity-type-fund">
+							<h4>光大保德瑞鑫混合A</h4>
+							<h5>(001132)混合型</h5>
+							<div class="entity-body">
+								<ul class="f-list labels-at-bottom"
+									><li class="cell hero">
+										<span class="label">近一年涨幅</span>
+										<span class="content"
+											><em><span class="value digits percentage-value positive-value">+29.51</span></em
+										></span>
+									</li
+									><li class="cell">
+										<span class="label">最新净值</span>
+										<span class="content"><span class="value digits">1.3457</span></span>
+									</li
+								></ul>
+								<div class="call-to-action">
+									<a href="#" 
+										role="button" button-action="call-to-action" class="rounded-corners">购买</a>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -223,7 +242,7 @@
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
-	<script src="../scripts/pages/po-search.min.js"></script>
+	<script src="../scripts/pages/fund-search.min.js"></script>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 

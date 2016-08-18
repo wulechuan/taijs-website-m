@@ -753,6 +753,12 @@ label.deco-input {
 }
 
 
+.filters {}
+	.filters .filters-label {
+		color: #4285f4;
+	}
+
+
 .banner {
 	background-color: white;
 }
@@ -1192,15 +1198,25 @@ dl.tickets-list {
 	}
 
 
-.search-content-panel {
+.search-promoted-keywords-panel {
 	}
-	.search-content-panel .search-history-record > li,
-	.search-content-panel .row {
+	.search-promoted-keywords-panel .search-history-records > li,
+	.search-promoted-keywords-panel .row {
 		border-color: #e0e0e0;
 	}
-	.search-content-panel .row.section-title h3 {
+	.search-promoted-keywords-panel .row.section-title h3 {
 		color: #666;
 	}
-	.search-content-panel .row.section-title h3 .iconfont {
+	.search-promoted-keywords-panel .row.section-title h3 .iconfont {
 		color: #999;
+	}
+
+.search-result-records-panel {
+	}
+	.search-result .iconfont,
+	.search-result em {
+		color: #4285f4;
+	}
+	.search-result {
+		border-color: #f1f1f1;
 	}

@@ -1508,7 +1508,7 @@ window.webLogicControls = {};
 		this.PopupLayersManager = function PopupLayersManager() {
 			var thisController = this;
 
-			// var status = {};
+			// var privateStatus = {};
 
 			var privateOptions = {
 				shouldNotWaitForAnimationEndForEver: true,
@@ -2558,12 +2558,17 @@ window.webLogicControls = {};
 				valueIsValid: false,
 				validator: null,
 				formatter: null,
-				onFieldChangeEventHandler: undefined,
+				onChange: undefined,
 				onValueChange: [],
 				registeredEventHandlers: []
 			};
 
-			var publicStatus = {};
+			var publicStatus = {
+				value: '',
+				isEmpty: true,
+				isValid: false,
+				field: fieldElement
+			};
 
 			var elements = {
 				clearButtons: [],
@@ -2619,29 +2624,13 @@ window.webLogicControls = {};
 			}
 
 			function config(options) {
+				options = options || {};
 				var isFirstTime = !!status.isInitializing;
 
 				this.elements.field = fieldElement; // just for safety
 
 
 				if (typeof options.onValueChange === 'function') status.onValueChange.push(options.onValueChange);
-
-
-				if (isFirstTime) {
-					status.onFieldChangeEventHandler = (function (event) {
-						// C.l('\t Bound Event Handler invoked for ', fieldElement.tagName, fieldElement.type);
-						this.processCurrentValue();
-
-						for (var i = 0; i < status.onValueChange.length; i++) {
-							var callback = status.onValueChange[i];
-							if (typeof callback === 'function') {
-								callback.call(this, event);
-							}
-						}
-					}).bind(this);
-
-					$(fieldElement).on('blur', onBlur.bind(this));
-				}
 
 
 
@@ -2888,21 +2877,29 @@ window.webLogicControls = {};
 				if (!isFirstTime) return;
 
 
+
 				var boundEventHandler;
-				var handlers = status.registeredEventHandlers;
-
-				boundEventHandler = status.onFieldChangeEventHandler.bind(this);
-				handlers.push(boundEventHandler);
 
 
+
+				boundEventHandler = onChange.bind(this);
 				if (status.isText) {
 					$(fieldElement).on('input', boundEventHandler);
 				} else if (status.isCheckbox || status.isRadio || status.isSelect) {
 					$(fieldElement).on('change', boundEventHandler);
 				}
-
-
 				fieldElement.onUpdateAtHiddenState = boundEventHandler;
+
+
+
+
+				boundEventHandler = onFocus.bind(this);
+				$(fieldElement).on('focus', boundEventHandler);
+
+
+
+				boundEventHandler = onBlur.bind(this);
+				$(fieldElement).on('blur', boundEventHandler);
 			}
 
 			function setupClearInputButton(scanRootElement, isFirstTime) {
@@ -2969,13 +2966,29 @@ window.webLogicControls = {};
 				);
 			}
 
+			function onChange() {
+				// C.l('\t Bound Event Handler invoked for ', fieldElement.tagName, fieldElement.type);
+				this.processCurrentValue();
+
+				for (var i = 0; i < status.onValueChange.length; i++) {
+					var callback = status.onValueChange[i];
+					if (typeof callback === 'function') {
+						callback.call(this, this.status, event);
+					}
+				}
+			}
+
+
+			function onFocus() {
+			}
+
 			function onBlur() {
 				updateCssClasses.call(this);
 			}
 
 			function clearValue() {
 				fieldElement.value = '';
-				processCurrentValue.call(this);
+				onChange.call(this);
 			}
 
 			function processCurrentValue() {
@@ -2984,6 +2997,7 @@ window.webLogicControls = {};
 
 				publicStatus.isEmpty = status.valueIsEmpty;
 				publicStatus.isValid = status.valueIsValid;
+				publicStatus.value = fieldElement.value;
 			}
 
 			function format() {
