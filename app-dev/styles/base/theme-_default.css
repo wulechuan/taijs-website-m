@@ -753,6 +753,12 @@ label.deco-input {
 }
 
 
+.filters {}
+	.filters .filters-label {
+		color: #4285f4;
+	}
+
+
 .banner {
 	background-color: white;
 }
