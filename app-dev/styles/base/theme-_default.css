@@ -1200,7 +1200,7 @@ dl.tickets-list {
 
 .search-content-panel {
 	}
-	.search-content-panel .search-history-record > li,
+	.search-content-panel .search-history-records > li,
 	.search-content-panel .row {
 		border-color: #e0e0e0;
 	}

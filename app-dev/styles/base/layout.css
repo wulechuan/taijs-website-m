@@ -3259,17 +3259,31 @@ dl.tickets-list {
 	.search-content-panel .row.section-title .right .simple-look {
 		margin-right: -0.5rem;
 	}
-	.search-content-panel .f-list.search-history-record {
+	.search-content-panel .f-list.search-history-records {
 		margin-right: -0.8rem;
 		}
-		.search-content-panel .f-list.search-history-record > li {
+		.search-content-panel .f-list.search-history-records > li {
 			padding: 0.5rem 0;
 			line-height: 1rem;
 			border-style: solid;
 			border-width: 1px 0;
 			margin: 0 0 -1px 0;
 		}
-		.search-content-panel .f-list.search-history-record > li:first-of-type {
+		.search-content-panel .f-list.search-history-records > li:first-of-type {
+			border-top-color: transparent;
+		}
+
+	.search-content-panel .f-list.search-result-records {
+		margin-right: -0.8rem;
+		}
+		.search-content-panel .f-list.search-result-records > li {
+			padding: 0.5rem 0;
+			line-height: 1rem;
+			border-style: solid;
+			border-width: 1px 0;
+			margin: 0 0 -1px 0;
+		}
+		.search-content-panel .f-list.search-result-records > li:first-of-type {
 			border-top-color: transparent;
 		}
 
