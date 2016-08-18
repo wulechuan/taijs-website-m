@@ -546,22 +546,21 @@
 
 				function _removeRecord(records, hasRestRecords) {
 					applyAnimationsViaAnimationName(records, 'search-result-record-goes-away', {
+						cssClassNamesToAddDuringGroupAnimation: 'leaving',
+						// cssClassNamesToAdd: 'leaving',
 						firstDelay: 0,
 						delayA: 0.04,
 						delayB: 0.16,
 						durationA: 0.24,
 						durationB: 0.29,
-						actionAfterPlayingAnimation: 'none',
-						onEachAnimationEnd: function () {
-							this.style.opacity = 0;
-						},
-						onAllAnimationsEnd: function () {
-							if (!hasRestRecords) {
-								$resultRecordsLayer.hide();
-								$(promotedKeywordsLayer).show();
-							}
-							$(records).hide().css('opacity', '');
-						}
+						actionAfterPlayingAnimation: 'hide',
+						// onAllAnimationsEnd: function () {
+						// 	if (!hasRestRecords) {
+						// 		$resultRecordsLayer.hide();
+						// 		$(promotedKeywordsLayer).show();
+						// 	}
+						// 	// $(records).hide();
+						// }
 					});
 				}
 			}
@@ -650,30 +649,33 @@
 
 				var _O = privateOptions;
 
-				var targetOfMaxDelay;
-				var targetOfMaxDuration;
-				var targetOfMaxDelayPlusDuration;
+				var elementOfMaxDelay;
+				var elementOfMaxDuration;
+				var elementOfMaxDelayPlusDuration;
 				var delay = _O.firstDelay;
 				var duration;
+
+				var cssClassNames = options.cssClassNamesToAddDuringGroupAnimation || null;
+				$(targets).addClass(cssClassNames);
 
 				for (i = 0; i < targets.length; i++) {
 					var target = targets[i];
 
 					if (delay > maxDelay) {
 						maxDelay = delay;
-						targetOfMaxDelay = target;
+						elementOfMaxDelay = target;
 					}
 
 					duration = _randomBetween(_O.durationA, _O.durationB);
 					if (duration > maxDuration) {
 						maxDuration = duration;
-						targetOfMaxDuration = target;
+						elementOfMaxDuration = target;
 					}
 
 					var delayPlusDuration = delay + duration;
 					if (delayPlusDuration > maxDelayPlusDuration) {
 						maxDelayPlusDuration = delayPlusDuration;
-						targetOfMaxDelayPlusDuration = target;
+						elementOfMaxDelayPlusDuration = target;
 					}
 
 					// delays[i] = delay;
@@ -684,12 +686,12 @@
 					options.duration = duration;
 					options.secondsToWaitForAnimationEnd = delayPlusDuration;
 
-					applyAnimationNameTo(targets[i], animationNameString, options);
+					applyAnimationNameTo(target, animationNameString, options);
 
 
 					var offset = _randomBetween(_O.delayA, _O.delayB);
 					if (_O.playOneAfterOne) {
-						delay += offset + duration;
+						delay = offset + delayPlusDuration;
 					} else {
 						delay += offset;
 					}
@@ -702,19 +704,24 @@
 
 				function _onEachAnimationEnd() {
 					var calbacks = privateStatus.onEachAnimationEnd;
+					var element = this;
 					for (var i = 0; i < calbacks.length; i++) {
 						var callBack = calbacks[i];
 						if (typeof callBack === 'function') {
-							callBack.apply(this, arguments);
+							callBack.apply(element, arguments);
 						}
 					}
 
-					if (this === targetOfMaxDelayPlusDuration) {
+					if (element === elementOfMaxDelayPlusDuration) {
 						_onAllAnimationsEnd.apply(null, arguments);
+					} else {
+						$(element).addClass('waiting');
 					}
 				}
 
 				function _onAllAnimationsEnd() {
+					$(targets).removeClass('waiting '+cssClassNames);
+
 					var calbacks = privateStatus.onAllAnimationsEnd;
 					for (var i = 0; i < calbacks.length; i++) {
 						var callBack = calbacks[i];
@@ -726,45 +733,52 @@
 			}
 
 
-			// function applyAnimationViaCssClassNameTo(target, cssClassName, options) {
-			// 	applyAnimationTo(target, doApplyAnimation, doRemoveAnimation, options);
-
-			// 	function doApplyAnimation(target/*, options*/) {
-			// 		$(target).addClass(cssClassName);
-			// 		return true;
-			// 	}
-
-			// 	function doRemoveAnimation() {
-			// 		$(target).removeClass(cssClassName);
-			// 	}
-			// }
-
-
-			function applyAnimationNameTo(target, animationNameString, options) {
+			function applyAnimationViaCssClassNameTo(target, cssClassName, options) {
 				applyAnimationTo(target, doApplyAnimation, doRemoveAnimation, options);
 
-				function doApplyAnimation(target, options) {
+				function doApplyAnimation(target/*, options*/) {
+					$(target).addClass(cssClassName);
+					return true;
+				}
+
+				function doRemoveAnimation() {
+					$(target).removeClass(cssClassName);
+				}
+			}
+
+
+			function applyAnimationNameTo(element, animationNameString, options) {
+				applyAnimationTo(element, doApplyAnimation, doRemoveAnimation, options);
+
+				function doApplyAnimation(element, options) {
 					var duration = ' '+options.duration+'s';
 					var delay    = (options.delay)    ? (' '+options.delay+'s') : '';
 					var suffix   = (options.animationDefinitionSuffix) ? (' '+options.animationDefinitionSuffix) : '';
 
-
 					var animationDefinition = animationNameString + duration + delay + suffix;
-					target.style.animation = animationDefinition;
+					element.style.animation = animationDefinition;
+
+					if (options.cssClassNamesToAdd) {
+						$(element).addClass(options.cssClassNamesToAdd);
+					}
 
 					return true;
 				}
 
 				function doRemoveAnimation() {
 					// C.t('remove ani from', this);
-					this.style.animationName = '';
 					this.style.animation = '';
+
+					if (options.cssClassNamesToAdd) {
+						$(element).addClass(options.cssClassNamesToAdd);
+					}
 				}
 			}
 
 
-			function applyAnimationTo(target, doApplyAnimation, doRemoveAnimation, options) {
+			function applyAnimationTo(element, doApplyAnimation, doRemoveAnimation, options) {
 				var privateOptions = {
+					cssClassNamesToAdd: '',
 					showBeforeAnimating: false,
 					allowedMinDuration: 0.2,
 					duration: 0.3,
@@ -823,15 +837,17 @@
 				}
 
 
-				var succeeded = doApplyAnimation(target, options);
+				var succeeded = doApplyAnimation(element, options);
 
 				if (succeeded) {
 					// C.l('applied!', options);
+					$(element).addClass('animating '+privateOptions.cssClassNamesToAdd);
+
 					if (privateOptions.showBeforeAnimating) {
-						$(target).show();
+						$(element).show();
 					}
 
-					target.addEventListener('animationend', _onAnimationEnd);
+					element.addEventListener('animationend', _onAnimationEnd);
 					if (privateOptions.shouldNotWaitForAnimationEndForEver) {
 						setTimeout(function () {
 							_onAnimationEnd(null, true);
@@ -846,24 +862,26 @@
 					privateStatus.animationNotEndedEitherWay = false;
 
 					if (invokedViaTimer === true) {
-						// C.w('Timer ends waiting of animation for ', target);
+						// C.w('Timer ends waiting of animation for ', element);
 					}
-					target.removeEventListener('animationend', _onAnimationEnd);
+					element.removeEventListener('animationend', _onAnimationEnd);
 
-					if (typeof doRemoveAnimation === 'function') doRemoveAnimation.apply(target, arguments);
+					$(element).removeClass('animating '+privateOptions.cssClassNamesToAdd);
+
+					if (typeof doRemoveAnimation === 'function') doRemoveAnimation.apply(element, arguments);
 
 					for (var i = 0; i < options.onAnimationEnd.length; i++) {
 						var callBack = options.onAnimationEnd[i];
 						if (typeof callBack === 'function') {
-							callBack.apply(target, arguments);
+							callBack.apply(element, arguments);
 						}
 					}
 
 
 					if (privateOptions.actionAfterPlayingAnimation === 'hide') {
-						$(target).hide();
+						$(element).hide();
 					} else if (privateOptions.actionAfterPlayingAnimation === 'remove') {
-						target.parentNode.removeChild(target);
+						element.parentNode.removeChild(element);
 					}
 				}
 			}

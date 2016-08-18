@@ -3300,13 +3300,17 @@ dl.tickets-list {
 		}
 
 		@keyframes search-result-record-shows-up {
-			 0%  { opacity: 0; transform: translate(90%, 0); }
-			100% { opacity: 1; transform: translate(0, 0); }
+			  0% { opacity: 0; transform: translate(90%, 0); }
+			100% { opacity: 1; transform: translate(  0, 0); }
 		}
 
 		@keyframes search-result-record-goes-away {
-			 0%  { opacity: 1; transform: translate(0, 0); }
+			  0% { opacity: 1; transform: translate(   0, 0); }
 			100% { opacity: 0; transform: translate(-90%, 0); }
+		}
+
+		.search-result.leaving.waiting {
+			opacity: 0;
 		}
 
 		.f-list > li.search-result,
@@ -3347,7 +3351,15 @@ dl.tickets-list {
 			bottom: 0;
 			height: auto;
 			right: 0;
-		}
+			visibility: visible;
+			opacity: 1;
+			transition-property: transform, visibility, opacity, color;
+			transition-duration: 0.5s;
+			}
+			.search-result.animating button.call-to-action {
+				visibility: hidden;
+				opacity: 0;
+			}
 
 		.search-result h3 {
 			font-size: 0.85rem;
