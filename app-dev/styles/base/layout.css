@@ -3237,17 +3237,6 @@ dl.tickets-list {
 
 
 .search-promoted-keywords-panel {
-	animation-delay: 0.1s;
-	animation-duration: 0.24s;
-	animation-name: covering-layer-content-shows-up;
-	animation-fill-mode: backwards;
-	}
-
-	@keyframes covering-layer-content-shows-up {
-		 0% { opacity: 0; transform: scale(0.08, 0.16); }
-		45% { opacity: 1; transform: scale(1.19, 0.19); }
-		90% {             transform: scale(1.02, 1.03); }
-		to  {             transform: scale(1   , 1   ); }
 	}
 
 	.search-promoted-keywords-panel  .row {
@@ -3285,13 +3274,6 @@ dl.tickets-list {
 
 
 .search-result-records-panel {
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	min-height: 100%;
-	margin: 0;
-	padding-top: 2.4rem;
 	}
 
 	.search-result-records-panel .f-list.search-result-records {
@@ -3532,7 +3514,20 @@ dl.tickets-list {
 		bottom: 0;
 		animation-duration: 0.2s;
 		animation-name: fade-in;
-	}
+		}
+		.page-body.covering-layer > .content {
+			animation-delay: 0.1s;
+			animation-duration: 0.24s;
+			animation-name: covering-layer-content-shows-up;
+			animation-fill-mode: backwards;
+		}
+
+		@keyframes covering-layer-content-shows-up {
+			 0% { opacity: 0; transform: scale(0.08, 0.16); }
+			45% { opacity: 1; transform: scale(1.19, 0.19); }
+			90% {             transform: scale(1.02, 1.03); }
+			to  {             transform: scale(1   , 1   ); }
+		}
 
 	.page.page-header-in-compact-mode .page-header,
 	.page-header {

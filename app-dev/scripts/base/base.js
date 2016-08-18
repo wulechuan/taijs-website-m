@@ -457,8 +457,9 @@
 						recordsSet2HaveBeenShown: false
 					};
 					var fakeRecordsSet = Array.prototype.slice.apply($('li.search-result'));
-					var fakeRecordsSet1 = fakeRecordsSet.slice(0, 3);
-					var fakeRecordsSet2 = fakeRecordsSet.slice(3);
+					var firstSetRecordsCount = 5;
+					var fakeRecordsSet1 = fakeRecordsSet.slice(0, firstSetRecordsCount);
+					var fakeRecordsSet2 = fakeRecordsSet.slice(firstSetRecordsCount);
 					$(fakeRecordsSet1).hide();
 					$(fakeRecordsSet2).hide();
 				// temp snippet ends -------------------
@@ -534,6 +535,7 @@
 				function _addRecords(records) {
 					applyAnimationsViaAnimationName(records, 'search-result-record-shows-up', {
 						showBeforeAnimating: true,
+						firstDelay: 0.2,
 						delayA: 0.09,
 						delayB: 0.219,
 						durationA: 0.28,
@@ -544,6 +546,7 @@
 
 				function _removeRecord(records, hasRestRecords) {
 					applyAnimationsViaAnimationName(records, 'search-result-record-goes-away', {
+						firstDelay: 0,
 						delayA: 0.04,
 						delayB: 0.16,
 						durationA: 0.24,
