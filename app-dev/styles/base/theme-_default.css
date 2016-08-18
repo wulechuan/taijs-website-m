@@ -1210,3 +1210,8 @@ dl.tickets-list {
 	.search-content-panel .row.section-title h3 .iconfont {
 		color: #999;
 	}
+
+	.search-result .iconfont,
+	.search-result em {
+		color: #4285f4;
+	}
