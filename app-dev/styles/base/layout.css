@@ -3236,178 +3236,175 @@ dl.tickets-list {
 		}
 
 
-.search-content-panel {
+.search-promoted-keywords-panel {
+	animation-delay: 0.1s;
+	animation-duration: 0.24s;
+	animation-name: covering-layer-content-shows-up;
+	animation-fill-mode: backwards;
 	}
-	.search-content-panel .row.section-title {
+
+	@keyframes covering-layer-content-shows-up {
+		 0% { opacity: 0; transform: scale(0.08, 0.16); }
+		45% { opacity: 1; transform: scale(1.19, 0.19); }
+		90% {             transform: scale(1.02, 1.03); }
+		to  {             transform: scale(1   , 1   ); }
+	}
+
+	.search-promoted-keywords-panel  .row {
+		margin-top: 0.8rem;
+	}
+
+	.search-promoted-keywords-panel .row.section-title {
 		padding-bottom: 0.3rem;
 		margin-bottom: 0;
 	}
-	.search-content-panel .row.section-title::before {
+	.search-promoted-keywords-panel .row.section-title::before {
 		content: '';
 		top: auto;
 		bottom: 0px;
 	}
-	.search-content-panel .row.section-title h3 .iconfont {
+	.search-promoted-keywords-panel .row.section-title h3 .iconfont {
 		margin-left: 0;
 	}
-	.search-content-panel .row.section-title .right .simple-look {
+	.search-promoted-keywords-panel .row.section-title .right .simple-look {
 		margin-right: -0.5rem;
 	}
-	.search-content-panel .f-list.search-history-records {
+	.search-promoted-keywords-panel .f-list.search-history-records {
 		margin-right: -0.8rem;
 		}
-		.search-content-panel .f-list.search-history-records > li {
+		.search-promoted-keywords-panel .f-list.search-history-records > li {
 			padding: 0.5rem 0;
 			line-height: 1rem;
 			border-style: solid;
 			border-width: 1px 0;
 			margin: 0 0 -1px 0;
 		}
-		.search-content-panel .f-list.search-history-records > li:first-of-type {
+		.search-promoted-keywords-panel .f-list.search-history-records > li:first-of-type {
 			border-top-color: transparent;
 		}
 
-	.search-content-panel.search-promotion-content {
-		animation-delay: 0.1s;
-		animation-duration: 0.24s;
-		animation-name: covering-layer-content-shows-up;
-		animation-fill-mode: backwards;
-		}
-		.search-content-panel.search-promotion-content  .row {
-			margin-top: 0.8rem;
-		}
 
-		@keyframes covering-layer-content-shows-up {
-			 0% { opacity: 0; transform: scale(0.08, 0.16); }
-			45% { opacity: 1; transform: scale(1.19, 0.19); }
-			90% {             transform: scale(1.02, 1.03); }
-			to  {             transform: scale(1   , 1   ); }
-		}
+.search-result-records-panel {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	min-height: 100%;
+	margin: 0;
+	padding-top: 2.4rem;
+	}
 
-
-	.search-content-panel .f-list.search-result-records {
+	.search-result-records-panel .f-list.search-result-records {
 		margin-right: -0.8rem;
-		}
-		.search-content-panel .f-list.search-result-records > li {
-			padding: 0.5rem 0;
-			line-height: 1rem;
-			border-style: solid;
-			border-width: 1px 0;
-			margin: 0 0 -1px 0;
-		}
-		.search-content-panel .f-list.search-result-records > li:first-of-type {
-			border-top-color: transparent;
-		}
-
-
-	.search-content-panel.search-results-panel {
-		position: absolute;
-		left: 0;
-		right: 0;
-		top: 0;
-		min-height: 100%;
-		margin: 0;
-		padding-top: 2.4rem;
-		}
-
-
-
-.search-result {
-	position: relative;
-	animation-delay: 0.2s;
-	animation-duration: 0.3s;
-	/* animation-name: search-result-record-shows-up; */
-	/* animation-fill-mode: backwards; */
 	}
-
-	@keyframes search-result-record-shows-up {
-		 0%  { opacity: 0; transform: translate(90%, 0); }
-		100% { opacity: 1; transform: translate(0, 0); }
-	}
-
-	@keyframes search-result-record-goes-away {
-		 0%  { opacity: 1; transform: translate(0, 0); }
-		100% { opacity: 0; transform: translate(-90%, 0); }
-	}
-
-	.f-list > li.search-result,
-	.search-result {
-	padding: 0.65rem 0.5rem;
-	margin: 1px -0.5rem 0;
-	position: relative;
-	}
-
-	.search-result::before {
-		content: '';
-		position: absolute;
-		display: block;
-		width: auto;
-		height: 0;
-		left: 0.5rem;
-		right: 0.5rem;
-		top: 0;
-		bottom: auto;
-		border-width: 1px 0 0 0;
+	.search-result-records-panel .f-list.search-result-records > li {
+		padding: 0.5rem 0;
+		line-height: 1rem;
 		border-style: solid;
-		border-color: inherit;
+		border-width: 1px 0;
+		margin: 0 0 -1px 0;
+	}
+	.search-result-records-panel .f-list.search-result-records > li:first-of-type {
+		border-top-color: transparent;
 	}
 
-	.f-list > li.search-result:first-of-type,
-	.search-result:first-of-type {
-		margin-top: 0;
-	}
-	.search-result:first-of-type::before {
-		content: none;
-	}
 
-	.search-result button.call-to-action {
-		display: block;
-		position: absolute;
-		margin: 0;
-		top: 0;
-		bottom: 0;
-		height: auto;
-		right: 0;
-	}
+	.search-result {
+		position: relative;
+		animation-delay: 0.2s;
+		animation-duration: 0.3s;
+		/* animation-name: search-result-record-shows-up; */
+		/* animation-fill-mode: backwards; */
+		}
 
-	.search-result h3 {
-		font-size: 0.85rem;
-		font-weight: 500;
-	}
+		@keyframes search-result-record-shows-up {
+			 0%  { opacity: 0; transform: translate(90%, 0); }
+			100% { opacity: 1; transform: translate(0, 0); }
+		}
 
-	.search-result p {
-		font-size: 0.65rem;
-	}
+		@keyframes search-result-record-goes-away {
+			 0%  { opacity: 1; transform: translate(0, 0); }
+			100% { opacity: 0; transform: translate(-90%, 0); }
+		}
 
-	.search-result .icon.icons-in-elements .icon-face-1,
-	.search-result .icon.icons-in-elements .icon-face-2 {
-		transition-delay: 0s;
-		transition-property: transform, opacity, color;
-	}
-	.search-result .icon.icons-in-elements:hover .icon-face-1,
-	.search-result .icon.icons-in-elements       .icon-face-1 {
-		visibility: visible;
-		opacity: 1;
-		transform: rotateZ(  0deg);
-	}
-	.search-result .icon.icons-in-elements:hover .icon-face-2,
-	.search-result .icon.icons-in-elements       .icon-face-2 {
-		visibility: visible;
-		opacity: 0;
-		transform: rotateZ(-72deg);
-	}
-	.search-result.is-in-my-favorites .icon.icons-in-elements:hover .icon-face-1,
-	.search-result.is-in-my-favorites .icon.icons-in-elements       .icon-face-1 {
-		visibility: visible;
-		opacity: 0;
-		transform: rotateZ( 72deg);
-	}
-	.search-result.is-in-my-favorites .icon.icons-in-elements:hover .icon-face-2,
-	.search-result.is-in-my-favorites .icon.icons-in-elements       .icon-face-2 {
-		visibility: visible;
-		opacity: 1;
-		transform: rotateZ(  0deg);
-	}
+		.f-list > li.search-result,
+		.search-result {
+		padding: 0.65rem 0.5rem;
+		margin: 1px -0.5rem 0;
+		position: relative;
+		}
+
+		.search-result::before {
+			content: '';
+			position: absolute;
+			display: block;
+			width: auto;
+			height: 0;
+			left: 0.5rem;
+			right: 0.5rem;
+			top: 0;
+			bottom: auto;
+			border-width: 1px 0 0 0;
+			border-style: solid;
+			border-color: inherit;
+		}
+
+		.f-list > li.search-result:first-of-type,
+		.search-result:first-of-type {
+			margin-top: 0;
+		}
+		.search-result:first-of-type::before {
+			content: none;
+		}
+
+		.search-result button.call-to-action {
+			display: block;
+			position: absolute;
+			margin: 0;
+			top: 0;
+			bottom: 0;
+			height: auto;
+			right: 0;
+		}
+
+		.search-result h3 {
+			font-size: 0.85rem;
+			font-weight: 500;
+		}
+
+		.search-result p {
+			font-size: 0.65rem;
+		}
+
+		.search-result .icon.icons-in-elements .icon-face-1,
+		.search-result .icon.icons-in-elements .icon-face-2 {
+			transition-delay: 0s;
+			transition-property: transform, opacity, color;
+		}
+		.search-result .icon.icons-in-elements:hover .icon-face-1,
+		.search-result .icon.icons-in-elements       .icon-face-1 {
+			visibility: visible;
+			opacity: 1;
+			transform: rotateZ(  0deg);
+		}
+		.search-result .icon.icons-in-elements:hover .icon-face-2,
+		.search-result .icon.icons-in-elements       .icon-face-2 {
+			visibility: visible;
+			opacity: 0;
+			transform: rotateZ(-72deg);
+		}
+		.search-result.is-in-my-favorites .icon.icons-in-elements:hover .icon-face-1,
+		.search-result.is-in-my-favorites .icon.icons-in-elements       .icon-face-1 {
+			visibility: visible;
+			opacity: 0;
+			transform: rotateZ( 72deg);
+		}
+		.search-result.is-in-my-favorites .icon.icons-in-elements:hover .icon-face-2,
+		.search-result.is-in-my-favorites .icon.icons-in-elements       .icon-face-2 {
+			visibility: visible;
+			opacity: 1;
+			transform: rotateZ(  0deg);
+		}
 
 
 .page {
@@ -3535,7 +3532,6 @@ dl.tickets-list {
 		bottom: 0;
 		animation-duration: 0.2s;
 		animation-name: fade-in;
-		overflow: hidden; /* for content animations */
 	}
 
 	.page.page-header-in-compact-mode .page-header,

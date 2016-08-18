@@ -446,9 +446,9 @@
 			setupSearchResultsListIfAny($page, isFirstTime);
 
 			function setupSearchResultsListIfAny($page, isFirstTime) {
-				var resultRecordsPanel = $page.find('.search-content-panel.search-results-panel')[0];
-				var $resultRecordsPanel = $(resultRecordsPanel);
-					$resultRecordsPanel.hide();
+				var promotedKeywordsLayer = $page.find('#search-promoted-keywords-layer')[0];
+				var resultRecordsLayer = $page.find('#search-result-records-layer')[0];
+				var $resultRecordsLayer = $(resultRecordsLayer);
 
 
 				// temp snippet starts -------------------
@@ -469,36 +469,48 @@
 					if (searchInput) {
 						new wlc.UI.VirtualField(searchInput);
 						searchInput.virtualField.config({
-							onValueChange: function () {
+							onValueChange: function (status, event) {
 								// temp snippet starts -------------------
 									if (this.status.isEmpty) {
-										if (tempStatus.recordsSet2HaveBeenShown) {
-											_removeRecord(fakeRecordsSet1.concat(fakeRecordsSet2));
-											tempStatus.recordsSet1HaveBeenShown = false;
-											tempStatus.recordsSet2HaveBeenShown = false;
-										} else {
-											_removeRecord(fakeRecordsSet1);
-											tempStatus.recordsSet1HaveBeenShown = false;
+										// if (tempStatus.recordsSet2HaveBeenShown) {
+										// 	_removeRecord(fakeRecordsSet1.concat(fakeRecordsSet2));
+										// 	tempStatus.recordsSet1HaveBeenShown = false;
+										// 	tempStatus.recordsSet2HaveBeenShown = false;
+										// } else {
+										// 	_removeRecord(fakeRecordsSet1);
+										// 	tempStatus.recordsSet1HaveBeenShown = false;
+										// }
+
+										var shouldShowPromotedKeywordsLayer = !(event && (event.type === 'reset'));
+										if (shouldShowPromotedKeywordsLayer) {
+											$(promotedKeywordsLayer).show();
 										}
+
+										$resultRecordsLayer.hide();
+										$(fakeRecordsSet1).hide();
+										$(fakeRecordsSet2).hide();
+										tempStatus.recordsSet1HaveBeenShown = false;
+										tempStatus.recordsSet2HaveBeenShown = false;
 									} else {
 										if (!tempStatus.recordsSet1HaveBeenShown) {
 											$(fakeRecordsSet1).hide();
-											$resultRecordsPanel.show();
+											$resultRecordsLayer.show();
 											_addRecords(fakeRecordsSet1);
 											tempStatus.recordsSet1HaveBeenShown = true;
+											$(promotedKeywordsLayer).hide();
 										}
 									}
 
 									if (this.status.value.length > 1) {
 										if (!tempStatus.recordsSet2HaveBeenShown) {
 											$(fakeRecordsSet2).hide();
-											// $resultRecordsPanel.show();
+											// $resultRecordsLayer.show();
 											_addRecords(fakeRecordsSet2);
 											tempStatus.recordsSet2HaveBeenShown = true;
 										}
 									} else if (this.status.value.length === 1) {
 										if (tempStatus.recordsSet2HaveBeenShown) {
-											_removeRecord(fakeRecordsSet2);
+											_removeRecord(fakeRecordsSet2, true);
 											tempStatus.recordsSet2HaveBeenShown = false;
 										}
 									}
@@ -530,7 +542,7 @@
 				}
 
 
-				function _removeRecord(records) {
+				function _removeRecord(records, hasRestRecords) {
 					applyAnimationsViaAnimationName(records, 'search-result-record-goes-away', {
 						delayA: 0.04,
 						delayB: 0.16,
@@ -541,7 +553,10 @@
 							this.style.opacity = 0;
 						},
 						onAllAnimationsEnd: function () {
-							$resultRecordsPanel.hide();
+							if (!hasRestRecords) {
+								$resultRecordsLayer.hide();
+								$(promotedKeywordsLayer).show();
+							}
 							$(records).hide().css('opacity', '');
 						}
 					});
@@ -697,7 +712,6 @@
 				}
 
 				function _onAllAnimationsEnd() {
-					C.l('*** _onAllAnimationsEnd ***');
 					var calbacks = privateStatus.onAllAnimationsEnd;
 					for (var i = 0; i < calbacks.length; i++) {
 						var callBack = calbacks[i];
