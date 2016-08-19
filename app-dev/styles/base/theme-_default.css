@@ -726,10 +726,14 @@ label.deco-input {
 		background-color: #f60;
 	}
 
-	.progress-stops.layout-vert .progress-stop .label .minor {
+	.progress-stops.layout-vert .progress-stop > .label .minor,
+	.progress-stops.layout-vert           > li > .label .minor {
 		color: #999;
 	}
-
+	.progress-stops.layout-vert .progress-stop > .content,
+	.progress-stops.layout-vert           > li > .content {
+		color: #666;
+	}
 
 .count-down-disc {
 	color: #f60;

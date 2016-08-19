@@ -2350,6 +2350,28 @@ ol.f-list, ul.f-list { /* function list */
 		.progress-stops.layout-vert .progress-stop > .label,
 		.progress-stops.layout-vert           > li > .label {
 			padding: 0.25rem;
+			margin: -0.45rem -0.25rem -0.25rem;
+			}
+
+			.progress-stops.layout-vert .progress-stop > .label p,
+			.progress-stops.layout-vert           > li > .label p {
+				padding: 0.25rem;
+				margin: -0.25rem;
+				margin-bottom: 0;
+				line-height: 1.5;
+			}
+
+			.progress-stops.layout-vert .progress-stop > .label .minor,
+			.progress-stops.layout-vert           > li > .label .minor {
+				line-height: 1;
+				font-size: 0.8em;
+			}
+
+		.progress-stops.layout-vert .progress-stop > .content,
+		.progress-stops.layout-vert           > li > .content {
+			font-size: 0.65rem;
+			line-height: 1.33;
+			padding: 0.25rem;
 			margin: -0.5rem -0.25rem 1.5rem;
 		}
 
@@ -2359,23 +2381,10 @@ ol.f-list, ul.f-list { /* function list */
 			margin-bottom: 0;
 			}
 
-			.progress-stops.layout-vert.last-stop-no-margin .progress-stop:last-of-type > .label,
-			.progress-stops.layout-vert.last-stop-no-margin           > li:last-of-type > .label {
+			.progress-stops.layout-vert.last-stop-no-margin .progress-stop:last-of-type > .content,
+			.progress-stops.layout-vert.last-stop-no-margin           > li:last-of-type > .content {
 				margin-bottom: -0.5rem;
 			}
-
-		.progress-stops.layout-vert .progress-stop > .label p,
-		.progress-stops.layout-vert           > li > .label p {
-			padding: 0.25rem;
-			margin: -0.25rem;
-			margin-bottom: 0;
-			line-height: 1.5;
-		}
-
-		.progress-stops.layout-vert .progress-stop > .label .minor,
-		.progress-stops.layout-vert           > li > .label .minor {
-			font-size: 0.8em;
-		}
 
 		.progress-stops.layout-vert[data-progress-current-stop="8"] .progress-stop:nth-child(8)::before,
 		.progress-stops.layout-vert[data-progress-current-stop="8"]           > li:nth-child(8)::before,
