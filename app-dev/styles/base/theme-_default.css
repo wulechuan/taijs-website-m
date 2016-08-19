@@ -42,7 +42,6 @@ html {
 	}
 
 
-
 .copyright p {
 	color: #999;
 }
@@ -1025,7 +1024,11 @@ dl.tickets-list {
 	.tabular > .header {
 		color: #999;
 	}
-	.tabular > .f-list > li .cell.caption-cell {
+	.tabular > .f-list > li {
+		color: #999;
+		border-color: #dcdcdc;
+	}
+	.f-block-body .tabular > .f-list > li .cell.caption-cell {
 		color: black;
 	}
 	.tabular > .f-list > li .cell.timestamp {

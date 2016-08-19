@@ -707,6 +707,20 @@ article.message {
 				padding-top: 0!important;
 				height: 1.6rem;
 			}
+
+			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+				.entity-body .f-list > a > .cell > .content,
+				.entity-body .f-list     > .cell > .content {
+					padding-top: 0.3rem;
+				}
+				.entity-body .f-list > a > .cell.hero > .content,
+				.entity-body .f-list     > .cell.hero > .content {
+					font-size: 1.3em;
+					height: 1.3rem;
+				}
+			}
+
+
 			.entity-body .f-list > a > .cell > .content .digits,
 			.entity-body .f-list     > .cell > .content .digits {
 				font-weight: 300;
@@ -2190,17 +2204,27 @@ article.message {
 			position: relative;
 			border-style: solid;
 			border-width: 1px 0;
-			margin: 0 0 -1px 0;
+			margin: -1px 0 0 0;
 			padding-left: 0;
 			padding-right: 0;
-			padding-top: 11px;
-			padding-bottom: 11px;
+			padding-top: 0.5rem;
+			padding-bottom: 0.5rem;
 
-			line-height: 21px;
-			min-height: 21px;
+			line-height: 1rem;
+			min-height: 1rem;
 		}
-		.tabular > .header {
+		.tabular > .header,
+		.tabular > .f-list > li:first-child {
+			border-top-color: transparent;
 			margin-top: -1px;
+		}
+		.f-block-body .tabular > .f-list > li {
+			color: inherit;
+			border-color: inherit;
+		}
+		.f-block-body .tabular > .f-list > li:last-child {
+			border-bottom-color: transparent;
+			margin-bottom: -1px;
 		}
 
 
@@ -2213,15 +2237,15 @@ article.message {
 			margin: -0.25rem -0.5rem;
 		}
 
-		.tabular > .header .caption-cell,
-		.tabular > .footer .caption-cell,
+		.tabular > .header      .caption-cell,
+		.tabular > .footer      .caption-cell,
 		.tabular > .f-list > li .caption-cell {
 			text-align: left;
 		}
 
 		.tabular > .f-list > li .last-cell,
-		.tabular > .header .last-cell,
-		.tabular > .footer .last-cell {
+		.tabular > .header      .last-cell,
+		.tabular > .footer      .last-cell {
 			display: block;
 			position: absolute;
 			top: 0;
@@ -2234,7 +2258,7 @@ article.message {
 			height: 1.5em;
 			line-height: 1.5;
 			text-align: right;
-			min-width: 5rem;
+			min-width: 0;
 		}
 
 		.tabular .cell.currency {
@@ -2247,13 +2271,27 @@ article.message {
 			font-size: 0.7rem;
 			/* font-weight: 400; */
 		}
+		.tabular .cell {
+			font-size: 0.6rem;
+		}
 		.tabular .cell.caption-cell {
-			font-size: 0.8rem;
-			font-weight: 500;
-			width: 5rem;
+			width: 3.5rem;
+			font-weight: 300;
 		}
 		.tabular .cell.timestamp {
 			font-size: 0.6rem;
+		}
+
+
+		.f-block-body .tabular .cell {
+			font-size: 0.8rem;
+		}
+		.f-block-body .tabular .header .cell {
+			font-size: 0.7rem;
+		}
+		.f-block-body .tabular .caption-cell {
+			font-size: 0.8rem;
+			font-weight: 500;
 		}
 
 		@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
@@ -2264,6 +2302,7 @@ article.message {
 				display: block;
 			}
 		}
+
 
 		.tabular.search-panel-owned-po-list .f-list > li {
 			padding-top: 1rem;
@@ -2280,18 +2319,25 @@ article.message {
 			}
 
 			.tabular.search-panel-owned-po-list .cell.amount {
+				position: absolute;
+				right: 8rem;
 				min-width: 0;
 				width: 3rem;
 				text-align: left;
 			}
 
 			.tabular.search-panel-owned-po-list .cell.last-year-variance {
+				position: absolute;
+				right: 3rem;
 				width: 4rem;
 				text-align: left;
 			}
 
 			.tabular.search-panel-owned-po-list .cell.call-to-action {
-				height: 100%;
+				top: 0;
+				bottom: 0;
+				height: auto;
+				width: auto;
 				padding: 0;
 				margin: 0;
 				text-align: right;
@@ -2311,6 +2357,44 @@ article.message {
 				min-height: 0;
 				border-radius: 0.15rem;
 				font-size: 0.7rem;
+			}
+
+			@media only screen and (max-width: 376px) { /* iPhone 6 / Galaxy S5 */
+				.tabular.search-panel-owned-po-list .cell.amount {
+					right: 7rem;
+				}
+
+				.tabular.search-panel-owned-po-list .cell.last-year-variance {
+					right: 2.5rem;
+				}
+			}
+
+			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+				.tabular.search-panel-owned-po-list .cell.amount {
+					right: 3.5rem;
+					top: 0.5rem;
+					width: 3.5rem;
+					text-align: right;
+				}
+
+				.tabular.search-panel-owned-po-list .cell.last-year-variance {
+					right: 3.5rem;
+					top: auto;
+					bottom: 0.25rem;
+					width: 3.5rem;
+					text-align: right;
+				}
+
+				.tabular.search-panel-owned-po-list > .header .cell.amount {
+					right: 6rem;
+					top: auto;
+					bottom: auto;
+				}
+
+				.tabular.search-panel-owned-po-list > .header .cell.last-year-variance {
+					top: auto;
+					bottom: auto;
+				}
 			}
 
 
@@ -2392,9 +2476,9 @@ article.message {
 				font-size: 0.7rem;
 			}
 
-		@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
-			.tabular.funds-chargeback-list .f-list > li {
-				min-height: 3rem;
+			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+				.tabular.funds-chargeback-list .f-list > li {
+					min-height: 3rem;
 				}
 
 				.tabular.funds-chargeback-list .first-cell {
@@ -2408,7 +2492,7 @@ article.message {
 				.tabular.funds-chargeback-list .cell.call-to-action {
 					top: 2.5rem;
 				}
-		}
+			}
 
 
 .f-block { /* function-block */
@@ -2440,6 +2524,9 @@ article.message {
 		margin-bottom: 0.25rem;
 		border-style: solid;
 		border-width: 1px 0;
+	}
+	.f-block-body.has-attachment {
+		margin-bottom: 0;
 	}
 
 	.f-block.banner {
@@ -3832,7 +3919,7 @@ dl.tickets-list {
 		letter-spacing: 0.1em;
 	}
 
-	@media only screen and (max-width: 360px) { /* Galaxy S5 */
+	@media only screen and (max-width: 376px) { /* iPhone 6 / Galaxy S5 */
 		.slot.slot-bank-card .bank-card-number {
 			font-size: 1rem;
 			letter-spacing: 0.04em;

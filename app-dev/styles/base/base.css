@@ -1370,6 +1370,7 @@ label.deco-input {
 		.sensitive-content .sensitive-value {
 			display: block!important;
 			visibility: hidden!important;
+			transition-property: none;
 		}
 		.sensitive-content .sensitive-value-replacement {
 			position: absolute;
@@ -1403,6 +1404,9 @@ label.deco-input {
 	.sensitive-content.sensitive-content-shown .sensitive-content-status-icon::before {
 		font-family: 'iconfont'!important;
 		content: '\e60e';
+	}
+	.page.has-header-bg .bg-meets-page-header-container .sensitive-value-replacement {
+		background-color: transparent;
 	}
 
 
@@ -2348,6 +2352,17 @@ ol.f-list, ul.f-list { /* function list */
 			padding: 0.25rem;
 			margin: -0.5rem -0.25rem 1.5rem;
 		}
+
+		.progress-stops.layout-vert.last-stop-no-margin .progress-stop:last-of-type,
+		.progress-stops.layout-vert.last-stop-no-margin           > li:last-of-type {
+			min-height: 0;
+			margin-bottom: 0;
+			}
+
+			.progress-stops.layout-vert.last-stop-no-margin .progress-stop:last-of-type > .label,
+			.progress-stops.layout-vert.last-stop-no-margin           > li:last-of-type > .label {
+				margin-bottom: -0.5rem;
+			}
 
 		.progress-stops.layout-vert .progress-stop > .label p,
 		.progress-stops.layout-vert           > li > .label p {
