@@ -85,6 +85,8 @@ a, a:visited {
 .color-positive {
 	color: #8ac45f;
 	}
+	/* .progress-stop.icon-failed::before, */
+	.progress-stop.icon-failed .label,
 	.color-negative,
 	.input-tip.error,
 	.color-error {

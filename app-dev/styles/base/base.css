@@ -2422,6 +2422,24 @@ ol.f-list, ul.f-list { /* function list */
 			border-width: 1px!important;
 		}
 
+		.progress-stops.layout-vert .progress-stop.icon-failed.last-stop::before,
+		.progress-stops.layout-vert           > li.icon-failed.last-stop::before,
+		.progress-stops.layout-vert .progress-stop.icon-failed:last-child::before,
+		.progress-stops.layout-vert           > li.icon-failed:last-child::before {
+			content: '\e62b'!important;
+			font-size: 0.9rem!important;
+			line-height: 0.7rem!important;
+			text-indent: -0.1rem!important;
+			border-width: 1px!important;
+		}
+
+		.progress-stops.layout-vert.last-stop-is-not-terminal .progress-stop.last-stop::before,
+		.progress-stops.layout-vert.last-stop-is-not-terminal           > li.last-stop::before,
+		.progress-stops.layout-vert.last-stop-is-not-terminal .progress-stop:last-child::before,
+		.progress-stops.layout-vert.last-stop-is-not-terminal           > li:last-child::before {
+			content: ''!important;
+		}
+
 
 .tiles {}
 
