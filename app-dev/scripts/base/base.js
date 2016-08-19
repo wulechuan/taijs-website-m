@@ -553,14 +553,14 @@
 						delayB: 0.16,
 						durationA: 0.24,
 						durationB: 0.29,
-						actionAfterPlayingAnimation: 'hide',
-						// onAllAnimationsEnd: function () {
-						// 	if (!hasRestRecords) {
-						// 		$resultRecordsLayer.hide();
-						// 		$(promotedKeywordsLayer).show();
-						// 	}
-						// 	// $(records).hide();
-						// }
+						actionAfterPlayingAnimation: 'none',
+						onAllAnimationsEnd: function () {
+							// if (!hasRestRecords) {
+							// 	$resultRecordsLayer.hide();
+							// 	$(promotedKeywordsLayer).show();
+							// }
+							$(records).hide();
+						}
 					});
 				}
 			}
@@ -685,6 +685,7 @@
 					options.delay = delay;
 					options.duration = duration;
 					options.secondsToWaitForAnimationEnd = delayPlusDuration;
+
 
 					applyAnimationNameTo(target, animationNameString, options);
 

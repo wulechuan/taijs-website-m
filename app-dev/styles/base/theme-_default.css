@@ -1198,6 +1198,25 @@ dl.tickets-list {
 	}
 
 
+.page-body-stamp {
+	margin-top: 2rem;
+	}
+	.page-body-stamp article {
+		color: #999;
+	}
+	.page-body-stamp article h4 {
+		color: #666;
+	}
+	.page-body-stamp.floating {
+		position: relative;
+		margin-bottom: -6rem;
+	}
+	.empty-content-hint:first-child + .page-body-stamp.floating {
+		position: absolute;
+		margin-bottom: 0;
+	}
+
+
 .search-promoted-keywords-panel {
 	}
 	.search-promoted-keywords-panel .search-history-records > li,
@@ -1210,6 +1229,7 @@ dl.tickets-list {
 	.search-promoted-keywords-panel .row.section-title h3 .iconfont {
 		color: #999;
 	}
+
 
 .search-result-records-panel {
 	}
