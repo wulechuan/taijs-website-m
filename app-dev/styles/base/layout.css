@@ -336,8 +336,8 @@ article.message {
 		}
 
 
-	.safari .fixed-count-chars-input-block.has-fake-caret .deco-grid.focus::after,
-	.fixed-count-chars-input-block.safari.has-fake-caret  .deco-grid.focus::after {
+	.safari .fixed-count-chars-input-block.has-fake-caret        .deco-grid.focus::after,
+	        .fixed-count-chars-input-block.has-fake-caret.safari .deco-grid.focus::after {
 		content: none;
 		}
 
@@ -2769,6 +2769,12 @@ article.message {
 			width: 1.6rem;
 			right: 0;
 			padding-right: 0.6rem;
+		}
+
+		.f-block-body a .row.no-call-to-action-sign::after,
+		.f-block-body   .row.no-call-to-action-sign.select-field::after,
+		.f-block-body   .row.no-call-to-action-sign.call-to-action::after {
+			content: none;
 		}
 
 	.f-block-body .row.input-field .input-tip {
