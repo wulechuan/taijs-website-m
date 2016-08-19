@@ -967,6 +967,8 @@ dl.tickets-list {
 	.marker.marker-jia-xi { color: #3274e5; }
 	.marker.marker-di-yong { color: #ee3871; }
 	.marker.marker-te-quan-ben-jin { color: #8161e2; }
+	.marker.marker-buy-in { color: #f60; }
+	.marker.marker-sale-out { color: #1d6eff; }
 
 
 .keyword {

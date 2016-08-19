@@ -2268,49 +2268,146 @@ article.message {
 		.tabular.search-panel-owned-po-list .f-list > li {
 			padding-top: 1rem;
 			font-size: 0.8rem;
-		}
+			}
 
-		.tabular.search-panel-owned-po-list .first-cell {
-			width: 8rem;
-		}
+			.tabular.search-panel-owned-po-list .first-cell {
+				width: 8rem;
+			}
 
-		.tabular.search-panel-owned-po-list .caption-cell h4 {
-			font-size: 0.6rem;
-			line-height: 1.2;
-		}
+			.tabular.search-panel-owned-po-list .caption-cell h4 {
+				font-size: 0.6rem;
+				line-height: 1.2;
+			}
 
-		.tabular.search-panel-owned-po-list .cell.amount {
-			min-width: 0;
-			width: 3rem;
-			text-align: left;
-		}
+			.tabular.search-panel-owned-po-list .cell.amount {
+				min-width: 0;
+				width: 3rem;
+				text-align: left;
+			}
 
-		.tabular.search-panel-owned-po-list .cell.last-year-variance {
-			width: 4rem;
-			text-align: left;
-		}
+			.tabular.search-panel-owned-po-list .cell.last-year-variance {
+				width: 4rem;
+				text-align: left;
+			}
 
-		.tabular.search-panel-owned-po-list .cell.call-to-action {
-			height: 100%;
-			padding: 0;
-			margin: 0;
-			text-align: right;
-		}
+			.tabular.search-panel-owned-po-list .cell.call-to-action {
+				height: 100%;
+				padding: 0;
+				margin: 0;
+				text-align: right;
+			}
 
-		.tabular.search-panel-owned-po-list .cell.call-to-action button,
-		.tabular.search-panel-owned-po-list .cell.call-to-action a[role="button"] {
-			position: absolute;
-			margin: auto 0;
-			height: 1rem;
-			right: 0;
-			top: 0;
-			bottom: 0.3rem;
-			line-height: 1rem;
-			padding: 0.1rem 0.6rem;
-			width: 1.5rem;
-			min-height: 0;
-			border-radius: 0.15rem;
-			font-size: 0.7rem;
+			.tabular.search-panel-owned-po-list .cell.call-to-action button,
+			.tabular.search-panel-owned-po-list .cell.call-to-action a[role="button"] {
+				position: absolute;
+				margin: auto 0;
+				height: 1rem;
+				right: 0;
+				top: 0;
+				bottom: 0.3rem;
+				line-height: 1rem;
+				padding: 0.1rem 0.6rem;
+				width: 1.5rem;
+				min-height: 0;
+				border-radius: 0.15rem;
+				font-size: 0.7rem;
+			}
+
+
+		.tabular.funds-chargeback-list .f-list > li {
+			padding-top: 1rem;
+			padding-bottom: 0.6rem;
+			}
+
+			.tabular.funds-chargeback-list .first-cell {
+				box-sizing: border-box;
+				width: calc(100% - 8.5rem);
+			}
+
+			.tabular.funds-chargeback-list > .f-list > li > .cell.caption-cell {
+				padding-left: 2.5rem;
+				}
+
+				.tabular.funds-chargeback-list .caption-cell .marker {
+					position: absolute;
+					text-align: center;
+					width: 1.6rem;
+					border-radius: 0;
+					padding-left: 0; 
+					padding-right: 0; 
+					margin: 0;
+					left: 0rem;
+					top: 1rem;
+				}
+
+				.tabular.funds-chargeback-list .caption-cell h3 {
+					font-size: 0.8rem;
+					line-height: 1.2;
+					width: 100%;
+					/* white-space: nowrap; */
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+
+				.tabular.funds-chargeback-list .caption-cell h4 {
+					font-size: 0.6rem;
+					line-height: 1.2;
+				}
+
+			.tabular.funds-chargeback-list .cell.amount {
+				min-width: 0;
+				width: 6rem;
+				text-align: right;
+				position: absolute;
+				right: 3.5rem;
+				}
+				.tabular.funds-chargeback-list > .f-list .cell.amount {
+					font-size: 0.8rem;
+					line-height: 1;
+				}
+
+			.tabular.funds-chargeback-list .cell.call-to-action {
+				top: 0.8rem;
+				bottom: 0;
+				width: auto;
+				height: auto;
+				padding: 0;
+				margin: 0;
+				text-align: right;
+			}
+
+			.tabular.funds-chargeback-list .cell.call-to-action button,
+			.tabular.funds-chargeback-list .cell.call-to-action a[role="button"] {
+				position: absolute;
+				margin: 0 0;
+				height: 1.2rem;
+				right: 0;
+				top: 0;
+				bottom: 0.3rem;
+				line-height: 1.2rem;
+				padding: 0.1rem 0.6rem;
+				width: 1.6rem;
+				min-height: 0;
+				border-radius: 0.15rem;
+				font-size: 0.7rem;
+			}
+
+		@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+			.tabular.funds-chargeback-list .f-list > li {
+				min-height: 3rem;
+				}
+
+				.tabular.funds-chargeback-list .first-cell {
+					width: calc(100% - 4.5rem);
+				}
+
+				.tabular.funds-chargeback-list .cell.amount {
+					right: 0rem;
+				}
+
+				.tabular.funds-chargeback-list .cell.call-to-action {
+					top: 2.5rem;
+				}
 		}
 
 
