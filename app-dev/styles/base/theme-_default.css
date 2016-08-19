@@ -1034,6 +1034,9 @@ dl.tickets-list {
 	.tabular.search-panel-owned-po-list .caption-cell h4 {
 		color: #999;
 	}
+	.tabular.funds-chargeback-list .caption-cell h4 {
+		color: #999;
+	}
 
 
 .entity-info {
