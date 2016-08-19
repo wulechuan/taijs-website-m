@@ -42,7 +42,6 @@ html {
 	}
 
 
-
 .copyright p {
 	color: #999;
 }
@@ -86,6 +85,8 @@ a, a:visited {
 .color-positive {
 	color: #8ac45f;
 	}
+	/* .progress-stop.icon-failed::before, */
+	.progress-stop.icon-failed .label,
 	.color-negative,
 	.input-tip.error,
 	.color-error {
@@ -727,10 +728,14 @@ label.deco-input {
 		background-color: #f60;
 	}
 
-	.progress-stops.layout-vert .progress-stop .label .minor {
+	.progress-stops.layout-vert .progress-stop > .label .minor,
+	.progress-stops.layout-vert           > li > .label .minor {
 		color: #999;
 	}
-
+	.progress-stops.layout-vert .progress-stop > .content,
+	.progress-stops.layout-vert           > li > .content {
+		color: #666;
+	}
 
 .count-down-disc {
 	color: #f60;
@@ -967,6 +972,8 @@ dl.tickets-list {
 	.marker.marker-jia-xi { color: #3274e5; }
 	.marker.marker-di-yong { color: #ee3871; }
 	.marker.marker-te-quan-ben-jin { color: #8161e2; }
+	.marker.marker-buy-in { color: #f60; }
+	.marker.marker-sale-out { color: #1d6eff; }
 
 
 .keyword {
@@ -1023,13 +1030,20 @@ dl.tickets-list {
 	.tabular > .header {
 		color: #999;
 	}
-	.tabular > .f-list > li .cell.caption-cell {
+	.tabular > .f-list > li {
+		color: #999;
+		border-color: #dcdcdc;
+	}
+	.f-block-body .tabular > .f-list > li .cell.caption-cell {
 		color: black;
 	}
 	.tabular > .f-list > li .cell.timestamp {
 		color: #999;
 	}
 	.tabular.search-panel-owned-po-list .caption-cell h4 {
+		color: #999;
+	}
+	.tabular.funds-chargeback-list .caption-cell h4 {
 		color: #999;
 	}
 
@@ -1198,6 +1212,17 @@ dl.tickets-list {
 	}
 
 
+.page-body-stamp {
+	margin-top: 2rem;
+	}
+	.page-body-stamp article {
+		color: #999;
+	}
+	.page-body-stamp article h4 {
+		color: #666;
+	}
+
+
 .search-promoted-keywords-panel {
 	}
 	.search-promoted-keywords-panel .search-history-records > li,
@@ -1210,6 +1235,7 @@ dl.tickets-list {
 	.search-promoted-keywords-panel .row.section-title h3 .iconfont {
 		color: #999;
 	}
+
 
 .search-result-records-panel {
 	}

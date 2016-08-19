@@ -698,7 +698,8 @@ dd {
 		right: 0;
 		top: 100%;
 	}
-	.empty-content-hint:first-child {
+	.content-is-empty:first-child + .empty-content-hint,
+	                                .empty-content-hint:first-child {
 		display: block;
 	}
 
@@ -1369,6 +1370,7 @@ label.deco-input {
 		.sensitive-content .sensitive-value {
 			display: block!important;
 			visibility: hidden!important;
+			transition-property: none;
 		}
 		.sensitive-content .sensitive-value-replacement {
 			position: absolute;
@@ -1402,6 +1404,9 @@ label.deco-input {
 	.sensitive-content.sensitive-content-shown .sensitive-content-status-icon::before {
 		font-family: 'iconfont'!important;
 		content: '\e60e';
+	}
+	.page.has-header-bg .bg-meets-page-header-container .sensitive-value-replacement {
+		background-color: transparent;
 	}
 
 
@@ -2345,21 +2350,41 @@ ol.f-list, ul.f-list { /* function list */
 		.progress-stops.layout-vert .progress-stop > .label,
 		.progress-stops.layout-vert           > li > .label {
 			padding: 0.25rem;
+			margin: -0.45rem -0.25rem -0.25rem;
+			}
+
+			.progress-stops.layout-vert .progress-stop > .label p,
+			.progress-stops.layout-vert           > li > .label p {
+				padding: 0.25rem;
+				margin: -0.25rem;
+				margin-bottom: 0;
+				line-height: 1.5;
+			}
+
+			.progress-stops.layout-vert .progress-stop > .label .minor,
+			.progress-stops.layout-vert           > li > .label .minor {
+				line-height: 1;
+				font-size: 0.8em;
+			}
+
+		.progress-stops.layout-vert .progress-stop > .content,
+		.progress-stops.layout-vert           > li > .content {
+			font-size: 0.65rem;
+			line-height: 1.33;
+			padding: 0.25rem;
 			margin: -0.5rem -0.25rem 1.5rem;
 		}
 
-		.progress-stops.layout-vert .progress-stop > .label p,
-		.progress-stops.layout-vert           > li > .label p {
-			padding: 0.25rem;
-			margin: -0.25rem;
+		.progress-stops.layout-vert.last-stop-no-margin .progress-stop:last-of-type,
+		.progress-stops.layout-vert.last-stop-no-margin           > li:last-of-type {
+			min-height: 0;
 			margin-bottom: 0;
-			line-height: 1.5;
-		}
+			}
 
-		.progress-stops.layout-vert .progress-stop > .label .minor,
-		.progress-stops.layout-vert           > li > .label .minor {
-			font-size: 0.8em;
-		}
+			.progress-stops.layout-vert.last-stop-no-margin .progress-stop:last-of-type > .content,
+			.progress-stops.layout-vert.last-stop-no-margin           > li:last-of-type > .content {
+				margin-bottom: -0.5rem;
+			}
 
 		.progress-stops.layout-vert[data-progress-current-stop="8"] .progress-stop:nth-child(8)::before,
 		.progress-stops.layout-vert[data-progress-current-stop="8"]           > li:nth-child(8)::before,
@@ -2395,6 +2420,24 @@ ol.f-list, ul.f-list { /* function list */
 			line-height: 0.77rem!important;
 			text-indent: -1px!important;
 			border-width: 1px!important;
+		}
+
+		.progress-stops.layout-vert .progress-stop.icon-failed.last-stop::before,
+		.progress-stops.layout-vert           > li.icon-failed.last-stop::before,
+		.progress-stops.layout-vert .progress-stop.icon-failed:last-child::before,
+		.progress-stops.layout-vert           > li.icon-failed:last-child::before {
+			content: '\e62b'!important;
+			font-size: 0.9rem!important;
+			line-height: 0.7rem!important;
+			text-indent: -0.1rem!important;
+			border-width: 1px!important;
+		}
+
+		.progress-stops.layout-vert.last-stop-is-not-terminal .progress-stop.last-stop::before,
+		.progress-stops.layout-vert.last-stop-is-not-terminal           > li.last-stop::before,
+		.progress-stops.layout-vert.last-stop-is-not-terminal .progress-stop:last-child::before,
+		.progress-stops.layout-vert.last-stop-is-not-terminal           > li:last-child::before {
+			content: ''!important;
 		}
 
 
