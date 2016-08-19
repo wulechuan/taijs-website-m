@@ -142,6 +142,17 @@ article.message {
 	margin-bottom: 2rem;
 	background-image: url(../../images/_common/empty-content-hint-money-bag-in-hand.png);
 	}
+	.page-body-stamp.floating {
+		position: relative;
+		margin-bottom: -6rem;
+	}
+	.content-is-empty:first-child + .empty-content-hint             + .page-body-stamp.floating,
+	                                .empty-content-hint:first-child + .page-body-stamp.floating {
+		position: absolute;
+		margin-bottom: 0;
+	}
+
+
 	.empty-content-hint:after {
 		content: '犇宝宝心里空荡荡的~~';
 	}

@@ -698,7 +698,8 @@ dd {
 		right: 0;
 		top: 100%;
 	}
-	.empty-content-hint:first-child {
+	.content-is-empty:first-child + .empty-content-hint,
+	                                .empty-content-hint:first-child {
 		display: block;
 	}
 

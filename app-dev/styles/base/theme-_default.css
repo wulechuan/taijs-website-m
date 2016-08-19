@@ -1207,14 +1207,6 @@ dl.tickets-list {
 	.page-body-stamp article h4 {
 		color: #666;
 	}
-	.page-body-stamp.floating {
-		position: relative;
-		margin-bottom: -6rem;
-	}
-	.empty-content-hint:first-child + .page-body-stamp.floating {
-		position: absolute;
-		margin-bottom: 0;
-	}
 
 
 .search-promoted-keywords-panel {
