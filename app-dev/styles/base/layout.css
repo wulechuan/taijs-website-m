@@ -611,6 +611,13 @@ article.message {
 	.entity-buyable .entity-body .f-list {
 		width: calc(100% - 4.5rem);
 		}
+		.entity-buyable .call-to-action {
+			display: block;
+			position: absolute;
+			right: 0.8rem;
+			top: 2rem;
+			bottom: 0;
+		}
 		.entity-buyable .call-to-action.tall {
 			height: 4rem;
 		}
