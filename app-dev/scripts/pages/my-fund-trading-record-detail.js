@@ -36,8 +36,10 @@ $(function () {
 			$abstractBlock.find('.right .value.trading-type'  ).text(URIP.action);
 
 			$(this).show();
+			$('#'+this.id+'-attachment').show();
 		} else {
 			$(this).hide();
+			$('#'+this.id+'-attachment').hide();
 		}
 	});
 });

@@ -737,6 +737,7 @@ label.deco-input {
 		color: #666;
 	}
 
+
 .count-down-disc {
 	color: #f60;
 	}
@@ -916,17 +917,6 @@ dl.tickets-list {
 		color: #666;
 	}
 
-	.row.fixed-income-record-detail-asset-abstract .left h4 {
-		color: #666;
-	}
-	.row.fixed-income-record-detail-asset-abstract .left .digits {
-		color: black;
-	}
-
-	.row.fund-record-detail-asset-abstract .left h3 sub {
-		color: #999;
-	}
-
 
 .f-block .tiles > a > .tile,
 .f-block .tiles     > .tile {
@@ -939,6 +929,16 @@ dl.tickets-list {
 	.f-block .tiles.gold-list .tile .label.amount {
 		color: white;
 		background-color: #ffad2c;
+	}
+
+
+.product-caption {
+	}
+	.product-caption {
+		color: black;
+	}
+	.product-caption sub {
+		color: #999;
 	}
 
 
@@ -1093,6 +1093,13 @@ dl.tickets-list {
 	.product-abstract .entity-info.entity-type-fixed-income .entity-body .call-to-action {
 		color: #4285f4;
 		}
+
+	.row.fixed-income-record-detail-asset-abstract .left h4 {
+		color: #666;
+	}
+	.row.fixed-income-record-detail-asset-abstract .left .digits {
+		color: black;
+	}
 
 
 .tab-panel-set {

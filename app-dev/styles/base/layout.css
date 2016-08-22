@@ -2150,6 +2150,19 @@ article.message {
 	}
 
 
+.product-caption {
+	}
+	.product-caption {
+		font-size: 0.9rem;
+		font-weight: 400;
+	}
+	.product-caption sub {
+		display: inline-block;
+		vertical-align: middle;
+		margin-left: 0.5em;
+	}
+
+
 .row.fixed-income-record-detail-asset-abstract {
 	}
 
@@ -2190,15 +2203,13 @@ article.message {
 		margin: 0;
 		line-height: 1.2rem;
 	}
-	.row.fund-record-detail-asset-abstract .left h3 {
+/* 	.row.fund-record-detail-asset-abstract .left h3 {
 		font-size: 0.9rem;
-		font-weight: 400;
 	}
 	.row.fund-record-detail-asset-abstract .left h3 sub {
 		display: inline-block;
 		vertical-align: top;
-		margin-left: 0.5em;
-	}
+	} */
 	.row.fund-record-detail-asset-abstract .left p {
 		font-size: 0.6rem;
 	}
