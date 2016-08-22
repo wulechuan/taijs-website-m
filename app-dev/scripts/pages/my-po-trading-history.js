@@ -2,12 +2,12 @@ $(function () {
 	$('.entity-type-po-history').each(function () {
 		var $record = $(this);
 		var $h4s = $record.find('h4');
-		var productCaption = $($h4s[0]).text();
+		var productName = $($h4s[0]).text();
 		var productId = $($h4s[1]).text().replace(/[\(\)]/g, '');
 		var amount = $($record.find('.content .value')[0]).text();//.replace(/[\+\-\,]/g, '');
 
 		var urlParametersString = '?'+[
-			'productCaption='+productCaption,
+			'productName='+productName,
 			'productId='+productId,
 			'amount='+amount,
 			'action=买入'

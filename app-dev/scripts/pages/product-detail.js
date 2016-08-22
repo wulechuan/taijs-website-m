@@ -3,12 +3,12 @@ $(function () {
 	var wlc = window.webLogicControls;
 	var UI = wlc.UI;
 
-	var URIProductCaption = app.data.URIParameters.productCaption;
-	if (typeof URIProductCaption === 'string') {
-		URIProductCaption = URIProductCaption.replace(/^\s*['"']\s*/, '').replace(/\s*['"']\s*$/, '');
+	var URIProductName = app.data.URIParameters.productName;
+	if (typeof URIProductName === 'string') {
+		URIProductName = URIProductName.replace(/^\s*['"']\s*/, '').replace(/\s*['"']\s*$/, '');
 	}
 	var URIProductStatus = app.data.URIParameters.productStatus;
-	// C.l(URIProductCaption, URIProductStatus);
+	// C.l(URIProductName, URIProductStatus);
 
 	var buttonIds = [
 		'#product-detail-footer-button-count-down',
@@ -44,15 +44,15 @@ $(function () {
 
 
 
-	var $productCaptionElement = $('.page-header .header-bar h1');
-	if (URIProductCaption) {
-		$productCaptionElement.html(URIProductCaption);
+	var $productNameElement = $('.page-header .header-bar h1');
+	if (URIProductName) {
+		$productNameElement.html(URIProductName);
 		$('a').each(function () {
 			var href = this.href;
 			if (href.match('fixed-income-buying-confirm.html')) {
-				this.href += '?productCaption='+URIProductCaption;
+				this.href += '?productName='+URIProductName;
 			}
 		});
 	}
-	$productCaptionElement.show();
+	$productNameElement.show();
 });
