@@ -565,7 +565,7 @@ article.message {
 .entity-info {
 	font-size: 1rem;
 	}
-	.row > .entity-info {
+	.row .entity-info {
 		padding: 0;
 		margin: -0.5rem -0.8rem;
 	}
@@ -840,8 +840,7 @@ article.message {
 		}
 
 
-	.entity-info.entity-type-fixed-income .entity-body {
-		margin: 0.3rem 0 0.2rem 0;
+	.entity-info.entity-type-fixed-income {
 		}
 
 		.entity-info.entity-type-fixed-income .call-to-action {

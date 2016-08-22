@@ -972,13 +972,34 @@ dl.tickets-list {
 	}
 	.marker {
 	}
-	.marker.marker-ke-zhuan-rang { color: #4285f4; }
-	.marker.marker-ke-yong-quan { color: #fb5f5f; }
-	.marker.marker-jia-xi { color: #3274e5; }
-	.marker.marker-di-yong { color: #ee3871; }
-	.marker.marker-te-quan-ben-jin { color: #8161e2; }
-	.marker.marker-buy-in { color: #f60; }
-	.marker.marker-sale-out { color: #1d6eff; }
+    .product-caption-block sub.marker.marker-ke-zhuan-rang,
+                              .marker.marker-ke-zhuan-rang { 
+		color: #4285f4;
+	}
+    .product-caption-block sub.marker.marker-ke-yong-quan,
+                              .marker.marker-ke-yong-quan { 
+		color: #fb5f5f;
+	}
+    .product-caption-block sub.marker.marker-jia-xi,
+                              .marker.marker-jia-xi { 
+		color: #3274e5;
+	}
+    .product-caption-block sub.marker.marker-di-yong,
+                              .marker.marker-di-yong { 
+		color: #ee3871;
+	}
+    .product-caption-block sub.marker.marker-te-quan-ben-jin,
+                              .marker.marker-te-quan-ben-jin { 
+		color: #8161e2;
+	}
+    .product-caption-block sub.marker.marker-buy-in,
+                              .marker.marker-buy-in { 
+		color: #f60;
+	}
+    .product-caption-block sub.marker.marker-sale-out,
+                              .marker.marker-sale-out { 
+		color: #1d6eff;
+	}
 
 
 .keyword {
