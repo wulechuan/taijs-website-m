@@ -8,7 +8,7 @@ $(function () {
 
 	var URIProductCaption = URIP.productCaption;
 	if (typeof URIProductCaption === 'string') {
-		URIProductCaption = URIProductCaption.replace(/^\s*['"']\s*/, '').replace(/\s*['"']\s*$/, '');
+		URIProductCaption = URIProductCaption.replace(/^\s*['"]\s*/, '').replace(/\s*['"]\s*$/, '');
 	}
 	var URITradingStatus = URIP.tradingStatus;
 	var URITradingStatusMsg = URIP.tradingStatusMsg;
