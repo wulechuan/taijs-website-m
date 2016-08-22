@@ -2177,6 +2177,43 @@ article.message {
 	}
 
 
+.row.fund-record-detail-asset-abstract {
+	}
+
+	.f-block-body .row.fund-record-detail-asset-abstract,
+	.row.fund-record-detail-asset-abstract {
+		/* padding-bottom: 0.1rem; */
+	}
+	.row.fund-record-detail-asset-abstract .right p,
+	.row.fund-record-detail-asset-abstract .left p,
+	.row.fund-record-detail-asset-abstract .left h3 {
+		margin: 0;
+		line-height: 1.2rem;
+	}
+	.row.fund-record-detail-asset-abstract .left h3 {
+		font-size: 0.9rem;
+		font-weight: 400;
+	}
+	.row.fund-record-detail-asset-abstract .left h3 sub {
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 0.5em;
+	}
+	.row.fund-record-detail-asset-abstract .left p {
+		font-size: 0.6rem;
+	}
+	.row.fund-record-detail-asset-abstract .right p {
+		font-size: 0.6rem;
+		font-weight: 400;
+	}
+	.row.fund-record-detail-asset-abstract .right p .emphasis {
+		display: block;
+	}
+	.row.fund-record-detail-asset-abstract .right p .emphasis em {
+		font-size: 1rem;
+	}
+
+
 .tabular {
 	font-weight: 400;
 	}

@@ -923,6 +923,10 @@ dl.tickets-list {
 		color: black;
 	}
 
+	.row.fund-record-detail-asset-abstract .left h3 sub {
+		color: #999;
+	}
+
 
 .f-block .tiles > a > .tile,
 .f-block .tiles     > .tile {
