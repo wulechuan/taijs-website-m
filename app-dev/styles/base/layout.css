@@ -566,45 +566,41 @@ article.message {
 	font-size: 1rem;
 	}
 	.row > .entity-info {
-		padding-top: 0;
-		padding-bottom: 0;
+		padding: 0;
+		margin: -0.5rem -0.8rem;
 	}
-	.entity-info .product-caption-block {
+	.entity-info .entity-body {
+		display: block;
+		padding: 0.5rem 0.8rem;
+	}
+
+	.entity-info .call-to-action {
+		display: none;
+	}
+
+	.entity-body .product-caption-block {
 		line-height: 1rem;
 		margin: 0.3rem 0 0 0;
 		font-weight: 500;
 	}
-	.entity-info .favorite-entity-icon {
+	.entity-body .favorite-entity-icon {
 		position: absolute;
 		right: 0;
 		top: 0;
 		font-size: 0.9rem;
 		margin: 0.9rem 0.7rem 0 0;
 	}
-	.entity-info .entity-body {
-		display: block;
-	}
-
-	.entity-body .call-to-action {
-		display: none;
-	}
-
-	.entity-buyable .entity-body .call-to-action,
-	.entity-body .f-list {
-		display: inline-block;
-		vertical-align: top;
-	}
 
 	.entity-body .f-list {
 		width: 100%;
 	}
-	.entity-body .call-to-action {
+	.entity-info .call-to-action {
 		width: 4.5rem;
 		height: 3rem;
 		text-align: right;
 		white-space: nowrap;
 		}
-		.entity-buyable .entity-body .call-to-action::before {
+		.entity-buyable .call-to-action::before {
 			content: '';
 			display: inline-block;
 			vertical-align: middle;
@@ -615,18 +611,18 @@ article.message {
 	.entity-buyable .entity-body .f-list {
 		width: calc(100% - 4.5rem);
 		}
-		.entity-body .call-to-action.tall {
+		.entity-buyable .call-to-action.tall {
 			height: 4rem;
 		}
-		.entity-buyable .entity-body .call-to-action > *,
-		.entity-buyable .entity-body .call-to-action [role="button"],
-		.entity-buyable .entity-body .call-to-action button {
+		.entity-buyable .call-to-action > *,
+		.entity-buyable .call-to-action [role="button"],
+		.entity-buyable .call-to-action button {
 			display: inline-block;
 			vertical-align: bottom;
 			margin: 0;
 		}
-		.entity-buyable .entity-body .call-to-action [role="button"],
-		.entity-buyable .entity-body .call-to-action button {
+		.entity-buyable .call-to-action [role="button"],
+		.entity-buyable .call-to-action button {
 			box-sizing: border-box;
 			width: 4rem;
 			height: 1.6rem;
@@ -635,17 +631,17 @@ article.message {
 			font-size: 0.65rem;
 			font-weight: 200;
 		}
-		.entity-buyable.entity-time-limited .entity-body .call-to-action .count-down-disc,
-		.entity-buyable.entity-time-limited .entity-body .call-to-action [role="button"].progress-rings-container,
-		.entity-buyable.entity-time-limited .entity-body .call-to-action button.progress-rings-container,
-		.entity-buyable.entity-time-limited .entity-body .call-to-action .progress-rings-container {
+		.entity-buyable.entity-time-limited .count-down-disc,
+		.entity-buyable.entity-time-limited [role="button"].progress-rings-container,
+		.entity-buyable.entity-time-limited button.progress-rings-container,
+		.entity-buyable.entity-time-limited .progress-rings-container {
 			padding: 0;
 			width: 3.75rem;
 			height: 3.75rem;
 		}
 
-		.entity-buyable.entity-time-limited .entity-body .call-to-action .progress-rings-container .label em,
-		.entity-buyable.entity-time-limited .entity-body .call-to-action .progress-rings-container .label {
+		.entity-buyable.entity-time-limited .progress-rings-container .label em,
+		.entity-buyable.entity-time-limited .progress-rings-container .label {
 			font-size: 1.4rem;
 			font-weight: 400;
 		}
@@ -841,7 +837,7 @@ article.message {
 		margin: 0.3rem 0 0.2rem 0;
 		}
 
-		.entity-info.entity-type-fixed-income .entity-body .call-to-action {
+		.entity-info.entity-type-fixed-income .call-to-action {
 			margin-top: -0.1rem;
 			margin-bottom: -0.3rem;
 		}
@@ -868,7 +864,7 @@ article.message {
 		margin: 0;
 		}
 
-		.product-abstract .entity-info.entity-type-fixed-income .entity-body .call-to-action {
+		.product-abstract .entity-info.entity-type-fixed-income .call-to-action {
 			height: 2rem;
 			position: absolute;
 			top: 0;
@@ -911,7 +907,7 @@ article.message {
 		margin: 0.25rem 0 0 0;
 		}
 
-		.entity-info.entity-type-po-history .entity-body .call-to-action {
+		.entity-info.entity-type-po-history .call-to-action {
 			height: 2rem;
 			margin-top: -1.25rem;
 		}
