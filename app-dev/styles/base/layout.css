@@ -569,21 +569,10 @@ article.message {
 		padding-top: 0;
 		padding-bottom: 0;
 	}
-	.entity-info h4 {
+	.entity-info .product-caption-block {
 		line-height: 1rem;
-		display: inline-block;
-		margin-right: 0.4rem;
-		font-size: 0.8rem;
+		margin: 0.3rem 0 0 0;
 		font-weight: 500;
-		vertical-align: middle;
-	}
-	.entity-info h5 {
-		line-height: 1rem;
-		display: inline-block;
-		margin-right: 1.25rem;
-		font-size: 0.6rem;
-		font-weight: 400;
-		vertical-align: middle;
 	}
 	.entity-info .favorite-entity-icon {
 		position: absolute;

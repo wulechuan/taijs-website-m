@@ -937,6 +937,7 @@ dl.tickets-list {
 	.product-caption-block {
 		color: black;
 	}
+	.row .product-caption-block sub,
 	.product-caption-block sub {
 		color: #999;
 	}
