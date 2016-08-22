@@ -6,9 +6,9 @@ $(function () {
 	// var wlc = window.webLogicControls;
 	// var UI = wlc.UI;
 
-	var URIProductCaption = URIP.productCaption;
-	if (typeof URIProductCaption === 'string') {
-		URIProductCaption = URIProductCaption.replace(/^\s*['"]\s*/, '').replace(/\s*['"]\s*$/, '');
+	var URIProductName = URIP.productName;
+	if (typeof URIProductName === 'string') {
+		URIProductName = URIProductName.replace(/^\s*['"]\s*/, '').replace(/\s*['"]\s*$/, '');
 	}
 
 	var progressStopsBlocksId = [
@@ -31,9 +31,9 @@ $(function () {
 		if ('#'+this.id === blockIdToShow) {
 			var $abstractBlock = $('.fund-record-detail-asset-abstract');
 
-			$abstractBlock.find('.left .value.product-caption').text(URIProductCaption);
-			$abstractBlock.find('.left .value.product-id'     ).text(URIP.productId);
-			$abstractBlock.find('.right .value.trading-type'  ).text(URIP.action);
+			$abstractBlock.find('.left .value.product-name' ).text(URIProductName);
+			$abstractBlock.find('.left .value.product-id'   ).text(URIP.productId);
+			$abstractBlock.find('.right .value.trading-type').text(URIP.action);
 
 			$(this).show();
 			$('#'+this.id+'-attachment').show();

@@ -2150,16 +2150,28 @@ article.message {
 	}
 
 
-.product-caption {
+.product-caption-block {
 	}
-	.product-caption {
-		font-size: 0.9rem;
+	.product-caption-block {
+		font-size: 0.8rem;
 		font-weight: 400;
 	}
-	.product-caption sub {
+	.product-caption-block sub {
 		display: inline-block;
 		vertical-align: middle;
-		margin-left: 0.5em;
+		margin-left: 0.25rem;
+	}
+
+	.product-caption-block.dual-lines .product-name {
+		display: block;
+		width: 100%;
+		/* white-space: nowrap; */
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.product-caption-block.dual-lines sub {
+		display: block;
+		margin-left: 0;
 	}
 
 
@@ -2203,13 +2215,6 @@ article.message {
 		margin: 0;
 		line-height: 1.2rem;
 	}
-/* 	.row.fund-record-detail-asset-abstract .left h3 {
-		font-size: 0.9rem;
-	}
-	.row.fund-record-detail-asset-abstract .left h3 sub {
-		display: inline-block;
-		vertical-align: top;
-	} */
 	.row.fund-record-detail-asset-abstract .left p {
 		font-size: 0.6rem;
 	}
@@ -2326,7 +2331,7 @@ article.message {
 			width: 3.5rem;
 			font-weight: 300;
 		}
-		.tabular .cell.timestamp {
+		.tabular > .f-list > li .cell.timestamp {
 			font-size: 0.6rem;
 		}
 
@@ -2352,6 +2357,17 @@ article.message {
 		}
 
 
+		.tabular.gold-list .first-cell {
+			width: 6.5rem;
+			}
+
+			@media only screen and (max-width: 376px) { /* iPhone 6 / Galaxy S5 */
+				.tabular.gold-list .first-cell {
+					width: 5rem;
+					}
+			}
+
+
 		.tabular.search-panel-owned-po-list .f-list > li {
 			padding-top: 1rem;
 			font-size: 0.8rem;
@@ -2359,11 +2375,6 @@ article.message {
 
 			.tabular.search-panel-owned-po-list .first-cell {
 				width: 8rem;
-			}
-
-			.tabular.search-panel-owned-po-list .caption-cell h4 {
-				font-size: 0.6rem;
-				line-height: 1.2;
 			}
 
 			.tabular.search-panel-owned-po-list .cell.amount {
@@ -2472,20 +2483,6 @@ article.message {
 					top: 1rem;
 				}
 
-				.tabular.funds-chargeback-list .caption-cell h3 {
-					font-size: 0.8rem;
-					line-height: 1.2;
-					width: 100%;
-					/* white-space: nowrap; */
-					overflow: hidden;
-					text-overflow: ellipsis;
-				}
-
-				.tabular.funds-chargeback-list .caption-cell h4 {
-					font-size: 0.6rem;
-					line-height: 1.2;
-				}
-
 			.tabular.funds-chargeback-list .cell.amount {
 				min-width: 0;
 				width: 6rem;
@@ -2496,6 +2493,9 @@ article.message {
 				.tabular.funds-chargeback-list > .f-list .cell.amount {
 					font-size: 0.8rem;
 					line-height: 1;
+				}
+				.tabular.funds-chargeback-list .value.product-name {
+					line-height: 1.2;
 				}
 
 			.tabular.funds-chargeback-list .cell.call-to-action {

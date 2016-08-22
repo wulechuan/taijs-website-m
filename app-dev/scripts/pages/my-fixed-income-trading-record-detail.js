@@ -6,13 +6,13 @@ $(function () {
 	// var wlc = window.webLogicControls;
 	// var UI = wlc.UI;
 
-	var URIProductCaption = URIP.productCaption;
-	if (typeof URIProductCaption === 'string') {
-		URIProductCaption = URIProductCaption.replace(/^\s*['"]\s*/, '').replace(/\s*['"]\s*$/, '');
+	var URIProductName = URIP.productName;
+	if (typeof URIProductName === 'string') {
+		URIProductName = URIProductName.replace(/^\s*['"]\s*/, '').replace(/\s*['"]\s*$/, '');
 	}
 	var URITradingStatus = URIP.tradingStatus;
 	var URITradingStatusMsg = URIP.tradingStatusMsg;
-	// C.l(URIProductCaption, URITradingStatus);
+	// C.l(URIProductName, URITradingStatus);
 
 	var progressStopsBlocksId = [
 		'#assest-progress-dai-que-ren',
@@ -66,12 +66,12 @@ $(function () {
 
 
 
-	if (URIProductCaption) {
-		$('.fixed-income-record-detail-asset-abstract .left h4').html(URIProductCaption);
+	if (URIProductName) {
+		$('.fixed-income-record-detail-asset-abstract .left h4').html(URIProductName);
 		$('a.nav-back').each(function () {
 			var href = this.href;
 			if (href) {
-				this.href += '?productCaption='+URIProductCaption;
+				this.href += '?productName='+URIProductName;
 			}
 		});
 	}

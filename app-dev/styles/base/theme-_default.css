@@ -932,12 +932,12 @@ dl.tickets-list {
 	}
 
 
-.product-caption {
+.product-caption-block {
 	}
-	.product-caption {
+	.product-caption-block {
 		color: black;
 	}
-	.product-caption sub {
+	.product-caption-block sub {
 		color: #999;
 	}
 

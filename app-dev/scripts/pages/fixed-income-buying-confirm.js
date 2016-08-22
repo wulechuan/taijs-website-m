@@ -100,7 +100,7 @@ $(function () { // fake logics
 	});
 
 
-	if (URIParameters.productCaption) {
-		$('.product-caption').html(URIParameters.productCaption);
+	if (URIParameters.productName) {
+		$('.product-name').html(URIParameters.productName);
 	}
 });
