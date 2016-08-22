@@ -56,7 +56,7 @@ $(function () {
 	$(progressStopsBlocksIdString).each(function () {
 		// index is NOT reliable, in case some dom is missing, or the id incorrect
 		if ('#'+this.id === blockIdToShow) {
-			$('.record-detail-asset-abstract .right .value').html(stateStrings[blockIdToShow]);
+			$('.fixed-income-record-detail-asset-abstract .right .value').html(stateStrings[blockIdToShow]);
 			$(this).show();
 		} else {
 			$(this).hide();
@@ -67,7 +67,7 @@ $(function () {
 
 
 	if (URIProductCaption) {
-		$('.record-detail-asset-abstract .left h4').html(URIProductCaption);
+		$('.fixed-income-record-detail-asset-abstract .left h4').html(URIProductCaption);
 		$('a.nav-back').each(function () {
 			var href = this.href;
 			if (href) {

@@ -916,10 +916,10 @@ dl.tickets-list {
 		color: #666;
 	}
 
-	.row.record-detail-asset-abstract .left h4 {
+	.row.fixed-income-record-detail-asset-abstract .left h4 {
 		color: #666;
 	}
-	.row.record-detail-asset-abstract .left .digits {
+	.row.fixed-income-record-detail-asset-abstract .left .digits {
 		color: black;
 	}
 

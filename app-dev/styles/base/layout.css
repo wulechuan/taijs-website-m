@@ -2150,29 +2150,29 @@ article.message {
 	}
 
 
-.row.record-detail-asset-abstract {
+.row.fixed-income-record-detail-asset-abstract {
 	}
 
-	.f-block-body .row.record-detail-asset-abstract,
-	.row.record-detail-asset-abstract {
+	.f-block-body .row.fixed-income-record-detail-asset-abstract,
+	.row.fixed-income-record-detail-asset-abstract {
 		padding-bottom: 0.1rem;
 	}
-	.row.record-detail-asset-abstract .right,
-	.row.record-detail-asset-abstract .left p,
-	.row.record-detail-asset-abstract .left h4 {
+	.row.fixed-income-record-detail-asset-abstract .right,
+	.row.fixed-income-record-detail-asset-abstract .left p,
+	.row.fixed-income-record-detail-asset-abstract .left h4 {
 		font-size: 0.7rem;
 		line-height: 1.8;
 	}
-	.row.record-detail-asset-abstract .left h4 {
+	.row.fixed-income-record-detail-asset-abstract .left h4 {
 		font-weight: 400;
 	}
-	.row.record-detail-asset-abstract .left p.emphasis {
+	.row.fixed-income-record-detail-asset-abstract .left p.emphasis {
 		font-size: 1.1rem;
 	}
-	.row.record-detail-asset-abstract .left p.emphasis .digits {
+	.row.fixed-income-record-detail-asset-abstract .left p.emphasis .digits {
 		font-weight: 500;
 	}
-	.row.record-detail-asset-abstract .right .status {
+	.row.fixed-income-record-detail-asset-abstract .right .status {
 		font-weight: 400;
 	}
 
