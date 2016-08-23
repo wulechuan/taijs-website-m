@@ -428,11 +428,9 @@ article.message {
 	.marker.marker-ticket-look {
 		position: relative;
 		border-radius: 0;
-		padding-left: 0.4rem;
-		padding-right: 0.4rem;
+		padding: 0.2rem 0.4rem;
 		border-width: 0;
-		margin-left: 0.3rem;
-		margin-right: 0.3rem;
+		margin: 0 0.2rem;
 	}
 	.marker.marker-ticket-look > .deco {
 		z-index: 0;
@@ -517,7 +515,8 @@ article.message {
 		display: inline;
 	}
 	.markers-list .f-list > li .marker {
-		margin-top: -0.1rem;
+		/* margin-top: -0.1rem; */
+		vertical-align: middle;
 	}
 
 
