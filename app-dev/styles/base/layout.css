@@ -836,9 +836,7 @@ article.message {
 		.entity-info.entity-type-regular .entity-body .f-list > .cell > .content {
 			padding-top: 0;
 			font-size: 0.75rem;
-			line-height: 1.5;
 		}
-
 
 
 	.entity-info.entity-type-fund .entity-body .f-list > .cell:first-child {
