@@ -775,6 +775,8 @@ article.message {
 			right: 0.8rem;
 			top: 2.5rem;
 			bottom: 0;
+			margin: auto 0;
+			width: auto;
 		}
 
 		.entity-buyable .call-to-action::before {
@@ -878,15 +880,9 @@ article.message {
 
 		.product-abstract .entity-info.entity-type-fixed-income .call-to-action {
 			height: 2rem;
-			position: absolute;
 			top: 0;
-			bottom: 0;
-			right: 0.8rem;
-			margin: auto 0;
-
 			font-size: 0.75rem;
 			font-weight: 400;
-			width: auto;
 		}
 		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list {
 			padding: 0;
@@ -896,11 +892,11 @@ article.message {
 			box-sizing: border-box;
 		}
 		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell:first-child {
-			width: 46%;
+			width: 50%;
 			margin-left: 8%;
 		}
 		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell:last-child {
-			width: 46%;
+			width: 40%;
 		}
 		.product-abstract .entity-info.entity-type-fixed-income .entity-body .f-list > .cell > .label {
 		}
@@ -1027,6 +1023,11 @@ article.message {
 		height: 2rem;
 		margin-top: 0.1rem;
 		opacity: 0.1;
+	}
+	@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+		.hero-content-block .hero-content-features > .f-list > li .content {
+			font-size: 0.9rem;
+		}
 	}
 
 
@@ -1418,7 +1419,7 @@ article.message {
 		.tab-list > li {
 			box-sizing: border-box;
 			text-align: center;
-			padding: 0.5rem;
+			padding: 0.5rem 0.2rem;
 			font-weight: 400;
 		}
 
@@ -1483,6 +1484,23 @@ article.message {
 				width: calc(33.4% - 1rem - 1rem);
 			}
 
+			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+				.tab-list.tabs-with-gaps > li {
+					margin-left: 0.5rem;
+					margin-right: 0.5rem;
+				}
+				.tab-list.tabs-with-gaps.tabs-count-2 > li {
+					width: calc(50% - 0.5rem - 0.5rem);
+				}
+
+				.tab-list.tabs-with-gaps.tabs-count-3 > li {
+					width: calc(33.3% - 0.5rem - 0.5rem);
+				}
+
+				.tab-list.tabs-with-gaps.tabs-count-3 > li:nth-child(2) {
+					width: calc(33.4% - 0.5rem - 0.5rem);
+				}
+			}
 
 
 
