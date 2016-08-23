@@ -3695,9 +3695,9 @@ dl.tickets-list {
 			background-size: auto 26rem;
 		}
 
-		.page.has-header-bg .page-header {
+		/* .page.has-header-bg .page-header {
 			background-color: transparent!important;
-		}
+		} */
 
 		.page.has-header-bg .row.bg-meets-page-header-container .hero-content-block,
 		.page.has-header-bg .row.bg-meets-page-header-container {
@@ -3709,7 +3709,7 @@ dl.tickets-list {
 		}
 		.page.has-header-bg::before,
 		.page.has-header-bg .page-header {
-			background-image: url(../../images/_common/page-header-bg-extended.jpg);
+			background-image: url(../../images/_common/page-header-bg-extended-small.jpg);
 		}
 
 
