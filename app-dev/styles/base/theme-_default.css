@@ -842,16 +842,6 @@ dl.tickets-list {
 .f-block { /* function-block */
 	color: #666;
 	}
-	.f-block .row h3,
-	.f-block .row h2,
-	.f-block .row h1 {
-		color: black;
-	}
-
-	.row.caption-bar h1 .label {
-		color: #666;
-	}
-
 	.f-block-body {
 		background-color: white;
 	}
@@ -864,13 +854,10 @@ dl.tickets-list {
 	.f-block-body .row {
 		border-color: #f1f1f1;
 	}
-	/* .f-block-body .row.hide-borders,
-	.row.hide-borders {
-		border-color: white;
-	} */
 
-	.f-block-body,
-	.f-block-body a .row {
+	.f-block-body a .entity-body,
+	.f-block-body a .row,
+	.f-block-body {
 		color: #333;
 	}
 	a .row::after,
@@ -885,6 +872,13 @@ dl.tickets-list {
 		color: #999;
 	}
 
+	.f-block .row h3,
+	.f-block .row h2,
+	.f-block .row h1 {
+		color: black;
+	}
+
+	.row h3,
 	.row h4,
 	.row h5,
 	.emphasise-leftside  .row  .left,
@@ -898,6 +892,10 @@ dl.tickets-list {
 		color: black;
 	}
 	.row sub {
+		color: #666;
+	}
+
+	.row.caption-bar .label {
 		color: #666;
 	}
 
