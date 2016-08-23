@@ -415,23 +415,22 @@ article.message {
 
 	.marker {
 		display: inline-block;
-		vertical-align: middle;
-		margin: 0 0.1rem;
+		vertical-align: top;
+		margin: -0.15rem 0.05rem 0;
 		border-width: 0.05rem;
 		border-color: initial!important;
 		border-radius: 0.15rem;
-		padding: 0.2rem 0.2rem;
+		padding: 0.1rem 0.2rem;
 		line-height: 1;
 		font-size: 0.6rem;
+		font-weight: 100;
 	}
 	.marker.marker-ticket-look {
 		position: relative;
 		border-radius: 0;
-		padding-left: 0.4rem;
-		padding-right: 0.4rem;
+		padding: 0.2rem 0.4rem;
 		border-width: 0;
-		margin-left: 0.3rem;
-		margin-right: 0.3rem;
+		margin: 0 0.2rem;
 	}
 	.marker.marker-ticket-look > .deco {
 		z-index: 0;
@@ -516,7 +515,8 @@ article.message {
 		display: inline;
 	}
 	.markers-list .f-list > li .marker {
-		margin-top: -0.1rem;
+		/* margin-top: -0.1rem; */
+		vertical-align: middle;
 	}
 
 
@@ -565,112 +565,105 @@ article.message {
 .entity-info {
 	font-size: 1rem;
 	}
-	.row > .entity-info {
-		padding-top: 0;
-		padding-bottom: 0;
-	}
-	.entity-info .product-caption-block {
-		line-height: 1rem;
-		margin: 0.3rem 0 0 0;
-		font-weight: 500;
-	}
-	.entity-info .favorite-entity-icon {
-		position: absolute;
-		right: 0;
-		top: 0;
-		font-size: 0.9rem;
-		margin: 0.9rem 0.7rem 0 0;
+	.row .entity-info {
+		padding: 0;
+		margin: -0.5rem -0.8rem;
 	}
 	.entity-info .entity-body {
 		display: block;
+		padding: 0.5rem 0.8rem;
 	}
 
-	.entity-body .call-to-action {
+	.entity-info .call-to-action {
 		display: none;
-	}
-
-	.entity-buyable .entity-body .call-to-action,
-	.entity-body .f-list {
-		display: inline-block;
-		vertical-align: top;
-	}
-
-	.entity-body .f-list {
-		width: 100%;
-	}
-	.entity-body .call-to-action {
 		width: 4.5rem;
 		height: 3rem;
 		text-align: right;
 		white-space: nowrap;
+	}
+
+
+	.entity-body {
 		}
-		.entity-buyable .entity-body .call-to-action::before {
-			content: '';
-			display: inline-block;
-			vertical-align: middle;
-			width: 0px;
-			height: 100%;
+		.entity-body .product-caption-block {
+			line-height: 1rem;
+			margin: 0.3rem 0 0 0;
+			font-weight: 500;
+		}
+		.entity-body .favorite-entity-icon {
+			position: absolute;
+			right: 0;
+			top: 0;
+			font-size: 0.9rem;
+			margin: 0.9rem 0.7rem 0 0;
 		}
 
-	.entity-buyable .entity-body .f-list {
-		width: calc(100% - 4.5rem);
-		}
-		.entity-body .call-to-action.tall {
-			height: 4rem;
-		}
-		.entity-buyable .entity-body .call-to-action > *,
-		.entity-buyable .entity-body .call-to-action [role="button"],
-		.entity-buyable .entity-body .call-to-action button {
-			display: inline-block;
-			vertical-align: bottom;
-			margin: 0;
-		}
-		.entity-buyable .entity-body .call-to-action [role="button"],
-		.entity-buyable .entity-body .call-to-action button {
-			box-sizing: border-box;
-			width: 4rem;
-			height: 1.6rem;
-			padding: 0;
-			line-height: 1.58rem;
-			font-size: 0.65rem;
-			font-weight: 200;
-		}
-		.entity-buyable.entity-time-limited .entity-body .call-to-action .count-down-disc,
-		.entity-buyable.entity-time-limited .entity-body .call-to-action [role="button"].progress-rings-container,
-		.entity-buyable.entity-time-limited .entity-body .call-to-action button.progress-rings-container,
-		.entity-buyable.entity-time-limited .entity-body .call-to-action .progress-rings-container {
-			padding: 0;
-			width: 3.75rem;
-			height: 3.75rem;
-		}
+		.entity-body .f-list {
+			width: 100%;
+			padding: 0.5rem;
+			margin: 0 -0.5rem 0;
+			text-align: left;
+			}
+			.entity-body .f-list > a > .cell,
+			.entity-body .f-list     > .cell {
+				display: inline-block;
+				vertical-align: top;
+				position: relative;
+				padding: 0.25rem;
+				margin: -0.25rem;
+				width: 55%;
+				text-align: left;
+			}
 
-		.entity-buyable.entity-time-limited .entity-body .call-to-action .progress-rings-container .label em,
-		.entity-buyable.entity-time-limited .entity-body .call-to-action .progress-rings-container .label {
-			font-size: 1.4rem;
-			font-weight: 400;
-		}
+			.entity-body .f-list > a > .cell:last-child,
+			.entity-body .f-list     > .cell:last-child {
+				width: 45%;
+			}
 
-	.entity-body .f-list {
-		padding: 0.5rem;
-		margin: 0 -0.5rem 0;
-		text-align: left;
-		}
-		/* .entity-body ul.f-list > a > li,
-		.entity-body ul.f-list     > li {
-			display: inline-block;
-		} */
-		.entity-body .f-list > a > .cell,
-		.entity-body .f-list     > .cell {
-			display: inline-block;
-			vertical-align: top;
-			position: relative;
-			padding: 0.25rem;
-			margin: -0.25rem;
-			width: 33%;
-		}
-		.entity-body .f-list > a > .cell *,
-		.entity-body .f-list     > .cell * {
-			line-height: 1;
+			.entity-body .f-list.columns-count-3 > a > .cell:first-child,
+			.entity-body .f-list.columns-count-3     > .cell:first-child {
+				width: 33%;
+			}
+			.entity-body .f-list.columns-count-3 > a > .cell:nth-child(2),
+			.entity-body .f-list.columns-count-3     > .cell:nth-child(2) {
+				width: 33%;
+			}
+			.entity-body .f-list.columns-count-3 > a > .cell:last-child,
+			.entity-body .f-list.columns-count-3     > .cell:last-child {
+				width: 34%;
+			}
+
+			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+				.entity-body .f-list.columns-count-3 > a > .cell:first-child,
+				.entity-body .f-list.columns-count-3     > .cell:first-child {
+					width: 32%;
+				}
+				.entity-body .f-list.columns-count-3 > a > .cell:nth-child(2),
+				.entity-body .f-list.columns-count-3     > .cell:nth-child(2) {
+					width: 33%;
+				}
+				.entity-body .f-list.columns-count-3 > a > .cell:last-child,
+				.entity-body .f-list.columns-count-3     > .cell:last-child {
+					width: 35%;
+				}
+			}
+
+			.entity-body .f-list.columns-justify > a:first-child  > .cell,
+			.entity-body .f-list.columns-justify                  > .cell:first-child {
+				text-align: left;
+			}
+			.entity-body .f-list.columns-justify > a:nth-child(2) > .cell,
+			.entity-body .f-list.columns-justify                  > .cell:nth-child(2) {
+				text-align: center;
+			}
+			.entity-body .f-list.columns-justify > a:last-child   > .cell,
+			.entity-body .f-list.columns-justify                  > .cell:last-child {
+				text-align: right;
+			}
+
+			.entity-body .f-list > a > .cell *,
+			.entity-body .f-list     > .cell * {
+				line-height: 1;
 			}
 			.entity-body .f-list > a > .cell > .label,
 			.entity-body .f-list     > .cell > .label {
@@ -716,9 +709,9 @@ article.message {
 			}
 
 
-		.entity-body .f-list.labels-at-bottom > a > .cell,
-		.entity-body .f-list.labels-at-bottom     > .cell {
-			padding-bottom: 1rem; 
+			.entity-body .f-list.labels-at-bottom > a > .cell,
+			.entity-body .f-list.labels-at-bottom     > .cell {
+				padding-bottom: 1rem; 
 			}
 			.entity-body .f-list.labels-at-bottom > a > .cell > .label,
 			.entity-body .f-list.labels-at-bottom     > .cell > .label {
@@ -728,84 +721,114 @@ article.message {
 			}
 
 
-		.entity-body .f-list.labels-at-left {
-			padding: 0.5rem;
-			margin: -0.5rem;
+			.entity-body .f-list.labels-at-left {
+				padding: 0.5rem;
+				margin: -0.5rem;
+				}
+				.entity-body .f-list.labels-at-left > a > .cell,
+				.entity-body .f-list.labels-at-left     > .cell {
+					width: 100%;
+					display: block;
+					line-height: 1;
+				}
+				.entity-body .f-list.labels-at-left > a > .cell > .label,
+				.entity-body .f-list.labels-at-left > a > .cell > .content,
+				.entity-body .f-list.labels-at-left     > .cell > .label,
+				.entity-body .f-list.labels-at-left     > .cell > .content {
+					display: inline-block;
+					vertical-align: middle;
+					padding: 0;
+					margin: 0;
+				}
+				.entity-body .f-list.labels-at-left > a > .cell > .label,
+				.entity-body .f-list.labels-at-left     > .cell > .label {
+					width: 3rem;
+				}
+
+
+			.entity-body .f-list.compact-lines {
+				}
+				.entity-body .f-list.compact-lines > a > .cell > .label,
+				.entity-body .f-list.compact-lines     > .cell > .label {
+					padding: 0;
+					margin: 0 0 0.5rem 0;
+					line-height: 1;
+				}
+				.entity-body .f-list.compact-lines > a > .cell > .content,
+				.entity-body .f-list.compact-lines     > .cell > .content {
+					padding: 0;
+					margin: 0;
+					line-height: 1.2;
+				}
+
+
+	.entity-buyable {
+		}
+
+		.entity-buyable .entity-body .f-list {
+		width: calc(100% - 4.5rem);
+		}
+
+		.entity-buyable .call-to-action {
+			display: block;
+			position: absolute;
+			right: 0.8rem;
+			top: 2.5rem;
+			bottom: 0;
+		}
+
+		.entity-buyable .call-to-action::before {
+			content: '';
+			display: inline-block;
+			vertical-align: middle;
+			width: 0px;
+			height: 100%;
+		}
+
+		.entity-buyable .call-to-action > *,
+		.entity-buyable .call-to-action [role="button"],
+		.entity-buyable .call-to-action button {
+			display: inline-block;
+			vertical-align: middle;
+			margin: 0;
 			}
-			.entity-body .f-list.labels-at-left > a > .cell,
-			.entity-body .f-list.labels-at-left     > .cell {
-				width: 100%;
-				display: block;
-				line-height: 1;
-			}
-			.entity-body .f-list.labels-at-left > a > .cell > .label,
-			.entity-body .f-list.labels-at-left > a > .cell > .content,
-			.entity-body .f-list.labels-at-left     > .cell > .label,
-			.entity-body .f-list.labels-at-left     > .cell > .content {
-				display: inline-block;
-				vertical-align: middle;
+			.entity-buyable .call-to-action [role="button"],
+			.entity-buyable .call-to-action button {
+				box-sizing: border-box;
+				width: 4rem;
+				height: 1.6rem;
 				padding: 0;
-				margin: 0;
-			}
-			.entity-body .f-list.labels-at-left > a > .cell > .label,
-			.entity-body .f-list.labels-at-left     > .cell > .label {
-				width: 3rem;
+				line-height: 1.58rem;
+				font-size: 0.65rem;
+				font-weight: 200;
 			}
 
-
-		.entity-body .f-list.compact-lines {
+		.entity-buyable.entity-time-limited .product-caption-block {
+			margin-bottom: 0.3rem;
 			}
-			.entity-body .f-list.compact-lines > a > .cell > .label,
-			.entity-body .f-list.compact-lines     > .cell > .label {
+			.entity-buyable.entity-time-limited .call-to-action {
+				top: 2.65rem;
+				height: 4rem;
+				bottom: auto;
+			}
+			.entity-buyable.entity-time-limited .call-to-action .count-down-disc,
+			.entity-buyable.entity-time-limited .call-to-action [role="button"].progress-rings-container,
+			.entity-buyable.entity-time-limited .call-to-action button.progress-rings-container,
+			.entity-buyable.entity-time-limited .call-to-action .progress-rings-container {
 				padding: 0;
-				margin: 0 0 0.5rem 0;
-				line-height: 1;
-			}
-			.entity-body .f-list.compact-lines > a > .cell > .content,
-			.entity-body .f-list.compact-lines     > .cell > .content {
-				padding: 0;
-				margin: 0;
-				line-height: 1.2;
+				width: 3.75rem;
+				height: 3.75rem;
 			}
 
-
-		.entity-body .f-list.columns-3-justify {
-			}
-			.entity-body .f-list.columns-3-justify > a:first-child  > .cell,
-			.entity-body .f-list.columns-3-justify                  > .cell:first-child {
-				text-align: left;
-			}
-			.entity-body .f-list.columns-3-justify > a:nth-child(2) > .cell,
-			.entity-body .f-list.columns-3-justify                  > .cell:nth-child(2) {
-				text-align: center;
-			}
-			.entity-body .f-list.columns-3-justify > a:last-child   > .cell,
-			.entity-body .f-list.columns-3-justify                  > .cell:last-child {
-				text-align: right;
+			.entity-buyable.entity-time-limited .call-to-action .progress-rings-container .label em,
+			.entity-buyable.entity-time-limited .call-to-action .progress-rings-container .label {
+				font-size: 1.4rem;
+				font-weight: 400;
 			}
 
 
 	.entity-info.entity-type-regular .entity-body .f-list {
 		padding-bottom: 0.25rem;
-		}
-
-		.entity-info.entity-type-regular .entity-body .f-list > .cell {
-			width: 55%;
-			text-align: left;
-		}
-		.entity-info.entity-type-regular .entity-body .f-list > .cell:last-child {
-			width: 45%;
-			text-align: right;
-		}
-
-		.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:first-child {
-			width: 42%;
-		}
-		.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:nth-child(2) {
-			width: 30%;
-		}
-		.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:last-child {
-			width: 28%;
 		}
 		.entity-info.entity-type-regular .entity-body .f-list > .cell > .label {
 			margin-bottom: 0.25rem;
@@ -813,19 +836,6 @@ article.message {
 		.entity-info.entity-type-regular .entity-body .f-list > .cell > .content {
 			padding-top: 0;
 			font-size: 0.75rem;
-			line-height: 1.5;
-		}
-
-		@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
-			.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:first-child {
-				width: 38%;
-			}
-			.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:nth-child(2) {
-				width: 32%;
-			}
-			.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:last-child {
-				width: 30%;
-			}
 		}
 
 
@@ -837,38 +847,36 @@ article.message {
 		}
 
 
-	.entity-info.entity-type-fixed-income .entity-body {
-		margin: 0.3rem 0 0.2rem 0;
+	.entity-info.entity-type-fixed-income {
 		}
 
-		.entity-info.entity-type-fixed-income .entity-body .call-to-action {
-			margin-top: -0.1rem;
-			margin-bottom: -0.3rem;
-		}
-
-		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:first-child {
-			width: 70%;
-		}
-		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:last-child {
-			width: 30%;
-		}
-		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell > .content {
-			padding-top: 0.9rem;
-		}
-		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell.hero > .content {
-			font-size: 1.85em;
-			height: 1.9rem;
-		}
-		.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:last-child > .content {
-			font-size: 0.75rem;
-		}
+		.entity-info.entity-type-fixed-income .entity-body {
+			padding-top: 0.8rem;
+			padding-bottom: 0.8rem;
+			}
+			.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:first-child {
+				width: 70%;
+			}
+			.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:last-child {
+				width: 30%;
+			}
+			.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell > .content {
+				padding-top: 0.9rem;
+			}
+			.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell.hero > .content {
+				font-size: 1.85em;
+				height: 1.9rem;
+			}
+			.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:last-child > .content {
+				font-size: 0.75rem;
+			}
 
 
 	.product-abstract .entity-info.entity-type-fixed-income .entity-body {
 		margin: 0;
 		}
 
-		.product-abstract .entity-info.entity-type-fixed-income .entity-body .call-to-action {
+		.product-abstract .entity-info.entity-type-fixed-income .call-to-action {
 			height: 2rem;
 			position: absolute;
 			top: 0;
@@ -908,12 +916,18 @@ article.message {
 
 
 	.entity-info.entity-type-po-history .entity-body {
-		margin: 0.25rem 0 0 0;
+		padding-top: 0.8rem;
+		padding-bottom: 0.8rem;
 		}
 
-		.entity-info.entity-type-po-history .entity-body .call-to-action {
-			height: 2rem;
-			margin-top: -1.25rem;
+		.entity-info.entity-type-po-history .entity-body .product-caption-block {
+			margin-top: 0;
+			margin-bottom: 0.3rem;
+		}
+
+		.entity-info.entity-type-po-history .call-to-action {
+			top: 0;
+			height: auto;
 		}
 
 
@@ -3687,9 +3701,9 @@ dl.tickets-list {
 			background-size: auto 26rem;
 		}
 
-		.page.has-header-bg .page-header {
+		/* .page.has-header-bg .page-header {
 			background-color: transparent!important;
-		}
+		} */
 
 		.page.has-header-bg .row.bg-meets-page-header-container .hero-content-block,
 		.page.has-header-bg .row.bg-meets-page-header-container {
@@ -3701,7 +3715,7 @@ dl.tickets-list {
 		}
 		.page.has-header-bg::before,
 		.page.has-header-bg .page-header {
-			background-image: url(../../images/_common/page-header-bg-extended.jpg);
+			background-image: url(../../images/_common/page-header-bg-extended-small.jpg);
 		}
 
 

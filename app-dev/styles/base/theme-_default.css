@@ -72,10 +72,11 @@ a, a:visited {
 		transition-property: none;
 		opacity: 0.6;
 	}
-	a:active .hero-content-block,
 	.row.menu-item:active,
 	.row.interactive:active,
 	.row.call-to-action:active,
+	a:active .hero-content-block,
+	a:active .entity-body,
 	a:active .row {
 		transition-property: none;
 		background-color: rgba(0, 0, 0, 0.05);
@@ -842,16 +843,6 @@ dl.tickets-list {
 .f-block { /* function-block */
 	color: #666;
 	}
-	.f-block .row h3,
-	.f-block .row h2,
-	.f-block .row h1 {
-		color: black;
-	}
-
-	.row.caption-bar h1 .label {
-		color: #666;
-	}
-
 	.f-block-body {
 		background-color: white;
 	}
@@ -864,13 +855,10 @@ dl.tickets-list {
 	.f-block-body .row {
 		border-color: #f1f1f1;
 	}
-	/* .f-block-body .row.hide-borders,
-	.row.hide-borders {
-		border-color: white;
-	} */
 
-	.f-block-body,
-	.f-block-body a .row {
+	.f-block-body a .entity-body,
+	.f-block-body a .row,
+	.f-block-body {
 		color: #333;
 	}
 	a .row::after,
@@ -885,6 +873,13 @@ dl.tickets-list {
 		color: #999;
 	}
 
+	.f-block .row h3,
+	.f-block .row h2,
+	.f-block .row h1 {
+		color: black;
+	}
+
+	.row h3,
 	.row h4,
 	.row h5,
 	.emphasise-leftside  .row  .left,
@@ -898,6 +893,10 @@ dl.tickets-list {
 		color: black;
 	}
 	.row sub {
+		color: #666;
+	}
+
+	.row.caption-bar .label {
 		color: #666;
 	}
 
@@ -972,13 +971,34 @@ dl.tickets-list {
 	}
 	.marker {
 	}
-	.marker.marker-ke-zhuan-rang { color: #4285f4; }
-	.marker.marker-ke-yong-quan { color: #fb5f5f; }
-	.marker.marker-jia-xi { color: #3274e5; }
-	.marker.marker-di-yong { color: #ee3871; }
-	.marker.marker-te-quan-ben-jin { color: #8161e2; }
-	.marker.marker-buy-in { color: #f60; }
-	.marker.marker-sale-out { color: #1d6eff; }
+    .product-caption-block sub.marker.marker-ke-zhuan-rang,
+                              .marker.marker-ke-zhuan-rang { 
+		color: #4285f4;
+	}
+    .product-caption-block sub.marker.marker-ke-yong-quan,
+                              .marker.marker-ke-yong-quan { 
+		color: #fb5f5f;
+	}
+    .product-caption-block sub.marker.marker-jia-xi,
+                              .marker.marker-jia-xi { 
+		color: #3274e5;
+	}
+    .product-caption-block sub.marker.marker-di-yong,
+                              .marker.marker-di-yong { 
+		color: #ee3871;
+	}
+    .product-caption-block sub.marker.marker-te-quan-ben-jin,
+                              .marker.marker-te-quan-ben-jin { 
+		color: #8161e2;
+	}
+    .product-caption-block sub.marker.marker-buy-in,
+                              .marker.marker-buy-in { 
+		color: #f60;
+	}
+    .product-caption-block sub.marker.marker-sale-out,
+                              .marker.marker-sale-out { 
+		color: #1d6eff;
+	}
 
 
 .keyword {
@@ -1089,11 +1109,6 @@ dl.tickets-list {
 	.product-abstract .hero-block       .subtitle {
 		color: #999;
 	}
-
-
-	.product-abstract .entity-info.entity-type-fixed-income .entity-body .call-to-action {
-		color: #4285f4;
-		}
 
 	.row.fixed-income-record-detail-asset-abstract .left h4 {
 		color: #666;

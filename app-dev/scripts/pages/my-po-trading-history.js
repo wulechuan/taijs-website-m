@@ -20,11 +20,7 @@ $(function () {
 		var anchorForInspection = this.parentNode;
 		anchorForInspection.href = urlForInspection;
 
-		var $buttonBuyMore = $record.find('button[button-action="call-to-action"]');
-		$buttonBuyMore.on('click', function (event) {
-			event.preventDefault();
-			event.stopPropagation();
-			window.location.assign(urlForBuying);
-		});
+		var anchorBuyMore = $record.find('.call-to-action [role="button"]')[0];
+		anchorBuyMore.href = urlForBuying;
 	});
 });

@@ -3098,6 +3098,7 @@ window.webLogicControls = {};
 			}
 
 			function updateCssClasses() {
+				setTimeout(function () {
 				if (status.valueIsEmpty) {
 					$(fieldElement)
 						.removeClass('non-empty-field')
@@ -3109,6 +3110,7 @@ window.webLogicControls = {};
 						   .addClass('non-empty-field')
 					;
 				}
+				}, 60);
 
 
 				if (status.valueIsValid) {
