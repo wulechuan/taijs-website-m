@@ -916,12 +916,18 @@ article.message {
 
 
 	.entity-info.entity-type-po-history .entity-body {
-		margin: 0.25rem 0 0 0;
+		padding-top: 0.8rem;
+		padding-bottom: 0.8rem;
+		}
+
+		.entity-info.entity-type-po-history .entity-body .product-caption-block {
+			margin-top: 0;
+			margin-bottom: 0.3rem;
 		}
 
 		.entity-info.entity-type-po-history .call-to-action {
-			height: 2rem;
-			margin-top: -1.25rem;
+			top: 0;
+			height: auto;
 		}
 
 
