@@ -72,10 +72,11 @@ a, a:visited {
 		transition-property: none;
 		opacity: 0.6;
 	}
-	a:active .hero-content-block,
 	.row.menu-item:active,
 	.row.interactive:active,
 	.row.call-to-action:active,
+	a:active .hero-content-block,
+	a:active .entity-body,
 	a:active .row {
 		transition-property: none;
 		background-color: rgba(0, 0, 0, 0.05);
