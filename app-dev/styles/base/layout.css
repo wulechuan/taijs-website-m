@@ -612,8 +612,56 @@ article.message {
 				position: relative;
 				padding: 0.25rem;
 				margin: -0.25rem;
+				width: 55%;
+				text-align: left;
+			}
+
+			.entity-body .f-list > a > .cell:last-child,
+			.entity-body .f-list     > .cell:last-child {
+				width: 45%;
+			}
+
+			.entity-body .f-list.columns-count-3 > a > .cell:first-child,
+			.entity-body .f-list.columns-count-3     > .cell:first-child {
 				width: 33%;
 			}
+			.entity-body .f-list.columns-count-3 > a > .cell:nth-child(2),
+			.entity-body .f-list.columns-count-3     > .cell:nth-child(2) {
+				width: 33%;
+			}
+			.entity-body .f-list.columns-count-3 > a > .cell:last-child,
+			.entity-body .f-list.columns-count-3     > .cell:last-child {
+				width: 34%;
+			}
+
+			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+				.entity-body .f-list.columns-count-3 > a > .cell:first-child,
+				.entity-body .f-list.columns-count-3     > .cell:first-child {
+					width: 32%;
+				}
+				.entity-body .f-list.columns-count-3 > a > .cell:nth-child(2),
+				.entity-body .f-list.columns-count-3     > .cell:nth-child(2) {
+					width: 33%;
+				}
+				.entity-body .f-list.columns-count-3 > a > .cell:last-child,
+				.entity-body .f-list.columns-count-3     > .cell:last-child {
+					width: 35%;
+				}
+			}
+
+			.entity-body .f-list.columns-justify > a:first-child  > .cell,
+			.entity-body .f-list.columns-justify                  > .cell:first-child {
+				text-align: left;
+			}
+			.entity-body .f-list.columns-justify > a:nth-child(2) > .cell,
+			.entity-body .f-list.columns-justify                  > .cell:nth-child(2) {
+				text-align: center;
+			}
+			.entity-body .f-list.columns-justify > a:last-child   > .cell,
+			.entity-body .f-list.columns-justify                  > .cell:last-child {
+				text-align: right;
+			}
+
 			.entity-body .f-list > a > .cell *,
 			.entity-body .f-list     > .cell * {
 				line-height: 1;
@@ -715,37 +763,21 @@ article.message {
 				}
 
 
-			.entity-body .f-list.columns-3-justify {
-				}
-				.entity-body .f-list.columns-3-justify > a:first-child  > .cell,
-				.entity-body .f-list.columns-3-justify                  > .cell:first-child {
-					text-align: left;
-				}
-				.entity-body .f-list.columns-3-justify > a:nth-child(2) > .cell,
-				.entity-body .f-list.columns-3-justify                  > .cell:nth-child(2) {
-					text-align: center;
-				}
-				.entity-body .f-list.columns-3-justify > a:last-child   > .cell,
-				.entity-body .f-list.columns-3-justify                  > .cell:last-child {
-					text-align: right;
-				}
-
-
 	.entity-buyable {
 		}
+
 		.entity-buyable .entity-body .f-list {
 		width: calc(100% - 4.5rem);
 		}
+
 		.entity-buyable .call-to-action {
 			display: block;
 			position: absolute;
 			right: 0.8rem;
-			top: 2rem;
+			top: 2.5rem;
 			bottom: 0;
 		}
-		.entity-buyable .call-to-action.tall {
-			height: 4rem;
-		}
+
 		.entity-buyable .call-to-action::before {
 			content: '';
 			display: inline-block;
@@ -753,69 +785,51 @@ article.message {
 			width: 0px;
 			height: 100%;
 		}
+
 		.entity-buyable .call-to-action > *,
 		.entity-buyable .call-to-action [role="button"],
 		.entity-buyable .call-to-action button {
 			display: inline-block;
-			vertical-align: bottom;
+			vertical-align: middle;
 			margin: 0;
-		}
-		.entity-buyable .call-to-action [role="button"],
-		.entity-buyable .call-to-action button {
-			box-sizing: border-box;
-			width: 4rem;
-			height: 1.6rem;
-			padding: 0;
-			line-height: 1.58rem;
-			font-size: 0.65rem;
-			font-weight: 200;
-		}
+			}
+			.entity-buyable .call-to-action [role="button"],
+			.entity-buyable .call-to-action button {
+				box-sizing: border-box;
+				width: 4rem;
+				height: 1.6rem;
+				padding: 0;
+				line-height: 1.58rem;
+				font-size: 0.65rem;
+				font-weight: 200;
+			}
+
 		.entity-buyable.entity-time-limited .product-caption-block {
 			margin-bottom: 0.3rem;
-		}
+			}
+			.entity-buyable.entity-time-limited .call-to-action {
+				top: 2.65rem;
+				height: 4rem;
+				bottom: auto;
+			}
+			.entity-buyable.entity-time-limited .call-to-action .count-down-disc,
+			.entity-buyable.entity-time-limited .call-to-action [role="button"].progress-rings-container,
+			.entity-buyable.entity-time-limited .call-to-action button.progress-rings-container,
+			.entity-buyable.entity-time-limited .call-to-action .progress-rings-container {
+				padding: 0;
+				width: 3.75rem;
+				height: 3.75rem;
+			}
 
-		.entity-buyable.entity-time-limited .call-to-action {
-			top: 2.4rem;
-		}
-
-		.entity-buyable.entity-time-limited .count-down-disc,
-		.entity-buyable.entity-time-limited [role="button"].progress-rings-container,
-		.entity-buyable.entity-time-limited button.progress-rings-container,
-		.entity-buyable.entity-time-limited .progress-rings-container {
-			padding: 0;
-			width: 3.75rem;
-			height: 3.75rem;
-		}
-
-		.entity-buyable.entity-time-limited .progress-rings-container .label em,
-		.entity-buyable.entity-time-limited .progress-rings-container .label {
-			font-size: 1.4rem;
-			font-weight: 400;
-		}
-
+			.entity-buyable.entity-time-limited .call-to-action .progress-rings-container .label em,
+			.entity-buyable.entity-time-limited .call-to-action .progress-rings-container .label {
+				font-size: 1.4rem;
+				font-weight: 400;
+			}
 
 
 	.entity-info.entity-type-regular .entity-body .f-list {
 		padding-bottom: 0.25rem;
-		}
-
-		.entity-info.entity-type-regular .entity-body .f-list > .cell {
-			width: 55%;
-			text-align: left;
-		}
-		.entity-info.entity-type-regular .entity-body .f-list > .cell:last-child {
-			width: 45%;
-			text-align: right;
-		}
-
-		.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:first-child {
-			width: 42%;
-		}
-		.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:nth-child(2) {
-			width: 30%;
-		}
-		.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:last-child {
-			width: 28%;
 		}
 		.entity-info.entity-type-regular .entity-body .f-list > .cell > .label {
 			margin-bottom: 0.25rem;
@@ -826,17 +840,6 @@ article.message {
 			line-height: 1.5;
 		}
 
-		@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
-			.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:first-child {
-				width: 38%;
-			}
-			.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:nth-child(2) {
-				width: 32%;
-			}
-			.entity-info.entity-type-regular .entity-body .f-list.columns-count-3 > .cell:last-child {
-				width: 30%;
-			}
-		}
 
 
 	.entity-info.entity-type-fund .entity-body .f-list > .cell:first-child {
