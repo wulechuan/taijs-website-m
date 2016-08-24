@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html><head>
 	<!-- inject:headBeforeTitle:html --><!-- endinject -->
-	<title>公募基金</title>
+	<title>基金详情</title>
 	<!-- inject:headAfterTitle:html --><!-- endinject -->
 </head>
 <body class="user-has-logged-in">
@@ -12,86 +12,31 @@
 <!-- inject:appBGLayer0:html --><!-- endinject -->
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
-<div data-app-header-title="公募基金" id="page-my-po-index"
-	 class="page has-page-header fixed-page-header has-header-bg"
+<div data-app-header-title="基金详情" id="page-my-po-index"
+	 class="page has-page-header fixed-page-header"
 	>
 	<link rel="stylesheet" type="text/css" href="../scripts/vendors/swiper-3.3.1/css/swiper.min.css">
 	<script type="text/javascript" src="../scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
 	<header class="page-header">
 		<div class="row header-bar">
-			<nav>
-				<ul role="menubar" class="menu level-1 layout-hori"
-					><li role="menuitem" aria-haspopup="true"
-						class="menu-item has-sub-menu"
-					            aria-labelledby="menu-nav-products-current-value" 
-						><span class="label" id="menu-nav-products-current-value">公募基金</span
-
-						><div class="menu-wrap level-2 has-popup-animation"
-							><ul class="menu level-2 layout-vert cast-shadow"
-								><li role="menuitem"
-									class="menu-item"
-									            aria-labelledby="menu-nav-products-2-1-fixed-income"
-									><a href="my-fixed-income-index.html"
-										><span class="label" id="menu-nav-products-2-1-fixed-income"
-										>固收资产</span
-									></a
-								></li
-								><li role="menuitem"
-									class="menu-item"
-									            aria-labelledby="menu-nav-products-2-2-newbie"
-									><a href="newbie-reserved-assets.html"
-										><span class="label" id="menu-nav-products-2-2-newbie"
-										>新手专享</span
-									></a
-								></li
-								><li role="menuitem"
-									class="menu-item current"
-									            aria-labelledby="menu-nav-products-2-3-po"
-									><a href="#"
-										><span class="label" id="menu-nav-products-2-3-po"
-										>公墓基金</span
-									></a
-								></li
-							></ul
-						></div
-					></li
-				></ul>
-			</nav>
+			<div class="center dual-lines"><h1 class="product-caption-block">
+				<span class="value product-name">华鹏医药科技(QDII)</span>
+				<sub  class="value product-id"  >001230</sub>
+			</h1></div>
 			<div class="left" ><a role="button" class="nav-back" href="account-personal-center.html"></a></div>
-			<div class="right"><a href="my-po-trading-history.html">交易记录</a></div>
+			<div class="right"
+				><button class="toggle-favorite">
+					<div class="icon icons-in-elements favorite-entity-icon">
+						<i class="icon-face-1 iconfont"></i>
+						<i class="icon-face-2 iconfont"></i>
+					</div>
+				</button
+				><a role="button" class="nav-home" href="../index.html"></a
+			></div>
 		</div>
 	</header>
 
 	<div class="page-body">
-		<div class="row color-inverted bg-meets-page-header-container">
-			<div class="hero-content-block hero-content-block-style-2">
-				<h3 class="sensitive-content">
-					<span class="subject">总资产(元)<i class="sensitive-content-status-icon"></i></span>
-					<span class="hero-word"
-						><em
-							><span class="sensitive-value-cell"
-								><span class="value sensitive-value currency digits" style="visibility: hidden;">988,500.00</span
-								><span class="sensitive-value-replacement">*************</span
-							></span
-						></em
-					></span>
-				</h3>
-				<div class="hero-content-features">
-					<ul class="f-list columns columns-count-2"
-						><li class="col">
-							<span class="label compensate-punctuation">昨日收益(元)</span>
-							<span class="content"><span class="value currency digits digits-with-sign yesterday-income">+26.35</span></span>
-						</li
-						><hr class="vert" 
-						><li class="col">
-							<span class="label compensate-punctuation">累计收益(元)</span>
-							<span class="content"><span class="value currency digits accumulative-income">+500.00</span></span>
-						</li
-					></ul>
-				</div>
-			</div>
-		</div>
-
 		<div class="content-with-solid-bg helvetica-digits">
 			<div class="f-block snap-top large-gap">
 				<div class="f-block-body">
@@ -424,7 +369,7 @@
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
-	<script src="../scripts/pages/my-po-index.min.js"></script>
+	<script src="../scripts/pages/fund-entity-detail.min.js"></script>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 

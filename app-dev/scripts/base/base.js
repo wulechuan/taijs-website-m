@@ -403,6 +403,13 @@
 			});
 		}
 
+		$('.toggle-favorite').each(function () {
+			var $button = $(this);
+			$button.on('click', function () {
+				$button.toggleClass('is-in-my-favorites');
+			});
+		});
+
 		function setupSearchBlockIfAny($page, isFirstTime) {
 			$page.find('.search-block').each(function () {
 				var $searchBlock = $(this);

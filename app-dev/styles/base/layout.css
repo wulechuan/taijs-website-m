@@ -1,3 +1,9 @@
+.header-bar button:active,
+a:active {
+	transition-property: none;
+	opacity: 0.6;
+}
+
 button.nav-share::before,
 button.nav-home::before,
 button.nav-back::before,
@@ -7,7 +13,7 @@ button.add-entity::before,
 [role="button"].nav-back::before,
 [role="button"].add-entity::before {
 	font-family: 'iconfont'!important;
-	font-size: 20px;
+	font-size: 1rem;
 	font-style: normal!important;
 	font-weight: normal!important;
 	-webkit-font-smoothing: antialiased;
@@ -63,7 +69,49 @@ button.add-entity::before,
 .favorite-entity-icon::before {
 	font-family: 'iconfont'!important;
 	content: '\e619';
-}
+	}
+	.icon.favorite-entity-icon.icons-in-elements::before {
+		content: none;
+	}
+	.icon.favorite-entity-icon.icons-in-elements .icon-face-1,
+	.icon.favorite-entity-icon.icons-in-elements .icon-face-2 {
+		transition-delay: 0s;
+		transition-property: transform, opacity, color;
+	}
+	.icon.favorite-entity-icon.icons-in-elements .icon-face-1::before {
+		content: '\e62a';
+	}
+	.icon.favorite-entity-icon.icons-in-elements .icon-face-2::before {
+		content: '\e619';
+	}
+	.icon.favorite-entity-icon.icons-in-elements:hover .icon-face-1,
+	.icon.favorite-entity-icon.icons-in-elements       .icon-face-1 {
+		visibility: visible;
+		opacity: 1;
+		transform: rotateZ(  0deg);
+	}
+	.icon.favorite-entity-icon.icons-in-elements:hover .icon-face-2,
+	.icon.favorite-entity-icon.icons-in-elements       .icon-face-2 {
+		visibility: visible;
+		opacity: 0;
+		transform: rotateZ(-72deg);
+	}
+	                    .icon.icons-in-elements.is-in-my-favorites:hover .icon-face-1,
+	.is-in-my-favorites .icon.icons-in-elements:hover                    .icon-face-1,
+	                    .icon.icons-in-elements.is-in-my-favorites       .icon-face-1,
+	.is-in-my-favorites .icon.icons-in-elements                          .icon-face-1 {
+		visibility: visible;
+		opacity: 0;
+		transform: rotateZ( 72deg);
+	}
+	                    .icon.icons-in-elements.is-in-my-favorites:hover .icon-face-2,
+	.is-in-my-favorites .icon.icons-in-elements:hover                    .icon-face-2,
+	                    .icon.icons-in-elements.is-in-my-favorites       .icon-face-2,
+	.is-in-my-favorites .icon.icons-in-elements                          .icon-face-2 {
+		visibility: visible;
+		opacity: 1;
+		transform: rotateZ(  0deg);
+	}
 
 
 .emphasis-via-size {
@@ -2065,8 +2113,9 @@ article.message {
 		margin: 0;
 	}
 	.row.header-bar a[role="button"],
-	.row.header-bar [role="button"],
-	.row.header-bar button {
+	.row.header-bar  [role="button"],
+	.row.header-bar         button {
+		color: inherit!important;
 		border-width: 0;
 		width: 2.4rem;
 		height: 2.4rem;
@@ -2075,6 +2124,21 @@ article.message {
 		margin: 0;
 		text-align: center;
 		background-color: transparent;
+		position: relative;
+	}
+	.row.header-bar a[role="button"] .icon,
+	.row.header-bar  [role="button"] .icon,
+	.row.header-bar         button   .icon {
+		color: inherit;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		margin: auto;
+	}
+	.row.header-bar .iconfont {
+		color: inherit!important;
 	}
 
 	.row.header-bar .left   .menu-item > a,
@@ -2193,6 +2257,11 @@ article.message {
 	.product-caption-block.dual-lines sub {
 		display: block;
 		margin-left: 0;
+	}
+	.page-header .dual-lines .product-caption-block sub {
+		display: block;
+		margin: auto;
+		color: inherit;
 	}
 
 
@@ -3568,8 +3637,6 @@ dl.tickets-list {
 		position: relative;
 		animation-delay: 0.2s;
 		animation-duration: 0.3s;
-		/* animation-name: search-result-record-shows-up; */
-		/* animation-fill-mode: backwards; */
 		}
 
 		@keyframes search-result-record-shows-up {
@@ -3641,36 +3708,6 @@ dl.tickets-list {
 
 		.search-result p {
 			font-size: 0.65rem;
-		}
-
-		.search-result .icon.icons-in-elements .icon-face-1,
-		.search-result .icon.icons-in-elements .icon-face-2 {
-			transition-delay: 0s;
-			transition-property: transform, opacity, color;
-		}
-		.search-result .icon.icons-in-elements:hover .icon-face-1,
-		.search-result .icon.icons-in-elements       .icon-face-1 {
-			visibility: visible;
-			opacity: 1;
-			transform: rotateZ(  0deg);
-		}
-		.search-result .icon.icons-in-elements:hover .icon-face-2,
-		.search-result .icon.icons-in-elements       .icon-face-2 {
-			visibility: visible;
-			opacity: 0;
-			transform: rotateZ(-72deg);
-		}
-		.search-result.is-in-my-favorites .icon.icons-in-elements:hover .icon-face-1,
-		.search-result.is-in-my-favorites .icon.icons-in-elements       .icon-face-1 {
-			visibility: visible;
-			opacity: 0;
-			transform: rotateZ( 72deg);
-		}
-		.search-result.is-in-my-favorites .icon.icons-in-elements:hover .icon-face-2,
-		.search-result.is-in-my-favorites .icon.icons-in-elements       .icon-face-2 {
-			visibility: visible;
-			opacity: 1;
-			transform: rotateZ(  0deg);
 		}
 
 
@@ -3851,7 +3888,7 @@ dl.tickets-list {
 
 
 	.page-header {
-		font-size: 20px;
+		font-size: 1rem;
 		text-align: center;
 
 		background-repeat: no-repeat;
@@ -3865,6 +3902,15 @@ dl.tickets-list {
 
 		.page-header input {
 			box-shadow: none;
+		}
+
+		.page-header a[role="button"] .icon,
+		.page-header a[role="button"],
+		.page-header  [role="button"] .icon,
+		.page-header  [role="button"],
+		.page-header           button .icon,
+		.page-header           button {
+			font-size: 1rem;
 		}
 
 

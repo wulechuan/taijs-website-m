@@ -68,10 +68,6 @@ em {
 a, a:visited {
 	color: #4285f4;
 	}
-	a:active {
-		transition-property: none;
-		opacity: 0.6;
-	}
 	.row.menu-item:active,
 	.row.interactive:active,
 	.row.call-to-action:active,
@@ -1266,7 +1262,9 @@ dl.tickets-list {
 
 .search-result-records-panel {
 	}
-	.search-result .iconfont,
+	.search-result .icon.favorite-entity-icon {
+		color: #4285f4;
+	}
 	.search-result em {
 		color: #4285f4;
 	}
