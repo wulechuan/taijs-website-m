@@ -4,6 +4,44 @@ a:active {
 	opacity: 0.6;
 }
 
+.content-in-dual-lines .major {
+	display: block;
+	font-size: 0.9rem;
+	}
+	.content-in-dual-lines .minor {
+		display: block;
+		font-size: 0.55rem;
+		letter-spacing: 0;
+		font-weight: 200;
+		opacity: 0.5;
+	}
+	input[type="button"].content-in-dual-lines,
+	input[type="submit"].content-in-dual-lines,
+	input[type="reset"].content-in-dual-lines,
+	a[role="button"].content-in-dual-lines,
+	[role="button"].content-in-dual-lines,
+	button.content-in-dual-lines {
+		padding-top: 0.2rem;
+		padding-bottom: 0.2rem;
+		}
+		/* input[type="button"].content-in-dual-lines .major,
+		input[type="submit"].content-in-dual-lines .major,
+		input[type="reset"].content-in-dual-lines .major,
+		a[role="button"].content-in-dual-lines .major,
+		[role="button"].content-in-dual-lines .major,
+		button.content-in-dual-lines .major {
+			font-size: 0.8rem;
+		} */
+		a[role="button"][disabled].content-in-dual-lines,
+		[role="button"][disabled].content-in-dual-lines,
+		input[type="button"].content-in-dual-lines:disabled,
+		input[type="submit"].content-in-dual-lines:disabled,
+		input[type="reset"].content-in-dual-lines:disabled,
+		button.content-in-dual-lines:disabled .minor {
+			opacity: 1;
+		}
+
+
 button.nav-share::before,
 button.nav-home::before,
 button.nav-back::before,
@@ -38,32 +76,14 @@ button.add-entity::before,
 		content: '\e625';
 	}
 
-	input[type="button"].content-in-dual-lines,
-	input[type="submit"].content-in-dual-lines,
-	input[type="reset"].content-in-dual-lines,
-	a[role="button"].content-in-dual-lines,
-	[role="button"].content-in-dual-lines,
-	button.content-in-dual-lines {
-		padding-top: 0.2rem;
-		padding-bottom: 0.2rem;
-		}
-		.content-in-dual-lines .major {
-			display: block;
-			font-size: 0.9rem;
-		}
-		.content-in-dual-lines .minor {
-			display: block;
-			font-size: 0.55rem;
-			letter-spacing: 0;
-		}
 
-		.icon-medal {
-			background-size: 100% auto;
-			background-image: url(../../images/_common/medals.png);
-			}
-			.icon-medal.icon-medal-gold   { background-position: 0 0; }
-			.icon-medal.icon-medal-silver { background-position: 0 50%; }
-			.icon-medal.icon-medal-bronze { background-position: 0 100%; }
+.icon-medal {
+	background-size: 100% auto;
+	background-image: url(../../images/_common/medals.png);
+	}
+	.icon-medal.icon-medal-gold   { background-position: 0 0; }
+	.icon-medal.icon-medal-silver { background-position: 0 50%; }
+	.icon-medal.icon-medal-bronze { background-position: 0 100%; }
 
 
 .favorite-entity-icon::before {
@@ -1003,6 +1023,16 @@ article.message {
 		margin: -0.25rem;
 	}
 
+
+.row.graph {
+	padding-top: 0;
+	padding-bottom: 0;
+	}
+	.chart-block {
+		display: block;
+		width: 100%;
+		height: 10rem;
+	}
 
 .row.hero-content-block-call-to-action { /* homepage */
 	min-height: 1.5rem;
