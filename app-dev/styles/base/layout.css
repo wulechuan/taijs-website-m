@@ -2088,6 +2088,10 @@ article.message {
 		text-align: center;
 	}
 
+	.row.header-bar .center.dual-lines {
+		display: block;
+	}
+
 	.row.header-bar .left,
 	.row.header-bar .right {
 		display: block;
@@ -2259,10 +2263,22 @@ article.message {
 		display: block;
 		margin-left: 0;
 	}
-	.page-header .dual-lines .product-caption-block sub {
+	.color-inverted .product-caption-block sub,
+	.row.header-bar .product-caption-block sub {
 		display: block;
 		margin: auto;
 		color: inherit;
+	}
+
+	.row.header-bar .product-caption-block {
+		line-height: 1!important;
+		font-size: 0.95rem;
+		font-weight: 200;
+	}
+
+	.row.header-bar .product-caption-block sub {
+		font-size: 0.6rem;
+		line-height: 1.5;
 	}
 
 
