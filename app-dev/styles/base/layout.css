@@ -1328,7 +1328,8 @@ article.message {
 			padding-right: 1.6rem;
 			line-height: 1.4rem;
 		}
-		.product-abstract .abstract-title h3 {
+		.product-abstract .abstract-title h3,
+		.product-abstract .abstract-title h2 {
 			font-size: 0.8rem;
 			display: inline-block;
 			vertical-align: middle;
@@ -3962,7 +3963,7 @@ dl.tickets-list {
 	height: 100px;
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: cover;
+	background-size: contain;
 	background-image: url(../../images/taijs-brand/taijs-logo-white-bg-transparent-large-cropped.png);
 
 	box-sizing: border-box;
@@ -3975,13 +3976,26 @@ dl.tickets-list {
 		height: 100px;
 		background-repeat: no-repeat;
 		background-position: center;
-		background-size: cover;
+		background-size: contain;
 		background-image: url(../../images/taijs-brand/taijs-slogan-white-bg-transparent-large-cropped.png);
 		opacity: 0.6;
 
 		box-sizing: border-box;
 		padding: 1px; /* prevent block from merging margins with neighbours */
 	}
+.dtfunds-logo.image {
+	display: block;
+	width: 100px;
+	height: 100px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	background-image: url(../../images/dtfunds-brand/dtfunds-logo-white-bg-transparent-medium-cropped.png);
+
+	box-sizing: border-box;
+	padding: 1px; /* prevent block from merging margins with neighbours */
+	}
+
 
 
 .copyright {

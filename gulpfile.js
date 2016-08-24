@@ -249,6 +249,7 @@ gulp.task('html-inject-snippets', ['pre-process-html-snippets'], () => {
     { file: 'module-app-fg-layer-wrap-begin.html', name: 'appFGLayerWrapBegin:html' },
     { file: 'module-app-fg-layer-wrap-end.html', name: 'appFGLayerWrapEnd:html' },
     { file: 'module-page-body-stamp-0.html', name: 'pageBodyStamp0:html' },
+    { file: 'module-page-body-stamp-1.html', name: 'pageBodyStamp1:html' },
     { file: 'module-global-popup-layers.html', name: 'globalPopupLayers:html' },
     { file: 'module-popup-layers-wrap-begin.html', name: 'popupLayersWrapBegin:html' },
     { file: 'module-popup-layers-wrap-end.html', name: 'popupLayersWrapEnd:html' },
