@@ -2648,7 +2648,7 @@ article.message {
 			.tabular.funds-chargeback-list .cell.call-to-action button,
 			.tabular.funds-chargeback-list .cell.call-to-action a[role="button"] {
 				position: absolute;
-				margin: 0 0;
+				margin: -0.1rem 0;
 				height: 1.2rem;
 				right: 0;
 				top: 0;
