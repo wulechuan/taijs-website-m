@@ -1379,9 +1379,38 @@ window.webLogicControls = {};
 	var animation = {};
 	this.animation = animation;
 	(function () {
+		var animationEnv = {
+			cssTransitionsAreSupported: true,
+			cssAnimationsAreSupported: true,
+			cssTransitionPropertyName: 'transition',
+			cssTransitionEndEventName: 'transitionend',
+			cssAnimationPropertyName: 'animation',
+			cssAnimationEndEventName: 'animationend'
+		};
+
+		var _BS = document.body.style;
+
+		var _w3cT = typeof _BS.transition === 'string';
+		var _webkitT = typeof _BS.webkitTransition === 'string';
+		animationEnv.cssTransitionsAreSupported = _w3cT || _webkitT;
+		if (!_w3cT && _webkitT) {
+			animationEnv.cssTransitionPropertyName = 'webkitTransition';
+			animationEnv.cssTransitionEndEventName = 'webkitTransitionEnd';
+		}
+
+		var _w3cA = typeof _BS.animation === 'string';
+		var _webkitA = typeof _BS.webkitAnimation === 'string';
+		animationEnv.cssAnimationsAreSupported = _w3cA || _webkitA;
+		if (!_w3cA && _webkitA) {
+			animationEnv.cssAnimationPropertyName = 'webkitAnimation';
+			animationEnv.cssAnimationEndEventName = 'webkitAnimationEnd';
+		}
+
+
 		this.applyMultipleViaAnimationName = applyMultipleAnimationsViaAnimationName;
-		this.applySingleViaAnimationName = applySingleAnimationViaAnimationName;
-		this.applySingleViaCssClassName = applySingleAnimationViaCssClassName;
+		this.applySingleViaAnimationName   = applySingleAnimationViaAnimationName;
+		this.applySingleViaCssClassName    = applySingleAnimationViaCssClassName;
+
 
 		function applyMultipleAnimationsViaAnimationName(targets, animationNameString, options) {
 			var privateOptions = {
@@ -1570,13 +1599,9 @@ window.webLogicControls = {};
 
 				var animationDefinition = animationNameString + duration + delay + suffix;
 
-				var _style = element.style;
-				if (typeof _style.animation === 'string') {
-					_style.animation = animationDefinition;
-				} else if (typeof _style.webKitAnimation === 'string') {
-					_style.webKitAnimation = animationDefinition;
+				if (animationEnv.cssAnimationsAreSupported) {
+					element.style[animationEnv.cssAnimationPropertyName] = animationDefinition;
 				}
-				
 
 				if (options.cssClassNamesToAdd) {
 					$(element).addClass(options.cssClassNamesToAdd);
@@ -1587,8 +1612,7 @@ window.webLogicControls = {};
 
 			function doRemoveAnimation() {
 				// C.t('remove ani from', this);
-				this.style.webKitAnimation = '';
-				this.style.animation = '';
+				this.style[animationEnv.cssAnimationPropertyName] = '';
 
 				if (options.cssClassNamesToAdd) {
 					$(element).addClass(options.cssClassNamesToAdd);
@@ -1661,13 +1685,14 @@ window.webLogicControls = {};
 
 			if (succeeded) {
 				// C.l('applied!', options);
-				$(element).addClass('animating '+privateOptions.cssClassNamesToAdd);
+				var nonCssAnimationClassName = animationEnv.cssAnimationsAreSupported ? '' : 'non-css-ani ';
+				$(element).addClass('animating '+nonCssAnimationClassName+privateOptions.cssClassNamesToAdd);
 
 				if (privateOptions.showBeforeAnimating) {
 					$(element).show();
 				}
 
-				element.addEventListener('animationend', _onAnimationEnd);
+				element.addEventListener(animationEnv.cssAnimationEndEventName, _onAnimationEnd);
 				if (privateOptions.shouldNotWaitForAnimationEndForEver) {
 					setTimeout(function () {
 						_onAnimationEnd(null, true);
@@ -1684,9 +1709,12 @@ window.webLogicControls = {};
 				if (invokedViaTimer === true) {
 					// C.w('Timer ends waiting of animation for ', element);
 				}
-				element.removeEventListener('animationend', _onAnimationEnd);
 
-				$(element).removeClass('animating '+privateOptions.cssClassNamesToAdd);
+				if (animationEnv.cssAnimationsAreSupported) {
+					element.removeEventListener(animationEnv.cssAnimationEndEventName, _onAnimationEnd);
+					$(element).removeClass('animating '+privateOptions.cssClassNamesToAdd);
+				}
+
 
 				if (typeof doRemoveAnimation === 'function') doRemoveAnimation.apply(element, arguments);
 
@@ -1839,6 +1867,7 @@ window.webLogicControls = {};
 		// };
 
 		this.PopupLayersManager = function PopupLayersManager() {
+			var AT = animation; // AnimationTools
 			var thisController = this;
 
 			// var privateStatus = {};
