@@ -74,7 +74,6 @@ a, a:visited {
 	a:active .hero-content-block,
 	a:active .entity-body,
 	a:active .row {
-		transition-property: none;
 		background-color: rgba(0, 0, 0, 0.05);
 	}
 
@@ -348,21 +347,6 @@ input {
 	[role="button"].simple-look,
 	button.simple-look {
 		color: #4285f4;
-	}
-
-	input[type="reset"].simple-look *,
-	input[type="reset"].simple-look,
-	input[type="button"].simple-look *,
-	input[type="button"].simple-look,
-	input[type="submit"].simple-look *,
-	input[type="submit"].simple-look,
-	a[role="button"].simple-look *,
-	a[role="button"].simple-look,
-	[role="button"].simple-look *,
-	[role="button"].simple-look,
-	button.simple-look *,
-	button.simple-look {
-		transition-property: background-color;
 	}
 
 	input[type="reset"].simple-look:hover .iconfont,

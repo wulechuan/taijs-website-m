@@ -1,9 +1,18 @@
-.header-bar button:active,
-a:active {
-	-webkit-transition-property: none;
-	        transition-property: none;
+a:active, .header-bar button:active {
 	opacity: 0.6;
-}
+	}
+	.header-bar button:active,
+	.row.menu-item:active,
+	.row.interactive:active,
+	.row.call-to-action:active,
+	a:active .hero-content-block,
+	a:active .entity-body,
+	a:active .row,
+	a:active {
+		-webkit-transition-property: none;
+		        transition-property: none;
+	}
+
 
 .content-in-dual-lines .major {
 	display: block;

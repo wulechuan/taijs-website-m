@@ -279,6 +279,7 @@ button {
 	input[type="button"].simple-look,
 	input[type="submit"].simple-look,
 	input[type="reset"].simple-look,
+	a[role="button"].simple-look,
 	[role="button"].simple-look,
 	button.simple-look {
 		min-height: 0;
@@ -291,6 +292,22 @@ button {
 		border: none;
 		background: none;
 		background-color: transparent;
+	}
+
+	input[type="reset"].simple-look *,
+	input[type="reset"].simple-look,
+	input[type="button"].simple-look *,
+	input[type="button"].simple-look,
+	input[type="submit"].simple-look *,
+	input[type="submit"].simple-look,
+	a[role="button"].simple-look *,
+	a[role="button"].simple-look,
+	[role="button"].simple-look *,
+	[role="button"].simple-look,
+	button.simple-look *,
+	button.simple-look {
+		-webkit-transition-property: background-color;
+		        transition-property: background-color;
 	}
 
 	input[type="button"].simple-look > .label,
