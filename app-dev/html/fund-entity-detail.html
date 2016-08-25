@@ -12,17 +12,19 @@
 <!-- inject:appBGLayer0:html --><!-- endinject -->
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
-<div data-app-header-title="基金详情" id="page-my-po-index"
+<div data-app-header-title="基金详情" id="page-fund-entity-detail"
 	 class="page has-page-header fixed-page-header has-page-footer fixed-page-footer"
 	>
 	<link rel="stylesheet" type="text/css" href="../scripts/vendors/swiper-3.3.1/css/swiper.min.css">
 	<script type="text/javascript" src="../scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
 	<header class="page-header">
 		<div class="row header-bar">
-			<div class="center"><h1 class="product-caption-block dual-lines">
-				<span class="value product-name">华鹏医药科技(QDII)</span>
-				<sub  class="value product-id"  >001230</sub>
-			</h1></div>
+			<div class="center shift-left-on-narrow-screen">
+				<h1 class="product-caption-block dual-lines">
+					<span class="value product-name">华鹏医药科技(QDII)</span>
+					<sub  class="value product-id"  >001230</sub>
+				</h1>
+			</div>
 			<div class="left" ><a role="button" class="nav-back" href="account-personal-center.html"></a></div>
 			<div class="right"
 				><button class="toggle-favorite">
@@ -61,6 +63,23 @@
 							></ul>
 						</div>
 					</div>
+
+					<div class="hero-content-features">
+						<ul class="f-list columns columns-count-3"
+							><li class="col col-1">
+								<span class="label">昨日收益(元)</span>
+								<span class="content"><span class="value currency digits digits-with-sign yesterday-income">+26.35</span></span>
+							</li
+							><li class="col col-2">
+								<span class="label">起投金额(元)</span>
+								<span class="content"><span class="value currency digits accumulative-income">269,826.35</span></span>
+							</li
+							><li class="col col-3">
+								<span class="label">预计收益(元)</span>
+								<span class="content"><span class="value currency digits digits-with-sign forecast-income">+3,596.62</span></span>
+							</li
+						></ul>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -96,8 +115,7 @@
 								</div>
 							</div>
 							<div class="row hide-borders graph">
-								<div class="graph-timeline">
-								</div>
+								<div class="ruler" data-ruler-sub-division="5" data-ruler-shown-segments="5"></div>
 							</div>
 						</div>
 					</div>
@@ -106,13 +124,24 @@
 				<div role="tabpanel" class="panel panel-has-animation" id="panel-fund-net-worth-trend">
 					<div class="f-block snap-top">
 						<div class="f-block-body">
+							<div class="row rightside-wider">
+								<div class="left" >涨跌幅(%)</div>
+								<div class="right">
+									<ul class="f-list layout-hori fund-net-worth-trend-chart-legend">
+										<li class="line-color-1"><i class="legend-symbol"></i>
+											本基金：  <span class="value positive-value">+1.81%</span></li>
+										<li class="line-color-2"><i class="legend-symbol"></i>
+											沪深300： <span class="value negative-value">-2.81%</span></li>
+									</ul>
+								</div>
+							</div>
+
 							<div class="row hide-borders graph">
 								<div class="chart-block">
 								</div>
 							</div>
 							<div class="row hide-borders graph">
-								<div class="graph-timeline">
-								</div>
+								<div class="ruler" data-ruler-sub-division="5" data-ruler-shown-segments="5"></div>
 							</div>
 						</div>
 					</div>

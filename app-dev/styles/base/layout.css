@@ -608,6 +608,30 @@ article.message {
 	}
 
 
+.f-list.fund-net-worth-trend-chart-legend {
+	font-size: 0.5rem;
+	}
+
+	.f-list.fund-net-worth-trend-chart-legend > li {
+		position: relative;
+		padding-left: 0.6rem;
+		margin-left: 1.4rem;
+		line-height: 1rem;
+	}
+
+	.f-list.fund-net-worth-trend-chart-legend > li .legend-symbol {
+		display: block;
+		width: 0.4rem;
+		height: 0.4rem;
+		border-radius: 1000px;
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		margin: auto 0;
+	}
+
+
 .poststamp {
 	background-repeat: no-repeat;
 	background-image: url(../../images/_common/poststamp-w200px.png);
@@ -1034,6 +1058,7 @@ article.message {
 		height: 10rem;
 	}
 
+
 .row.hero-content-block-call-to-action { /* homepage */
 	min-height: 1.5rem;
 	}
@@ -1079,31 +1104,31 @@ article.message {
 		font-size: 0.6rem;
 	}
 
-	.hero-content-block .hero-content-features {
+	.hero-content-features {
 		margin: 0.25rem auto;
 		text-align: center;
 	}
 
-	.hero-content-block .hero-content-features > .f-list > li {
+	.hero-content-features > .f-list > li {
 		display: inline-block;
 		vertical-align: top;
 	}
 
-	.hero-content-block .hero-content-features > .f-list > li .label {
+	.hero-content-features > .f-list > li .label {
 		display: block;
 		font-size: 0.6rem;
 	}
-	.hero-content-block .hero-content-features > .f-list > li .content {
+	.hero-content-features > .f-list > li .content {
 		display: block;
 		font-size: 1rem;
 	}
-	.hero-content-block .hero-content-features > .f-list > li ~ hr.vert {
+	.hero-content-features > .f-list > li ~ hr.vert {
 		height: 2rem;
 		margin-top: 0.1rem;
 		opacity: 0.1;
 	}
 	@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
-		.hero-content-block .hero-content-features > .f-list > li .content {
+		.hero-content-features > .f-list > li .content {
 			font-size: 0.9rem;
 		}
 	}
@@ -1319,9 +1344,14 @@ article.message {
 		.user-assets-abstract.user-assets-abstract-style-2 > .f-list > li:last-child {
 			margin-left: 1.2rem;
 		}
+		.user-assets-abstract.user-assets-abstract-style-2 > .f-list > a > li > .label,
+		.user-assets-abstract.user-assets-abstract-style-2 > .f-list     > li > .label {
+			margin-bottom: 0.5rem;
+		}
 		.user-assets-abstract.user-assets-abstract-style-2 > .f-list > a > li > .content .digits,
 		.user-assets-abstract.user-assets-abstract-style-2 > .f-list     > li > .content .digits {
 			font-weight: 300;
+			margin-bottom: 0.25rem;
 		}
 
 
@@ -2117,6 +2147,20 @@ article.message {
 		line-height: 1.4rem;
 		text-align: center;
 	}
+
+	@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+		.row.header-bar .center {
+			margin-left: 2rem;
+			margin-right: 2rem;
+		}
+		.row.header-bar .center.shift-left-on-narrow-screen {
+			margin-right: 4rem;
+		}
+		.row.header-bar .center.shift-right-on-narrow-screen {
+			margin-left: 4rem;
+		}
+	}
+
 
 	.row.header-bar .center.dual-lines {
 		display: block;

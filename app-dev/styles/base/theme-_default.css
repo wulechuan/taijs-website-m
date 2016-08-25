@@ -756,6 +756,17 @@ label.deco-input {
 }
 
 
+.f-list.fund-net-worth-trend-chart-legend {
+	}
+
+	.f-list.fund-net-worth-trend-chart-legend > li.line-color-1 .legend-symbol {
+		background-color: #4285f4;
+	}
+	.f-list.fund-net-worth-trend-chart-legend > li.line-color-2 .legend-symbol {
+		background-color: #f60;
+	}
+
+
 .filters {}
 	.filters .filters-label {
 		color: #4285f4;
