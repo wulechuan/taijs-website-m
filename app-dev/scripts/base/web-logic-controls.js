@@ -1375,6 +1375,338 @@ window.webLogicControls = {};
 	}).call(generalTools);
 
 
+	var animation = {};
+	this.animation = animation;
+	(function () {
+		this.applyMultipleViaAnimationName = applyMultipleAnimationsViaAnimationName;
+		this.applySingleViaAnimationName = applySingleAnimationViaAnimationName;
+		this.applySingleViaCssClassName = applySingleAnimationViaCssClassName;
+
+		function applyMultipleAnimationsViaAnimationName(targets, animationNameString, options) {
+			var privateOptions = {
+				playOneAfterOne: false,
+				firstDelay: 0,
+				delayA: 0.12,
+				delayB: 0.319,
+				durationA: 0.27,
+				durationB: 0.32
+			};
+
+			var privateStatus = {
+				onEachAnimationEnd: [],
+				onAllAnimationsEnd: []
+			};
+
+			WCU.save.boolean(privateOptions, 'playOneAfterOne', options);
+
+			WCU.save.number(privateOptions, 'firstDelay', options);
+			WCU.save.number(privateOptions, 'delayA', options);
+			WCU.save.number(privateOptions, 'delayB', options);
+
+			WCU.save.numberNonNegative(privateOptions, 'durationA', options);
+			WCU.save.numberNonNegative(privateOptions, 'durationB', options);
+
+
+			delete options.playOneAfterOne;
+			delete options.firstDelay;
+			delete options.delayA;
+			delete options.delayB;
+			delete options.durationA;
+			delete options.durationB;
+
+
+			var i, callBack;
+
+			if (options.hasOwnProperty('onEachAnimationEnd')) {
+				if (!Array.isArray(options.onEachAnimationEnd)) {
+					options.onEachAnimationEnd = [options.onEachAnimationEnd];
+				}
+
+				for (i = 0; i < options.onEachAnimationEnd.length; i++) {
+					callBack = options.onEachAnimationEnd[i];
+					if (typeof callBack === 'function') {
+						privateStatus.onEachAnimationEnd.push(callBack);
+					}
+				}
+				delete options.onEachAnimationEnd;
+			}
+
+			options.onAnimationEnd = _onEachAnimationEnd;
+
+
+			if (options.hasOwnProperty('onAllAnimationsEnd')) {
+				if (!Array.isArray(options.onAllAnimationsEnd)) {
+					options.onAllAnimationsEnd = [options.onAllAnimationsEnd];
+				}
+
+				for (i = 0; i < options.onAllAnimationsEnd.length; i++) {
+					callBack = options.onAllAnimationsEnd[i];
+					if (typeof callBack === 'function') {
+						privateStatus.onAllAnimationsEnd.push(callBack);
+					}
+				}
+				delete options.onAllAnimationsEnd;
+			}
+
+
+			options.animationDefinitionSuffix = 'both';
+
+
+			// var delays = [];
+			// var durations = [];
+			// var delaysPlusDurations = [];
+			var maxDelay = -100000;
+			var maxDuration = 0;
+			var maxDelayPlusDuration = 0;
+
+
+			var _O = privateOptions;
+
+			var elementOfMaxDelay;
+			var elementOfMaxDuration;
+			var elementOfMaxDelayPlusDuration;
+			var delay = _O.firstDelay;
+			var duration;
+
+			var cssClassNames = options.cssClassNamesToAddDuringGroupAnimation || null;
+			$(targets).addClass(cssClassNames);
+
+			for (i = 0; i < targets.length; i++) {
+				var target = targets[i];
+
+				if (delay > maxDelay) {
+					maxDelay = delay;
+					elementOfMaxDelay = target;
+				}
+
+				duration = _randomBetween(_O.durationA, _O.durationB);
+				if (duration > maxDuration) {
+					maxDuration = duration;
+					elementOfMaxDuration = target;
+				}
+
+				var delayPlusDuration = delay + duration;
+				if (delayPlusDuration > maxDelayPlusDuration) {
+					maxDelayPlusDuration = delayPlusDuration;
+					elementOfMaxDelayPlusDuration = target;
+				}
+
+				// delays[i] = delay;
+				// durations[i] = duration;
+				// delaysPlusDurations[i] = delayPlusDuration;
+
+				options.delay = delay;
+				options.duration = duration;
+				options.secondsToWaitForAnimationEnd = delayPlusDuration;
+
+
+				applySingleAnimationViaAnimationName(target, animationNameString, options);
+
+
+				var offset = _randomBetween(_O.delayA, _O.delayB);
+				if (_O.playOneAfterOne) {
+					delay = offset + delayPlusDuration;
+				} else {
+					delay += offset;
+				}
+			}
+
+
+			function _randomBetween(a, b) {
+				return b + (a-b) * Math.random();
+			}
+
+			function _onEachAnimationEnd() {
+				var calbacks = privateStatus.onEachAnimationEnd;
+				var element = this;
+				for (var i = 0; i < calbacks.length; i++) {
+					var callBack = calbacks[i];
+					if (typeof callBack === 'function') {
+						callBack.apply(element, arguments);
+					}
+				}
+
+				if (element === elementOfMaxDelayPlusDuration) {
+					_onAllAnimationsEnd.apply(null, arguments);
+				} else {
+					$(element).addClass('waiting');
+				}
+			}
+
+			function _onAllAnimationsEnd() {
+				$(targets).removeClass('waiting '+cssClassNames);
+
+				var calbacks = privateStatus.onAllAnimationsEnd;
+				for (var i = 0; i < calbacks.length; i++) {
+					var callBack = calbacks[i];
+					if (typeof callBack === 'function') {
+						callBack.apply(null, arguments);
+					}
+				}
+			}
+		}
+
+		function applySingleAnimationViaCssClassName(target, cssClassName, options) {
+			_applyAnimation(target, doApplyAnimation, doRemoveAnimation, options);
+
+			function doApplyAnimation(target/*, options*/) {
+				$(target).addClass(cssClassName);
+				return true;
+			}
+
+			function doRemoveAnimation() {
+				$(target).removeClass(cssClassName);
+			}
+		}
+
+		function applySingleAnimationViaAnimationName(element, animationNameString, options) {
+			_applyAnimation(element, doApplyAnimation, doRemoveAnimation, options);
+
+			function doApplyAnimation(element, options) {
+				var duration = ' '+options.duration+'s';
+				var delay    = (options.delay)    ? (' '+options.delay+'s') : '';
+				var suffix   = (options.animationDefinitionSuffix) ? (' '+options.animationDefinitionSuffix) : '';
+
+				var animationDefinition = animationNameString + duration + delay + suffix;
+
+				var _style = element.style;
+				if (typeof _style.animation === 'string') {
+					_style.animation = animationDefinition;
+				} else if (typeof _style.webKitAnimation === 'string') {
+					_style.webKitAnimation = animationDefinition;
+				}
+				
+
+				if (options.cssClassNamesToAdd) {
+					$(element).addClass(options.cssClassNamesToAdd);
+				}
+
+				return true;
+			}
+
+			function doRemoveAnimation() {
+				// C.t('remove ani from', this);
+				this.style.webKitAnimation = '';
+				this.style.animation = '';
+
+				if (options.cssClassNamesToAdd) {
+					$(element).addClass(options.cssClassNamesToAdd);
+				}
+			}
+		}
+
+		function _applyAnimation(element, doApplyAnimation, doRemoveAnimation, options) {
+			var privateOptions = {
+				cssClassNamesToAdd: '',
+				showBeforeAnimating: false,
+				allowedMinDuration: 0.2,
+				duration: 0.3,
+				actionAfterPlayingAnimation: null,
+				shouldNotWaitForAnimationEndForEver: true,
+				secondsToWaitForAnimationEnd: 0.4
+			};
+
+			var privateStatus = {
+				animationNotEndedEitherWay: true,
+				onAnimationEnd: []
+			};
+
+			WCU.save.boolean(privateOptions, 'showBeforeAnimating', options);
+			WCU.save.boolean(privateOptions, 'shouldNotWaitForAnimationEndForEver', options);
+
+			var R1 = WCU.save.numberNoLessThan(privateOptions, 'duration', options, false, privateOptions.allowedMinDuration);
+			var R2 = WCU.save.numberNoLessThan(privateOptions, 'secondsToWaitForAnimationEnd', options, false, privateOptions.duration);
+			if (R1.valueHasBeenChanged && !R2.valueHasBeenChanged) {
+				privateOptions.secondsToWaitForAnimationEnd = Math.max(privateOptions.secondsToWaitForAnimationEnd, privateOptions.duration);
+			}
+
+			if (options.actionAfterPlayingAnimation === 'hide') {
+				privateOptions.actionAfterPlayingAnimation = 'hide';
+			} else if (
+				options.actionAfterPlayingAnimation === 'nothing' ||
+				options.actionAfterPlayingAnimation === 'none' ||
+				options.actionAfterPlayingAnimation === 'null' ||
+				options.actionAfterPlayingAnimation === null
+			) {
+				privateOptions.actionAfterPlayingAnimation = null;
+			} else if (
+				options.actionAfterPlayingAnimation === 'remove' ||
+				options.actionAfterPlayingAnimation === 'delete' ||
+				options.actionAfterPlayingAnimation === 'del' ||
+				options.actionAfterPlayingAnimation === 'destroy'
+			) {
+				privateOptions.actionAfterPlayingAnimation = 'remove';
+			}
+
+
+			options.duration = privateOptions.duration; // for "doApplyAnimation"
+
+
+			if (options.hasOwnProperty('onAnimationEnd')) {
+				if (!Array.isArray(options.onAnimationEnd)) {
+					options.onAnimationEnd = [options.onAnimationEnd];
+				}
+
+				for (var i = 0; i < options.onAnimationEnd.length; i++) {
+					var callBack = options.onAnimationEnd[i];
+					if (typeof callBack === 'function') {
+						privateStatus.onAnimationEnd.push(callBack);
+					}
+				}
+			}
+
+
+			var succeeded = doApplyAnimation(element, options);
+
+			if (succeeded) {
+				// C.l('applied!', options);
+				$(element).addClass('animating '+privateOptions.cssClassNamesToAdd);
+
+				if (privateOptions.showBeforeAnimating) {
+					$(element).show();
+				}
+
+				element.addEventListener('animationend', _onAnimationEnd);
+				if (privateOptions.shouldNotWaitForAnimationEndForEver) {
+					setTimeout(function () {
+						_onAnimationEnd(null, true);
+					}, privateOptions.secondsToWaitForAnimationEnd * 1000);
+				}
+			}
+
+			function _onAnimationEnd(event, invokedViaTimer) {
+				if (!privateStatus.animationNotEndedEitherWay) {
+					return true;
+				}
+				privateStatus.animationNotEndedEitherWay = false;
+
+				if (invokedViaTimer === true) {
+					// C.w('Timer ends waiting of animation for ', element);
+				}
+				element.removeEventListener('animationend', _onAnimationEnd);
+
+				$(element).removeClass('animating '+privateOptions.cssClassNamesToAdd);
+
+				if (typeof doRemoveAnimation === 'function') doRemoveAnimation.apply(element, arguments);
+
+				for (var i = 0; i < options.onAnimationEnd.length; i++) {
+					var callBack = options.onAnimationEnd[i];
+					if (typeof callBack === 'function') {
+						callBack.apply(element, arguments);
+					}
+				}
+
+
+				if (privateOptions.actionAfterPlayingAnimation === 'hide') {
+					$(element).hide();
+				} else if (privateOptions.actionAfterPlayingAnimation === 'remove') {
+					element.parentNode.removeChild(element);
+				}
+			}
+		}
+	}).call(animation);
+
+
 	var UI = {};
 	this.UI = UI;
 	(function () { // UI
