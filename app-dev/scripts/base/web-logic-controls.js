@@ -1407,6 +1407,7 @@ window.webLogicControls = {};
 		}
 
 
+		this.env = animationEnv;
 		this.applyMultipleViaAnimationName = applyMultipleAnimationsViaAnimationName;
 		this.applySingleViaAnimationName   = applySingleAnimationViaAnimationName;
 		this.applySingleViaCssClassName    = applySingleAnimationViaCssClassName;
@@ -1576,7 +1577,18 @@ window.webLogicControls = {};
 			}
 		}
 
-		function applySingleAnimationViaCssClassName(target, cssClassName, options) {
+		function applySingleAnimationViaCssClassName(target, cssClassName, knownDuration, options) {
+			// knownDuration is for animation end timer
+			knownDuration = parseFloat(knownDuration);
+			if (isNaN(knownDuration) || knownDuration < 0) {
+				C.e('Please provide knownDuration for css animation via css class.');
+				return false;
+			}
+
+			if (typeof options !== 'object') options = {};
+
+			options.duration = knownDuration;
+
 			_applyAnimation(target, doApplyAnimation, doRemoveAnimation, options);
 
 			function doApplyAnimation(target/*, options*/) {
@@ -1635,6 +1647,8 @@ window.webLogicControls = {};
 				animationNotEndedEitherWay: true,
 				onAnimationEnd: []
 			};
+
+			options = options || {};
 
 			WCU.save.boolean(privateOptions, 'showBeforeAnimating', options);
 			WCU.save.boolean(privateOptions, 'shouldNotWaitForAnimationEndForEver', options);
@@ -1707,7 +1721,9 @@ window.webLogicControls = {};
 				privateStatus.animationNotEndedEitherWay = false;
 
 				if (invokedViaTimer === true) {
-					// C.w('Timer ends waiting of animation for ', element);
+					if (animation.env.cssAnimationsAreSupported) {
+						// C.w('Timer ends waiting of animation for ', element);
+					}
 				}
 
 				if (animationEnv.cssAnimationsAreSupported) {
@@ -1718,8 +1734,8 @@ window.webLogicControls = {};
 
 				if (typeof doRemoveAnimation === 'function') doRemoveAnimation.apply(element, arguments);
 
-				for (var i = 0; i < options.onAnimationEnd.length; i++) {
-					var callBack = options.onAnimationEnd[i];
+				for (var i = 0; i < privateStatus.onAnimationEnd.length; i++) {
+					var callBack = privateStatus.onAnimationEnd[i];
 					if (typeof callBack === 'function') {
 						callBack.apply(element, arguments);
 					}
@@ -1867,14 +1883,14 @@ window.webLogicControls = {};
 		// };
 
 		this.PopupLayersManager = function PopupLayersManager() {
-			var AT = animation; // AnimationTools
 			var thisController = this;
 
 			// var privateStatus = {};
 
 			var privateOptions = {
 				shouldNotWaitForAnimationEndForEver: true,
-				secondsToWaitBackPlateLeavingAniamtionEnd: 1.2,
+				secondsToWaitBeforeBackPlateLeavingAniamtionStart: 0.5,
+				secondsToWaitBackPlateLeavingAniamtionEnd: 0.6,
 				secondsToWaitPopupWindowShowingAniamtionEnd: 0.8,
 				secondsToWaitPopupWindowLeavingAniamtionEnd: 1.0,
 				cssAnimationSupported: true,
@@ -1895,19 +1911,6 @@ window.webLogicControls = {};
 			this.processAllUnder = _processAllUnder.bind(this);
 
 			(function _init () {
-				if (!!window.Modernizr && typeof window.Modernizr.cssanimations === 'boolean') {
-					privateOptions.cssAnimationSupported = window.Modernizr.cssanimations;
-				} else {
-					var _BS = document.body.style;
-					var _w3cA = typeof _BS.animation === 'string';
-					var _webkitA = typeof _BS.webkitAnimation === 'string';
-
-					privateOptions.cssAnimationSupported = _w3cA || _webkitA;
-					if (!_w3cA && _webkitA) {
-						privateOptions.cssAnimationEndEventName = 'webkitAnimationEnd';
-					}
-				}
-
 				this.processAllUnder('app');
 			}).call(this);
 
@@ -1994,45 +1997,6 @@ window.webLogicControls = {};
 			}
 
 			function _showOrHidePopupLayer(popupLayerIdOrDom, isToShow, eventOfShow, options) {
-				function __backPlateOnLeavingAnimationEnd(event, invokedViaTimer) {
-					if (!bp.__LeavingAnimationNotEndedEitherWay) {
-						return true;
-					}
-
-					if (invokedViaTimer === true) C.w('Timer ends waiting of "leaving" animation end for ', bp);
-					bp.removeEventListener(privateOptions.cssAnimationEndEventName, __backPlateOnLeavingAnimationEnd);
-					$bp.hide();
-					$bp.removeClass('popup-layer-back-plate-leaving');
-
-					delete bp.__LeavingAnimationNotEndedEitherWay;
-				}
-
-				function __popupWindowOnLeavingAnimationEnd(event, invokedViaTimer) {
-					if (!pw.__LeavingAnimationNotEndedEitherWay) {
-						return true;
-					}
-
-					if (invokedViaTimer === true) C.w('Timer ends waiting of "leaving" animation end for ', pw);
-					pw.removeEventListener(privateOptions.cssAnimationEndEventName, __popupWindowOnLeavingAnimationEnd);
-					$pl.hide();
-					_clearCssClassNamesAboutLeavingAnimationsForPopupWindow($pw);
-
-					delete pw.__LeavingAnimationNotEndedEitherWay;
-				}
-
-				function __popupWindowOnShowingAnimationEnd(event, invokedViaTimer) {
-					if (!pw.__ShowingAnimationNotEndedEitherWay) {
-						return true;
-					}
-
-					if (invokedViaTimer === true) C.w('Timer ends waiting of "showing" animation end for ', pw);
-					pw.removeEventListener(privateOptions.cssAnimationEndEventName, __popupWindowOnShowingAnimationEnd);
-					_clearCssClassNamesAboutShowingAnimationsForPopupWindow($pw);
-
-					delete pw.__ShowingAnimationNotEndedEitherWay;
-				}
-
-
 				if (!popupLayerIdOrDom) return false;
 
 				options = options || {};
@@ -2073,21 +2037,13 @@ window.webLogicControls = {};
 				var pwHeightCategory = 'regular';
 
 				if (!isToShow) {
-					var needToPlayLeavingAnimation = privateOptions.cssAnimationSupported &&
+					var needToPlayLeavingAnimation = animation.env.cssAnimationsAreSupported &&
 						!!pw && hasPopupWindowOrDialog &&
 						!isPopupPanel && !isPoliteMessage
 					;
 					var needToHideBackPlate = !!bp && !isPoliteMessage;
 						
 					if (needToPlayLeavingAnimation) {
-						pw.__LeavingAnimationNotEndedEitherWay = true;
-						pw.addEventListener(privateOptions.cssAnimationEndEventName, __popupWindowOnLeavingAnimationEnd);
-						if (privateOptions.shouldNotWaitForAnimationEndForEver) {
-							setTimeout(function () {
-								__popupWindowOnLeavingAnimationEnd(null, true);
-							}, privateOptions.secondsToWaitPopupWindowLeavingAniamtionEnd * 1000);
-						}
-
 						var pwHeight = $pw.outerHeight();
 						if (pwHeight <= (window.innerHeight * 0.25)) {
 							pwHeightCategory = 'tiny';
@@ -2096,7 +2052,16 @@ window.webLogicControls = {};
 						}
 
 						// _clearCssClassNamesAboutShowingAnimationsForPopupWindow($pw);
-						$pw.addClass(pwHeightCategory+'-window-leave-from-above');
+						animation.applySingleViaCssClassName(
+							pw,
+							pwHeightCategory+'-window-leave-from-above',
+							privateOptions.secondsToWaitPopupWindowLeavingAniamtionEnd,
+							{
+								onAnimationEnd: function () {
+									$pl.hide();
+								}
+							}
+						);
 					} else {
 						if (isPoliteMessage) {
 							$pl.fadeOut();
@@ -2106,16 +2071,18 @@ window.webLogicControls = {};
 					}
 
 					if (needToHideBackPlate) {
-						var needToHideBackPlateAfterAnimation = privateOptions.cssAnimationSupported;
+						var needToHideBackPlateAfterAnimation = animation.env.cssAnimationsAreSupported;
 						if (needToHideBackPlateAfterAnimation) {
-							bp.__LeavingAnimationNotEndedEitherWay = true;
-							bp.addEventListener(privateOptions.cssAnimationEndEventName, __backPlateOnLeavingAnimationEnd);
-							if (privateOptions.shouldNotWaitForAnimationEndForEver) {
-								setTimeout(function () {
-									__backPlateOnLeavingAnimationEnd(null, true);
-								}, privateOptions.secondsToWaitBackPlateLeavingAniamtionEnd * 1000);
-							}
-							$bp.addClass('popup-layer-back-plate-leaving');
+							setTimeout(function () {
+								animation.applySingleViaCssClassName(
+									bp,
+									'popup-layer-back-plate-leaving', 
+									privateOptions.secondsToWaitBackPlateLeavingAniamtionEnd,
+									{
+										actionAfterPlayingAnimation: 'hide'
+									}
+								);
+							}, privateOptions.secondsToWaitBeforeBackPlateLeavingAniamtionStart * 1000);
 						} else {
 							$bp.hide();
 						}
@@ -2124,12 +2091,15 @@ window.webLogicControls = {};
 					var needToShowBackPlate = !!bp && !isPoliteMessage;
 					if (needToShowBackPlate) $bp.show();
 
-					var needToPlayShowingAnimation = privateOptions.cssAnimationSupported &&
+					var needToPlayShowingAnimation = animation.env.cssAnimationsAreSupported &&
 						!!pw && hasPopupWindowOrDialog &&
 						!isPopupPanel
 					;
 
-					if (needToPlayShowingAnimation) { // prepare for animation
+					if (!needToPlayShowingAnimation) {
+						// nothing to prepare for
+					} else {
+						// prepare for animation
 						var needToAssignCssClassNameForAnimation = !isPoliteMessage;
 
 
@@ -2149,21 +2119,13 @@ window.webLogicControls = {};
 						}
 
 						if (needToAssignCssClassNameForAnimation && chosenCssClassNameForShowingAnimation) {
-							$pw.addClass(chosenCssClassNameForShowingAnimation);
+							// $pw.addClass(chosenCssClassNameForShowingAnimation);
+							animation.applySingleViaCssClassName(
+								pw,
+								chosenCssClassNameForShowingAnimation,
+								privateOptions.secondsToWaitPopupWindowShowingAniamtionEnd
+							);
 						}
-
-						var shouldHandleAnimationEndToDoSomething = !isPoliteMessage;
-						if (shouldHandleAnimationEndToDoSomething) {
-							pw.__ShowingAnimationNotEndedEitherWay = true;
-							pw.addEventListener(privateOptions.cssAnimationEndEventName, __popupWindowOnShowingAnimationEnd);
-							if (privateOptions.shouldNotWaitForAnimationEndForEver) {
-								setTimeout(function () {
-									__popupWindowOnShowingAnimationEnd(null, true);
-								}, privateOptions.secondsToWaitPopupWindowShowingAniamtionEnd * 1000);
-							}
-						}
-					} else {
-						// nothing to prepare for
 					}
 
 					if (!!eventOfShow && eventOfShow.target instanceof Node && typeof eventOfShow.target.blur === 'function') {

@@ -2931,8 +2931,8 @@ dl.initially-collapsed {
 	.popup-layer-back-plate-leaving {
 		-webkit-animation-name: popup-layer-back-plate-leaves;
 		        animation-name: popup-layer-back-plate-leaves;
-		-webkit-animation-delay: 0.25s;
-		        animation-delay: 0.25s;
+		/* -webkit-animation-delay: 0.25s;
+		        animation-delay: 0.25s; */
 		-webkit-animation-duration: 0.5s;
 		        animation-duration: 0.5s;
 	}
