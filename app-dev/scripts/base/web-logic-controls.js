@@ -3,6 +3,7 @@ window.webLogicControls = {};
 (function () {
 	var wlc = this;
 	var nilFunction = function () {};
+	var noop = nilFunction;
 
 
 	var AbstractClass = {};
