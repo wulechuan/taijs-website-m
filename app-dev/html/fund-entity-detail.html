@@ -41,7 +41,6 @@
 			<div class="f-block-body snap-top">
 				<div class="row full-width abstract-body">
 					<div class="entity-info entity-type-po-owned">
-						<a href="my-po-trading-record-detail.html">
 						<div class="entity-body">
 							<ul class="f-list columns-count-3 compact-lines"
 								><li class="cell">
@@ -61,32 +60,28 @@
 								</li
 							></ul>
 						</div>
-						</a>
-						<!-- <div class="call-to-action">
-							<span class="color-promoted">待确认</span>
-						</div> -->
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="tab-panel-set">
+		<div class="tab-panel-set" data-do-not-auto-construct="true">
 			<ul role="tablist" class="tab-list tabs-count-2 tabs-style-regular"
 				><li role="tab"
-							  aria-controls="panel-my-favorites"
-							aria-labelledby="panel-tab-my-favorites"
-					><span class="label" id="panel-tab-my-favorites">单位净值</span
+							  aria-controls="panel-fund-unit-net-worth"
+							aria-labelledby="panel-tab-fund-unit-net-worth"
+					><span class="label" id="panel-tab-fund-unit-net-worth">单位净值</span
 				></li
 				><li role="tab"
-							  aria-controls="panel-my-footprints"
-							aria-labelledby="panel-tab-my-footprints"
-					><span class="label" id="panel-tab-my-footprints">净值走势</span
+							  aria-controls="panel-fund-net-worth-trend"
+							aria-labelledby="panel-tab-fund-net-worth-trend"
+					><span class="label" id="panel-tab-fund-net-worth-trend">净值走势</span
 				></li
 	            ><div class="current-item-hint"></div
 			></ul>
 
 			<div class="panel-group">
-				<div role="tabpanel" class="panel panel-has-animation" id="panel-my-favorites">
+				<div role="tabpanel" class="panel panel-has-animation" id="panel-fund-unit-net-worth">
 					<div class="f-block snap-top">
 						<div class="f-block-body">
 							<a href="fund-net-worth-history.html">
@@ -97,7 +92,7 @@
 							</a>
 
 							<div class="row hide-borders graph">
-								<div class="chart-block" id="fund-chart-unit-net-worth">
+								<div class="chart-block">
 								</div>
 							</div>
 							<div class="row hide-borders graph">
@@ -108,7 +103,19 @@
 					</div>
 				</div>
 
-				<div role="tabpanel" class="panel panel-has-animation" id="panel-my-footprints">
+				<div role="tabpanel" class="panel panel-has-animation" id="panel-fund-net-worth-trend">
+					<div class="f-block snap-top">
+						<div class="f-block-body">
+							<div class="row hide-borders graph">
+								<div class="chart-block">
+								</div>
+							</div>
+							<div class="row hide-borders graph">
+								<div class="graph-timeline">
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

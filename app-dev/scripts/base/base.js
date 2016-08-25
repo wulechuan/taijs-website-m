@@ -59,6 +59,10 @@
 			}
 		};
 
+		this.controllers = {
+			tabPanelSets: []
+		};
+
 		(function setupEnv() {
 			var ua = navigator.userAgent;
 
@@ -197,9 +201,11 @@
 					// C.l('Skipping auto constructing TabPanelSet from:', this);
 					return true;
 				}
-				new wlc.UI.TabPanelSet(this, {
+				var tabPanelSet = new wlc.UI.TabPanelSet(this, {
 					initTab: app.data.URIParameters.tabLabel
 				});
+
+				app.controllers.tabPanelSets.push(tabPanelSet);
 			});
 		}
 

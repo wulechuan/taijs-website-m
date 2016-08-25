@@ -4982,6 +4982,9 @@ window.webLogicControls = {};
 					C.w('This TabPanelSet allows to show none of its member panel.');
 				}
 
+				WCU.save.method(this, 'onPanelShow', options, true);
+				WCU.save.method(this, 'onPanelHide', options, true);
+
 				WCU.save.string(this.options, 'selectorOfPanel', options, false, false);
 				WCU.save.string(this.options, 'selectorOfTabList', options, false, false);
 				WCU.save.string(this.options, 'selectorOfTab', options, false, false);
@@ -5074,6 +5077,7 @@ window.webLogicControls = {};
 
 				if (initOptions && initOptions.doNotShowPanelAtInit) {
 				} else {
+					// C.l('Showing init panel...');
 					this.showPanelViaTab(initOptions ? initOptions.initTab : 0);
 				}
 
@@ -5229,6 +5233,7 @@ window.webLogicControls = {};
 			}
 
 			function showPanel(thePanelOrTheTabOrTheIndex, shouldTrace) {
+				// C.l('Requested to show', thePanelOrTheTabOrTheIndex);
 				var thePanel = this.getPanel(thePanelOrTheTabOrTheIndex);
 				if (thePanel === false) { // false means thePanel is a nonsense input, while null means omitted panel
 					return false;
@@ -5242,6 +5247,7 @@ window.webLogicControls = {};
 				}
 
 				if (shouldTakeAction) {
+					// C.l('\t Showing "#'+thePanel.id+'"');
 					syncStatusToPanel.call(this, thePanel, shouldTrace, true);
 				// } else {
 				// 	C.t('Skipped');
@@ -5287,6 +5293,7 @@ window.webLogicControls = {};
 			}
 
 			function _showHideOnePanel(panel, isToShow, shouldTrace/*, isMotiveActionFromShowPanel*/) {
+				// shouldTrace = true;
 				if (shouldTrace) C.t(isToShow ? 'show --> ' : 'hide', panel.id);
 				if (!panel) return false;
 
@@ -5303,6 +5310,7 @@ window.webLogicControls = {};
 					}
 
 					if (typeof thisController.onPanelShow === 'function') {
+						if (shouldTrace) C.l('Calling onPanelShow ...', thisController);
 						thisController.onPanelShow(panel);
 					}
 				} else {
