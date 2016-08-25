@@ -1,6 +1,7 @@
 .header-bar button:active,
 a:active {
-	transition-property: none;
+	-webkit-transition-property: none;
+	        transition-property: none;
 	opacity: 0.6;
 }
 
@@ -95,8 +96,10 @@ button.add-entity::before,
 	}
 	.icon.favorite-entity-icon.icons-in-elements .icon-face-1,
 	.icon.favorite-entity-icon.icons-in-elements .icon-face-2 {
-		transition-delay: 0s;
-		transition-property: transform, opacity, color;
+		-webkit-transition-delay: 0s;
+		        transition-delay: 0s;
+		-webkit-transition-property: -webkit-transform, opacity, color;
+		        transition-property:         transform, opacity, color;
 	}
 	.icon.favorite-entity-icon.icons-in-elements .icon-face-1::before {
 		content: '\e62a';
@@ -108,13 +111,15 @@ button.add-entity::before,
 	.icon.favorite-entity-icon.icons-in-elements       .icon-face-1 {
 		visibility: visible;
 		opacity: 1;
-		transform: rotateZ(  0deg);
+		-webkit-transform: rotateZ(  0deg);
+		        transform: rotateZ(  0deg);
 	}
 	.icon.favorite-entity-icon.icons-in-elements:hover .icon-face-2,
 	.icon.favorite-entity-icon.icons-in-elements       .icon-face-2 {
 		visibility: visible;
 		opacity: 0;
-		transform: rotateZ(-72deg);
+		-webkit-transform: rotateZ(-72deg);
+		        transform: rotateZ(-72deg);
 	}
 	                    .icon.icons-in-elements.is-in-my-favorites:hover .icon-face-1,
 	.is-in-my-favorites .icon.icons-in-elements:hover                    .icon-face-1,
@@ -122,7 +127,8 @@ button.add-entity::before,
 	.is-in-my-favorites .icon.icons-in-elements                          .icon-face-1 {
 		visibility: visible;
 		opacity: 0;
-		transform: rotateZ( 72deg);
+		-webkit-transform: rotateZ( 72deg);
+		        transform: rotateZ( 72deg);
 	}
 	                    .icon.icons-in-elements.is-in-my-favorites:hover .icon-face-2,
 	.is-in-my-favorites .icon.icons-in-elements:hover                    .icon-face-2,
@@ -130,7 +136,8 @@ button.add-entity::before,
 	.is-in-my-favorites .icon.icons-in-elements                          .icon-face-2 {
 		visibility: visible;
 		opacity: 1;
-		transform: rotateZ(  0deg);
+		-webkit-transform: rotateZ(  0deg);
+		        transform: rotateZ(  0deg);
 	}
 
 
@@ -242,8 +249,10 @@ article.message {
 	font-size: 0.6rem;
 	visibility: hidden;
 	opacity: 0;
-	transition-property: visibility, opacity;
-	transition-duration: 0.30s;
+	-webkit-transition-property: visibility, opacity;
+	        transition-property: visibility, opacity;
+	-webkit-transition-duration: 0.30s;
+	        transition-duration: 0.30s;
 	}
 	.input-tip.shown {
 		visibility: visible;
@@ -363,13 +372,24 @@ article.message {
 		.fixed-count-chars-input-block.input-is-password .deco-grid::before {
 			content: '\2022';
 			display: block;
-			transform: translate(0, 110%);
-			transition-property: color, transform;
-			transition-duration: 0.2s;
+			position: absolute;
+			left: 0;
+			right: 0;
+			height: 100%;
+			top: 110%;
+			/* -webkit-transform: translate(0, 110%); */
+			/*         transform: translate(0, 110%); */
+			-webkit-transition-property: color, background-color, -webkit-transform, top, margin-top;
+			        transition-property: color, background-color,         transform, top, margin-top;
+			-webkit-transition-duration: 0.2s;
+			        transition-duration: 0.2s;
 		}
 		.fixed-count-chars-input-block.input-is-password .deco-grid.filled::before {
-			transform: translate(0, 0);
-			transition-property: color, transform;
+			top: 0;
+			/* -webkit-transform: translate(0, 0); */
+			/*         transform: translate(0, 0); */
+			-webkit-transition-property: color, background-color, -webkit-transform, top, margin-top;
+			        transition-property: color, background-color,         transform, top, margin-top;
 		}
 		.fixed-count-chars-input-block.has-fake-caret .deco-grid.focus::after {
 			content: none;
@@ -388,7 +408,8 @@ article.message {
 
 			background-color: black;
 
-			animation: caret-flashing 0.79s infinite;
+			-webkit-animation: caret-flashing 0.79s infinite;
+			        animation: caret-flashing 0.79s infinite;
 		}
 		.fixed-count-chars-input-block.has-fake-caret .deco-grid.filled.focus::after {
 			left: 1em;
@@ -397,7 +418,12 @@ article.message {
 			content: '';
 		}
 
-		@keyframes caret-flashing {
+		@-webkit-keyframes caret-flashing {
+			0%  { opacity: 0; }
+			50% { opacity: 1; }
+			to  { opacity: 0; }
+		}
+		@keyframes         caret-flashing {
 			0%  { opacity: 0; }
 			50% { opacity: 1; }
 			to  { opacity: 0; }
@@ -425,8 +451,10 @@ article.message {
 		overflow: hidden;
 		}
 		.fixed-count-chars-input-tester {
-			transition-property: none!important;
-			transition-duration: 0s!important;
+			-webkit-transition-property: none!important;
+			        transition-property: none!important;
+			-webkit-transition-duration: 0s!important;
+			        transition-duration: 0s!important;
 			display: block;
 			position: absolute;
 			left: 0;
@@ -1419,7 +1447,8 @@ article.message {
 			top: 0.6rem;
 		}
 		.product-abstract .abstract-title::after {
-			/* transform: scale(0.75, 0.75); */
+			/* -webkit-transform: scale(0.75, 0.75); */
+			/*         transform: scale(0.75, 0.75); */
 		}
 
 	.product-abstract .row.abstract-body {
@@ -1569,10 +1598,14 @@ article.message {
 
 			clip: rect(auto, 0px, auto, auto);
 			margin: 0;
-			transition-property: clip;
-			transition-duration: 0.25s;
-			/* transition-timing-function: cubic-bezier(.19,1.08,.63,1.36); */
-			transition-timing-function: ease-out;
+			-webkit-transition-property: clip;
+			        transition-property: clip;
+			-webkit-transition-duration: 0.25s;
+			        transition-duration: 0.25s;
+			/* -webkit-transition-timing-function: cubic-bezier(.19,1.08,.63,1.36); */
+			/*         transition-timing-function: cubic-bezier(.19,1.08,.63,1.36); */
+			-webkit-transition-timing-function: ease-out;
+			        transition-timing-function: ease-out;
 		}
 
 
@@ -1769,7 +1802,8 @@ article.message {
 			width: calc(100% + 1rem);
 		}
 		.row.input-field input {
-			transition-property: margin, height;
+			-webkit-transition-property: margin, height;
+			        transition-property: margin, height;
 		}
 
 
@@ -2420,7 +2454,8 @@ article.message {
 	}
 
 	.tabular > .f-list {
-		animation: reveal-content 0.35s ease-out;
+		-webkit-animation: reveal-content 0.35s ease-out;
+		        animation: reveal-content 0.35s ease-out;
 		}
 		.tabular > .header {
 			z-index: 2;
@@ -2888,7 +2923,8 @@ article.message {
 			line-height: 1.7rem;
 			text-align: center;
 			margin: 0;
-			transform: scale(0.6, 0.6);
+			-webkit-transform: scale(0.6, 0.6);
+			        transform: scale(0.6, 0.6);
 		}
 
 		.f-block-body .row.entity-of-bank.has-lead-icon h5 {
@@ -3652,7 +3688,8 @@ dl.tickets-list {
 			font-size: 0.7rem;
 			visibility: hidden;
 			opacity: 0;
-			transition-property: visibility, opacity, color;
+			-webkit-transition-property: visibility, opacity, color;
+			        transition-property: visibility, opacity, color;
 			}
 			.search-block.focus button.simple-look {
 				visibility: visible;
@@ -3726,15 +3763,25 @@ dl.tickets-list {
 
 	.search-result {
 		position: relative;
-		animation-delay: 0.2s;
-		animation-duration: 0.3s;
+		-webkit-animation-delay: 0.2s;
+		        animation-delay: 0.2s;
+		-webkit-animation-duration: 0.3s;
+		        animation-duration: 0.3s;
 		}
 
+		@-webkit-keyframes search-result-record-shows-up {
+			  0% { opacity: 0; -webkit-transform: translate(90%, 0); }
+			100% { opacity: 1; -webkit-transform: translate(  0, 0); }
+		}
 		@keyframes search-result-record-shows-up {
 			  0% { opacity: 0; transform: translate(90%, 0); }
 			100% { opacity: 1; transform: translate(  0, 0); }
 		}
 
+		@-webkit-keyframes search-result-record-goes-away {
+			  0% { opacity: 1; -webkit-transform: translate(   0, 0); }
+			100% { opacity: 0; -webkit-transform: translate(-90%, 0); }
+		}
 		@keyframes search-result-record-goes-away {
 			  0% { opacity: 1; transform: translate(   0, 0); }
 			100% { opacity: 0; transform: translate(-90%, 0); }
@@ -3784,8 +3831,10 @@ dl.tickets-list {
 			right: 0;
 			visibility: visible;
 			opacity: 1;
-			transition-property: transform, visibility, opacity, color;
-			transition-duration: 0.5s;
+			-webkit-transition-property: -webkit-transform, visibility, opacity, color;
+			        transition-property:         transform, visibility, opacity, color;
+			-webkit-transition-duration: 0.5s;
+			        transition-duration: 0.5s;
 			}
 			.search-result.animating button.call-to-action {
 				visibility: hidden;
@@ -3925,17 +3974,29 @@ dl.tickets-list {
 		right: 0;
 		top: 0;
 		bottom: 0;
-		animation-duration: 0.2s;
-		animation-name: fade-in;
+		-webkit-animation-duration: 0.2s;
+		        animation-duration: 0.2s;
+		-webkit-animation-name: fade-in;
+		        animation-name: fade-in;
 		}
 		.page-body.covering-layer > .content {
-			animation-delay: 0.1s;
-			animation-duration: 0.24s;
-			animation-name: covering-layer-content-shows-up;
-			animation-fill-mode: backwards;
+			-webkit-animation-delay: 0.1s;
+			        animation-delay: 0.1s;
+			-webkit-animation-duration: 0.24s;
+			        animation-duration: 0.24s;
+			-webkit-animation-name: covering-layer-content-shows-up;
+			        animation-name: covering-layer-content-shows-up;
+			-webkit-animation-fill-mode: backwards;
+			        animation-fill-mode: backwards;
 		}
 
-		@keyframes covering-layer-content-shows-up {
+		@-webkit-keyframes covering-layer-content-shows-up {
+			 0% { opacity: 0; -webkit-transform: scale(0.08, 0.16); }
+			45% { opacity: 1; -webkit-transform: scale(1.19, 0.19); }
+			90% {             -webkit-transform: scale(1.02, 1.03); }
+			to  {             -webkit-transform: scale(1   , 1   ); }
+		}
+		@keyframes         covering-layer-content-shows-up {
 			 0% { opacity: 0; transform: scale(0.08, 0.16); }
 			45% { opacity: 1; transform: scale(1.19, 0.19); }
 			90% {             transform: scale(1.02, 1.03); }
@@ -3988,7 +4049,8 @@ dl.tickets-list {
 		}
 		.page-header *,
 		.page-header {
-			transition-property: font-size, line-height, transform, width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
+			-webkit-transition-property: font-size, line-height, -webkit-transform, width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
+			        transition-property: font-size, line-height,         transform, width, height, min-width, min-height, background-size, background-position, margin, padding, left, right, top, bottom, color, background-color;
 		}
 
 		.page-header input {
@@ -4091,7 +4153,8 @@ dl.tickets-list {
 .copyright {
 	font-size: 0.6rem;
 	letter-spacing: 0.03em;
-	/* transform: scale(0.81, 0.81); */
+	/* -webkit-transform: scale(0.81, 0.81); */
+	/*         transform: scale(0.81, 0.81); */
 	}
 
 
@@ -4123,7 +4186,8 @@ dl.tickets-list {
 		margin: 0.1rem;
 
 		display: block;
-		transform: translate(-0.6rem, -0.6rem) scale(0.6333, 0.6333);
+		-webkit-transform: translate(-0.6rem, -0.6rem) scale(0.6333, 0.6333);
+		        transform: translate(-0.6rem, -0.6rem) scale(0.6333, 0.6333);
 	}
 	.slot.slot-bank-card .caption-of-bank {
 		position: absolute;
