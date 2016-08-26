@@ -111,28 +111,36 @@ q:before, q:after {
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */
-	transition-property: opacity, color;
-	transition-duration: 0.30s;
+	-webkit-transition-property: opacity, color;
+	        transition-property: opacity, color;
+	-webkit-transition-duration: 0.30s;
+	        transition-duration: 0.30s;
 	font-weight: lighter;
 	font-style: normal;
 	}
 	::-moz-placeholder { /* Mozilla Firefox 19+ */
-		transition-property: opacity, color;
-		transition-duration: 0.30s;
+		-webkit-transition-property: opacity, color;
+		        transition-property: opacity, color;
+		-webkit-transition-duration: 0.30s;
+		        transition-duration: 0.30s;
 		font-weight: lighter;
 		font-style: normal;
 		opacity: 1;
 	}
 	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-		transition-property: opacity, color;
-		transition-duration: 0.30s;
+		-webkit-transition-property: opacity, color;
+		        transition-property: opacity, color;
+		-webkit-transition-duration: 0.30s;
+		        transition-duration: 0.30s;
 		font-weight: lighter;
 		font-style: normal;
 		opacity: 1;
 	}
 	:-ms-input-placeholder { /* Internet Explorer 10+ */
-		transition-property: opacity, color;
-		transition-duration: 0.30s;
+		-webkit-transition-property: opacity, color;
+		        transition-property: opacity, color;
+		-webkit-transition-duration: 0.30s;
+		        transition-duration: 0.30s;
 		font-weight: lighter;
 		font-style: normal;
 	}

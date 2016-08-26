@@ -1,5 +1,5 @@
 $(function () { // fake logics
-	var app = taijs.app;
+	var app = window.taijs.app;
 	var URIParameters = window.taijs.app.data.URIParameters;
 	var wlc = window.webLogicControls;
 	var UI = wlc.UI;
@@ -44,7 +44,7 @@ $(function () { // fake logics
 
 
 
-	new UI.FixedCharsCountInput($pl1.find('.fixed-count-chars-input-block')[0], {
+	var FCCI = new UI.FixedCharsCountInput($pl1.find('.fixed-count-chars-input-block')[0], {
 		onValid: function () {
 			this.disable();
 			UI.popupLayersManager.show('plpm-trading-password-verified');

@@ -8,7 +8,7 @@
 .page-header .row.user-account-toolar {
 	z-index: 4;
 }
-.page-header .row.taijs-brand {
+.page-header .row.dtfunds-brand {
 	z-index: 3;
 }
 .user-has-logged-in .page-header .row.sign-up-sign-in-buttons {
@@ -41,35 +41,29 @@
 	}
 
 
-.page-header .row.taijs-brand {
+.page-header .row.dtfunds-brand {
 	position: absolute; /* for stable transitions */
 	left: 50%;
 	top: 0;
 	width: 12rem;
 	padding: 0;
-	margin: 1rem 0 0 -6rem;
+	margin: 0.75rem 0 0 -6rem;
 	}
-	.page-header .taijs-logo,
-	.page-header .taijs-slogan {
+	.page-header .dtfunds-logo {
 		display: inline-block;
 		vertical-align: top;
-		width: 5rem;
-		height: 1.4rem;
+		width: 8rem;
+		height: 2rem;
 		background-position: center;
 	}
-	.page-header .taijs-logo {
+	.page-header .dtfunds-logo {
 		margin: 0 0.25rem 0 0.7rem;
 		background-size: auto 100%;
 	}
-	.page-header .taijs-slogan {
-		margin: 0;
-		background-position: left;
-		background-size: 100% auto;
-	}
 
 
-	.user-has-logged-in               .page-header .row.taijs-brand,
-	.page.page-header-in-compact-mode .page-header .row.taijs-brand {
+	.user-has-logged-in               .page-header .row.dtfunds-brand,
+	.page.page-header-in-compact-mode .page-header .row.dtfunds-brand {
 		left: 6.8rem;
 		position: absolute;
 		margin-top: 0.7rem;
@@ -77,31 +71,16 @@
 		width: 4.8rem;
 		}
 
-		.user-has-logged-in               .page-header .taijs-logo,
-		.user-has-logged-in               .page-header .taijs-slogan,
-		.page.page-header-in-compact-mode .page-header .taijs-logo,
-		.page.page-header-in-compact-mode .page-header .taijs-slogan {
+		.user-has-logged-in               .page-header .dtfunds-logo,
+		.page.page-header-in-compact-mode .page-header .dtfunds-logo {
 			width: 4.8rem;
 			height: 1.1rem;
 			background-position: left;
 		}
-		.user-has-logged-in               .page-header .taijs-logo,
-		.page.page-header-in-compact-mode .page-header .taijs-logo {
+		.user-has-logged-in               .page-header .dtfunds-logo,
+		.page.page-header-in-compact-mode .page-header .dtfunds-logo {
 			margin: 0;
 		}
-		.user-has-logged-in               .page-header .taijs-slogan,
-		.page.page-header-in-compact-mode .page-header .taijs-slogan {
-			margin: 0;
-			visibility: hidden;
-			width: 0;
-		}
-
-	@media only screen and (max-width: 340px) {
-		.page.page-header-in-compact-mode .page-header .taijs-slogan {
-			visibility: hidden;
-			width: 0;
-		}
-	}
 
 
 .page-header .row.sign-up-sign-in-buttons {
