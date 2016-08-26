@@ -1057,6 +1057,10 @@ dl.tickets-list {
 	.tabular > .f-list > li     > .content {
 		color: #333;
 	}
+	.f-block > .tabular > .f-list > li > a > .content,
+	.f-block > .tabular > .f-list > li     > .content {
+		color: #999;
+	}
 	.f-block-body .tabular > .f-list > li .content .cell.caption-cell {
 		color: black;
 	}
