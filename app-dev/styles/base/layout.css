@@ -2536,11 +2536,11 @@ article.message {
 			text-align: left;
 		}
 
-		.tabular > .f-list > li .last-cell,
-		.tabular > .header      .last-cell,
-		.tabular > .footer      .last-cell {
-			display: block;
+		.tabular > .f-list > li .content .last-cell,
+		.tabular > .header               .last-cell,
+		.tabular > .footer               .last-cell {
 			position: absolute;
+			display: block;
 			top: 0;
 			bottom: 0;
 			left: auto;
@@ -2699,7 +2699,8 @@ article.message {
 			}
 
 
-		.tabular.funds-chargeback-list .f-list > li {
+		.tabular.funds-chargeback-list .f-list > li > a > .content,
+		.tabular.funds-chargeback-list .f-list > li     > .content {
 			padding-top: 1rem;
 			padding-bottom: 0.6rem;
 			}
@@ -2709,7 +2710,7 @@ article.message {
 				width: calc(100% - 8.5rem);
 			}
 
-			.tabular.funds-chargeback-list > .f-list > li > .cell.caption-cell {
+			.tabular.funds-chargeback-list > .f-list > li .cell.caption-cell {
 				padding-left: 2.5rem;
 				}
 
@@ -2721,7 +2722,7 @@ article.message {
 					padding-left: 0; 
 					padding-right: 0; 
 					margin: 0;
-					left: 0rem;
+					left: 0.8rem;
 					top: 1rem;
 				}
 
@@ -2730,7 +2731,7 @@ article.message {
 				width: 6rem;
 				text-align: right;
 				position: absolute;
-				right: 3.5rem;
+				right: 4.5rem;
 				}
 				.tabular.funds-chargeback-list > .f-list .cell.amount {
 					font-size: 0.8rem;
@@ -2767,7 +2768,8 @@ article.message {
 			}
 
 			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
-				.tabular.funds-chargeback-list .f-list > li {
+				.tabular.funds-chargeback-list .f-list > li > a > .content,
+				.tabular.funds-chargeback-list .f-list > li     > .content {
 					min-height: 3rem;
 				}
 
@@ -2776,7 +2778,7 @@ article.message {
 				}
 
 				.tabular.funds-chargeback-list .cell.amount {
-					right: 0rem;
+					right: 0.8rem;
 				}
 
 				.tabular.funds-chargeback-list .cell.call-to-action {
@@ -3553,19 +3555,19 @@ dl.tickets-list {
 	}
 
 
-	#page-my-po-index .f-block .tiles > a > .tile .icon,
-	#page-my-po-index .f-block .tiles     > .tile .icon {
+	#page-my-funds-po-index .f-block .tiles > a > .tile .icon,
+	#page-my-funds-po-index .f-block .tiles     > .tile .icon {
 		font-size: 2rem;
 		width: 2.7rem;
 		height: 2.7rem;
 		line-height: 2.8rem;
 		}
-		#page-my-po-index .f-block .tiles > a > .tile .label,
-		#page-my-po-index .f-block .tiles     > .tile .label {
+		#page-my-funds-po-index .f-block .tiles > a > .tile .label,
+		#page-my-funds-po-index .f-block .tiles     > .tile .label {
 		}
 
-		#page-my-po-index .f-block .tiles.columns-count-3 > a:nth-child(3n+2) > .tile,
-		#page-my-po-index .f-block .tiles.columns-count-3 > .tile:nth-child(3n+2) {
+		#page-my-funds-po-index .f-block .tiles.columns-count-3 > a:nth-child(3n+2) > .tile,
+		#page-my-funds-po-index .f-block .tiles.columns-count-3 > .tile:nth-child(3n+2) {
 			border-width: 0;
 		}
 

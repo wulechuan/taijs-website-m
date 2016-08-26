@@ -13,7 +13,7 @@ $(function () {
 			'action=买入'
 		].join('&');
 
-		var urlForInspection = 'my-fund-trading-record-detail.html'+urlParametersString;
+		var urlForInspection = 'my-funds-po-trading-record-detail.html'+urlParametersString;
 		var urlForBuying = 'fund-buying-confirm.html'+urlParametersString;
 		// C.l(urlForBuying);
 

@@ -1053,7 +1053,11 @@ dl.tickets-list {
 		color: #999;
 		border-color: #dcdcdc;
 	}
-	.f-block-body .tabular > .f-list > li .cell.caption-cell {
+	.tabular > .f-list > li > a > .content,
+	.tabular > .f-list > li     > .content {
+		color: #333;
+	}
+	.f-block-body .tabular > .f-list > li .content .cell.caption-cell {
 		color: black;
 	}
 	.tabular > .f-list > li .cell.timestamp {
