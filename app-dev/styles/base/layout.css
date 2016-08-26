@@ -3047,41 +3047,6 @@ article.message {
 		}
 
 
-	.f-block-body .row.multi-lines.fund-trading-record {
-		}
-
-		.f-block-body .row.multi-lines.fund-trading-record .left {
-			position: relative;
-			padding-left: 2.5rem;
-		}
-
-		.f-block-body .row.multi-lines.fund-trading-record .marker {
-			position: absolute;
-			left: 0.5rem;
-			margin-top: 0.05rem;
-		}
-
-		.f-block-body .row.multi-lines.fund-trading-record .right {
-			position: absolute;
-			display: block;
-			left: auto;
-			right: 0.8rem;
-			top: 0;
-			bottom: 0;
-			margin: auto -0.5rem;
-			width: auto;
-			height: 2.6rem;
-			}
-			.f-block-body .row.multi-lines.fund-trading-record .right .amount {
-				font-size: 0.9rem;
-				line-height: 1.6rem;
-			}
-			.f-block-body .row.multi-lines.fund-trading-record .right .status {
-				font-size: 0.65rem;
-				line-height: 1rem;
-			}
-
-
 	.f-block-body a .row.full-width,
 	.f-block-body   .row.full-width.call-to-action,
 	.f-block-body a .row,
@@ -3204,6 +3169,59 @@ article.message {
 				position: absolute;
 				left: 0.4rem;
 			}
+
+
+.fund-trading-record .f-block-body.abstract {
+	margin-bottom: 0;
+	border-bottom-width: 0;
+	}
+
+	.fund-trading-record .details-container {
+		margin-left: -0.8rem;
+		margin-right: -0.8rem;
+		padding: 0 0.8rem;
+	}
+
+	.fund-trading-record .details-container .f-block-body.progress {
+		border-top-width: 0;
+		margin-top: 0;
+	}
+
+	.fund-trading-record .details-container .f-block-body.progress .row::before {
+		content: '';
+		top: 0;
+	}
+
+	.fund-trading-record .f-block-body .row.multi-lines .left {
+		position: relative;
+		padding-left: 2.5rem;
+	}
+
+	.fund-trading-record .f-block-body .row.multi-lines .marker {
+		position: absolute;
+		left: 0.5rem;
+		margin-top: 0.05rem;
+	}
+
+	.fund-trading-record .f-block-body .row.multi-lines .right {
+		position: absolute;
+		display: block;
+		left: auto;
+		right: 0.8rem;
+		top: 0;
+		bottom: 0;
+		margin: auto -0.5rem;
+		width: auto;
+		height: 2.6rem;
+		}
+		.fund-trading-record .f-block-body .row.multi-lines .right .amount {
+			font-size: 0.9rem;
+			line-height: 1.6rem;
+		}
+		.fund-trading-record .f-block-body .row.multi-lines .right .status {
+			font-size: 0.65rem;
+			line-height: 1rem;
+		}
 
 
 .filters {

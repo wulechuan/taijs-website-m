@@ -39,8 +39,13 @@ $(function () {
 	for (i = 0; i < $records.length; i++) {
 		var recordRoot = $records[i];
 		recordStatus = possibleStatuses[Math.floor(Math.random() * possibleStatusCount)];
-		row = progressStopsRows[recordStatus];
+		row = progressStopsRows[recordStatus].cloneNode(true);
+		row.removeAttribute('id');
 		tabular = attachments[recordStatus];
+		if (tabular) {
+			tabular = tabular.cloneNode(true);
+			tabular.removeAttribute('id');
+		}
 
 		var container = $(recordRoot.parentNode).find('.details-container')[0];
 		if (!container) continue;
@@ -49,6 +54,12 @@ $(function () {
 		$(row).show();
 		$(tabular).show();
 
+		var rowContainer = $(container).find('.f-block-body')[0];
+		var tabularContainer = container;
+
+		rowContainer.appendChild(row);
+		if (tabular) tabularContainer.appendChild(tabular);
+
 		$(recordRoot).on('click', (function () {
 			var $container = $(this);
 			C.l($container);
@@ -56,9 +67,6 @@ $(function () {
 				C.l($container.outerHeight(), $container.offset());
 			});
 		}).bind(container));
-
-		container.appendChild(row);
-		if (tabular) container.appendChild(tabular);
 
 		// var innerHTML = row.innerHTML;
 		// if (tabular) innerHTML += container.innerHTML;
