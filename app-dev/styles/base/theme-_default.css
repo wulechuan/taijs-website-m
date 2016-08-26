@@ -71,6 +71,7 @@ a, a:visited {
 	.row.menu-item:active,
 	.row.interactive:active,
 	.row.call-to-action:active,
+	a:active > .content,
 	a:active .hero-content-block,
 	a:active .entity-body,
 	a:active .row {
@@ -995,8 +996,10 @@ dl.tickets-list {
 .keyword {
 	color: #333;
 	border-color: #e0e0e0;
-}
-
+	}
+	.keyword:hover {
+		background-color: rgba(255, 255, 255, 0.75);
+	}	
 
 .color-inverted .menu.level-1,
 .header-bar     .menu.level-1 {
@@ -1246,6 +1249,9 @@ dl.tickets-list {
 	.search-promoted-keywords-panel .search-history-records > li,
 	.search-promoted-keywords-panel .row {
 		border-color: #e0e0e0;
+	}
+	.search-promoted-keywords-panel .search-history-records > li:hover {
+		background-color: rgba(255, 255, 255, 0.75);
 	}
 	.search-promoted-keywords-panel .row.section-title h3 {
 		color: #666;

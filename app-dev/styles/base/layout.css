@@ -585,7 +585,7 @@ article.message {
 			font-family: 'iconfont'!important;
 			content: '\e61e';
 			font-size: 1.6rem;
-			width: 0.5rem;
+			width: 1rem;
 			height: 2rem;
 			line-height: 2rem;
 			display: block;
@@ -633,7 +633,7 @@ article.message {
 		box-sizing: border-box;
 		width: 33.33%;
 	}
-	.f-list.keywords     > li .keyword {
+	.f-list.keywords > li .keyword {
 		display: block;
 		margin: 0 0.8rem 0.8rem 0;
 		border-style: solid;
@@ -642,6 +642,7 @@ article.message {
 		line-height: 1rem;
 		text-align: center;
 		font-size: 0.75rem;
+		cursor: pointer;
 	}
 
 
@@ -2457,6 +2458,10 @@ article.message {
 .tabular {
 	font-weight: 400;
 	}
+	.f-block .tabular {
+		margin-left: -0.8rem;
+		margin-right: -0.8rem;
+	}
 	.tabular > .header {
 		position: relative;
 		z-index: 1;
@@ -2483,13 +2488,21 @@ article.message {
 			border-style: solid;
 			border-width: 1px 0;
 			margin: -1px 0 0 0;
-			padding-left: 0;
-			padding-right: 0;
-			padding-top: 0.5rem;
-			padding-bottom: 0.5rem;
 
 			line-height: 1rem;
 			min-height: 1rem;
+		}
+		.tabular > .header,
+		.tabular > .footer {
+			padding: 0.5rem 0.8rem;
+		}
+		.tabular > .f-list > li {
+			padding: 0 0.8rem;
+		}
+		.tabular > .f-list > li > a > .content,
+		.tabular > .f-list > li     > .content {
+			padding: 0.5rem 0.8rem;
+			margin: 0 -0.8rem;
 		}
 		.tabular > .header,
 		.tabular > .f-list > li:first-child {
@@ -2508,7 +2521,9 @@ article.message {
 
 		.tabular > .header        .cell,
 		.tabular > .footer        .cell,
-		.tabular > .f-list > li > .cell {
+		.tabular > .f-list > li > a > .content > .cell,
+		.tabular > .f-list > li     > .content > .cell,
+		.tabular > .f-list > li                > .cell {
 			display: inline-block;
 			vertical-align: top;
 			padding: 0.25rem 0.5rem;
@@ -2529,7 +2544,7 @@ article.message {
 			top: 0;
 			bottom: 0;
 			left: auto;
-			right: 0;
+			right: 0.8rem;
 			margin-top: auto;
 			margin-bottom: auto;
 			width: auto;
@@ -2573,7 +2588,7 @@ article.message {
 		}
 
 		@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
-			.tabular > .f-list > li > .cell.timestamp {
+			.tabular > .f-list > li .cell.timestamp {
 				height: 3em;
 			}
 			.tabular .cell.timestamp time {
@@ -2593,7 +2608,8 @@ article.message {
 			}
 
 
-		.tabular.search-panel-owned-po-list .f-list > li {
+		.tabular.search-panel-owned-po-list .f-list > li > a > .content,
+		.tabular.search-panel-owned-po-list .f-list > li     > .content {
 			padding-top: 1rem;
 			font-size: 0.8rem;
 			}
@@ -2613,7 +2629,7 @@ article.message {
 			.tabular.search-panel-owned-po-list .cell.last-year-variance {
 				position: absolute;
 				right: 3rem;
-				width: 4rem;
+				width: 4.5rem;
 				text-align: left;
 			}
 
@@ -2634,7 +2650,7 @@ article.message {
 				height: 1rem;
 				right: 0;
 				top: 0;
-				bottom: 0.3rem;
+				bottom: 0.5rem;
 				line-height: 1rem;
 				padding: 0.1rem 0.6rem;
 				width: 1.5rem;
@@ -2645,32 +2661,33 @@ article.message {
 
 			@media only screen and (max-width: 376px) { /* iPhone 6 / Galaxy S5 */
 				.tabular.search-panel-owned-po-list .cell.amount {
-					right: 7rem;
+					right: 8rem;
 				}
 
 				.tabular.search-panel-owned-po-list .cell.last-year-variance {
-					right: 2.5rem;
+					width: 3.5rem;
+					right: 4rem;
 				}
 			}
 
 			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
 				.tabular.search-panel-owned-po-list .cell.amount {
-					right: 3.5rem;
-					top: 0.5rem;
+					right: 5rem;
+					top: 0.7rem;
 					width: 3.5rem;
 					text-align: right;
 				}
 
 				.tabular.search-panel-owned-po-list .cell.last-year-variance {
-					right: 3.5rem;
+					right: 5rem;
 					top: auto;
-					bottom: 0.25rem;
+					bottom: 0.4rem;
 					width: 3.5rem;
 					text-align: right;
 				}
 
 				.tabular.search-panel-owned-po-list > .header .cell.amount {
-					right: 6rem;
+					right: 7.5rem;
 					top: auto;
 					bottom: auto;
 				}
@@ -3738,37 +3755,40 @@ dl.tickets-list {
 		margin-right: -0.5rem;
 	}
 	.search-promoted-keywords-panel .f-list.search-history-records {
+		margin-left: -0.8rem;
 		margin-right: -0.8rem;
 		}
 		.search-promoted-keywords-panel .f-list.search-history-records > li {
-			padding: 0.5rem 0;
+			position: relative;
+			padding: 0.5rem 0.8rem;
 			line-height: 1rem;
 			border-style: solid;
-			border-width: 1px 0;
-			margin: 0 0 -1px 0;
+			margin: 0 0 1px 0;
+			cursor: pointer;
 		}
-		.search-promoted-keywords-panel .f-list.search-history-records > li:first-of-type {
-			border-top-color: transparent;
+		.search-promoted-keywords-panel .f-list.search-history-records > li::before {
+			content: '';
+			position: absolute;
+			left: 0.8rem;
+			right: 0;
+			top: -1px;
+			height: 0;
+			border-width: 1px 0 0 0;
+			border-style: inherit;
+			border-color: inherit;
+		}
+		.search-promoted-keywords-panel .f-list.search-history-records > li:first-of-type::before {
+			content: none;
 		}
 
 
 .search-result-records-panel {
 	}
 
-	.search-result-records-panel .f-list.search-result-records {
+	.f-list.search-results {
+		margin-left: -0.8rem;
 		margin-right: -0.8rem;
 	}
-	.search-result-records-panel .f-list.search-result-records > li {
-		padding: 0.5rem 0;
-		line-height: 1rem;
-		border-style: solid;
-		border-width: 1px 0;
-		margin: 0 0 -1px 0;
-	}
-	.search-result-records-panel .f-list.search-result-records > li:first-of-type {
-		border-top-color: transparent;
-	}
-
 
 	.search-result {
 		position: relative;
@@ -3802,9 +3822,9 @@ dl.tickets-list {
 
 		.f-list > li.search-result,
 		.search-result {
-		padding: 0.65rem 0.5rem;
-		margin: 1px -0.5rem 0;
-		position: relative;
+			padding: 0;
+			margin: 1px 0 0;
+			position: relative;
 		}
 
 		.search-result::before {
@@ -3813,9 +3833,9 @@ dl.tickets-list {
 			display: block;
 			width: auto;
 			height: 0;
-			left: 0.5rem;
-			right: 0.5rem;
-			top: 0;
+			left: 0.8rem;
+			right: 0.8rem;
+			top: -1px;
 			bottom: auto;
 			border-width: 1px 0 0 0;
 			border-style: solid;
@@ -3830,14 +3850,22 @@ dl.tickets-list {
 			content: none;
 		}
 
+		.search-result > a > .content,
+		.search-result     > .content {
+			position: relative;
+			padding: 0.65rem 0.8rem;
+			margin: 0;
+			color: initial;
+			}
+
 		.search-result button.call-to-action {
 			display: block;
 			position: absolute;
-			margin: 0;
+			margin: 0 -0.5rem;
 			top: 0;
 			bottom: 0;
 			height: auto;
-			right: 0;
+			right: 0.8rem;
 			visibility: visible;
 			opacity: 1;
 			-webkit-transition-property: -webkit-transform, visibility, opacity, color;
