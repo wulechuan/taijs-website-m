@@ -52,12 +52,13 @@ a:active, .header-bar button:active {
 		}
 
 
-button.nav-share::before,
+button.header-filter::before,
+button.header-sharing::before,
 button.nav-home::before,
 button.nav-back::before,
 button.add-entity::before,
 [role="button"].nav-home::before,
-[role="button"].nav-share::before,
+[role="button"].header-sharing::before,
 [role="button"].nav-back::before,
 [role="button"].add-entity::before {
 	font-family: 'iconfont'!important;
@@ -77,13 +78,17 @@ button.add-entity::before,
 	[role="button"].nav-back::before {
 		content: '\e603';
 	}
-	button.nav-share::before,
-	[role="button"].nav-share::before {
-		content: '\e618';
-	}
 	button.add-entity::before,
 	[role="button"].add-entity::before {
 		content: '\e625';
+	}
+	button.header-sharing::before,
+	[role="button"].header-sharing::before {
+		content: '\e618';
+	}
+	button.header-filter::before,
+	[role="button"].header-filter::before {
+		content: '\e62c';
 	}
 
 
@@ -3032,12 +3037,49 @@ article.message {
 			font-size: 0.65rem;
 			margin: 0;
 		}
-		.f-block-body .row.multi-lines.entity-type-fixed-income-history .status {
-			position: absolute;
-			right: 0.8rem;
-			bottom: 0.7rem;
-			text-align: right;
+
+
+	.f-block-body .row.multi-lines.entity-type-fixed-income-history .status {
+		position: absolute;
+		right: 0.8rem;
+		bottom: 0.7rem;
+		text-align: right;
 		}
+
+
+	.f-block-body .row.multi-lines.fund-trading-record {
+		}
+
+		.f-block-body .row.multi-lines.fund-trading-record .left {
+			position: relative;
+			padding-left: 2.5rem;
+		}
+
+		.f-block-body .row.multi-lines.fund-trading-record .marker {
+			position: absolute;
+			left: 0.5rem;
+			margin-top: 0.05rem;
+		}
+
+		.f-block-body .row.multi-lines.fund-trading-record .right {
+			position: absolute;
+			display: block;
+			left: auto;
+			right: 0.8rem;
+			top: 0;
+			bottom: 0;
+			margin: auto -0.5rem;
+			width: auto;
+			height: 2.6rem;
+			}
+			.f-block-body .row.multi-lines.fund-trading-record .right .amount {
+				font-size: 0.9rem;
+				line-height: 1.6rem;
+			}
+			.f-block-body .row.multi-lines.fund-trading-record .right .status {
+				font-size: 0.65rem;
+				line-height: 1rem;
+			}
 
 
 	.f-block-body a .row.full-width,
