@@ -3171,9 +3171,13 @@ article.message {
 			}
 
 
-.fund-trading-record .f-block-body.abstract {
-	margin-bottom: 0;
-	border-bottom-width: 0;
+.fund-trading-record {
+	}
+
+	.fund-trading-record .f-block-body.abstract {
+		margin-top: 0;
+		margin-bottom: 0;
+		border-bottom-width: 0;
 	}
 
 	.fund-trading-record .details-container {
@@ -3185,6 +3189,7 @@ article.message {
 	.fund-trading-record .details-container .f-block-body.progress {
 		border-top-width: 0;
 		margin-top: 0;
+		margin-bottom: -1px;
 	}
 
 	.fund-trading-record .details-container .f-block-body.progress .row::before {

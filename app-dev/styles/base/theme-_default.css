@@ -81,6 +81,9 @@ em {
 	.color-positive {
 		color: #8ac45f;
 		}
+		.color-ok {
+			color: #01bc4c;
+		}
 		/* .progress-stop.icon-failed::before, */
 		.progress-stop.icon-failed .label,
 		.color-negative,
