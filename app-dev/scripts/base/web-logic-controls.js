@@ -2186,9 +2186,8 @@ window.webLogicControls = {};
 
 				if (pwHeightCategory === 'tall') {
 					cssClass = pwHeightCategory+'-window-shows-up-from-bottom';
+					return cssClass;
 				}
-
-
 
 				if (typeof event !== 'object' || typeof event.pageX !== 'number' || typeof event.pageY !== 'number') {
 					return cssClass;
