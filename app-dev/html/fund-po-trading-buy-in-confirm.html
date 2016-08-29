@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html><head>
+	<!-- inject:headBeforeTitle:html --><!-- endinject -->
+	<title>基金购买确认</title>
+	<!-- inject:headAfterTitle:html --><!-- endinject -->
+</head>
+<body>
+<!-- inject:bodyBegin:html --><!-- endinject -->
+
+<!-- inject:appRootWrapBegin:html --><!-- endinject -->
+
+<!-- inject:appBGLayer0:html --><!-- endinject -->
+
+<!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
+<div data-app-header-title="基金购买确认" id="page-fund-po-trading-buy-in-confirm"
+	 class="page has-page-header fixed-page-header has-page-footer fixed-page-footer"
+	><header class="page-header">
+		<div class="row header-bar">
+			<div class="center"><h1>投资确认</h1></div>
+			<div class="left"  ><a role="button" class="nav-back" href="funds-search.html"></a></div>
+			<div class="right" ><a role="button" class="nav-home" href="../index2.html"></a></div>
+		</div>		
+	</header>
+
+	<form name="newbiebuying" action="fund-po-buying-succeeded.html">
+	<div class="page-body">
+		<div class="f-block">
+			<div class="row"><p class="tip">选择支付方式</p></div>
+			<div class="f-block-body">
+				<div class="row menu-item has-lead-icon entity-of-bank call-to-action" id="fund-po-trading-buy-in-confirm-choose-bank-card">
+					<i class="icon lead-icon icon-size-medium icon-bank-cn-abc" ></i
+					><div class="left" data-value="农业银行">
+						<h5>农业银行<sub><q>3678</q></sub></h5>
+						<p class="tip">单笔5万；日累计5万</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="f-block">
+			<div class="f-block-body">
+				<div class="row input-field single-side-content">
+					<div class="left">
+						<input placeholder="最低购买金额10.00元"
+							data-placeholder-prefix="请输入投资金额，" type="number" data-text-format="currency"
+							name="amount" required
+							data-validator="taijs.app.input.validator.fixedIncomeInvestmentAmount" data-value-min="1000" data-value-max="150000"
+									   id="fund-po-buying-amount">
+						<label        for="fund-po-buying-amount" class="input-tip default">买入金额</label>
+						<label        for="fund-po-buying-amount" class="input-tip error" data-subject="amount-too-low">最低购买金额10.00元</label>
+						<button for-input="fund-po-buying-amount"
+							button-action="clear-input-field" type="button"></button>
+					</div>
+				</div>
+			</div>
+
+			<div class="row dynamic-row">
+				<p class="chinese-number tip" for-element="fund-po-buying-amount"></p>
+			</div>
+
+			<div class="row">
+				<article>
+					<p>费率：<del>1.5%</del> <em>0.15%</em> （估算费用149.80元，省1328.00元）</p>
+					<p><a href="#">费率详情</a></p>
+					<ul class="tip">
+						<li>15:00后交易属于下一个工作日</li>
+						<li>确认后下一个交易日可卖出</li>
+						<li>卖出费率<em>（0.00%~1.50%）</em></li>
+					</ul>
+				</article>
+			</div>
+		</div>
+
+		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
+	</div>
+
+	<footer class="page-footer">
+		<div class="row buttons-in-single-line">
+			<button class="rounded-corners size-std-wide" button-action="submit">确认购买</button>
+		</div>
+	</footer>
+	</form>
+
+	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
+		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
+		<div role="dialog" class="popup-layer has-docked-panel" id="pl-choose-bank-card">
+			<div class="popup-panel">
+				<header class="popup-panel-header">
+					<div class="row header-bar">
+						<div class="center"><h1>选择银行卡</h1></div>
+						<div class="left"  ><button class="nav-back"></button></div>
+					</div>		
+				</header>
+				<div class="popup-panel-body">
+					<div class="f-block snap-top">
+						<div role="menu" class="f-block-body">
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-abc" ></i
+								><div class="left" data-value="农业银行">
+									<h5>农业银行<sub><q>3678</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-icbc"></i
+								><div class="left" data-value="工商银行">
+									<h5>工商银行<sub><q>5992</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-ccb"></i
+								><div class="left" data-value="建设银行">
+									<h5>建设银行<sub><q>5568</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-cmb"></i
+								><div class="left" data-value="招商银行">
+									<h5>招商银行<sub><q>9945</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-boc"></i
+								><div class="left" data-value="中国银行">
+									<h5>中国银行<sub><q>1170</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-cmbc"></i
+								><div class="left" data-value="中国民生银行">
+									<h5>中国民生银行<sub><q>2352</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-citic"></i
+								><div class="left" data-value="中信银行">
+									<h5>中信银行<sub><q>1785</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<div role="menuitem" class="row menu-item has-lead-icon entity-of-bank">
+								<i class="icon lead-icon icon-size-medium icon-bank-cn-citic"></i
+								><div class="left" data-value="中信银行">
+									<h5>中信银行<sub><q>3324</q></sub></h5>
+									<p class="tip">单笔5万；日累计5万</p>
+								</div>
+							</div>
+							<a href="account-bank-card-addition.html">
+							<div role="menuitem" class="row menu-item tall emphasise-leftside">
+								<div class="left">使用新卡支付</div>
+							</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
+
+	<script src="../scripts/pages/fund-po-trading-buy-in-confirm.min.js"></script>
+</div>
+<!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
+
+<!-- inject:globalPopupLayers:html --><!-- endinject -->
+
+<!-- inject:appRootWrapEnd:html --><!-- endinject -->
+
+<!-- inject:bodyEnd:html --><!-- endinject -->
+</body></html>
