@@ -98,13 +98,13 @@ $(function () {
 					var winTMin = Math.max(0, T + H - winH + margin);
 					var winTMax = T - headerH + margin;
 					var winNewT = Math.min(winTMax, Math.max(winTMin, winT));
-					C.l(
-						'current top:', winT,
-						'\tnew top:', winNewT,
-						'(', winTMin, ',', winTMax, ')',
-						'\twin innerHeight:', winH,
-						'\tcontainer:', T, H
-					);
+					// C.l(
+					// 	'current top:', winT,
+					// 	'\tnew top:', winNewT,
+					// 	'(', winTMin, ',', winTMax, ')',
+					// 	'\twin innerHeight:', winH,
+					// 	'\tcontainer:', T, H
+					// );
 					if (winNewT !== winT) {
 						window.scrollTo(null, winNewT);
 					}
