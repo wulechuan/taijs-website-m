@@ -2918,6 +2918,7 @@ window.webLogicControls = {};
 
 			this.processCurrentValue = processCurrentValue.bind(this);
 			this.validate = validate.bind(this);
+			this.setValue = setValue.bind(this);
 			this.clearValue = clearValue.bind(this);
 
 			this.scanForTips = scanForTipsDefaultMethod.bind(this);
@@ -3319,9 +3320,15 @@ window.webLogicControls = {};
 				updateCssClasses.call(this);
 			}
 
+			function setValue(value) {
+				if (value !== fieldElement.value) {
+					fieldElement.value = value;
+					onChange.call(this);
+				}
+			}
+
 			function clearValue() {
-				fieldElement.value = '';
-				onChange.call(this);
+				setValue.call(this, '');
 			}
 
 			function processCurrentValue() {

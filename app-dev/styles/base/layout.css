@@ -1669,6 +1669,367 @@ article.message {
 	}
 
 
+.tabular {
+	font-weight: 400;
+	}
+	.f-block .tabular {
+		margin-left: -0.8rem;
+		margin-right: -0.8rem;
+	}
+	.tabular > .header {
+		position: relative;
+		z-index: 1;
+	}
+
+	.tabular > .f-list {
+		-webkit-animation: reveal-content 0.35s ease-out;
+		        animation: reveal-content 0.35s ease-out;
+		}
+		.tabular > .header {
+			z-index: 2;
+		}
+		.tabular > .footer {
+			z-index: 3;
+		}
+		.tabular > .f-list > li {
+			z-index: 0;
+		}
+
+		.tabular > .header,
+		.tabular > .footer,
+		.tabular > .f-list > li {
+			position: relative;
+			border-style: solid;
+
+			line-height: 1rem;
+			min-height: 1rem;
+		}
+		.tabular > .header,
+		.tabular > .footer {
+			border-width: 1px 0;
+			padding: 0.5rem 0.8rem;
+		}
+		.tabular > .header {
+			margin: 0 0 -1px 0;
+		}
+		.tabular > .footer {
+			margin: -1px 0 0 0;
+		}
+		.tabular > .f-list > li {
+			border-width: 0;
+			padding: 0 0.8rem;
+			margin-top: 1px;
+		}
+		.tabular > .f-list > li.row::before,
+		.tabular > .f-list > li::before {
+			content: '';
+			display: block;
+			position: absolute;
+			top: -1px;
+			left: 0.8rem;
+			right: 0.8rem;
+			height: 0;
+			border-width: 1px 0 0 0;
+			border-color: inherit;
+			border-style: inherit;
+		}
+		.tabular > .f-list > li:first-child {
+			margin-top: 0;
+		}
+		.tabular > .f-list > li:first-child::before {
+			content: none;
+		}
+		.tabular > .f-list > li > a > .content,
+		.tabular > .f-list > li     > .content {
+			padding: 0.5rem 0.8rem;
+			margin: 0 -0.8rem;
+		}
+		.f-block-body .tabular > .f-list > li {
+			color: inherit;
+			border-color: inherit;
+		}
+		.f-block-body .tabular:first-child > .header {
+			border-top-width: 0;
+		}
+		.f-block .tabular > .f-list > li.row {
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+
+		.tabular > .header                       .cell,
+		.tabular > .footer                       .cell,
+		.tabular > .f-list > li > a > .content > .cell,
+		.tabular > .f-list > li     > .content > .cell,
+		.tabular > .f-list > li                > .cell {
+			display: inline-block;
+			vertical-align: top;
+			padding: 0.25rem 0.5rem;
+			margin: -0.25rem -0.5rem;
+		}
+
+		.tabular > .header      .caption-cell,
+		.tabular > .footer      .caption-cell,
+		.tabular > .f-list > li .caption-cell {
+			text-align: left;
+		}
+
+		.tabular > .f-list > li .content .last-cell,
+		.tabular > .header               .last-cell,
+		.tabular > .footer               .last-cell {
+			position: absolute;
+			display: block;
+			top: 0;
+			bottom: 0;
+			left: auto;
+			right: 0.8rem;
+			margin-top: auto;
+			margin-bottom: auto;
+			width: auto;
+			height: 1.5em;
+			line-height: 1.5;
+			text-align: right;
+			min-width: 0;
+		}
+		.tabular > .f-list > li .cell.call-to-action {
+			position: absolute;
+			right: 0.8rem;
+		}
+
+
+		.tabular .cell.currency {
+			text-align: right;
+			min-width: 5rem;
+		}
+
+		.tabular > .footer,
+		.tabular > .header {
+			font-size: 0.7rem;
+			/* font-weight: 400; */
+		}
+		.tabular .cell {
+			font-size: 0.6rem;
+		}
+		.tabular .cell.caption-cell {
+			width: 3.5rem;
+			font-weight: 300;
+		}
+		.tabular > .f-list > li .cell.timestamp {
+			font-size: 0.6rem;
+		}
+
+
+		.f-block-body .tabular .cell {
+			font-size: 0.8rem;
+		}
+		.f-block-body .tabular .header .cell {
+			font-size: 0.7rem;
+		}
+		.f-block-body .tabular .caption-cell {
+			font-size: 0.8rem;
+			font-weight: 500;
+		}
+
+		@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+			.tabular > .f-list > li .cell.timestamp {
+				height: 3em;
+			}
+			.tabular .cell.timestamp time {
+				display: block;
+			}
+		}
+
+
+		.tabular.gold-list .first-cell {
+			width: 6.5rem;
+			}
+
+			@media only screen and (max-width: 376px) { /* iPhone 6 / Galaxy S5 */
+				.tabular.gold-list .first-cell {
+					width: 5rem;
+					}
+			}
+
+
+		.tabular.search-panel-owned-po-list .f-list > li > a > .content,
+		.tabular.search-panel-owned-po-list .f-list > li     > .content {
+			padding-top: 1rem;
+			font-size: 0.8rem;
+			}
+
+			.tabular.search-panel-owned-po-list .first-cell {
+				width: 8rem;
+			}
+
+			.tabular.search-panel-owned-po-list .cell.amount {
+				position: absolute;
+				right: 8rem;
+				min-width: 0;
+				width: 3rem;
+				text-align: left;
+			}
+
+			.tabular.search-panel-owned-po-list .cell.last-year-variance {
+				position: absolute;
+				right: 3rem;
+				width: 4.5rem;
+				text-align: left;
+			}
+
+			.tabular.search-panel-owned-po-list .cell.call-to-action {
+				top: 0;
+				bottom: 0;
+				height: auto;
+				width: auto;
+				padding: 0;
+				margin: 0;
+				text-align: right;
+			}
+
+			.tabular.search-panel-owned-po-list .cell.call-to-action button,
+			.tabular.search-panel-owned-po-list .cell.call-to-action a[role="button"] {
+				position: absolute;
+				margin: auto 0;
+				height: 1rem;
+				right: 0;
+				top: 0;
+				bottom: 0.5rem;
+				line-height: 1rem;
+				padding: 0.1rem 0.6rem;
+				width: 1.5rem;
+				min-height: 0;
+				border-radius: 0.15rem;
+				font-size: 0.7rem;
+			}
+
+			@media only screen and (max-width: 376px) { /* iPhone 6 / Galaxy S5 */
+				.tabular.search-panel-owned-po-list .cell.amount {
+					right: 8rem;
+				}
+
+				.tabular.search-panel-owned-po-list .cell.last-year-variance {
+					width: 3.5rem;
+					right: 4rem;
+				}
+			}
+
+			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+				.tabular.search-panel-owned-po-list .cell.amount {
+					right: 5rem;
+					top: 0.7rem;
+					width: 3.5rem;
+					text-align: right;
+				}
+
+				.tabular.search-panel-owned-po-list .cell.last-year-variance {
+					right: 5rem;
+					top: auto;
+					bottom: 0.4rem;
+					width: 3.5rem;
+					text-align: right;
+				}
+
+				.tabular.search-panel-owned-po-list > .header .cell.amount {
+					right: 7.5rem;
+					top: auto;
+					bottom: auto;
+				}
+
+				.tabular.search-panel-owned-po-list > .header .cell.last-year-variance {
+					top: auto;
+					bottom: auto;
+				}
+			}
+
+
+		.tabular.funds-chargeback-list .f-list > li > a > .content,
+		.tabular.funds-chargeback-list .f-list > li     > .content {
+			padding-top: 1rem;
+			padding-bottom: 0.6rem;
+			}
+
+			.tabular.funds-chargeback-list .first-cell {
+				box-sizing: border-box;
+				width: calc(100% - 8.5rem);
+			}
+
+			.tabular.funds-chargeback-list > .f-list > li .cell.caption-cell {
+				padding-left: 2.5rem;
+				}
+
+				.tabular.funds-chargeback-list .caption-cell .marker {
+					position: absolute;
+					text-align: center;
+					width: 1.6rem;
+					border-radius: 0;
+					padding-left: 0; 
+					padding-right: 0; 
+					margin: 0;
+					left: 0.8rem;
+					top: 1rem;
+				}
+
+			.tabular.funds-chargeback-list .cell.amount {
+				min-width: 0;
+				width: 6rem;
+				text-align: right;
+				position: absolute;
+				right: 4.5rem;
+				}
+				.tabular.funds-chargeback-list > .f-list .cell.amount {
+					font-size: 0.8rem;
+					line-height: 1;
+				}
+				.tabular.funds-chargeback-list .value.product-name {
+					line-height: 1.2;
+				}
+
+			.tabular.funds-chargeback-list .cell.call-to-action {
+				top: 0.8rem;
+				bottom: 0;
+				width: auto;
+				height: auto;
+				padding: 0;
+				margin: 0;
+				text-align: right;
+			}
+
+			.tabular.funds-chargeback-list .cell.call-to-action button,
+			.tabular.funds-chargeback-list .cell.call-to-action a[role="button"] {
+				position: absolute;
+				margin: -0.1rem 0;
+				height: 1.2rem;
+				right: 0;
+				top: 0;
+				bottom: 0.3rem;
+				line-height: 1.2rem;
+				padding: 0.1rem 0.6rem;
+				width: 1.6rem;
+				min-height: 0;
+				border-radius: 0.15rem;
+				font-size: 0.7rem;
+			}
+
+			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+				.tabular.funds-chargeback-list .f-list > li > a > .content,
+				.tabular.funds-chargeback-list .f-list > li     > .content {
+					min-height: 3rem;
+				}
+
+				.tabular.funds-chargeback-list .first-cell {
+					width: calc(100% - 4.5rem);
+				}
+
+				.tabular.funds-chargeback-list .cell.amount {
+					right: 0.8rem;
+				}
+
+				.tabular.funds-chargeback-list .cell.call-to-action {
+					top: 2.5rem;
+				}
+			}
+
+
 .row, .f-block, .f-block-body, .f-block .row.full-width {
 	box-sizing: content-box;
 	padding-left: 0.8rem;
@@ -1799,11 +2160,13 @@ article.message {
 		box-sizing: border-box;
 	}
 
+	.row.fake-input-field,
 	.row.select-field,
 	.row.input-field {
 		padding-top: 0;
 		padding-bottom: 0;
 		}
+		.row.fake-input-field .fake-input,
 		.row.select-field select,
 		.row.input-field  input {
 			margin: 0.5rem 0;
@@ -1822,6 +2185,7 @@ article.message {
 		}
 
 
+		.row.fake-input-field .fake-input,
 		.row.input-field input:focus,
 		.row.input-field input.non-empty-field {
 			margin-top: 1.5rem;
@@ -1845,10 +2209,25 @@ article.message {
 			}
 
 
-		.row.input-field .input-tip {
+		.row.fake-input-field .input-tip,
+		.row.input-field      .input-tip {
 			position: absolute;
 			left: 0;
 			top: 0.6rem;
+			}
+
+			.row.fake-input-field .fake-input {
+				visibility: hidden;
+				opacity: 0;
+			}
+			.row.fake-input-field .fake-input.non-empty-field,
+			.row.fake-input-field .input-tip.default {
+				visibility: visible;
+				opacity: 1;
+			}
+
+			.row.fake-input-field .non-empty-field ~ .input-tip.default {
+
 			}
 
 			.row.input-field input:focus           ~ .input-tip.default,
@@ -1966,19 +2345,21 @@ article.message {
 
 		.row.small-text.emphasise-both-sides .left,
 		.row.small-text.emphasise-both-sides .right,
-		.row.small-text.emphasise-rightside .left,
-		.row.small-text.emphasise-rightside .right,
-		.row.small-text.emphasise-leftside .left,
-		.row.small-text.emphasise-leftside .right,
+		.row.small-text.emphasise-rightside  .left,
+		.row.small-text.emphasise-rightside  .right,
+		.row.small-text.emphasise-leftside   .left,
+		.row.small-text.emphasise-leftside   .right,
 		.row.small-text .left,
 		.row.small-text .right {
 			font-size: 0.6rem;
 		}
 
-		.f-block-body .row.select-field .right,
-		.f-block-body .row.input-field  .right,
-		.row.select-field .right,
-		.row.input-field  .right {
+		.f-block-body .row.fake-input-field .right,
+		.f-block-body .row.select-field     .right,
+		.f-block-body .row.input-field      .right,
+		.row.fake-input-field .right,
+		.row.select-field     .right,
+		.row.input-field      .right {
 			margin-top: 0.8rem;
 			margin-bottom: 0.8rem;
 			line-height: 1.2rem;
@@ -1988,14 +2369,16 @@ article.message {
 			top: 0;
 			right: 1.6rem;
 		}
-		.row.input-field .left {
+		.row.fake-input-field .left,
+		.row.input-field      .left {
 			position: relative; /* for positioning of clear-input-button */
 			width: 75%;
 			margin: 0;
 			padding-left: 0;
 			padding-right: 0;
 		}
-		.row.input-field  .right {
+		.row.fake-input-field .right,
+		.row.input-field      .right {
 			width: 25%;
 			margin-left: -0.5rem;
 		}
@@ -2460,367 +2843,6 @@ article.message {
 	}
 
 
-.tabular {
-	font-weight: 400;
-	}
-	.f-block .tabular {
-		margin-left: -0.8rem;
-		margin-right: -0.8rem;
-	}
-	.tabular > .header {
-		position: relative;
-		z-index: 1;
-	}
-
-	.tabular > .f-list {
-		-webkit-animation: reveal-content 0.35s ease-out;
-		        animation: reveal-content 0.35s ease-out;
-		}
-		.tabular > .header {
-			z-index: 2;
-		}
-		.tabular > .footer {
-			z-index: 3;
-		}
-		.tabular > .f-list > li {
-			z-index: 0;
-		}
-
-		.tabular > .header,
-		.tabular > .footer,
-		.tabular > .f-list > li {
-			position: relative;
-			border-style: solid;
-
-			line-height: 1rem;
-			min-height: 1rem;
-		}
-		.tabular > .header,
-		.tabular > .footer {
-			border-width: 1px 0;
-			padding: 0.5rem 0.8rem;
-		}
-		.tabular > .header {
-			margin: 0 0 -1px 0;
-		}
-		.tabular > .footer {
-			margin: -1px 0 0 0;
-		}
-		.tabular > .f-list > li {
-			border-width: 0;
-			padding: 0 0.8rem;
-			margin-top: 1px;
-		}
-		.tabular > .f-list > li.row::before,
-		.tabular > .f-list > li::before {
-			content: '';
-			display: block;
-			position: absolute;
-			top: -1px;
-			left: 0.8rem;
-			right: 0.8rem;
-			height: 0;
-			border-width: 1px 0 0 0;
-			border-color: inherit;
-			border-style: inherit;
-		}
-		.tabular > .f-list > li:first-child {
-			margin-top: 0;
-		}
-		.tabular > .f-list > li:first-child::before {
-			content: none;
-		}
-		.tabular > .f-list > li > a > .content,
-		.tabular > .f-list > li     > .content {
-			padding: 0.5rem 0.8rem;
-			margin: 0 -0.8rem;
-		}
-		.f-block-body .tabular > .f-list > li {
-			color: inherit;
-			border-color: inherit;
-		}
-		.f-block-body .tabular:first-child > .header {
-			border-top-width: 0;
-		}
-		.f-block .tabular > .f-list > li.row {
-			margin-left: 0;
-			margin-right: 0;
-		}
-
-
-		.tabular > .header                       .cell,
-		.tabular > .footer                       .cell,
-		.tabular > .f-list > li > a > .content > .cell,
-		.tabular > .f-list > li     > .content > .cell,
-		.tabular > .f-list > li                > .cell {
-			display: inline-block;
-			vertical-align: top;
-			padding: 0.25rem 0.5rem;
-			margin: -0.25rem -0.5rem;
-		}
-
-		.tabular > .header      .caption-cell,
-		.tabular > .footer      .caption-cell,
-		.tabular > .f-list > li .caption-cell {
-			text-align: left;
-		}
-
-		.tabular > .f-list > li .content .last-cell,
-		.tabular > .header               .last-cell,
-		.tabular > .footer               .last-cell {
-			position: absolute;
-			display: block;
-			top: 0;
-			bottom: 0;
-			left: auto;
-			right: 0.8rem;
-			margin-top: auto;
-			margin-bottom: auto;
-			width: auto;
-			height: 1.5em;
-			line-height: 1.5;
-			text-align: right;
-			min-width: 0;
-		}
-		.tabular > .f-list > li .cell.call-to-action {
-			position: absolute;
-			right: 0.8rem;
-		}
-
-
-		.tabular .cell.currency {
-			text-align: right;
-			min-width: 5rem;
-		}
-
-		.tabular > .footer,
-		.tabular > .header {
-			font-size: 0.7rem;
-			/* font-weight: 400; */
-		}
-		.tabular .cell {
-			font-size: 0.6rem;
-		}
-		.tabular .cell.caption-cell {
-			width: 3.5rem;
-			font-weight: 300;
-		}
-		.tabular > .f-list > li .cell.timestamp {
-			font-size: 0.6rem;
-		}
-
-
-		.f-block-body .tabular .cell {
-			font-size: 0.8rem;
-		}
-		.f-block-body .tabular .header .cell {
-			font-size: 0.7rem;
-		}
-		.f-block-body .tabular .caption-cell {
-			font-size: 0.8rem;
-			font-weight: 500;
-		}
-
-		@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
-			.tabular > .f-list > li .cell.timestamp {
-				height: 3em;
-			}
-			.tabular .cell.timestamp time {
-				display: block;
-			}
-		}
-
-
-		.tabular.gold-list .first-cell {
-			width: 6.5rem;
-			}
-
-			@media only screen and (max-width: 376px) { /* iPhone 6 / Galaxy S5 */
-				.tabular.gold-list .first-cell {
-					width: 5rem;
-					}
-			}
-
-
-		.tabular.search-panel-owned-po-list .f-list > li > a > .content,
-		.tabular.search-panel-owned-po-list .f-list > li     > .content {
-			padding-top: 1rem;
-			font-size: 0.8rem;
-			}
-
-			.tabular.search-panel-owned-po-list .first-cell {
-				width: 8rem;
-			}
-
-			.tabular.search-panel-owned-po-list .cell.amount {
-				position: absolute;
-				right: 8rem;
-				min-width: 0;
-				width: 3rem;
-				text-align: left;
-			}
-
-			.tabular.search-panel-owned-po-list .cell.last-year-variance {
-				position: absolute;
-				right: 3rem;
-				width: 4.5rem;
-				text-align: left;
-			}
-
-			.tabular.search-panel-owned-po-list .cell.call-to-action {
-				top: 0;
-				bottom: 0;
-				height: auto;
-				width: auto;
-				padding: 0;
-				margin: 0;
-				text-align: right;
-			}
-
-			.tabular.search-panel-owned-po-list .cell.call-to-action button,
-			.tabular.search-panel-owned-po-list .cell.call-to-action a[role="button"] {
-				position: absolute;
-				margin: auto 0;
-				height: 1rem;
-				right: 0;
-				top: 0;
-				bottom: 0.5rem;
-				line-height: 1rem;
-				padding: 0.1rem 0.6rem;
-				width: 1.5rem;
-				min-height: 0;
-				border-radius: 0.15rem;
-				font-size: 0.7rem;
-			}
-
-			@media only screen and (max-width: 376px) { /* iPhone 6 / Galaxy S5 */
-				.tabular.search-panel-owned-po-list .cell.amount {
-					right: 8rem;
-				}
-
-				.tabular.search-panel-owned-po-list .cell.last-year-variance {
-					width: 3.5rem;
-					right: 4rem;
-				}
-			}
-
-			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
-				.tabular.search-panel-owned-po-list .cell.amount {
-					right: 5rem;
-					top: 0.7rem;
-					width: 3.5rem;
-					text-align: right;
-				}
-
-				.tabular.search-panel-owned-po-list .cell.last-year-variance {
-					right: 5rem;
-					top: auto;
-					bottom: 0.4rem;
-					width: 3.5rem;
-					text-align: right;
-				}
-
-				.tabular.search-panel-owned-po-list > .header .cell.amount {
-					right: 7.5rem;
-					top: auto;
-					bottom: auto;
-				}
-
-				.tabular.search-panel-owned-po-list > .header .cell.last-year-variance {
-					top: auto;
-					bottom: auto;
-				}
-			}
-
-
-		.tabular.funds-chargeback-list .f-list > li > a > .content,
-		.tabular.funds-chargeback-list .f-list > li     > .content {
-			padding-top: 1rem;
-			padding-bottom: 0.6rem;
-			}
-
-			.tabular.funds-chargeback-list .first-cell {
-				box-sizing: border-box;
-				width: calc(100% - 8.5rem);
-			}
-
-			.tabular.funds-chargeback-list > .f-list > li .cell.caption-cell {
-				padding-left: 2.5rem;
-				}
-
-				.tabular.funds-chargeback-list .caption-cell .marker {
-					position: absolute;
-					text-align: center;
-					width: 1.6rem;
-					border-radius: 0;
-					padding-left: 0; 
-					padding-right: 0; 
-					margin: 0;
-					left: 0.8rem;
-					top: 1rem;
-				}
-
-			.tabular.funds-chargeback-list .cell.amount {
-				min-width: 0;
-				width: 6rem;
-				text-align: right;
-				position: absolute;
-				right: 4.5rem;
-				}
-				.tabular.funds-chargeback-list > .f-list .cell.amount {
-					font-size: 0.8rem;
-					line-height: 1;
-				}
-				.tabular.funds-chargeback-list .value.product-name {
-					line-height: 1.2;
-				}
-
-			.tabular.funds-chargeback-list .cell.call-to-action {
-				top: 0.8rem;
-				bottom: 0;
-				width: auto;
-				height: auto;
-				padding: 0;
-				margin: 0;
-				text-align: right;
-			}
-
-			.tabular.funds-chargeback-list .cell.call-to-action button,
-			.tabular.funds-chargeback-list .cell.call-to-action a[role="button"] {
-				position: absolute;
-				margin: -0.1rem 0;
-				height: 1.2rem;
-				right: 0;
-				top: 0;
-				bottom: 0.3rem;
-				line-height: 1.2rem;
-				padding: 0.1rem 0.6rem;
-				width: 1.6rem;
-				min-height: 0;
-				border-radius: 0.15rem;
-				font-size: 0.7rem;
-			}
-
-			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
-				.tabular.funds-chargeback-list .f-list > li > a > .content,
-				.tabular.funds-chargeback-list .f-list > li     > .content {
-					min-height: 3rem;
-				}
-
-				.tabular.funds-chargeback-list .first-cell {
-					width: calc(100% - 4.5rem);
-				}
-
-				.tabular.funds-chargeback-list .cell.amount {
-					right: 0.8rem;
-				}
-
-				.tabular.funds-chargeback-list .cell.call-to-action {
-					top: 2.5rem;
-				}
-			}
-
-
 .f-block { /* function-block */
 	font-size: 0.7rem;
 	font-weight: normal;
@@ -2919,14 +2941,14 @@ article.message {
 
 	/* .f-block-body .row.last-shown-in-set, */
 	.f-block-body > :first-child > a > .row,
-	.f-block-body > :first-child > .row,
+	.f-block-body > :first-child     > .row,
 	.f-block-body > .row:first-child {
 		margin-top: 0;
 		}
 
 		/* .f-block-body .row.last-shown-in-set::before, */
 		.f-block-body > :first-child .row::before,
-		.f-block-body > .row:first-child::before {
+		.f-block-body              > .row:first-child::before {
 			content: none;
 		}
 
@@ -2964,6 +2986,7 @@ article.message {
 			font-size: 1.2rem;
 		}
 
+
 	.f-block-body .row.entity-of-bank.has-lead-icon {
 		padding-left: 2.5rem;
 		}
@@ -2988,6 +3011,15 @@ article.message {
 			-webkit-transform: scale(0.6, 0.6);
 			        transform: scale(0.6, 0.6);
 		}
+
+		.f-block-body .row.entity-of-bank.has-lead-icon.lead-icon-size-large {
+			padding-left: 3rem;
+			}
+
+			.f-block-body .row.entity-of-bank.has-lead-icon.lead-icon-size-large .lead-icon {
+				-webkit-transform: scale(0.88, 0.88);
+				        transform: scale(0.88, 0.88);
+			}
 
 		.f-block-body .row.entity-of-bank.has-lead-icon h5 {
 			font-size: 0.8rem;
@@ -3071,6 +3103,7 @@ article.message {
 		}
 
 
+	.f-block-body   .row.fake-input-field,
 	.f-block-body a .row.full-width,
 	.f-block-body   .row.full-width.call-to-action,
 	.f-block-body a .row,
@@ -3085,6 +3118,7 @@ article.message {
 		}
 
 		.f-block-body a .row::after,
+		.f-block-body   .row.fake-input-field::after,
 		.f-block-body   .row.select-field::after,
 		.f-block-body   .row.call-to-action::after {
 			font-family: 'iconfont'!important;
@@ -3106,7 +3140,8 @@ article.message {
 			content: none;
 		}
 
-	.f-block-body .row.input-field .input-tip {
+	.f-block-body .row.fake-input-field .input-tip,
+	.f-block-body .row.input-field      .input-tip {
 		left: 0;
 	}
 
@@ -3122,6 +3157,7 @@ article.message {
 			line-height: 1.0rem;
 		}
 		.f-block-body a .row::after,
+		.f-block-body   .row.fake-input-field::after,
 		.f-block-body   .row.select-field::after,
 		.f-block-body   .row.call-to-action::after {
 			height: 1.2rem;
@@ -3129,20 +3165,35 @@ article.message {
 			top: 0.6rem;
 		}
 
+	.f-block-body .row.fake-input-field .input-tip.default,
+	/* .f-block-body .row.fake-input-field, */
 	.f-block-body .row.select-field,
 	.f-block-body .row.input-field,
 	.f-block-body .row.tall {
-		font-size: 16px;
+		font-size: 0.8rem;
 		min-height: 2.2rem;
 		}
+
+		.f-block-body .row.fake-input-field .input-tip.default {
+			font-weight: 100;
+			line-height: 2.2rem;
+		}
+
+		.f-block-body .row.fake-input-field .non-empty-field ~ .input-tip.default {
+			font-size: 0.6rem;
+			line-height: 1rem;
+		}
+
+		.f-block-body .row.fake-input-field,
 		.f-block-body .row.select-field,
 		.f-block-body .row.input-field {
 			padding-top: 0;
 			padding-bottom: 0;
 		}
 
-		.f-block-body .row.select-field .left,
-		.f-block-body .row.input-field  .left {
+		.f-block-body .row.fake-input-field .left,
+		.f-block-body .row.select-field     .left,
+		.f-block-body .row.input-field      .left {
 			padding-top: 0;
 			padding-bottom: 0;
 			height: 3.2rem;
@@ -3154,6 +3205,7 @@ article.message {
 			line-height: 1.2rem;
 		}
 		.f-block-body a .row.tall::after,
+		.f-block-body   .row.fake-input-field::after,
 		.f-block-body   .row.select-field::after,
 		.f-block-body   .row.tall.call-to-action::after {
 			height: 1.2rem;
@@ -4117,19 +4169,21 @@ dl.tickets-list {
 			        animation-delay: 0.1s;
 			-webkit-animation-duration: 0.24s;
 			        animation-duration: 0.24s;
-			-webkit-animation-name: covering-layer-content-shows-up;
-			        animation-name: covering-layer-content-shows-up;
 			-webkit-animation-fill-mode: backwards;
 			        animation-fill-mode: backwards;
 		}
+		.page-body.covering-layer > .content.animation-shows-up-like-tv-signal {
+			-webkit-animation-name: covering-layer-content-shows-up-like-tv-signal;
+			        animation-name: covering-layer-content-shows-up-like-tv-signal;
+		}
 
-		@-webkit-keyframes covering-layer-content-shows-up {
+		@-webkit-keyframes covering-layer-content-shows-up-like-tv-signal {
 			 0% { opacity: 0; -webkit-transform: scale(0.08, 0.16); }
 			45% { opacity: 1; -webkit-transform: scale(1.19, 0.19); }
 			90% {             -webkit-transform: scale(1.02, 1.03); }
 			to  {             -webkit-transform: scale(1   , 1   ); }
 		}
-		@keyframes         covering-layer-content-shows-up {
+		@keyframes         covering-layer-content-shows-up-like-tv-signal {
 			 0% { opacity: 0; transform: scale(0.08, 0.16); }
 			45% { opacity: 1; transform: scale(1.19, 0.19); }
 			90% {             transform: scale(1.02, 1.03); }

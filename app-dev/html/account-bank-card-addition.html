@@ -17,17 +17,28 @@
 	><header class="page-header">
 		<div class="row header-bar">
 			<div class="center"><h1>添加银行卡</h1></div>
-			<div class="left"  ><a role="button" class="nav-back" href="account-bank-cards-list.html"></a></div>
+			<div class="left"  >
+				<a role="button" class="nav-back" id="header-nav-back" href="account-bank-cards-list.html"></a
+				><button         class="nav-back" id="close-covering-layer" style="display: none;"></button>
+			</div>
 			<div class="right" ><a role="button" class="nav-home" href="../index.html"></a></div>
 		</div>		
 	</header>
 
 	<div class="page-body">
-		<form name="addbankcard" method="POST" action="account-info.html">
+		<form name="addbankcard" method="GET" action="account-bank-cards-list.html">
 		<div class="f-block snap-top">
 			<div class="row"><p class="tip">提示：为了保障投资人的资金安全，暂不支持信用卡</p></div>
 			<div class="f-block-body">
-				<label class="row select-field">
+				<div class="row fake-input-field emphasise-leftside">
+					<div class="left">
+						<input name="bank-name" required readonly="readonly"
+							     id="bank-card-addition-bank-name" class="fake-input">
+						<div class="input-tip default">银行名称</div>
+					</div>
+					<div class="right">请选择</div>
+				</div>
+				<!-- <label class="row select-field">
 					<div class="left">
 						<select placeholder="请选择银行"
 							name="bankname" required id="bank-card-addition-bank-name">
@@ -50,10 +61,10 @@
 						</select>
 					</div>
 					<label class="right" for="bank-card-addition-bank-name">请选择</label>
-				</label>
+				</label> -->
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="请输入银行卡账号" type="number" data-text-format="bank-card"
+						<input placeholder="请输入银行卡账号" type="tel" data-text-format="bank-card"
 							name="bankcardnumber" required
 									   id="bank-card-addition-card-number">
 						<label        for="bank-card-addition-card-number" class="input-tip default">银行卡号</label>
@@ -131,6 +142,8 @@
 
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
+
+	<!-- inject:coveryingLayerChooseBank:html --><!-- endinject -->
 
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
 		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
