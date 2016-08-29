@@ -256,6 +256,7 @@ gulp.task('html-inject-snippets', ['pre-process-html-snippets'], () => {
     { file: 'module-popup-layer-vcodes.html', name: 'popupLayerVCodes:html' },
     { file: 'module-covering-layer-search-panel.html', name: 'coveryingLayerSearch:html' },
     { file: 'module-covering-layer-choose-bank.html', name: 'coveryingLayerChooseBank:html' },
+    { file: 'module-covering-layer-choose-bank-card.html', name: 'coveryingLayerChooseBankCard:html' },
     { file: 'module-asset-progress-blocks-funds-po.html', name: 'assetProgressBlocksFundsPO:html' },
     { file: 'module-asset-progress-block-attachments-funds-po.html', name: 'assetProgressBlockAttachmentsFundsPO:html' }
   ];

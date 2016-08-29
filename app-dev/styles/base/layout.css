@@ -2822,13 +2822,19 @@ article.message {
 	.row.fund-record-detail-asset-abstract {
 		/* padding-bottom: 0.1rem; */
 	}
-	.row.fund-record-detail-asset-abstract .right p,
-	.row.fund-record-detail-asset-abstract .left p,
-	.row.fund-record-detail-asset-abstract .left h3 {
-		margin: 0;
-		line-height: 1.2rem;
+	.f-block-body .row.fund-record-detail-asset-abstract .right,
+	.f-block-body .row.fund-record-detail-asset-abstract .left,
+	.row.fund-record-detail-asset-abstract .right,
+	.row.fund-record-detail-asset-abstract .left {
+		margin-bottom: -0.2rem;
 	}
-	.row.fund-record-detail-asset-abstract .left p {
+	.f-block-body .row.fund-record-detail-asset-abstract .left * ~ p,
+	.row.fund-record-detail-asset-abstract .right p,
+	.row.fund-record-detail-asset-abstract .left  p,
+	.row.fund-record-detail-asset-abstract .left  h3 {
+		margin: 0;
+	}
+	.row.fund-record-detail-asset-abstract .left  p {
 		font-size: 0.6rem;
 	}
 	.row.fund-record-detail-asset-abstract .right p {
@@ -3214,9 +3220,9 @@ article.message {
 			top: 1rem;
 		}
 
-		.f-block-body .row .left p ~ p,
-		.f-block-body .row .right p ~ p {
-			margin-top: 0.5rem;
+		.f-block-body .row .left  * ~ p,
+		.f-block-body .row .right * ~ p {
+			margin-top: 0.25rem;
 		}
 
 
