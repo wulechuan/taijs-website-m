@@ -4176,6 +4176,7 @@ dl.tickets-list {
 		} */
 
 	.page-body.covering-layer {
+		z-index: 46;
 		display: none;
 		position: fixed;
 		left: 0;
@@ -4219,7 +4220,7 @@ dl.tickets-list {
 		top: 0;
 		position: fixed;
 		width: 100%;
-		z-index: 45;
+		z-index: 47;
 		height: 2.4rem;
 		}
 		.page.page-header-in-compact-mode.has-page-header,
@@ -4241,7 +4242,7 @@ dl.tickets-list {
 		bottom: 0;
 		position: fixed;
 		width: 100%;
-		z-index: 46;
+		z-index: 45;
 		}
 		.page.fixed-page-footer.has-page-footer .page-body,
 		.page.fixed-page-footer                 .page-body {

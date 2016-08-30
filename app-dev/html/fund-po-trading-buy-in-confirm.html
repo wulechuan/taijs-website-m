@@ -22,8 +22,11 @@
 					<sub  class="value product-id"  >001230</sub>
 				</h1>
 			</div>
-			<div class="left"  ><a role="button" class="nav-back" href="funds-search.html"></a></div>
-			<div class="right" ><a role="button" class="nav-home" href="../index2.html"></a></div>
+			<div class="left"  >
+				<a role="button" class="nav-back" id="header-nav-back" href="funds-search.html"></a
+				><button         class="nav-back" id="close-covering-layer" style="display: none;"></button>
+			</div>
+			<div class="right" ><a role="button" class="nav-home" href="../index2.html?login=true"></a></div>
 		</div>		
 	</header>
 
@@ -65,7 +68,8 @@
 			<div class="row">
 				<article>
 					<p>费率：<del>1.5%</del> <em>0.15%</em> （估算费用149.80元，省1328.00元）</p>
-					<p><button class="simple-look" type="button" style="padding-left: 0; padding-right: 0;">费率详情</button></p>
+					<p><button class="simple-look" type="button" id="button-show-funds-trading-notice-layer" 
+						style="padding-left: 0; padding-right: 0;">费率详情</button></p>
 					<ul class="tip">
 						<li>15:00后交易属于下一个工作日</li>
 						<li>确认后下一个交易日可卖出</li>
@@ -77,6 +81,8 @@
 
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
+
+	<!-- inject:coveryingLayerFundsTradingNotice:html --><!-- endinject -->
 
 	<footer class="page-footer">
 		<div class="row buttons-in-single-line">

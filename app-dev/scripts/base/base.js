@@ -156,6 +156,7 @@
 			var pageBodyOffsetY = $page.offset().top;
 			var shouldSetBodyContent = false;
 			var pageBodyContentOffsetY = 0;
+			var pageBodyIsCoveringLayer = $(pageBody).hasClass('covering-layer');
 
 			var windowInnerHeight = window.innerHeight;
 			var pageBodyMinHeight = windowInnerHeight - pageBodyOffsetY;
@@ -163,7 +164,9 @@
 			var pageHasFixedFooter = $page.hasClass('fixed-page-footer') && !!$page.find('.page-footer')[0];
 			if (pageHasFixedFooter) {
 				var pageFixedFooterHeight = 66;
-				pageBodyMinHeight -= pageFixedFooterHeight;
+				if (!pageBodyIsCoveringLayer) {
+					pageBodyMinHeight -= pageFixedFooterHeight;
+				}
 			}
 
 			var $pageBodyContent = $(pageBody).find('> .content-with-solid-bg');

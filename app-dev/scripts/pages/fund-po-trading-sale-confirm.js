@@ -2,40 +2,6 @@ $(function () { // fake logics
 	var wlc = window.webLogicControls;
 	var UI = wlc.UI;
 
-	// var amountInputHintString = '最低购买金额10.00元';
-
-	// var amountInput = $('input[name="amount"]')[0];
-	// var amountInputPlaceholderPrefix;
-
-	// if (amountInput) {
-	// 	amountInputPlaceholderPrefix = amountInput.getAttribute('data-placeholder-prefix') || '';
-	// 	updateAmountInputPlaceholder(amountInputHintString);
-
-	// 	var amountInputHint = $('.amount-input-hint')[0];
-
-	// 	if (amountInputHint) {
-	// 		updateAmountInputHint(true);
-
-	// 		$(amountInput).on('focus', function () {
-	// 			updateAmountInputHint();
-	// 		});
-
-	// 		$(amountInput).on('blur', function () {
-	// 			updateAmountInputHint(true);
-	// 		});
-	// 	}
-	// }
-
-	// function updateAmountInputPlaceholder(hint) {
-	// 	amountInput.placeholder = amountInputPlaceholderPrefix + hint;
-	// }
-	// function updateAmountInputHint(isBlur) {
-	// 	var isEmpty = !amountInput.value;
-	// 	amountInputHint.innerHTML = (!!isBlur && isEmpty) ? '' : ('，'+amountInputHintString);
-	// }
-
-
-
 
 	var $pl1 = $('#pl-password-input-panel-trading');
 	var $pl2 = $('#pl-choose-bank-card');
