@@ -33,10 +33,18 @@
 			></ul>
 			<div class="row"><p class="tip">提示：为了保障投资人的资金安全，暂不支持信用卡</p></div>
 			<div class="f-block-body">
-				<label class="row select-field">
+				<div class="row fake-input-field emphasise-leftside">
+					<div class="left">
+						<input name="bank-name" required readonly="readonly"
+							     id="bank-card-addition-bank-name" class="fake-input">
+						<div class="input-tip default">银行名称</div>
+					</div>
+					<div class="right">请选择</div>
+				</div>
+				<!-- <label class="row select-field">
 					<div class="left">
 						<select placeholder="请选择银行"
-							name="bankname" required id="account-trading-account-register-bank-name">
+							name="bankname" required id="bank-card-addition-bank-name">
 							<option value="">银行名称</option>
 							<option value="bank-cn-icbc">中国工商银行</option>
 							<option value="bank-cn-cmb">招商银行</option>
@@ -55,11 +63,11 @@
 							<option value="bank-cn-bankofshanghai">上海银行</option>
 						</select>
 					</div>
-					<label class="right" for="account-trading-account-register-bank-name">请选择</label>
-				</label>
+					<label class="right" for="bank-card-addition-bank-name">请选择</label>
+				</label> -->
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="请输入银行卡账号" type="number" data-text-format="bank-card"
+						<input placeholder="请输入银行卡账号" type="tel" data-text-format="bank-card"
 							name="bankcardnumber" required
 									   id="account-trading-account-register-card-number">
 						<label        for="account-trading-account-register-card-number" class="input-tip default">银行卡号</label>
@@ -122,7 +130,7 @@
 			<div class="row">
 				<article>
 					<p class="selectable"
-						><input type="checkbox" name="eula" required
+						><input type="checkbox" name="eula" required checked="checked" 
 								 id="eula-checkbox"
 						><label for="eula-checkbox" class="deco-input"></label
 						><label for="eula-checkbox">我已阅读并同意<a href="#">《委托代扣授权书》</a></label
@@ -139,6 +147,8 @@
 
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
+
+	<!-- inject:coveryingLayerChooseBank:html --><!-- endinject -->
 
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
 		<div class="popup-layer polite-message" id="plpm-bank-card-info-verification-failed">

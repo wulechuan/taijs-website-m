@@ -686,6 +686,13 @@ dd {
 					background-image: url(../../images/_common/sprite-logos-china-banks-40x40.png);
 				}
 
+				*[class*="bank-cn-"] .icon.icon-of-bank.icon-size-large::before,
+				*[class*="icon-bank-cn"].icon-size-large::before {
+					width: 50px;
+					height: 50px;
+					background-image: url(../../images/_common/sprite-logos-china-banks-40x40.png);
+				}
+
 			.bank-cn-icbc           .caption-of-bank::before, .caption-bank-cn-icbc::before           { content: "中国工商银行"; }
 			.bank-cn-cmb            .caption-of-bank::before, .caption-bank-cn-cmb::before            { content: "招商银行"; }
 			.bank-cn-ccb            .caption-of-bank::before, .caption-bank-cn-ccb::before            { content: "中国建设银行"; }
@@ -765,6 +772,38 @@ dd {
 			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-spdb::before           { background-position: 50px  -650px; } /* 上海浦东发展银行 */
 			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-bankofbeijing::before  { background-position: 50px  -700px; } /* 北京银行 */
 			.icon-hover-trigger:hover .icon-size-medium.icon-bank-cn-bankofshanghai::before { background-position: 50px  -750px; } /* 上海银行 */
+
+			.bank-cn-icbc           .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-icbc::before           { background-position: 0px   -50px; } /* 中国工商银行 */
+			.bank-cn-cmb            .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-cmb::before            { background-position: 0px  -100px; } /* 招商银行 */
+			.bank-cn-ccb            .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-ccb::before            { background-position: 0px  -150px; } /* 中国建设银行 */
+			.bank-cn-abc            .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-abc::before            { background-position: 0px  -200px; } /* 中国农业银行 */
+			.bank-cn-boc            .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-boc::before            { background-position: 0px  -250px; } /* 中国银行 */
+			.bank-cn-bankcomm       .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-bankcomm::before       { background-position: 0px  -300px; } /* 中国交通银行 */
+			.bank-cn-psbc           .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-psbc::before           { background-position: 0px  -350px; } /* 中国邮政储蓄银行 */
+			.bank-cn-citic          .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-citic::before          { background-position: 0px  -400px; } /* 中信银行 */
+			.bank-cn-cmbc           .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-cmbc::before           { background-position: 0px  -450px; } /* 中国民生银行 */
+			.bank-cn-cib            .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-cib::before            { background-position: 0px  -500px; } /* 兴业银行 */
+			.bank-cn-hxb            .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-hxb::before            { background-position: 0px  -550px; } /* 华夏银行 */
+			.bank-cn-ceb            .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-ceb::before            { background-position: 0px  -600px; } /* 中国光大银行 */
+			.bank-cn-spdb           .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-spdb::before           { background-position: 0px  -650px; } /* 上海浦东发展银行 */
+			.bank-cn-bankofbeijing  .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-bankofbeijing::before  { background-position: 0px  -700px; } /* 北京银行 */
+			.bank-cn-bankofshanghai .icon.icon-size-large.icon-of-bank::before, .icon-size-large.icon-bank-cn-bankofshanghai::before { background-position: 0px  -750px; } /* 上海银行 */
+
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-icbc::before           { background-position: 50px   -50px; } /* 中国工商银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-cmb::before            { background-position: 50px  -100px; } /* 招商银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-ccb::before            { background-position: 50px  -150px; } /* 中国建设银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-abc::before            { background-position: 50px  -200px; } /* 中国农业银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-boc::before            { background-position: 50px  -250px; } /* 中国银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-bankcomm::before       { background-position: 50px  -300px; } /* 中国交通银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-psbc::before           { background-position: 50px  -350px; } /* 中国邮政储蓄银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-citic::before          { background-position: 50px  -400px; } /* 中信银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-cmbc::before           { background-position: 50px  -450px; } /* 中国民生银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-cib::before            { background-position: 50px  -500px; } /* 兴业银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-hxb::before            { background-position: 50px  -550px; } /* 华夏银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-ceb::before            { background-position: 50px  -600px; } /* 中国光大银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-spdb::before           { background-position: 50px  -650px; } /* 上海浦东发展银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-bankofbeijing::before  { background-position: 50px  -700px; } /* 北京银行 */
+			.icon-hover-trigger:hover .icon-size-large.icon-bank-cn-bankofshanghai::before { background-position: 50px  -750px; } /* 上海银行 */
 
 
 .empty-content-hint {

@@ -17,4 +17,46 @@ $(function () {
 			UI.popupLayersManager.show(pl1, event);
 		}
 	});
+
+
+	var $coveringLayer = $('#cl-choosing-bank-name');
+	var $headerButtonNavBack            = $('.page-header #header-nav-back');
+	var $headerButtonCloseCoveringLayer = $('.page-header #close-covering-layer');
+	var fakeInputBankName = $('.fake-input-field .fake-input')[0];
+
+	$('.fake-input-field').on('click', function () {
+		showOrHideCoveryingLayer($coveringLayer, true, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+	});
+
+	$headerButtonCloseCoveringLayer.on('click', function () {
+		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+	});
+
+	$coveringLayer.find('.row').on('click', function () {
+		var bankName = $(this).find('.left')[0];
+		if (bankName) {
+			bankName = bankName.dataset.value;
+			var vf = fakeInputBankName.virtualField;
+			if (vf) {
+				vf.setValue(bankName);
+			} else {
+				// $fakeInputBankName.val(bankName).addClass('non-empty-field'); 
+			}
+
+		}
+
+		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+	});
+
+	function showOrHideCoveryingLayer($cl, isToShow, $buttonToShowWithoutCl, $buttonToShowWithCl) {
+		if (!!isToShow) {
+			$cl.show();
+			$buttonToShowWithCl.show();
+			$buttonToShowWithoutCl.hide();
+		} else {
+			$cl.hide();
+			$buttonToShowWithCl.hide();
+			$buttonToShowWithoutCl.show();
+		}
+	}
 });

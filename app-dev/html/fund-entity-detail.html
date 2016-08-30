@@ -25,7 +25,10 @@
 					<sub  class="value product-id"  >001230</sub>
 				</h1>
 			</div>
-			<div class="left" ><a role="button" class="nav-back" href="my-funds-po-index.html"></a></div>
+			<div class="left"  >
+				<a role="button" class="nav-back" id="header-nav-back" href="my-funds-po-index.html"></a
+				><button         class="nav-back" id="close-covering-layer" style="display: none;"></button>
+			</div>
 			<div class="right"
 				><button class="toggle-favorite">
 					<div class="icon icons-in-elements favorite-entity-icon">
@@ -173,12 +176,12 @@
 
 		<div class="f-block">
 			<div class="f-block-body">
-				<a href="fund-trading-notice">
-				<div class="row emphasise-leftside">
+				<!-- <a href="fund-trading-notice.html"> -->
+				<div class="row emphasise-leftside call-to-action" id="row-show-funds-trading-notice-layer">
 					<div class="left">买入须知</div>
 					<div class="right">交易规则、费率说明</div>
 				</div>
-				</a>
+				<!-- </a> -->
 			</div>
 		</div>
 
@@ -225,6 +228,8 @@
 
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
+
+	<!-- inject:coveryingLayerFundsTradingNotice:html --><!-- endinject -->
 
 	<footer class="page-footer">
 		<div class="row buttons-in-single-line">

@@ -2072,7 +2072,7 @@ window.webLogicControls = {};
 
 					if (needToHideBackPlate) {
 						var needToHideBackPlateAfterAnimation = animation.env.cssAnimationsAreSupported;
-						if (needToHideBackPlateAfterAnimation) {
+						if (needToHideBackPlateAfterAnimation && needToPlayLeavingAnimation) {
 							setTimeout(function () {
 								animation.applySingleViaCssClassName(
 									bp,
@@ -2084,7 +2084,15 @@ window.webLogicControls = {};
 								);
 							}, privateOptions.secondsToWaitBeforeBackPlateLeavingAniamtionStart * 1000);
 						} else {
-							$bp.hide();
+							// $bp.hide();
+							animation.applySingleViaCssClassName(
+								bp,
+								'popup-layer-back-plate-leaving', 
+								privateOptions.secondsToWaitBackPlateLeavingAniamtionEnd,
+								{
+									actionAfterPlayingAnimation: 'hide'
+								}
+							);
 						}
 					}
 				} else {
@@ -2918,6 +2926,10 @@ window.webLogicControls = {};
 
 			this.processCurrentValue = processCurrentValue.bind(this);
 			this.validate = validate.bind(this);
+			this.getValue = function () {
+				return fieldElement.value;
+			};
+			this.setValue = setValue.bind(this);
 			this.clearValue = clearValue.bind(this);
 
 			this.scanForTips = scanForTipsDefaultMethod.bind(this);
@@ -3319,9 +3331,15 @@ window.webLogicControls = {};
 				updateCssClasses.call(this);
 			}
 
+			function setValue(value) {
+				if (value !== fieldElement.value) {
+					fieldElement.value = value;
+					onChange.call(this);
+				}
+			}
+
 			function clearValue() {
-				fieldElement.value = '';
-				onChange.call(this);
+				setValue.call(this, '');
 			}
 
 			function processCurrentValue() {
