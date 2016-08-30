@@ -2306,6 +2306,9 @@ article.message {
 			margin-left: -2rem;
 			margin-right: -0.5rem;
 		}
+		.row.rightside-content-align-left .right {
+			text-align: left;
+		}
 		.row .right .menu {
 			text-align: center;
 		}
@@ -2323,6 +2326,14 @@ article.message {
 		}
 		.row.rightside-wider .right {
 			width: 80%;
+			margin-left: -0.5rem;
+		}
+		.row.rightside-content-align-left .left {
+			width: calc(30% + 2.5rem);
+			margin-right: -3rem;
+		}
+		.row.rightside-content-align-left .right {
+			width: 70%;
 			margin-left: -0.5rem;
 		}
 		.row.input-tips .left {

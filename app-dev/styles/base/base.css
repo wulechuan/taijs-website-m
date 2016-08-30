@@ -693,6 +693,8 @@ dd {
 					background-image: url(../../images/_common/sprite-logos-china-banks-40x40.png);
 				}
 
+			*[class|=bank-cn] { position: relative; }
+
 			.bank-cn-icbc           .caption-of-bank::before, .caption-bank-cn-icbc::before           { content: "中国工商银行"; }
 			.bank-cn-cmb            .caption-of-bank::before, .caption-bank-cn-cmb::before            { content: "招商银行"; }
 			.bank-cn-ccb            .caption-of-bank::before, .caption-bank-cn-ccb::before            { content: "中国建设银行"; }
