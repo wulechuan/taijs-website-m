@@ -161,11 +161,17 @@
 			var windowInnerHeight = window.innerHeight;
 			var pageBodyMinHeight = windowInnerHeight - pageBodyOffsetY;
 
-			var pageHasFixedFooter = $page.hasClass('fixed-page-footer') && !!$page.find('.page-footer')[0];
+			var $pageFooter = $page.find('.page-footer');
+			var pageHasFixedFooter = $page.hasClass('fixed-page-footer') && !!$pageFooter[0];
 			if (pageHasFixedFooter) {
-				var pageFixedFooterHeight = 66;
+				var pageFixedFooterHeight = $pageFooter.outerHeight();
+				if (!pageFixedFooterHeight || pageFixedFooterHeight < 20) {
+					pageFixedFooterHeight = 67;
+				}
+				C.l(pageFixedFooterHeight);
 				if (!pageBodyIsCoveringLayer) {
 					pageBodyMinHeight -= pageFixedFooterHeight;
+					pageBody.style.marginBottom = (pageFixedFooterHeight - 1) + 'px';
 				}
 			}
 

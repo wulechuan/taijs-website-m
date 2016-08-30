@@ -2122,6 +2122,17 @@ article.message {
 		.page-footer .row.buttons-in-single-line.columns .col {
 			width: 50%;
 			text-align: center;
+			position: relative;
+			z-index: 1;
+		}
+
+		.page-footer .row.buttons-in-single-line.columns .col ~ hr.vert {
+			margin-top: 0;
+			position: absolute;
+			top: 0.5rem;
+			bottom: 0.5rem;
+			height: auto;
+			z-index: 0;
 		}
 
 		.page-footer .row.buttons-in-single-line.columns.content-gather-together .col:first-child {
@@ -2145,6 +2156,33 @@ article.message {
 		.page-footer .row.buttons-in-single-line.columns .col button.size-std-regular {
 			font-size: 0.8rem;
 			width: 6rem;
+		}
+
+		.page-footer .row.buttons-in-single-line.columns.button-simple-style {
+			padding: 0;
+			height: 2.8rem;
+			line-height: 2.8rem;
+		}
+		.page-footer .row.buttons-in-single-line.columns.button-simple-style .col {
+			height: 100%;
+		}
+		.page-footer .row.buttons-in-single-line.columns.button-simple-style .col a[role="button"].size-std-regular,
+		.page-footer .row.buttons-in-single-line.columns.button-simple-style .col [role="button"].size-std-regular,
+		.page-footer .row.buttons-in-single-line.columns.button-simple-style .col button.size-std-regular {
+			display: block;
+			width: 100%;
+			height: 100%;
+			opacity: 1;
+			line-height: 1.2rem;
+			font-size: 1rem;
+			font-weight: 400;
+			padding: 0;
+			line-height: inherit;
+		}
+		.page-footer .row.buttons-in-single-line.columns.button-simple-style .col a[role="button"]:active,
+		.page-footer .row.buttons-in-single-line.columns.button-simple-style .col [role="button"]:active,
+		.page-footer .row.buttons-in-single-line.columns.button-simple-style .col button:active {
+			opacity: 1;
 		}
 
 
@@ -2782,6 +2820,58 @@ article.message {
 	}
 
 
+.row.entity-properties {
+	}
+	.f-block-body .row.entity-properties .left,
+	.f-block-body .row.entity-properties .right,
+	              .row.entity-properties .left,
+	              .row.entity-properties .right {
+      	vertical-align: baseline;
+		margin-top: 0rem;
+		margin-bottom: 0rem;
+	}
+	.row.entity-properties .left {
+		width: calc(50% - 0.5rem);
+		margin-right: 0;
+	}
+	.row.entity-properties .right {
+		width: calc(50% - 0.5rem);
+		position: relative;
+		text-align: left;
+		margin-left: 0;
+	}
+	.row.entity-properties .right::before {
+		content: '';
+		display: block;
+		position: absolute;
+		left: -1px;
+		width: 0;
+		top: 0;
+		bottom: 0;
+		border-width: 0 0 0 1px;
+		border-style: solid;
+		border-color: inherit;
+	}
+	.row.entity-properties .label {
+		display: inline-block;
+		width: 3.5rem;
+		font-size: 0.65rem;
+	}
+	.row.entity-properties .content {
+		font-size: 0.8rem;
+		font-weight: 400;
+	}
+	.row.entity-properties .content strong {
+		font-size: 1rem;
+		line-height: 1.6;
+	}
+	.row.entity-properties .entity-hero-content .content {
+		display: block;
+		font-size: 1.5rem;
+		line-height: 1.2;
+	}
+
+
 .product-caption-block {
 	}
 	.product-caption-block {
@@ -3287,6 +3377,11 @@ article.message {
 				position: absolute;
 				left: 0.4rem;
 			}
+
+
+/* .f-block.my-fund-entity-abstract {
+
+} */
 
 
 .f-block.fund-entity-for-sale {
