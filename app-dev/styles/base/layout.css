@@ -936,7 +936,7 @@ article.message {
 				height: 1.6rem;
 				padding: 0;
 				line-height: 1.58rem;
-				font-size: 0.65rem;
+				font-size: 0.7rem;
 				font-weight: 200;
 			}
 
@@ -2248,6 +2248,13 @@ article.message {
 				opacity: 0!important;
 			} */
 
+			.row.input-field [role="button"].rounded-terminals,
+			.row.input-field          button.rounded-terminals {
+				margin: 0;
+				padding: 0.2rem 0.6rem;
+				font-size: 0.7rem;
+			}
+
 
 	.row .left,
 	.row .right {
@@ -2399,10 +2406,11 @@ article.message {
 		}
 
 		.row.input-field button[button-action="clear-input-field"][for-input] {
-			/* top: 1.5rem; */
+			top: 1.5rem;
 			margin-right: 0.25rem;
 		}
 		.row.input-field.single-side-content button[button-action="clear-input-field"][for-input] {
+			top: 0;
 			margin-right: -0.45rem;
 		}
 		.row.single-side-content .right,

@@ -13,11 +13,25 @@ $(function () { // fake logics
 			this.disable();
 			UI.popupLayersManager.show('plpm-trading-password-verified');
 			setTimeout(function () {
-				location.assign('fund-buying-succeeded.html');
+				location.assign('fund-sale-succeeded.html');
 			}, 1500);
 		}
 	});
 
+
+
+
+	var inputSaleAmount = $('#fund-po-sale-amount')[0];
+	var vf;
+
+	if (inputSaleAmount) {
+		vf = inputSaleAmount.virtualField;
+	}
+
+	$('#button-sale-all-shares').on('click', function () {
+		// $inputSaleAmount.val(4988);
+		vf.setValue('4988.00');
+	});
 
 
 

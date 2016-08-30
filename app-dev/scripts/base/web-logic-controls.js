@@ -2926,6 +2926,9 @@ window.webLogicControls = {};
 
 			this.processCurrentValue = processCurrentValue.bind(this);
 			this.validate = validate.bind(this);
+			this.getValue = function () {
+				return fieldElement.value;
+			};
 			this.setValue = setValue.bind(this);
 			this.clearValue = clearValue.bind(this);
 

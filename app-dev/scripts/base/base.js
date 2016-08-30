@@ -375,9 +375,19 @@
 				if (contentIsFromUserInput) {
 					if (typeof servedElement.elements !== 'object') servedElement.elements = {};
 					servedElement.elements.coupledChineseNumbers = thisFormatElement;
-					$(servedElement).on(contentIsFromSelect ? 'change' : 'input', function () {
-						_updateChineseNumbers();
-					});
+					new wlc.UI.VirtualField(servedElement);
+					var vf = servedElement.virtualField;
+					if (!vf) {
+						$(servedElement).on(contentIsFromSelect ? 'change' : 'input', function () {
+							_updateChineseNumbers();
+						});
+					} else {
+						vf.config({
+							onValueChange: function () {
+								_updateChineseNumbersForVirtualField(this);
+							}
+						})
+					}
 				}
 
 
@@ -388,6 +398,15 @@
 					thisFormatElement.innerHTML = formatter.format(decimal);
 					if (!contentIsFromSelect) {
 						servedElement[propertyToFormat] = formatter.data.lastGroomedInput;
+					}
+				}
+
+				function _updateChineseNumbersForVirtualField(vf) {
+					var formatter = WCU.stringFormatters.decimalToChineseMoney;
+
+					thisFormatElement.innerHTML = formatter.format(vf.getValue());
+					if (!contentIsFromSelect) {
+						vf.setValue(formatter.data.lastGroomedInput);
 					}
 				}
 			});
