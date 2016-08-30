@@ -13,7 +13,7 @@
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
 <div data-app-header-title="交易记录" id="page-my-funds-po-entity-detail"
-	 class="page has-page-header fixed-page-header"
+	 class="page has-page-header fixed-page-header has-page-footer fixed-page-footer"
 	><header class="page-header">
 		<div class="row header-bar">
 			<div class="center shift-left-on-narrow-screen">
@@ -33,22 +33,30 @@
 					<div class="left entity-hero-content">
 						<h3 class="product-caption-block">
 							<span class="label">资产(元)</span>
-							<span class="value amount digits currency">168,900.00</span>
+							<span class="content" 
+								><span class="value amount digits currency">168,900.00</span
+							></span>
 						</h3>
 					</div>
 					<div class="right">
-						<p><span class="label">待确认额</span></p>
-						<p><span class="value amount digits currency">500.00</span><sub>元</sub></p>
+						<span class="label">待确认额</span>
+						<span class="content" 
+							><span class="value amount digits currency">500.00</span><sub>元</sub
+						></span>
 					</div>
 				</div>
-				<div class="row tall entity-properties full-width">
+				<div class="row entity-properties full-width">
 					<div class="left">
 						<span class="label">昨日收益</span>
-						<span class="value amount digits currency positive-value">100,000.00</span>
+						<span class="content" 
+							><strong><span class="value amount digits currency positive-value">100,000.00</span></strong
+						></span>
 					</div>
 					<div class="right">
 						<span class="label">累计收益</span>
-						<span class="value amount digits currency positive-value">100,900.00</span>
+						<span class="content" 
+							><strong><span class="value amount digits currency positive-value">+78,900.00</span></strong
+						></span>
 					</div>
 				</div>
 			</div>
@@ -59,22 +67,30 @@
 				<div class="row entity-properties">
 					<div class="left">
 						<span class="label">持有份额</span>
-						<span class="value amount digits currency">100,000.00</span>
+						<span class="content" 
+							><span class="value amount digits currency">100,000.00</span
+						></span>
 					</div>
 					<div class="right">
 						<span class="label">可用份额</span>
-						<span class="value amount digits currency">100,900.00</span>
+						<span class="content" 
+							><span class="value amount digits currency">100,900.00</span
+						></span>
 					</div>
 				</div>
 
 				<div class="row entity-properties">
 					<div class="left">
 						<span class="label">最新净值</span>
-						<span class="value amount digits currency">1.5845</span>
+						<span class="content" 
+							><span class="value amount digits currency">1.5845</span
+						></span>
 					</div>
 					<div class="right">
 						<span class="label">净值日期</span>
-						<span class="value time"><time>2016-07-18</time></span>
+						<span class="content" 
+							><span class="value time"><time class="digits">2016-07-18</time></span
+						></span>
 					</div>
 				</div>
 			</div>
@@ -175,6 +191,20 @@
 
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
+
+	<footer class="page-footer">
+		<div class="row buttons-in-single-line columns button-simple-style"
+			><div class="col"
+				><a href="fund-po-trading-buy-in-confirm.html" 
+					role="button" class="simple-look size-std-regular">买入</a
+			></div
+			><hr class="vert"
+			><div class="col"
+				><a href="fund-po-trading-sale-confirm.html" 
+					role="button" class="simple-look size-std-regular">卖出</a
+			></div
+		></div>
+	</footer>
 
 	<!-- inject:popupLayersWrapBeginAAA:html --><!-- endinject -->
 	<!-- inject:popupLayersWrapEndAAA:html --><!-- endinject -->

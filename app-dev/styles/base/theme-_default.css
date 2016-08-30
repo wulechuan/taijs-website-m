@@ -916,6 +916,15 @@ dl.tickets-list {
 		color: #666;
 	}
 
+	.row.entity-properties .right .label,
+	.row.entity-properties .left  .label {
+		color: #999;
+	}
+	.row.entity-properties .right .content,
+	.row.entity-properties .left  .content {
+		color: black;
+	}
+
 
 .f-block .tiles > a > .tile,
 .f-block .tiles     > .tile {
@@ -1008,6 +1017,7 @@ dl.tickets-list {
 	.keyword:hover {
 		background-color: rgba(255, 255, 255, 0.75);
 	}	
+
 
 .color-inverted .menu.level-1,
 .header-bar     .menu.level-1 {
@@ -1231,8 +1241,17 @@ dl.tickets-list {
 		background-color: rgba(255, 255, 255, 0.2);
 	}
 	.page-footer {
-		border-color: #e5e5e5;
 		background-color: white;
+	}
+	.page-footer hr,
+	.page-footer {
+		border-color: #e5e5e5;
+	}
+	.page-footer .row.buttons-in-single-line.columns.button-simple-style .col a[role="button"]:active,
+	.page-footer .row.buttons-in-single-line.columns.button-simple-style .col [role="button"]:active,
+	.page-footer .row.buttons-in-single-line.columns.button-simple-style .col button:active {
+		color: white;
+		background-color: #4285f4;
 	}
 
 	.page.bg-white.has-header-bg .page-body > .content-with-solid-bg,
