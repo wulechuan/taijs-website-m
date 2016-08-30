@@ -3342,6 +3342,7 @@ article.message {
 	.fund-trading-record .f-block-body .row.multi-lines .left {
 		position: relative;
 		padding-left: 2.5rem;
+		width: 70%;
 	}
 
 	.fund-trading-record .f-block-body .row.multi-lines .marker {
