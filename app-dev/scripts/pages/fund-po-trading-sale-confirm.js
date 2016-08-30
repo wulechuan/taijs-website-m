@@ -4,7 +4,7 @@ $(function () { // fake logics
 
 
 	var $pl1 = $('#pl-password-input-panel-trading');
-	var $pl2 = $('#pl-choose-bank-card');
+	// var $pl2 = $('#pl-choose-bank-card');
 
 
 
@@ -55,22 +55,50 @@ $(function () { // fake logics
 	});
 
 
-	var pl2 = $pl2[0];
+	// var pl2 = $pl2[0];
+	var $coveringLayerChooseBankCard = $('#cl-choosing-bank-card');
 
 	var $chosenValuePresentor = $('#fund-po-trading-sale-confirm-choose-bank-card');
-	$('.popup-panel-body .menu-item').on('click', function () {
-		$chosenValuePresentor.html(this.innerHTML);
-		UI.popupLayersManager.hide(pl2);
-	});
+	// $('.popup-panel-body .menu-item').on('click', function () {
+	// 	$chosenValuePresentor.html(this.innerHTML);
+	// 	UI.popupLayersManager.hide(pl2);
+	// });
 
 	$('#fund-po-trading-sale-confirm-choose-bank-card').on('click', function(event) {
-		UI.popupLayersManager.show(pl2, event);
+		// UI.popupLayersManager.show(pl2, event);
+		showOrHideCoveryingLayer($coveringLayerChooseBankCard, true, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
 	});
 
-	$pl2.on('click', function (event) {
-		var el = event.target;
-		if (el === pl2 || $(el).hasClass('nav-back')) {
-			UI.popupLayersManager.hide(pl2);
-		}
+	// $pl2.on('click', function (event) {
+	// 	var el = event.target;
+	// 	if (el === pl2 || $(el).hasClass('nav-back')) {
+	// 		UI.popupLayersManager.hide(pl2);
+	// 	}
+	// });
+
+
+	var $headerButtonNavBack            = $('.page-header #header-nav-back');
+	var $headerButtonCloseCoveringLayer = $('.page-header #close-covering-layer');
+
+
+	$headerButtonCloseCoveringLayer.on('click', function () {
+		showOrHideCoveryingLayer($coveringLayerChooseBankCard, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
 	});
+
+	$coveringLayerChooseBankCard.find('.row').on('click', function () {
+		$chosenValuePresentor.html(this.innerHTML);
+		showOrHideCoveryingLayer($coveringLayerChooseBankCard, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+	});
+
+	function showOrHideCoveryingLayer($cl, isToShow, $buttonToShowWithoutCl, $buttonToShowWithCl) {
+		if (!!isToShow) {
+			$cl.show();
+			$buttonToShowWithCl.show();
+			$buttonToShowWithoutCl.hide();
+		} else {
+			$cl.hide();
+			$buttonToShowWithCl.hide();
+			$buttonToShowWithoutCl.show();
+		}
+	}
 });
