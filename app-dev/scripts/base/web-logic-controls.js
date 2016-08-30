@@ -2072,7 +2072,7 @@ window.webLogicControls = {};
 
 					if (needToHideBackPlate) {
 						var needToHideBackPlateAfterAnimation = animation.env.cssAnimationsAreSupported;
-						if (needToHideBackPlateAfterAnimation) {
+						if (needToHideBackPlateAfterAnimation && needToPlayLeavingAnimation) {
 							setTimeout(function () {
 								animation.applySingleViaCssClassName(
 									bp,
@@ -2084,7 +2084,15 @@ window.webLogicControls = {};
 								);
 							}, privateOptions.secondsToWaitBeforeBackPlateLeavingAniamtionStart * 1000);
 						} else {
-							$bp.hide();
+							// $bp.hide();
+							animation.applySingleViaCssClassName(
+								bp,
+								'popup-layer-back-plate-leaving', 
+								privateOptions.secondsToWaitBackPlateLeavingAniamtionEnd,
+								{
+									actionAfterPlayingAnimation: 'hide'
+								}
+							);
 						}
 					}
 				} else {
