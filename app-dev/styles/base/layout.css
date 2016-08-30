@@ -2866,11 +2866,6 @@ article.message {
 	}
 
 
-.row.fund-entity-for-sale {
-
-}
-
-
 .f-block { /* function-block */
 	font-size: 0.7rem;
 	font-weight: normal;
@@ -3273,6 +3268,41 @@ article.message {
 				position: absolute;
 				left: 0.4rem;
 			}
+
+
+.f-block.fund-entity-for-sale {
+	}
+	.f-block.fund-entity-for-sale .row.product-title .left {
+		margin-top: -0.2rem;
+		margin-bottom: -0.2rem;
+	}
+	.f-block.fund-entity-for-sale .row.product-title .involved-bank {
+		position: relative;
+		margin-top: 0;
+		font-size: 0.65rem;
+		line-height: 1rem;
+	}
+	.f-block.fund-entity-for-sale .row.product-title .involved-bank * {
+		vertical-align: top;
+	}
+	.f-block.fund-entity-for-sale .row.product-title .involved-bank .icon-of-bank::before {
+		margin: -3px 0 0 -4px;
+		-webkit-transform: scale(0.75, 0.75);
+		        transform: scale(0.75, 0.75);
+	}
+	.f-block.fund-entity-for-sale .row.product-abstract .entity-body > .f-list {
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+		margin-top: -0.4rem;
+		margin-bottom: -0.4rem;
+	}
+	.f-block.fund-entity-for-sale .row.product-abstract .entity-body > .f-list > li > .content {
+		padding-top: 0;
+		font-size: 0.8rem;
+	}
+	.f-block.fund-entity-for-sale .row.product-abstract .entity-info > .call-to-action {
+		top: 0;
+	}
 
 
 .fund-trading-record {
