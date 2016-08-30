@@ -77,13 +77,13 @@ $(function () { // fake logics
 
 	var pl2 = $pl2[0];
 
-	var $chosenValuePresentor = $('#fund-po-trading-buy-in-confirm-choose-bank-card');
+	var $chosenValuePresentor = $('#fund-po-trading-sale-confirm-choose-bank-card');
 	$('.popup-panel-body .menu-item').on('click', function () {
 		$chosenValuePresentor.html(this.innerHTML);
 		UI.popupLayersManager.hide(pl2);
 	});
 
-	$('#fund-po-trading-buy-in-confirm-choose-bank-card').on('click', function(event) {
+	$('#fund-po-trading-sale-confirm-choose-bank-card').on('click', function(event) {
 		UI.popupLayersManager.show(pl2, event);
 	});
 

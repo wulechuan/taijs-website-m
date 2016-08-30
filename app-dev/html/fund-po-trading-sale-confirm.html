@@ -12,7 +12,7 @@
 <!-- inject:appBGLayer0:html --><!-- endinject -->
 
 <!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
-<div data-app-header-title="基金购买确认" id="page-fund-po-trading-buy-in-confirm"
+<div data-app-header-title="基金购买确认" id="page-fund-po-trading-sale-confirm"
 	 class="page has-page-header fixed-page-header has-page-footer fixed-page-footer"
 	><header class="page-header">
 		<div class="row header-bar">
@@ -22,17 +22,17 @@
 					<sub  class="value product-id"  >001230</sub>
 				</h1>
 			</div>
-			<div class="left"  ><a role="button" class="nav-back" href="funds-search.html"></a></div>
+			<div class="left"  ><a role="button" class="nav-back" href="my-funds-po-entities-for-sale-list.html"></a></div>
 			<div class="right" ><a role="button" class="nav-home" href="../index2.html"></a></div>
 		</div>		
 	</header>
 
-	<form name="fundbuyin" action="fund-po-buying-succeeded.html">
+	<form name="fundsale" action="fund-po-sale-succeeded.html">
 	<div class="page-body">
 		<div class="f-block">
-			<div class="row"><p class="tip">选择支付方式</p></div>
+			<div class="row"><p class="tip">关联银行卡</p></div>
 			<div class="f-block-body">
-				<div class="row menu-item has-lead-icon entity-of-bank call-to-action" id="fund-po-trading-buy-in-confirm-choose-bank-card">
+				<div class="row menu-item has-lead-icon entity-of-bank call-to-action" id="fund-po-trading-sale-confirm-choose-bank-card">
 					<i class="icon lead-icon icon-size-medium icon-bank-cn-abc" ></i
 					><div class="left" data-value="农业银行">
 						<h5>农业银行<sub><q>3678</q></sub></h5>
@@ -45,32 +45,26 @@
 			<div class="f-block-body">
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="最低购买金额10.00元"
+						<input placeholder="最多可卖出5,000.00份"
 							type="number" data-text-format="currency"
 							name="amount" required
-							data-value-min="10"
-									   id="fund-po-buying-amount">
-						<label        for="fund-po-buying-amount" class="input-tip default">买入金额，最低10.00元</label>
-						<label        for="fund-po-buying-amount" class="input-tip error" data-subject="amount-too-low">最低购买金额10.00元</label>
-						<button for-input="fund-po-buying-amount"
+							data-value-max="5000"
+									   id="fund-po-sale-amount">
+						<label        for="fund-po-sale-amount" class="input-tip default">卖出份额，最多5,000.00份</label>
+						<label        for="fund-po-sale-amount" class="input-tip error" data-subject="amount-too-low">最少卖出1.00份</label>
+						<button for-input="fund-po-sale-amount"
 							button-action="clear-input-field" type="button"></button>
 					</div>
 				</div>
 			</div>
 
 			<div class="row dynamic-row">
-				<p class="chinese-number tip" for-element="fund-po-buying-amount"></p>
+				<p class="chinese-number tip" for-element="fund-po-sale-amount"></p>
 			</div>
 
 			<div class="row">
 				<article>
-					<p>费率：<del>1.5%</del> <em>0.15%</em> （估算费用149.80元，省1328.00元）</p>
-					<p><button class="simple-look" type="button" style="padding-left: 0; padding-right: 0;">费率详情</button></p>
-					<ul class="tip">
-						<li>15:00后交易属于下一个工作日</li>
-						<li>确认后下一个交易日可卖出</li>
-						<li>卖出费率<em>（0.00%~1.50%）</em></li>
-					</ul>
+					<p>注：15:00后交易属于下一个工作日</p>
 				</article>
 			</div>
 		</div>
@@ -80,7 +74,7 @@
 
 	<footer class="page-footer">
 		<div class="row buttons-in-single-line">
-			<button class="rounded-corners size-std-wide" button-action="submit">确认购买</button>
+			<button class="rounded-corners size-std-wide" button-action="submit">确认卖出</button>
 		</div>
 	</footer>
 	</form>
@@ -166,7 +160,7 @@
 		</div>
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
-	<script src="../scripts/pages/fund-po-trading-buy-in-confirm.min.js"></script>
+	<script src="../scripts/pages/fund-po-trading-sale-confirm.min.js"></script>
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 
