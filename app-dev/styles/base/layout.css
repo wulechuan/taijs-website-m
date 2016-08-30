@@ -768,7 +768,7 @@ article.message {
 				width: 34%;
 			}
 
-			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+			@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
 				.entity-body .f-list.columns-count-3 > a > .cell:first-child,
 				.entity-body .f-list.columns-count-3     > .cell:first-child {
 					width: 32%;
@@ -825,7 +825,7 @@ article.message {
 				height: 1.6rem;
 			}
 
-			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+			@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
 				.entity-body .f-list > a > .cell > .content,
 				.entity-body .f-list     > .cell > .content {
 					padding-top: 0.3rem;
@@ -963,6 +963,13 @@ article.message {
 				font-weight: 400;
 			}
 
+			@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
+				.entity-buyable.entity-time-limited .call-to-action {
+					top: 2rem;
+				}
+			}
+
+
 
 	.entity-info.entity-type-regular .entity-body .f-list {
 		padding-bottom: 0.25rem;
@@ -1006,6 +1013,16 @@ article.message {
 			}
 			.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell:last-child > .content {
 				font-size: 0.75rem;
+			}
+
+			@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
+				.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell > .content {
+					padding-top: 0.3rem;
+				}
+				.entity-info.entity-type-fixed-income .entity-body .f-list.labels-at-bottom > .cell.hero > .content {
+					font-size: 1.3em;
+					height: 1.3rem;
+				}
 			}
 
 
@@ -1170,7 +1187,7 @@ article.message {
 		margin-top: 0.1rem;
 		opacity: 0.1;
 	}
-	@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+	@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
 		.hero-content-features > .f-list > li .content {
 			font-size: 0.9rem;
 		}
@@ -1641,7 +1658,7 @@ article.message {
 				width: calc(33.4% - 1rem - 1rem);
 			}
 
-			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+			@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
 				.tab-list.tabs-with-gaps > li {
 					margin-left: 0.5rem;
 					margin-right: 0.5rem;
@@ -1830,7 +1847,7 @@ article.message {
 			font-weight: 500;
 		}
 
-		@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+		@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
 			.tabular > .f-list > li .cell.timestamp {
 				height: 3em;
 			}
@@ -1913,7 +1930,7 @@ article.message {
 				}
 			}
 
-			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+			@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
 				.tabular.search-panel-owned-po-list .cell.amount {
 					right: 5rem;
 					top: 0.7rem;
@@ -2010,7 +2027,7 @@ article.message {
 				font-size: 0.7rem;
 			}
 
-			@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+			@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
 				.tabular.funds-chargeback-list .f-list > li > a > .content,
 				.tabular.funds-chargeback-list .f-list > li     > .content {
 					min-height: 3rem;
@@ -2580,7 +2597,7 @@ article.message {
 		text-align: center;
 	}
 
-	@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+	@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
 		.row.header-bar .center {
 			margin-left: 2rem;
 			margin-right: 2rem;
@@ -3564,7 +3581,7 @@ dl.tickets-list {
 			margin: 0.25rem 0;
 		}
 
-		@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+		@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
 			.dialog.dialog-style-card .dialog-header h3 {
 				font-size: 0.75rem;
 			}
@@ -4408,7 +4425,7 @@ dl.tickets-list {
 		}
 	}
 
-	@media only screen and (max-width: 330px) { /* iPhone 4/4S/5/5S/SE */
+	@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
 		.slot.slot-bank-card .bank-card-number {
 			font-size: 0.9rem;
 			letter-spacing: 0.04em;
