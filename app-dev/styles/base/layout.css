@@ -733,6 +733,73 @@ article.message {
 	}
 
 
+.ruler {
+	}
+	.ruler > .f-list {
+		text-align: center;
+		overflow: hidden;
+		white-space: nowrap;
+		padding: 1.25rem 0 0 0;
+		margin: -0.5rem 0 0 0;
+	}
+
+	.ruler > .f-list .ruler-scale-chief {
+		display: inline-block;
+		vertical-align: bottom;
+		position: relative;
+		width: 3.2rem;
+		height: 0.8rem;
+	}
+
+	.ruler > .f-list .ruler-scale-chief > i,
+	.ruler > .f-list .ruler-scale-chief::before {
+		display: block;
+		position: absolute;
+		width: 0;
+		border-width: 0 0 0 1px;
+		border-style: solid;
+		border-color: inherit;
+		top: 0;
+		/* counter-reset: rulerSubdivision */
+	}
+
+	.ruler > .f-list .ruler-scale-chief::before {
+		content: '';
+		bottom: 0;
+		left: 0;
+	}
+	.ruler > .f-list .ruler-scale-chief.hide-chief-scale::before {
+		content: none;
+	}
+
+	.ruler > .f-list .ruler-scale-chief > i {
+		/* counter-increment: rulerSubdivision; */
+		height: 50%;
+	}
+	.ruler > .f-list .ruler-scale-chief > i:nth-of-type(1) {
+		left: 20%;
+	}
+	.ruler > .f-list .ruler-scale-chief > i:nth-of-type(2) {
+		left: 40%;
+	}
+	.ruler > .f-list .ruler-scale-chief > i:nth-of-type(3) {
+		left: 60%;
+	}
+	.ruler > .f-list .ruler-scale-chief > i:nth-of-type(4) {
+		left: 80%;
+	}
+
+	.ruler > .f-list .ruler-scale-chief > .label {
+		position: absolute;
+		display: block;
+		width: 3rem;
+		left: -50%;
+		right: 50%;
+		bottom: 110%;
+		margin: 0 auto;
+	}
+
+
 .poststamp {
 	background-repeat: no-repeat;
 	background-image: url(../../images/_common/poststamp-w200px.png);
@@ -2927,6 +2994,13 @@ article.message {
 		width: 100%;
 		height: 10rem;
 	}
+
+
+.f-block-body .row.ruler-container,
+.row.ruler-container {
+	padding-bottom: 0;
+	margin-top: -0.8rem;
+}
 
 
 .row.hero-content-block-call-to-action { /* homepage */

@@ -168,7 +168,7 @@
 				if (!pageFixedFooterHeight || pageFixedFooterHeight < 20) {
 					pageFixedFooterHeight = 67;
 				}
-				C.l(pageFixedFooterHeight);
+				// C.l(pageFixedFooterHeight);
 				if (!pageBodyIsCoveringLayer) {
 					pageBodyMinHeight -= pageFixedFooterHeight;
 					pageBody.style.marginBottom = (pageFixedFooterHeight - 1) + 'px';
