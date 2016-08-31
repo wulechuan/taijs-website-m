@@ -2986,10 +2986,11 @@ article.message {
 
 
 .row.graph {
-	padding-top: 0;
-	padding-bottom: 0;
+	padding: 0;
+	margin: 0;
 	}
 	.chart-block {
+		position: relative;
 		display: block;
 		width: 100%;
 		height: 10rem;

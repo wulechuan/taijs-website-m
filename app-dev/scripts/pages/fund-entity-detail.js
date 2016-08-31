@@ -165,10 +165,10 @@ $(function () {
 				}
 			},
 			grid: {
-				left: '10px',
-				right: '0',
-				top: '10px',
-				bottom: '10px',
+				left: 16,
+				right: 16,
+				top: 10,
+				bottom: 10,
 				containLabel: true
 			},
 			xAxis: [
