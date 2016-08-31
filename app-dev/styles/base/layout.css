@@ -1398,6 +1398,25 @@ article.message {
 			font-weight: 100;
 		}
 
+	.hero-content-block.hero-content-block-style-6 { /* in pages such as fund-entity-detail */
+		}
+		.hero-content-block.hero-content-block-style-6 .hero-content-features {
+			margin: 0 0.5rem;
+		}
+
+		.hero-content-block.hero-content-block-style-6 .hero-content-features > .f-list > li {
+			font-weight: lighter;
+			width: 33.3%;
+		}
+		.hero-content-block.hero-content-block-style-6 .hero-content-features > .f-list > li .content {
+			font-size: 1.1rem;
+			line-height: 1.2rem;
+		}
+		.hero-content-block.hero-content-block-style-6 .hero-content-features > .f-list > li .content .risk-rank {
+			font-size: 0.75rem;
+			font-weight: 400;
+		}
+
 
 .user-assets-abstract { /* homepage and personal center page */
 	font-size: 1rem;
@@ -3105,6 +3124,8 @@ article.message {
 		border-style: solid;
 		border-width: 1px 0;
 	}
+	.f-block.snap-bottom .f-block-body,
+	.f-block-body.snap-bottom,
 	.f-block-body.has-attachment {
 		margin-bottom: 0;
 	}

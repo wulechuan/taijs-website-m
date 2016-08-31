@@ -973,7 +973,9 @@ dl.tickets-list {
 		.page-header    .hero-content-block em {
 			color: white;
 		}
-
+	.hero-content-block.hero-content-block-style-6 .hero-content-features > .f-list > li .content {
+		color: black;
+	}
 
 .fund-trading-record .f-block-body .row.multi-lines .right .amount {
 	color: #333;
