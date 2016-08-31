@@ -1110,6 +1110,9 @@ dl.tickets-list {
 	.tabular.funds-chargeback-list .caption-cell h4 {
 		color: #999;
 	}
+	.tabular .f-list.key-value-pairs .cell.first-cell {
+		color: #999;
+	}
 
 
 .entity-info {

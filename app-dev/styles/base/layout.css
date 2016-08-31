@@ -167,7 +167,14 @@ button.add-entity::before,
 .tip {
 	font-weight: normal;
 	font-size: 0.65rem
-}
+	}
+	.tip.tip-has-label {
+		padding-left: 1.8rem;
+	}
+	.tip.tip-has-label .label {
+		position: absolute;
+		left: 0.8rem;
+	}
 
 
 .digits.percentage-value::after {
@@ -534,6 +541,9 @@ article.message {
 		line-height: 1;
 		font-size: 0.6rem;
 		font-weight: 100;
+	}
+	.row.tall .marker {
+		margin-top: 0.15rem;
 	}
 	.marker.marker-ticket-look {
 		position: relative;
@@ -2057,6 +2067,43 @@ article.message {
 			}
 
 
+		.tabular .f-list.key-value-pairs {
+			}
+			.tabular .f-list.key-value-pairs > li {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+			.tabular .f-list.key-value-pairs > li::before {
+				content: none;
+			}
+			.tabular .f-list.key-value-pairs .cell {
+				margin-top: 0;
+				margin-bottom: 0;
+				line-height: 0.8rem;
+				vertical-align: initial;
+			}
+			.tabular .f-list.key-value-pairs .cell.first-cell {
+				width: 6rem;
+				margin-right: 0;
+				padding-right: 0;
+				font-size: 0.65rem;
+			}
+			.tabular .f-list.key-value-pairs .cell.last-cell {
+				width: calc(100% - 6rem - 0.5rem);
+				margin-left: 0;
+				font-size: 0.75rem;
+				font-weight: 500;
+			}
+			@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
+				.tabular .f-list.key-value-pairs .cell.first-cell {
+					width: 5rem;
+				}
+				.tabular .f-list.key-value-pairs .cell.last-cell {
+					width: calc(100% - 5rem - 0.5rem);
+				}
+			}
+
+
 .row, .f-block, .f-block-body, .f-block .row.full-width {
 	box-sizing: content-box;
 	padding-left: 0.8rem;
@@ -3149,6 +3196,18 @@ article.message {
 			font-size: 1.2rem;
 		}
 
+
+	.f-block .icon-of-bank {
+		margin: -2px 0.25rem -2px 0;
+		width: 0.8rem;
+		height: 0.8rem;
+		line-height: inherit;
+		}
+		.f-block .icon-of-bank::before {
+			margin: -2px 0 0 -4px;
+			-webkit-transform: scale(0.85, 0.85);
+			        transform: scale(0.85, 0.85);
+		}
 
 	.f-block-body .row.entity-of-bank.has-lead-icon {
 		padding-left: 2.5rem;
@@ -4545,7 +4604,6 @@ dl.tickets-list {
 	box-sizing: border-box;
 	padding: 1px; /* prevent block from merging margins with neighbours */
 	}
-
 
 
 .copyright {
