@@ -53,10 +53,14 @@ $(function () {
 	var app = window.taijs.app;
 
 
-	var eChartFundUnitNetWorthRootElement  = $('#panel-fund-unit-net-worth  .chart-block')[0];
-	var eChartFundNetWorthTrendRootElement = $('#panel-fund-net-worth-trend .chart-block')[0];
-	var eChartFundUnitNetWorth  = createEChartsForFundUnitNetWorth (eChartFundUnitNetWorthRootElement);
-	var eChartFundNetWorthTrend = createEChartsForFundNetWorthTrend(eChartFundNetWorthTrendRootElement);
+	var eChartFundUnitNetWorthRootElement    = $('#panel-fund-unit-net-worth     .chart-block')[0];
+	var eChartFundNetWorthTrendRootElement   = $('#panel-fund-net-worth-trend    .chart-block')[0];
+	var eChartFundWeekToYearTrendRootElement = $('#panel-fund-week-to-year-trend .chart-block')[0];
+	var eChartFund10kSharesTrendRootElement  = $('#panel-fund-10k-shares-trend   .chart-block')[0];
+	var eChartFundUnitNetWorth     = createEChartsForFundUnitNetWorth   (eChartFundUnitNetWorthRootElement);
+	var eChartFundNetWorthTrend    = createEChartsForFundNetWorthTrend  (eChartFundNetWorthTrendRootElement);
+	var eChartFunddWeekToYearTrend = createEChartsForFundWeekToYearTrend(eChartFundWeekToYearTrendRootElement);
+	var eChartFund10kSharesTrend   = createEChartsForFund10kSharesTrend (eChartFund10kSharesTrendRootElement);
 
 
 	$('.tab-panel-set').each(function () {
@@ -109,29 +113,59 @@ $(function () {
 				break;
 
 			case 'panel-fund-net-worth-trend':
-				data = _generateFakeData(13, 'tradingDay', 'accumulateIncome', 0.888, 8.888, true, 27.333);
+				data = _generateFakeData(13, 'tradingDay', 'accumulateIncome', 0.888, 8.777, true, 27.333);
 				_addFakeHuShenDataTo(data, 'huShen', 'accumulateIncome', -25, 45);
 				updateEChartsForFundNetWorthTrend(eChartFundNetWorthTrend, data);
 				break;
 
 			case 'panel-fund-week-to-year-trend':
 				data = _generateFakeData(13, 'tradingDay', 'unitNV', 0.125, 2.345);
-				updateEChartsForFundNetWorthTrend(eChartFundNetWorthTrend, data);
+				updateEChartsForFundWeekToYearTrend(eChartFunddWeekToYearTrend, data);
 				break;
 
 			case 'panel-fund-10k-shares-trend':
 				data = _generateFakeData(13, 'tradingDay', 'unitNV', 0.125, 2.345);
-				updateEChartsForFundNetWorthTrend(eChartFundNetWorthTrend, data);
+				updateEChartsForFund10kSharesTrend(eChartFund10kSharesTrend, data);
 				break;
 
 			default:
 		}
 	}
 
+	function _formatChartToolTip(label, value, date) {
+		return [
+			'<article class="echart-tooltip">',
+				'<ul class="f-list">',
+					'<li>',
+						'<span class="label">'+label+' </span>',
+						'<span class="value">'+value+'</span>',
+					'</li>',
+					'<li>',
+						'<span class="label">时间: </span>',
+						'<span class="value">'+date+'</span>',
+					'</li>',
+				'</ul>',
+			'</article>'
+		].join('');
+	}
+	function chartToolTipFormatterForFundUnitNetWorth(parameters) {
+		var _o = parameters[0];
+		return _formatChartToolTip('单位净值:', _o.value, _o.name);
+	}
+	function chartToolTipFormatterForFundWeekToYearTrend(parameters) {
+		var _o = parameters[0];
+		return _formatChartToolTip('七日年化(%):', _o.value, _o.name);
+	}
+	function chartToolTipFormatterForFund10kSharesTrend(parameters) {
+		var _o = parameters[0];
+		return _formatChartToolTip('万份年收益(元):', _o.value, _o.name);
+	}
+
+
 
 
 	function createEChartsForFundUnitNetWorth(rootElement) {
-		if (!window.echarts) return false;
+		if (!window.echarts || !rootElement) return false;
 		var echart = window.echarts.init(rootElement);
 		// C.l(rootElement);
 
@@ -150,19 +184,19 @@ $(function () {
 		var eChartOptions = {
 			tooltip: {
 				trigger: 'axis',
-				axisPointer: {
-					type: 'cross',
-					crossStyle: {
-						color: chartColors.corssHair,
-						type: 'solid',
-						opacity: 0.4
-					}
-				}
-			},
-			toolbox: {
-				feature: {
-					saveAsImage: {}
-				}
+				// alwaysShowContent: false,
+				// axisPointer: {
+				//     type: 'shadow'
+				// 	type: 'cross',
+				// 	crossStyle: {
+				// 		color: chartColors.corssHair,
+				// 		type: 'solid',
+				// 		opacity: 0.4
+				// 	}
+				// },
+				formatter: chartToolTipFormatterForFundUnitNetWorth,
+				backgroundColor: 'transparent',
+				padding: 0
 			},
 			grid: {
 				left: 16,
@@ -224,21 +258,23 @@ $(function () {
 			series: [
 				{
 					type:'line',
-					label: {
-						normal: {
-							show: false,
-						}
-					},
-					symbolSize: 8,
-					hoverAnimation: false,
+					// label: {
+					// 	normal: {
+					// 		show: false,
+					// 	}
+					// },
+					showAllSymbol: true,
+					// symbolSize: 8,
+					hoverAnimation: true,
 					itemStyle: {
 						normal: {
-							opacity: 0
-						},
-						emphasis: {
 							borderColor: chartColors.graph,
-							opacity: 1
-						}
+							// opacity: 0
+						},
+						// emphasis: {
+						// 	borderColor: chartColors.graph,
+						// 	opacity: 1
+						// }
 					},
 					lineStyle: {
 						normal: {
@@ -261,7 +297,6 @@ $(function () {
 
 		return echart;
 	}
-
 	function updateEChartsForFundUnitNetWorth(echart, data) {
 		if (!echart || !data) return;
 
@@ -270,7 +305,7 @@ $(function () {
 
 		for (var i = 0; i < data.length; i++) {
 			xAxisLabels[i] = data[i].tradingDay.slice(5);
-			yData[i] = data[i].unitNV;
+			yData[i] = data[i].unitNV.toFixed(2);
 		}
 
 		var eChartOptions = {
@@ -288,7 +323,7 @@ $(function () {
 
 
 	function createEChartsForFundNetWorthTrend(rootElement) {
-		if (!window.echarts) return false;
+		if (!window.echarts || !rootElement) return false;
 		var echart = window.echarts.init(rootElement);
 		// C.l(rootElement);
 
@@ -307,26 +342,22 @@ $(function () {
 
 		var eChartOptions = {
 			tooltip: {
-				trigger: 'axis',
-				axisPointer: {
-					type: 'cross',
-					crossStyle: {
-						color: chartColors.corssHair,
-						type: 'solid',
-						opacity: 0.4
-					}
-				}
-			},
-			toolbox: {
-				feature: {
-					saveAsImage: {}
-				}
+				show: false,
+				// trigger: 'axis',
+				// axisPointer: {
+				// 	type: 'cross',
+				// 	crossStyle: {
+				// 		color: chartColors.corssHair,
+				// 		type: 'solid',
+				// 		opacity: 0.4
+				// 	}
+				// }
 			},
 			grid: {
-				left: '10px',
-				right: '0',
-				top: '10px',
-				bottom: '10px',
+				left: 16,
+				right: 16,
+				top: 10,
+				bottom: 10,
 				containLabel: true
 			},
 			xAxis: [
@@ -438,7 +469,6 @@ $(function () {
 
 		return echart;
 	}
-
 	function updateEChartsForFundNetWorthTrend(echart, data) {
 		if (!echart || !data) return;
 
@@ -448,8 +478,8 @@ $(function () {
 
 		for (var i = 0; i < data.length; i++) {
 			xAxisLabels[i] = data[i].tradingDay.slice(5);
-			yData1[i] = data[i].accumulateIncome;
-			yData2[i] = data[i].huShen;
+			yData1[i] = data[i].accumulateIncome.toFixed(2);
+			yData2[i] = data[i].huShen.toFixed(2);
 		}
 
 		var eChartOptions = {
@@ -467,9 +497,324 @@ $(function () {
 	}
 
 
+	function createEChartsForFundWeekToYearTrend(rootElement) {
+		if (!window.echarts || !rootElement) return false;
+		var echart = window.echarts.init(rootElement);
+		// C.l(rootElement);
+
+		var chartColors = {
+			corssHair: '#ff6600',
+			axesLabels: '#cccccc',
+			axesLines: '#f1f1f1',
+			graph: '#4285f4'
+		};
+
+		var axesLabelsFont = {
+			size: 8,
+			family: 'consolas'
+		};
+
+		var eChartOptions = {
+			tooltip: {
+				trigger: 'axis',
+				// alwaysShowContent: false,
+				// axisPointer: {
+				//     type: 'shadow'
+				// 	type: 'cross',
+				// 	crossStyle: {
+				// 		color: chartColors.corssHair,
+				// 		type: 'solid',
+				// 		opacity: 0.4
+				// 	}
+				// },
+				formatter: chartToolTipFormatterForFundWeekToYearTrend,
+				backgroundColor: 'transparent',
+				padding: 0
+			},
+			grid: {
+				left: 16,
+				right: 16,
+				top: 10,
+				bottom: 10,
+				containLabel: true
+			},
+			xAxis: [
+				{
+					type: 'category',
+					boundaryGap: false,
+					data: [], // required
+					axisLabel: {
+						textStyle: {
+							fontSize: axesLabelsFont.size,
+							fontFamily: axesLabelsFont.family,
+							color: chartColors.axesLabels
+						}
+					},
+					axisLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					},
+					splitLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					}
+				}
+			],
+			yAxis: [
+				{
+					type: 'value',
+					axisLabel: {
+						textStyle: {
+							fontSize: axesLabelsFont.size,
+							fontFamily: axesLabelsFont.family,
+							color: chartColors.axesLabels
+						}
+					},
+					axisLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					},
+					splitLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					}
+				}
+			],
+			series: [
+				{
+					type:'line',
+					// label: {
+					// 	normal: {
+					// 		show: false,
+					// 	}
+					// },
+					showAllSymbol: true,
+					// symbolSize: 8,
+					hoverAnimation: true,
+					itemStyle: {
+						normal: {
+							borderColor: chartColors.graph,
+							// opacity: 0
+						},
+						// emphasis: {
+						// 	borderColor: chartColors.graph,
+						// 	opacity: 1
+						// }
+					},
+					lineStyle: {
+						normal: {
+							width: 1,
+							color: chartColors.graph
+						}
+					},
+					areaStyle: {
+						normal: {
+							color: chartColors.graph,
+							opacity: 0.4
+						}
+					}
+				}
+			]
+		};
+
+
+		echart.setOption(eChartOptions);
+
+		return echart;
+	}
+	function updateEChartsForFundWeekToYearTrend(echart, data) {
+		if (!echart || !data) return;
+
+		var xAxisLabels = [];
+		var yData = [];
+
+		for (var i = 0; i < data.length; i++) {
+			xAxisLabels[i] = data[i].tradingDay.slice(5);
+			yData[i] = data[i].unitNV.toFixed(2);
+		}
+
+		var eChartOptions = {
+			xAxis: [{
+				data: xAxisLabels
+			}],
+			series: [{
+				data: yData
+			}]
+		};
+
+		echart.setOption(eChartOptions);
+	}
+
+
+	function createEChartsForFund10kSharesTrend(rootElement) {
+		if (!window.echarts || !rootElement) return false;
+		var echart = window.echarts.init(rootElement);
+		// C.l(rootElement);
+
+		var chartColors = {
+			corssHair: '#ff6600',
+			axesLabels: '#cccccc',
+			axesLines: '#f1f1f1',
+			graph: '#4285f4'
+		};
+
+		var axesLabelsFont = {
+			size: 8,
+			family: 'consolas'
+		};
+
+		var eChartOptions = {
+			tooltip: {
+				trigger: 'axis',
+				// alwaysShowContent: false,
+				// axisPointer: {
+				//     type: 'shadow'
+				// 	type: 'cross',
+				// 	crossStyle: {
+				// 		color: chartColors.corssHair,
+				// 		type: 'solid',
+				// 		opacity: 0.4
+				// 	}
+				// },
+				formatter: chartToolTipFormatterForFund10kSharesTrend,
+				backgroundColor: 'transparent',
+				padding: 0
+			},
+			grid: {
+				left: 16,
+				right: 16,
+				top: 10,
+				bottom: 10,
+				containLabel: true
+			},
+			xAxis: [
+				{
+					type: 'category',
+					boundaryGap: false,
+					data: [], // required
+					axisLabel: {
+						textStyle: {
+							fontSize: axesLabelsFont.size,
+							fontFamily: axesLabelsFont.family,
+							color: chartColors.axesLabels
+						}
+					},
+					axisLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					},
+					splitLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					}
+				}
+			],
+			yAxis: [
+				{
+					type: 'value',
+					axisLabel: {
+						textStyle: {
+							fontSize: axesLabelsFont.size,
+							fontFamily: axesLabelsFont.family,
+							color: chartColors.axesLabels
+						}
+					},
+					axisLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					},
+					splitLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					}
+				}
+			],
+			series: [
+				{
+					type:'line',
+					// label: {
+					// 	normal: {
+					// 		show: false,
+					// 	}
+					// },
+					showAllSymbol: true,
+					// symbolSize: 8,
+					hoverAnimation: true,
+					itemStyle: {
+						normal: {
+							borderColor: chartColors.graph,
+							// opacity: 0
+						},
+						// emphasis: {
+						// 	borderColor: chartColors.graph,
+						// 	opacity: 1
+						// }
+					},
+					lineStyle: {
+						normal: {
+							width: 1,
+							color: chartColors.graph
+						}
+					},
+					areaStyle: {
+						normal: {
+							color: chartColors.graph,
+							opacity: 0.4
+						}
+					}
+				}
+			]
+		};
+
+
+		echart.setOption(eChartOptions);
+
+		return echart;
+	}
+	function updateEChartsForFund10kSharesTrend(echart, data) {
+		if (!echart || !data) return;
+
+		var xAxisLabels = [];
+		var yData = [];
+
+		for (var i = 0; i < data.length; i++) {
+			xAxisLabels[i] = data[i].tradingDay.slice(5);
+			yData[i] = data[i].unitNV.toFixed(2);
+		}
+
+		var eChartOptions = {
+			xAxis: [{
+				data: xAxisLabels
+			}],
+			series: [{
+				data: yData
+			}]
+		};
+
+		echart.setOption(eChartOptions);
+	}
+
+
+
 
 	var $coveringLayer = $('#cl-funds-trading-notice');
-	var $headerButtonNavBack            = $('.page-header #header-nav-back');
+	var $headerButtonNavBack           = $('.page-header #header-nav-back');
 	var $headerButtonHideCoveringLayer = $('.page-header #hide-covering-layer');
 
 	$('#row-show-funds-trading-notice-layer').on('click', function () {
@@ -477,22 +822,6 @@ $(function () {
 	});
 
 	$headerButtonHideCoveringLayer.on('click', function () {
-		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonHideCoveringLayer);
-	});
-
-	$coveringLayer.find('.row').on('click', function () {
-		var bankName = $(this).find('.left')[0];
-		if (bankName) {
-			bankName = bankName.dataset.value;
-			var vf = fakeInputBankName.virtualField;
-			if (vf) {
-				vf.setValue(bankName);
-			} else {
-				// $fakeInputBankName.val(bankName).addClass('non-empty-field'); 
-			}
-
-		}
-
 		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
