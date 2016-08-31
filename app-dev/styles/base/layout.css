@@ -651,6 +651,32 @@ article.message {
 	}
 
 
+.f-list.filters {
+	}
+	.f-list.filters.filter-type-regular {
+		margin-right: -0.5rem;
+		}
+		ul.f-list.filters.filter-type-regular > li.filter {
+			display: inline-block;
+			padding: 0;
+			margin: 0.25rem 0;
+			width: 33.33%;
+			font-weight: 400;
+		}
+		ul.f-list.filters.filter-type-regular > li.filter.promoted {
+			display: block;
+			width: 25%;
+			font-weight: 300;
+		}
+		ul.f-list.filters.filter-type-regular > li.filter > .label {
+			display: block;
+			text-align: center;
+			border-radius: 1000px;
+			padding: 0.2rem 0.6rem;
+			margin-right: 0.5rem;
+		}
+
+
 .f-list.fund-net-worth-trend-chart-legend {
 	font-size: 0.5rem;
 	}
@@ -2980,6 +3006,11 @@ article.message {
 	font-weight: normal;
 	}
 
+	/* .f-block.cast-shadow {
+		z-index: 2;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+	} */
+
 	.f-block.large-gap {
 		margin-bottom: 0.5rem;
 	}
@@ -4325,7 +4356,7 @@ dl.tickets-list {
 			z-index: 2;
 		} */
 
-	.page-body.covering-layer {
+	.covering-layer {
 		z-index: 46;
 		display: none;
 		position: fixed;
@@ -4333,12 +4364,15 @@ dl.tickets-list {
 		right: 0;
 		top: 0;
 		bottom: 0;
+		overflow: auto;
 		-webkit-animation-duration: 0.2s;
 		        animation-duration: 0.2s;
 		-webkit-animation-name: fade-in;
 		        animation-name: fade-in;
 		}
-		.page-body.covering-layer > .content {
+
+		.covering-layer .page-body > .content,
+		.page-body.covering-layer  > .content {
 			-webkit-animation-delay: 0.1s;
 			        animation-delay: 0.1s;
 			-webkit-animation-duration: 0.24s;
@@ -4346,7 +4380,8 @@ dl.tickets-list {
 			-webkit-animation-fill-mode: backwards;
 			        animation-fill-mode: backwards;
 		}
-		.page-body.covering-layer > .content.animation-shows-up-like-tv-signal {
+		.covering-layer .page-body > .content.animation-shows-up-like-tv-signal,
+		.page-body.covering-layer  > .content.animation-shows-up-like-tv-signal {
 			-webkit-animation-name: covering-layer-content-shows-up-like-tv-signal;
 			        animation-name: covering-layer-content-shows-up-like-tv-signal;
 		}
@@ -4387,7 +4422,8 @@ dl.tickets-list {
 		}
 
 
-	.page.fixed-page-footer .page-footer {
+	.covering-layer.fixed-page-footer .page-footer,
+	          .page.fixed-page-footer .page-footer {
 		left: 0;
 		bottom: 0;
 		position: fixed;

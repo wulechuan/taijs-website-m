@@ -975,6 +975,11 @@ dl.tickets-list {
 		}
 
 
+.fund-trading-record .f-block-body .row.multi-lines .right .amount {
+	color: #333;
+}
+
+
 .markers {
 
 	}
@@ -1017,6 +1022,20 @@ dl.tickets-list {
 	.keyword:hover {
 		background-color: rgba(255, 255, 255, 0.75);
 	}	
+
+
+.f-list.filters {
+	}
+	.f-list.filters.filter-type-regular {
+		}
+		ul.f-list.filters.filter-type-regular > li.filter > .label {
+			color: #333;
+			background-color: #eee;
+		}
+		ul.f-list.filters.filter-type-regular > li.filter.promoted > .label {
+			color: white;
+			background-color: #4285f4;
+		}
 
 
 .color-inverted .menu.level-1,
@@ -1221,7 +1240,7 @@ dl.tickets-list {
 	color: #666;
 	}
 	.page.has-header-bg .page-body > .content-with-solid-bg,
-	.page .page-body.covering-layer,
+	.page .covering-layer,
 	.page {
 		background-color: #f1f1f1;
 	}

@@ -17,9 +17,12 @@
 	><header class="page-header">
 		<div class="row header-bar">
 			<div class="center"><h1>交易记录</h1></div>
-			<div class="left"  ><a role="button" class="nav-back" href="my-funds-po-index.html"></a></div>
-			<div class="right" ><button class="header-filter"></button></div>
-		</div>		
+			<div class="left"  >
+				<a role="button" class="nav-back" id="header-nav-back" href="my-funds-po-index.html"></a
+				><button         class="nav-back" id="hide-covering-layer" style="display: none;"></button>
+			</div>
+			<div class="right" ><button class="header-filter" id="show-covering-layer"></button></div>
+		</div>
 	</header>
 
 	<div class="page-body">
@@ -32,8 +35,8 @@
 							        <span class="value product-name"  >南方通利债券ABCDEFG</span>
 							<sub><q><span class="value product-id"    >00563</span></q></sub>
 						</h3>
-						<p><span class="value bank-name"      >工商银行</span>|尾号<q
-						  ><span class="value bank-card-tail" >0000</span></q
+						<p><span class="value bank-name"     >工商银行</span>|尾号<q
+						  ><span class="value bank-card-tail">0000</span></q
 						></p>
 						<p>
 							<time>2016-06-21</time>
@@ -41,7 +44,7 @@
 						</p>
 					</div>
 					<div class="right">
-						<p><span class="value amount digits currency positive-value">+600.00</span><sub>元</sub></p>
+						<p><span class="value amount digits currency">+600.00</span><sub>元</sub></p>
 						<p><span class="value status color-warning">待扣款</span></p>
 					</div>
 				</div>
@@ -70,7 +73,7 @@
 						</p>
 					</div>
 					<div class="right">
-						<p><span class="value amount digits currency positive-value">+800.00</span><sub>元</sub></p>
+						<p><span class="value amount digits currency">+800.00</span><sub>元</sub></p>
 						<p><span class="value status color-error">扣款失败</span></p>
 					</div>
 				</div>
@@ -99,7 +102,7 @@
 						</p>
 					</div>
 					<div class="right">
-						<p><span class="value amount digits currency negative-value">-800.00</span><sub>元</sub></p>
+						<p><span class="value amount digits currency">-800.00</span><sub>元</sub></p>
 						<p><span class="value status color-warning">待确认</span></p>
 					</div>
 				</div>
@@ -128,7 +131,7 @@
 						</p>
 					</div>
 					<div class="right">
-						<p><span class="value amount digits currency positive-value">+70.00</span><sub>元</sub></p>
+						<p><span class="value amount digits currency">+70.00</span><sub>元</sub></p>
 						<p><span class="value status color-ok">确认成功</span></p>
 					</div>
 				</div>
@@ -157,7 +160,7 @@
 						</p>
 					</div>
 					<div class="right">
-						<p><span class="value amount digits currency negative-value">-1,200.00</span><sub>份</sub></p>
+						<p><span class="value amount digits currency">-1,200.00</span><sub>份</sub></p>
 						<p><span class="value status color-error">确认成功</span></p>
 					</div>
 				</div>
@@ -186,7 +189,7 @@
 						</p>
 					</div>
 					<div class="right">
-						<p><span class="value amount digits currency positive-value">+800.00</span><sub>份</sub></p>
+						<p><span class="value amount digits currency">+800.00</span><sub>份</sub></p>
 						<p><span class="value status color-error">确认失败</span></p>
 					</div>
 				</div>
@@ -215,7 +218,7 @@
 						</p>
 					</div>
 					<div class="right">
-						<p><span class="value amount digits currency positive-value">+800.00</span><sub>元</sub></p>
+						<p><span class="value amount digits currency">+800.00</span><sub>元</sub></p>
 						<p><span class="value status color-error">扣款失败</span></p>
 					</div>
 				</div>
@@ -244,7 +247,7 @@
 						</p>
 					</div>
 					<div class="right">
-						<p><span class="value amount digits currency positive-value">+800.00</span><sub>元</sub></p>
+						<p><span class="value amount digits currency">+800.00</span><sub>元</sub></p>
 						<p><span class="value status color-error">扣款失败</span></p>
 					</div>
 				</div>
@@ -273,7 +276,7 @@
 						</p>
 					</div>
 					<div class="right">
-						<p><span class="value amount digits currency positive-value">+800.00</span><sub>元</sub></p>
+						<p><span class="value amount digits currency">+800.00</span><sub>元</sub></p>
 						<p><span class="value status color-error">扣款失败</span></p>
 					</div>
 				</div>
@@ -286,6 +289,8 @@
 
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
+
+	<!-- inject:coveryingLayerFundsTradingRecordsFilters:html --><!-- endinject -->
 
 	<div role="html-templates-collection" id="tplt-asset-progress-blocks">
 		<!-- inject:assetProgressBlocksFundsPO:html --><!-- endinject -->

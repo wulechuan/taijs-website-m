@@ -66,14 +66,14 @@ $(function () { // fake logics
 
 	var $coveringLayer = $('#cl-funds-trading-notice');
 	var $headerButtonNavBack            = $('.page-header #header-nav-back');
-	var $headerButtonCloseCoveringLayer = $('.page-header #close-covering-layer');
+	var $headerButtonHideCoveringLayer = $('.page-header #hide-covering-layer');
 
 	$('#button-show-funds-trading-notice-layer').on('click', function () {
-		showOrHideCoveryingLayer($coveringLayer, true, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+		showOrHideCoveryingLayer($coveringLayer, true, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
-	$headerButtonCloseCoveringLayer.on('click', function () {
-		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+	$headerButtonHideCoveringLayer.on('click', function () {
+		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
 	$coveringLayer.find('.row').on('click', function () {
@@ -89,7 +89,7 @@ $(function () { // fake logics
 
 		}
 
-		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
 	function showOrHideCoveryingLayer($cl, isToShow, $buttonToShowWithoutCl, $buttonToShowWithCl) {

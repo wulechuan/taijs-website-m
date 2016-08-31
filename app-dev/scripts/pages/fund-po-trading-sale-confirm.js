@@ -66,7 +66,7 @@ $(function () { // fake logics
 
 	$('#fund-po-trading-sale-confirm-choose-bank-card').on('click', function(event) {
 		// UI.popupLayersManager.show(pl2, event);
-		showOrHideCoveryingLayer($coveringLayerChooseBankCard, true, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+		showOrHideCoveryingLayer($coveringLayerChooseBankCard, true, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
 	// $pl2.on('click', function (event) {
@@ -78,16 +78,16 @@ $(function () { // fake logics
 
 
 	var $headerButtonNavBack            = $('.page-header #header-nav-back');
-	var $headerButtonCloseCoveringLayer = $('.page-header #close-covering-layer');
+	var $headerButtonHideCoveringLayer = $('.page-header #hide-covering-layer');
 
 
-	$headerButtonCloseCoveringLayer.on('click', function () {
-		showOrHideCoveryingLayer($coveringLayerChooseBankCard, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+	$headerButtonHideCoveringLayer.on('click', function () {
+		showOrHideCoveryingLayer($coveringLayerChooseBankCard, false, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
 	$coveringLayerChooseBankCard.find('.row').on('click', function () {
 		$chosenValuePresentor.html(this.innerHTML);
-		showOrHideCoveryingLayer($coveringLayerChooseBankCard, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+		showOrHideCoveryingLayer($coveringLayerChooseBankCard, false, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
 	function showOrHideCoveryingLayer($cl, isToShow, $buttonToShowWithoutCl, $buttonToShowWithCl) {

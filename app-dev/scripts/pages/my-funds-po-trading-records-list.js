@@ -116,4 +116,41 @@ $(function () {
 			recordRoot.status.expansionContainerIsCollapsed = !wasCollapsed;
 		}).bind(recordRoot, expansionContainer));
 	}
+
+
+
+
+
+
+	var $coveringLayer = $('#cl-funds-trading-records-filters');
+	var $headerButtonNavBack           = $('.page-header #header-nav-back');
+	var $headerButtonHideCoveringLayer = $('.page-header #hide-covering-layer');
+	var $headerButtonShowCoveringLayer = $('.page-header #show-covering-layer');
+	var fakeInputBankName = $('.fake-input-field .fake-input')[0];
+
+	$headerButtonShowCoveringLayer.on('click', function () {
+		showOrHideCoveryingLayer($coveringLayer, true,
+			$headerButtonNavBack.add($headerButtonShowCoveringLayer),
+			$headerButtonHideCoveringLayer
+		);
+	});
+
+	$headerButtonHideCoveringLayer.on('click', function () {
+		showOrHideCoveryingLayer($coveringLayer, false, 
+			$headerButtonNavBack.add($headerButtonShowCoveringLayer),
+			$headerButtonHideCoveringLayer
+		);
+	});
+
+	function showOrHideCoveryingLayer($cl, isToShow, $buttonToShowWithoutCl, $buttonToShowWithCl) {
+		if (!!isToShow) {
+			$cl.show();
+			$buttonToShowWithCl.show();
+			$buttonToShowWithoutCl.hide();
+		} else {
+			$cl.hide();
+			$buttonToShowWithCl.hide();
+			$buttonToShowWithoutCl.show();
+		}
+	}
 });
