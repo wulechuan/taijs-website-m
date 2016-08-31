@@ -3469,6 +3469,7 @@ article.message {
 		border-top-width: 0;
 		margin-top: 0;
 		margin-bottom: -1px;
+		background-color: transparent;
 	}
 
 	.fund-trading-record .details-container .f-block-body.progress .row::before {
