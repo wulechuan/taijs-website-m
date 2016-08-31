@@ -249,6 +249,22 @@ article.message {
 	}
 
 
+	.empty-content-hint > .content {
+		position: absolute;
+		left: 0;
+		right: 0;
+		width: 100%;
+		top: 100%;
+		margin: 2rem auto;
+	}
+	.empty-content-hint [role="button"],
+	.empty-content-hint button {
+		font-size: 0.75rem;
+		font-weight: 400;
+		padding: 0.2rem 0.6rem;
+		line-height: normal;
+	}
+
 	.empty-content-hint:after {
 		content: '犇宝宝心里空荡荡的~~';
 	}
@@ -260,6 +276,12 @@ article.message {
 	} */
 	.empty-content-hint.products-payed:after {
 		content: '暂无确认中产品';
+	}
+	.empty-content-hint.funds-owned:after {
+		content: '暂无交易记录';
+	}
+	.empty-content-hint.funds-for-sale:after {
+		content: '暂无可卖基金';
 	}
 	.empty-content-hint.funds-to-chargeback:after {
 		content: '暂无可撤单基金';
