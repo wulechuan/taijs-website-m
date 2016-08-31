@@ -973,6 +973,14 @@ dl.tickets-list {
 		.page-header    .hero-content-block em {
 			color: white;
 		}
+	.hero-content-block.hero-content-block-style-6 .hero-content-features > .f-list > li .content {
+		color: black;
+	}
+
+
+.fund-trading-record .f-block-body .row.multi-lines .right .amount {
+	color: #333;
+}
 
 
 .markers {
@@ -1017,6 +1025,26 @@ dl.tickets-list {
 	.keyword:hover {
 		background-color: rgba(255, 255, 255, 0.75);
 	}	
+
+
+.f-list.filters {
+	}
+	.f-list.filters.filter-type-regular {
+		}
+		ul.f-list.filters.filter-type-regular > li.filter > .label {
+			color: #333;
+			background-color: #eee;
+		}
+		ul.f-list.filters.filter-type-regular > li.filter.promoted > .label {
+			color: white;
+			background-color: #4285f4;
+		}
+
+
+.ruler > .f-list .ruler-scale-chief         > .label.current,
+.ruler > .f-list .ruler-scale-chief.current > .label {
+	color: #4285f4;
+}
 
 
 .color-inverted .menu.level-1,
@@ -1089,6 +1117,9 @@ dl.tickets-list {
 		color: #999;
 	}
 	.tabular.funds-chargeback-list .caption-cell h4 {
+		color: #999;
+	}
+	.tabular .f-list.key-value-pairs .cell.first-cell {
 		color: #999;
 	}
 
@@ -1191,6 +1222,18 @@ dl.tickets-list {
 		}
 
 
+.chart-block {
+	}
+	.chart-block .echart-tooltip {
+		background-color: rgba(66, 133, 244, 0.8);
+		box-shadow: 0 0 7px rgba(11, 22, 41, 0.3);
+	}
+	.chart-block .echart-tooltip .f-list .label,
+	.chart-block .echart-tooltip .f-list .value {
+		color: white;
+	}
+
+
 .popup-layer {
 	}
 	.popup-layer.polite-message .popup-window {
@@ -1221,7 +1264,7 @@ dl.tickets-list {
 	color: #666;
 	}
 	.page.has-header-bg .page-body > .content-with-solid-bg,
-	.page .page-body.covering-layer,
+	.page .covering-layer,
 	.page {
 		background-color: #f1f1f1;
 	}

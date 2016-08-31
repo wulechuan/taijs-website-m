@@ -36,11 +36,14 @@ $(function () {
 
 	var $records = $('.fund-trading-record');
 	var possibleStatusCount = possibleStatuses.length;
-	var recordRoot, expansionContainer;
+	var recordRoot, expansionContainer, recordStatusCaption;
 
 	for (i = 0; i < $records.length; i++) {
 		recordRoot = $records[i];
 		recordStatus = possibleStatuses[Math.floor(Math.random() * possibleStatusCount)];
+		recordStatusCaption = recordStatus.replace(/^(买入|卖出)/g, '');
+		// C.l(recordStatus, recordStatusCaption);
+
 		row = progressStopsRows[recordStatus].cloneNode(true);
 		row.removeAttribute('id');
 		tabular = attachments[recordStatus];
@@ -75,45 +78,84 @@ $(function () {
 
 		var abstract = recordRoot.elements.abstract;
 
-		$(abstract).on('click', (function (expansionContainer) {
-			var $container = $(expansionContainer);
-			var recordRoot = this;
-			var wasCollapsed = recordRoot.status.expansionContainerIsCollapsed;
+		$(abstract).on('click', toggleRecordExpasion.bind(recordRoot, recordRoot, expansionContainer));
+	}
 
-			if (wasCollapsed) {
-				for (var j = 0; j < $records.length; j++) {
-					var _r = $records[j];
-					if (_r === recordRoot) continue;
-					$(_r.elements.expansionContainer).slideUp(300);
-				}
 
-				$container.slideDown(500, function () {
-					var headerH = 48;
-					var margin = 20;
+	function toggleRecordExpasion(recordRoot, expansionContainer) {
+		var $container = $(expansionContainer);
+		var wasCollapsed = recordRoot.status.expansionContainerIsCollapsed;
 
-					var winT = window.scrollY;
-					var winH = window.innerHeight;
-					var H = $container.outerHeight();
-					var T = $container.offset().top;
-					var winTMin = Math.max(0, T + H - winH + margin);
-					var winTMax = T - headerH + margin;
-					var winNewT = Math.min(winTMax, Math.max(winTMin, winT));
-					// C.l(
-					// 	'current top:', winT,
-					// 	'\tnew top:', winNewT,
-					// 	'(', winTMin, ',', winTMax, ')',
-					// 	'\twin innerHeight:', winH,
-					// 	'\tcontainer:', T, H
-					// );
-					if (winNewT !== winT) {
-						window.scrollTo(null, winNewT);
-					}
-				});
-			} else {
-				$container.slideUp();
+		if (wasCollapsed) {
+			for (var j = 0; j < $records.length; j++) {
+				var _r = $records[j];
+				if (_r === recordRoot) continue;
+				$(_r.elements.expansionContainer).slideUp(300);
+				_r.status.expansionContainerIsCollapsed = true;
 			}
 
-			recordRoot.status.expansionContainerIsCollapsed = !wasCollapsed;
-		}).bind(recordRoot, expansionContainer));
+			$container.slideDown(500, function () {
+				var headerH = 48;
+				var marginTopAfterExpansion = 27;
+				var marginBottomAfterExpansion = 27;
+
+				var winT = window.scrollY;
+				var winH = window.innerHeight;
+				var H = $(recordRoot).outerHeight();
+				var T = $(recordRoot).offset().top;
+				var winTMin = Math.max(0, T + H - winH + marginBottomAfterExpansion);
+				var winTMax = Math.max(0, T - headerH - marginTopAfterExpansion);
+				var winNewT = Math.min(winTMax, Math.max(winTMin, winT));
+				// C.l(
+				// 	'current top:', winT,
+				// 	'\n\tnew top:', winNewT,
+				// 	'\tbetween (', winTMin, ',', winTMax, ')',
+				// 	'\n\twin innerHeight:', winH,
+				// 	'\tblock top:', T,
+				// 	'\tblock total height:', H,
+				// 	'\tdifference:', T + H - winH
+				// );
+				if (winNewT !== winT) {
+					window.scrollTo(null, winNewT);
+				}
+			});
+		} else {
+			$container.slideUp();
+		}
+
+		recordRoot.status.expansionContainerIsCollapsed = !wasCollapsed;
+	}
+
+
+
+	var $coveringLayer = $('#cl-funds-trading-records-filters');
+	var $headerButtonNavBack           = $('.page-header #header-nav-back');
+	var $headerButtonHideCoveringLayer = $('.page-header #hide-covering-layer');
+	var $headerButtonShowCoveringLayer = $('.page-header #show-covering-layer');
+
+	$headerButtonShowCoveringLayer.on('click', function () {
+		showOrHideCoveryingLayer($coveringLayer, true,
+			$headerButtonNavBack.add($headerButtonShowCoveringLayer),
+			$headerButtonHideCoveringLayer
+		);
+	});
+
+	$headerButtonHideCoveringLayer.on('click', function () {
+		showOrHideCoveryingLayer($coveringLayer, false, 
+			$headerButtonNavBack.add($headerButtonShowCoveringLayer),
+			$headerButtonHideCoveringLayer
+		);
+	});
+
+	function showOrHideCoveryingLayer($cl, isToShow, $buttonToShowWithoutCl, $buttonToShowWithCl) {
+		if (!!isToShow) {
+			$cl.show();
+			$buttonToShowWithCl.show();
+			$buttonToShowWithoutCl.hide();
+		} else {
+			$cl.hide();
+			$buttonToShowWithCl.hide();
+			$buttonToShowWithoutCl.show();
+		}
 	}
 });

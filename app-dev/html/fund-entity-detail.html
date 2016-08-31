@@ -27,7 +27,7 @@
 			</div>
 			<div class="left"  >
 				<a role="button" class="nav-back" id="header-nav-back" href="my-funds-po-index.html"></a
-				><button         class="nav-back" id="close-covering-layer" style="display: none;"></button>
+				><button         class="nav-back" id="hide-covering-layer" style="display: none;"></button>
 			</div>
 			<div class="right"
 				><button class="toggle-favorite">
@@ -43,45 +43,28 @@
 
 	<div class="page-body">
 		<div class="f-block asset-abstract">
-			<div class="f-block-body snap-top">
-				<div class="row full-width abstract-body">
-					<div class="entity-info entity-type-po-owned">
-						<div class="entity-body">
-							<ul class="f-list columns-count-3 compact-lines"
-								><li class="cell">
-									<span class="label">单位净值<sub>(元)</sub></span>
+			<div class="f-block-body snap-top snap-bottom">
+				<div class="row">
+					<div class="hero-content-block hero-content-block-style-6">
+						<div class="hero-content-features">
+							<ul class="f-list columns columns-count-3"
+								><li class="col col-1">
+									<span class="label">单位净值(元)</span>
 									<span class="content content-in-dual-lines">
 										<span class="value digits currency">0.4930</span>
 										<p class="minor"><time>2016-06-08</time></p>
 									</span>
 								</li
-								><li class="cell">
-									<span class="label">日涨跌幅<sub>(%)</sub></span>
-									<span class="content"><span class="value digits currency positive-value">+1.34</span></span>
+								><li class="col col-2">
+									<span class="label">日涨跌幅</span>
+									<span class="content"><span class="value digits percentage-value positive-value">+1.34</span></span>
 								</li
-								><li class="cell">
+								><li class="col col-3">
 									<span class="label">投资风险</span>
-									<span class="content"><span class="value color-negative">高</span></span>
+									<span class="content"><span class="value risk-rank color-negative">高</span></span>
 								</li
 							></ul>
 						</div>
-					</div>
-
-					<div class="hero-content-features">
-						<ul class="f-list columns columns-count-3"
-							><li class="col col-1">
-								<span class="label">昨日收益(元)</span>
-								<span class="content"><span class="value currency digits digits-with-sign yesterday-income">+26.35</span></span>
-							</li
-							><li class="col col-2">
-								<span class="label">起投金额(元)</span>
-								<span class="content"><span class="value currency digits accumulative-income">269,826.35</span></span>
-							</li
-							><li class="col col-3">
-								<span class="label">预计收益(元)</span>
-								<span class="content"><span class="value currency digits digits-with-sign forecast-income">+3,596.62</span></span>
-							</li
-						></ul>
 					</div>
 				</div>
 			</div>
@@ -114,32 +97,31 @@
 							</a>
 
 							<div class="row hide-borders graph">
-								<div class="chart-block">
-								</div>
+								<div class="chart-block"></div>
 							</div>
-							<div class="row hide-borders graph">
+							<div class="row ruler-container hide-borders graph">
 								<div class="ruler" data-ruler-sub-division="5">
-									<ul class="f-list">
-										<li class="ruler-scale-chief hide-chief-scale">
+									<ul class="f-list"
+										><li class="ruler-scale-chief hide-chief-scale">
 											<i></i><i></i><i></i><i></i>
-										</li>
-										<li class="ruler-scale-chief">
-											<span class="label"><button class="simple-look">月</button></span>
+										</li
+										><li class="ruler-scale-chief current">
+											<span class="label">月</span>
 											<i></i><i></i><i></i><i></i>
-										</li>
-										<li class="ruler-scale-chief">
-											<span class="label"><button class="simple-look">季</button></span>
+										</li
+										><li class="ruler-scale-chief">
+											<span class="label">季</span>
 											<i></i><i></i><i></i><i></i>
-										</li>
-										<li class="ruler-scale-chief">
-											<span class="label"><button class="simple-look">半年</button></span>
+										</li
+										><li class="ruler-scale-chief">
+											<span class="label">半年</span>
 											<i></i><i></i><i></i><i></i>
-										</li>
-										<li class="ruler-scale-chief">
-											<span class="label"><button class="simple-look">年</button></span>
+										</li
+										><li class="ruler-scale-chief">
+											<span class="label">年</span>
 											<i></i><i></i><i></i><i></i>
-										</li>
-									</ul>
+										</li
+									></ul>
 								</div>
 							</div>
 						</div>
@@ -162,11 +144,32 @@
 							</div>
 
 							<div class="row hide-borders graph">
-								<div class="chart-block">
-								</div>
+								<div class="chart-block"></div>
 							</div>
-							<div class="row hide-borders graph">
-								<div class="ruler" data-ruler-sub-division="5" data-ruler-shown-segments="5"></div>
+							<div class="row ruler-container hide-borders graph">
+								<div class="ruler" data-ruler-sub-division="5">
+									<ul class="f-list"
+										><li class="ruler-scale-chief hide-chief-scale">
+											<i></i><i></i><i></i><i></i>
+										</li
+										><li class="ruler-scale-chief current">
+											<span class="label">月</span>
+											<i></i><i></i><i></i><i></i>
+										</li
+										><li class="ruler-scale-chief">
+											<span class="label">季</span>
+											<i></i><i></i><i></i><i></i>
+										</li
+										><li class="ruler-scale-chief">
+											<span class="label">半年</span>
+											<i></i><i></i><i></i><i></i>
+										</li
+										><li class="ruler-scale-chief">
+											<span class="label">年</span>
+											<i></i><i></i><i></i><i></i>
+										</li
+									></ul>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -233,7 +236,7 @@
 
 	<footer class="page-footer">
 		<div class="row buttons-in-single-line">
-			<button class="rounded-corners size-std-wide content-in-dual-lines disable-style-2" disabled
+			<!-- <button class="rounded-corners size-std-wide content-in-dual-lines disable-style-2" disabled
 				id="product-detail-footer-button-count-down"
 				style="display: none;">
 				<span class="major">即将开始</span>
@@ -243,8 +246,8 @@
 				id="product-detail-footer-button-sold-out"
 				style="display: none;">
 				已售罄
-			</button>
-			<a href="fund-buying-confirm.html"
+			</button> -->
+			<a href="fund-po-trading-buy-in-confirm.html"
 				role="button" class="rounded-corners size-std-wide content-in-dual-lines"
 				id="product-detail-footer-button-call-to-action"
 				style="">

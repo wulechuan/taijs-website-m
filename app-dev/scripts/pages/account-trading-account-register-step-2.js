@@ -21,15 +21,15 @@ $(function () {
 
 	var $coveringLayer = $('#cl-choosing-bank-name');
 	var $headerButtonNavBack            = $('.page-header #header-nav-back');
-	var $headerButtonCloseCoveringLayer = $('.page-header #close-covering-layer');
+	var $headerButtonHideCoveringLayer = $('.page-header #hide-covering-layer');
 	var fakeInputBankName = $('.fake-input-field .fake-input')[0];
 
 	$('.fake-input-field').on('click', function () {
-		showOrHideCoveryingLayer($coveringLayer, true, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+		showOrHideCoveryingLayer($coveringLayer, true, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
-	$headerButtonCloseCoveringLayer.on('click', function () {
-		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+	$headerButtonHideCoveringLayer.on('click', function () {
+		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
 	$coveringLayer.find('.row').on('click', function () {
@@ -45,7 +45,7 @@ $(function () {
 
 		}
 
-		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
 	function showOrHideCoveryingLayer($cl, isToShow, $buttonToShowWithoutCl, $buttonToShowWithCl) {

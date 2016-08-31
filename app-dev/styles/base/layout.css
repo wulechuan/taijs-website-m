@@ -167,7 +167,14 @@ button.add-entity::before,
 .tip {
 	font-weight: normal;
 	font-size: 0.65rem
-}
+	}
+	.tip.tip-has-label {
+		padding-left: 1.8rem;
+	}
+	.tip.tip-has-label .label {
+		position: absolute;
+		left: 0.8rem;
+	}
 
 
 .digits.percentage-value::after {
@@ -242,6 +249,22 @@ article.message {
 	}
 
 
+	.empty-content-hint > .content {
+		position: absolute;
+		left: 0;
+		right: 0;
+		width: 100%;
+		top: 100%;
+		margin: 2rem auto;
+	}
+	.empty-content-hint [role="button"],
+	.empty-content-hint button {
+		font-size: 0.75rem;
+		font-weight: 400;
+		padding: 0.2rem 0.6rem;
+		line-height: normal;
+	}
+
 	.empty-content-hint:after {
 		content: '犇宝宝心里空荡荡的~~';
 	}
@@ -253,6 +276,12 @@ article.message {
 	} */
 	.empty-content-hint.products-payed:after {
 		content: '暂无确认中产品';
+	}
+	.empty-content-hint.funds-owned:after {
+		content: '暂无交易记录';
+	}
+	.empty-content-hint.funds-for-sale:after {
+		content: '暂无可卖基金';
 	}
 	.empty-content-hint.funds-to-chargeback:after {
 		content: '暂无可撤单基金';
@@ -535,6 +564,9 @@ article.message {
 		font-size: 0.6rem;
 		font-weight: 100;
 	}
+	.row.tall .marker {
+		margin-top: 0.15rem;
+	}
 	.marker.marker-ticket-look {
 		position: relative;
 		border-radius: 0;
@@ -651,6 +683,32 @@ article.message {
 	}
 
 
+.f-list.filters {
+	}
+	.f-list.filters.filter-type-regular {
+		margin-right: -0.5rem;
+		}
+		ul.f-list.filters.filter-type-regular > li.filter {
+			display: inline-block;
+			padding: 0;
+			margin: 0.25rem 0;
+			width: 33.33%;
+			font-weight: 400;
+		}
+		ul.f-list.filters.filter-type-regular > li.filter.promoted {
+			display: block;
+			width: 25%;
+			font-weight: 300;
+		}
+		ul.f-list.filters.filter-type-regular > li.filter > .label {
+			display: block;
+			text-align: center;
+			border-radius: 1000px;
+			padding: 0.2rem 0.6rem;
+			margin-right: 0.5rem;
+		}
+
+
 .f-list.fund-net-worth-trend-chart-legend {
 	font-size: 0.5rem;
 	}
@@ -672,6 +730,73 @@ article.message {
 		top: 0;
 		bottom: 0;
 		margin: auto 0;
+	}
+
+
+.ruler {
+	}
+	.ruler > .f-list {
+		text-align: center;
+		overflow: hidden;
+		white-space: nowrap;
+		padding: 1.25rem 0 0 0;
+		margin: -0.5rem 0 0 0;
+	}
+
+	.ruler > .f-list .ruler-scale-chief {
+		display: inline-block;
+		vertical-align: bottom;
+		position: relative;
+		width: 3.2rem;
+		height: 0.8rem;
+	}
+
+	.ruler > .f-list .ruler-scale-chief > i,
+	.ruler > .f-list .ruler-scale-chief::before {
+		display: block;
+		position: absolute;
+		width: 0;
+		border-width: 0 0 0 1px;
+		border-style: solid;
+		border-color: inherit;
+		top: 0;
+		/* counter-reset: rulerSubdivision */
+	}
+
+	.ruler > .f-list .ruler-scale-chief::before {
+		content: '';
+		bottom: 0;
+		left: 0;
+	}
+	.ruler > .f-list .ruler-scale-chief.hide-chief-scale::before {
+		content: none;
+	}
+
+	.ruler > .f-list .ruler-scale-chief > i {
+		/* counter-increment: rulerSubdivision; */
+		height: 50%;
+	}
+	.ruler > .f-list .ruler-scale-chief > i:nth-of-type(1) {
+		left: 20%;
+	}
+	.ruler > .f-list .ruler-scale-chief > i:nth-of-type(2) {
+		left: 40%;
+	}
+	.ruler > .f-list .ruler-scale-chief > i:nth-of-type(3) {
+		left: 60%;
+	}
+	.ruler > .f-list .ruler-scale-chief > i:nth-of-type(4) {
+		left: 80%;
+	}
+
+	.ruler > .f-list .ruler-scale-chief > .label {
+		position: absolute;
+		display: block;
+		width: 3rem;
+		left: -50%;
+		right: 50%;
+		bottom: 110%;
+		margin: 0 auto;
 	}
 
 
@@ -1338,6 +1463,25 @@ article.message {
 		.hero-content-block.hero-content-block-style-5 .hero-content-features .f-list li .content {
 			margin: 0.3rem auto;
 			font-weight: 100;
+		}
+
+	.hero-content-block.hero-content-block-style-6 { /* in pages such as fund-entity-detail */
+		}
+		.hero-content-block.hero-content-block-style-6 .hero-content-features {
+			margin: 0 0.5rem;
+		}
+
+		.hero-content-block.hero-content-block-style-6 .hero-content-features > .f-list > li {
+			font-weight: lighter;
+			width: 33.3%;
+		}
+		.hero-content-block.hero-content-block-style-6 .hero-content-features > .f-list > li .content {
+			font-size: 1.1rem;
+			line-height: 1.2rem;
+		}
+		.hero-content-block.hero-content-block-style-6 .hero-content-features > .f-list > li .content .risk-rank {
+			font-size: 0.75rem;
+			font-weight: 400;
 		}
 
 
@@ -2027,6 +2171,43 @@ article.message {
 
 				.tabular.funds-chargeback-list .cell.call-to-action {
 					top: 2.5rem;
+				}
+			}
+
+
+		.tabular .f-list.key-value-pairs {
+			}
+			.tabular .f-list.key-value-pairs > li {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+			.tabular .f-list.key-value-pairs > li::before {
+				content: none;
+			}
+			.tabular .f-list.key-value-pairs .cell {
+				margin-top: 0;
+				margin-bottom: 0;
+				line-height: 0.8rem;
+				vertical-align: initial;
+			}
+			.tabular .f-list.key-value-pairs .cell.first-cell {
+				width: 6rem;
+				margin-right: 0;
+				padding-right: 0;
+				font-size: 0.65rem;
+			}
+			.tabular .f-list.key-value-pairs .cell.last-cell {
+				width: calc(100% - 6rem - 0.5rem);
+				margin-left: 0;
+				font-size: 0.75rem;
+				font-weight: 500;
+			}
+			@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
+				.tabular .f-list.key-value-pairs .cell.first-cell {
+					width: 5rem;
+				}
+				.tabular .f-list.key-value-pairs .cell.last-cell {
+					width: calc(100% - 5rem - 0.5rem);
 				}
 			}
 
@@ -2805,14 +2986,42 @@ article.message {
 
 
 .row.graph {
-	padding-top: 0;
-	padding-bottom: 0;
+	padding: 0;
+	margin: 0;
 	}
 	.chart-block {
+		position: relative;
 		display: block;
 		width: 100%;
 		height: 10rem;
 	}
+	@media only screen and (min-height: 768px) { /* iPhone 4/4S */
+		.chart-block {
+			height: 20rem;
+		}
+	}
+	.chart-block .echart-tooltip {
+		margin: 0;
+		padding: 0.25rem 0.5rem;
+		border-radius: 0.2rem;
+	}
+	.chart-block .echart-tooltip .f-list .label,
+	.chart-block .echart-tooltip .f-list .value {
+		display: inline-block;
+		/* vertical-align: middle; */
+		font-size: 0.6rem;
+		line-height: 1.2;
+	}
+	.chart-block .echart-tooltip .f-list .label {
+		width: 5rem;
+	}
+
+
+.f-block-body .row.ruler-container,
+.row.ruler-container {
+	padding-bottom: 0;
+	margin-top: -0.8rem;
+}
 
 
 .row.hero-content-block-call-to-action { /* homepage */
@@ -2980,6 +3189,11 @@ article.message {
 	font-weight: normal;
 	}
 
+	/* .f-block.cast-shadow {
+		z-index: 2;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+	} */
+
 	.f-block.large-gap {
 		margin-bottom: 0.5rem;
 	}
@@ -3005,6 +3219,8 @@ article.message {
 		border-style: solid;
 		border-width: 1px 0;
 	}
+	.f-block.snap-bottom .f-block-body,
+	.f-block-body.snap-bottom,
 	.f-block-body.has-attachment {
 		margin-bottom: 0;
 	}
@@ -3118,6 +3334,18 @@ article.message {
 			font-size: 1.2rem;
 		}
 
+
+	.f-block .icon-of-bank {
+		margin: -2px 0.25rem -2px 0;
+		width: 0.8rem;
+		height: 0.8rem;
+		line-height: inherit;
+		}
+		.f-block .icon-of-bank::before {
+			margin: -2px 0 0 -4px;
+			-webkit-transform: scale(0.85, 0.85);
+			        transform: scale(0.85, 0.85);
+		}
 
 	.f-block-body .row.entity-of-bank.has-lead-icon {
 		padding-left: 2.5rem;
@@ -3438,6 +3666,7 @@ article.message {
 		border-top-width: 0;
 		margin-top: 0;
 		margin-bottom: -1px;
+		background-color: transparent;
 	}
 
 	.fund-trading-record .details-container .f-block-body.progress .row::before {
@@ -4325,7 +4554,7 @@ dl.tickets-list {
 			z-index: 2;
 		} */
 
-	.page-body.covering-layer {
+	.covering-layer {
 		z-index: 46;
 		display: none;
 		position: fixed;
@@ -4333,12 +4562,15 @@ dl.tickets-list {
 		right: 0;
 		top: 0;
 		bottom: 0;
+		overflow: auto;
 		-webkit-animation-duration: 0.2s;
 		        animation-duration: 0.2s;
 		-webkit-animation-name: fade-in;
 		        animation-name: fade-in;
 		}
-		.page-body.covering-layer > .content {
+
+		.covering-layer .page-body > .content,
+		.page-body.covering-layer  > .content {
 			-webkit-animation-delay: 0.1s;
 			        animation-delay: 0.1s;
 			-webkit-animation-duration: 0.24s;
@@ -4346,7 +4578,8 @@ dl.tickets-list {
 			-webkit-animation-fill-mode: backwards;
 			        animation-fill-mode: backwards;
 		}
-		.page-body.covering-layer > .content.animation-shows-up-like-tv-signal {
+		.covering-layer .page-body > .content.animation-shows-up-like-tv-signal,
+		.page-body.covering-layer  > .content.animation-shows-up-like-tv-signal {
 			-webkit-animation-name: covering-layer-content-shows-up-like-tv-signal;
 			        animation-name: covering-layer-content-shows-up-like-tv-signal;
 		}
@@ -4387,7 +4620,8 @@ dl.tickets-list {
 		}
 
 
-	.page.fixed-page-footer .page-footer {
+	.covering-layer.fixed-page-footer .page-footer,
+	          .page.fixed-page-footer .page-footer {
 		left: 0;
 		bottom: 0;
 		position: fixed;
@@ -4508,7 +4742,6 @@ dl.tickets-list {
 	box-sizing: border-box;
 	padding: 1px; /* prevent block from merging margins with neighbours */
 	}
-
 
 
 .copyright {

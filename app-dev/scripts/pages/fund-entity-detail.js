@@ -53,30 +53,57 @@ $(function () {
 	var app = window.taijs.app;
 
 
-	var eChartFundUnitNetWorthRootElement  = $('#panel-fund-unit-net-worth  .chart-block')[0];
-	var eChartFundNetWorthTrendRootElement = $('#panel-fund-net-worth-trend .chart-block')[0];
-	var eChartFundUnitNetWorth  = createEChartsForFundUnitNetWorth (eChartFundUnitNetWorthRootElement);
-	var eChartFundNetWorthTrend = createEChartsForFundNetWorthTrend(eChartFundNetWorthTrendRootElement);
+	var eChartFundUnitNetWorthRootElement    = $('#panel-fund-unit-net-worth     .chart-block')[0];
+	var eChartFundNetWorthTrendRootElement   = $('#panel-fund-net-worth-trend    .chart-block')[0];
+	var eChartFundWeekToYearTrendRootElement = $('#panel-fund-week-to-year-trend .chart-block')[0];
+	var eChartFund10kSharesTrendRootElement  = $('#panel-fund-10k-shares-trend   .chart-block')[0];
+	var eChartFundUnitNetWorth     = createEChartsForFundUnitNetWorth   (eChartFundUnitNetWorthRootElement);
+	var eChartFundNetWorthTrend    = createEChartsForFundNetWorthTrend  (eChartFundNetWorthTrendRootElement);
+	var eChartFunddWeekToYearTrend = createEChartsForFundWeekToYearTrend(eChartFundWeekToYearTrendRootElement);
+	var eChartFund10kSharesTrend   = createEChartsForFund10kSharesTrend (eChartFund10kSharesTrendRootElement);
 
 
 	$('.tab-panel-set').each(function () {
-		var tabPanelSet = new wlc.UI.TabPanelSet(this, {
+		var tabPanelSetToot = this;
+		var tabPanelSet = new wlc.UI.TabPanelSet(tabPanelSetToot, {
 			initTab: app.data.URIParameters.tabLabel,
-			onPanelShow: onPanelShow
+			onPanelShow: updateChart
 		});
 
 		app.controllers.tabPanelSets.push(tabPanelSet);
+
+		$(tabPanelSetToot).find('.panel').each(function () {
+			var panel = this;
+			$('.ruler').each(function () {
+				var $allScales = $(this).find('.ruler-scale-chief');
+
+				$allScales.each(function () {
+					var rulerScale = this;
+					var $rulerScale = $(rulerScale);
+
+					$rulerScale.find('> .label').on('click', function () {
+						for (var i = 0; i < $allScales.length; i++) {
+							var _rScale = $allScales[i];
+							if (_rScale === rulerScale) {
+								$rulerScale.addClass('current');
+							} else {
+								$(_rScale).removeClass('current');
+							}
+						}
+
+						updateChart(panel);
+					});
+				});
+			});
+		});
 	});
 
 
-	// var tabPanelSet = app.controllers.tabPanelSets[0];
-	// tabPanelSet.onPanelShow = onPanelShow;
 
 
 
-
-	function onPanelShow(panel) {
-		// C.l('onPanelShow:\n\t"#'+panel.id+'"');
+	function updateChart(panel) {
+		// C.l('updateChart:\n\t"#'+panel.id+'"', panel);
 		var data;
 
 		switch (panel.id) {
@@ -86,29 +113,59 @@ $(function () {
 				break;
 
 			case 'panel-fund-net-worth-trend':
-				data = _generateFakeData(13, 'tradingDay', 'accumulateIncome', 0.888, 8.888, true, 27.333);
+				data = _generateFakeData(13, 'tradingDay', 'accumulateIncome', 0.888, 8.777, true, 27.333);
 				_addFakeHuShenDataTo(data, 'huShen', 'accumulateIncome', -25, 45);
 				updateEChartsForFundNetWorthTrend(eChartFundNetWorthTrend, data);
 				break;
 
 			case 'panel-fund-week-to-year-trend':
 				data = _generateFakeData(13, 'tradingDay', 'unitNV', 0.125, 2.345);
-				updateEChartsForFundNetWorthTrend(eChartFundNetWorthTrend, data);
+				updateEChartsForFundWeekToYearTrend(eChartFunddWeekToYearTrend, data);
 				break;
 
 			case 'panel-fund-10k-shares-trend':
 				data = _generateFakeData(13, 'tradingDay', 'unitNV', 0.125, 2.345);
-				updateEChartsForFundNetWorthTrend(eChartFundNetWorthTrend, data);
+				updateEChartsForFund10kSharesTrend(eChartFund10kSharesTrend, data);
 				break;
 
 			default:
 		}
 	}
 
+	function _formatChartToolTip(label, value, date) {
+		return [
+			'<article class="echart-tooltip">',
+				'<ul class="f-list">',
+					'<li>',
+						'<span class="label">'+label+' </span>',
+						'<span class="value">'+value+'</span>',
+					'</li>',
+					'<li>',
+						'<span class="label">时间: </span>',
+						'<span class="value">'+date+'</span>',
+					'</li>',
+				'</ul>',
+			'</article>'
+		].join('');
+	}
+	function chartToolTipFormatterForFundUnitNetWorth(parameters) {
+		var _o = parameters[0];
+		return _formatChartToolTip('单位净值:', _o.value, _o.name);
+	}
+	function chartToolTipFormatterForFundWeekToYearTrend(parameters) {
+		var _o = parameters[0];
+		return _formatChartToolTip('七日年化(%):', _o.value, _o.name);
+	}
+	function chartToolTipFormatterForFund10kSharesTrend(parameters) {
+		var _o = parameters[0];
+		return _formatChartToolTip('万份年收益(元):', _o.value, _o.name);
+	}
+
+
 
 
 	function createEChartsForFundUnitNetWorth(rootElement) {
-		if (!window.echarts) return false;
+		if (!window.echarts || !rootElement) return false;
 		var echart = window.echarts.init(rootElement);
 		// C.l(rootElement);
 
@@ -127,25 +184,25 @@ $(function () {
 		var eChartOptions = {
 			tooltip: {
 				trigger: 'axis',
-				axisPointer: {
-					type: 'cross',
-					crossStyle: {
-						color: chartColors.corssHair,
-						type: 'solid',
-						opacity: 0.4
-					}
-				}
-			},
-			toolbox: {
-				feature: {
-					saveAsImage: {}
-				}
+				// alwaysShowContent: false,
+				// axisPointer: {
+				//     type: 'shadow'
+				// 	type: 'cross',
+				// 	crossStyle: {
+				// 		color: chartColors.corssHair,
+				// 		type: 'solid',
+				// 		opacity: 0.4
+				// 	}
+				// },
+				formatter: chartToolTipFormatterForFundUnitNetWorth,
+				backgroundColor: 'transparent',
+				padding: 0
 			},
 			grid: {
-				left: '10px',
-				right: '0',
-				top: '10px',
-				bottom: '10px',
+				left: 16,
+				right: 16,
+				top: 10,
+				bottom: 10,
 				containLabel: true
 			},
 			xAxis: [
@@ -201,21 +258,23 @@ $(function () {
 			series: [
 				{
 					type:'line',
-					label: {
-						normal: {
-							show: false,
-						}
-					},
-					symbolSize: 8,
-					hoverAnimation: false,
+					// label: {
+					// 	normal: {
+					// 		show: false,
+					// 	}
+					// },
+					showAllSymbol: true,
+					// symbolSize: 8,
+					hoverAnimation: true,
 					itemStyle: {
 						normal: {
-							opacity: 0
-						},
-						emphasis: {
 							borderColor: chartColors.graph,
-							opacity: 1
-						}
+							// opacity: 0
+						},
+						// emphasis: {
+						// 	borderColor: chartColors.graph,
+						// 	opacity: 1
+						// }
 					},
 					lineStyle: {
 						normal: {
@@ -238,7 +297,6 @@ $(function () {
 
 		return echart;
 	}
-
 	function updateEChartsForFundUnitNetWorth(echart, data) {
 		if (!echart || !data) return;
 
@@ -247,7 +305,7 @@ $(function () {
 
 		for (var i = 0; i < data.length; i++) {
 			xAxisLabels[i] = data[i].tradingDay.slice(5);
-			yData[i] = data[i].unitNV;
+			yData[i] = data[i].unitNV.toFixed(2);
 		}
 
 		var eChartOptions = {
@@ -265,7 +323,7 @@ $(function () {
 
 
 	function createEChartsForFundNetWorthTrend(rootElement) {
-		if (!window.echarts) return false;
+		if (!window.echarts || !rootElement) return false;
 		var echart = window.echarts.init(rootElement);
 		// C.l(rootElement);
 
@@ -284,26 +342,22 @@ $(function () {
 
 		var eChartOptions = {
 			tooltip: {
-				trigger: 'axis',
-				axisPointer: {
-					type: 'cross',
-					crossStyle: {
-						color: chartColors.corssHair,
-						type: 'solid',
-						opacity: 0.4
-					}
-				}
-			},
-			toolbox: {
-				feature: {
-					saveAsImage: {}
-				}
+				show: false,
+				// trigger: 'axis',
+				// axisPointer: {
+				// 	type: 'cross',
+				// 	crossStyle: {
+				// 		color: chartColors.corssHair,
+				// 		type: 'solid',
+				// 		opacity: 0.4
+				// 	}
+				// }
 			},
 			grid: {
-				left: '10px',
-				right: '0',
-				top: '10px',
-				bottom: '10px',
+				left: 16,
+				right: 16,
+				top: 10,
+				bottom: 10,
 				containLabel: true
 			},
 			xAxis: [
@@ -415,7 +469,6 @@ $(function () {
 
 		return echart;
 	}
-
 	function updateEChartsForFundNetWorthTrend(echart, data) {
 		if (!echart || !data) return;
 
@@ -425,8 +478,8 @@ $(function () {
 
 		for (var i = 0; i < data.length; i++) {
 			xAxisLabels[i] = data[i].tradingDay.slice(5);
-			yData1[i] = data[i].accumulateIncome;
-			yData2[i] = data[i].huShen;
+			yData1[i] = data[i].accumulateIncome.toFixed(2);
+			yData2[i] = data[i].huShen.toFixed(2);
 		}
 
 		var eChartOptions = {
@@ -444,262 +497,332 @@ $(function () {
 	}
 
 
+	function createEChartsForFundWeekToYearTrend(rootElement) {
+		if (!window.echarts || !rootElement) return false;
+		var echart = window.echarts.init(rootElement);
+		// C.l(rootElement);
 
-
-	function Ruler(rootElement, initOptions) {
-		rootElement = wlc.DOM.validateRootElement(rootElement, this);
-		var OT = WCU.objectToolkit;
-
-		var status = {};
-
-		var elements = {
-			root: rootElement,
-			allLabels: []
+		var chartColors = {
+			corssHair: '#ff6600',
+			axesLabels: '#cccccc',
+			axesLines: '#f1f1f1',
+			graph: '#4285f4'
 		};
 
-		this.rebuild = function () {
-			console.log('Rebuilding an existing {'+this.constructor.name+'}...');
-			config.call(this);
+		var axesLabelsFont = {
+			size: 8,
+			family: 'consolas'
 		};
 
-		init.call(this);
-		OT.destroyInstanceIfInitFailed.call(this, status, function () {
-			rootElement.virtualForm = this;
-		});
-
-		function init() {
-			status.isInitializing = true;
-			status.noNeedToReconstruct = false;
-
-			if (rootElement.virtualForm instanceof UI.VirtualForm) {
-				rootElement.virtualForm.rebuild();
-				status.noNeedToReconstruct = true;
-				return;
-			}
-
-			if (!config.call(this)) return;
-
-			delete status.isInitializing;
-			delete status.noNeedToReconstruct;
-		}
-
-		function config() {
-			var isFirstTime = !!status.isInitializing;
-
-			var oldRequiredFields = elements.requiredFields;
-			// var oldButtonsForSubmission = this.elements.buttonsForSubmission;
-
-			// requiredFieldsChanged does not mean the value of these elements changed, but addition or deletion of them instead
-			var requiredFieldsChanged = oldRequiredFields.length !== elements.requiredFields.length; // fake implementation
-
-			collectElements.call(this);
-
-
-			if (isFirstTime && elements.requiredFields.length < 1) {
-				status.noNeedToConstruct = true;
-				return false;
-			}
-
-
-			if (isFirstTime || requiredFieldsChanged) {
-				this.elements.root = rootElement; // just for safety
-				this.elements.allFields            = [].concat(elements.allFields);
-				this.elements.requiredFields       = [].concat(elements.requiredFields);
-				this.elements.buttonsForSubmission = [].concat(elements.buttonsForSubmission);
-
-				buildAllVirtualFieldsAsNeeded.call(this);
-
-				if (status.rootElementIsAForm) {
-					$(rootElement).on('reset', function (/*event*/) {
-						// event.preventDefault();
-						var fields = elements.allFields;
-						for (var i = 0; i < fields.length; i++) {
-							fields[i].virtualField.clearValue();
+		var eChartOptions = {
+			tooltip: {
+				trigger: 'axis',
+				// alwaysShowContent: false,
+				// axisPointer: {
+				//     type: 'shadow'
+				// 	type: 'cross',
+				// 	crossStyle: {
+				// 		color: chartColors.corssHair,
+				// 		type: 'solid',
+				// 		opacity: 0.4
+				// 	}
+				// },
+				formatter: chartToolTipFormatterForFundWeekToYearTrend,
+				backgroundColor: 'transparent',
+				padding: 0
+			},
+			grid: {
+				left: 16,
+				right: 16,
+				top: 10,
+				bottom: 10,
+				containLabel: true
+			},
+			xAxis: [
+				{
+					type: 'category',
+					boundaryGap: false,
+					data: [], // required
+					axisLabel: {
+						textStyle: {
+							fontSize: axesLabelsFont.size,
+							fontFamily: axesLabelsFont.family,
+							color: chartColors.axesLabels
 						}
-					});
-				}
-			}
-
-			return true;
-		}
-
-		function collectElements() {
-			var $allInvolvedElements;
-
-			if (status.rootElementIsAForm) {
-				$allInvolvedElements = $(rootElement.elements); // in case some fields/buttons NOT nested under <form> but has an attribute named "form"
-			} else {
-				$allInvolvedElements = $(rootElement).find('input, textarea, select, [contentEditable="true"]');
-			}
-
-			var $allInputs = $allInvolvedElements.filter(function (index, el) {
-				var tnlc = el.tagName.toLowerCase();
-
-				if (tnlc === 'input' || tnlc === 'textarea' || tnlc === 'select') {
-					return true;
-				}
-
-				var ce = el.getAttribute('contentEditable');
-				if (typeof ce === 'string') ce = ce.toLowerCase();
-
-				return ce === 'true';
-			});
-
-			var $allRequiredInputs = $allInputs.filter(function (index, el) {
-				return el.hasAttribute('required');
-			});
-
-
-			var $buttonsForSubmission = $allInvolvedElements.filter(function (index, el) {
-				var attr =  el.getAttribute('button-action');
-				if (attr) attr = attr.toLowerCase();
-				return attr==='submit';
-			});
-
-			elements.allFields            = Array.prototype.slice.apply($allInputs);
-			elements.requiredFields       = Array.prototype.slice.apply($allRequiredInputs);
-			elements.buttonsForSubmission = Array.prototype.slice.apply($buttonsForSubmission);
-		}
-
-		function buildAllVirtualFieldsAsNeeded() {
-			var i;
-			var atLeastOneNewVirtualFieldCreated = false;
-			var fieldElements = elements.allFields;
-			for (i = 0; i < fieldElements.length; i++) {
-				var thisOneCreated = createNewVirtualFieldAsNeeded.call(this, i);
-				atLeastOneNewVirtualFieldCreated = atLeastOneNewVirtualFieldCreated || thisOneCreated;
-			}
-
-			// if (atLeastOneNewVirtualFieldCreated) {
-			// 	C.t('validating virtualForm after building virtualFields...');
-			// 	this.validate();
-			// }
-		}
-
-		function createNewVirtualFieldAsNeeded(index) {
-			// index = parseInt(index);
-			// if (isNaN(index) || index <0 || index >= elements.requiredFields.length) return false;
-			var field = elements.requiredFields[index];
-			// if (!(field instanceof Node)) return;
-			var virtualField = new UI.VirtualField(field, {
-				virtualForm: this,
-				indexInVirtualForm: index
-			});
-			return !virtualField.hasBeenDestroied;
-		}
-
-		function getField(index) {
-			index = parseInt(index);
-			if (isNaN(index) || index < 0 || index >= elements.requiredFields.length) {
-				C.e('Invalid index provided.');
-				return;
-			}
-			var field = elements.requiredFields[index];
-			if (!field || !(field.virtualField instanceof UI.VirtualField)) return null;
-
-			return field;
-		}
-
-		// function getVirtualField(index) {
-		// 	var field = getField.call(this, index);
-		// 	if (field) {
-		// 		return field.virtualField;
-		// 	}
-
-		// 	return;
-		// }
-
-		function validate() {
-			// C.t('validating virtualForm');
-			for (var i = 0; i < elements.requiredFields.length; i++) {
-				validateFieldByIndex.call(this, i);
-			}
-
-			// C.t('CHECKING AFTER VALIDATING VIRTUALFORM...');
-			checkValidities.call(this);
-		}
-
-		function checkValidities(options) {
-			var allInputsAreValid = true;
-			if (status.rootElementIsAForm && rootElement.hasAttribute('novalidate')) {
-				if (status.hasNoValidationAttributeAtBeginning) {
-					C.w('form has been added "novalidate" attribute later.');
-				}
-			} else {
-				// C.l('updating virtualForm validation status');
-
-				options = options || {};
-				options.shouldSkipDisabledInputs = !!options.shouldSkipDisabledInputs; // not implemented yet
-				options.shouldSkipReadOnlyInputs = !!options.shouldSkipReadOnlyInputs; // not implemented yet
-
-				for (var i = 0; i < publicStatus.allFieldsValidities.length; i++) {
-					if (!publicStatus.allFieldsValidities[i]) {
-						allInputsAreValid = false;
-						break;
+					},
+					axisLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					},
+					splitLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
 					}
 				}
-				// C.l('\t allInputsAreValid?', allInputsAreValid);
-			}
-
-			elements.buttonsForSubmission.forEach(function (button) {
-				button.disabled = !allInputsAreValid;
-			});
-
-			return allInputsAreValid;
-		}
-
-		function validateFieldByIndex(index) {
-			var field = getField.call(this, index);
-			if (field) {
-				field.virtualField.validate(true);
-			}
-		}
-
-		function setFieldValidityByIndex(index, isValid, holdOnCheckingFormOverallValidities) {
-			// C.l('recieving field status: ', index, isValid);
-			var field = getField.call(this, index);
-			if (field && typeof isValid === 'boolean') {
-				publicStatus.allFieldsValidities[index] = isValid;
-
-				if (!holdOnCheckingFormOverallValidities) {
-					// C.l('\t ==> CHECKING on VirtualField Callback...');
-					checkValidities.call(this);
+			],
+			yAxis: [
+				{
+					type: 'value',
+					axisLabel: {
+						textStyle: {
+							fontSize: axesLabelsFont.size,
+							fontFamily: axesLabelsFont.family,
+							color: chartColors.axesLabels
+						}
+					},
+					axisLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					},
+					splitLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					}
 				}
-			}
+			],
+			series: [
+				{
+					type:'line',
+					// label: {
+					// 	normal: {
+					// 		show: false,
+					// 	}
+					// },
+					showAllSymbol: true,
+					// symbolSize: 8,
+					hoverAnimation: true,
+					itemStyle: {
+						normal: {
+							borderColor: chartColors.graph,
+							// opacity: 0
+						},
+						// emphasis: {
+						// 	borderColor: chartColors.graph,
+						// 	opacity: 1
+						// }
+					},
+					lineStyle: {
+						normal: {
+							width: 1,
+							color: chartColors.graph
+						}
+					},
+					areaStyle: {
+						normal: {
+							color: chartColors.graph,
+							opacity: 0.4
+						}
+					}
+				}
+			]
+		};
 
+
+		echart.setOption(eChartOptions);
+
+		return echart;
+	}
+	function updateEChartsForFundWeekToYearTrend(echart, data) {
+		if (!echart || !data) return;
+
+		var xAxisLabels = [];
+		var yData = [];
+
+		for (var i = 0; i < data.length; i++) {
+			xAxisLabels[i] = data[i].tradingDay.slice(5);
+			yData[i] = data[i].unitNV.toFixed(2);
 		}
-	};
 
+		var eChartOptions = {
+			xAxis: [{
+				data: xAxisLabels
+			}],
+			series: [{
+				data: yData
+			}]
+		};
+
+		echart.setOption(eChartOptions);
+	}
+
+
+	function createEChartsForFund10kSharesTrend(rootElement) {
+		if (!window.echarts || !rootElement) return false;
+		var echart = window.echarts.init(rootElement);
+		// C.l(rootElement);
+
+		var chartColors = {
+			corssHair: '#ff6600',
+			axesLabels: '#cccccc',
+			axesLines: '#f1f1f1',
+			graph: '#4285f4'
+		};
+
+		var axesLabelsFont = {
+			size: 8,
+			family: 'consolas'
+		};
+
+		var eChartOptions = {
+			tooltip: {
+				trigger: 'axis',
+				// alwaysShowContent: false,
+				// axisPointer: {
+				//     type: 'shadow'
+				// 	type: 'cross',
+				// 	crossStyle: {
+				// 		color: chartColors.corssHair,
+				// 		type: 'solid',
+				// 		opacity: 0.4
+				// 	}
+				// },
+				formatter: chartToolTipFormatterForFund10kSharesTrend,
+				backgroundColor: 'transparent',
+				padding: 0
+			},
+			grid: {
+				left: 16,
+				right: 16,
+				top: 10,
+				bottom: 10,
+				containLabel: true
+			},
+			xAxis: [
+				{
+					type: 'category',
+					boundaryGap: false,
+					data: [], // required
+					axisLabel: {
+						textStyle: {
+							fontSize: axesLabelsFont.size,
+							fontFamily: axesLabelsFont.family,
+							color: chartColors.axesLabels
+						}
+					},
+					axisLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					},
+					splitLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					}
+				}
+			],
+			yAxis: [
+				{
+					type: 'value',
+					axisLabel: {
+						textStyle: {
+							fontSize: axesLabelsFont.size,
+							fontFamily: axesLabelsFont.family,
+							color: chartColors.axesLabels
+						}
+					},
+					axisLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					},
+					splitLine: {
+						show: true,
+						lineStyle: {
+							color: chartColors.axesLines
+						}
+					}
+				}
+			],
+			series: [
+				{
+					type:'line',
+					// label: {
+					// 	normal: {
+					// 		show: false,
+					// 	}
+					// },
+					showAllSymbol: true,
+					// symbolSize: 8,
+					hoverAnimation: true,
+					itemStyle: {
+						normal: {
+							borderColor: chartColors.graph,
+							// opacity: 0
+						},
+						// emphasis: {
+						// 	borderColor: chartColors.graph,
+						// 	opacity: 1
+						// }
+					},
+					lineStyle: {
+						normal: {
+							width: 1,
+							color: chartColors.graph
+						}
+					},
+					areaStyle: {
+						normal: {
+							color: chartColors.graph,
+							opacity: 0.4
+						}
+					}
+				}
+			]
+		};
+
+
+		echart.setOption(eChartOptions);
+
+		return echart;
+	}
+	function updateEChartsForFund10kSharesTrend(echart, data) {
+		if (!echart || !data) return;
+
+		var xAxisLabels = [];
+		var yData = [];
+
+		for (var i = 0; i < data.length; i++) {
+			xAxisLabels[i] = data[i].tradingDay.slice(5);
+			yData[i] = data[i].unitNV.toFixed(2);
+		}
+
+		var eChartOptions = {
+			xAxis: [{
+				data: xAxisLabels
+			}],
+			series: [{
+				data: yData
+			}]
+		};
+
+		echart.setOption(eChartOptions);
+	}
 
 
 
 
 	var $coveringLayer = $('#cl-funds-trading-notice');
-	var $headerButtonNavBack            = $('.page-header #header-nav-back');
-	var $headerButtonCloseCoveringLayer = $('.page-header #close-covering-layer');
+	var $headerButtonNavBack           = $('.page-header #header-nav-back');
+	var $headerButtonHideCoveringLayer = $('.page-header #hide-covering-layer');
 
 	$('#row-show-funds-trading-notice-layer').on('click', function () {
-		showOrHideCoveryingLayer($coveringLayer, true, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+		showOrHideCoveryingLayer($coveringLayer, true, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
-	$headerButtonCloseCoveringLayer.on('click', function () {
-		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
-	});
-
-	$coveringLayer.find('.row').on('click', function () {
-		var bankName = $(this).find('.left')[0];
-		if (bankName) {
-			bankName = bankName.dataset.value;
-			var vf = fakeInputBankName.virtualField;
-			if (vf) {
-				vf.setValue(bankName);
-			} else {
-				// $fakeInputBankName.val(bankName).addClass('non-empty-field'); 
-			}
-
-		}
-
-		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonCloseCoveringLayer);
+	$headerButtonHideCoveringLayer.on('click', function () {
+		showOrHideCoveryingLayer($coveringLayer, false, $headerButtonNavBack, $headerButtonHideCoveringLayer);
 	});
 
 	function showOrHideCoveryingLayer($cl, isToShow, $buttonToShowWithoutCl, $buttonToShowWithCl) {
