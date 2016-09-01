@@ -2495,6 +2495,10 @@ article.message {
 
 	.row.caption-bar {
 		}
+		.row.caption-bar .icon {
+			margin-left: 0;
+			margin-right: 0.25rem;
+		}
 		.row.caption-bar h1 {
 			font-size: 0.75rem;
 			font-weight: 400;
@@ -2564,10 +2568,13 @@ article.message {
 			margin-right: 0;
 		}
 		.row.input-tips .right {
+			position: absolute;
+			top: 0;
+			right: 0.8rem;
 			box-sizing: border-box;
-			width: 25%;
+			width: auto;
 			margin-left: 0;
-			padding-right: 0;
+			margin-right: -0.5rem;
 		}
 		.emphasise-leftside   .row .left,
 		.emphasise-rightside  .row .right,
@@ -2610,15 +2617,23 @@ article.message {
 		.row.fake-input-field .left,
 		.row.input-field      .left {
 			position: relative; /* for positioning of clear-input-button */
-			width: 75%;
+			width: 70%;
 			margin: 0;
 			padding-left: 0;
 			padding-right: 0;
 		}
 		.row.fake-input-field .right,
 		.row.input-field      .right {
-			width: 25%;
-			margin-left: -0.5rem;
+			position: absolute;
+			top: 0;
+			width: auto;
+			margin-left: 0;
+		}
+		.row.fake-input-field .right {
+			right: 1.6rem;
+		}
+		.row.input-field      .right {
+			right: 0.8rem;
 		}
 		.row.select-field .left {
 			width: calc(100% - 1.8rem); /* for covering OS select control down arrow */
@@ -2691,6 +2706,7 @@ article.message {
 		.row.input-field.style-traditional .input-tip {
 			left: 0.5rem;
 		}
+
 	.row.input-field.input-verification-code {
 		}
 		.row.input-field.input-verification-code .left {
@@ -2698,6 +2714,7 @@ article.message {
 			width: calc(100% - 6rem);
 		}
 		.row.input-field.input-verification-code .right {
+			right: 0;
 			padding: 0;
 			margin: 0.725rem -0.25rem;
 			width: 6rem;
@@ -2729,12 +2746,11 @@ article.message {
 	.row.input-field.input-image-vcode {
 		margin-top: 0.5rem;
 		height: 2.4rem;
-		background-color: #e5e5e5;
 		}
 		.row.input-field.input-image-vcode .left {
 			height: 100%;
 			padding: 0;
-			width: calc(100% - 6rem);
+			width: calc(100% - 8rem);
 		}
 		.row.input-field.input-image-vcode .left input {
 			margin: 0;
@@ -2744,6 +2760,7 @@ article.message {
 		}
 		.row.input-field.input-image-vcode .right {
 			margin: 0;
+			right: 0;
 			padding: 0.25rem;
 			width: 6rem;
 			height: 100%;
@@ -2773,13 +2790,32 @@ article.message {
 		.dialog .row.input-field.input-image-vcode {
 		}
 		.dialog .row.input-field.input-image-vcode .left {
-			width: 8rem;
+			width: calc(100% - 6rem);
+			/* width: 8rem; */
 		}
 		.dialog .row p.input-tip {
 			margin-top: 0;
 			margin-bottom: 0;
 			font-weight: 500;
 		}
+	@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
+		.dialog .row.input-field.input-image-vcode {
+			padding-top: 2.4rem;
+			height: auto;
+		}
+		.dialog .row.input-field.input-image-vcode .left {
+			height: 2.4rem;
+			display: block;
+			width: auto;
+		}
+		.dialog .row.input-field.input-image-vcode .right {
+			height: 2.4rem;
+			display: block;
+			width: 100%;
+			margin: 0;
+		}
+	}
+
 
 	.row.article {
 		margin-top: 0.5rem;
@@ -3086,11 +3122,11 @@ article.message {
 	.product-caption-block {
 		font-size: 0.8rem;
 		font-weight: 400;
+		margin-right: 0.25rem;
 	}
 	.product-caption-block sub {
 		display: inline-block;
 		vertical-align: middle;
-		margin-left: 0.25rem;
 	}
 
 	.product-caption-block.dual-lines .product-name {
@@ -3526,7 +3562,7 @@ article.message {
 		}
 
 	.f-block-body .row.fake-input-field .input-tip.default,
-	/* .f-block-body .row.fake-input-field, */
+	.f-block-body .row.fake-input-field,
 	.f-block-body .row.select-field,
 	.f-block-body .row.input-field,
 	.f-block-body .row.tall {
@@ -3678,6 +3714,15 @@ article.message {
 		position: relative;
 		padding-left: 2.5rem;
 		width: 70%;
+	}
+	@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
+		.fund-trading-record .f-block-body .row.multi-lines .left {
+			width: 55%;
+		}
+		.fund-trading-record .f-block-body .row.multi-lines .left .product-caption-block sub {
+			display: block;
+			margin-left: 0;
+		}
 	}
 
 	.fund-trading-record .f-block-body .row.multi-lines .marker {
@@ -4536,18 +4581,20 @@ dl.tickets-list {
 	.page-body {
 		box-sizing: border-box;
 		position: relative;
-		padding-bottom: 6rem;
 		overflow: auto;
 		-webkit-overflow-scrolling: touch;
 
 		z-index: 2;
 		}
-		.page-body.use-content-as-main-container {
-			padding-bottom: 0;
-		}
 		.page-body.use-content-as-main-container > .content-with-solid-bg {
 			box-sizing: border-box;
+		}
+		.page-body.use-content-as-main-container > .content-with-solid-bg,
+		.page-body {
 			padding-bottom: 6rem;
+		}
+		.page-body.use-content-as-main-container {
+			padding-bottom: 0;
 		}
 		/* .page-body > .content-with-solid-bg {
 			position: relative;
@@ -4665,7 +4712,7 @@ dl.tickets-list {
 	.page-body-stamp {
 		width: 100%;
 		position: absolute;
-		bottom: 0.6rem;
+		bottom: 1rem;
 		text-align: center;
 		}
 

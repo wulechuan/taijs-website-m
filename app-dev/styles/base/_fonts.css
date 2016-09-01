@@ -23,6 +23,19 @@ textarea, input {
 	:-ms-input-placeholder { /* Internet Explorer 10+ */
 		font-size: 16px;
 	}
+	.dialog .row.input-field.input-image-vcode ::-webkit-input-placeholder {
+		font-size: 13px;
+	}
+	.dialog .row.input-field.input-image-vcode ::-moz-placeholder {
+		font-size: 13px;
+	}
+	.dialog .row.input-field.input-image-vcode :-moz-placeholder {
+		font-size: 13px;
+	}
+	.dialog .row.input-field.input-image-vcode :-ms-placeholder {
+		font-size: 13px;
+	}
+
 
 .helvetica-digits .arial-digits .digits,
 .helvetica-digits .arial-digits .phone,
