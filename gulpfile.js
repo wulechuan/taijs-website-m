@@ -241,6 +241,7 @@ gulp.task('html-inject-snippets', ['pre-process-html-snippets'], () => {
   var injectionCouples = [
     { file: 'tag-head-before-title.html', name: 'headBeforeTitle:html' },
     { file: 'tag-head-after-title.html', name: 'headAfterTitle:html' },
+    { file: 'tag-head-after-title2.html', name: 'headAfterTitle2:html' },
     { file: 'tag-body-begin.html', name: 'bodyBegin:html' },
     { file: 'tag-body-end.html', name: 'bodyEnd:html' },
     { file: 'module-app-root-wrap-begin.html', name: 'appRootWrapBegin:html' },
