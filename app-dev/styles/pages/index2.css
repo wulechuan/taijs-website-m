@@ -203,7 +203,7 @@
 		background-color: transparent;
 	}
 	.user-has-logged-in .row.user-assets-abstract-row {
-		background-color: #c5884d;
+		background-color: #e39f3d;
 	}
 
 	.user-assets-abstract > .f-list > a > li,
@@ -322,5 +322,5 @@
 		font-size: 1rem;
 		font-weight: bolder;
 		font-style: italic;
-		color: #ee1822;
+		color: #ff6600;
 	}
