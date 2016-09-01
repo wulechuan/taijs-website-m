@@ -280,3 +280,68 @@
 			font-size: 0.7rem;
 		}
 	}
+
+
+.banner .carousel {
+	height: 3.9rem;
+	}
+
+	.banner .carousel .swiper-slide .content{
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+	.banner .carousel .swiper-slide .content .carousel-fg {
+		position: absolute;
+		left: 0.5rem;
+		top: 0;
+		width: 66%;
+		height: 100%;
+		z-index: 10;
+
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: left center;
+	}
+	.banner .carousel .carousel-slides > li .carousel-bg {
+		background-repeat: no-repeat;
+		background-size: auto 100%;
+		background-position: right center;
+		}
+
+
+		.banner .carousel .carousel-slides > li:nth-child(1) > .content article {
+			font-family: 'Microsoft Yahei UI';
+			font-size: 0.65rem;
+			line-height: 1.33;
+			color: black;
+			font-weight: normal;
+		}
+		.banner .carousel .carousel-slides > li:nth-child(1) > .content article h1 {
+			font-size: 1rem;
+			line-height: 1;
+			font-weight: bolder;
+			margin-left: -0.3em;
+		}
+		.banner .carousel .carousel-slides > li:nth-child(1) > .content article h1 em {
+			color: #fc272b;
+		}
+
+
+.promotion-bar {
+	font-size: 0.7rem;
+	line-height: 1.4rem;
+	font-weight: normal;
+	}
+
+	.promotion-bar a,
+	.promotion-bar {
+		color: black;
+	}
+
+	.promotion-bar em {
+		font-size: 1rem;
+		font-weight: bolder;
+		font-style: italic;
+		color: #ee1822;
+	}
