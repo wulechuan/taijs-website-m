@@ -63,10 +63,10 @@ a, a:visited {
 
 em {
 	/* color: #ff7200; */
-	color: #f60;
+	color: #ff2327;
 	}
 	.favorite-entity-icon {
-		color: #f60;
+		color: #ff2327;
 	}
 	.summary-row em {
 		color: #ff4200;
@@ -92,13 +92,13 @@ em {
 			color: #f00!important;
 		}
 		.color-warning {
-			color: #f60!important;
+			color: #ff2327!important;
 		}
 		.color-confirmed {
 			color: #0f0!important;
 		}
 		.positive-value {
-			color: #f60!important;
+			color: #ff2327!important;
 		}
 		.negative-value {
 			/* color: #2c9b01!important; */
@@ -558,7 +558,7 @@ label.deco-input {
 	border-color: #eaeaea;
 	}
 	.progress-rings .ring .half {
-		border-color: #f60;
+		border-color: #ff2327;
 	}
  	/* .progress-rings .ring .half-1 .half{
 		border-color: rgba(0, 0, 255, 0.4);
@@ -715,7 +715,7 @@ label.deco-input {
 	.progress-stops.progress-stops-style-1           > li.emphasis::before {
 		color: white;
 		/* background-color: #ff3700; */
-		background-color: #f60;
+		background-color: #ff2327;
 	}
 
 	.progress-stops.layout-vert .progress-stop > .label .minor,
@@ -729,12 +729,12 @@ label.deco-input {
 
 
 .count-down-disc {
-	color: #f60;
+	color: #ff2327;
 	}
 	.f-block .count-down-disc,
 	.count-down-disc {
 		border-color: initial;
-		border-color: #f60; /* for IE 11 */
+		border-color: #ff2327; /* for IE 11 */
 	}
 
 	.count-down-disc.time-out {
@@ -756,7 +756,7 @@ label.deco-input {
 		background-color: #ffb146;
 	}
 	.f-list.fund-net-worth-trend-chart-legend > li.line-color-2 .legend-symbol {
-		background-color: #f60;
+		background-color: #ff2327;
 	}
 
 
@@ -1010,7 +1010,7 @@ dl.tickets-list {
 	}
     .product-caption-block sub.marker.marker-buy-in,
                               .marker.marker-buy-in { 
-		color: #f60;
+		color: #ff2327;
 	}
     .product-caption-block sub.marker.marker-sale-out,
                               .marker.marker-sale-out { 
