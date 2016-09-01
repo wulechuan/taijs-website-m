@@ -173,7 +173,7 @@ $(function () {
 			corssHair: '#ff6600',
 			axesLabels: '#cccccc',
 			axesLines: '#f1f1f1',
-			graph: '#4285f4'
+			graph: '#ffb146'
 		};
 
 		var axesLabelsFont = {
@@ -331,7 +331,7 @@ $(function () {
 			corssHair: '#ff6600',
 			axesLabels: '#cccccc',
 			axesLines: '#f1f1f1',
-			graph1: '#4285f4',
+			graph1: '#ffb146',
 			graph2: '#ff6600',
 		};
 
@@ -506,7 +506,7 @@ $(function () {
 			corssHair: '#ff6600',
 			axesLabels: '#cccccc',
 			axesLines: '#f1f1f1',
-			graph: '#4285f4'
+			graph: '#ffb146'
 		};
 
 		var axesLabelsFont = {
@@ -663,7 +663,7 @@ $(function () {
 			corssHair: '#ff6600',
 			axesLabels: '#cccccc',
 			axesLines: '#f1f1f1',
-			graph: '#4285f4'
+			graph: '#ffb146'
 		};
 
 		var axesLabelsFont = {
