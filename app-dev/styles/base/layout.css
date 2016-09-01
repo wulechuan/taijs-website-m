@@ -4495,11 +4495,11 @@ dl.tickets-list {
 		.page.has-header-bg .row.bg-meets-page-header-container .hero-content-block h3 .hero-word {
 			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
 		}
-		.page.has-header-bg::before,
+		/* .page.has-header-bg::before,
 		.page.has-header-bg .page-header {
 			background-image: url(../../images/_common/page-header-bg-extended-small.jpg);
 		}
-
+ */
 
 
 	/*

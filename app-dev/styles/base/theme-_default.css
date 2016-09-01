@@ -1268,9 +1268,14 @@ dl.tickets-list {
 	.page {
 		background-color: #f1f1f1;
 	}
+	.page.has-header-bg::before,
+	.page.has-header-bg .page-header {
+		background-image: url(../../images/_common/page-header-bg-extended-small.jpg);
+	}
 	.page.has-header-bg::after {
 		background-image: linear-gradient(to bottom, rgba(62, 90, 215, 0) 14rem, #f1f1f1 26rem);
 	}
+
 	.page-header .search-block,
 	.page-header {
 		background-color: #4285f4;
