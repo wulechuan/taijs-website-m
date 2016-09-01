@@ -782,9 +782,9 @@ label.deco-input {
 		opacity: 1;
 		background-color: #4285f4;
 	}
-	.carousel-nav button.swiper-pagination-bullet-active:hover::before,
+	/* .carousel-nav button.swiper-pagination-bullet-active:hover::before, */
 	.carousel-nav button.swiper-pagination-bullet-active::before,
-	.carousel-nav button.current:hover::before,
+	/* .carousel-nav button.current:hover::before, */
 	.carousel-nav button.current::before {
 		opacity: 1;
 		background-color: #4285f4;
@@ -902,6 +902,13 @@ dl.tickets-list {
 
 	.row.input-field input:focus ~ .input-tip.default {
 		color: #4285f4;
+	}
+	.row.input-field.input-image-vcode .right {
+		background-color: #e5e5e5;
+	}
+	.dialog .row.input-field.input-image-vcode input {
+		background-color: #e5e5e5;
+	    -webkit-box-shadow: 0 0 0px 1000px #f1f1f1 inset;
 	}
 
 	.f-block-body .row.multi-lines h4,
