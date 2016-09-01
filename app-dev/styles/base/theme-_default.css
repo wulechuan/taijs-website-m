@@ -761,6 +761,7 @@ label.deco-input {
 
 
 .filters {}
+	.filters .filter.current,
 	.filters .filters-label {
 		color: #4285f4;
 	}
