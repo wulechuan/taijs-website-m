@@ -683,32 +683,6 @@ article.message {
 	}
 
 
-.f-list.filters {
-	}
-	.f-list.filters.filter-type-regular {
-		margin-right: -0.5rem;
-		}
-		ul.f-list.filters.filter-type-regular > li.filter {
-			display: inline-block;
-			padding: 0;
-			margin: 0.25rem 0;
-			width: 33.33%;
-			font-weight: 400;
-		}
-		ul.f-list.filters.filter-type-regular > li.filter.promoted {
-			display: block;
-			width: 25%;
-			font-weight: 300;
-		}
-		ul.f-list.filters.filter-type-regular > li.filter > .label {
-			display: block;
-			text-align: center;
-			border-radius: 1000px;
-			padding: 0.2rem 0.6rem;
-			margin-right: 0.5rem;
-		}
-
-
 .f-list.fund-net-worth-trend-chart-legend {
 	font-size: 0.5rem;
 	}
@@ -3789,6 +3763,38 @@ article.message {
 		}
 		.filters + .filters .filters-label {
 			top: 0.1rem;
+		}
+
+
+	.f-list.filters {
+	}
+	.f-list.filters.filter-type-regular {
+		margin-right: -0.5rem;
+		}
+		ul.f-list.filters.filter-type-regular > li.filter {
+			display: inline-block;
+			padding: 0;
+			margin: 0.25rem 0;
+			width: 33.33%;
+			font-weight: 400;
+		}
+		ul.f-list.filters.filter-type-regular > li.filter.promoted {
+			display: block;
+			width: 25%;
+			font-weight: 300;
+		}
+		@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
+			ul.f-list.filters.filter-type-regular > li.filter.promoted {
+				width: 33.33%;
+			}
+		}
+
+		ul.f-list.filters.filter-type-regular > li.filter > .label {
+			display: block;
+			text-align: center;
+			border-radius: 1000px;
+			padding: 0.2rem 0.6rem;
+			margin-right: 0.5rem;
 		}
 
 
