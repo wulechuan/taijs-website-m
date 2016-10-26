@@ -1497,14 +1497,28 @@ label.deco-input {
 		text-indent: 0;
 		padding: 0 0.375em;
 		margin: 0;
-	}
+		opacity: 1;
 
+		display: inline-block;
+		width: auto;
+		height: auto;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+ 	.corner-marker.corner-marker-no-value {
+		 transform: scale3d(0.666, 0.666, 1);
+	}
+ 	.corner-marker.corner-marker-no-value .value {
+		 width: 0;
+		 height: 0;
+		 opacity: 0;
+	}
 
 .sensitive-content {
 	}
-	.sensitive-content .sensitive-content-status-icon {
+	/*.sensitive-content .sensitive-content-status-icon {
 		
-	}
+	}*/
 	.sensitive-content .sensitive-value-cell {
 		display: inline-block;
 		position: relative;
