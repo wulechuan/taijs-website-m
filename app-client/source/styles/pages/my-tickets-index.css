@@ -1,0 +1,23 @@
+.ticket {
+    background-color: white;
+    margin: 1rem 0.8rem;
+}
+
+.ticket.ticket-functional {
+    background-color: magenta;
+}
+.ticket.ticket-not-functional {
+    background-color: #ddd;
+}
+
+
+#chief-panel-set > .tab-list-container > .tab-list {
+    display: inline-block;
+    white-space: nowrap;
+    width: auto;
+}
+
+#chief-panel-set > .panels-container > .panel-group > .panel {
+    visibility: visible;
+    opacity: 1;
+}

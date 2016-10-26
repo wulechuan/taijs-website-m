@@ -16,6 +16,7 @@
 	 class="page has-page-header fixed-page-header"
 	>
 	<link rel="stylesheet" type="text/css" href="../scripts/vendors/swiper-3.3.1/css/swiper.min.css">
+	<link rel="stylesheet" type="text/css" href="../styles/pages/my-tickets-index.min.css">
 	<script type="text/javascript" src="../scripts/vendors/swiper-3.3.1/js/swiper.min.js"></script>
 	<header class="page-header">
 		<div class="row header-bar">
@@ -26,7 +27,7 @@
 	</header>
 
 	<div class="page-body">
-		<div class="tab-panel-set" data-do-not-auto-construct="true">
+		<div class="tab-panel-set" data-do-not-auto-construct="true" id="chief-panel-set">
 			<div class="swiper-container tab-list-container">
 				<ul role="tablist" class="tab-list tabs-count-5 tabs-style-regular swiper-wrapper"
 					><li role="tab" class="swiper-slide" 
@@ -60,243 +61,853 @@
 			<div class="swiper-container panels-container">
 				<div class="panel-group swiper-wrapper">
 					<div role="tabpanel" class="panel swiper-slide" aria-hidden="false" id="panel-tickets-ti-yan-jin">
-						<div class="ticket ticket-functional">
-							<div class="ticket-chief-part">
-								<div class="deco"></div>
-								<div class="content">
-									<h4 class="caption">体验金
-										<span class="hero-word"><sub>￥</sub><span class="value digits currency">58,888</span></span>
-									</h4>
-									<div class="info-block">
-										<p>开户赠送</p>
-									</div>
-								</div>
-								<div class="foot-notation">
-									<button class="simple-look">查看详情</button>
-									<p class="tip">2016.09.06到2016.10.06可用</p>
-								</div>
+						<div class="tab-panel-set">
+							<div class="tab-list-container">
+								<ul role="tablist" class="tab-list tabs-count-3 tabs-style-buttons"
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-ti-yan-jin-c1"
+												aria-labelledby="panel-tab-tickets-ti-yan-jin-c1"
+										><span class="label" id="panel-tab-tickets-ti-yan-jin-c1">未使用</span
+									></li
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-ti-yan-jin-c2"
+												aria-labelledby="panel-tab-tickets-ti-yan-jin-c2"
+										><span class="label" id="panel-tab-tickets-ti-yan-jin-c2">已使用</span
+									></li
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-ti-yan-jin-c3"
+												aria-labelledby="panel-tab-tickets-ti-yan-jin-c3"
+										><span class="label" id="panel-tab-tickets-ti-yan-jin-c3">已失效</span
+									></li
+								></ul>
 							</div>
-							<div class="ticket-head">
-								<div class="deco"></div>
-								<div class="content"><p class="status">使用</p></div>
+
+							<div class="panel-group tickets-by-categories">
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-ti-yan-jin-c1">
+									<div class="ticket ticket-functional">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">体验金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">58,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>开户赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-functional">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">体验金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">18,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动欧洲杯固收赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
+
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-ti-yan-jin-c2">
+									<div class="ticket ticket-not-functional ticket-used">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">体验金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">58,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>开户赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-not-functional ticket-used">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">体验金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">18,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动欧洲杯固收赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
+
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-ti-yan-jin-c3">
+									<div class="ticket ticket-not-functional ticket-failed">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">体验金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">58,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>开户赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-not-functional ticket-failed">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">体验金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">18,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动欧洲杯固收赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
 							</div>
 						</div>
-
-						<div class="ticket ticket-functional">
-							<div class="ticket-chief-part">
-								<div class="deco"></div>
-								<div class="content">
-									<h4 class="caption">体验金
-										<span class="hero-word"><sub>￥</sub><span class="value digits currency">18,888</span></span>
-									</h4>
-									<div class="info-block">
-										<p>活动欧洲杯固收赠送</p>
-									</div>
-								</div>
-								<div class="foot-notation">
-									<button class="simple-look">查看详情</button>
-									<p class="tip">2016.09.06到2016.10.06可用</p>
-								</div>
-							</div>
-							<div class="ticket-head">
-								<div class="deco"></div>
-								<div class="content"><p class="status">未生效</p></div>
-							</div>
-						</div>
-
-						<!-- <div class="empty-content-hint products-confirming"></div> -->
 					</div>
 
 					<div role="tabpanel" class="panel swiper-slide" aria-hidden="false" id="panel-tickets-di-yong">
-						<div class="ticket ticket-functional">
-							<div class="ticket-chief-part">
-								<div class="deco"></div>
-								<div class="content">
-									<h4 class="caption">抵用券
-										<span class="hero-word"><sub>￥</sub><span class="value digits currency">10</span></span>
-									</h4>
-									<div class="info-block">
-										<p>系统赠送</p>
-									</div>
-								</div>
-								<div class="foot-notation">
-									<button class="simple-look">查看详情</button>
-									<p class="tip">2016.09.06到2016.10.06可用</p>
-								</div>
+						<div class="tab-panel-set">
+							<div class="tab-list-container">
+								<ul role="tablist" class="tab-list tabs-count-3 tabs-style-buttons"
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-di-yong-c1"
+												aria-labelledby="panel-tab-tickets-di-yong-c1"
+										><span class="label" id="panel-tab-tickets-di-yong-c1">未使用</span
+									></li
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-di-yong-c2"
+												aria-labelledby="panel-tab-tickets-di-yong-c2"
+										><span class="label" id="panel-tab-tickets-di-yong-c2">已使用</span
+									></li
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-di-yong-c3"
+												aria-labelledby="panel-tab-tickets-di-yong-c3"
+										><span class="label" id="panel-tab-tickets-di-yong-c3">已失效</span
+									></li
+								></ul>
 							</div>
-							<div class="ticket-head">
-								<div class="deco"></div>
-								<div class="content"><p class="status">使用</p></div>
+
+							<div class="panel-group tickets-by-categories">
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-di-yong-c1">
+									<div class="ticket ticket-functional">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">抵用券
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">10</span></span>
+												</h4>
+												<div class="info-block">
+													<p>系统赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-functional">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">抵用券
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">100</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动A赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
+
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-di-yong-c2">
+									<div class="ticket ticket-not-functional ticket-used">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">抵用券
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">58,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>开户赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-not-functional ticket-used">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">抵用券
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">18,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动欧洲杯固收赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
+
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-di-yong-c3">
+									<div class="ticket ticket-not-functional ticket-failed">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">抵用券
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">58,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>开户赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-not-functional ticket-failed">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">抵用券
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">18,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动欧洲杯固收赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
 							</div>
 						</div>
-
-						<div class="ticket ticket-functional">
-							<div class="ticket-chief-part">
-								<div class="deco"></div>
-								<div class="content">
-									<h4 class="caption">抵用券
-										<span class="hero-word"><sub>￥</sub><span class="value digits currency">30</span></span>
-									</h4>
-									<div class="info-block">
-										<p>活动A赠送</p>
-									</div>
-								</div>
-								<div class="foot-notation">
-									<button class="simple-look">查看详情</button>
-									<p class="tip">2016.09.06到2016.10.06可用</p>
-								</div>
-							</div>
-							<div class="ticket-head">
-								<div class="deco"></div>
-								<div class="content"><p class="status">使用</p></div>
-							</div>
-						</div>
-
-						<!-- <div class="empty-content-hint products-confirming"></div> -->
 					</div>
 
 					<div role="tabpanel" class="panel swiper-slide" aria-hidden="false" id="panel-tickets-te-quan-ben-jin">
-						<div class="ticket ticket-functional">
-							<div class="ticket-chief-part">
-								<div class="deco"></div>
-								<div class="content">
-									<h4 class="caption">特权本金
-										<span class="hero-word"><sub>￥</sub><span class="value digits currency">10,000</span></span>
-									</h4>
-									<div class="info-block">
-										<p>系统赠送</p>
-									</div>
-								</div>
-								<div class="foot-notation">
-									<button class="simple-look">查看详情</button>
-									<p class="tip">2016.09.06到2016.10.06可用</p>
-								</div>
+						<div class="tab-panel-set">
+							<div class="tab-list-container">
+								<ul role="tablist" class="tab-list tabs-count-3 tabs-style-buttons"
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-te-quan-ben-jin-c1"
+												aria-labelledby="panel-tab-tickets-te-quan-ben-jin-c1"
+										><span class="label" id="panel-tab-tickets-te-quan-ben-jin-c1">未使用</span
+									></li
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-te-quan-ben-jin-c2"
+												aria-labelledby="panel-tab-tickets-te-quan-ben-jin-c2"
+										><span class="label" id="panel-tab-tickets-te-quan-ben-jin-c2">已使用</span
+									></li
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-te-quan-ben-jin-c3"
+												aria-labelledby="panel-tab-tickets-te-quan-ben-jin-c3"
+										><span class="label" id="panel-tab-tickets-te-quan-ben-jin-c3">已失效</span
+									></li
+								></ul>
 							</div>
-							<div class="ticket-head">
-								<div class="deco"></div>
-								<div class="content"><p class="status">使用</p></div>
+
+							<div class="panel-group tickets-by-categories">
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-te-quan-ben-jin-c1">
+									<div class="ticket ticket-functional">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">特权本金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">10</span></span>
+												</h4>
+												<div class="info-block">
+													<p>系统赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-functional">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">特权本金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">100</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动A赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-functional">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">特权本金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">100</span></span>
+												</h4>
+												<div class="info-block">
+													<p>参与了名字很长很长的活动，人家才赠送的</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
+
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-te-quan-ben-jin-c2">
+									<div class="ticket ticket-not-functional ticket-used">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">特权本金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">58,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>开户赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-not-functional ticket-used">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">特权本金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">18,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动欧洲杯固收赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
+
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-te-quan-ben-jin-c3">
+									<div class="ticket ticket-not-functional ticket-failed">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">特权本金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">58,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>开户赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-not-functional ticket-failed">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">特权本金
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">18,888</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动欧洲杯固收赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
 							</div>
 						</div>
-
-						<div class="ticket ticket-functional">
-							<div class="ticket-chief-part">
-								<div class="deco"></div>
-								<div class="content">
-									<h4 class="caption">特权本金
-										<span class="hero-word"><sub>￥</sub><span class="value digits currency">4,000</span></span>
-									</h4>
-									<div class="info-block">
-										<p>活动A赠送</p>
-									</div>
-								</div>
-								<div class="foot-notation">
-									<button class="simple-look">查看详情</button>
-									<p class="tip">2016.09.06到2016.10.06可用</p>
-								</div>
-							</div>
-							<div class="ticket-head">
-								<div class="deco"></div>
-								<div class="content"><p class="status">未使用</p></div>
-							</div>
-						</div>
-
-						<!-- <div class="empty-content-hint products-confirming"></div> -->
 					</div>
 
 					<div role="tabpanel" class="panel swiper-slide" aria-hidden="false" id="panel-tickets-jia-xi">
-						<div class="ticket ticket-functional">
-							<div class="ticket-chief-part">
-								<div class="deco"></div>
-								<div class="content">
-									<h4 class="caption">加息券
-										<span class="hero-word"><sub>+</sub><span class="value digits percentage-value">0.5</span></span>
-									</h4>
-									<div class="info-block">
-										<p>系统赠送</p>
-									</div>
-								</div>
-								<div class="foot-notation">
-									<button class="simple-look">查看详情</button>
-									<p class="tip">2016.09.06到2016.10.06可用</p>
-								</div>
+						<div class="tab-panel-set">
+							<div class="tab-list-container">
+								<ul role="tablist" class="tab-list tabs-count-3 tabs-style-buttons"
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-jia-xi-c1"
+												aria-labelledby="panel-tab-tickets-jia-xi-c1"
+										><span class="label" id="panel-tab-tickets-jia-xi-c1">未使用</span
+									></li
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-jia-xi-c2"
+												aria-labelledby="panel-tab-tickets-jia-xi-c2"
+										><span class="label" id="panel-tab-tickets-jia-xi-c2">已使用</span
+									></li
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-jia-xi-c3"
+												aria-labelledby="panel-tab-tickets-jia-xi-c3"
+										><span class="label" id="panel-tab-tickets-jia-xi-c3">已失效</span
+									></li
+								></ul>
 							</div>
-							<div class="ticket-head">
-								<div class="deco"></div>
-								<div class="content"><p class="status">使用</p></div>
+
+							<div class="panel-group tickets-by-categories">
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-jia-xi-c1">
+									<div class="ticket ticket-functional">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">加息券
+													<span class="hero-word"><sub>+</sub><span class="value digits percentage-value">0.5</span></span>
+												</h4>
+												<div class="info-block">
+													<p>系统赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-functional">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">加息券
+													<span class="hero-word"><sub>+</sub><span class="value digits percentage-value">1.5</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动A赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
+
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-jia-xi-c2">
+									<div class="ticket ticket-not-functional ticket-used">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">加息券
+													<span class="hero-word"><sub>+</sub><span class="value digits percentage-value">0.5</span></span>
+												</h4>
+												<div class="info-block">
+													<p>开户赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-not-functional ticket-used">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">加息券
+													<span class="hero-word"><sub>+</sub><span class="value digits percentage-value">0.5</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动欧洲杯固收赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
+
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-jia-xi-c3">
+									<div class="ticket ticket-not-functional ticket-failed">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">加息券
+													<span class="hero-word"><sub>+</sub><span class="value digits percentage-value">0.5</span></span>
+												</h4>
+												<div class="info-block">
+													<p>开户赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-not-functional ticket-failed">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">加息券
+													<span class="hero-word"><sub>+</sub><span class="value digits percentage-value">0.5</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动欧洲杯固收赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
 							</div>
 						</div>
-
-						<div class="ticket ticket-functional">
-							<div class="ticket-chief-part">
-								<div class="deco"></div>
-								<div class="content">
-									<h4 class="caption">加息券
-										<span class="hero-word"><sub>+</sub><span class="value digits percentage-value">0.5</span></span>
-									</h4>
-									<div class="info-block">
-										<p>活动A赠送</p>
-									</div>
-								</div>
-								<div class="foot-notation">
-									<button class="simple-look">查看详情</button>
-									<p class="tip">2016.09.06到2016.10.06可用</p>
-								</div>
-							</div>
-							<div class="ticket-head">
-								<div class="deco"></div>
-								<div class="content"><p class="status">使用</p></div>
-							</div>
-						</div>
-
-						<!-- <div class="empty-content-hint products-confirming"></div> -->
 					</div>
 
 					<div role="tabpanel" class="panel swiper-slide" aria-hidden="false" id="panel-tickets-hong-bao">
-						<div class="ticket ticket-functional">
-							<div class="ticket-chief-part">
-								<div class="deco"></div>
-								<div class="content">
-									<h4 class="caption">红包
-										<span class="hero-word"><sub>￥</sub><span class="value digits currency">5</span></span>
-									</h4>
-									<div class="info-block">
-										<p>邀请好友（夏雨天）成功</p>
-									</div>
-								</div>
-								<div class="foot-notation">
-									<button class="simple-look">查看详情</button>
-									<p class="tip">2016.09.06到2016.10.06可用</p>
-								</div>
+						<div class="tab-panel-set">
+							<div class="tab-list-container">
+								<ul role="tablist" class="tab-list tabs-count-3 tabs-style-buttons"
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-hong-bao-c1"
+												aria-labelledby="panel-tab-tickets-hong-bao-c1"
+										><span class="label" id="panel-tab-tickets-hong-bao-c1">未使用</span
+									></li
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-hong-bao-c2"
+												aria-labelledby="panel-tab-tickets-hong-bao-c2"
+										><span class="label" id="panel-tab-tickets-hong-bao-c2">已使用</span
+									></li
+									><li role="tab" class="swiper-slide" 
+												aria-controls="panel-tickets-hong-bao-c3"
+												aria-labelledby="panel-tab-tickets-hong-bao-c3"
+										><span class="label" id="panel-tab-tickets-hong-bao-c3">已失效</span
+									></li
+								></ul>
 							</div>
-							<div class="ticket-head">
-								<div class="deco"></div>
-								<div class="content"><p class="status">使用</p></div>
+
+							<div class="panel-group tickets-by-categories">
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-hong-bao-c1">
+									<div class="ticket ticket-functional">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">红包
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">20</span></span>
+												</h4>
+												<div class="info-block">
+													<p>邀请好友（夏雨天）成功</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-functional ticket-used">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">红包
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">10</span></span>
+												</h4>
+												<div class="info-block">
+													<p>开户赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
+
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-hong-bao-c2">
+									<div class="ticket ticket-not-functional ticket-used">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">红包
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">100</span></span>
+												</h4>
+												<div class="info-block">
+													<p>活动A赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
+
+								<div role="tabpanel" class="panel" aria-hidden="false" id="panel-tickets-hong-bao-c3">
+									<div class="ticket ticket-not-functional ticket-failed">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">红包
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">60</span></span>
+												</h4>
+												<div class="info-block">
+													<p>走狗屎运被赠送</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">使用</p></div>
+										</div>
+									</div>
+
+									<div class="ticket ticket-not-functional ticket-failed">
+										<div class="ticket-chief-part">
+											<div class="deco"></div>
+											<div class="content">
+												<h4 class="caption">红包
+													<span class="hero-word"><sub>￥</sub><span class="value digits currency">200</span></span>
+												</h4>
+												<div class="info-block">
+													<p>饭里吃出死苍蝇被赔付</p>
+												</div>
+											</div>
+											<div class="foot-notation">
+												<button class="simple-look">查看详情</button>
+												<p class="tip">2016.09.06到2016.10.06可用</p>
+											</div>
+										</div>
+										<div class="ticket-head">
+											<div class="deco"></div>
+											<div class="content"><p class="status">未生效</p></div>
+										</div>
+									</div>
+
+									<!-- <div class="empty-content-hint products-confirming"></div> -->
+								</div>
 							</div>
 						</div>
-
-						<div class="ticket ticket-functional">
-							<div class="ticket-chief-part">
-								<div class="deco"></div>
-								<div class="content">
-									<h4 class="caption">红包
-										<span class="hero-word"><sub>￥</sub><span class="value digits currency">15</span></span>
-									</h4>
-									<div class="info-block">
-										<p>活动A赠送</p>
-									</div>
-								</div>
-								<div class="foot-notation">
-									<button class="simple-look">查看详情</button>
-									<p class="tip">2016.09.06到2016.10.06可用</p>
-								</div>
-							</div>
-							<div class="ticket-head">
-								<div class="deco"></div>
-								<div class="content"><p class="status">使用</p></div>
-							</div>
-						</div>
-
-						<!-- <div class="empty-content-hint products-confirming"></div> -->
 					</div>
 				</div>
 			</div>
