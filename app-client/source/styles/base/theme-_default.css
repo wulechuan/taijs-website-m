@@ -1024,7 +1024,11 @@ dl.tickets-list {
                               .marker.marker-sale-out { 
 		color: #1d6eff;
 	}
-
+	.abstract-title .marker.marker-product-category-newbie {
+		color: white;
+		border-color: #f60;
+		background-color: #f60;
+	}
 
 .keyword {
 	color: #333;

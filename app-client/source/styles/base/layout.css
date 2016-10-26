@@ -564,6 +564,11 @@ article.message {
 		font-size: 0.6rem;
 		font-weight: 100;
 	}
+	.abstract-title .marker {
+		margin: 0 0.2rem;
+		padding: 0.2rem 0.3rem;
+		vertical-align: middle;
+	}
 	.row.tall .marker {
 		margin-top: 0.15rem;
 	}
