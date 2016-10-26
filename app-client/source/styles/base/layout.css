@@ -1753,6 +1753,30 @@ article.message {
 			        transition-timing-function: ease-out;
 		}
 
+		.tab-list.tabs-style-buttons {
+			text-align: center;
+			margin: 0.7rem auto;
+		}
+		.tab-list.tabs-style-buttons > li {
+			display: inline-block;
+			vertical-align: bottom;
+			border-width: 1px;
+			margin: 0 -0.5px;
+			border-radius: 0;
+		}
+		.tab-list.tabs-style-buttons > li:first-of-type {
+			border-top-left-radius: 0.2rem;
+			border-bottom-left-radius: 0.2rem;
+		}
+		.tab-list.tabs-style-buttons > li:last-of-type {
+			border-top-right-radius: 0.2rem;
+			border-bottom-right-radius: 0.2rem;
+		}
+
+		.tab-list.tabs-style-buttons > li.current {
+			background-color: blue;
+		}
+
 
 		.tab-list.tabs-with-gaps > li {
 			margin-left: 1rem;
