@@ -1712,6 +1712,12 @@ article.message {
 				width: 33.4%;
 			}
 
+		.tab-list > li.swiper-slide {
+			width: auto;
+			padding-left: 1rem;
+			padding-right: 1rem;
+		}
+
 		.tab-list > li > .label {
 			display: inline-block;
 			margin: 0.15rem 0;
