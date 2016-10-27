@@ -3924,6 +3924,15 @@ dl.tickets-list {
 			display: inline-block;
 			vertical-align: middle;
 		}
+		.ticket-chief-part .foot-notation {
+			position: absolute;
+			left: 0.8rem;
+			bottom: 0.5rem;
+			display: block;
+		}
+		.ticket-chief-part .foot-notation .tip {
+			float: right;
+		}
 
 
 	.ticket .ticket-head {

@@ -842,7 +842,9 @@ dl.tickets-list {
 
 .ticket {
 	}
-	.ticket-chief-part .info-block,
+	.ticket-chief-part .foot-notation .tip,
+	.ticket-chief-part .foot-notation,
+	.ticket-chief-part,
 	.ticket .ticket-head > .content {
 		color: white;
 	}
