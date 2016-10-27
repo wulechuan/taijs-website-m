@@ -1,15 +1,3 @@
-.ticket {
-    background-color: white;
-    margin: 0 0.8rem 1rem;
-}
-
-.ticket.ticket-functional {
-    background-color: magenta;
-}
-.ticket.ticket-not-functional {
-    background-color: #ddd;
-}
-
 
 #chief-panel-set > .tab-list-container > .tab-list {
     display: inline-block;

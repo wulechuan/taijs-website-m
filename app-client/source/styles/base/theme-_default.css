@@ -840,6 +840,69 @@ dl.tickets-list {
 		color: #999;
 	}
 
+.ticket {
+	}
+	.ticket-chief-part .info-block,
+	.ticket .ticket-head > .content {
+		color: white;
+	}
+	.ticket.ticket-functional .caption {
+		color: #fff700;
+	}
+	.ticket.ticket-not-functional .ticket-chief-part {
+		background-color: #ddd;
+	}
+	.ticket.ticket-not-functional .caption {
+		color: #b5b5b5;
+	}
+
+	.ticket-of-category-ti-yan-jin .ticket.ticket-functional .ticket-chief-part,
+	.ticket.ticket-functional.ticket-of-category-ti-yan-jin  .ticket-chief-part {
+		background-color: #64c913;
+	}
+	.ticket-of-category-ti-yan-jin .ticket.ticket-functional .ticket-head,
+	.ticket.ticket-functional.ticket-of-category-ti-yan-jin  .ticket-head {
+		color: #53b802;
+		background-color: #53b802;
+	}
+	.ticket-of-category-di-yong .ticket.ticket-functional .ticket-chief-part,
+	.ticket.ticket-functional.ticket-of-category-di-yong  .ticket-chief-part {
+		background-color: #ff4c84;
+	}
+	.ticket-of-category-di-yong .ticket.ticket-functional .ticket-head,
+	.ticket.ticket-functional.ticket-of-category-di-yong  .ticket-head {
+		color: #ee3871;
+		background-color: #ee3871;
+	}
+	.ticket-of-category-te-quan-ben-jin .ticket.ticket-functional .ticket-chief-part,
+	.ticket.ticket-functional.ticket-of-category-te-quan-ben-jin  .ticket-chief-part {
+		background-color: #8b6de9;
+	}
+	.ticket-of-category-te-quan-ben-jin .ticket.ticket-functional .ticket-head,
+	.ticket.ticket-functional.ticket-of-category-te-quan-ben-jin  .ticket-head {
+		color: #8161e2;
+		background-color: #8161e2;
+	}
+	.ticket-of-category-jia-xi .ticket.ticket-functional .ticket-chief-part,
+	.ticket.ticket-functional.ticket-of-category-jia-xi  .ticket-chief-part {
+		background-color: #3e82f7;
+	}
+	.ticket-of-category-jia-xi .ticket.ticket-functional .ticket-head,
+	.ticket.ticket-functional.ticket-of-category-jia-xi  .ticket-head {
+		color: #3273e5;
+		background-color: #3273e5;
+	}
+	.ticket-of-category-hong-bao .ticket.ticket-functional .ticket-chief-part,
+	.ticket.ticket-functional.ticket-of-category-hong-bao  .ticket-chief-part {
+		background-color: #f53921;
+	}
+	.ticket-of-category-hong-bao .ticket.ticket-functional .ticket-head,
+	.ticket.ticket-functional.ticket-of-category-hong-bao  .ticket-head {
+		color: #e32c21;
+		background-color: #e32c21;
+	}
+
+
 
 .f-block { /* function-block */
 	color: #666;
@@ -1205,8 +1268,13 @@ dl.tickets-list {
 		background-color: white;
 	}
 
-	.tab-panel-set.tab-style-buttons .tab-list > li {
-		border-color: #4285f4;
+	.tab-list.tabs-style-buttons > li {
+		border-color: #ddd;
+		background-color: white;
+	}
+	.tab-list.tabs-style-buttons > li.current {
+		color: white;
+		background-color: #157dff;
 	}
 
 
