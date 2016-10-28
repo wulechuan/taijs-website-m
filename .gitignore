@@ -1,8 +1,15 @@
 node_modules/*
+
+/app-client/_temp/*
+/app-client/_build-cache/*
+/app-client/build-dev/*
+/app-client/build-release/*
+
 /_temp/*
 /app-dist/*
 /app-dist-test/*
 /app-dist-cache/*
+
 readme.html
 docs/*.html
 /utilities/*

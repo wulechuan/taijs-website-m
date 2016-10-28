@@ -840,6 +840,110 @@ dl.tickets-list {
 		color: #999;
 	}
 
+.ticket {
+	}
+	.ticket .ticket-chief-part .foot-notation .button:active,
+	.ticket .ticket-chief-part .foot-notation  button:active {
+		opacity: 0.5;
+	}
+
+	.ticket.ticket-functional .ticket-chief-part .foot-notation .tip,
+	.ticket.ticket-functional .ticket-chief-part .foot-notation .button,
+	.ticket.ticket-functional .ticket-chief-part .foot-notation  button,
+	.ticket.ticket-functional .ticket-chief-part .foot-notation,
+	.ticket.ticket-functional .ticket-chief-part,
+	.ticket.ticket-functional .ticket-head > .content {
+		color: white;
+		}
+		.ticket.ticket-functional .caption {
+			color: #fff700;
+		}
+		.ticket.ticket-functional .ticket-chief-part .foot-notation {
+			border-color: rgba(255, 255, 255, 0.3);
+		}
+		.ticket.ticket-functional .ticket-chief-part > .deco::before {
+			background-image: url(../../images/taijs-brand/ben-bao-bao-watermark-white-semi-transparent.png);
+		}
+		.ticket.ticket-functional .ticket-chief-part > .deco::after {
+			background-image: url(../../images/_common/quan-white-semi-transparent.png);
+		}
+
+
+	.ticket.ticket-not-functional .ticket-chief-part {
+		background-color: #ddd;
+		}
+		.ticket.ticket-not-functional .ticket-head {
+			color: #ddd;
+		}
+		.ticket.ticket-not-functional .ticket-chief-part .foot-notation .tip,
+		.ticket.ticket-not-functional .ticket-chief-part .foot-notation .button,
+		.ticket.ticket-not-functional .ticket-chief-part .foot-notation  button,
+		.ticket.ticket-not-functional .ticket-chief-part .foot-notation,
+		.ticket.ticket-not-functional .ticket-chief-part,
+		.ticket.ticket-not-functional .ticket-head > .content,
+		.ticket.ticket-not-functional .caption {
+			color: #b5b5b5;
+		}
+		.ticket.ticket-not-functional .ticket-chief-part .foot-notation {
+			border-color: rgba(162, 162, 162, 0.3);
+		}
+		.ticket.ticket-not-functional .ticket-chief-part > .deco::before {
+			background-image: url(../../images/taijs-brand/ben-bao-bao-watermark-gray-semi-transparent.png);
+		}
+		.ticket.ticket-not-functional.ticket-used .ticket-chief-part > .deco::after {
+			background-image: url(../../images/_common/poststamp-yi-shi-yong.png);
+		}
+		.ticket.ticket-not-functional.ticket-failed .ticket-chief-part > .deco::after {
+			background-image: url(../../images/_common/poststamp-yi-shi-xiao.png);
+		}
+
+	.ticket-of-category-ti-yan-jin .ticket.ticket-functional .ticket-chief-part,
+	.ticket.ticket-functional.ticket-of-category-ti-yan-jin  .ticket-chief-part {
+		background-color: #64c913;
+	}
+	.ticket-of-category-ti-yan-jin .ticket.ticket-functional .ticket-head,
+	.ticket.ticket-functional.ticket-of-category-ti-yan-jin  .ticket-head {
+		color: #53b802;
+		background-color: #53b802;
+	}
+	.ticket-of-category-di-yong .ticket.ticket-functional .ticket-chief-part,
+	.ticket.ticket-functional.ticket-of-category-di-yong  .ticket-chief-part {
+		background-color: #ff4c84;
+	}
+	.ticket-of-category-di-yong .ticket.ticket-functional .ticket-head,
+	.ticket.ticket-functional.ticket-of-category-di-yong  .ticket-head {
+		color: #ee3871;
+		background-color: #ee3871;
+	}
+	.ticket-of-category-te-quan-ben-jin .ticket.ticket-functional .ticket-chief-part,
+	.ticket.ticket-functional.ticket-of-category-te-quan-ben-jin  .ticket-chief-part {
+		background-color: #8b6de9;
+	}
+	.ticket-of-category-te-quan-ben-jin .ticket.ticket-functional .ticket-head,
+	.ticket.ticket-functional.ticket-of-category-te-quan-ben-jin  .ticket-head {
+		color: #8161e2;
+		background-color: #8161e2;
+	}
+	.ticket-of-category-jia-xi .ticket.ticket-functional .ticket-chief-part,
+	.ticket.ticket-functional.ticket-of-category-jia-xi  .ticket-chief-part {
+		background-color: #3e82f7;
+	}
+	.ticket-of-category-jia-xi .ticket.ticket-functional .ticket-head,
+	.ticket.ticket-functional.ticket-of-category-jia-xi  .ticket-head {
+		color: #3273e5;
+		background-color: #3273e5;
+	}
+	.ticket-of-category-hong-bao .ticket.ticket-functional .ticket-chief-part,
+	.ticket.ticket-functional.ticket-of-category-hong-bao  .ticket-chief-part {
+		background-color: #f53921;
+	}
+	.ticket-of-category-hong-bao .ticket.ticket-functional .ticket-head,
+	.ticket.ticket-functional.ticket-of-category-hong-bao  .ticket-head {
+		color: #e32c21;
+		background-color: #e32c21;
+	}
+
+
 
 .f-block { /* function-block */
 	color: #666;
@@ -1024,7 +1128,11 @@ dl.tickets-list {
                               .marker.marker-sale-out { 
 		color: #1d6eff;
 	}
-
+	.abstract-title .marker.marker-product-category-newbie {
+		color: white;
+		border-color: #f60;
+		background-color: #f60;
+	}
 
 .keyword {
 	color: #333;
@@ -1200,10 +1308,27 @@ dl.tickets-list {
 		color: #4285f4;
 		background-color: white;
 	}
-
-	.tab-panel-set.tab-style-buttons .tab-list > li {
-		border-color: #4285f4;
+	.swiping-tab-list-container > .tab-list > li.current {
+		background-color: transparent;
 	}
+
+	.tab-list.tabs-style-buttons > li {
+		border-color: #ddd;
+		background-color: white;
+	}
+	.tab-list.tabs-style-buttons > li.current {
+		color: white;
+		background-color: #157dff;
+	}
+
+	.swiping-tab-list-container.tab-list-container {
+		background-color: white;
+	}
+
+	.swiping-tab-list-container.tab-list-container > .tab-list {
+		background-color: inherit;
+	}
+
 
 
 .slot {

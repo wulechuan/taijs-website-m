@@ -5291,8 +5291,8 @@ window.webLogicControls = {};
 			this.elements = elements;
 			this.options = {
 				allowToShowNone: false,
-				selectorOfPanel: '.panel',
-				selectorOfTabList: '.tab-list',
+				selectorOfPanel: '> .panel-group > .panel, > .panel-group-container > .panel-group > .panel',
+				selectorOfTabList: '> .tab-list, > .tab-list-container > .tab-list',
 				selectorOfTab: '> li', // treat as under tablist, so in face this value is "rootElement .tab-list > li"
 				selectorOfTabListCurrentItemHint: '> .current-item-hint', // treat as under tablist, so in face this value is "rootElement .tab-list > .current-item-hint"
 				classNameOfCurrentPanel: 'current'
