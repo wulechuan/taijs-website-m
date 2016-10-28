@@ -3871,8 +3871,13 @@ dl.tickets-list {
 .ticket {
 	position: relative;
     margin: 0 0.8rem 1rem;
-    height: 6.3rem;
-	background-color: transparent;
+	}
+
+	.ticket .ticket-look {
+		position: relative;
+		margin: 0 auto;
+		height: 6.3rem;
+		background-color: transparent;
 	}
 	.ticket-chief-part {
 		position: absolute;
@@ -3897,7 +3902,7 @@ dl.tickets-list {
 		.ticket-chief-part .caption {
 			display: inline-block;
 			position: absolute;
-			line-height: 1.33;
+			line-height: 1.25;
 		}
 		.ticket-chief-part .caption > .hero-word {
 			display: block;
@@ -3906,13 +3911,29 @@ dl.tickets-list {
 		.ticket-chief-part .info-block {
 			display: block;
 			position: absolute;
-			left: 60%;
+			left: 54%;
 			right: 0;
 			top: 0;
-			bottom: 0;
-			margin: 0.5rem;
+			bottom: 0.75rem;
+			margin: 0.5rem 0.8rem 0.5rem 0;
 			font-weight: 200;
 		}
+
+		@media only screen and (max-width: 380px) { /* iPhone 6/7 */
+			.ticket-chief-part .info-block {
+				left: 60%;
+			}
+		}
+
+		@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
+			.ticket-chief-part .caption {
+				line-height: 1.5;
+			}
+			.ticket-chief-part .caption > .hero-word {
+				font-size: 1.6rem;
+			}
+		}
+
 		.ticket-chief-part .info-block::before {
 			content: '';
 			width: 0;
@@ -3925,13 +3946,51 @@ dl.tickets-list {
 			vertical-align: middle;
 		}
 		.ticket-chief-part .foot-notation {
-			position: absolute;
-			left: 0.8rem;
-			bottom: 0.5rem;
 			display: block;
+			width: auto;
+			height: 1.5rem;
+			line-height: 1.5rem;
+			position: absolute;
+			z-index: 3;
+			left: 0.8rem;
+			right: 1rem;
+			bottom: 0.25rem;
+			border-width: 1px 0 0;
+			border-style: dashed none none none;
+
+			font-weight: 200;
+		}
+		.ticket-chief-part .foot-notation .button,
+		.ticket-chief-part .foot-notation button {
+			float: left;
+			color: inherit;
+			font-size: 0.6rem;
+			font-weight: inherit;
+			line-height: inherit;
+			margin-left: -0.5em;
+		}
+		.ticket-chief-part .foot-notation .button::before,
+		.ticket-chief-part .foot-notation button::before {
+			font-family: 'iconfont'!important;
+			font-weight: normal!important;
+			content: '\e622';
+			margin-right: 0.25em;
 		}
 		.ticket-chief-part .foot-notation .tip {
-			float: right;
+			position: absolute;
+			right: 0;
+			top: 0;
+			left: 4.5rem;
+			text-align: right;
+		}
+		@media only screen and (max-width: 345px) { /* iPhone 4/4S/5/5S/SE */
+			.ticket-chief-part .foot-notation {
+				height: 2rem;
+			}
+			.ticket-chief-part .foot-notation .tip {
+				top: 0.5em;
+				line-height: 1.2;
+			}
 		}
 
 
