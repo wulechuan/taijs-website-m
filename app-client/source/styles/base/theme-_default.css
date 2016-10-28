@@ -854,6 +854,13 @@ dl.tickets-list {
 		.ticket.ticket-functional .ticket-chief-part .foot-notation {
 			border-color: rgba(255, 255, 255, 0.3);
 		}
+		.ticket.ticket-functional .ticket-chief-part > .deco::before {
+			background-image: url(../../images/taijs-brand/ben-bao-bao-watermark-white-semi-transparent.png);
+		}
+		.ticket.ticket-functional .ticket-chief-part > .deco::after {
+			background-image: url(../../images/_common/quan-white-semi-transparent.png);
+		}
+
 
 	.ticket.ticket-not-functional .ticket-chief-part {
 		background-color: #ddd;
@@ -868,7 +875,9 @@ dl.tickets-list {
 		.ticket.ticket-not-functional .ticket-chief-part .foot-notation {
 			border-color: rgba(162, 162, 162, 0.3);
 		}
-
+		.ticket.ticket-not-functional .ticket-chief-part > .deco::before {
+			background-image: url(../../images/taijs-brand/ben-bao-bao-watermark-gray-semi-transparent.png);
+		}
 
 	.ticket-of-category-ti-yan-jin .ticket.ticket-functional .ticket-chief-part,
 	.ticket.ticket-functional.ticket-of-category-ti-yan-jin  .ticket-chief-part {

@@ -3888,6 +3888,38 @@ dl.tickets-list {
 		overflow: hidden;
 		border-radius: 0.2rem 0 0 0.2rem;
 		}
+		.ticket-chief-part > .deco {
+			position: absolute;
+			z-index: 0;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+		}
+		.ticket-chief-part > .deco::before {
+			content: '';
+			display: block;
+			width: 3rem;
+			position: absolute;
+			left: 5rem;
+			top: 0;
+			bottom: 1.75rem;
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position: center bottom;
+		}
+		.ticket.ticket-functional .ticket-chief-part > .deco::after {
+			content: '';
+			display: block;
+			width: 10rem;
+			position: absolute;
+			right: -1rem;
+			top: .5rem;
+			bottom: 2rem;
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position: right center;
+		}
 		.ticket.ticket-functional .ticket-chief-part {
 			right: 2rem;
 		}
