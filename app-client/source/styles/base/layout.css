@@ -1828,17 +1828,9 @@ article.message {
 		width: auto;
 	}
 
-	.swiping-panels-container.panels-container > .panel-group > .panel {
+	.swiping-panels-container.panel-group-container > .panel-group > .panel {
 		visibility: visible;
 		opacity: 1;
-	}
-
-
-	.panel-group {
-	}
-
-	.panel.current {
-		/* padding: 1rem 0; */
 	}
 
 

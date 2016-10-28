@@ -1308,6 +1308,9 @@ dl.tickets-list {
 		color: #4285f4;
 		background-color: white;
 	}
+	.swiping-tab-list-container > .tab-list > li.current {
+		background-color: transparent;
+	}
 
 	.tab-list.tabs-style-buttons > li {
 		border-color: #ddd;
