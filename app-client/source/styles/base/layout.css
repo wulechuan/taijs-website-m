@@ -1822,6 +1822,16 @@ article.message {
 				}
 			}
 
+	.swiping-tab-list-container.tab-list-container > .tab-list {
+		display: inline-block;
+		white-space: nowrap;
+		width: auto;
+	}
+
+	.swiping-panels-container.panels-container > .panel-group > .panel {
+		visibility: visible;
+		opacity: 1;
+	}
 
 
 	.panel-group {
@@ -3882,11 +3892,16 @@ dl.tickets-list {
 	.ticket-chief-part {
 		position: absolute;
 		left: 0;
-		right: 0;
 		top: 0;
 		bottom: 0;
 		overflow: hidden;
 		border-radius: 0.2rem 0 0 0.2rem;
+		}
+		.ticket.ticket-functional .ticket-chief-part {
+			right: 2rem;
+		}
+		.ticket.ticket-not-functional .ticket-chief-part {
+			right: 0.5rem;
 		}
 		.ticket-chief-part > .deco {
 			position: absolute;
@@ -3908,20 +3923,25 @@ dl.tickets-list {
 			background-size: contain;
 			background-position: center bottom;
 		}
-		.ticket.ticket-functional .ticket-chief-part > .deco::after {
+		.ticket-chief-part > .deco::after {
 			content: '';
 			display: block;
-			width: 10rem;
 			position: absolute;
-			right: -1rem;
-			top: .5rem;
-			bottom: 2rem;
 			background-repeat: no-repeat;
 			background-size: contain;
 			background-position: right center;
 		}
-		.ticket.ticket-functional .ticket-chief-part {
-			right: 2rem;
+		.ticket.ticket-functional .ticket-chief-part > .deco::after {
+			width: 10rem;
+			right: -1rem;
+			top: .5rem;
+			bottom: 2rem;
+		}
+		.ticket.ticket-not-functional .ticket-chief-part > .deco::after {
+			width: 10rem;
+			right: 0rem;
+			top: 1rem;
+			bottom: 1.5rem;
 		}
 		.ticket-chief-part > .content {
 			position: relative;
@@ -4035,15 +4055,15 @@ dl.tickets-list {
 		top: 0;
 		bottom: 0;
 		}
-		.ticket.ticket-not-functional .ticket-head {
-			display: none;
-		}
-
 		.ticket .ticket-head {
 			right: 0.5rem;
 		}
+		.ticket.ticket-not-functional .ticket-head > .content {
+			display: none;
+		}
 		.ticket .ticket-head > .deco,
-		.ticket .ticket-head::after {
+		.ticket.ticket-not-functional .ticket-head::before,
+		.ticket.ticket-functional .ticket-head::after {
 			right: -0.5rem;
 		}
 
@@ -4077,10 +4097,7 @@ dl.tickets-list {
 			content: '\e61c\000a\e61c\000a\e61c\000a\e61c\000a\e61c\000a\e61c\000a\e61c\000a\e61c\000a\e61c\000a\e61c\000a\e61c\000a\e61c\000a\e61c\000a\e61c\000a\e61c';
 			display: block;
 			position: absolute;
-			width: 0.5rem;
 			height: auto;
-			left: -0.5rem;
-			right: auto;
 			top: 0;
 			bottom: 0;
 			margin: 0;
@@ -4090,7 +4107,17 @@ dl.tickets-list {
 			overflow: hidden;
 			background-color: transparent!important;
 		}
-		.ticket .ticket-head::after {
+		.ticket.ticket-functional .ticket-head::before {
+			width: 0.5rem;
+			left: -0.5rem;
+			right: auto;
+		}
+		.ticket.ticket-not-functional .ticket-head::before {
+			width: 1em;
+			left: auto;
+			right: -0.5rem;
+		}
+		.ticket.ticket-functional .ticket-head::after {
 			content: '';
 			display: block;
 			position: absolute;
@@ -4103,7 +4130,7 @@ dl.tickets-list {
 			background-color: inherit!important;
 		}
 
-		.ticket .ticket-head > .deco {
+		.ticket.ticket-functional .ticket-head > .deco {
 			z-index: 0;
 			display: block;
 			position: absolute;
@@ -4114,6 +4141,9 @@ dl.tickets-list {
 			bottom: 0;
 			overflow: hidden;
 			background-color: transparent!important;
+		}
+		.ticket.ticket-not-functional .ticket-head > .deco {
+			display: none;
 		}
 
 		.ticket .ticket-head > .deco::before,

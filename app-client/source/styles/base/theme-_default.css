@@ -842,7 +842,14 @@ dl.tickets-list {
 
 .ticket {
 	}
+	.ticket .ticket-chief-part .foot-notation .button:active,
+	.ticket .ticket-chief-part .foot-notation  button:active {
+		opacity: 0.5;
+	}
+
 	.ticket.ticket-functional .ticket-chief-part .foot-notation .tip,
+	.ticket.ticket-functional .ticket-chief-part .foot-notation .button,
+	.ticket.ticket-functional .ticket-chief-part .foot-notation  button,
 	.ticket.ticket-functional .ticket-chief-part .foot-notation,
 	.ticket.ticket-functional .ticket-chief-part,
 	.ticket.ticket-functional .ticket-head > .content {
@@ -865,7 +872,12 @@ dl.tickets-list {
 	.ticket.ticket-not-functional .ticket-chief-part {
 		background-color: #ddd;
 		}
+		.ticket.ticket-not-functional .ticket-head {
+			color: #ddd;
+		}
 		.ticket.ticket-not-functional .ticket-chief-part .foot-notation .tip,
+		.ticket.ticket-not-functional .ticket-chief-part .foot-notation .button,
+		.ticket.ticket-not-functional .ticket-chief-part .foot-notation  button,
 		.ticket.ticket-not-functional .ticket-chief-part .foot-notation,
 		.ticket.ticket-not-functional .ticket-chief-part,
 		.ticket.ticket-not-functional .ticket-head > .content,
@@ -877,6 +889,12 @@ dl.tickets-list {
 		}
 		.ticket.ticket-not-functional .ticket-chief-part > .deco::before {
 			background-image: url(../../images/taijs-brand/ben-bao-bao-watermark-gray-semi-transparent.png);
+		}
+		.ticket.ticket-not-functional.ticket-used .ticket-chief-part > .deco::after {
+			background-image: url(../../images/_common/poststamp-yi-shi-yong.png);
+		}
+		.ticket.ticket-not-functional.ticket-failed .ticket-chief-part > .deco::after {
+			background-image: url(../../images/_common/poststamp-yi-shi-xiao.png);
 		}
 
 	.ticket-of-category-ti-yan-jin .ticket.ticket-functional .ticket-chief-part,
@@ -1299,6 +1317,15 @@ dl.tickets-list {
 		color: white;
 		background-color: #157dff;
 	}
+
+	.swiping-tab-list-container.tab-list-container {
+		background-color: white;
+	}
+
+	.swiping-tab-list-container.tab-list-container > .tab-list {
+		background-color: inherit;
+	}
+
 
 
 .slot {

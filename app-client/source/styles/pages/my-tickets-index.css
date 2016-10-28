@@ -1,11 +1,1 @@
 
-#chief-panel-set > .tab-list-container > .tab-list {
-    display: inline-block;
-    white-space: nowrap;
-    width: auto;
-}
-
-#chief-panel-set > .panels-container > .panel-group > .panel {
-    visibility: visible;
-    opacity: 1;
-}
