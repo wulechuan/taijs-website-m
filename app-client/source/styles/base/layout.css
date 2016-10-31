@@ -4167,7 +4167,10 @@ article.message {
 		.ticket.ticket-functional .ticket-head input[type="checkbox"] + label.deco-input[for]::before,
 		.ticket.ticket-functional .ticket-head label.deco-input::before {
 			font-family: 'iconfont'!important;
-			content: 'v';
+			content: '\e73d';
+			font-size: 2rem;
+			line-height: 1.7rem;
+			text-indent: -0.1rem;
 			opacity: 0;
 			transition: opacity 0.2s ease-out;
 		}
