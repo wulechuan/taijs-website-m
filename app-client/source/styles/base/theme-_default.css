@@ -943,6 +943,14 @@ dl.tickets-list {
 		background-color: #e32c21;
 	}
 
+	.ticket.ticket-functional .ticket-head input[type="checkbox"] + label.deco-input[for]::after,
+	.ticket.ticket-functional .ticket-head label.deco-input::after {
+		border-color: white;
+	}
+	.ticket.ticket-functional .ticket-head input[type="checkbox"]:checked + label.deco-input[for]::after,
+	.ticket.ticket-functional .ticket-head label.deco-input.checked::after {
+		/*background-color: white;*/
+	}
 
 
 .f-block { /* function-block */
