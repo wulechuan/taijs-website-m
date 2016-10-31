@@ -1755,7 +1755,7 @@ article.message {
 
 		.tab-list.tabs-style-buttons {
 			text-align: center;
-			margin: 0.7rem auto;
+			margin: 0.7rem auto 0;
 		}
 		.tab-list.tabs-style-buttons > li {
 			display: inline-block;
@@ -3844,16 +3844,16 @@ article.message {
 		}
 
 
-dl.tickets-list {
+.tickets-list {
 	text-align: left;
 	}
 
-	dl.tickets-list .row {
+	.tickets-list .row {
 		border-width: 1px 0;
 		padding: 0.8rem 0.1rem;
 		margin: 0 0 -1px 0;
 	}
-	dl.tickets-list .row:last-child {
+	.tickets-list .row:last-child {
 		border-bottom-width: 0;
 		margin-bottom: 0;
 	}
@@ -3872,7 +3872,7 @@ dl.tickets-list {
 
 .ticket {
 	position: relative;
-    margin: 0 0.8rem 1rem;
+    margin: 0.8rem 0;
 	}
 
 	.ticket .ticket-look {
@@ -3948,10 +3948,15 @@ dl.tickets-list {
 			position: absolute;
 			line-height: 1.25;
 		}
+
 		.ticket-chief-part .caption > .hero-word {
 			display: block;
 			font-size: 2.1rem;
 		}
+		.ticket-chief-part .caption sub {
+			color: inherit;
+		}
+
 		.ticket-chief-part .info-block {
 			display: block;
 			position: absolute;
@@ -3960,6 +3965,8 @@ dl.tickets-list {
 			top: 0;
 			bottom: 0.75rem;
 			margin: 0.5rem 0.8rem 0.5rem 0;
+
+			font-size: 0.7rem;
 			font-weight: 200;
 		}
 
@@ -4063,7 +4070,7 @@ dl.tickets-list {
 			position: relative;
 			z-index: 2;
 			text-align: center;
-			overflow: hidden;
+			/*overflow: hidden;*/
 			white-space: nowrap;
 			height: 100%;
 		}
@@ -4120,6 +4127,71 @@ dl.tickets-list {
 			bottom: 0;
 			margin: 0.5rem 0;
 			background-color: inherit!important;
+		}
+
+		.ticket.ticket-functional .ticket-head input[type="checkbox"] + label.deco-input[for],
+		.ticket.ticket-functional .ticket-head label.deco-input {
+			display: block;
+			position: absolute;
+			width: auto;
+			height: auto;
+			left: 0.25rem;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: 0.3rem -0.5rem;
+			padding: 0;
+		}
+		.ticket.ticket-functional .ticket-head input[type="checkbox"] + label.deco-input[for]::before,
+		.ticket.ticket-functional .ticket-head input[type="checkbox"] + label.deco-input[for]::after,
+		.ticket.ticket-functional .ticket-head label.deco-input::before,
+		.ticket.ticket-functional .ticket-head label.deco-input::after {
+			display: block;
+			box-sizing: border-box;
+			width: 1.8rem;
+			height: 1.8rem;
+			overflow: hidden;
+
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			padding: 0;
+
+			border-radius: 1000px;
+			visibility: visible;
+		}
+
+		.ticket.ticket-functional .ticket-head input[type="checkbox"] + label.deco-input[for]::before,
+		.ticket.ticket-functional .ticket-head label.deco-input::before {
+			font-family: 'iconfont'!important;
+			content: 'v';
+			opacity: 0;
+			transition: opacity 0.2s ease-out;
+		}
+		.ticket.ticket-functional .ticket-head input[type="checkbox"]:checked + label.deco-input[for]::before,
+		.ticket.ticket-functional .ticket-head label.deco-input.checked::before {
+			opacity: 1;
+		}
+		.ticket.ticket-functional .ticket-head input[type="checkbox"] + label.deco-input[for]::after,
+		.ticket.ticket-functional .ticket-head label.deco-input::after {
+			content: '';
+
+			border-width: 2px;
+			border-style: solid;
+
+			opacity: 1;
+			transition: background-color 0.2s ease-out;
+		}
+		.ticket.ticket-functional .ticket-head input[type="checkbox"] {
+			display: block;
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 1px!important;
+			height: 1px!important;
 		}
 
 		.ticket.ticket-functional .ticket-head > .deco {
