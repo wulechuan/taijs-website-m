@@ -421,11 +421,12 @@ dd {
 	line-height: 1rem;
 	font-size: 1rem;
 	font-weight: normal!important;
+	background-position: center;
 	background-repeat: no-repeat;
+	background-size: 100%;
+	background-size: contain;
 	}
 
-	.icon.icon-in-bg {
-	}
 	.icon.animation,
 	.icon.transition {
 		background-image: none;

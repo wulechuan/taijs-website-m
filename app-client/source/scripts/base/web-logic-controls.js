@@ -2096,7 +2096,7 @@ window.webLogicControls = {};
 						}
 					}
 				} else {
-					var needToShowBackPlate = !!bp && !isPoliteMessage;
+					var needToShowBackPlate = !!bp && !isPoliteMessage && !options.shouldNotShowBlackPlate;
 					if (needToShowBackPlate) $bp.show();
 
 					var needToPlayShowingAnimation = animation.env.cssAnimationsAreSupported &&

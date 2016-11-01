@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html><head>
+	<!-- inject:headBeforeTitle:html --><!-- endinject -->
+	<title>体验专享</title>
+	<!-- inject:headAfterTitle:html --><!-- endinject -->
+</head>
+<body>
+<!-- inject:bodyBegin:html --><!-- endinject -->
+
+<!-- inject:appRootWrapBegin:html --><!-- endinject -->
+
+<!-- inject:appBGLayer0:html --><!-- endinject -->
+
+<!-- inject:appFGLayerWrapBegin:html --><!-- endinject -->
+<div data-app-header-title="体验专享'" id="page-experience-buying-confirm"
+	 class="page has-page-header fixed-page-header has-page-footer fixed-page-footer"
+	><header class="page-header">
+		<div class="row header-bar">
+			<div class="center"><h1>体验专享</h1></div>
+			<div class="left"  ><a role="button" class="nav-back" href="my.html"></a></div>
+			<div class="right" ><a role="button" class="nav-home" href="../index.html"></a></div>
+		</div>		
+	</header>
+
+	<form name="experiencebuying" action="experience-buying-succeeded.html">
+	<div class="page-body">
+		<div class="f-block snap-top">
+			<div class="f-block-body">
+				<div class="row caption-bar">
+					<div class="left">
+						<h1>
+							<span class="label">产品名称</span
+							><span class="value product-name">体验专享</span>
+						</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="f-block">
+			<div class="row"><p class="tip">选择支付方式</p></div>
+			<div class="f-block-body">
+				<div class="row menu-item has-lead-icon entity-of-bank call-to-action" id="experience-buying-confirm-choose-bank-card">
+					<i class="icon lead-icon icon-size-medium icon-bank-cn-abc" ></i
+					><div class="left" data-value="无银行">
+						<h5>银行卡支付</h5>
+						<p class="tip">单笔5万；日累计5万</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="f-block">
+			<div class="f-block-body">
+				<div class="row input-field single-side-content">
+					<div class="left">
+						<input placeholder="请输入投资金额"
+							data-placeholder-prefix="请输入投资金额，" type="number" data-text-format="currency"
+							name="amount" required
+							data-validator="taijs.app.input.validator.fixedIncomeInvestmentAmount" data-value-min="1000" data-value-max="150000"
+									   id="experience-buying-amount">
+						<label        for="experience-buying-amount" class="input-tip default">投资金额</label>
+						<label        for="experience-buying-amount" class="input-tip error" data-subject="amount-too-high">最高投资金额150,000.00元</label>
+						<button for-input="experience-buying-amount"
+							button-action="clear-input-field" type="button"></button>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<article>
+					<p class="selectable"
+						><input type="checkbox" name="eula" required checked="checked" 
+								 id="eula-checkbox"
+						><label for="eula-checkbox" class="deco-input"></label
+						><label for="eula-checkbox">我已阅读并同意以下协议：<br>
+							<a href="#">《产品收益转让协议》</a> <a href="#">《产品风险提示》</a>
+						</label
+					></p>
+				</article>
+			</div>
+		</div>
+
+		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
+	</div>
+
+	<footer class="page-footer">
+		<div class="row buttons-in-single-line">
+			<button class="rounded-corners size-std-wide" button-action="submit">购买</button>
+		</div>
+	</footer>
+	</form>
+
+	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
+		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
+		<div class="popup-layer" id="pl-experience-guide-step-1">
+		</div>
+	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
+
+	<script src="../scripts/pages/experience-buying-confirm.min.js"></script>
+</div>
+<!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
+
+<!-- inject:globalPopupLayers:html --><!-- endinject -->
+
+<!-- inject:appRootWrapEnd:html --><!-- endinject -->
+
+<!-- inject:bodyEnd:html --><!-- endinject -->
+</body></html>
