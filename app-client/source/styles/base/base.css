@@ -2950,6 +2950,23 @@ dl.initially-collapsed {
 	z-index: 500;
 	}
 
+	.popup-layer .row.mask,
+	.popup-layers-back-plate,
+	.popup-layer.popup-masks .row.mask-with-hole .rect-hole {
+		opacity: 0.75;
+	}
+
+	.popup-layer .row.mask,
+	.popup-layer .row.mask-with-hole .rect-hole::before,
+	.popup-layer .row.mask-with-hole .rect-hole::after,
+	.popup-layers-back-plate {
+		background-color: black;
+	}
+	.popup-layer.popup-masks .row.mask-with-hole .rect-hole {
+		box-shadow: inset 0 0 0.4rem 0.5rem black;
+	}
+
+
 	.popup-layers-back-plate {
 		box-sizing: border-box;
 		display: none;
@@ -2970,7 +2987,6 @@ dl.initially-collapsed {
 
 		z-index: 1;
 
-		background-color: rgba(0, 0, 0, 0.8);
 		background-repeat: no-repeat;
 		background-position: center;
 
@@ -3066,9 +3082,14 @@ dl.initially-collapsed {
 	.popup-layer.polite-message {
 		z-index: 20;
 	}
+	.popup-layer.non-scrollable,
+	.popup-layer.popup-masks {
+		overflow: hidden;
+	}
 
 	.popup-layer.has-docked-panel::before,
 	.popup-layer.polite-message::before,
+	.popup-layer.popup-masks::before,
 	.popup-layer.has-no-popup-window::before {
 		content: none;
 	}
@@ -3086,6 +3107,71 @@ dl.initially-collapsed {
 		top: auto;
 		bottom: 3rem;
 		}
+
+
+	.popup-layer.popup-masks {
+		width: 100%;
+		height: 100%;
+	}
+
+	.popup-layer.popup-masks .row.mask {
+		border: 0;
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		position: absolute;
+	}
+	.popup-layer.popup-masks .row.mask-with-hole {
+		border: 0;
+		padding: 0;
+		margin: 0;
+		overflow: hidden;
+		position: absolute;
+		width: 100%;
+	}
+	.popup-layer.popup-masks .row.mask-with-hole .rect-hole {
+		display: block;
+		min-width: 1rem;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+	}
+	.popup-layer.popup-masks .row.mask-with-hole .rect-hole::before,
+	.popup-layer.popup-masks .row.mask-with-hole .rect-hole::after {
+		content: '';
+		display: block;
+		width: 100rem;
+		min-height: 1rem;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+	}
+	.popup-layer.popup-masks .row.mask-with-hole .rect-hole::before {
+		right: 100%;
+	}
+	.popup-layer.popup-masks .row.mask-with-hole .rect-hole::after {
+		left: 100%;
+	}
+	.popup-layer.popup-masks .illustrate {
+		display: block;
+		position: absolute;
+		margin: auto;
+	}
+	.popup-layer.popup-masks .button.ghost,
+	.popup-layer.popup-masks  button.ghost {
+		display: block;
+		font-size: 0;
+		opacity: 0.1;
+		text-indent: 1000px;
+		margin: auto;
+		padding: 0;
+		border: 0!important;
+		background-color: transparent!important;
+	}
+
+
 
 
 .popup-window {

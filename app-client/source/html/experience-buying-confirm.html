@@ -52,15 +52,7 @@
 			<div class="f-block-body">
 				<div class="row input-field single-side-content">
 					<div class="left">
-						<input placeholder="请输入投资金额"
-							data-placeholder-prefix="请输入投资金额，" type="number" data-text-format="currency"
-							name="amount" required
-							data-validator="taijs.app.input.validator.fixedIncomeInvestmentAmount" data-value-min="1000" data-value-max="150000"
-									   id="experience-buying-amount">
-						<label        for="experience-buying-amount" class="input-tip default">投资金额</label>
-						<label        for="experience-buying-amount" class="input-tip error" data-subject="amount-too-high">最高投资金额150,000.00元</label>
-						<button for-input="experience-buying-amount"
-							button-action="clear-input-field" type="button"></button>
+						<input type="text" data-text-format="currency" readonly value="18,888.00" style="font-size: 1.3rem;">
 					</div>
 				</div>
 			</div>
@@ -91,7 +83,22 @@
 
 	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
 		<!-- inject:popupLayerVCodes:html --><!-- endinject -->
-		<div class="popup-layer" id="pl-experience-guide-step-1">
+		<div class="popup-layer has-no-popup-window popup-masks" id="pl-experience-guide-step-1">
+			<div class="row row-1 mask"
+				style="top:0; height: 10.5rem;"></div>
+			<div class="row row-2 mask-with-hole"
+				style="top: 10.5rem; height: 3rem;"
+				><div class="rect-hole" style="width: 8rem; left: 0;"></div
+			></div>
+			<div class="row row-3 mask"
+				style="top: 13.5rem; height: auto; bottom: 3.5rem;"></div>
+			<div class="row row-4 mask-with-hole"
+				style="height: 3.5rem; bottom: 0;">
+				<div class="rect-hole" style="width: 8rem; left: 0; right: 0;"></div>
+				<a href="my.html?experienceProceeded=true" class="button ghost" style="width: 8rem; height: 100%;">购买</a>
+			</div>
+			<div class="illustrate yellow-arrow icon"
+				style="width: 2.5rem;  height: 4rem; bottom: 4rem; left: 0; right: 0; background-image: url(../../images/_common/yellow-arrow.png);"></div>
 		</div>
 	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
 
