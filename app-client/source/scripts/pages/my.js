@@ -14,10 +14,10 @@ $(function () { // fake logics
 		UI.popupLayersManager.show(pl1);
     }
 
-	// $pl1.on('click', function (event) {
-	// 	var el = event.target;
-	// 	if (el === pl1 || $(el).hasClass('button-x')) {
-	// 		UI.popupLayersManager.hide(pl1);
-	// 	}
-	// });
+	$pl1.on('click', function (event) {
+		// var el = event.target;
+		// if ((el.getAttribute('button-action') === 'call-to-action')) {
+			// UI.popupLayersManager.hide(pl1);
+		// }
+	});
 });

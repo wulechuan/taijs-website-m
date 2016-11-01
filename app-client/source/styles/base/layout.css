@@ -5423,8 +5423,8 @@ article.message {
 		border-top: none;
 	}
 
-	#pl-get-ti-yan-jin-prompt .dialog-footer .button,
-	#pl-get-ti-yan-jin-prompt .dialog-footer  button {
+	#pl-get-ti-yan-jin-prompt .dialog-footer [role="button"],
+	#pl-get-ti-yan-jin-prompt .dialog-footer button {
 		border-radius: 1000px;
 		color: white;
 		background-color: #e8572e;
