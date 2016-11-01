@@ -5346,16 +5346,20 @@ article.message {
 	}
 
 #pl-get-ti-yan-jin-prompt .dialog {
-	/*padding: 14rem 0 0 0;*/
-	padding-top: 0;
+	padding: 0;
 }
 #pl-get-ti-yan-jin-prompt .dialog-header {
+	padding: 0;
 	position: static;
-	height: 7rem;
+	height: 6.6rem;
 	overflow: hidden;
 	}
+	#pl-get-ti-yan-jin-prompt .dialog-header h3 {
+		opacity: 0.01;
+	}
 
-	#pl-get-ti-yan-jin-prompt .dialog-header .deco .hong-bao-cover {
+	#pl-get-ti-yan-jin-prompt .dialog-header .deco::before {
+		content: '';
 		display: block;
 		width: 25rem;
 		height: 20rem;
@@ -5370,12 +5374,18 @@ article.message {
 		box-shadow: 0 1.3rem 0 -1rem rgba(0, 0, 0, 0.12);
 	}
 
-	#pl-get-ti-yan-jin-prompt .dialog-header .deco .coin {
+	#pl-get-ti-yan-jin-prompt .dialog-header .deco::after {
+		content: '￥';
 		display: block;
-		box-sizing: border-box;
+		box-sizing: content-box;
 		width: 3.8rem;
 		height: 3.8rem;
+		line-height: 4rem;
 		border-radius: 50%;
+
+		font-size: 2.5rem;
+		font-weight: 900;
+
 		position: absolute;
 		margin: 0;
 		left: 0;
@@ -5384,7 +5394,45 @@ article.message {
 		margin: auto;
 
 		border-width: 0.1rem;
+		border-style: solid;
+
+		color: #b95723;
 		border-color: white;
 		background-color: #f6d236;
 		box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.12);
+	}
+
+	#pl-get-ti-yan-jin-prompt .dialog-body .message {
+		padding: .5rem 1rem;
+	}
+	#pl-get-ti-yan-jin-prompt .dialog-body .hero-word {
+		display: block;
+		margin: auto;
+		font-size: 1.5rem;
+		font-weight: 300;
+		color: black;
+	}
+
+	#pl-get-ti-yan-jin-prompt .dialog-body .hero-word sub {
+		font-size: 0.5rem;
+	}
+
+	#pl-get-ti-yan-jin-prompt .dialog-footer {
+		position: static;
+		padding: 0.5rem 0.5rem 1.5rem;
+		border-top: none;
+	}
+
+	#pl-get-ti-yan-jin-prompt .dialog-footer .button,
+	#pl-get-ti-yan-jin-prompt .dialog-footer  button {
+		border-radius: 1000px;
+		color: white;
+		background-color: #e8572e;
+		padding: 0;
+		height: 1.5rem;
+		line-height: 1.5rem;
+		width: 6.5rem;
+
+		font-size: 0.7rem;
+		font-weight: 200;
 	}
