@@ -5344,3 +5344,47 @@ article.message {
 		font-size: 1rem;
 		font-weight: 300;
 	}
+
+#pl-get-ti-yan-jin-prompt .dialog {
+	/*padding: 14rem 0 0 0;*/
+	padding-top: 0;
+}
+#pl-get-ti-yan-jin-prompt .dialog-header {
+	position: static;
+	height: 7rem;
+	overflow: hidden;
+	}
+
+	#pl-get-ti-yan-jin-prompt .dialog-header .deco .hong-bao-cover {
+		display: block;
+		width: 25rem;
+		height: 20rem;
+		border-radius: 50%;
+		position: absolute;
+		left: 50%;
+		top: -15rem;
+		margin-left: -12.5rem;
+
+		/*background-color: #dedede;*/
+		background-color: #e2442f;
+		box-shadow: 0 1.3rem 0 -1rem rgba(0, 0, 0, 0.12);
+	}
+
+	#pl-get-ti-yan-jin-prompt .dialog-header .deco .coin {
+		display: block;
+		box-sizing: border-box;
+		width: 3.8rem;
+		height: 3.8rem;
+		border-radius: 50%;
+		position: absolute;
+		margin: 0;
+		left: 0;
+		right: 0;
+		top: 2.4rem;
+		margin: auto;
+
+		border-width: 0.1rem;
+		border-color: white;
+		background-color: #f6d236;
+		box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.12);
+	}
