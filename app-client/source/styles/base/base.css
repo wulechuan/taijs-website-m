@@ -2990,8 +2990,6 @@ dl.initially-collapsed {
 		background-repeat: no-repeat;
 		background-position: center;
 
-		opacity: 1;
-
 		-webkit-transition-property: none;
 		        transition-property: none;
 		-webkit-animation-name: popup-layer-back-plate-shows-up;
@@ -3012,19 +3010,19 @@ dl.initially-collapsed {
 
 	@-webkit-keyframes popup-layer-back-plate-shows-up {
 		0% { opacity: 0; }
-		to { opacity: 1; }
+		to { opacity: 0.75; }
 	}
 	@keyframes         popup-layer-back-plate-shows-up {
 		0% { opacity: 0; }
-		to { opacity: 1; }
+		to { opacity: 0.75; }
 	}
 
 	@-webkit-keyframes popup-layer-back-plate-leaves {
-		0% { opacity: 1; }
+		0% { opacity: 0.75; }
 		to { opacity: 0; }
 	}
 	@keyframes         popup-layer-back-plate-leaves {
-		0% { opacity: 1; }
+		0% { opacity: 0.75; }
 		to { opacity: 0; }
 	}
 
