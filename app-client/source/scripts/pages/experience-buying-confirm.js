@@ -4,7 +4,5 @@ $(function () {
 
 	var $pl1 = $('#pl-experience-guide-step-1');
 	var pl1 = $pl1[0];
-    UI.popupLayersManager.show(pl1, null, {
-		shouldNotShowBlackPlate: true
-	});
+    UI.popupLayersManager.show(pl1);
 });
