@@ -3158,6 +3158,11 @@ dl.initially-collapsed {
 	.popup-layer.popup-masks .row.mask-with-hole .hole::after {
 		left: 100%;
 	}
+	.popup-layer.popup-masks .row.mask-with-hole .hole.image-hole {
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+	}
 	.popup-layer.popup-masks .illustrate {
 		display: block;
 		position: absolute;
