@@ -14,8 +14,7 @@ $(function () { // fake logics
 
     if (URIParameters.experienceProceeded) {
 		UI.popupLayersManager.show(pl2);
-    } else
-	// if (URIParameters.firstTimeLogin)
+    } else // if (URIParameters.firstTimeLogin)
 	{
 		UI.popupLayersManager.show(pl1);
 	}

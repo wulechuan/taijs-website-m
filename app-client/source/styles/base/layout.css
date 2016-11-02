@@ -5347,98 +5347,161 @@ article.message {
 
 #pl-ti-yan-jin-availability-prompt .dialog {
 	padding: 0;
-}
-#pl-ti-yan-jin-availability-prompt .dialog-header {
-	padding: 0;
-	position: static;
-	height: 6.6rem;
-	overflow: hidden;
 	}
-	#pl-ti-yan-jin-availability-prompt .dialog-header h3 {
-		opacity: 0.01;
-	}
-
-	#pl-ti-yan-jin-availability-prompt .dialog-header .deco::before {
-		content: '';
-		display: block;
-		width: 25rem;
-		height: 20rem;
-		border-radius: 50%;
-		position: absolute;
-		left: 50%;
-		top: -15rem;
-		margin-left: -12.5rem;
-
-		/*background-color: #dedede;*/
-		background-color: #e2442f;
-		box-shadow: 0 1.3rem 0 -1rem rgba(0, 0, 0, 0.12);
-	}
-
-	#pl-ti-yan-jin-availability-prompt .dialog-header .deco::after {
-		content: '￥';
-		display: block;
-		box-sizing: content-box;
-		width: 3.8rem;
-		height: 3.8rem;
-		line-height: 4rem;
-		border-radius: 50%;
-
-		font-size: 2.5rem;
-		font-weight: 900;
-
-		position: absolute;
-		margin: 0;
-		left: 0;
-		right: 0;
-		top: 2.4rem;
-		margin: auto;
-
-		border-width: 0.1rem;
-		border-style: solid;
-
-		color: #b95723;
-		border-color: white;
-		background-color: #f6d236;
-		box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.12);
-	}
-
-	#pl-ti-yan-jin-availability-prompt .dialog-body .message {
-		padding: .5rem 1rem;
-	}
-	#pl-ti-yan-jin-availability-prompt .dialog-body .hero-word {
-		display: block;
-		margin: auto;
-		font-size: 1.5rem;
-		font-weight: 300;
-		color: black;
-	}
-
-	#pl-ti-yan-jin-availability-prompt .dialog-body .hero-word sub {
-		font-size: 0.5rem;
-	}
-
-	#pl-ti-yan-jin-availability-prompt .dialog-footer {
-		position: static;
-		padding: 0.5rem 0.5rem 1.5rem;
-		border-top: none;
-	}
-
-	#pl-ti-yan-jin-availability-prompt .dialog-footer [role="button"],
-	#pl-ti-yan-jin-availability-prompt .dialog-footer button {
-		border-radius: 1000px;
-		color: white;
-		background-color: #e8572e;
+	#pl-ti-yan-jin-availability-prompt .dialog-header {
 		padding: 0;
-		height: 1.5rem;
-		line-height: 1.5rem;
-		width: 6.5rem;
+		position: static;
+		height: 6.6rem;
+		overflow: hidden;
+		}
+		#pl-ti-yan-jin-availability-prompt .dialog-header h3 {
+			opacity: 0.01;
+		}
 
-		font-size: 0.7rem;
-		font-weight: 200;
-	}
+		#pl-ti-yan-jin-availability-prompt .dialog-header .deco::before {
+			content: '';
+			display: block;
+			width: 25rem;
+			height: 20rem;
+			border-radius: 50%;
+			position: absolute;
+			left: 50%;
+			top: -15rem;
+			margin-left: -12.5rem;
+
+			/*background-color: #dedede;*/
+			background-color: #e2442f;
+			box-shadow: 0 1.3rem 0 -1rem rgba(0, 0, 0, 0.12);
+		}
+
+		#pl-ti-yan-jin-availability-prompt .dialog-header .deco::after {
+			content: '￥';
+			display: block;
+			box-sizing: content-box;
+			width: 3.8rem;
+			height: 3.8rem;
+			line-height: 4rem;
+			border-radius: 50%;
+
+			font-size: 2.5rem;
+			font-weight: 900;
+
+			position: absolute;
+			margin: 0;
+			left: 0;
+			right: 0;
+			top: 2.4rem;
+			margin: auto;
+
+			border-width: 0.1rem;
+			border-style: solid;
+
+			color: #b95723;
+			border-color: white;
+			background-color: #f6d236;
+			box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.12);
+		}
+
+		#pl-ti-yan-jin-availability-prompt .dialog-body .message {
+			padding: .5rem 1rem;
+		}
+		#pl-ti-yan-jin-availability-prompt .dialog-body .hero-word {
+			display: block;
+			margin: auto;
+			font-size: 1.5rem;
+			font-weight: 300;
+			color: black;
+		}
+
+		#pl-ti-yan-jin-availability-prompt .dialog-body .hero-word sub {
+			font-size: 0.5rem;
+		}
+
+		#pl-ti-yan-jin-availability-prompt .dialog-footer {
+			position: static;
+			padding: 0.5rem 0.5rem 1.5rem;
+			border-top: none;
+		}
+
+		#pl-ti-yan-jin-availability-prompt .dialog-footer [role="button"],
+		#pl-ti-yan-jin-availability-prompt .dialog-footer button {
+			border-radius: 1000px;
+			color: white;
+			background-color: #e8572e;
+			padding: 0;
+			height: 1.5rem;
+			line-height: 1.5rem;
+			width: 6.5rem;
+
+			font-size: 0.7rem;
+			font-weight: 200;
+		}
 
 @keyframes floating-up-and-down {
 	0%   { transform: translateY(-0.3rem); }
 	60%  { transform: translateY( 0.3rem); }
 	100% { transform: translateY(-0.3rem); }
 }
+
+
+#pl-ti-yan-jin-proceeded-prompt .dialog {
+	padding: 0;
+	}
+	#pl-ti-yan-jin-proceeded-prompt .dialog-body,
+	#pl-ti-yan-jin-proceeded-prompt .dialog-footer,
+	#pl-ti-yan-jin-proceeded-prompt .dialog-header {
+		background-color: #e65538;
+	}
+
+	#pl-ti-yan-jin-proceeded-prompt .popup-window > .deco {
+		z-index: 4;
+		display: block;
+		width: 100%;
+		height: 8rem;
+		position: absolute;
+		left: 0;
+		top: -4.6rem;
+		background-image: url(../../images/_common/ben-bao-bao-yeah.png); 
+	}
+
+
+	#pl-ti-yan-jin-proceeded-prompt .dialog-header {
+		padding: 0;
+		position: static;
+		height: 4rem;
+		}
+		#pl-ti-yan-jin-proceeded-prompt .dialog-header h3 {
+			opacity: 0.01;
+		}
+
+
+		#pl-ti-yan-jin-proceeded-prompt .dialog-body .message {
+			padding: 1.6rem 1rem;
+			color: white;
+		}
+		#pl-ti-yan-jin-proceeded-prompt .dialog-body .message p {
+			font-size: 0.9rem;
+			font-weight: 200;
+		}
+
+
+		#pl-ti-yan-jin-proceeded-prompt .dialog-footer {
+			position: static;
+			padding: 0.5rem 0.5rem 1.5rem;
+			border-top: none;
+		}
+
+		#pl-ti-yan-jin-proceeded-prompt .dialog-footer [role="button"],
+		#pl-ti-yan-jin-proceeded-prompt .dialog-footer button {
+			border-radius: 1000px;
+			color: white;
+			background-color: #f5ba34;
+			padding: 0;
+			height: 1.5rem;
+			line-height: 1.5rem;
+			width: 6.5rem;
+
+			font-size: 0.7rem;
+			font-weight: 200;
+		}
+
