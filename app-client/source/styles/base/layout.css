@@ -3389,6 +3389,10 @@ article.message {
 		.f-block-body .row.has-lead-icon .lead-icon.iconfont {
 			font-size: 1.2rem;
 		}
+		.f-block-body .row.has-lead-icon .lead-icon .icon {
+			width: 100%;
+			height: 100%;
+		}
 
 
 	.f-block .icon-of-bank {
