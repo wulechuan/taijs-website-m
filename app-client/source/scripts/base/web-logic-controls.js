@@ -2031,6 +2031,7 @@ window.webLogicControls = {};
 				var pw = $pw[0];
 
 				var isPoliteMessage = $pl.hasClass('polite-message');
+				var isPopupMasks = $pl.hasClass('popup-masks');
 				var isPopupPanel = $pl.hasClass('has-docked-panel');
 				var hasPopupWindowOrDialog = !$pl.hasClass('has-no-popup-window');
 
@@ -2096,7 +2097,7 @@ window.webLogicControls = {};
 						}
 					}
 				} else {
-					var needToShowBackPlate = !!bp && !isPoliteMessage;
+					var needToShowBackPlate = !!bp && !isPoliteMessage && !isPopupMasks && !options.shouldNotShowBlackPlate;
 					if (needToShowBackPlate) $bp.show();
 
 					var needToPlayShowingAnimation = animation.env.cssAnimationsAreSupported &&
