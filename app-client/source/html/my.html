@@ -3,6 +3,132 @@
 	<!-- inject:headBeforeTitle:html --><!-- endinject -->
 	<title>我的</title>
 	<!-- inject:headAfterTitle:html --><!-- endinject -->
+	<style>
+		.icon.js-the-symbol {
+			position: relative;
+			z-index: 1;
+			opacity: 1;
+			transition: transform 0.3s ease;
+			transform: scale(1, 1);
+		}
+
+		.coin {
+			display: block;
+			position: absolute;
+			width: 0.5rem;
+			height: 0.5rem;
+			margin: -0.25rem;
+			transform: translateY(0);
+			opacity: 0;
+
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position: center;
+			background-image: url(../../images/pages/my/coin.png);
+		}
+		.coin.coin-of-pulse {
+			z-index: 1;
+			left: 50%;
+			top: 50%;
+			transition: none;
+			animation: coin-of-pulse-drops-once 4s ease-in 2s infinite;
+		}
+
+		.a-bunch-of-coins {
+			display: none;
+			width: 0;
+			height: 0;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			z-index: 2;
+			overflow: visible;
+		}
+		.a-bunch-of-coins .coin {
+			left: 0;
+			top: 0;
+			opacity: 0;
+		}
+		.a-bunch-of-coins .coin.coin-1 {
+			left: -0.25rem;
+			top: -0.5rem;
+		}
+		.a-bunch-of-coins .coin.coin-2 {
+			left: -0.55rem;
+			top: -0.15rem;
+		}
+		.a-bunch-of-coins .coin.coin-3 {
+			left: 0rem;
+			top: -0.5rem;
+		}
+		.a-bunch-of-coins .coin.coin-4 {
+			left: 0.25rem;
+			top: -0.25rem;
+		}
+		.a-bunch-of-coins .coin.coin-5 {
+			left: 0.5rem;
+			top: -0.05rem;
+		}
+		.a-bunch-of-coins .coin.coin-6 {
+			left: -0.15rem;
+			top: 0.4rem;
+		}
+		.a-bunch-of-coins .coin.coin-7 {
+			left: -0.3rem;
+			top: 0.12rem;
+		}
+		.a-bunch-of-coins .coin.coin-8 {
+			left: 0.12rem;
+			top: 0.22rem;
+		}
+
+		@keyframes coin-of-pulse-drops-once {
+			0%        { opacity: 0; transform: translateY(0); }
+			2%        { opacity: 1; }
+			19%, 100% { opacity: 0; transform: translateY(4rem); }
+		}
+
+		@keyframes coin-in-a-bunch-drops-once {
+			0%   { opacity: 0; transform: translateY(0); }
+			10%  { opacity: 1; }
+			100% { opacity: 0; transform: translateY(4rem); }
+		}
+
+		.interaction-hot-area {
+			display: block;
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			width: 30%;
+			z-index: 5;
+		}
+		.interaction-hot-area:focus,
+		.interaction-hot-area:active,
+		.interaction-hot-area:hover,
+		.interaction-hot-area {
+			border-width: 0!important;
+			outline-style: none!important;
+			background-color: transparent!important;
+		}
+
+		#tai-jin-bao-anchor .lead-icon {
+			transform-origin: center;
+		}
+		#tai-jin-bao-anchor .lead-icon.animating {
+			animation: money-bag-bulge 0.8s infinite 0.3s;
+		}
+
+		@keyframes money-bag-bulge {
+			0%   { transform: rotateZ( 0deg) scale(1, 1); }
+			17%  { transform: rotateZ(-3deg) scale(1.3, 1); }
+			34%  { transform: rotateZ( 5deg) scale(1.02, 1.33); }
+			51%  { transform: rotateZ(-7deg) scale(1.4, 1.01); }
+			68%  { transform: rotateZ( 5deg) scale(1, 1.46); }
+			85%  { transform: rotateZ(-3deg) scale(1.15, 0.97); }
+			100% { transform: rotateZ( 0deg) scale(1, 1); }
+		}
+	</style>
 </head>
 <body class="user-has-logged-in">
 <!-- inject:bodyBegin:html --><!-- endinject -->
@@ -61,21 +187,53 @@
 
 		<div class="f-block">
 			<div class="f-block-body">
-				<a href="newbie-reserved-assets.html">
-				<div class="row tall has-lead-icon emphasise-both-sides">
-					<i class="lead-icon icon iconfont icon-zh-hans-xiang-enjoy"
-						style="color: #4285f4;"></i>
-					<div class="left" >新手专享</div>
-					<div class="right"><span class="value currency">10,000.00</span>元</div>
-				</div>
-				</a>
-
 				<a href="my-fixed-income-index.html">
 				<div class="row tall has-lead-icon emphasise-both-sides">
 					<i class="lead-icon icon iconfont icon-wallet"
-						style="color: #f18330;"></i>
+						style="color: #f4a579;"></i>
 					<div class="left" >固收理财</div>
 					<div class="right"><span class="value currency">63,344.00</span>元</div>
+				</div>
+				</a>
+
+				<a href="experience-trading-record-detail.html" id="experience-trading-record-detail-anchor">
+				<div class="row tall has-lead-icon emphasise-both-sides">
+					<div class="lead-icon">
+						<i class="coin coin-of-pulse"></i>
+						<div class="a-bunch-of-coins">
+							<i class="coin coin-1"></i>
+							<i class="coin coin-2"></i>
+							<i class="coin coin-3"></i>
+							<i class="coin coin-4"></i>
+							<i class="coin coin-5"></i>
+							<i class="coin coin-6"></i>
+							<i class="coin coin-7"></i>
+							<i class="coin coin-8"></i>
+						</div>
+						<i class="icon icon-in-bg js-the-symbol"
+							style="background-size: 80%; background-image: url(../../images/_common/icon-rmb-sign-in-yellow-pie.png);"></i>
+					</div>
+					<div class="left" >体验专享</div>
+					<div class="right"><span class="value currency">18,888.00</span>元</div>
+					<button class="interaction-hot-area"></button>
+				</div>
+				</a>
+
+				<a href="my-tao-jin-bao-index.html" id="tai-jin-bao-anchor">
+				<div class="row tall has-lead-icon emphasise-both-sides">
+					<i class="lead-icon icon iconfont icon-money-bag"
+						style="color: #f49b44; font-size: 1.9em;"></i>
+					<div class="left" >泰金宝</div>
+					<div class="right"><span class="value currency">87,654.00</span>元</div>
+				</div>
+				</a>
+
+				<a href="#">
+				<div class="row tall has-lead-icon emphasise-both-sides">
+					<i class="lead-icon icon iconfont icon-service-of-money"
+						style="color: #ffb533;"></i>
+					<div class="left" >其他理财</div>
+					<div class="right"><span class="value currency">128.00</span>元</div>
 				</div>
 				</a>
 			</div>
@@ -85,10 +243,12 @@
 			<div class="f-block-body">
 				<a href="my-tickets-index.html">
 				<div class="row tall has-lead-icon emphasise-both-sides">
-					<i class="lead-icon icon iconfont icon-ticket-with-dual-parts"
-						style="color: #f8d116;"></i>
-					<div class="left" >我的卡券</div>
-					<div class="right"><span class="value">7</span>张</div>
+					<!--<i class="lead-icon icon iconfont icon-ticket-with-dual-parts"
+						style="color: #f8d116;"></i>-->
+					<i class="lead-icon icon iconfont icon-ticket-with-rmb-sign"
+						style="color: #f07e76; font-size: 1.7em;"></i>
+					<div class="left" >礼券</div>
+					<div class="right"><span class="value">5</span>张</div>
 				</div>
 				</a>
 
@@ -131,10 +291,75 @@
 		<!-- inject:pageBodyStamp0:html --><!-- endinject -->
 	</div>
 
-	<!-- inject:popupLayersWrapBeginAAA:html --><!-- endinject -->
-	<!-- inject:popupLayersWrapEndAAA:html --><!-- endinject -->
+	<!-- inject:popupLayersWrapBegin:html --><!-- endinject -->
+	<div role="dialog" class="popup-layer" id="pl-ti-yan-jin-availability-prompt">
+		<div class="popup-window has-dialog">
+			<div class="dialog has-header has-footer">
+				<header class="dialog-header">
+					<div class="deco"></div>
+					<h3>恭喜您获取体验金</h3>
+				</header>
+				<div class="dialog-body">
+					<div class="content">
+						<article class="message">
+							<p>恭喜您获取体验金
+								<span class="hero-word"
+									><span class="digits currency">18,888.00</span
+									><sub>元</sub
+								></span>
+							</p>
+						</article>
+					</div>
+				</div>
+				<footer class="dialog-footer">
+					<a href="experience-reserved-assets.html"
+						role="button" button-action="call-to-action" class="button rounded-ternimals">立即理财</a>
+				</footer>
+			</div>
+		</div>
+	</div>
 
-	<!-- <script src="scripts/pages/my.min.js"></script> -->
+	<div role="dialog" class="popup-layer" id="pl-ti-yan-jin-proceeded-prompt">
+		<div class="popup-window has-dialog">
+			<div class="deco icon icon-in-bg"></div>
+			<div class="dialog has-header has-footer">
+				<header class="dialog-header">
+					<h3>恭喜您投资成功</h3>
+				</header>
+				<div class="dialog-body">
+					<div class="content">
+						<article class="message">
+							<p>恭喜您投资成功，<br>1天后就能获取收益啦！</p>
+						</article>
+					</div>
+				</div>
+				<footer class="dialog-footer">
+					<button button-action="confirm" class="button rounded-ternimals">我知道了</button>
+				</footer>
+			</div>
+		</div>
+	</div>
+
+	<div class="popup-layer has-no-popup-window popup-masks" id="pl-experience-benifit-available">
+		<div class="row row-1 mask"
+			style="top: 0; height: 13.8rem;">
+			<div class="illustrate icon icon-in-bg tip"
+				style="width: 10.5rem; height: 5.5rem; bottom: 0.5rem; left: 4rem; background-image: url(../../images/pages/my/experience-benifit-tip.png);"></div>
+			</div>
+		<div class="row row-2 mask-with-hole"
+			style="top: 13.8rem; height: 4.5rem;">
+			<div class="hole image-hole" style="width: 8.5rem; left: 0; background-image: url(../../images/pages/my/experience-benifit-hole.png);"></div>
+		</div>
+		<div class="row row-3 mask"
+			style="top: 18.3rem; height: auto; bottom: 0;">
+			<div class="illustrate icon icon-in-bg confirm-button"
+				style="width: 5.5rem; height: 3rem; bottom: 2rem; left: 0; right: 0; background-image: url(../../images/pages/my/experience-benifit-confirm-button.png);"></div>
+			<button button-action="confirm" class="ghost" style="display: block; width: 80%; height: 5rem; position: absolute; left: 0; right: 0; bottom: 1rem; margin: auto;">我知道了</button>
+		</div>
+	</div>
+	<!-- inject:popupLayersWrapEnd:html --><!-- endinject -->
+
+	 <script src="../scripts/pages/my.min.js"></script> 
 </div>
 <!-- inject:appFGLayerWrapEnd:html --><!-- endinject -->
 

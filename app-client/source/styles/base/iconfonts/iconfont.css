@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1477889664978'); /* IE9*/
-  src: url('iconfont.eot?t=1477889664978#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1477889664978') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1477889664978') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1477889664978#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1477991409628'); /* IE9*/
+  src: url('iconfont.eot?t=1477991409628#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1477991409628') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1477991409628') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1477991409628#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -117,4 +117,8 @@
 .icon-item-list:before { content: "\e62f"; }
 
 .icon-rmb-sign-in-shield:before { content: "\e630"; }
+
+.icon-ticket-with-rmb-sign:before { content: "\e698"; }
+
+.icon-service-of-money:before { content: "\e699"; }
 
